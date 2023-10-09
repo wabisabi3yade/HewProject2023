@@ -34,4 +34,4 @@
 .vs
 
 # 不要なファイルを除外する
-HewProject/x64/
+HewProject/x64
