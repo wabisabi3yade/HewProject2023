@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto">
+      <UniqueIdentifier>{d9f90598-3845-4c55-a8ea-7e4f6223bb8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada">
+      <UniqueIdentifier>{620e9486-e345-485d-b00c-38a905a9677f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base">
+      <UniqueIdentifier>{10aea14c-20b8-4dd8-89bc-821f9923ea17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase">
+      <UniqueIdentifier>{69aaba85-72dc-482d-b881-5154cb58b3fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\Object">
+      <UniqueIdentifier>{1904e3bc-8285-49a5-8fda-494fb618412c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\Scene">
+      <UniqueIdentifier>{a440b88c-dbdb-48b4-a9da-60c1e885de84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\Camera">
+      <UniqueIdentifier>{35252714-6022-4654-8aef-84e8e9309baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\Animation">
+      <UniqueIdentifier>{d7643588-ec4f-41d7-9b32-9ddb37b2bc95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore">
+      <UniqueIdentifier>{51be7229-d9c8-4ff3-bc72-c7ffb332544d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\SceneManager">
+      <UniqueIdentifier>{2cc2e868-d739-4aa8-b163-10c812488135}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\TextureLoader">
+      <UniqueIdentifier>{1473ccee-45a4-4582-93d4-7cf95a8050b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input">
+      <UniqueIdentifier>{4534ad93-fee9-4f74-b012-1def340d9894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\direct3d">
+      <UniqueIdentifier>{62519a0b-8e2a-4f7e-a323-fe26f079168d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Shader">
+      <UniqueIdentifier>{2511f23d-a609-45a1-9b4a-4f187f5858a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\KawadaScene">
+      <UniqueIdentifier>{5ed2b1b0-ca68-4a60-bc1f-2f0f306d1ee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno">
+      <UniqueIdentifier>{1c595654-7265-467c-8867-01eda9b4ba44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\MizunoScene">
+      <UniqueIdentifier>{a637235b-ceb6-40aa-b072-6d1a15951843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura">
+      <UniqueIdentifier>{744695ad-1e92-4215-b3f8-d7696fde19e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\WakamuraScene">
+      <UniqueIdentifier>{4dc68ed6-7a38-43a7-9375-75ca748cb0ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Tatemizo">
+      <UniqueIdentifier>{6df0a593-3b98-413a-af71-837870da4f96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene">
+      <UniqueIdentifier>{c06c983c-e53f-4bde-b2ce-e7506c53e12a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Select">
+      <UniqueIdentifier>{3cd70f10-4797-4da5-b83e-b65c53251909}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CTest.h">
+      <Filter>ソース ファイル\Hashimoto</Filter>
+    </ClInclude>
+    <ClInclude Include="CInput.h">
+      <Filter>ソース ファイル\Base\GameCore\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>ソース ファイル\Base\GameBase\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>ソース ファイル\Base\GameBase\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>ソース ファイル\Base\GameBase\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneManager.h">
+      <Filter>ソース ファイル\Base\GameCore\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="direct3d.h">
+      <Filter>ソース ファイル\Base\GameCore\direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="WICTextureLoader.h">
+      <Filter>ソース ファイル\Base\GameCore\TextureLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="CKawadaScene.h">
+      <Filter>ソース ファイル\Kawada\KawadaScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CTatemizoScene.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CMizunoScene.h">
+      <Filter>ソース ファイル\Mizuno\MizunoScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CWakamuraScene.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CSelect.h">
+      <Filter>ソース ファイル\Select</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CTest.cpp">
+      <Filter>ソース ファイル\Hashimoto</Filter>
+    </ClCompile>
+    <ClCompile Include="CInput.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CSceneManager.cpp">
+      <Filter>ソース ファイル\Base\GameCore\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="direct3d.cpp">
+      <Filter>ソース ファイル\Base\GameCore\direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="WICTextureLoader.cpp">
+      <Filter>ソース ファイル\Base\GameCore\TextureLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\Base\GameCore</Filter>
+    </ClCompile>
+    <ClCompile Include="CKawadaScene.cpp">
+      <Filter>ソース ファイル\Kawada\KawadaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CMizunoScene.cpp">
+      <Filter>ソース ファイル\Mizuno\MizunoScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CWakamuraScene.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CTatemizoScene.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CSelect.cpp">
+      <Filter>ソース ファイル\Select</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>ソース ファイル\Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
