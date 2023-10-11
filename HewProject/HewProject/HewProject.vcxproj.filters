@@ -171,7 +171,7 @@
       <Filter>ソース ファイル\Select</Filter>
     </ClCompile>
     <ClCompile Include="CObject.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
