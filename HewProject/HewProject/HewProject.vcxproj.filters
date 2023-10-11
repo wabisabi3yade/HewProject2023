@@ -79,6 +79,9 @@
     <Filter Include="ソース ファイル\Select">
       <UniqueIdentifier>{3cd70f10-4797-4da5-b83e-b65c53251909}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller">
+      <UniqueIdentifier>{b83d45f4-6e7d-4b44-8af5-056557ac0b66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -137,9 +140,6 @@
     <ClCompile Include="CCamera.cpp">
       <Filter>ソース ファイル\Base\GameBase\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="CObject.cpp">
-      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
-    </ClCompile>
     <ClCompile Include="CScene.cpp">
       <Filter>ソース ファイル\Base\GameBase\Scene</Filter>
     </ClCompile>
@@ -169,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="CSelect.cpp">
       <Filter>ソース ファイル\Select</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
