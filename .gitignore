@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+.vs
+
+# 不要なファイルを除外する
+HewProject/x64/
