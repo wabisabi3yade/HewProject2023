@@ -4,7 +4,7 @@
 CTest::CTest()
 {
 	D3D_CreateSquare({ 3.0f, 3.0f }, { 3,4 }, &charBuffer);
-	D3D_LoadTexture(L"asset/char01.png", &charTexture);
+	D3D_LoadTexture(L"asset/hashimoto/char01.png", &charTexture);
 
 	charObj = new CObject(charBuffer, charTexture);
 }
