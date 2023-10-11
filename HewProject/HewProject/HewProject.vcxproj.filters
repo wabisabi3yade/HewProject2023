@@ -82,6 +82,9 @@
     <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller">
       <UniqueIdentifier>{b83d45f4-6e7d-4b44-8af5-056557ac0b66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Kawada\sound">
+      <UniqueIdentifier>{fd0487aa-a738-4207-b273-08432f995e01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="CSelect.h">
       <Filter>ソース ファイル\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="xa2.h">
+      <Filter>ソース ファイル\Kawada\sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="CObject.cpp">
       <Filter>ソース ファイル\Base\GameBase\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="xa2.cpp">
+      <Filter>ソース ファイル\Kawada\sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
