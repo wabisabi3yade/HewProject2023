@@ -6,12 +6,12 @@ CTest::CTest()
 	D3D_CreateSquare({ 3.0f, 3.0f }, { 3,4 }, &charBuffer);
 	D3D_LoadTexture(L"asset/hashimoto/char01.png", &charTexture);
 
-	charObj1 = new CObject(charBuffer, charTexture);
+	charObj = new CObject(charBuffer, charTexture);
 }
 
 CTest::~CTest()
 {
-	CLASS_DELETE(charObj1);
+	CLASS_DELETE(charObj);
 
 	SAFE_RELEASE(charBuffer);
 
@@ -32,5 +32,5 @@ void CTest::LateUpdate()
 
 void CTest::Draw()
 {
-	charObj1->Draw();
+	charObj->Draw();
 }

@@ -6,7 +6,7 @@ class CTest :
 {
     D3DBUFFER charBuffer;
     D3DTEXTURE charTexture;
-    CObject* charObj1;
+    CObject* charObj;
 
 public:
     CTest();
