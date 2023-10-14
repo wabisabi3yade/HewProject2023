@@ -1,14 +1,15 @@
 #pragma once
 
 #include "direct3d.h"
+#include"Vector3.h"
+#include"Transform.h"
 
 // ゲームのカメラのクラス
 // カメラはプレイヤーを追従していく
 class CCamera
 {
-	Vector3 pos = {};	// 座標
 
-	float rotZ = 0.0f;	// 回転角度
+	Transform mTransform;
 
 	CCamera();
 
@@ -34,13 +35,14 @@ public:
 	// 座標
 	void SetPos(FLOAT_XY set)
 	{
-		pos.x = set.x;
-		pos.y = set.y;
+		mTransform.pos.x = set.x;
+		mTransform.pos.y = set.y;
 	}
 
 	// カメラの座標を取得
-	DirectX::XMFLOAT3 GetPos() { return pos; }
+	//DirectX::XMFLOAT3 GetPos() { return pos; }
+	Vector3 GetPos() { return mTransform.pos; }
 
 	// カメラの回転角度（Z軸）を取得
-	float GetRotZ() { return rotZ; }
+	float GetRotZ() { return mTransform.rotation.z; }
 };

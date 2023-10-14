@@ -14,9 +14,6 @@ typedef ID3D11ShaderResourceView* D3DTEXTURE;
 
 typedef ID3D11Buffer* D3DBUFFER;
 
-// 長ったらしいのでVector3で使えるようにする
-typedef DirectX::XMFLOAT3 Vector3;
-
 
 // 構造体の定義
 // x,yを表す構造体

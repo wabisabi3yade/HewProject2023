@@ -10,7 +10,7 @@ CObject::CObject(D3DBUFFER vb, D3DTEXTURE tex)
 	// 各種設定
 	mVertexBuffer = vb;
 	mTexture = tex;
-
+	mTransform.scale = { 1.0f,1.0f,1.0f };
 	// カメラのポインタを渡す
 	mCamera = CCamera::GetInstance();
 }
@@ -59,11 +59,11 @@ void CObject::Draw()
 	// ワールド変換行列の作成
 	// 移動行列
 	// gCamera（カメラ）からの相対的な座標で描画する
-	XMMATRIX matrixMove = XMMatrixTranslation(mPos.x, mPos.y, mPos.z);
+	XMMATRIX matrixMove = XMMatrixTranslation(mTransform.pos.x, mTransform.pos.y, mTransform.pos.z);
 	// 拡大縮小行列
-	XMMATRIX matrixScale = XMMatrixScaling(mScale.x, mScale.y, mScale.z);
+	XMMATRIX matrixScale = XMMatrixScaling(mTransform.scale.x, mTransform.scale.y, mTransform.scale.z);
 	// 回転行列(Z軸）
-	XMMATRIX matrixRotZ = XMMatrixRotationZ(XMConvertToRadians(mRotZ));
+	XMMATRIX matrixRotZ = XMMatrixRotationZ(XMConvertToRadians(mTransform.rotation.z));
 
 	// 行列は掛け算で合成できる ※掛ける順番が影響する
 	cb.matrixWorld = matrixScale * matrixRotZ * matrixMove;

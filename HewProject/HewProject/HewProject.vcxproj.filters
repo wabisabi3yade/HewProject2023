@@ -85,6 +85,12 @@
     <Filter Include="ソース ファイル\Kawada\sound">
       <UniqueIdentifier>{fd0487aa-a738-4207-b273-08432f995e01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Vector3">
+      <UniqueIdentifier>{0736ae91-e869-426c-8557-0acfe459410f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Transform">
+      <UniqueIdentifier>{f20113f2-617b-4b2c-9808-cd5fbf1878cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -131,6 +137,12 @@
     </ClInclude>
     <ClInclude Include="xa2.h">
       <Filter>ソース ファイル\Kawada\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>ソース ファイル\Mizuno\Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="xa2.cpp">
       <Filter>ソース ファイル\Kawada\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

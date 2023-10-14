@@ -3,6 +3,8 @@
 #include "direct3d.h"
 #include "CCamera.h"
 #include "CAnimation.h"
+#include"Vector3.h"
+#include "Transform.h"
 
 class CObject
 {
@@ -31,11 +33,14 @@ protected:
 	bool isActive = true;
 
 public:
-	Vector3 mPos = { 0, 0, 0 };	// ˆÊ’uÀ•W
 
-	Vector3 mScale = { 1.0f,1.0f,1.0f };	// Šg‘åk¬—¦‚ğ‚Â•Ï”
+	Transform mTransform;
 
-	float mRotZ = 0.0f;	// ‰ñ“]‚·‚éŠp“x‚ğ‚Â•Ï”
+	//Vector3 mPos = { 0, 0, 0 };	// ˆÊ’uÀ•W
+
+	//Vector3 mScale = { 1.0f,1.0f,1.0f };	// Šg‘åk¬—¦‚ğ‚Â•Ï”
+
+	//float mRotZ = 0.0f;	// ‰ñ“]‚·‚éŠp“x‚ğ‚Â•Ï”
 
 public:
 	// ƒƒ“ƒo[ŠÖ”
@@ -58,5 +63,10 @@ public:
 	Vector3 GetDir() { return mDir; }
 
 	void SetTexture(D3DTEXTURE _tex) { mTexture = _tex; }
+
+	void SetTransformScale(Vector3 _v) { mTransform.scale = _v; }
+	void SetTransformScale(float _x, float _y, float _z) {
+		mTransform.scale.x = _x, mTransform.scale.y = _y, mTransform.scale.z = _z;
+	}
 };
 
