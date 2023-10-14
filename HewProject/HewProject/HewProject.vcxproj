@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="Ccontroller.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CKawadaScene.h" />
     <ClInclude Include="CMizunoScene.h" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="Ccontroller.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
     <ClCompile Include="CMizunoScene.cpp" />
