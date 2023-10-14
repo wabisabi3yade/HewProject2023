@@ -14,16 +14,36 @@ Vector3::Vector3(float _x, float _y, float _z)
 
 Vector3 Vector3::operator+(Vector3 _v)
 {
-	Vector3 v3;
-	v3.x = this->x + _v.x;
-	v3.y = this->y + _v.y;
-	v3.z = this->z + _v.z;
-	return v3;
+	Vector3 ret(this->x - _v.x, this->y - _v.y, this->z - _v.z);
+	return ret;
 }
 
-void Vector3::operator+=(Vector3 _v)
+Vector3 Vector3::operator-(Vector3 _v)
 {
-	this->x += _v.x;
-	this->y += _v.y;
-	this->z += _v.z;
+	Vector3 ret(this->x - _v.x, this->y - _v.y, this->z - _v.z);
+	return ret;
+}
+
+Vector3 Vector3::operator*(Vector3 _v)
+{
+	Vector3 ret(this->x * _v.x, this->y * _v.y, this->z * _v.z);
+	return ret;
+}
+
+Vector3 Vector3::operator/(Vector3 _v)
+{
+	Vector3 ret(this->x / _v.x, this->y / _v.y, this->z / _v.z);
+	return ret;
+}
+
+const Vector3& Vector3::operator+(const Vector3& _v) const
+{
+	Vector3 ret(this->x + _v.x, this->y + _v.y, this->z + _v.z);
+	return ret;
+}
+
+const Vector3& Vector3::operator-(const Vector3& _v)const
+{
+	Vector3 ret(this->x - _v.x, this->y - _v.y, this->z - _v.z);
+	return ret;
 }
