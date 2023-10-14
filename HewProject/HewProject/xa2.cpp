@@ -12,21 +12,23 @@ typedef struct
 	LPCSTR filename;	// 音声ファイルまでのパスを設定
 	bool bLoop;			// trueでループ。通常BGMはture、SEはfalse。
 } PARAM;
-
+//====================================================//
+//========================BGM,SE======================//
 PARAM g_param[SOUND_LABEL_MAX] =
 {
-	{"asset/BGM/sample000.wav", true},	// サンプルBGM（ループさせるのでtrue設定）
-	{"asset/BGM/sample001.wav", true},	// サンプルBGM
-	{"asset/SE/jump.wav", false},  		// サンプルSE（ループしないのでfalse設定）
-	{"asset/SE/defend0.wav", false},		// サンプルSE
-	{"asset/SE/defend1.wav", false},		// サンプルSE
-	{"asset/SE/hit0.wav", false},			// サンプルSE
-	{"asset/SE/laser0.wav", false},		// サンプルSE
-	{"asset/SE/rockman.wav", false},		// サンプルSE
-	{"asset/SE/shot0.wav", false},		// サンプルSE
-	{"asset/SE/shot1.wav", false},		// サンプルSE
+	{"BGM/kawada/sample000.wav", true},	// サンプルBGM（ループさせるのでtrue設定）
+	{"BGM/kawada/sample001.wav", true},	// サンプルBGM
+	{"SE/kawada/jump.wav", false},  		// サンプルSE（ループしないのでfalse設定）
+	{"SE/kawada/defend0.wav", false},		// サンプルSE
+	{"SE/kawada/defend1.wav", false},		// サンプルSE
+	{"SE/kawada/hit0.wav", false},			// サンプルSE
+	{"SE/kawada/laser0.wav", false},		// サンプルSE
+	{"SE/kawada/rockman.wav", false},		// サンプルSE
+	{"SE/kawada/shot0.wav", false},		// サンプルSE
+	{"SE/kawada/shot1.wav", false},		// サンプルSE
 };
-
+//===================================================//
+//===================================================//
 #ifdef _XBOX //Big-Endian
 #define fourccRIFF 'RIFF'
 #define fourccDATA 'data'
