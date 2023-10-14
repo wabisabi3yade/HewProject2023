@@ -14,6 +14,10 @@ public:
 	static Vector3 zero;
 
 	Vector3 operator+(Vector3 _v);
-	void operator+=(Vector3 _v);
+	Vector3 operator-(Vector3 _v);
+	Vector3 operator*(Vector3 _v);
+	Vector3 operator/(Vector3 _v);
+	const Vector3& operator+( const Vector3& _v)const;
+	const Vector3& operator-( const Vector3& _v)const;
 };
 
