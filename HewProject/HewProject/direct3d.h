@@ -45,6 +45,10 @@ void    D3D_Release();
 // 四角形ポリゴンを作成し、頂点バッファ生成を行う
 void D3D_CreateSquare(FLOAT_XY size, FLOAT_XY uv, ID3D11Buffer** vb);	// **vb:ポインタ変数のアドレスが格納されたポインタ変数
 
+//四角形ポリゴンを作成し、頂点バッファ生成を行う　基本的にこちらを使用してください
+void D3D_CreateSquare(FLOAT_XY uv, ID3D11Buffer** vb);	// **vb:ポインタ変数のアドレスが格納されたポインタ変数
+
+
 // テクスチャを読み込む関数
 // 第1引数：テクスチャのファイル名、第2引数：テクスチャ格納用変数のアドレス
 // 戻り値：エラーチェックの結果
