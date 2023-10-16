@@ -91,6 +91,9 @@
     <Filter Include="ソース ファイル\Mizuno\Transform">
       <UniqueIdentifier>{f20113f2-617b-4b2c-9808-cd5fbf1878cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\DoTween">
+      <UniqueIdentifier>{744ed02a-ef7f-4c58-9ee9-7544e4c85d94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -144,6 +147,9 @@
     <ClInclude Include="Transform.h">
       <Filter>ソース ファイル\Mizuno\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="DoTween.h">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -196,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
       <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="DoTween.cpp">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
