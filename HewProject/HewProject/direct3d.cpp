@@ -314,6 +314,47 @@ void D3D_CreateSquare(FLOAT_XY size, FLOAT_XY uvDivide, ID3D11Buffer** vb)
 	m_pDevice->CreateBuffer(&bufferDesc, &subResourceData, vb);
 }
 
+
+void D3D_CreateSquare(FLOAT_XY uv, ID3D11Buffer** vb)
+{
+	float left = -(1.0f / 2);
+	float right = (1.0f / 2);
+	float top = (1.0f / 2);
+	float bottom = -(1.0f / 2);
+	// uvの値を求める
+	FLOAT_XY uvValue = { 1.0f / uv.x, 1.0f / uv.y };
+
+
+	Vertex vertexList[] =
+	{
+		// 時計回りに頂点が結ばれる面がポリゴンの表
+		{ left,  top, 0.5f, 0.0f, 0.0f },  // ０番目の頂点データ  { x, y, z, u, v }
+		{ right, bottom, 0.5f, uvValue.x, uvValue.y },  // １番目の頂点データ
+		{ left,  bottom, 0.5f, 0.0f, uvValue.y },  // ２番目の頂点データ
+
+		{ left,  top, 0.5f, 0.0f, 0.0f },  // ３番目の頂点
+		{ right, top, 0.5f, uvValue.x, 0.0f },  // ４番目の頂点
+		{ right, bottom, 0.5f, uvValue.x, uvValue.y },  // ５番目の頂点
+	};
+
+	//頂点バッファ作成
+	D3D11_BUFFER_DESC bufferDesc;
+	bufferDesc.ByteWidth = sizeof(vertexList);// 作成する頂点バッファのサイズ
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;// 頂点バッファを指定する値
+	bufferDesc.CPUAccessFlags = 0;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA subResourceData;
+	subResourceData.pSysMem = vertexList;// 作った頂点バッファに送るデータ
+	subResourceData.SysMemPitch = 0;
+	subResourceData.SysMemSlicePitch = 0;
+
+	//頂点バッファ作成して、それを第3引数(頂点バッファ）に保存
+	m_pDevice->CreateBuffer(&bufferDesc, &subResourceData, vb);
+}
+
 HRESULT D3D_LoadTexture(const wchar_t* filename, ID3D11ShaderResourceView** texture)
 {
 	HRESULT hr;
