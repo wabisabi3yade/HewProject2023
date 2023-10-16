@@ -1,8 +1,36 @@
 #include "Ccontroller.h"
-#include <Windows.h>
-#include <Xinput.h>
 
-XINPUT_STATE controllerState;
-DWORD result = XInputGetState(0, &controllerState);
+Ccontroller::Ccontroller() 
+{
+    //コントローラーの状態を初期化
+    ZeroMemory(&m_controllerState, sizeof(XINPUT_STATE));
+}
 
-if (result != ERROR_SUCCESS) {}
+Ccontroller::~Ccontroller() 
+{
+    // 特に解放処理は不要
+}
+
+void Ccontroller::Update() 
+{
+    //コントローラーの状態を更新する
+    DWORD result = XInputGetState(0, &m_controllerState);
+
+    if (result != ERROR_SUCCESS) 
+    {
+        // コントローラーが接続されていないか、エラーが発生した場合、状態をクリアする
+        ZeroMemory(&m_controllerState, sizeof(XINPUT_STATE));
+    }
+}
+
+float Ccontroller::GetLeftStickX() const 
+{
+    //左スティックのX座標を-1.0から1.0の範囲に正規化して返す
+    return m_controllerState.Gamepad.sThumbLX / 32767.0f;
+}
+
+float Ccontroller::GetLeftStickY() const 
+{
+    //左スティックのY座標を-1.0から1.0の範囲に正規化して返す
+    return m_controllerState.Gamepad.sThumbLY / 32767.0f;
+}

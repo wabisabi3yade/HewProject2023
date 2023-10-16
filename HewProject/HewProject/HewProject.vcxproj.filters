@@ -85,6 +85,15 @@
     <Filter Include="ソース ファイル\Kawada\sound">
       <UniqueIdentifier>{fd0487aa-a738-4207-b273-08432f995e01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Vector3">
+      <UniqueIdentifier>{0736ae91-e869-426c-8557-0acfe459410f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Transform">
+      <UniqueIdentifier>{f20113f2-617b-4b2c-9808-cd5fbf1878cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\DoTween">
+      <UniqueIdentifier>{744ed02a-ef7f-4c58-9ee9-7544e4c85d94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -132,8 +141,19 @@
     <ClInclude Include="xa2.h">
       <Filter>ソース ファイル\Kawada\sound</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Ccontroller.h">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+=======
+    <ClInclude Include="Vector3.h">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>ソース ファイル\Mizuno\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="DoTween.h">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+>>>>>>> develop
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +205,16 @@
     <ClCompile Include="xa2.cpp">
       <Filter>ソース ファイル\Kawada\sound</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Ccontroller.cpp">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+=======
+    <ClCompile Include="Vector3.cpp">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="DoTween.cpp">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+>>>>>>> develop
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
