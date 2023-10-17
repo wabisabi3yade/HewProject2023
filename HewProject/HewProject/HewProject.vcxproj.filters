@@ -141,6 +141,10 @@
     <ClInclude Include="xa2.h">
       <Filter>ソース ファイル\Kawada\sound</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Ccontroller.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+=======
     <ClInclude Include="Vector3.h">
       <Filter>ソース ファイル\Mizuno\Vector3</Filter>
     </ClInclude>
@@ -149,6 +153,7 @@
     </ClInclude>
     <ClInclude Include="DoTween.h">
       <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+>>>>>>> develop
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,11 +205,16 @@
     <ClCompile Include="xa2.cpp">
       <Filter>ソース ファイル\Kawada\sound</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Ccontroller.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+=======
     <ClCompile Include="Vector3.cpp">
       <Filter>ソース ファイル\Mizuno\Vector3</Filter>
     </ClCompile>
     <ClCompile Include="DoTween.cpp">
       <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+>>>>>>> develop
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
