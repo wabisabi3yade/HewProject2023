@@ -8,7 +8,7 @@ Ccontroller::Ccontroller()
 
 Ccontroller::~Ccontroller() 
 {
-    // 特に解放処理は不要
+    //解放処理は不要
 }
 
 void Ccontroller::Update() 
@@ -18,7 +18,7 @@ void Ccontroller::Update()
 
     if (result != ERROR_SUCCESS) 
     {
-        // コントローラーが接続されていないか、エラーが発生した場合、状態をクリアする
+        //コントローラーが接続されていないか、エラーが発生した場合、状態をクリアする
         ZeroMemory(&m_controllerState, sizeof(XINPUT_STATE));
     }
 }
