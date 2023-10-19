@@ -3,10 +3,11 @@
 
 CTest::CTest()
 {
-	D3D_CreateSquare({ 3.0f, 3.0f }, { 3,4 }, &charBuffer);
-	D3D_LoadTexture(L"asset/hashimoto/hashimoto.png", &charTexture);
+	D3D_CreateSquare({ 3,4 }, &charBuffer);
+	D3D_LoadTexture(L"asset/hashimoto/char01.png", &charTexture);
 
 	charObj = new CObject(charBuffer, charTexture);
+	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
 }
 
 CTest::~CTest()
@@ -20,10 +21,7 @@ CTest::~CTest()
 
 void CTest::Update()
 {
-	if (gInput->GetKeyTrigger(VK_RETURN))
-	{
-		CScene::SetScene(CSceneManager::WAKAMURA);
-	}
+	
 }
 
 void CTest::LateUpdate()
