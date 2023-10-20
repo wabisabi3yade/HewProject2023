@@ -1,5 +1,6 @@
 #pragma once
 #include "CScene.h"
+
 class CTatemizoScene :
     public CScene
 {
