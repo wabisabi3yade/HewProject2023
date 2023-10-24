@@ -1,4 +1,7 @@
 #pragma once
+#include <d3d11.h>		// DirectX11を使うためのヘッダー
+#include<DirectXMath.h> //DirectXの数学関連のヘッダーファイル
+
 //float型３つのクラス x y z
 class Vector3
 {
@@ -21,3 +24,4 @@ public:
 	const Vector3& operator-( const Vector3& _v)const;
 };
 
+DirectX::XMFLOAT3* dirChange(Vector3);

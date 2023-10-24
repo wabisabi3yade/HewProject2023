@@ -10,11 +10,10 @@ private:
 		MOVEY
 	};
 	CObject* objptr;
-	float movePos;
 	float moveTime;
+	float moveSpeed;
 	bool IsDoMove;
 	MOVESTATE moveState;
-	ULONGLONG time;
 
 public:
 	void Updeta();
@@ -22,7 +21,7 @@ public:
 	DoTween();
 	~DoTween();
 
-	void DoMoveX(CObject* _Objptr, float _movepos, float _moveTime);
-	void DoMoveY(CObject* _Objptr, float _movepos, float _moveTime);
+	void DoMoveX(CObject* _Objptr, float _moveSpeed, float _moveTime);
+	void DoMoveY(CObject* _Objptr, float _moveSpeed, float _moveTime);
 };
 

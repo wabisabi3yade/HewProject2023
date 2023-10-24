@@ -47,3 +47,9 @@ const Vector3& Vector3::operator-(const Vector3& _v)const
 	Vector3 ret(this->x - _v.x, this->y - _v.y, this->z - _v.z);
 	return ret;
 }
+
+DirectX::XMFLOAT3* dirChange(Vector3 _vec)
+{
+	DirectX::XMFLOAT3 v(_vec.x, _vec.y, _vec.z);
+	return &v;
+}
