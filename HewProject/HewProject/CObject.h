@@ -68,5 +68,7 @@ public:
 	void SetTransformScale(float _x, float _y, float _z) {
 		mTransform.scale.x = _x, mTransform.scale.y = _y, mTransform.scale.z = _z;
 	}
+
+	void SetMoveSpeed(float _moveSpeed) { mMoveSpeed = _moveSpeed; }
 };
 

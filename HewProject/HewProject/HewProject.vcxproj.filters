@@ -94,6 +94,9 @@
     <Filter Include="ソース ファイル\Mizuno\DoTween">
       <UniqueIdentifier>{744ed02a-ef7f-4c58-9ee9-7544e4c85d94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Collsion">
+      <UniqueIdentifier>{9890a305-27f9-4c7e-9563-cb962f5e54f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -143,7 +146,7 @@
     </ClInclude>
     <ClInclude Include="Ccontroller.h">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Vector3.h">
       <Filter>ソース ファイル\Mizuno\Vector3</Filter>
     </ClInclude>
@@ -152,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="DoTween.h">
       <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\Mizuno\Collsion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="DoTween.cpp">
       <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\Mizuno\Collsion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
