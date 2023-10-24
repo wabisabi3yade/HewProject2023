@@ -31,6 +31,11 @@ void CKawadaScene::Update()
 		//SEÄ¶
 		XA_Play(SOUND_LABEL_SE000);
 	}
+
+	if (gInput->GetKeyTrigger(VK_TAB))
+	{
+		XA_Stop(SOUND_LABEL_BGM000);
+	}
 		
 }
 
