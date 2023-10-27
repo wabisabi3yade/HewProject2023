@@ -18,22 +18,26 @@ bool Input::GetControllerUp(int _button) { return !(ControllerState.Gamepad.wBut
 //引数0or1でL,Rを判定
 bool Input::GetControllerStick(int _stick)
 {
+	int Value=0;
 	float x = 0, y = 0;
+
+
 	switch (_stick)
 	{
-	//引数が0なら左スティック
+		//引数が0なら左スティック
 	case 0:
 		x = ControllerState.Gamepad.sThumbLX;	//左スティックのX軸
 		y = ControllerState.Gamepad.sThumbLY;	//左スティックのY軸
 		break;
-	//引数が1なら右スティック
+		//引数が1なら右スティック
 	case 1:
 		x = ControllerState.Gamepad.sThumbRX;	//右スティックのX軸
 		y = ControllerState.Gamepad.sThumbRY;	//右スティックのY軸
 		break;
-	}
-	return(x, y) / 32768;	//XInputは65535段階(-32768～327768)int型
+	};
+	return Value; (x, y) / 32768;	//XInputは65535段階(-32768～327768)int型
 }
+
 
 //triggerの入力
 //引数0or1でL,Rを判定
@@ -58,15 +62,22 @@ float Input::GetControllerTrigger(int _trigger)
 //縦入力
 float Input::GetVertical()
 {
-	float ControllerVal = GetControllerStick(0), y;	//左スティックのY軸の値
-	return ControllerVal;
+	float ControllerVal = GetControllerStick(0), y;	//スティックのY軸の値
+
+	if (ControllerVal != 0)
+	{
+		return ControllerVal;
+	}
 }
 
 //横入力
 float Input::GetHorizontal()
 {
-	float ControllerVal = GetControllerStick(0), x;	//右スティックのX軸の値
-	return ControllerVal;
+	float ControllerVal = GetControllerStick(0), x;	//スティックのX軸の値
+	if (ControllerVal != 0)
+	{
+		return ControllerVal;
+	}
 }
 
 //決定
@@ -98,4 +109,7 @@ bool Input::GetAttackDown()
 }
 
 //XInputの状態を取得し、値を格納
-void Input::Update() { XInputGetState(0, &ControllerState);
+void Input::Update() 
+{
+	XInputGetState(0, &ControllerState);
+}
