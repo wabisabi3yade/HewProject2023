@@ -15,6 +15,7 @@ class Input
 	static XINPUT_STATE ControllerState;
 
 public:
+
 	//‰Šú‰»
 	static void Init();
 
