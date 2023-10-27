@@ -18,6 +18,12 @@ CObject::CObject(D3DBUFFER vb, D3DTEXTURE tex)
 
 void CObject::Update()
 {
+	XMVECTOR v = XMLoadFloat3(dirChange(this->mDir));
+	v = XMVector3Normalize(v);
+	XMStoreFloat3(dirChange(this->mDir), v);
+	this->mTransform.pos.x += this->mDir.x * this->mMoveSpeed;
+	this->mTransform.pos.y += this->mDir.y * this->mMoveSpeed;
+	this->mTransform.pos.z += this->mDir.z * this->mMoveSpeed;
 }
 
 void CObject::LateUpdate()
@@ -92,4 +98,5 @@ void CObject::Draw()
 
 void CObject::SetDir(Vector3 setdir)
 {
+	mDir = setdir;
 }

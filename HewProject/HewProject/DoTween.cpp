@@ -2,36 +2,41 @@
 
 void DoTween::Updeta()
 {
-	switch (moveState)
+	if (moveTime > 0)
 	{
-	case DoTween::NONE:
-		return;
-		break;
-	case DoTween::MOVEX:
-		if (GetTickCount64() < time + moveTime * 1000)
+		moveTime -= 1 / 60.0f;
+		switch (moveState)
 		{
-			objptr->mTransform.pos.x += movePos /(moveTime * 1000 / 60.0f) ;
+		case DoTween::NONE:
+			return;
+			break;
+		case DoTween::MOVEX:
+			objptr->SetMoveSpeed(moveSpeed);
+			objptr->SetDir(Vector3::right);
+			break;
+		case DoTween::MOVEY:
+			objptr->SetMoveSpeed(moveSpeed);
+			objptr->SetDir(Vector3::up);
+			break;
+		default:
+			break;
 		}
-		else
-		{
-			IsDoMove = false;
-		}
-		break;
-	case DoTween::MOVEY:
-		if (GetTickCount64() > time + moveTime * 1000)
-		{
-			objptr->mTransform.pos.y += movePos;
-		}
-		break;
-	default:
-		break;
+	}
+	else if(moveTime < 0)
+	{
+		moveTime = 0;
+		objptr->SetMoveSpeed(0);
+		objptr->SetDir(Vector3::zero);
+		IsDoMove = false;
+		moveState = MOVESTATE::NONE;
+
 	}
 }
 
 DoTween::DoTween()
 {
 	objptr = nullptr;
-	movePos = 0.0f;
+	moveSpeed = 0.0f;
 	moveTime = 0.0f;
 	IsDoMove = false;
 	moveState = MOVESTATE::NONE;
@@ -41,30 +46,26 @@ DoTween::~DoTween()
 {
 }
 
-void DoTween::DoMoveX(CObject* _Objptr, float _movepos, float _moveTime)
+void DoTween::DoMoveX(CObject* _Objptr, float _moveSpeed, float _moveTime)
 {
 	if (!IsDoMove)
 	{
-
-	objptr = _Objptr;
-	movePos = _movepos;
-	moveTime = _moveTime;
-	IsDoMove = true;
-	time = GetTickCount64();
-	moveState = MOVESTATE::MOVEX;
+		objptr = _Objptr;
+		moveSpeed = _moveSpeed / (_moveTime * 60);
+		moveTime = _moveTime- (1.0/60);
+		IsDoMove = true;
+		moveState = MOVESTATE::MOVEX;
 	}
 }
 
-void DoTween::DoMoveY(CObject* _Objptr, float _movespeed, float _moveTime)
+void DoTween::DoMoveY(CObject* _Objptr, float _moveSpeed, float _moveTime)
 {
 	if (!IsDoMove)
 	{
-
-	objptr = _Objptr;
-	movePos = _movespeed;
-	moveTime = _moveTime;
-	IsDoMove = true;
-	time = GetTickCount64();
-	moveState = MOVESTATE::MOVEY;
+		objptr = _Objptr;
+		moveSpeed = _moveSpeed / (_moveTime *60);
+		moveTime = _moveTime - (1.0 / 60);
+		IsDoMove = true;
+		moveState = MOVESTATE::MOVEY;
 	}
 }
