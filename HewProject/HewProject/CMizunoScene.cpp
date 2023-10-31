@@ -55,19 +55,36 @@ void CMizunoScene::Update()
 	bool coll = CollsionRect(*charObj, *charObj2);
 	if (coll)
 	{
-		doToween->DoMoveX(charObj2, -1.0f, 1.0f);
+		doToween->DoMoveX(charObj2, -1.0f, 1.0f,MOVEDIR::LEFT);
 	}
 	if (gInput->GetKeyTrigger(VK_RIGHT))
 	{
+		doToween->DoMoveX(charObj, 1.0f, 0.5f,MOVEDIR::RIGHT);
 	}
 	if (gInput->GetKeyTrigger(VK_LEFT))
 	{
-		doToween->DoMoveX(charObj, -1.0f, 0.5f);
+		doToween->DoMoveX(charObj, 1.0f, 0.5f,MOVEDIR::LEFT);
+	}
+	if (gInput->GetKeyTrigger(VK_UP))
+	{
+		doToween->DoMoveY(charObj, 3.0f, 0.5f, MOVEDIR::UP);
+	}
+	if (gInput->GetKeyTrigger(VK_DOWN))
+	{
+		doToween->DoMoveY(charObj, 3.0f, 0.5f, MOVEDIR::DOWN);
 	}
 	if (input.GetControllerDown(Pad_A))
 	{
-		doToween->DoMoveX(charObj, 3.0f, 0.1f);
-		
+		doToween->DoMoveX(charObj, 3.0f, 0.1f,MOVEDIR::LEFT);
+	}
+
+	if (gInput->GetKeyTrigger(VK_SPACE))
+	{
+		doToween->DoScaleDown(charObj, 5.0f, 1.0f);
+	}
+	if (gInput->GetKeyTrigger(VK_RETURN))
+	{
+		doToween->DoScaleUp(charObj, 5.0f, 1.0f);
 	}
 
 	charObj->Update();
