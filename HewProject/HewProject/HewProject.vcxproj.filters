@@ -97,6 +97,9 @@
     <Filter Include="ソース ファイル\Mizuno\Collsion">
       <UniqueIdentifier>{9890a305-27f9-4c7e-9563-cb962f5e54f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Kawada\effect">
+      <UniqueIdentifier>{49565f4d-3158-4abf-97c3-6faaf4e5e010}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -159,6 +162,9 @@
     <ClInclude Include="Collision.h">
       <Filter>ソース ファイル\Mizuno\Collsion</Filter>
     </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>ソース ファイル\Kawada\effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -220,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Mizuno\Collsion</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>ソース ファイル\Kawada\effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
