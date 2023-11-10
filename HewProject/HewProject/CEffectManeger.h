@@ -21,8 +21,6 @@ private:
 
 public:
 
-	
-	
 
 	void Play(Vector3 _pos , Vector3 _scale , FX_TYPE _type ,bool _isLoop);
 

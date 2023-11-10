@@ -3,6 +3,11 @@
 class CEffectAnim :
     public CAnimation
 {
+public:
+    enum EffectPattertn
+    {
+        FX_0_11,
+    };
 
 public:
     CEffectAnim();
