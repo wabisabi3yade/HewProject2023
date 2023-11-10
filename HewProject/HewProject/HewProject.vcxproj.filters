@@ -79,6 +79,33 @@
     <Filter Include="ソース ファイル\Select">
       <UniqueIdentifier>{3cd70f10-4797-4da5-b83e-b65c53251909}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller">
+      <UniqueIdentifier>{b83d45f4-6e7d-4b44-8af5-056557ac0b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\sound">
+      <UniqueIdentifier>{fd0487aa-a738-4207-b273-08432f995e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Vector3">
+      <UniqueIdentifier>{0736ae91-e869-426c-8557-0acfe459410f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Transform">
+      <UniqueIdentifier>{f20113f2-617b-4b2c-9808-cd5fbf1878cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\DoTween">
+      <UniqueIdentifier>{744ed02a-ef7f-4c58-9ee9-7544e4c85d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Collsion">
+      <UniqueIdentifier>{9890a305-27f9-4c7e-9563-cb962f5e54f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\EffectManeger">
+      <UniqueIdentifier>{49565f4d-3158-4abf-97c3-6faaf4e5e010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\Effect">
+      <UniqueIdentifier>{b9dab24c-c8bc-40fa-a677-32dbccd7ea6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\EffectAnimation">
+      <UniqueIdentifier>{c0b10ad2-5ee0-4af8-a158-e1dc77d9134c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -123,6 +150,33 @@
     <ClInclude Include="CSelect.h">
       <Filter>ソース ファイル\Select</Filter>
     </ClInclude>
+    <ClInclude Include="xa2.h">
+      <Filter>ソース ファイル\Kawada\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Ccontroller.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>ソース ファイル\Mizuno\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="DoTween.h">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\Mizuno\Collsion</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectManeger.h">
+      <Filter>ソース ファイル\Kawada\EffectManeger</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>ソース ファイル\Kawada\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectAnim.h">
+      <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -136,9 +190,6 @@
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>ソース ファイル\Base\GameBase\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="CObject.cpp">
-      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
     </ClCompile>
     <ClCompile Include="CScene.cpp">
       <Filter>ソース ファイル\Base\GameBase\Scene</Filter>
@@ -169,6 +220,33 @@
     </ClCompile>
     <ClCompile Include="CSelect.cpp">
       <Filter>ソース ファイル\Select</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="xa2.cpp">
+      <Filter>ソース ファイル\Kawada\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Ccontroller.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="DoTween.cpp">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\Mizuno\Collsion</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectManeger.cpp">
+      <Filter>ソース ファイル\Kawada\EffectManeger</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>ソース ファイル\Kawada\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectAnim.cpp">
+      <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

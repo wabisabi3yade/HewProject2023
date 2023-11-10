@@ -30,8 +30,8 @@ void CCamera::Delete()
 
 void CCamera::Init()
 {
-	pos = { 0, 0, 0 };
-	rotZ = 0;
+	mTransform.pos = { 0, 0, 0 };
+	mTransform.rotation.z = 0.0f;
 }
 
 

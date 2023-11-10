@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -141,10 +141,15 @@
   <ItemGroup>
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="Ccontroller.h" />
+    <ClInclude Include="CEffect.h" />
+    <ClInclude Include="CEffectAnim.h" />
+    <ClInclude Include="CEffectManeger.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CKawadaScene.h" />
     <ClInclude Include="CMizunoScene.h" />
     <ClInclude Include="CObject.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CSelect.h" />
@@ -152,15 +157,24 @@
     <ClInclude Include="CTest.h" />
     <ClInclude Include="CWakamuraScene.h" />
     <ClInclude Include="direct3d.h" />
+    <ClInclude Include="DoTween.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="WICTextureLoader.h" />
+    <ClInclude Include="xa2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="Ccontroller.cpp" />
+    <ClCompile Include="CEffect.cpp" />
+    <ClCompile Include="CEffectAnim.cpp" />
+    <ClCompile Include="CEffectManeger.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
     <ClCompile Include="CMizunoScene.cpp" />
     <ClCompile Include="CObject.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CSelect.cpp" />
@@ -168,8 +182,11 @@
     <ClCompile Include="CTest.cpp" />
     <ClCompile Include="CWakamuraScene.cpp" />
     <ClCompile Include="direct3d.cpp" />
+    <ClCompile Include="DoTween.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
+    <ClCompile Include="xa2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
