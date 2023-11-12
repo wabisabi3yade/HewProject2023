@@ -6,6 +6,8 @@
 #include"Vector3.h"
 #include "Transform.h"
 
+#define PathLength 64
+
 class CObject
 {
 	// カメラオブジェクト
@@ -36,6 +38,8 @@ public:
 
 	Transform mTransform;
 
+	//読み込むファイルのパス保存用
+	const wchar_t* TexPath[PathLength];
 	//Vector3 mPos = { 0, 0, 0 };	// 位置座標
 
 	//Vector3 mScale = { 1.0f,1.0f,1.0f };	// 拡大縮小率を持つ変数

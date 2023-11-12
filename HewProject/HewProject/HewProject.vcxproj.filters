@@ -97,8 +97,19 @@
     <Filter Include="ソース ファイル\Mizuno\Collsion">
       <UniqueIdentifier>{9890a305-27f9-4c7e-9563-cb962f5e54f5}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\player">
       <UniqueIdentifier>{079b777e-663a-4b8b-9ec7-cf3998730635}</UniqueIdentifier>
+=======
+    <Filter Include="ソース ファイル\Kawada\EffectManeger">
+      <UniqueIdentifier>{49565f4d-3158-4abf-97c3-6faaf4e5e010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\Effect">
+      <UniqueIdentifier>{b9dab24c-c8bc-40fa-a677-32dbccd7ea6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\EffectAnimation">
+      <UniqueIdentifier>{c0b10ad2-5ee0-4af8-a158-e1dc77d9134c}</UniqueIdentifier>
+>>>>>>> develop
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -162,8 +173,19 @@
     <ClInclude Include="Collision.h">
       <Filter>ソース ファイル\Mizuno\Collsion</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="CPlayer.h">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\player</Filter>
+=======
+    <ClInclude Include="CEffectManeger.h">
+      <Filter>ソース ファイル\Kawada\EffectManeger</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>ソース ファイル\Kawada\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectAnim.h">
+      <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
+>>>>>>> develop
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,8 +249,19 @@
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Mizuno\Collsion</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="CPlayer.cpp">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\player</Filter>
+=======
+    <ClCompile Include="CEffectManeger.cpp">
+      <Filter>ソース ファイル\Kawada\EffectManeger</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>ソース ファイル\Kawada\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectAnim.cpp">
+      <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
+>>>>>>> develop
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
