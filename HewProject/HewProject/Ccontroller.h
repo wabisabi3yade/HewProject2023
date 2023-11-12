@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #pragma comment (lib, "xinput.lib")
 #pragma comment (lib, "dinput8.lib")
 

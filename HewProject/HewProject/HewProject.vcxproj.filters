@@ -97,6 +97,9 @@
     <Filter Include="ソース ファイル\Mizuno\Collsion">
       <UniqueIdentifier>{9890a305-27f9-4c7e-9563-cb962f5e54f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\player">
+      <UniqueIdentifier>{079b777e-663a-4b8b-9ec7-cf3998730635}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -159,6 +162,9 @@
     <ClInclude Include="Collision.h">
       <Filter>ソース ファイル\Mizuno\Collsion</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -220,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Mizuno\Collsion</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
