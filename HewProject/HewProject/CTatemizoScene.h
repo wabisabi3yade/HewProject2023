@@ -4,20 +4,25 @@
 #include "CPlayer.h"
 
 class CTatemizoScene :
-    public CScene
+	public CScene
 {
 public:
-    CTatemizoScene();
+	D3DBUFFER charBuffer;
+	D3DTEXTURE charTexture;
+	CObject* charObj;
 
-    ~CTatemizoScene();
+public:
+	CTatemizoScene();
 
-    void Update() override;
+	~CTatemizoScene();
 
-    void LateUpdate() override;
+	void Update() override;
 
-    void Draw() override;
+	void LateUpdate() override;
+
+	void Draw() override;
 
 private:
-    CPlayer* player;  // CPlayer クラスのポインタをメンバーとして持つ
+	CPlayer* player;  // CPlayer クラスのポインタをメンバーとして持つ
 };
 

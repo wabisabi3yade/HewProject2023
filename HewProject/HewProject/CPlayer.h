@@ -1,8 +1,9 @@
 #pragma once
 #include "CScene.h"
 #include "Ccontroller.h"
+#include "CObject.h"
 
-class CPlayer : public CScene
+class CPlayer : public CObject
 {
 public:
     D3DBUFFER charBuffer;
@@ -13,12 +14,15 @@ public:
     float speed; // 移動速度
 
 public:
-    CPlayer(float startX, float startY, float speed);
-
+ 
+    CPlayer(D3DBUFFER vb, D3DTEXTURE tex);
     ~CPlayer();
 
-    void Update() override;  // CScene クラスの純粋仮想関数をオーバーライド
-    void Render() /*override*/;  // CScene クラスの純粋仮想関数をオーバーライド
+    void Init(float startX, float startY, float speed);
+
+    void Update() override;
+    //void Render() override;
+    void Draw() override;
 
     float GetX() const;
     float GetY() const;
