@@ -8,6 +8,16 @@
 
 #define PathLength 64
 
+enum ObjectLayer
+{
+	FADE,
+	EFECT,
+	UI,
+	PLAY_GROUND,
+	BACK_GROUND,
+};
+
+
 class CObject
 {
 	// カメラオブジェクト
@@ -16,6 +26,8 @@ class CObject
 protected:
 	// 現在の向きを表すベクトル変数(3次元座標)
 	Vector3 mDir = { 0, 0, 0 };
+
+	int mLayer;
 
 	// 移動速度
 	float mMoveSpeed = 0.0f;
@@ -60,19 +72,29 @@ public:
 	// ゲームループごとに描画する処理を書く関数
 	virtual void Draw();
 
-	//方向を設定
-	void SetDir(Vector3 setdir);
-
+	//ゲッター
+	
 	// 方向を取得
 	Vector3 GetDir() { return mDir; }
+
+
+
+
+	//セッター	
+
+	//方向を設定
+	void SetDir(Vector3 setdir);
 
 	void SetTexture(D3DTEXTURE _tex) { mTexture = _tex; }
 
 	void SetTransformScale(Vector3 _v) { mTransform.scale = _v; }
+
 	void SetTransformScale(float _x, float _y, float _z) {
 		mTransform.scale.x = _x, mTransform.scale.y = _y, mTransform.scale.z = _z;
 	}
 
 	void SetMoveSpeed(float _moveSpeed) { mMoveSpeed = _moveSpeed; }
+
+	//void SetLayer()
 };
 
