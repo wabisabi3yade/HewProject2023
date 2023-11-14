@@ -77,7 +77,7 @@ public:
 	// 方向を取得
 	Vector3 GetDir() { return mDir; }
 
-
+	int GetLayer() { return mLayer; }
 
 
 	//セッター	
@@ -95,6 +95,6 @@ public:
 
 	void SetMoveSpeed(float _moveSpeed) { mMoveSpeed = _moveSpeed; }
 
-	//void SetLayer()
+	void SetLayer(ObjectLayer _layer) { mLayer = _layer; }
 };
 
