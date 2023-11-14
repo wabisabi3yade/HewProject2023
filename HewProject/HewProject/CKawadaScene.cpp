@@ -5,16 +5,16 @@
 CKawadaScene::CKawadaScene()
 {
 	//========サウンド初期化=======//
-	HRESULT hr;
-	hr = XA_Initialize();
-	if (FAILED(hr)) // XA_Initialize関数が失敗したか判定
-	{
-		MessageBoxA(NULL, "サウンド初期化失敗", "エラー",MB_ICONERROR | MB_OK);      
-	}
-	//=============================//
-	
-	//BGM再生
-	XA_Play(SOUND_LABEL_BGM000);
+	//HRESULT hr;
+	//hr = XA_Initialize();
+	//if (FAILED(hr)) // XA_Initialize関数が失敗したか判定
+	//{
+	//	MessageBoxA(NULL, "サウンド初期化失敗", "エラー",MB_ICONERROR | MB_OK);      
+	//}
+	////=============================//
+	//
+	////BGM再生
+	//XA_Play(SOUND_LABEL_BGM000);
 }
 
 CKawadaScene::~CKawadaScene()
@@ -28,7 +28,6 @@ void CKawadaScene::Update()
 {
 	if (gInput->GetKeyTrigger(VK_SPACE))
 	{
-
 		//SE再生
 		XA_Play(SOUND_LABEL_SE000);
 	}
@@ -37,7 +36,10 @@ void CKawadaScene::Update()
 	{
 		XA_Stop(SOUND_LABEL_BGM000);
 	}
-		
+	Vector3 v = Vector3::left;
+	Vector3 v2 = Vector3::one;
+	EffectManeger* x = EffectManeger::GetInstance();
+	x->Play(v, v2, x->EFFECT_UP, false);
 }
 
 void CKawadaScene::LateUpdate()

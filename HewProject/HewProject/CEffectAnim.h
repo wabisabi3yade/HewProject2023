@@ -14,6 +14,12 @@ public:
 
     void Update() override;
 
+    bool isCheck = false;
+
+    void SetIsCheck(bool);
+
+   /* void SetEffectLoop(bool _isLoop) override {  }*/
+
     ~CEffectAnim();
 };
 

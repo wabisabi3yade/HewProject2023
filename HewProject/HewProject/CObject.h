@@ -70,5 +70,7 @@ public:
 	}
 
 	void SetMoveSpeed(float _moveSpeed) { mMoveSpeed = _moveSpeed; }
+
+	
 };
 

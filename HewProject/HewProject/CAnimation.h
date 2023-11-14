@@ -51,5 +51,8 @@ public:
 	int GetisFX() { return animPattern; }
 	void SetisFX(int setPattern) { animPattern = setPattern; }
 
+	//effect用セッター
+	virtual void SetEffectLoop(bool _isLoop) {  }
+
 };
 

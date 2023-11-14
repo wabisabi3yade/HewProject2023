@@ -13,5 +13,8 @@ public:
     void Draw() override;
 
     ~CEffect();
+
+    // アニメーションを取得
+    CAnimation& GetmAnim() { return *mAnim; }
 };
 
