@@ -52,11 +52,11 @@ CMizunoScene::~CMizunoScene()
 void CMizunoScene::Update()
 {
 	input.Update();
-	bool coll = CollsionRect(*charObj, *charObj2);
-	if (coll)
-	{
-		doToween->DoMoveX(charObj2, -1.0f, 1.0f,MOVEDIR::LEFT);
-	}
+	//bool coll = CollsionRect(*charObj, *charObj2);
+	//if (coll)
+	//{
+	//	doToween->DoMoveX(charObj2, -1.0f, 1.0f,MOVEDIR::LEFT);
+	//}
 	if (gInput->GetKeyTrigger(VK_RIGHT))
 	{
 		doToween->DoMoveX(charObj, 1.0f, 0.5f,MOVEDIR::RIGHT);
@@ -84,7 +84,9 @@ void CMizunoScene::Update()
 	}
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
-		doToween->DoScaleUp(charObj, 5.0f, 1.0f);
+		//doToween->DoScaleUp(charObj, 5.0f, 1.0f);
+		Vector3 kari = { 4,0,0 };
+		doToween->DoMoveCurve(charObj, kari, 3.5f, 0.2f);
 	}
 
 	charObj->Update();

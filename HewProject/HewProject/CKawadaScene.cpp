@@ -28,6 +28,7 @@ void CKawadaScene::Update()
 {
 	if (gInput->GetKeyTrigger(VK_SPACE))
 	{
+
 		//SEçƒê∂
 		XA_Play(SOUND_LABEL_SE000);
 	}

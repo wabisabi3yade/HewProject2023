@@ -80,28 +80,28 @@ float Input::GetHorizontal()
 	}
 }
 
-//決定
+//Xボタン
 bool Input::GetDecisionDown()
 {
 	if (GetController(Pad_X)) { return true; }	//Aが押されたらtrueを返す
 	return false;
 }
 
-//キャンセル
+//Bボタン
 bool Input::GetCancelDown()
 {
 	if (GetController(Pad_B)) { return true; }	//Bが押されたらtrueを返す
 	return false;
 }
 
-//ジャンプ
+//Aボタン
 bool Input::GetJumpDown()
 {
 	if (GetController(Pad_A)) { return true; }
 	return false;
 }
 
-//攻撃
+//Yボタン
 bool Input::GetAttackDown()
 {
 	if (GetController(Pad_Y)) { return true; }
