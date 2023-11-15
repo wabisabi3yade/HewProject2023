@@ -26,14 +26,11 @@ void CEffectAnim::Update()
 		if (animTable[animPattern][(int)animCounter] == -1)
 		{
 			animCounter = 0.0f;
-		}
-		// -2‚ª—ˆ‚½‚ç’â~‚³‚¹‚éˆ—
-		else if (animTable[animPattern][(int)animCounter] == -2)
-		{
-			// Ä¶‚ğ~‚ß‚é
-			isPlaying = false;
-			// Å‰‚ÌƒRƒ}‚É–ß‚µ‚Ä~‚ß‚é
-			animCounter = 0.0f;
+			if (isCheck == false)
+			{
+				// Ä¶‚ğ~‚ß‚é
+				isPlaying = false;
+			}
 		}
 	}
 
@@ -44,6 +41,11 @@ void CEffectAnim::Update()
 	uv.x = (animID % 3) * 0.33f;
 
 	uv.y = (animID / 3) * 0.25f;
+}
+
+void CEffectAnim::SetEffectLoop(bool isLoop)
+{
+	isCheck = isLoop;
 }
 
 CEffectAnim::~CEffectAnim()
