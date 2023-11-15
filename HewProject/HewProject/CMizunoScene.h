@@ -2,6 +2,7 @@
 #include "CScene.h"
 #include "DoTween.h"
 #include"Ccontroller.h"
+#include"CFade.h"
 class CMizunoScene :
     public CScene
 {
@@ -13,6 +14,10 @@ class CMizunoScene :
     D3DTEXTURE charTexture2;
     CObject* charObj2;
     DoTween* doToween;
+
+    CFade* fade;
+    D3DBUFFER fadeBuffer;
+    D3DTEXTURE fadeTexture;
 
     Input input;
 public:

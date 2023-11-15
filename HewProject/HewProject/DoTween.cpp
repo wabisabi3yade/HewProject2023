@@ -3,7 +3,7 @@
 
 int  debugCnt = 0;
 
-void DoTween::Updeta()
+void DoTween::Update()
 {
 	if (moveTime > 0.0f)
 	{
