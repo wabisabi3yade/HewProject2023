@@ -79,6 +79,7 @@ public:
 
 	int GetLayer() { return mLayer; }
 
+	CAnimation* GetmAnim() { return mAnim; }
 
 	//セッター	
 

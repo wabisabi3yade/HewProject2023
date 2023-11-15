@@ -28,7 +28,6 @@ void CKawadaScene::Update()
 {
 	if (gInput->GetKeyTrigger(VK_SPACE))
 	{
-
 		//SEÄ¶
 		XA_Play(SOUND_LABEL_SE000);
 	}
@@ -36,8 +35,13 @@ void CKawadaScene::Update()
 	if (gInput->GetKeyTrigger(VK_TAB))
 	{
 		XA_Stop(SOUND_LABEL_BGM000);
+
+		Vector3 v = Vector3::zero;
+		Vector3 v2 = Vector3::one;
+		EffectManeger* x = EffectManeger::GetInstance();
+		x->Play(v, v2, x->CHARE, false);
 	}
-		
+	
 }
 
 void CKawadaScene::LateUpdate()

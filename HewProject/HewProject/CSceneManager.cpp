@@ -11,6 +11,7 @@ CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
 {
+	effectManeger = EffectManeger::GetInstance();
 }
 
 CSceneManager::~CSceneManager()
@@ -39,11 +40,16 @@ void CSceneManager::Act()
 	pNowScene->Update();
 	// 後で行う処理
 	pNowScene->LateUpdate();
-
+	
+	//エフェクトマネジャー
+	effectManeger->Update();
+	
 	//画面塗りつぶしと設定
 	D3D_ClearScreen();
 	// 描画処理 /////////////////////////////////
 	pNowScene->Draw();
+
+	effectManeger->Draw();
 	// 画面更新
 	D3D_UpdateScreen();
 
