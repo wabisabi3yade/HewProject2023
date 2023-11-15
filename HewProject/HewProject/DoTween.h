@@ -32,7 +32,7 @@ private:
 	Vector3 oldPos;
 	Vector3 targetPos;
 public:
-	void Updeta();
+	void Update();
 
 	DoTween();
 	~DoTween();
