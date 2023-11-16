@@ -11,6 +11,9 @@ CMizunoScene::CMizunoScene()
 	D3D_CreateSquare({ 1,1 }, &charBuffer2);
 	D3D_LoadTexture(L"asset/hashimoto/mizuno.png", &charTexture2);
 
+	D3D_CreateSquare({ 1,1 }, &fadeBuffer);
+	D3D_LoadTexture(L"asset/hashimoto/mizuno.png", &fadeTexture);
+
 	charObj = new CObject(charBuffer, charTexture);
 	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
 
@@ -18,6 +21,10 @@ CMizunoScene::CMizunoScene()
 	charObj2->mTransform.scale = { 3.0f,3.0f,1.0f };
 
 	charObj2->mTransform.pos = { 5.0f,0.0f,0.0f };
+
+	fade = new CFade(charBuffer2, charTexture2);
+	fade->mTransform.pos = Vector3::zero;
+	fade->mTransform.scale = { 5.0f,5.0f,1.0f };
 
 	doToween = new DoTween();
 
@@ -45,6 +52,11 @@ CMizunoScene::~CMizunoScene()
 	SAFE_RELEASE(charBuffer2);
 
 	SAFE_RELEASE(charTexture2);
+
+	CLASS_DELETE(fade);
+
+	SAFE_RELEASE(fadeBuffer);
+	SAFE_RELEASE(fadeTexture);
 
 	CLASS_DELETE(doToween);
 }
@@ -85,14 +97,17 @@ void CMizunoScene::Update()
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
 		//doToween->DoScaleUp(charObj, 5.0f, 1.0f);
-		Vector3 kari = { 4,0,0 };
-		doToween->DoMoveCurve(charObj, kari, 3.5f, 0.2f);
+		//Vector3 kari = { 4,0,0 };
+		//doToween->DoMoveCurve(charObj, kari, 3.5f, 0.2f);
+
+		fade->FadeIn(fade->DEFAULT);
 	}
 
 	charObj->Update();
 
-	charObj2->Update();
-	doToween->Updeta();
+	//charObj2->Update();
+	fade->Update();
+	doToween->Update();
 }
 
 void CMizunoScene::LateUpdate()
@@ -102,5 +117,6 @@ void CMizunoScene::LateUpdate()
 void CMizunoScene::Draw()
 {
 	charObj->Draw();
-	charObj2->Draw();
+	//charObj2->Draw();
+	fade->Draw();
 }
