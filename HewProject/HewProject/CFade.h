@@ -13,6 +13,10 @@ public:
         RIGHT,
         UP,
         DOWN,
+        TO_TOP_LEFT,
+        TO_TOP_RIGHT,
+        TO_BOTTOM_LEFT,
+        TO_BOTTOM_RIGHT,
     };
     enum FadeState
     {

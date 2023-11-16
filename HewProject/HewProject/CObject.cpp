@@ -81,6 +81,8 @@ void CObject::Draw()
 	cb.matrixTex = XMMatrixTranslation(uv.x, uv.y, 0.0f);
 	cb.matrixTex = XMMatrixTranspose(cb.matrixTex);
 
+	cb.materialDiffuse = materialDiffuse;
+
 	// 行列をシェーダーに渡す
 	// cbのデータを
 	m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, NULL, &cb, 0, 0);

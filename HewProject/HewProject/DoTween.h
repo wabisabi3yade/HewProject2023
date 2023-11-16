@@ -7,6 +7,10 @@ enum MOVEDIR
 	LEFT,
 	UP,
 	DOWN,
+	TO_TOP_LEFT,
+	TO_TOP_RIGHT,
+	TO_BOTTOM_LEFT,
+	TO_BOTTOM_RIGHT,
 };
 
 class DoTween
@@ -15,6 +19,7 @@ private:
 	enum  MOVESTATE
 	{
 		NONE,
+		MOVE,
 		MOVEX,
 		MOVEY,
 		SCALEUP,
@@ -37,6 +42,7 @@ public:
 	DoTween();
 	~DoTween();
 
+	void DoMove(CObject* _Objptr, float _moveSpeed, float _moveTime, MOVEDIR _movedir);
 	void DoMoveX(CObject* _Objptr, float _moveSpeed, float _moveTime, MOVEDIR _movedir);
 	void DoMoveY(CObject* _Objptr, float _moveSpeed, float _moveTime,MOVEDIR _movedir);
 	void DoScaleUp(CObject* _Objptr, float _moveSpeed, float _moveTime);

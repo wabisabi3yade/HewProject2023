@@ -92,7 +92,8 @@ void CMizunoScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_SPACE))
 	{
-		doToween->DoScaleDown(charObj, 5.0f, 1.0f);
+		//doToween->DoScaleDown(charObj, 5.0f, 1.0f);
+		fade->FadeOut(fade->RIGHT);
 	}
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
@@ -100,14 +101,16 @@ void CMizunoScene::Update()
 		//Vector3 kari = { 4,0,0 };
 		//doToween->DoMoveCurve(charObj, kari, 3.5f, 0.2f);
 
-		fade->FadeIn(fade->DEFAULT);
+		//doToween->DoMove(charObj, 1.0f, 1.0f, MOVEDIR::TO_TOP_LEFT);
+		fade->FadeIn(fade->TO_TOP_RIGHT);
 	}
 
+	doToween->Update();
 	charObj->Update();
 
 	//charObj2->Update();
 	fade->Update();
-	doToween->Update();
+
 }
 
 void CMizunoScene::LateUpdate()
