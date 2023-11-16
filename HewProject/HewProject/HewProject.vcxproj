@@ -147,6 +147,7 @@
     <ClInclude Include="CEffectManeger.h" />
     <ClInclude Include="CFade.h" />
     <ClInclude Include="CInput.h" />
+    <ClInclude Include="CItem.h" />
     <ClInclude Include="CKawadaScene.h" />
     <ClInclude Include="CMizunoScene.h" />
     <ClInclude Include="CObject.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="CEffectManeger.cpp" />
     <ClCompile Include="CFade.cpp" />
     <ClCompile Include="CInput.cpp" />
+    <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
     <ClCompile Include="CMizunoScene.cpp" />
     <ClCompile Include="CObject.cpp" />

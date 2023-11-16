@@ -109,8 +109,13 @@
     <Filter Include="ソース ファイル\Kawada\EffectAnimation">
       <UniqueIdentifier>{c0b10ad2-5ee0-4af8-a158-e1dc77d9134c}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\item">
+      <UniqueIdentifier>{f68f75b1-071d-4690-aeea-5fed8b7ef714}</UniqueIdentifier>
+=======
     <Filter Include="ソース ファイル\Mizuno\Fade">
       <UniqueIdentifier>{0f10ffad-f1c6-4ce4-94de-cf47a655ca8d}</UniqueIdentifier>
+>>>>>>> develop
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -186,8 +191,13 @@
     <ClInclude Include="CEffectAnim.h">
       <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="CItem.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\item</Filter>
+=======
     <ClInclude Include="CFade.h">
       <Filter>ソース ファイル\Mizuno\Fade</Filter>
+>>>>>>> develop
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -263,8 +273,13 @@
     <ClCompile Include="CEffectAnim.cpp">
       <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="CItem.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\item</Filter>
+=======
     <ClCompile Include="CFade.cpp">
       <Filter>ソース ファイル\Mizuno\Fade</Filter>
+>>>>>>> develop
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
