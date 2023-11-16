@@ -6,9 +6,9 @@
 class CPlayer : public CObject
 {
 public:
-    D3DBUFFER charBuffer;
-    D3DTEXTURE charTexture;
-    CObject* charObj;
+    //D3DBUFFER charBuffer;
+    //D3DTEXTURE charTexture;
+    //CObject* charObj;
 
     float x, y; // プレイヤーの座標
     float speed; // 移動速度
