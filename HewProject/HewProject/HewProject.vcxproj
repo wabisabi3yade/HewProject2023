@@ -149,6 +149,7 @@
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CKawadaScene.h" />
+    <ClInclude Include="CLoadStage.h" />
     <ClInclude Include="CMizunoScene.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="Collision.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CSelect.h" />
+    <ClInclude Include="CStageMake.h" />
     <ClInclude Include="CTatemizoScene.h" />
     <ClInclude Include="CTest.h" />
     <ClInclude Include="CWakamuraScene.h" />
@@ -177,6 +179,7 @@
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
+    <ClCompile Include="CLoadStage.cpp" />
     <ClCompile Include="CMizunoScene.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -184,6 +187,7 @@
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CSelect.cpp" />
+    <ClCompile Include="CStageMake.cpp" />
     <ClCompile Include="CTatemizoScene.cpp" />
     <ClCompile Include="CTest.cpp" />
     <ClCompile Include="CWakamuraScene.cpp" />

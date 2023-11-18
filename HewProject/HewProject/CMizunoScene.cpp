@@ -2,6 +2,7 @@
 #include "CSceneManager.h"
 #include"Collision.h"
 #include"xa2.h"
+#include<vector>
 
 CMizunoScene::CMizunoScene()
 {
@@ -13,6 +14,12 @@ CMizunoScene::CMizunoScene()
 
 	D3D_CreateSquare({ 1,1 }, &fadeBuffer);
 	D3D_LoadTexture(L"asset/hashimoto/mizuno.png", &fadeTexture);
+
+	stage = new CLoadStage;
+	stageMake = new CStageMake;
+
+	std::vector<Stage> StageTable = stage->LoadStage("asset/mizuno/Stage.csv");
+	std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageTable);
 
 	charObj = new CObject(charBuffer, charTexture);
 	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
@@ -58,6 +65,10 @@ CMizunoScene::~CMizunoScene()
 	SAFE_RELEASE(fadeBuffer);
 	SAFE_RELEASE(fadeTexture);
 
+	CLASS_DELETE(stageMake);
+	CLASS_DELETE(stage);
+
+
 	CLASS_DELETE(doToween);
 }
 
@@ -93,7 +104,7 @@ void CMizunoScene::Update()
 	if (gInput->GetKeyTrigger(VK_SPACE))
 	{
 		//doToween->DoScaleDown(charObj, 5.0f, 1.0f);
-		fade->FadeOut(fade->RIGHT);
+		fade->FadeOut(fade->RIGHT,1);
 	}
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
@@ -102,7 +113,7 @@ void CMizunoScene::Update()
 		//doToween->DoMoveCurve(charObj, kari, 3.5f, 0.2f);
 
 		//doToween->DoMove(charObj, 1.0f, 1.0f, MOVEDIR::TO_TOP_LEFT);
-		fade->FadeIn(fade->TO_TOP_RIGHT);
+		fade->FadeIn(fade->TO_TOP_RIGHT,1);
 	}
 
 	doToween->Update();

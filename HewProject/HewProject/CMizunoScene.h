@@ -3,6 +3,7 @@
 #include "DoTween.h"
 #include"Ccontroller.h"
 #include"CFade.h"
+#include"CStageMake.h"
 class CMizunoScene :
     public CScene
 {
@@ -18,6 +19,9 @@ class CMizunoScene :
     CFade* fade;
     D3DBUFFER fadeBuffer;
     D3DTEXTURE fadeTexture;
+
+    CLoadStage* stage;
+    CStageMake* stageMake;
 
     Input input;
 public:

@@ -109,13 +109,21 @@
     <Filter Include="ソース ファイル\Kawada\EffectAnimation">
       <UniqueIdentifier>{c0b10ad2-5ee0-4af8-a158-e1dc77d9134c}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\item">
       <UniqueIdentifier>{f68f75b1-071d-4690-aeea-5fed8b7ef714}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Mizuno\Fade">
       <UniqueIdentifier>{0f10ffad-f1c6-4ce4-94de-cf47a655ca8d}</UniqueIdentifier>
-	</Filter>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage">
+      <UniqueIdentifier>{a2c8b72d-5eab-405c-a191-90cb0e85d936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Load">
+      <UniqueIdentifier>{dfacca5d-0996-4be0-93ea-2193870a9341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Make">
+      <UniqueIdentifier>{62a9e623-fec9-4ec1-8485-7dd1197a2548}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -190,13 +198,17 @@
     <ClInclude Include="CEffectAnim.h">
       <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
     </ClInclude>
-
-	  <ClInclude Include="CItem.h">
-		  <Filter>ソース ファイル\Tatemizo\TatemizoScene\item</Filter>
-
-	  </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\item</Filter>
+    </ClInclude>
     <ClInclude Include="CFade.h">
       <Filter>ソース ファイル\Mizuno\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoadStage.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="CStageMake.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,16 +284,19 @@
     <ClCompile Include="CEffectAnim.cpp">
       <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
     </ClCompile>
-
     <ClCompile Include="CItem.cpp">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\item</Filter>
-
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="CFade.cpp">
       <Filter>ソース ファイル\Mizuno\Fade</Filter>
     </ClCompile>
+    <ClCompile Include="CLoadStage.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageMake.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
+    </ClCompile>
   </ItemGroup>
-
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
       <Filter>ソース ファイル\Shader</Filter>

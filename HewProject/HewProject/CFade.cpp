@@ -1,7 +1,7 @@
 #include "CFade.h"
 #include"DoTween.h"
 
-void CFade::FadeIn(FadeType _fadeType)
+void CFade::FadeIn(FadeType _fadeType, float _moveSpeed)
 {
 	if (fadeState != FadeState::NO_FADE)
 	{
@@ -16,35 +16,35 @@ void CFade::FadeIn(FadeType _fadeType)
 		break;
 	case CFade::LEFT:
 		mTransform.pos = Vector3::zero + mTransform.scale.x/2;
-		doTween->DoMoveX(this, 0.5f, 1.0f, MOVEDIR::LEFT);
+		doTween->DoMoveX(this, _moveSpeed, 1.0f, MOVEDIR::LEFT);
 		break;
 	case CFade::RIGHT:
 		mTransform.pos = Vector3::zero - mTransform.scale.x;
-		doTween->DoMoveX(this, 0.5f, 1.0f, MOVEDIR::RIGHT);
+		doTween->DoMoveX(this, _moveSpeed, 1.0f, MOVEDIR::RIGHT);
 		break;
 	case CFade::UP:
 		mTransform.pos = Vector3::zero - mTransform.scale.y;
-		doTween->DoMoveX(this, 0.5f, 1.0f, MOVEDIR::UP);
+		doTween->DoMoveX(this, _moveSpeed, 1.0f, MOVEDIR::UP);
 		break;
 	case CFade::DOWN:
 		mTransform.pos = Vector3::zero + mTransform.scale.y;
-		doTween->DoMoveX(this, 0.5f, 1.0f, MOVEDIR::DOWN);
+		doTween->DoMoveX(this, _moveSpeed, 1.0f, MOVEDIR::DOWN);
 		break;
 	case CFade::TO_TOP_LEFT:
 		mTransform.pos = Vector3(Vector3::zero.x + mTransform.scale.x, Vector3::zero.y - mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_TOP_LEFT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_TOP_LEFT);
 		break;
 	case CFade::TO_TOP_RIGHT:
 		mTransform.pos = Vector3(Vector3::zero.x - mTransform.scale.x, Vector3::zero.y - mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_TOP_RIGHT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_TOP_RIGHT);
 		break;
 	case CFade::TO_BOTTOM_LEFT:
 		mTransform.pos = Vector3(Vector3::zero.x + mTransform.scale.x, Vector3::zero.y + mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_BOTTOM_LEFT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_BOTTOM_LEFT);
 		break;
 	case CFade::TO_BOTTOM_RIGHT:
 		mTransform.pos = Vector3(Vector3::zero.x - mTransform.scale.x, Vector3::zero.y + mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_BOTTOM_RIGHT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_BOTTOM_RIGHT);
 		break;
 
 	default:
@@ -101,7 +101,7 @@ void CFade::FadeOut()
 	}
 }
 
-void CFade::FadeOut(FadeType _fadeType)
+void CFade::FadeOut(FadeType _fadeType, float _moveSpeed)
 {
 	if (fadeState != FadeState::NO_FADE)
 	{
@@ -116,35 +116,35 @@ void CFade::FadeOut(FadeType _fadeType)
 		break;
 	case CFade::LEFT:
 		mTransform.pos = Vector3::zero + mTransform.scale.x;
-		doTween->DoMoveX(this, 0.5f, 1.0f, MOVEDIR::LEFT);
+		doTween->DoMoveX(this, _moveSpeed, 1.0f, MOVEDIR::LEFT);
 		break;
 	case CFade::RIGHT:
 		mTransform.pos = Vector3::zero - mTransform.scale.x;
-		doTween->DoMoveX(this, 0.5f, 1.0f, MOVEDIR::RIGHT);
+		doTween->DoMoveX(this, _moveSpeed, 1.0f, MOVEDIR::RIGHT);
 		break;
 	case CFade::UP:
 		mTransform.pos = Vector3::zero - mTransform.scale.y;
-		doTween->DoMoveX(this, 0.5f, 5.0f, MOVEDIR::UP);
+		doTween->DoMoveX(this, _moveSpeed, 5.0f, MOVEDIR::UP);
 		break;
 	case CFade::DOWN:
 		mTransform.pos = Vector3::zero + mTransform.scale.y;
-		doTween->DoMoveX(this, 0.5f, 5.0f, MOVEDIR::DOWN);
+		doTween->DoMoveX(this, _moveSpeed, 5.0f, MOVEDIR::DOWN);
 		break;
 	case CFade::TO_TOP_LEFT:
 		mTransform.pos = Vector3(Vector3::zero.x + mTransform.scale.x, Vector3::zero.y - mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_TOP_LEFT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_TOP_LEFT);
 		break;
 	case CFade::TO_TOP_RIGHT:
 		mTransform.pos = Vector3(Vector3::zero.x - mTransform.scale.x, Vector3::zero.y - mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_TOP_RIGHT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_TOP_RIGHT);
 		break;
 	case CFade::TO_BOTTOM_LEFT:
 		mTransform.pos = Vector3(Vector3::zero.x + mTransform.scale.x, Vector3::zero.y + mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_BOTTOM_LEFT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_BOTTOM_LEFT);
 		break;
 	case CFade::TO_BOTTOM_RIGHT:
 		mTransform.pos = Vector3(Vector3::zero.x - mTransform.scale.x, Vector3::zero.y + mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(this, 0.5f, 1.0f, MOVEDIR::TO_BOTTOM_RIGHT);
+		doTween->DoMove(this, _moveSpeed, 1.0f, MOVEDIR::TO_BOTTOM_RIGHT);
 		break;
 	default:
 		break;
