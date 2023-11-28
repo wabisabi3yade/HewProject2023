@@ -210,6 +210,9 @@
     <ClInclude Include="CStageMake.h">
       <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
     </ClInclude>
+    <ClInclude Include="CDirectWrite.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -295,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="CStageMake.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
+    </ClCompile>
+    <ClCompile Include="CDirectWrite.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

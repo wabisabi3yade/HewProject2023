@@ -142,6 +142,7 @@
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="Ccontroller.h" />
+    <ClInclude Include="CDirectWrite.h" />
     <ClInclude Include="CEffect.h" />
     <ClInclude Include="CEffectAnim.h" />
     <ClInclude Include="CEffectManeger.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="Ccontroller.cpp" />
+    <ClCompile Include="CDirectWrite.cpp" />
     <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CEffectAnim.cpp" />
     <ClCompile Include="CEffectManeger.cpp" />
