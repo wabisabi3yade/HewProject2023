@@ -20,6 +20,9 @@ class CMizunoScene :
     D3DBUFFER fadeBuffer;
     D3DTEXTURE fadeTexture;
 
+    CObject* a[5];
+    D3DTEXTURE centerTexture;
+
     CLoadStage* stage;
     CStageMake* stageMake;
 
