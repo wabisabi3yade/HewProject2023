@@ -129,7 +129,7 @@ std::vector<Stage> CLoadStage::LoadStage(const char* filePath)
 		Stage stage;
 		for (int j = 0; j < StageYoko; j++)
 		{
-			stage.stage[j] = (int)strtod(datas.at(j).c_str(), NULL);
+			stage.stage[j] = (float)strtod(datas.at(j).c_str(), NULL);
 		}
 		stageTable.push_back(stage);
 		//stageTable.clear();

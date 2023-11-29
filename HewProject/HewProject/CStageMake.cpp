@@ -22,16 +22,16 @@ int CStageMake::StageNum(std::vector<Stage> _vStage)
 }
 std::vector<STAGEPOS> CStageMake::StagePos(std::vector<Stage> _vStage)
 {
-	int i = 0;
+	float i = 0;
 	STAGEPOS pushstagepos;
 	for (std::vector<Stage>::iterator it = _vStage.begin(); it < _vStage.end(); it++)
 	{
-		for (int j = 0; j < StageYoko; j++)
+		for (float j = 0; j < StageYoko; j++)
 		{
-			if (_vStage[i].stage[j] != 0)
+			if (_vStage[(int)i].stage[(int)j] != 0)
 			{
-				pushstagepos.Pos[0] = {i};
-				pushstagepos.Pos[1] = {j};
+				pushstagepos.Pos[0] = i;
+				pushstagepos.Pos[1] = j;
 				stagePos.push_back(pushstagepos);
 			}
 		}

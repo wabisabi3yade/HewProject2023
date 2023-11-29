@@ -15,7 +15,7 @@
 
 struct Stage
 {
-	int stage[StageYoko];
+	float stage[StageYoko];
 };
 
 enum Tag

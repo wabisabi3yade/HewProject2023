@@ -4,7 +4,7 @@ class CStage;
 
 struct STAGEPOS
 {
-	int Pos[2] = {0,0};
+	float Pos[2] = {0,0};
 };
 class CStageMake
 {
