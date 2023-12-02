@@ -1,4 +1,5 @@
 #include "CCamera.h"
+float CCamera::scaleScreen = 1.0f;	// ‰æ‘œ‚Ì‘å‚«‚³i’l‚ª¬‚³‚­‚È‚é‚Ù‚Ç‰æ‘œ‚Í‘å‚«‚­‚È‚éj
 
 using namespace DirectX;
 

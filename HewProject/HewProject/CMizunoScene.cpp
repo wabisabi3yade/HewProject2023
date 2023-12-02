@@ -30,7 +30,7 @@ CMizunoScene::CMizunoScene()
 
 
 	charObj = new CObject(charBuffer, charTexture);
-	charObj->mTransform.scale = { 2.0f,2.0f,2.0f };
+	charObj->mTransform.scale = { 3.0f,3.0f,3.0f };
 
 	charObj2 = new CObject(charBuffer2, charTexture2);
 	charObj2->mTransform.scale = { 3.0f,3.0f,1.0f };
@@ -46,7 +46,7 @@ CMizunoScene::CMizunoScene()
 
 	float kariX = 16.0f / 2.0f;
 	float kariY = 9.0f / 2.0f;
-	int XC = false;
+	int XC = 0;
 
 	for (auto& Stagepos : stagepos)
 	{
@@ -54,14 +54,12 @@ CMizunoScene::CMizunoScene()
 		//charObj2->mTransform.pos.x = Stagepos.Pos[0]- 8.0f/* - (charObj2->mTransform.scale.x / 2)*/;
 
 		//ステージの配置関連
-		charObj->mTransform.pos.x = Stagepos.Pos[0] - kariX - (charObj->mTransform.scale.x / 2);
-
-		if (!XC)
+		if (XC == 0)
 		{
-			charObj->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + kariY - (charObj->mTransform.scale.y / 2);
-			XC = true;
+			charObj->mTransform.pos.x = Stagepos.Pos[0] - kariX /** CCamera::scaleScreen*/ + (charObj->mTransform.scale.x / 2);
+			charObj->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + kariY /** CCamera::scaleScreen*/ - (charObj->mTransform.scale.y / 2);
 		}
-
+		XC++;
 	}
 	//charObj->mTransform.pos.y = +4.5f;
 	//Stagepos.Pos[0];
