@@ -52,12 +52,12 @@ void CObject::Draw()
 	XMVECTOR up = XMVectorSet(0, 1, 0, 0);	// カメラの上方向
 	XMMATRIX matrixView = XMMatrixLookAtLH(eye, focus, up);
 
-	float scaleScreen = 1.0f;	// 画像の大きさ（値が小さくなるほど画像は大きくなる）
+	//float scaleScreen = 1.0f;	// 画像の大きさ（値が小さくなるほど画像は大きくなる）
 
 	// 平行投影の行列作成
 	// 引数　①②：映し出す面の横縦の長さ　
 	// 　　　③④：映し出す空間の奥行（手前と最奥の距離）
-	cb.matrixProj = XMMatrixOrthographicLH(SCREEN_RATIO_W * scaleScreen, SCREEN_RATIO_H * scaleScreen, 0.0f, 3.0f);
+	cb.matrixProj = XMMatrixOrthographicLH(SCREEN_RATIO_W * mCamera->scaleScreen, SCREEN_RATIO_H * mCamera->scaleScreen, 0.0f, 3.0f);
 	// XMMatrixTranspose = 転置行列を作る(並び方を整える）
 	// カメラを反映
 	cb.matrixProj = XMMatrixTranspose(matrixView * cb.matrixProj);
@@ -65,7 +65,7 @@ void CObject::Draw()
 	// ワールド変換行列の作成
 	// 移動行列
 	// gCamera（カメラ）からの相対的な座標で描画する
-	XMMATRIX matrixMove = XMMatrixTranslation(mTransform.pos.x, mTransform.pos.y, mTransform.pos.z);
+	XMMATRIX matrixMove = XMMatrixTranslation(mTransform.pos.x * mCamera->scaleScreen, mTransform.pos.y * mCamera->scaleScreen, mTransform.pos.z);
 	// 拡大縮小行列
 	XMMATRIX matrixScale = XMMatrixScaling(mTransform.scale.x, mTransform.scale.y, mTransform.scale.z);
 	// 回転行列(Z軸）

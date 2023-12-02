@@ -18,6 +18,7 @@ class CCamera
 	static CCamera* instance;
 
 public:
+	static float scaleScreen;	// 画像の大きさ（値が小さくなるほど画像は大きくなる）
 	// インスタンスをを取得
 	// 初めて呼び出されたらインスタンスを生成
 	static CCamera* GetInstance();
