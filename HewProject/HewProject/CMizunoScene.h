@@ -4,6 +4,7 @@
 #include"Ccontroller.h"
 #include"CFade.h"
 #include"CStageMake.h"
+#include<vector>
 class CMizunoScene :
     public CScene
 {
@@ -28,6 +29,8 @@ class CMizunoScene :
 
     CObject* stageobj[34];
 
+    std::vector<CObject*> stageObj;
+
     Input input;
 public:
     CMizunoScene();
@@ -41,3 +44,4 @@ public:
     void Draw() override;
 };
 
+void Z_Sort(std::vector<CObject*> _sortList);
