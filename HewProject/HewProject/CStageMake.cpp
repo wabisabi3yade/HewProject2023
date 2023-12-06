@@ -30,8 +30,8 @@ std::vector<STAGEPOS> CStageMake::StagePos(std::vector<Stage> _vStage)
 		{
 			if (_vStage[(int)i].stage[(int)j] != 0)
 			{
-				pushstagepos.Pos[0] = i;
-				pushstagepos.Pos[1] = j;
+				pushstagepos.Pos[0] = j;
+				pushstagepos.Pos[1] = i;
 				stagePos.push_back(pushstagepos);
 			}
 		}

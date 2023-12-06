@@ -124,6 +124,9 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Make">
       <UniqueIdentifier>{62a9e623-fec9-4ec1-8485-7dd1197a2548}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Time">
+      <UniqueIdentifier>{fad93da0-9973-4f64-8b31-799f2f0c72eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -213,6 +216,9 @@
     <ClInclude Include="CDirectWrite.h">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
     </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>ソース ファイル\Mizuno\Time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -301,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="CDirectWrite.cpp">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル\Mizuno\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

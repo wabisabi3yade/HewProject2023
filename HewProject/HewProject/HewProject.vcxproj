@@ -164,6 +164,7 @@
     <ClInclude Include="CWakamuraScene.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="WICTextureLoader.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DoTween.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
     <ClCompile Include="xa2.cpp" />

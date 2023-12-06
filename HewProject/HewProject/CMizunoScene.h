@@ -26,6 +26,8 @@ class CMizunoScene :
     CLoadStage* stage;
     CStageMake* stageMake;
 
+    CObject* stageobj[34];
+
     Input input;
 public:
     CMizunoScene();

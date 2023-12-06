@@ -10,10 +10,10 @@ void Time::Update()
 {
 	if (isSlow)
 	{
-		slowTime = deltaTime / 10;
+		slowTime = 1.0f / 10;
 	}
 	else
 	{
-		slowTime = deltaTime;
+		slowTime = 1.0f;
 	}
 }
