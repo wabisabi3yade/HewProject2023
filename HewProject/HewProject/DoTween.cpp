@@ -1,5 +1,5 @@
 #include "DoTween.h"
-
+#include"Time.h"
 
 int  debugCnt = 0;
 
@@ -19,7 +19,7 @@ void DoTween::Update()
 			return;
 			break;
 		case DoTween::MOVE:
-			moveTime -= 1 / 60.0f;
+			moveTime -= 1 / 60.0f * Time::slowTime;
 			switch (movedir)
 			{
 			case TO_TOP_LEFT:
@@ -72,7 +72,7 @@ void DoTween::Update()
 			}
 			break;
 		case DoTween::MOVEX:
-			moveTime -= 1 / 60.0f;
+			moveTime -= 1 / 60.0f * Time::slowTime;
 			objptr->SetMoveSpeed(moveSpeed);
 			if (movedir == MOVEDIR::RIGHT)
 			{
@@ -92,7 +92,7 @@ void DoTween::Update()
 			}
 			break;
 		case DoTween::MOVEY:
-			moveTime -= 1 / 60.0f;
+			moveTime -= 1 / 60.0f * Time::slowTime;
 			objptr->SetMoveSpeed(moveSpeed);
 			if (movedir == MOVEDIR::UP)
 			{
@@ -112,11 +112,11 @@ void DoTween::Update()
 			}
 			break;
 		case DoTween::SCALEDOWN:
-			moveTime -= 1 / 60.0f;
+			moveTime -= 1 / 60.0f * Time::slowTime;
 			if (objptr->mTransform.scale >= Vector3::zero)
 			{
-				objptr->mTransform.scale.x -= moveSpeed;
-				objptr->mTransform.scale.y -= moveSpeed;
+				objptr->mTransform.scale.x -= moveSpeed * Time::slowTime;
+				objptr->mTransform.scale.y -= moveSpeed * Time::slowTime;
 			}
 			if (moveTime < 0)
 			{
@@ -128,11 +128,11 @@ void DoTween::Update()
 			}
 			break;
 		case DoTween::SCALEUP:
-			moveTime -= 1 / 60.0f;
-			objptr->mTransform.scale.x += moveSpeed;
-			objptr->mTransform.scale.y += moveSpeed;
+			moveTime -= 1 / 60.0f * Time::slowTime;
+			objptr->mTransform.scale.x += moveSpeed *Time::slowTime;
+			objptr->mTransform.scale.y += moveSpeed * Time::slowTime;
 			//objptr->mTransform.scale.z += moveSpeed;
-			if (moveTime < 0)
+			if (moveTime  < 0)
 			{
 				moveTime = 0;
 				objptr->SetMoveSpeed(0);
@@ -145,14 +145,14 @@ void DoTween::Update()
 			nowTime += 1.0f / 60;
 			float t = nowTime * (1.0f / moveTime);
 			objptr->mTransform.pos.x =
-				(pow((1 - t), 2) * oldPos.x)
+				((pow((1 - t), 2) * oldPos.x)
 				+ (2 * t) * (1 - t) * ((oldPos.x + targetPos.x) / 2)
-				+ (pow(t, 2) * targetPos.x);
+				+ (pow(t, 2) * targetPos.x)*Time::slowTime);
 
 			objptr->mTransform.pos.y =
-				(pow((1 - t), 2) * oldPos.y)
+				((pow((1 - t), 2) * oldPos.y)
 				+ (2 * t) * (1 - t) * ((oldPos.y + targetPos.y) / 2 + curvePos)
-				+ (pow(t, 2) * targetPos.y);
+				+ (pow(t, 2) * targetPos.y) * Time::slowTime);
 
 			if (moveTime <= nowTime)
 			{
@@ -202,7 +202,7 @@ void DoTween::DoMoveX(CObject* _Objptr, float _moveSpeed, float _moveTime, MOVED
 	if (!IsDoMove)
 	{
 		objptr = _Objptr;
-		moveSpeed = _moveSpeed / (_moveTime * 60);
+		moveSpeed = _moveSpeed / (_moveTime * 60) * Time::slowTime;
 		moveTime = _moveTime - (1.0 / 60);
 		IsDoMove = true;
 		movedir = _movedir;
@@ -215,7 +215,7 @@ void DoTween::DoMoveY(CObject* _Objptr, float _moveSpeed, float _moveTime, MOVED
 	if (!IsDoMove)
 	{
 		objptr = _Objptr;
-		moveSpeed = _moveSpeed / (_moveTime * 60);
+		moveSpeed = _moveSpeed / (_moveTime * 60) * Time::slowTime;
 		moveTime = _moveTime - (1.0 / 60);
 		IsDoMove = true;
 		movedir = _movedir;
