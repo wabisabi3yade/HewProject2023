@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include<DirectXMath.h>
-
+#include<list>
 //このインクルードここでやるとおかしくなるかも　mainとかで
 #include <iostream>
 #include <fstream>
@@ -46,6 +46,7 @@ public:
 	
 	std::vector<DATA>LoadData(const char* filePath);
 	std::vector<Stage>LoadStage(const char* filePath);
+	std::list<Stage>LoadStageList(const char* filePath);
 
 };
 

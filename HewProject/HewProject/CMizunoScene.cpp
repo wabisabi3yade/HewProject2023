@@ -11,7 +11,6 @@
 float fixedCount = 0;	//fpsŒÅ’è—p•Ï”
 void Z_Sort(std::vector<CObject*> _sortList)
 {
-
 	std::sort(_sortList.begin(), _sortList.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
 }
 
@@ -102,7 +101,7 @@ CMizunoScene::CMizunoScene()
 		if(XC ==2)
 		stageobj[XC]->mTransform.pos.z =  -0.3f;
 		*/
-		stageobj[XC]->mTransform.pos.z = -0.5f + 0.01f * XC;
+			stageobj[XC]->mTransform.pos.z = -0.5f + 0.01f * XC;
 		}
 		stageObj.push_back(stageobj[XC]);
 		XC++;
