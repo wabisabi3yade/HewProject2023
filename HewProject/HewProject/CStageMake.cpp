@@ -1,41 +1,41 @@
 #include "CStageMake.h"
 
-int CStageMake::StageNum(std::vector<Stage> _vStage)
+int CStageMake::StageNum(std::vector<aaa> _vStage, int _stageY)
 {
 	int i = 0;
-	for (std::vector<Stage>::iterator it = _vStage.begin(); it < _vStage.end(); it++)
+	for (std::vector<aaa>::iterator it = _vStage.begin(); it < _vStage.end(); it++)
 	{
-		for (int j = 0; j < StageYoko; j++)
+		for (int j = 0; j < _stageY; j++)
 		{
-			if (_vStage[i].stage[j] != 0)
+			if ((*it).data != 0)
 			{
 				Stagenum++;
-				//STAGEPOS pushstagepos;
-				//pushstagepos.Pos[0] = {i};
-				//pushstagepos.Pos[1] = {j};
-				//StagePos.push_back(pushstagepos);
+
 			}
 		}
 		i++;
 	}
 	return Stagenum;
 }
-std::vector<STAGEPOS> CStageMake::StagePos(std::vector<Stage> _vStage)
+
+std::vector<STAGEPOS> CStageMake::StagePos(std::vector<aaa> _vStage, int _stageY)
 {
 	float i = 0;
 	STAGEPOS pushstagepos;
-	for (std::vector<Stage>::iterator it = _vStage.begin(); it < _vStage.end(); it++)
+	for (std::vector<aaa>::iterator it = _vStage.begin(); it < _vStage.end(); )
 	{
-		for (float j = 0; j < StageYoko; j++)
+		for (float j = 0; j < _stageY; j++)
 		{
-			if (_vStage[(int)i].stage[(int)j] != 0)
+			if ((*it).data != 0)
 			{
 				pushstagepos.Pos[0] = j;
 				pushstagepos.Pos[1] = i;
 				stagePos.push_back(pushstagepos);
 			}
+			it++;
 		}
 		i++;
 	}
 	return stagePos;
 }
+
