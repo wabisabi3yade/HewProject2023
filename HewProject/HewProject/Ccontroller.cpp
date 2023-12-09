@@ -1,7 +1,8 @@
 #include "Ccontroller.h"
 
 //静的変数
-XINPUT_STATE Input::ControllerState;//コントローラーの状態
+XINPUT_STATE Input::ControllerState; //コントローラーの状態
+XINPUT_STATE Input::FControllerState;//前のコントローラーの状態
 
 //初期化
 void Input::Init() {}
@@ -70,6 +71,23 @@ float Input::GetVertical()
 	}
 }
 
+//十字キーの縦入力
+bool Input::FDpadVertical=false;
+bool Input::GetDpadVerticaldown() { return GetDpadVertical() && !FDpadVertical; }
+bool Input::GetDpadVertical()
+{
+	if (GetController(Pad_UP))
+	{
+		return true;
+	}
+	if (GetController(Pad_DOWN))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 //横入力
 float Input::GetHorizontal()
 {
@@ -80,15 +98,37 @@ float Input::GetHorizontal()
 	}
 }
 
+//十字キーの横入力
+bool Input::FDpadHorizontal = false;
+bool Input::GetDpadHorizontalDown() { return GetDpadHorizontal() && !FDpadHorizontal; }
+bool Input::GetDpadHorizontal()
+{
+	if (GetController(Pad_L))
+	{
+		return true;
+	}
+	if (GetController(Pad_R))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
 //Xボタン
-bool Input::GetDecisionDown()
+bool Input::FDecision = false;
+bool Input::GetDecisionDown() { return GetDecision() && !FDecision; }
+bool Input::GetDecision()
 {
 	if (GetController(Pad_X)) { return true; }	//Aが押されたらtrueを返す
 	return false;
 }
 
 //Bボタン
-bool Input::GetCancelDown()
+bool Input::FCancel = false;
+bool Input::GetCancelDown() { return GetCancel() && !FCancel; }
+bool Input::GetCancel()
 {
 	if (GetController(Pad_B)) { return true; }	//Bが押されたらtrueを返す
 	return false;
