@@ -1,10 +1,11 @@
 #pragma once
 #include "CScene.h"
-#include "DoTween.h"
-#include"Ccontroller.h"
-#include"CFade.h"
 #include"CStageMake.h"
+#include"Ccontroller.h"
+#include "DoTween.h"
+#include"CFade.h"
 #include<vector>
+#include<list>
 class CMizunoScene :
     public CScene
 {
@@ -30,7 +31,8 @@ class CMizunoScene :
     CObject* stageobj[34];
 
     std::vector<CObject*> stageObj;
-
+    std::list<CObject*> stageObjList;
+    int ss = 0;
     Input input;
 public:
     CMizunoScene();
@@ -44,4 +46,5 @@ public:
     void Draw() override;
 };
 
-void Z_Sort(std::vector<CObject*> _sortList);
+void Z_Sort(std::vector<CObject*>& _sortList);
+void Z_SortList(std::list<CObject*> _sortList);

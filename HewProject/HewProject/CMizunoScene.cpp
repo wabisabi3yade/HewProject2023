@@ -7,10 +7,11 @@
 #include<iostream>
 #include<algorithm>
 
-#define stageChack (13)
+#define stageChack (4)
 float fixedCount = 0;	//fpså≈íËópïœêî
-void Z_Sort(std::vector<CObject*> _sortList)
+void Z_Sort(std::vector<CObject*>& _sortList)
 {
+
 	std::sort(_sortList.begin(), _sortList.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
 }
 
@@ -30,13 +31,16 @@ CMizunoScene::CMizunoScene()
 	stage = new CLoadStage;
 	stageMake = new CStageMake;
 
-	std::vector<Stage> StageTable = stage->LoadStage("asset/mizuno/Stage.csv");
-	std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageTable);
+	std::vector<aaa> ZZ = stage->LoadStage("asset/mizuno/Stage.csv");
+	std::vector<STAGEPOS> stagepos = stageMake->StagePos(ZZ,13);
+	//std::vector<Stage> StageTable = stage->LoadStage("asset/mizuno/Stage.csv");
+	//std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageTable);
+	
 
 	for (int i = 0; i < 34; i++)
 	{
 		stageobj[i] = new CObject(charBuffer2, charTexture);
-		stageobj[i]->mTransform.scale = { 3.0f,3.0f,3.0f };
+		stageobj[i]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	}
 
 
@@ -101,12 +105,13 @@ CMizunoScene::CMizunoScene()
 		if(XC ==2)
 		stageobj[XC]->mTransform.pos.z =  -0.3f;
 		*/
-			stageobj[XC]->mTransform.pos.z = -0.5f + 0.01f * XC;
+		stageobj[XC]->mTransform.pos.z = -0.5f + 0.01f * XC;
 		}
 		stageObj.push_back(stageobj[XC]);
 		XC++;
 
 	}
+	//std::sort(stageObj.begin(), stageObj.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
 
 	Z_Sort(stageObj);
 
@@ -182,11 +187,15 @@ void CMizunoScene::Update()
 	{
 		doToween->DoMoveX(charObj, 1.0f, 0.5f, MOVEDIR::RIGHT);
 		//charObj->mTransform.pos.x += 1;
+		if(ss>0)
+		ss--;
 	}
 	if (gInput->GetKeyTrigger(VK_LEFT))
 	{
 		//doToween->DoMoveX(charObj, 1.0f, 0.5f, MOVEDIR::LEFT);
 		Time::isSlow = true;
+		if(ss<33)
+		ss++;
 	}
 	if (gInput->GetKeyTrigger(VK_UP))
 	{
@@ -219,7 +228,7 @@ void CMizunoScene::Update()
 	fixedCount += 1.0f * Time::deltaTime;
 	if (fixedCount > 1.0f / 60)
 	{
-		doToween->Update();
+		//doToween->Update();
 		charObj->Update();
 
 	for (int i = 0; i < 34; i++)
@@ -247,22 +256,22 @@ void CMizunoScene::Update()
 
 
 
-	Vector3 x(stageObj[stageChack]->mTransform.pos.x, stageObj[stageChack]->mTransform.pos.y, stageObj[stageChack]->mTransform.pos.z);
+	Vector3 x(stageObj[ss]->mTransform.pos.x, stageObj[ss]->mTransform.pos.y, stageObj[stageChack]->mTransform.pos.z);
 
 	a[0]->mTransform.pos.x = x.x; // stageObj[0]2->mTransform.pos;
 	a[0]->mTransform.pos.y = x.y; // stageObj[0]2->mTransform.pos;
 
-	a[1]->mTransform.pos.x = x.x - stageObj[stageChack]->mTransform.scale.x / 2;
-	a[1]->mTransform.pos.y = x.y + stageObj[stageChack]->mTransform.scale.y / 2;
+	a[1]->mTransform.pos.x = x.x - stageObj[ss]->mTransform.scale.x / 2;
+	a[1]->mTransform.pos.y = x.y + stageObj[ss]->mTransform.scale.y / 2;
 
-	a[2]->mTransform.pos.x = x.x + stageObj[stageChack]->mTransform.scale.x / 2;
-	a[2]->mTransform.pos.y = x.y + stageObj[stageChack]->mTransform.scale.y / 2;
+	a[2]->mTransform.pos.x = x.x + stageObj[ss]->mTransform.scale.x / 2;
+	a[2]->mTransform.pos.y = x.y + stageObj[ss]->mTransform.scale.y / 2;
 
-	a[3]->mTransform.pos.x = x.x + stageObj[stageChack]->mTransform.scale.x / 2;
-	a[3]->mTransform.pos.y = x.y - stageObj[stageChack]->mTransform.scale.y / 2;
+	a[3]->mTransform.pos.x = x.x + stageObj[ss]->mTransform.scale.x / 2;
+	a[3]->mTransform.pos.y = x.y - stageObj[ss]->mTransform.scale.y / 2;
 
-	a[4]->mTransform.pos.x = x.x - stageObj[stageChack]->mTransform.scale.x / 2;
-	a[4]->mTransform.pos.y = x.y - stageObj[stageChack]->mTransform.scale.y / 2;
+	a[4]->mTransform.pos.x = x.x - stageObj[ss]->mTransform.scale.x / 2;
+	a[4]->mTransform.pos.y = x.y - stageObj[ss]->mTransform.scale.y / 2;
 
 	//a->mTransform.pos.z = x.z; // charObj2->mTransform.pos;
 	charObj2->Update();
@@ -290,7 +299,7 @@ void CMizunoScene::Draw()
 {
 	charObj->Draw();
 	//charObj2->Draw();
-	for (int i = 0; i < stageChack+1; i++)
+	for (int i = 0; i < 34; i++)
 	{
 		//if(i == 0 || i==1 || i==13 ||i == 14)
 		stageObj[i]->Draw();

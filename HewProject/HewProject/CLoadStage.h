@@ -9,30 +9,27 @@
 #include <fstream>
 #include <sstream>
 //
-#define StageTate 3
-#define StageYoko 13
 
 
-struct Stage
+
+//struct Stage
+//{
+//	float stage[13];
+//};
+//enum Stagesuu
+//{
+//	stageone
+//};
+struct STAGE_XY
 {
-	float stage[StageYoko];
+	DirectX::XMFLOAT2 pos;
 };
 
-enum Tag
-{
-	PlayerTag = 0,
-	EnemyTag = 1,
-	PlayerBullet = 2,
-	EnemyBullet = 3,
-};
 
 
-struct DATA
+struct aaa
 {
-	std::string Name;
-	DirectX::XMFLOAT3 StartPos;
-	double HP;
-	Tag Tag;
+	int data;
 };
 
 class CLoadStage
@@ -44,9 +41,8 @@ public:
 	//CLoadStage();
 	//~CLoadStage();
 	
-	std::vector<DATA>LoadData(const char* filePath);
-	std::vector<Stage>LoadStage(const char* filePath);
-	std::list<Stage>LoadStageList(const char* filePath);
+
+	std::vector<aaa>LoadStage(const char* filePath);
 
 };
 

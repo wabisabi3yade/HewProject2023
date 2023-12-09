@@ -127,6 +127,9 @@
     <Filter Include="ソース ファイル\Mizuno\Time">
       <UniqueIdentifier>{fad93da0-9973-4f64-8b31-799f2f0c72eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\StageScene">
+      <UniqueIdentifier>{8b0aea10-a1cd-42cd-b0b9-5a4a81875ee6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="Time.h">
       <Filter>ソース ファイル\Mizuno\Time</Filter>
     </ClInclude>
+    <ClInclude Include="StageScene.h">
+      <Filter>ソース ファイル\Mizuno\Stage\StageScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -310,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>ソース ファイル\Mizuno\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="StageScene.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\StageScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
