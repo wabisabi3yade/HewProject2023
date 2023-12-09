@@ -11,7 +11,8 @@
 class Input
 {
 	//コントローラーの状態を表す
-	static XINPUT_STATE ControllerState;
+	static XINPUT_STATE ControllerState;	//今のコントローラーの状態
+	static XINPUT_STATE FControllerState;	//前フレームのコントローラーの状態
 
 public:
 
@@ -29,12 +30,22 @@ public:
 	static float GetControllerTrigger(int);	//trigger(LT,RT)
 
 	//入力
-	static float GetVertical();		//縦入力
-	static float GetHorizontal();	//横入力
-	static bool GetDecisionDown();	//決定入力
-	static bool GetCancelDown();	//キャンセル
-	static bool GetJumpDown();		//ジャンプ
-	static bool GetAttackDown();	//攻撃
+	static float GetVertical();			//縦入力
+	static float GetHorizontal();		//横入力
+	static bool FDpadVertical;
+	static bool GetDpadVerticaldown();		//十字キーの縦入力
+	static bool GetDpadVertical();
+	static bool FDpadHorizontal;
+	static bool GetDpadHorizontalDown();//十字キーの横入力
+	static bool GetDpadHorizontal();
+	static bool FDecision;
+	static bool GetDecisionDown();		//決定入力
+	static bool GetDecision();
+	static bool FCancel;
+	static bool GetCancelDown();		//キャンセル
+	static bool GetCancel();
+	static bool GetJumpDown();			//ジャンプ
+	static bool GetAttackDown();		//攻撃
 
 	//更新
 	static void Update();
