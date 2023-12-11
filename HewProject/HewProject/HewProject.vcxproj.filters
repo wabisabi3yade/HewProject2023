@@ -130,6 +130,15 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\StageScene">
       <UniqueIdentifier>{8b0aea10-a1cd-42cd-b0b9-5a4a81875ee6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player">
+      <UniqueIdentifier>{1e83258f-39ac-46d1-bbfc-811e1a76fa3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Grid">
+      <UniqueIdentifier>{823d067e-9176-4aa6-8848-59a6237cee0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\Vector2">
+      <UniqueIdentifier>{00374157-292e-48cb-9a1f-6469169f1c70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -225,6 +234,12 @@
     <ClInclude Include="StageScene.h">
       <Filter>ソース ファイル\Mizuno\Stage\StageScene</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソース ファイル\Hashimoto\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrid.h">
+      <Filter>ソース ファイル\Hashimoto\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -319,6 +334,12 @@
     </ClCompile>
     <ClCompile Include="StageScene.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrid.cpp">
+      <Filter>ソース ファイル\Hashimoto\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
