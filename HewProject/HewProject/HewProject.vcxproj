@@ -147,6 +147,7 @@
     <ClInclude Include="CEffectAnim.h" />
     <ClInclude Include="CEffectManeger.h" />
     <ClInclude Include="CFade.h" />
+    <ClInclude Include="CGrid.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CKawadaScene.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="CWakamuraScene.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="StageScene.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
@@ -180,6 +182,7 @@
     <ClCompile Include="CEffectAnim.cpp" />
     <ClCompile Include="CEffectManeger.cpp" />
     <ClCompile Include="CFade.cpp" />
+    <ClCompile Include="CGrid.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
@@ -198,6 +201,7 @@
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DoTween.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Vector3.cpp" />
