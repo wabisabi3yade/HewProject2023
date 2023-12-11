@@ -240,6 +240,9 @@
     <ClInclude Include="CGrid.h">
       <Filter>ソース ファイル\Hashimoto\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -340,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="CGrid.cpp">
       <Filter>ソース ファイル\Hashimoto\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
