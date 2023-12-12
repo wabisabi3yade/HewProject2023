@@ -1,5 +1,6 @@
 #pragma once
 #include "CObject.h"
+#include <iostream>
 
 class CGrid;
 
@@ -7,12 +8,20 @@ class CGrid;
 class Player: 
 	public CObject
 {
-	CGrid* grid;
-
+	// グリッドクラスのポインタ
+	std::shared_ptr<CGrid> grid;
 
 public:
 	Player(D3DBUFFER vb, D3DTEXTURE tex);
 
+	void Update() override;
+	// プレイヤーが移動する関数(1マスずつ)
+	void Move();
+
+	void Draw() override;
+
 	~Player();
+
+	CGrid* GetGrid();
 };
 
