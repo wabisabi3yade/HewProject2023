@@ -14,7 +14,7 @@ Vector3::Vector3(float _x, float _y, float _z)
 
 Vector3 Vector3::operator+(Vector3 _v)
 {
-	Vector3 ret(this->x - _v.x, this->y - _v.y, this->z - _v.z);
+	Vector3 ret(this->x + _v.x, this->y + _v.y, this->z + _v.z);
 	return ret;
 }
 
@@ -79,4 +79,10 @@ DirectX::XMFLOAT3* dirChange(Vector3 _vec)
 {
 	DirectX::XMFLOAT3 v(_vec.x, _vec.y, _vec.z);
 	return &v;
+}
+
+Vector3 dirChangeVec3(DirectX::XMFLOAT3 _xmf3)
+{
+	Vector3 v(_xmf3.x, _xmf3.y, _xmf3.z);
+	return v;
 }
