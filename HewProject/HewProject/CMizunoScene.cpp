@@ -84,9 +84,10 @@ CMizunoScene::CMizunoScene()
 		}
 
 		// stagepos‚©‚ç‰½s–Ú‚©‚ðŒ©‚È‚¢‚Æ•ª‚©‚ç‚È‚¢@13*3‚Ìƒ‚ƒm‚©‚ç0‚ª“ü‚Á‚Ä‚¢‚é‚à‚Ì•ªˆø‚¢‚Ä‚ ‚é‚©‚ç
-		if (Stagepos.Pos[0] == 0)
+		int kari = (int)Stagepos.Pos[0];
+		if (kari % 13 == 0)
 		{
-			if (XC / 13 == 0)
+			if (Stagepos.Pos[1] == 0)
 			{
 				stageobj[XC]->mTransform.pos.x = Stagepos.Pos[0] - kariX + (stageobj[XC]->mTransform.scale.x / 2);
 				stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + 0.1f - (stageobj[XC]->mTransform.scale.y / 2);
@@ -94,16 +95,16 @@ CMizunoScene::CMizunoScene()
 			}
 			else
 			{
-				stageobj[XC]->mTransform.pos.x = Stagepos.Pos[0] - kariX + (stageobj[XC]->mTransform.scale.x / 2) + (stageobj[XC]->mTransform.scale.x / 2);
+				stageobj[XC]->mTransform.pos.x = Stagepos.Pos[0] - kariX + (stageobj[XC]->mTransform.scale.x / 2) + (stageobj[XC]->mTransform.scale.x / 2) + (stageobj[XC]->mTransform.scale.x / 2)*(Stagepos.Pos[1]);
 				//stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + 0.1f * XC  - (stageobj[XC]->mTransform.scale.y / 2 ) - stageobj[XC]->mTransform.scale.y / 3 - 0.2f;
-				stageobj[XC]->mTransform.pos.y = /*(Stagepos.Pos[1] * -1.0f)*/ + 0.1f - (stageobj[XC]->mTransform.scale.y / 2) - ((stageobj[XC]->mTransform.scale.y / 2) * (XC / 13.0f));
+				stageobj[XC]->mTransform.pos.y = /*(Stagepos.Pos[1] * -1.0f)*/ + 0.1f - (stageobj[XC]->mTransform.scale.y / 2) - ((stageobj[XC]->mTransform.scale.y ) * (Stagepos.Pos[1]));
 				stageobj[XC]->mTransform.pos.z = -0.5f + (0.01f * XC / 13.0f);
 			}
 		}
 		else
 		{
-			stageobj[XC]->mTransform.pos.x = -kariX + (stageobj[XC]->mTransform.scale.x / 2) + ((stageobj[XC]->mTransform.scale.x / 2) * (int)(XC % 13));
-			stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) - (stageobj[XC]->mTransform.scale.y / 2) + ((stageobj[XC]->mTransform.scale.y / 2) * (int)(XC % 13) - (stageobj[XC]->mTransform.scale.y /2 * (int)(XC/13.0f))) + 0.1f;
+			stageobj[XC]->mTransform.pos.x = -kariX + (stageobj[XC]->mTransform.scale.x / 2) + ((stageobj[XC]->mTransform.scale.x /2) * (int)(kari%13));
+			stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) - (stageobj[XC]->mTransform.scale.y / 2) + ((stageobj[XC]->mTransform.scale.y / 2) * (Stagepos.Pos[1]) - (stageobj[XC]->mTransform.scale.y /2 * (Stagepos.Pos[1]))) + 0.1f;
 			//stageobj[XC]->mTransform.pos.y = -(stageobj[XC]->mTransform.scale.y / 2) + ((stageobj[XC]->mTransform.scale.y / 2) * (int)(XC / 13)) + 0.1f;
 
 			
@@ -119,9 +120,9 @@ CMizunoScene::CMizunoScene()
 	}
 	stageObj[14]->mTransform.pos.y -= stageObj[14]->mTransform.scale.y / 2;
 	stageObj[14]->mTransform.pos.x += stageObj[14]->mTransform.scale.x / 2;
-	std::sort(stageObj.begin(), stageObj.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
+	//std::sort(stageObj.begin(), stageObj.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
 
-	//Z_Sort(stageObj);
+	Z_Sort(stageObj);
 
 	//charObj->mTransform.pos.y = +4.5f;
 	//Stagepos.Pos[0];
@@ -225,7 +226,7 @@ void CMizunoScene::Update()
 	}
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
-		doToween->DoScaleUp(charObj, 5.0f, 1.0f);
+		//doToween->DoScaleUp(charObj, 5.0f, 1.0f);
 		//Vector3 kari = { 4,0,0 };
 		//doToween->DoMoveCurve(charObj, kari, 3.5f, 0.2f);
 
@@ -307,7 +308,7 @@ void CMizunoScene::Draw()
 {
 	charObj->Draw();
 	//charObj2->Draw();
-	for (int i = 0; i < 33; i++)
+	for (int i = 0; i < 34; i++)
 	{
 		//if(i == 0 || i==1 || i==13 ||i == 14)
 		stageObj[i]->Draw();
