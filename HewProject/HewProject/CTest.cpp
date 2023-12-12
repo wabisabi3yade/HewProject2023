@@ -1,5 +1,7 @@
 #include "CTest.h"
 #include "CSceneManager.h"
+#include "Player.h"
+#include "CGrid.h"
 
 CTest::CTest()
 {
@@ -8,6 +10,11 @@ CTest::CTest()
 
 	charObj = new CObject(charBuffer, charTexture);
 	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
+
+	Player* player = new Player(charBuffer, charTexture);
+
+	CGrid* grid = player->GetGrid();
+	grid->gridPos.y = 10;
 }
 
 CTest::~CTest()
