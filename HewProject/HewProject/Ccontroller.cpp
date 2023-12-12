@@ -7,6 +7,8 @@ XINPUT_STATE Input::FControllerState;//前のコントローラーの状態
 //初期化
 void Input::Init() {}
 
+
+
 //setter
 //特になし！
 
@@ -17,11 +19,10 @@ bool Input::GetControllerUp(int _button) { return !(ControllerState.Gamepad.wBut
 
 //スティックの入力
 //引数0or1でL,Rを判定
-bool Input::GetControllerStick(int _stick)
+int Input::GetControllerStick(int _stick)
 {
 	int Value=0;
 	float x = 0, y = 0;
-
 
 	switch (_stick)
 	{
@@ -36,7 +37,7 @@ bool Input::GetControllerStick(int _stick)
 		y = ControllerState.Gamepad.sThumbRY;	//右スティックのY軸
 		break;
 	};
-	return Value; (x, y) / 32768;	//XInputは65535段階(-32768～327768)int型
+	return Value,(x,y) / 32767;	//XInputは65535段階(-32767～32767)
 }
 
 
