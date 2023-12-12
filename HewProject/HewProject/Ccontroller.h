@@ -23,10 +23,10 @@ public:
 	//setterは特になし！
 
 	//Getter
-	static bool GetControllerDown(int);		//ボタンが押されたか
-	static bool GetController(int);			//ボタンが押されているか
-	static bool GetControllerUp(int);		//ボタンが離されたか
-	static bool GetControllerStick(int);	//スティック
+	static bool	 GetControllerDown(int);		//ボタンが押されたか
+	static bool  GetController(int);			//ボタンが押されているか
+	static bool  GetControllerUp(int);		//ボタンが離されたか
+	static int   GetControllerStick(int);	//スティック
 	static float GetControllerTrigger(int);	//trigger(LT,RT)
 
 	//入力
