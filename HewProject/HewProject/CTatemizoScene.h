@@ -1,7 +1,7 @@
 #pragma once
 #include "CScene.h"
 #include "Ccontroller.h"
-#include "CPlayer.h"
+//#include "CPlayer.h"
 
 class CTatemizoScene :
 	public CScene
@@ -23,6 +23,6 @@ public:
 	void Draw() override;
 
 private:
-	CPlayer* player;  // CPlayer クラスのポインタをメンバーとして持つ
+	//CPlayer* player;  // CPlayer クラスのポインタをメンバーとして持つ
 };
 
