@@ -145,9 +145,7 @@ HRESULT DirectWrite::Init(HWND hwnd)
 
 	// //バックバッファの取得
 	// //型：IDXGISwapChain
-	//hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
-	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-	//hr = pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+	hr = m_pSwapChain->GetBuffer(0,IID_PPV_ARGS(&pBackBuffer));
 
 	// dpiの設定
 	FLOAT dpiX;
@@ -156,15 +154,11 @@ HRESULT DirectWrite::Init(HWND hwnd)
 	dpiX = (FLOAT)GetDpiForWindow(GetDesktopWindow());
 	dpiY = dpiX;
 
-	//pD2DFactory->GetDesktopDpi(&dpiX, &dpiY);
-
 	// レンダーターゲットの作成
 	D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED), dpiX, dpiY);
-	D2D1_HWND_RENDER_TARGET_PROPERTIES props2 = D2D1::HwndRenderTargetProperties(hwnd, { 1920,1080 });
 
 	// サーフェスに描画するレンダーターゲットを作成
-	pD2DFactory->CreateHwndRenderTarget(&props, &props2, &pRT);
-
+	pD2DFactory->CreateDxgiSurfaceRenderTarget(pBackBuffer, &props, &pRT);
 
 	//// アンチエイリアシングモード
 	pRT->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE);

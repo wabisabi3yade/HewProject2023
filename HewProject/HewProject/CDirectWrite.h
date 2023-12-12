@@ -71,11 +71,9 @@ private:
 	IDWriteFactory* pDWriteFactory = NULL;
 	IDWriteTextFormat* pTextFormat = NULL;
 	IDWriteTextLayout* pTextLayout = NULL;
-	ID2D1HwndRenderTarget* pRT = NULL;
+	ID2D1RenderTarget* pRT = NULL;
 	ID2D1SolidColorBrush* pSolidBrush = NULL;
 	IDXGISurface* pBackBuffer = NULL;
-
-	//IDXGISwapChain* pSwapChain = NULL;
 
 	// フォントデータ
 	FontData* Setting = new FontData();
