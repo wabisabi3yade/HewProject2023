@@ -1,15 +1,33 @@
 #include "Player.h"
 #include "CGrid.h"
 
-#include <iostream>
+
 
 Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	:CObject(vb, tex)
 {
 	// グリッドクラスのポインタ
-	std::shared_ptr<CGrid> grid(new CGrid);
+	grid = std::make_shared<CGrid>();
+	grid->gridPos.x = 10;
+}
+
+void Player::Update()
+{
+}
+
+void Player::Draw()
+{
+}
+
+void Player::Move()
+{
 }
 
 Player::~Player()
 {
+}
+
+CGrid* Player::GetGrid()
+{
+	return grid.get();
 }
