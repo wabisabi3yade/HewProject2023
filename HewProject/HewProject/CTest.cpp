@@ -1,34 +1,33 @@
 #include "CTest.h"
 #include "CSceneManager.h"
+
 #include "Player.h"
-#include "CGrid.h"
 
 CTest::CTest()
 {
-	D3D_CreateSquare({ 3,4 }, &charBuffer);
-	D3D_LoadTexture(L"asset/hashimoto/char01.png", &charTexture);
+	D3D_CreateSquare({ 1,1 }, &playerBuffer);
+	D3D_LoadTexture(L"asset/hashimoto/N_Walk01_Back.png", &playerTexture);
 
-	charObj = new CObject(charBuffer, charTexture);
-	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
+	/*player = new Player(playerBuffer, playerTexture);*/
 
-	Player* player = new Player(charBuffer, charTexture);
-
-	CGrid* grid = player->GetGrid();
-	grid->gridPos.y = 10;
+	player = std::make_shared<Player>(playerBuffer, playerTexture);
+	player->mTransform.pos = { 0,0,0 };
+	player->mTransform.scale = { 1,1,1 };
+	player->GetGrid()->gridPos = { 1,1 };
 }
 
 CTest::~CTest()
 {
-	CLASS_DELETE(charObj);
+	/*CLASS_DELETE(player);*/
 
-	SAFE_RELEASE(charBuffer);
+	SAFE_RELEASE(playerBuffer);
 
-	SAFE_RELEASE(charTexture);
+	SAFE_RELEASE(playerTexture);
 }
 
 void CTest::Update()
 {
-	
+	player->Update();
 }
 
 void CTest::LateUpdate()
@@ -37,5 +36,5 @@ void CTest::LateUpdate()
 
 void CTest::Draw()
 {
-	charObj->Draw();
+	player->Draw();
 }

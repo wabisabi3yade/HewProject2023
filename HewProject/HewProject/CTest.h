@@ -1,13 +1,19 @@
 #pragma once
 #include "CScene.h"
+#include <iostream>
+
+class Player;
+
 // テストシーン
 class CTest :
     public CScene
 {
-    D3DBUFFER charBuffer;
-    D3DTEXTURE charTexture;
-    CObject* charObj;
+    D3DBUFFER playerBuffer;
+    D3DTEXTURE playerTexture;
+    
+   /* Player* player;*/
 
+    std::shared_ptr<Player> player;
 public:
     CTest();
 
