@@ -69,7 +69,6 @@ void DoTween::Update()
 	// 現在時間が移動にかかる時間を超えていないなら
 	if (nowTime < moveTime)
 	{
-
 		/*nowTime += Time::deltaTime;*/
 		nowTime += 1.0f / 60;
 		switch (state)
@@ -85,6 +84,12 @@ void DoTween::Update()
 			objptr->mTransform.scale.y += moveDir.y * moveSpeed;
 			objptr->mTransform.scale.z += moveDir.z * moveSpeed;
 			break;
+
+		case TYPE::ROTATION:
+			objptr->mTransform.rotation.x += moveDir.x * moveSpeed;
+			objptr->mTransform.rotation.y += moveDir.y * moveSpeed;
+			objptr->mTransform.rotation.z += moveDir.z * moveSpeed;
+			break;
 		}
 
 	}
@@ -92,9 +97,22 @@ void DoTween::Update()
 	// 移動時間が終わると
 	else
 	{
+		switch (state)
+		{
+		case TYPE::MOVE:
+			objptr->mTransform.pos = targetValue;
+			break;
+
+		case TYPE::SCALE:
+			objptr->mTransform.scale = targetValue;
+			break;
+
+		case TYPE::ROTATION:
+			objptr->mTransform.rotation = targetValue;
+			break;
+		}
 		state = TYPE::NONE;
 		IsDoMove = false;
-		objptr->mTransform.pos = targetPos;
 		nowTime = 0.0f;
 		objptr = nullptr;
 	}
@@ -303,7 +321,7 @@ void DoTween::DoMove(CObject* _Objptr, Vector3 _targetPos, float _moveTime)
 	if (!IsDoMove)
 	{
 		IsDoMove = true;	// Dotween起動
-		targetPos = _targetPos;
+		targetValue = _targetPos;
 		objptr = _Objptr;
 		moveTime = _moveTime - (1.0f / 60);
 		state = TYPE::MOVE;
@@ -311,7 +329,7 @@ void DoTween::DoMove(CObject* _Objptr, Vector3 _targetPos, float _moveTime)
 		// 単位ベクトルを求める
 		moveDir = GetVector(objptr->mTransform.pos, _targetPos);
 
-		moveSpeed = GetSpeed(objptr->mTransform.pos, targetPos, _moveTime);
+		moveSpeed = GetSpeed(objptr->mTransform.pos, targetValue, _moveTime);
 	}
 }
 
@@ -326,7 +344,7 @@ void DoTween::DoMoveX(CObject* _Objptr, float _targetPosX, float _moveTime)
 		IsDoMove = true;	// Dotween起動
 		objptr = _Objptr;
 		moveTime = _moveTime;
-		targetPos.x = _targetPosX;
+		targetValue.x = _targetPosX;
 		state = TYPE::MOVE;
 
 		// 方向ベクトルを求める
@@ -346,7 +364,7 @@ void DoTween::DoMoveY(CObject* _Objptr, float _targetPosY, float _moveTime)
 		IsDoMove = true;	// Dotween起動
 		objptr = _Objptr;
 		moveTime = _moveTime;
-		targetPos.y = _targetPosY;
+		targetValue.y = _targetPosY;
 		state = TYPE::MOVE;
 
 		// 方向ベクトルを求める
@@ -364,7 +382,7 @@ void DoTween::DoScale(CObject* _Objptr, Vector3 _targetScale, float _moveTime)
 	if (!IsDoMove)
 	{
 		IsDoMove = true;	// Dotween起動
-		targetPos = _targetScale;
+		targetValue = _targetScale;
 		objptr = _Objptr;
 		moveTime = _moveTime - (1.0f / 60);
 		state = TYPE::SCALE;
@@ -373,6 +391,23 @@ void DoTween::DoScale(CObject* _Objptr, Vector3 _targetScale, float _moveTime)
 		moveDir = GetVector(objptr->mTransform.scale, _targetScale);
 
 		moveSpeed = GetSpeed(objptr->mTransform.scale, _targetScale, _moveTime);
+	}
+}
+
+void DoTween::DoRotation(CObject* _Objptr, Vector3 _targetAngle, float _moveTime)
+{
+	if (!IsDoMove)
+	{
+		IsDoMove = true;	// Dotween起動
+		targetValue = _targetAngle;
+		objptr = _Objptr;
+		moveTime = _moveTime - (1.0f / 60);
+		state = TYPE::ROTATION;
+
+		// 単位ベクトルを求める
+		moveDir = GetVector(objptr->mTransform.rotation, _targetAngle);
+
+		moveSpeed = GetSpeed(objptr->mTransform.rotation, _targetAngle, _moveTime);
 	}
 }
 

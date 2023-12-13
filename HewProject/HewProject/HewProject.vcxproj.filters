@@ -139,6 +139,9 @@
     <Filter Include="ソース ファイル\Base\GameBase\Vector2">
       <UniqueIdentifier>{00374157-292e-48cb-9a1f-6469169f1c70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
+      <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="Vector2.h">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -346,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
