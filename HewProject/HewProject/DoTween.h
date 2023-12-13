@@ -21,7 +21,8 @@ private:
 	{
 		NONE,
 		MOVE,
-		SCALE
+		SCALE,
+		ROTATION
 	};
 	CObject* objptr;	// オブジェクトのポインタ
 	float nowTime;	// Dotween始まった時の時間(ms)
@@ -32,7 +33,7 @@ private:
 	TYPE state;	// Dotweenの種類変数
 	Vector3 moveDir;	// 移動方向(X,Y,Z軸)
 	Vector3 oldPos;	// カーブで使う
-	Vector3 targetPos;	// 目標の座標 
+	Vector3 targetValue;	// 目標の座標 
 
 	/// <summary>
 	/// 2点間の単位ベクトルを求める
@@ -73,13 +74,36 @@ public:
 	/// <param name="_moveTime">移動時間</param>
 	void DoMove(CObject* _Objptr, Vector3 _targetPos, float _moveTime);
 
+	/// <summary>
+	/// 目的のX座標まで何秒で移動する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的のX座標</param>
+	/// <param name="_moveTime">移動時間</param>
 	void DoMoveX(CObject* _Objptr, float _targetPosX, float _moveTime);
 
+	/// <summary>
+	/// 目的のY座標まで何秒で移動する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的のY座標</param>
+	/// <param name="_moveTime">移動時間</param>
 	void DoMoveY(CObject* _Objptr, float _targetPosY, float _moveTime);
 
+	/// <summary>
+	/// 目的の大きさまで何秒で変化する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的の大きさ</param>
+	/// <param name="_moveTime">移動時間</param>
 	void DoScale(CObject* _Objptr, Vector3 _targetScale, float _moveTime);
 
-	void DoScaleDown(CObject* _Objptr, float _moveSpeed, float _moveTime);
-	void DoMoveCurve(CObject* _Objptr, Vector3 _movePos, float _curvePos, float _moveTime);
+	/// <summary>
+	/// 目的の角度まで何秒で回転する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetAngle">目的の大きさ</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoRotation(CObject* _Objptr, Vector3 _targetAngle, float _moveTime);
 };
 

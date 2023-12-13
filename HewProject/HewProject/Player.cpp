@@ -2,6 +2,8 @@
 #include "CGrid.h"
 #include "CInput.h"
 
+#include "PlayerMove.h"
+
 
 Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	:CObject(vb, tex)
@@ -10,7 +12,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	grid = std::make_shared<CGrid>();
 	grid->gridPos = { 0,0 };
 
-	dotween = new DoTween();
+	move = std::make_shared<PlayerMove>(this);
 
 	canMove = true;	// ˆê’UˆÚ“®‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
 	moveDir = DIR::UP;	// ˆê’U‚¤‚¦‚É‚·‚é
@@ -18,8 +20,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 
 void Player::Update()
 {
-	Move();
-	dotween->Update();
+	move->Update();
 }
 
 void Player::Draw()
@@ -27,35 +28,8 @@ void Player::Draw()
 	CObject::Draw();
 }
 
-void Player::Move()
-{
-	if (!canMove) return;
-
-	if (gInput->GetKeyTrigger(VK_UP))
-	{
-		canMove = true;
-		Vector3 target = mTransform.pos;
-		target.x += 2.0f;
-		target.y += 3.0f;
-		dotween->DoMoveY(this, target.y, 2.0f);
-	}
-	if (gInput->GetKeyTrigger(VK_DOWN))
-	{
-		canMove = true;
-	}
-	if (gInput->GetKeyTrigger(VK_RIGHT))
-	{
-		canMove = true;
-	}
-	if (gInput->GetKeyTrigger(VK_LEFT))
-	{
-		canMove = true;
-	}
-}
-
 Player::~Player()
 {
-	CLASS_DELETE(dotween);
 }
 
 CGrid* Player::GetGrid()

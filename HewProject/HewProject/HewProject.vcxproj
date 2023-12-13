@@ -166,6 +166,7 @@
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="StageScene.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="DoTween.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Vector2.cpp" />

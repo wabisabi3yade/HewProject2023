@@ -2,7 +2,9 @@
 #include "CObject.h"
 #include <iostream>
 #include "CGrid.h"
-#include "DoTween.h"
+
+
+class PlayerMove;
 
 // プレイヤー（リス）のオブジェクトクラス
 class Player: 
@@ -18,10 +20,10 @@ public:
 	};
 
 private:
+	std::shared_ptr<PlayerMove> move;
+
 	// グリッドクラスのポインタ
 	std::shared_ptr<CGrid> grid;
-
-	DoTween* dotween;
 
 	bool canMove;	// 移動可能フラグ
 
