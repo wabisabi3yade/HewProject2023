@@ -5,6 +5,7 @@ class CStage;
 struct STAGEPOS
 {
 	float Pos[2] = {0,0};
+	int blockType;
 };
 class CStageMake
 {
@@ -13,11 +14,11 @@ class CStageMake
 	std::list<STAGEPOS> stagePosList;
 public:
 
-	int StageNum(std::vector<aaa>, int _stageY);
+	int StageNum(std::vector<LoadData>, int _stageY);
 
 	//ステージのデータ: Vector<>
 	//ステージの横の数 :int　
-	std::vector<STAGEPOS> StagePos(std::vector<aaa> _vStage,int _stageY);
+	std::vector<STAGEPOS> StagePos(std::vector<LoadData> _vStage,int _stageY);
 	int GetStageNum() { return Stagenum; }
 };
 

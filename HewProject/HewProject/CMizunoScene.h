@@ -16,7 +16,7 @@ class CMizunoScene :
     D3DBUFFER charBuffer2;
     D3DTEXTURE charTexture2;
     CObject* charObj2;
-    DoTween* doToween;
+    //DoTween* doToween;
 
     CFade* fade;
     D3DBUFFER fadeBuffer;
@@ -28,7 +28,7 @@ class CMizunoScene :
     CLoadStage* stage;
     CStageMake* stageMake;
 
-    CObject* stageobj[34];
+    CObject* stageobj[39];
 
     std::vector<CObject*> stageObj;
     std::list<CObject*> stageObjList;
