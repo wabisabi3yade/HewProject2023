@@ -1,39 +1,59 @@
 #pragma once
 #include "CObject.h"
-enum MOVEDIR
-{
-	NONE,
-	RIGHT,
-	LEFT,
-	UP,
-	DOWN,
-	TO_TOP_LEFT,
-	TO_TOP_RIGHT,
-	TO_BOTTOM_LEFT,
-	TO_BOTTOM_RIGHT,
-};
+#include <list>
 
 class DoTween
 {
-private:
+public:
 	// DoTweenの種類列挙型
-	enum class TYPE
+	enum class FUNC
 	{
 		NONE,
 		MOVE,
+		MOVE_X,
+		MOVE_Y,
+		MOVE_Z,
 		SCALE,
 		ROTATION
 	};
-	CObject* objptr;	// オブジェクトのポインタ
-	float nowTime;	// Dotween始まった時の時間(ms)
-	float moveTime;	// 移動にかかる時間(ms)
-	float moveSpeed;	// 移動速度(引数で時間を使わない関数で使われる)
-	float curvePos;
-	bool IsDoMove;	// Dotweenのフラグ
-	TYPE state;	// Dotweenの種類変数
-	Vector3 moveDir;	// 移動方向(X,Y,Z軸)
-	Vector3 oldPos;	// カーブで使う
-	Vector3 targetValue;	// 目標の座標 
+
+	// 始まるときの種類
+	enum class START
+	{
+		DO,	// すぐ始まる
+		APPEND,	// 前のが終わると始まる
+		JOIN	// 前のと同タイミングで始まる
+	};
+
+	struct VALUE
+	{
+		bool isPlay = false;
+
+		FUNC dotweenType = FUNC::NONE;	// Dotweenの種類変数
+		START start = START::DO;	//　始まる方法の種類変数
+
+		float nowTime = 0.0f;	// Dotween始まった時の時間(ms)
+		float moveTime = 0.0f;	// 移動にかかる時間(ms)
+		float moveSpeed = 0.0f;	// 移動速度
+		
+		Vector3 moveDir = Vector3::zero;	// 移動方向(X,Y,Z軸)
+		Vector3 targetValue = Vector3::zero;	// 目標の座標 
+	};
+
+	struct FLOW
+	{
+		std::list<VALUE> flowList;	// 処理をする順序（flow)
+		int actNum = 1;	// 残りの実行回数(-1は永久ループ)
+	};
+	
+private:
+	CObject* objPtr;	// 動かすオブジェクトのポインタ
+
+	std::list<FLOW> sequence;	// シーケンス（flowを格納する）
+	
+
+	// Dotweenで使う変数（方向ベクトル、速度、再生フラグ）を決める
+	void GetValue(VALUE* _value);
 
 	/// <summary>
 	/// 2点間の単位ベクトルを求める
@@ -60,19 +80,36 @@ private:
 	/// <returns>速度</returns>
 	float GetSpeed(Vector3 _start, Vector3 _end, float _time);
 
+	// ループするときにリセットする
+	void flowLoopSet(std::list<VALUE>* _resetList);
+
 public:
 	void Update();
 
-	DoTween();
+	DoTween(CObject* _objPtr);
+
 	~DoTween();
 
+
+	void Append(Vector3 _target, float _moveTime, FUNC _type);
+	void Append(float _target, float _moveTime, FUNC _type);
+
+
+	void Join(Vector3 _target, float _moveTime, FUNC _type);
+	void Join(float _target, float _moveTime, FUNC _type);
+
 	/// <summary>
-	/// 目的の座標に何秒で移動する関数
+	/// 前のflowのループをするか決める
+	/// </summary>
+	/// <param name="_loopNum">ループ回数(-1は永久ループ)</param>
+	void SetLoop(int _loopNum);
+
+	/// <summary>
 	/// </summary>
 	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
 	/// <param name="_targetPos">目的座標</param>
 	/// <param name="_moveTime">移動時間</param>
-	void DoMove(CObject* _Objptr, Vector3 _targetPos, float _moveTime);
+	void DoMove(Vector3 _targetPos, float _moveTime);
 
 	/// <summary>
 	/// 目的のX座標まで何秒で移動する関数
@@ -80,7 +117,7 @@ public:
 	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
 	/// <param name="_targetPosX">目的のX座標</param>
 	/// <param name="_moveTime">移動時間</param>
-	void DoMoveX(CObject* _Objptr, float _targetPosX, float _moveTime);
+	void DoMoveX(float _targetPosX, float _moveTime);
 
 	/// <summary>
 	/// 目的のY座標まで何秒で移動する関数
@@ -88,7 +125,7 @@ public:
 	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
 	/// <param name="_targetPosX">目的のY座標</param>
 	/// <param name="_moveTime">移動時間</param>
-	void DoMoveY(CObject* _Objptr, float _targetPosY, float _moveTime);
+	void DoMoveY(float _targetPosY, float _moveTime);
 
 	/// <summary>
 	/// 目的の大きさまで何秒で変化する関数
@@ -96,7 +133,7 @@ public:
 	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
 	/// <param name="_targetPosX">目的の大きさ</param>
 	/// <param name="_moveTime">移動時間</param>
-	void DoScale(CObject* _Objptr, Vector3 _targetScale, float _moveTime);
+	void DoScale(Vector3 _targetScale, float _moveTime);
 
 	/// <summary>
 	/// 目的の角度まで何秒で回転する関数
@@ -104,6 +141,6 @@ public:
 	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
 	/// <param name="_targetAngle">目的の大きさ</param>
 	/// <param name="_moveTime">移動時間</param>
-	void DoRotation(CObject* _Objptr, Vector3 _targetAngle, float _moveTime);
+	void DoRotation(Vector3 _targetAngle, float _moveTime);
 };
 
