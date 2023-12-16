@@ -14,11 +14,11 @@
 //std::vector<aaa> ZZ = stage->LoadStage("asset/mizuno/Stage.csv");
 //std::vector<STAGEPOS> stagepos = stageMake->StagePos(ZZ, 13);
 
-std::vector<aaa>CLoadStage::LoadStage(const char* filePath)
+std::vector<LoadData>CLoadStage::LoadStage(const char* filePath)
 {
 	std::vector<std::string> dat;
-	std::vector<aaa> xx;
-	aaa bb;
+	std::vector<LoadData> xx;
+	LoadData bb;
 	std::ifstream ifs(filePath);
 	if (ifs) { //読み込みに成功したかチェック
 		std::string str;
