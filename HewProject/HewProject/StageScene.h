@@ -25,17 +25,7 @@ private:
 
     D3DTEXTURE stageTexture2;
 
-    enum BlockType
-    {
-        FLOOR,    // 床
-        WALL,    // 壁
-        HOLL,    // 穴
-        CAKE,    // ケーキ
-        CASTELLA,    // カステラ
-        BAUM,    // バウムクーヘン
-        START,    // スタート
-        GALL    // ゴール
-    };
+
     
 public:
 

@@ -51,7 +51,7 @@ void StageScene::Init()
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	D3D_LoadTexture(L"asset/mizuno/floor_y (1).png", &stageTexture);
 
-	D3D_LoadTexture(L"asset/mizuno/floor_b.png", &stageTexture2);
+	D3D_LoadTexture(L"asset/mizuno/floor_g.png", &stageTexture2);
 
 	stage = new CLoadStage;
 	stageMake = new CStageMake;
@@ -65,21 +65,33 @@ void StageScene::Init()
 	int stageNum = 0;
 	for (auto& Stage : stagePos)
 	{
-
 		CGridObject* stageObj = new CGridObject(stageBuffer, stageTexture);
+		if (stageNum % 2 == 0)
+		{
+			stageObj->SetTexture(stageTexture2);
+		}
 
 		stageObj->SetGridPos((const int)Stage.pos.x, (const int)Stage.pos.y);
 		int stageposX = (int)Stage.pos.x;
+		//int stageType = (int)Stage.blockType;
 		//°‚Ì‰æ‘œƒZƒbƒg‚Ìˆ—
 		switch (Stage.blockType)
 		{
-			default:
+		case 2:
+			stageObj->SetTexture(NULL);
+				break;
+		default:
 			break;
 		}
 		if ((stageposX % 13) == 0)
 		{
 			stageObj->mTransform.pos.x = -kariX + (stageObj->mTransform.scale.x / 2) + (stageObj->mTransform.scale.x / 2 * Stage.pos.y);
 			stageObj->mTransform.pos.y = (stageObj->mTransform.scale.y * Stage.pos.y * -1.0f) + (0.03f * (Stage.pos.x + Stage.pos.y) * stageObj->mTransform.scale.y) - (stageObj->mTransform.scale.y / 2) + (stageObj->mTransform.scale.y / 2 * Stage.pos.y) - ((stageObj->mTransform.scale.y / 2) * (Stage.pos.y)) + ((stageObj->mTransform.scale.y / 2) * (Stage.pos.y)) + ((stageObj->mTransform.scale.y / 4) * (Stage.pos.y + 1)) - (0.1f * Stage.pos.y)/*+0.3f*/;
+			//if (Stage.blockType == (int)CStageMake::BlockType::BAUM || Stage.blockType == (int)CStageMake::BlockType::CAKE || Stage.blockType == (int)CStageMake::BlockType::CASTELLA
+			//	|| Stage.blockType == (int)CStageMake::BlockType::GALL || Stage.blockType == (int)CStageMake::BlockType::START || Stage.blockType == (int)CStageMake::BlockType::WALL)
+			//{
+			//	stageObj->mTransform.pos.y += stageObj->mTransform.scale.y / 2;
+			//}
 			if (stageObj->mTransform.pos.y < 0)
 			{
 				stageObj->mTransform.pos.z = stageObj->mTransform.pos.y * 0.01f;
@@ -101,12 +113,29 @@ void StageScene::Init()
 			{
 				stageObj->mTransform.pos.z = +stageObj->mTransform.pos.y * 0.01f;
 			}
+			//if (Stage.blockType == (int)CStageMake::BlockType::BAUM || Stage.blockType == (int)CStageMake::BlockType::CAKE || Stage.blockType == (int)CStageMake::BlockType::CASTELLA
+			//	|| Stage.blockType == (int)CStageMake::BlockType::GALL || Stage.blockType == (int)CStageMake::BlockType::START || Stage.blockType == (int)CStageMake::BlockType::WALL)
+			//{
+			//	//•‚‚¢‚Ä‚é‚à‚Ì
+			//	stageObj->mTransform.pos.x += 0.05f;
+			//	stageObj->mTransform.pos.y += stageObj->mTransform.scale.y / 2;
+			//	stageObj->mTransform.pos.z -= 0.01f;
+			//}
 		}
 
 
 
 		vStageObj.push_back(stageObj);
-		stageNum++;
+		if (Stage.blockType == (int)CStageMake::BlockType::BAUM || Stage.blockType == (int)CStageMake::BlockType::CAKE || Stage.blockType == (int)CStageMake::BlockType::CASTELLA
+			|| Stage.blockType == (int)CStageMake::BlockType::GALL || Stage.blockType == (int)CStageMake::BlockType::START || Stage.blockType == (int)CStageMake::BlockType::WALL)
+		{
+
+		}
+		else
+		{
+			stageNum++;
+
+		}
 	}
 	Z_Sort(vStageObj);
 }
