@@ -15,7 +15,20 @@ class CStageMake
 {
 	int Stagenum = 0;
 	std::vector<STAGEPOS> stagePos;
-	//std::list<STAGEPOS> stagePosList;
+public:
+    enum BlockType
+    {
+        FLOOR,    // 床
+        WALL,    // 壁
+        HOLL,    // 穴
+        CAKE,    // ケーキ
+        CASTELLA,    // カステラ
+        BAUM,    // バウムクーヘン
+        START,    // スタート
+        GALL    // ゴール
+    }; 
+private:
+    BlockType BkType;
 public:
 
 	int StageNum(std::vector<LoadData>, int _stageY);

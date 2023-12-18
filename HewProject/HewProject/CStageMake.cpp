@@ -10,7 +10,7 @@ int CStageMake::StageNum(std::vector<LoadData> _vStage, int _stageY)
 			//if ((*it).data != 0)
 			//{
 			//}
-				Stagenum++;
+			Stagenum++;
 
 		}
 		i++;
@@ -26,14 +26,40 @@ std::vector<STAGEPOS> CStageMake::StagePos(std::vector<LoadData> _vStage, int _s
 	{
 		for (float j = 0; j < _stageY; j++)
 		{
-			//if ((*it).data != 0)
-			//{
-			//}
-				pushstagepos.pos.x = j;
-				pushstagepos.pos.y = i;
-				pushstagepos.blockType = (*it).data;
-				//stagePos.emplace_back(pushstagepos);
+
+			pushstagepos.pos.x = j;
+			pushstagepos.pos.y = i;
+			pushstagepos.blockType = (*it).data;
+			BkType =(BlockType)pushstagepos.blockType;
+			//stagePos.emplace_back(pushstagepos);
+			stagePos.push_back(pushstagepos);
+			switch (BkType)
+			{
+			case CStageMake::WALL:
+				pushstagepos.blockType = 0;
 				stagePos.push_back(pushstagepos);
+				break;
+			case CStageMake::CAKE:
+				pushstagepos.blockType = 0;
+				stagePos.push_back(pushstagepos);
+				break;
+			case CStageMake::CASTELLA:
+				pushstagepos.blockType = 0;
+				stagePos.push_back(pushstagepos);
+				break;
+			case CStageMake::BAUM:
+				pushstagepos.blockType = 0;
+				stagePos.push_back(pushstagepos);
+				break;
+				pushstagepos.blockType = 0;
+			case CStageMake::START:
+				break;
+			case CStageMake::GALL:
+				pushstagepos.blockType = 0;
+				break;
+			default:
+				break;
+			}
 			it++;
 		}
 		i++;
