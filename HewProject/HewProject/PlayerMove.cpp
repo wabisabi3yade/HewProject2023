@@ -4,6 +4,9 @@
 #include "CInput.h"
 #include "DoTween.h"
 #include "Player.h"
+#include<functional>
+
+typedef std::function<void(void)> Func;
 
 PlayerMove::PlayerMove(Player* _p)
 {
@@ -30,22 +33,12 @@ PlayerMove::~PlayerMove()
 
 void PlayerMove::Move()
 {
-	/*if (isMoving) return;*/
+	/*if (isoving) return;*/
 
 	Vector3 target = Vector3::zero;
 
 	if (gInput->GetKeyTrigger(VK_UP))
 	{
-		isMoving = true;
-
-		target = { 2.0f, 2.0f,2.0f };
-		dotween->DoScale(target, 2.0f);
-		
-		target = { 0.5f, 0.5f, 0.5f };
-		dotween->Append(target, 2.0f,DoTween::FUNC::SCALE);
-
-		dotween->SetLoop(3);
-
 	}
 	if (gInput->GetKeyTrigger(VK_DOWN))
 	{
@@ -57,6 +50,10 @@ void PlayerMove::Move()
 		target = { 0.0f, 0.0f, 90.0f };
 
 		dotween->Append(-2.0f, 2.0f, DoTween::FUNC::MOVE_Y);
+
+		
+
+		
 	}
 	if (gInput->GetKeyTrigger(VK_RIGHT))
 	{
