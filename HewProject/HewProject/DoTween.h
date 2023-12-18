@@ -25,6 +25,15 @@ public:
 		JOIN	// 前のと同タイミングで始まる
 	};
 
+	template <typename T>
+
+	struct ONCOMPLETE
+	{
+		T* recive;	// 受け取る方
+		T send;
+	};
+
+
 	struct VALUE
 	{
 		bool isPlay = false;
@@ -40,10 +49,12 @@ public:
 		Vector3 targetValue = Vector3::zero;	// 目標の座標 
 	};
 
+	// 1連の流れの構造体
 	struct FLOW
 	{
 		std::list<VALUE> flowList;	// 処理をする順序（flow)
 		int actNum = 1;	// 残りの実行回数(-1は永久ループ)
+		
 	};
 	
 private:
@@ -51,7 +62,6 @@ private:
 
 	std::list<FLOW> sequence;	// シーケンス（flowを格納する）
 	
-
 	// Dotweenで使う変数（方向ベクトル、速度、再生フラグ）を決める
 	void GetValue(VALUE* _value);
 
@@ -90,11 +100,21 @@ public:
 
 	~DoTween();
 
-
+	/// <summary>
+	/// 前の処理が終わると呼ばれる
+	/// </summary>
+	/// <param name="_target">目標の値</param>
+	/// <param name="_moveTime">時間</param>
+	/// <param name="_type">Dotweenの種類（DoTween::FUNC::～で呼んでね）</param>
 	void Append(Vector3 _target, float _moveTime, FUNC _type);
 	void Append(float _target, float _moveTime, FUNC _type);
 
-
+	/// <summary>
+	/// 前の処理と同じタイミングで呼ばれる
+	/// </summary>
+	/// <param name="_target">目標の値</param>
+	/// <param name="_moveTime">時間</param>
+	/// <param name="_type">Dotweenの種類（DoTween::FUNC::～で呼んでね）</param>
 	void Join(Vector3 _target, float _moveTime, FUNC _type);
 	void Join(float _target, float _moveTime, FUNC _type);
 
@@ -103,6 +123,15 @@ public:
 	/// </summary>
 	/// <param name="_loopNum">ループ回数(-1は永久ループ)</param>
 	void SetLoop(int _loopNum);
+
+
+	void OnComplete();
+
+
+	/// <summary>
+	/// 今、登録している処理を全て止める
+	/// </summary>
+	void Stop();
 
 	/// <summary>
 	/// </summary>

@@ -109,6 +109,9 @@ void DoTween::Update()
 				// 再生中のものがないなら
 				if (count <= 0)
 				{
+					// OnCompleteの関数を実行する
+					(*itr1).fpCallBack;
+
 					// 永久ループは回数を引かない
 					if ((*itr1).actNum != -1)
 					{
@@ -239,6 +242,12 @@ void DoTween::Join(float _target, float _moveTime, FUNC _type)
 void DoTween::SetLoop(int _loopNum)
 {
 	sequence.back().actNum = _loopNum;
+}
+
+void DoTween::Stop()
+{
+	
+	sequence.clear();	// 全てを消す
 }
 
 
