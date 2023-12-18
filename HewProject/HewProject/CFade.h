@@ -33,9 +33,8 @@ public:
     CFade(D3DBUFFER vb, D3DTEXTURE tex);
     ~CFade();
 
-    void FadeIn(FadeType _fadeType ,float _moveSpeed);
-    void FadeOut();
-    void FadeOut(FadeType _fadeType, float _moveSpeed);
+    void FadeIn(FadeType _fadeType);
+    void FadeOut(FadeType _fadeType);
 
     void Draw();
     void Update();

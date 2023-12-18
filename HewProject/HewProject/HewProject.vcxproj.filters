@@ -139,8 +139,15 @@
     <Filter Include="ソース ファイル\Base\GameBase\Vector2">
       <UniqueIdentifier>{00374157-292e-48cb-9a1f-6469169f1c70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
-      <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
+
+	  <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
+		  <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
+	  </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
+      <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\GridObject">
+      <UniqueIdentifier>{165b52df-7038-4c82-8b6a-a9a41e37a9d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,8 +253,20 @@
     <ClInclude Include="Vector2.h">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClInclude>
-    <ClInclude Include="COperation.h">
-      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+
+	  <ClInclude Include="COperation.h">
+		  <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+	  </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
+    </ClInclude>
+	  <ClInclude Include="CGridObject.h">
+		  <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+	  </ClInclude>
+    <ClInclude Include="Ckcal_gauge.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -353,8 +372,18 @@
     <ClCompile Include="Vector2.cpp">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClCompile>
-    <ClCompile Include="COperation.cpp">
-      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+	  <ClCompile Include="COperation.cpp">
+		  <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+	  </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
+    </ClCompile>
+
+	  <ClCompile Include="CGridObject.cpp">
+		  <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+	  </ClCompile>
+    <ClCompile Include="Ckcal_gauge.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

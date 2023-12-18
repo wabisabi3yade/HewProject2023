@@ -29,3 +29,5 @@ public:
 };
 
 DirectX::XMFLOAT3* dirChange(Vector3);
+
+Vector3 dirChangeVec3(DirectX::XMFLOAT3);

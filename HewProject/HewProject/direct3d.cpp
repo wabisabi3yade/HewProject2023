@@ -97,7 +97,7 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = D3D11CreateDeviceAndSwapChain(NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
-		flags,
+		D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 		pLevels,
 		1,
 		D3D11_SDK_VERSION,
@@ -240,8 +240,10 @@ HRESULT D3D_Create(HWND hwnd)
 
 	data->fontSize = 60;
 	data->fontWeight = DWRITE_FONT_WEIGHT_BOLD;
+	data->Color = D2D1::ColorF(D2D1::ColorF::White);
 
 	Write = new DirectWrite(data);
+	
 	//CLASS_DELETE(data);
 
 	Write->Init(hwnd);

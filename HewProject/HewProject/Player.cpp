@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "CGrid.h"
+#include "CInput.h"
 
+#include "PlayerMove.h"
 
 
 Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
@@ -8,19 +10,22 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 {
 	// グリッドクラスのポインタ
 	grid = std::make_shared<CGrid>();
-	grid->gridPos.x = 10;
+	grid->gridPos = { 0,0 };
+
+	move = std::make_shared<PlayerMove>(this);
+
+	canMove = true;	// 一旦移動できないようにする
+	moveDir = DIR::UP;	// 一旦うえにする
 }
 
 void Player::Update()
 {
+	move->Update();
 }
 
 void Player::Draw()
 {
-}
-
-void Player::Move()
-{
+	CObject::Draw();
 }
 
 Player::~Player()

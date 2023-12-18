@@ -148,9 +148,11 @@
     <ClInclude Include="CEffectManeger.h" />
     <ClInclude Include="CFade.h" />
     <ClInclude Include="CGrid.h" />
+    <ClInclude Include="CGridObject.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CKawadaScene.h" />
+    <ClInclude Include="Ckcal_gauge.h" />
     <ClInclude Include="CLoadStage.h" />
     <ClInclude Include="CMizunoScene.h" />
     <ClInclude Include="CObject.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="StageScene.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
@@ -185,9 +188,11 @@
     <ClCompile Include="CEffectManeger.cpp" />
     <ClCompile Include="CFade.cpp" />
     <ClCompile Include="CGrid.cpp" />
+    <ClCompile Include="CGridObject.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
+    <ClCompile Include="Ckcal_gauge.cpp" />
     <ClCompile Include="CLoadStage.cpp" />
     <ClCompile Include="CMizunoScene.cpp" />
     <ClCompile Include="CObject.cpp" />
@@ -205,6 +210,7 @@
     <ClCompile Include="DoTween.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Vector2.cpp" />

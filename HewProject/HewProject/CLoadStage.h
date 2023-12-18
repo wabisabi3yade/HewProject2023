@@ -27,7 +27,7 @@ struct STAGE_XY
 
 
 
-struct aaa
+struct LoadData
 {
 	int data;
 };
@@ -42,7 +42,7 @@ public:
 	//~CLoadStage();
 	
 
-	std::vector<aaa>LoadStage(const char* filePath);
+	std::vector<LoadData>LoadStage(const wchar_t* filePath);
 
 };
 
