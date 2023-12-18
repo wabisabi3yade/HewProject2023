@@ -4,9 +4,6 @@
 #include "CInput.h"
 #include "DoTween.h"
 #include "Player.h"
-#include<functional>
-
-typedef std::function<void(void)> Func;
 
 PlayerMove::PlayerMove(Player* _p)
 {
@@ -21,8 +18,30 @@ PlayerMove::PlayerMove(Player* _p)
 
 void PlayerMove::Update()
 {
+	static float time = 0.0f;
+	static bool o_isMove = false;;
+
+	if (!o_isMove && isMoving)
+	{
+		time = 0.0f;
+	}
+
 	Move();
 
+	if (isMoving)
+	{
+		time += 1.0f / 60.0f;
+
+		if (time >= moveTime)
+		{
+			isMoving = false;
+			time = 0.0f;
+		}
+	}
+	
+
+
+	o_isMove = isMoving;
 	dotween->Update();
 }
 
@@ -39,20 +58,13 @@ void PlayerMove::Move()
 
 	if (gInput->GetKeyTrigger(VK_UP))
 	{
+		isMoving = true;
+		target = {player->mTransform.pos.x + };
+		dotween->DoMove()
 	}
 	if (gInput->GetKeyTrigger(VK_DOWN))
 	{
 		isMoving = true;
-
-		target.x = player->mTransform.pos.x + 2.0f;
-		dotween->DoMove(target, 2.0f);
-
-		target = { 0.0f, 0.0f, 90.0f };
-
-		dotween->Append(target, 2.0f, DoTween::FUNC::ROTATION);
-
-		
-
 		
 	}
 	if (gInput->GetKeyTrigger(VK_RIGHT))
