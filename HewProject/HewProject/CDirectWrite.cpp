@@ -21,7 +21,7 @@
 const std::wstring FontList[] = //必ずフォントファイルから読み込むフォントを上に持ってくる！
 {
 	L"asset\\wakamura\\851MkPOP_101.otf",
-	L"asset\\wakamura\\a.otf",
+	L"asset\\wakamura\\komadorimini.otf",
 	L"asset\\wakamura\\MelodyLine-free.otf",
 	L"HG行書体",
 	L"HGP創英角ﾎﾟｯﾌﾟ体",
