@@ -42,7 +42,7 @@ public:
 	//~CLoadStage();
 	
 
-	std::vector<LoadData>LoadStage(const char* filePath);
+	std::vector<LoadData>LoadStage(const wchar_t* filePath);
 
 };
 

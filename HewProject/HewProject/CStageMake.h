@@ -2,16 +2,20 @@
 class CStage;
 #include "CLoadStage.h"
 
+struct POS
+{
+	float x, y;
+};
 struct STAGEPOS
 {
-	float Pos[2] = {0,0};
+	POS pos = {};
 	int blockType;
 };
 class CStageMake
 {
 	int Stagenum = 0;
 	std::vector<STAGEPOS> stagePos;
-	std::list<STAGEPOS> stagePosList;
+	//std::list<STAGEPOS> stagePosList;
 public:
 
 	int StageNum(std::vector<LoadData>, int _stageY);

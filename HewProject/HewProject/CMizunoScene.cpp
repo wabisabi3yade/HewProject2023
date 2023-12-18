@@ -6,6 +6,7 @@
 #include"Time.h"
 #include<iostream>
 #include<algorithm>
+#include"StageScene.h"
 
 #define stageChack (4)
 float fixedCount = 0;	//fps固定用変数
@@ -28,11 +29,14 @@ CMizunoScene::CMizunoScene()
 
 	D3D_LoadTexture(L"asset/mizuno/center2.png", &centerTexture);
 
-	stage = new CLoadStage;
-	stageMake = new CStageMake;
+	//stage = new CLoadStage;
+	//stageMake = new CStageMake;
 
-	std::vector<LoadData> StageData = stage->LoadStage("asset/mizuno/Stage.csv");
-	std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageData, 13);
+	//std::vector<LoadData> StageData = stage->LoadStage(L"asset/mizuno/Stage.csv");
+	//std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageData, 13);
+
+	stagescene = new StageScene(NULL,NULL);
+	stagescene->Init();
 	//std::vector<Stage> StageTable = stage->LoadStage("asset/mizuno/Stage.csv");
 	//std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageTable);
 
@@ -72,113 +76,114 @@ CMizunoScene::CMizunoScene()
 	float kariY = 9.0f / 2.0f;
 	int nStage = 0;
 
-	for (auto& Stagepos : stagepos)
-	{
+	//for (auto& Stagepos : stagepos)
+	//{
 
-		//charObj2->mTransform.pos.x = Stagepos.Pos[0]- 8.0f/* - (charObj2->mTransform.scale.x / 2)*/;
+	//	//charObj2->mTransform.pos.x = Stagepos.Pos[0]- 8.0f/* - (charObj2->mTransform.scale.x / 2)*/;
 
-		//ステージの配置関連
-		if (nStage == 0)
-		{
-			charObj->mTransform.pos.x = Stagepos.Pos[0] - kariX + (charObj->mTransform.scale.x / 2);
-			charObj->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + kariY - (charObj->mTransform.scale.y / 2);
-		}
-		if (nStage == 13)
-		{
-			charObj2->mTransform.pos.x = Stagepos.Pos[0] - kariX + (charObj2->mTransform.scale.x / 2);
-			charObj2->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + kariY - (charObj2->mTransform.scale.y / ((charObj2->mTransform.scale.y / 2) - 0.1f));
+	//	//ステージの配置関連
+	//	if (nStage == 0)
+	//	{
+	//		charObj->mTransform.pos.x = Stagepos.pos.x - kariX + (charObj->mTransform.scale.x / 2);
+	//		charObj->mTransform.pos.y = (Stagepos.pos.y * -1.0f) + kariY - (charObj->mTransform.scale.y / 2);
+	//	}
+	//	if (nStage == 13)
+	//	{
+	//		charObj2->mTransform.pos.x = Stagepos.pos.x - kariX + (charObj2->mTransform.scale.x / 2);
+	//		charObj2->mTransform.pos.y = (Stagepos.pos.y * -1.0f) + kariY - (charObj2->mTransform.scale.y / ((charObj2->mTransform.scale.y / 2) - 0.1f));
 
-		}
+	//	}
 
-		// stageposから何行目かを見ないと分からない　13*3のモノから0が入っているもの分引いてあるから
+	//	// stageposから何行目かを見ないと分からない　13*3のモノから0が入っているもの分引いてあるから
 
-		if (nStage % 2 == 0)
-		{
-			stageobj[nStage] = new CObject(charBuffer2, charTexture);
-		}
-		else
-		{
-			stageobj[nStage] = new CObject(charBuffer2, fadeTexture);
-		}
-		stageobj[nStage]->mTransform.scale = { 2.0f,2.0f,2.0f };
+	//	if (nStage % 2 == 0)
+	//	{
+	//		stageobj[nStage] = new CObject(charBuffer2, charTexture);
+	//	}
+	//	else
+	//	{
+	//		stageobj[nStage] = new CObject(charBuffer2, fadeTexture);
+	//	}
+	//	stageobj[nStage]->mTransform.scale = { 2.0f,2.0f,2.0f };
 
-		int kari = (int)Stagepos.Pos[0];
+	//	int kari = (int)Stagepos.pos.x;
 
-	/*		if (Stagepos.blockType == 1)
-			{
-				stageobj[XC]->SetTexture(fadeTexture);
-			}
-			if (Stagepos.blockType == 2)
-			{
-				stageobj[XC]->SetTexture(charTexture2);
-			}*/
-		if ((kari % 13) == 0)
-		{
-			stageobj[nStage]->mTransform.pos.x = -kariX + (stageobj[nStage]->mTransform.scale.x / 2) + (stageobj[nStage]->mTransform.scale.x / 2 * Stagepos.Pos[1]);
-			stageobj[nStage]->mTransform.pos.y = (stageobj[nStage]->mTransform.scale.y * Stagepos.Pos[1] * -1.0f)  + (0.03f * (Stagepos.Pos[0] + Stagepos.Pos[1]) * stageobj[nStage]->mTransform.scale.y) - (stageobj[nStage]->mTransform.scale.y / 2) + (stageobj[nStage]->mTransform.scale.y / 2 * Stagepos.Pos[1]) - ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.Pos[1])) + ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.Pos[1])) + ((stageobj[nStage]->mTransform.scale.y / 4) * (Stagepos.Pos[1] + 1)) -(0.1f * Stagepos.Pos[1])/*+0.3f*/;
-			if (stageobj[nStage]->mTransform.pos.y < 0)
-			{
-				stageobj[nStage]->mTransform.pos.z = stageobj[nStage]->mTransform.pos.y * 0.01f;
-			}
-			else
-			{
-				stageobj[nStage]->mTransform.pos.z = stageobj[nStage]->mTransform.pos.y * 0.01f;
-			}
-		}
-		else
-		{
-			stageobj[nStage]->mTransform.pos.x = -kariX + (stageobj[nStage]->mTransform.scale.x / 2) + ((stageobj[nStage]->mTransform.scale.x / 2) * (int)(kari + Stagepos.Pos[1]))-0.01f*Stagepos.Pos[0];
-			stageobj[nStage]->mTransform.pos.y = (stageobj[nStage]->mTransform.scale.y * Stagepos.Pos[1] * -1.0f) + (0.03f * (Stagepos.Pos[0] + Stagepos.Pos[1])*stageobj[nStage]->mTransform.scale.y) - (stageobj[nStage]->mTransform.scale.y / 2) + (stageobj[nStage]->mTransform.scale.y / 2 * Stagepos.Pos[1]) - ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.Pos[1])) + ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.Pos[1])) + ((stageobj[nStage]->mTransform.scale.y / 4) * (Stagepos.Pos[1] + 1)) + ((stageobj[nStage]->mTransform.scale.y / 4) * (Stagepos.Pos[0])) - (0.1f * Stagepos.Pos[1]) /*+0.01f*Stagepos.Pos[0]*/;
-			if (stageobj[nStage]->mTransform.pos.y < 0)
-			{
-				stageobj[nStage]->mTransform.pos.z = +stageobj[nStage]->mTransform.pos.y * 0.01f;
-			}
-			else
-			{
-				stageobj[nStage]->mTransform.pos.z = +stageobj[nStage]->mTransform.pos.y * 0.01f;
-			}
-		}
+	///*		if (Stagepos.blockType == 1)
+	//		{
+	//			stageobj[XC]->SetTexture(fadeTexture);
+	//		}
+	//		if (Stagepos.blockType == 2)
+	//		{
+	//			stageobj[XC]->SetTexture(charTexture2);
+	//		}*/
 
-		//
-		//
-		//if (kari % 13 == 0)
-		//{
-		//	if (kari/13 == 0)
-		//	{
-		//		stageobj[XC]->mTransform.pos.x = Stagepos.Pos[0] - kariX + (stageobj[XC]->mTransform.scale.x / 2);
-		//		stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + 0.1f - (stageobj[XC]->mTransform.scale.y / 2);
-		//		stageobj[XC]->mTransform.pos.z = -0.5f;
-		//	}
-		//	else
-		//	{
-		//		stageobj[XC]->mTransform.pos.x = Stagepos.Pos[0] - kariX + (stageobj[XC]->mTransform.scale.x / 2) + (stageobj[XC]->mTransform.scale.x / 2) + ((stageobj[XC]->mTransform.scale.x / 2)*(Stagepos.Pos[1]));
-		//		//stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + 0.1f * XC  - (stageobj[XC]->mTransform.scale.y / 2 ) - stageobj[XC]->mTransform.scale.y / 3 - 0.2f;
-		//		stageobj[XC]->mTransform.pos.y = /*(Stagepos.Pos[1] * -1.0f)*/ + 0.1f - (stageobj[XC]->mTransform.scale.y / 2) - ((stageobj[XC]->mTransform.scale.y ) * (Stagepos.Pos[1]));
-		//		stageobj[XC]->mTransform.pos.z = -0.5f + (0.01f * XC );
-		//	}
-		//}
-		//else
-		//{
-		//	stageobj[XC]->mTransform.pos.x = -kariX + (stageobj[XC]->mTransform.scale.x / 2) + ((stageobj[XC]->mTransform.scale.x /2) * (int)(kari%13));
-		//	stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) - (stageobj[XC]->mTransform.scale.y / 2) + ((stageobj[XC]->mTransform.scale.y / 2) * (Stagepos.Pos[1]) - (stageobj[XC]->mTransform.scale.y /2 * (Stagepos.Pos[1]))) + 0.1f;
-		//	//stageobj[XC]->mTransform.pos.y = -(stageobj[XC]->mTransform.scale.y / 2) + ((stageobj[XC]->mTransform.scale.y / 2) * (int)(XC / 13)) + 0.1f;
-		//
-		//	
-		//	/*if (XC == 1)
-		//	if(XC ==2)
-		//	stageobj[XC]->mTransform.pos.z =  -0.3f;
-		//	*/
-		//	stageobj[XC]->mTransform.pos.z = -0.5f + (0.01f * XC);
-		//}
-		stageObj.push_back(stageobj[nStage]);
-		nStage++;
+	//	//if ((kari % 13) == 0)
+	//	//{
+	//	//	stageobj[nStage]->mTransform.pos.x = -kariX + (stageobj[nStage]->mTransform.scale.x / 2) + (stageobj[nStage]->mTransform.scale.x / 2 * Stagepos.pos.y);
+	//	//	stageobj[nStage]->mTransform.pos.y = (stageobj[nStage]->mTransform.scale.y * Stagepos.pos.y * -1.0f)  + (0.03f * (Stagepos.pos.x + Stagepos.pos.y) * stageobj[nStage]->mTransform.scale.y) - (stageobj[nStage]->mTransform.scale.y / 2) + (stageobj[nStage]->mTransform.scale.y / 2 * Stagepos.pos.y) - ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.pos.y)) + ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.pos.y)) + ((stageobj[nStage]->mTransform.scale.y / 4) * (Stagepos.pos.y + 1)) -(0.1f * Stagepos.pos.y)/*+0.3f*/;
+	//	//	if (stageobj[nStage]->mTransform.pos.y < 0)
+	//	//	{
+	//	//		stageobj[nStage]->mTransform.pos.z = stageobj[nStage]->mTransform.pos.y * 0.01f;
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		stageobj[nStage]->mTransform.pos.z = stageobj[nStage]->mTransform.pos.y * 0.01f;
+	//	//	}
+	//	//}
+	//	//else
+	//	//{
+	//	//	stageobj[nStage]->mTransform.pos.x = -kariX + (stageobj[nStage]->mTransform.scale.x / 2) + ((stageobj[nStage]->mTransform.scale.x / 2) * (int)(kari + Stagepos.pos.y))-0.01f*Stagepos.pos.x;
+	//	//	stageobj[nStage]->mTransform.pos.y = (stageobj[nStage]->mTransform.scale.y * Stagepos.pos.y * -1.0f) + (0.03f * (Stagepos.pos.x + Stagepos.pos.y)*stageobj[nStage]->mTransform.scale.y) - (stageobj[nStage]->mTransform.scale.y / 2) + (stageobj[nStage]->mTransform.scale.y / 2 * Stagepos.pos.y) - ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.pos.y)) + ((stageobj[nStage]->mTransform.scale.y / 2) * (Stagepos.pos.y)) + ((stageobj[nStage]->mTransform.scale.y / 4) * (Stagepos.pos.y + 1)) + ((stageobj[nStage]->mTransform.scale.y / 4) * (Stagepos.pos.x)) - (0.1f * Stagepos.pos.y) /*+0.01f*Stagepos.pos.x*/;
+	//	//	if (stageobj[nStage]->mTransform.pos.y < 0)
+	//	//	{
+	//	//		stageobj[nStage]->mTransform.pos.z = +stageobj[nStage]->mTransform.pos.y * 0.01f;
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		stageobj[nStage]->mTransform.pos.z = +stageobj[nStage]->mTransform.pos.y * 0.01f;
+	//	//	}
+	//	//}
 
-	}
+	//	//
+	//	//
+	//	//if (kari % 13 == 0)
+	//	//{
+	//	//	if (kari/13 == 0)
+	//	//	{
+	//	//		stageobj[XC]->mTransform.pos.x = Stagepos.Pos[0] - kariX + (stageobj[XC]->mTransform.scale.x / 2);
+	//	//		stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + 0.1f - (stageobj[XC]->mTransform.scale.y / 2);
+	//	//		stageobj[XC]->mTransform.pos.z = -0.5f;
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		stageobj[XC]->mTransform.pos.x = Stagepos.Pos[0] - kariX + (stageobj[XC]->mTransform.scale.x / 2) + (stageobj[XC]->mTransform.scale.x / 2) + ((stageobj[XC]->mTransform.scale.x / 2)*(Stagepos.Pos[1]));
+	//	//		//stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) + 0.1f * XC  - (stageobj[XC]->mTransform.scale.y / 2 ) - stageobj[XC]->mTransform.scale.y / 3 - 0.2f;
+	//	//		stageobj[XC]->mTransform.pos.y = /*(Stagepos.Pos[1] * -1.0f)*/ + 0.1f - (stageobj[XC]->mTransform.scale.y / 2) - ((stageobj[XC]->mTransform.scale.y ) * (Stagepos.Pos[1]));
+	//	//		stageobj[XC]->mTransform.pos.z = -0.5f + (0.01f * XC );
+	//	//	}
+	//	//}
+	//	//else
+	//	//{
+	//	//	stageobj[XC]->mTransform.pos.x = -kariX + (stageobj[XC]->mTransform.scale.x / 2) + ((stageobj[XC]->mTransform.scale.x /2) * (int)(kari%13));
+	//	//	stageobj[XC]->mTransform.pos.y = (Stagepos.Pos[1] * -1.0f) - (stageobj[XC]->mTransform.scale.y / 2) + ((stageobj[XC]->mTransform.scale.y / 2) * (Stagepos.Pos[1]) - (stageobj[XC]->mTransform.scale.y /2 * (Stagepos.Pos[1]))) + 0.1f;
+	//	//	//stageobj[XC]->mTransform.pos.y = -(stageobj[XC]->mTransform.scale.y / 2) + ((stageobj[XC]->mTransform.scale.y / 2) * (int)(XC / 13)) + 0.1f;
+	//	//
+	//	//	
+	//	//	/*if (XC == 1)
+	//	//	if(XC ==2)
+	//	//	stageobj[XC]->mTransform.pos.z =  -0.3f;
+	//	//	*/
+	//	//	stageobj[XC]->mTransform.pos.z = -0.5f + (0.01f * XC);
+	//	//}
+	//	//stageObj.push_back(stageobj[nStage]);
+	//	//nStage++;
+
+	//}
 	//stageObj[14]->mTransform.pos.y -= stageObj[14]->mTransform.scale.y / 2;
 	//stageObj[14]->mTransform.pos.x += stageObj[14]->mTransform.scale.x / 2;
 	//std::sort(stageObj.begin(), stageObj.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
 
-	Z_Sort(stageObj);
+	//Z_Sort(stageObj);
 
 	//charObj->mTransform.pos.y = +4.5f;
 	//Stagepos.Pos[0];
@@ -223,20 +228,22 @@ CMizunoScene::~CMizunoScene()
 	SAFE_RELEASE(fadeBuffer);
 	SAFE_RELEASE(fadeTexture);
 
-	CLASS_DELETE(stageMake);
-	CLASS_DELETE(stage);
+	//CLASS_DELETE(stageMake);
+	//CLASS_DELETE(stage);
 
 	CLASS_DELETE(a[0]);
 	CLASS_DELETE(a[1]);
 	CLASS_DELETE(a[2]);
 	CLASS_DELETE(a[3]);
 	CLASS_DELETE(a[4]);
-	for (int i = 0; i < 39; i++)
-	{
-		CLASS_DELETE(stageobj[i])
-	}
+
+	//for (int i = 0; i < 39; i++)
+	//{
+	//	CLASS_DELETE(stageobj[i])
+	//}
 	SAFE_RELEASE(centerTexture);
 
+	CLASS_DELETE(stagescene);
 	//CLASS_DELETE(doToween);
 }
 
@@ -252,16 +259,17 @@ void CMizunoScene::Update()
 	{
 		//doToween->DoMoveX(charObj, 1.0f, 0.5f, MOVEDIR::RIGHT);
 		//charObj->mTransform.pos.x += 1;
-		if (ss < 38)
-			ss++;
+		
+		//if (ss < 38)
+		//	ss++;
 	}
 	if (gInput->GetKeyTrigger(VK_LEFT))
 	{
 		//doToween->DoMoveX(charObj, 1.0f, 0.5f, MOVEDIR::LEFT);
 		//Time::isSlow = true;
 
-		if (ss > 0)
-			ss--;
+		//if (ss > 0)
+		//	ss--;
 	}
 	if (gInput->GetKeyTrigger(VK_UP))
 	{
@@ -297,10 +305,9 @@ void CMizunoScene::Update()
 		//doToween->Update();
 		charObj->Update();
 
-		for (int i = 0; i < 39; i++)
-		{
-			stageObj[i]->Update();
-		}
+
+
+		stagescene->Update();
 
 		//Vector3 x(charObj->mTransform.pos.x, charObj->mTransform.pos.y, charObj->mTransform.pos.z);
 
@@ -322,25 +329,26 @@ void CMizunoScene::Update()
 
 
 
-		Vector3 x(stageObj[ss]->mTransform.pos.x, stageObj[ss]->mTransform.pos.y, stageObj[stageChack]->mTransform.pos.z);
+		//Vector3 x(stageObj[ss]->mTransform.pos.x, stageObj[ss]->mTransform.pos.y, stageObj[stageChack]->mTransform.pos.z);
 
-		a[0]->mTransform.pos.x = x.x; // stageObj[0]2->mTransform.pos;
-		a[0]->mTransform.pos.y = x.y; // stageObj[0]2->mTransform.pos;
+		//a[0]->mTransform.pos.x = x.x; // stageObj[0]2->mTransform.pos;
+		//a[0]->mTransform.pos.y = x.y; // stageObj[0]2->mTransform.pos;
 
-		a[1]->mTransform.pos.x = x.x - stageObj[ss]->mTransform.scale.x / 2;
-		a[1]->mTransform.pos.y = x.y + stageObj[ss]->mTransform.scale.y / 2;
+		//a[1]->mTransform.pos.x = x.x - stageObj[ss]->mTransform.scale.x / 2;
+		//a[1]->mTransform.pos.y = x.y + stageObj[ss]->mTransform.scale.y / 2;
 
-		a[2]->mTransform.pos.x = x.x + stageObj[ss]->mTransform.scale.x / 2;
-		a[2]->mTransform.pos.y = x.y + stageObj[ss]->mTransform.scale.y / 2;
+		//a[2]->mTransform.pos.x = x.x + stageObj[ss]->mTransform.scale.x / 2;
+		//a[2]->mTransform.pos.y = x.y + stageObj[ss]->mTransform.scale.y / 2;
 
-		a[3]->mTransform.pos.x = x.x + stageObj[ss]->mTransform.scale.x / 2;
-		a[3]->mTransform.pos.y = x.y - stageObj[ss]->mTransform.scale.y / 2;
+		//a[3]->mTransform.pos.x = x.x + stageObj[ss]->mTransform.scale.x / 2;
+		//a[3]->mTransform.pos.y = x.y - stageObj[ss]->mTransform.scale.y / 2;
 
-		a[4]->mTransform.pos.x = x.x - stageObj[ss]->mTransform.scale.x / 2;
-		a[4]->mTransform.pos.y = x.y - stageObj[ss]->mTransform.scale.y / 2;
+		//a[4]->mTransform.pos.x = x.x - stageObj[ss]->mTransform.scale.x / 2;
+		//a[4]->mTransform.pos.y = x.y - stageObj[ss]->mTransform.scale.y / 2;
 
 		//a->mTransform.pos.z = x.z; // charObj2->mTransform.pos;
 		charObj2->Update();
+
 		a[0]->Update();
 		a[1]->Update();
 		a[2]->Update();
@@ -365,11 +373,8 @@ void CMizunoScene::Draw()
 {
 	charObj->Draw();
 	//charObj2->Draw();
-	for (int i = 0; i < 39; i++)
-	{
-		//if(i == 0 || i==1 || i==13 ||i == 14)
-		stageObj[i]->Draw();
-	}
+
+	stagescene->Draw();
 	//stageobj[0]->Draw();
 	//stageobj[3]->Draw();
 	//stageobj[2]->Draw();

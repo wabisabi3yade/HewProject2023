@@ -148,6 +148,7 @@
     <ClInclude Include="CEffectManeger.h" />
     <ClInclude Include="CFade.h" />
     <ClInclude Include="CGrid.h" />
+    <ClInclude Include="CGridObject.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CKawadaScene.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="CEffectManeger.cpp" />
     <ClCompile Include="CFade.cpp" />
     <ClCompile Include="CGrid.cpp" />
+    <ClCompile Include="CGridObject.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
