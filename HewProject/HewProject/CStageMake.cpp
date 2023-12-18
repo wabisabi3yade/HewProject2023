@@ -29,9 +29,10 @@ std::vector<STAGEPOS> CStageMake::StagePos(std::vector<LoadData> _vStage, int _s
 			//if ((*it).data != 0)
 			//{
 			//}
-				pushstagepos.Pos[0] = j;
-				pushstagepos.Pos[1] = i;
+				pushstagepos.pos.x = j;
+				pushstagepos.pos.y = i;
 				pushstagepos.blockType = (*it).data;
+				//stagePos.emplace_back(pushstagepos);
 				stagePos.push_back(pushstagepos);
 			it++;
 		}

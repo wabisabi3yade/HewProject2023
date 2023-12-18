@@ -14,7 +14,7 @@
 //std::vector<aaa> ZZ = stage->LoadStage("asset/mizuno/Stage.csv");
 //std::vector<STAGEPOS> stagepos = stageMake->StagePos(ZZ, 13);
 
-std::vector<LoadData>CLoadStage::LoadStage(const char* filePath)
+std::vector<LoadData>CLoadStage::LoadStage(const wchar_t* filePath)
 {
 	std::vector<std::string> dat;
 	std::vector<LoadData> xx;

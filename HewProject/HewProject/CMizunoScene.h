@@ -6,6 +6,8 @@
 #include"CFade.h"
 #include<vector>
 #include<list>
+class StageScene;
+
 class CMizunoScene :
     public CScene
 {
@@ -25,13 +27,16 @@ class CMizunoScene :
     CObject* a[5];
     D3DTEXTURE centerTexture;
 
-    CLoadStage* stage;
-    CStageMake* stageMake;
+    //CLoadStage* stage;
+    //CStageMake* stageMake;
 
-    CObject* stageobj[39];
+    //CObject* stageobj[39];
 
     std::vector<CObject*> stageObj;
     std::list<CObject*> stageObjList;
+
+    StageScene *stagescene;
+
     int ss = 0;
     Input input;
 public:

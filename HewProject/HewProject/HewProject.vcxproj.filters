@@ -142,6 +142,9 @@
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
       <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\GridObject">
+      <UniqueIdentifier>{165b52df-7038-4c82-8b6a-a9a41e37a9d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -249,8 +252,12 @@
     <ClInclude Include="PlayerMove.h">
       <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
     </ClInclude>
+	  <ClInclude Include="CGridObject.h">
+		  <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+	  </ClInclude>
     <ClInclude Include="Ckcal_gauge.h">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +366,10 @@
     <ClCompile Include="PlayerMove.cpp">
       <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
     </ClCompile>
+
+	  <ClCompile Include="CGridObject.cpp">
+		  <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+	  </ClCompile>
     <ClCompile Include="Ckcal_gauge.cpp">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
     </ClCompile>
