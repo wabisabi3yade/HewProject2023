@@ -249,6 +249,9 @@
     <ClInclude Include="PlayerMove.h">
       <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
     </ClInclude>
+    <ClInclude Include="Ckcal_gauge.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -355,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="PlayerMove.cpp">
       <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
+    </ClCompile>
+    <ClCompile Include="Ckcal_gauge.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
