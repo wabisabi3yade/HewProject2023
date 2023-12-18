@@ -152,6 +152,7 @@
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CKawadaScene.h" />
+    <ClInclude Include="Ckcal_gauge.h" />
     <ClInclude Include="CLoadStage.h" />
     <ClInclude Include="CMizunoScene.h" />
     <ClInclude Include="CObject.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
+    <ClCompile Include="Ckcal_gauge.cpp" />
     <ClCompile Include="CLoadStage.cpp" />
     <ClCompile Include="CMizunoScene.cpp" />
     <ClCompile Include="CObject.cpp" />

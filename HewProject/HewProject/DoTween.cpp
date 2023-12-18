@@ -1,5 +1,397 @@
 #include "DoTween.h"
 #include"Time.h"
+#include <algorithm>
+
+
+DoTween::DoTween(CObject* _objPtr)
+{
+	objPtr = _objPtr;
+}
+
+void DoTween::Update()
+{
+	for (auto itr1 = sequence.begin(); itr1 != sequence.end(); )
+	{
+		bool isDelete = false;	// 今回のループでリストを削除したかどうか
+		for (auto itr2 = (*itr1).flowList.begin(); itr2 != (*itr1).flowList.end();)
+		{
+			// 再生しないなら返す
+			if (!(*itr2).isPlay)
+			{
+				itr2++;
+				continue;
+			}
+			// 現在時間が移動にかかる時間を超えていないなら
+			if ((*itr2).nowTime < (*itr2).moveTime)
+			{
+				/*nowTime += Time::deltaTime;*/
+				(*itr2).nowTime += 1.0f / 60;
+				switch ((*itr2).dotweenType)
+				{
+				case FUNC::MOVE:
+				case FUNC::MOVE_X:
+				case FUNC::MOVE_Y:
+				case FUNC::MOVE_Z:
+					objPtr->mTransform.pos.x += (*itr2).moveDir.x * (*itr2).moveSpeed;
+					objPtr->mTransform.pos.y += (*itr2).moveDir.y * (*itr2).moveSpeed;
+					objPtr->mTransform.pos.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
+					break;
+
+				case FUNC::SCALE:
+					objPtr->mTransform.scale.x += (*itr2).moveDir.x * (*itr2).moveSpeed;
+					objPtr->mTransform.scale.y += (*itr2).moveDir.y * (*itr2).moveSpeed;
+					objPtr->mTransform.scale.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
+					break;
+
+				case FUNC::ROTATION:
+					objPtr->mTransform.rotation.x += (*itr2).moveDir.x * (*itr2).moveSpeed;
+					objPtr->mTransform.rotation.y += (*itr2).moveDir.y * (*itr2).moveSpeed;
+					objPtr->mTransform.rotation.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
+					break;
+				}
+
+				itr2++;	// 次のイテレータに進む
+			}
+
+			// 時間が終わると /////////////////////////////////////
+			else
+			{
+				(*itr2).isPlay = false;
+				switch ((*itr2).dotweenType)
+				{
+				case FUNC::MOVE:
+				case FUNC::MOVE_X:
+				case FUNC::MOVE_Y:
+				case FUNC::MOVE_Z:
+					objPtr->mTransform.pos = (*itr2).targetValue;
+					break;
+
+				case FUNC::SCALE:
+					objPtr->mTransform.scale = (*itr2).targetValue;
+					break;
+
+				case FUNC::ROTATION:
+					objPtr->mTransform.rotation = (*itr2).targetValue;
+					break;
+				}
+
+				auto nextItr = std::next(itr2);
+
+				// 終わった要素の次のものがAPPENDなら
+				if (nextItr != (*itr1).flowList.end() && (*nextItr).start == START::APPEND)
+				{
+					// その要素のDotweenを始める
+					GetValue(&*nextItr);
+
+					// Joinの処理
+					while (true)
+					{
+						// APPENDの次がJoinならそれも始める（それ以降もJoinならそれも）
+						nextItr++;
+
+						if ( nextItr == (*itr1).flowList.end() || 
+							((*nextItr).start != START::JOIN))
+						{
+							break;
+						}
+						else
+						{
+							GetValue(&*nextItr);
+						}
+
+					}
+				}
+
+				// 今見ているリストで再生中の物を数える
+				int count = std::count_if((*itr1).flowList.begin(), (*itr1).flowList.end(),
+					[](VALUE v) {return(v.isPlay); });
+
+				// 再生中のものがないなら
+				if (count <= 0)
+				{
+					// 永久ループは回数を引かない
+					if ((*itr1).actNum != -1)
+					{
+						(*itr1).actNum--;
+					}
+					// 実行回数が0なら
+					if ((*itr1).actNum == 0)
+					{
+						// 全て終わるとシーケンスからこのflowを削除する
+						itr1 = sequence.erase(itr1);
+						isDelete = true;
+						break;
+					}
+					else
+					{
+						// ループ処理で必要な初期化を行う
+						flowLoopSet(&(*itr1).flowList);
+					}
+				}
+				itr2++;	// 次のイテレータに進む
+			}
+		}
+
+		if (!isDelete)
+		{
+			itr1++;	// 次のflowに進む
+		}
+
+	}
+
+
+}
+
+void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type)
+{
+	VALUE set;
+
+	set.targetValue = _target;
+	set.moveTime = _moveTime;
+	set.dotweenType = _type;
+	set.start = START::APPEND;
+
+	set.isPlay = false;
+
+	// シーケンスの最後の要素に追加する
+	sequence.back().flowList.push_back(set);
+}
+
+void DoTween::Append(float _target, float _moveTime, FUNC _type)
+{
+	VALUE set;
+
+	switch (_type)
+	{
+	case FUNC::MOVE_X:
+		set.targetValue.x = _target;
+		break;
+	case FUNC::MOVE_Y:
+		set.targetValue.y = _target;
+		break;
+	case FUNC::MOVE_Z:
+		//set.targetValue.z = _target;
+		break;
+	}
+	set.moveTime = _moveTime;
+	set.dotweenType = _type;
+	set.start = START::APPEND;
+
+	set.isPlay = false;
+
+	// シーケンスの最後の要素に追加する
+	sequence.back().flowList.push_back(set);
+}
+
+void DoTween::Join(Vector3 _target, float _moveTime, FUNC _type)
+{
+	VALUE set;
+
+
+
+	set.targetValue = _target;
+	set.moveTime = _moveTime;
+	set.dotweenType = _type;
+	set.start = START::JOIN;
+
+	set.isPlay = false;
+
+	if (sequence.back().flowList.back().isPlay)
+	{
+		GetValue(&set);
+	}
+
+	// シーケンスの最後の要素に追加する
+	sequence.back().flowList.push_back(set);
+}
+
+void DoTween::Join(float _target, float _moveTime, FUNC _type)
+{
+	VALUE set;
+
+	switch (_type)
+	{
+	case FUNC::MOVE_X:
+		set.targetValue.x = _target;
+		break;
+	case FUNC::MOVE_Y:
+		set.targetValue.y = _target;
+		break;
+	case FUNC::MOVE_Z:
+		//set.targetValue.z = _target;
+		break;
+	}
+	set.moveTime = _moveTime;
+	set.dotweenType = _type;
+	set.start = START::JOIN;
+
+	set.isPlay = false;
+
+	if (sequence.back().flowList.back().isPlay)
+	{
+		GetValue(&set);
+	}
+
+	// シーケンスの最後の要素に追加する
+	sequence.back().flowList.push_back(set);
+}
+
+void DoTween::SetLoop(int _loopNum)
+{
+	sequence.back().actNum = _loopNum;
+}
+
+
+void DoTween::DoMove(Vector3 _targetPos, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::MOVE;
+	set.start = START::DO;
+	set.targetValue = _targetPos;
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+
+
+}
+
+void DoTween::DoMoveX(float _targetPosX, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::MOVE_X;
+	set.start = START::DO;
+	set.targetValue.x = _targetPosX;
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTween::DoMoveY(float _targetPosY, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::MOVE_Y;
+	set.start = START::DO;
+	set.targetValue.y = _targetPosY;
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTween::DoScale(Vector3 _targetScale, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::SCALE;
+	set.start = START::DO;
+	set.targetValue = _targetScale;
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTween::DoRotation(Vector3 _targetAngle, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::ROTATION;
+	set.start = START::DO;
+	set.targetValue = _targetAngle;
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+
+}
+
+void DoTween::GetValue(VALUE* _value)
+{
+	_value->isPlay = true;	// Dotween起動
+	_value->nowTime = 0;	// 初期化
+
+	// 単位ベクトルを求める
+	switch (_value->dotweenType)
+	{
+	case FUNC::MOVE_X:
+		_value->targetValue.y = objPtr->mTransform.pos.y;
+		_value->targetValue.z = objPtr->mTransform.pos.z;
+		_value->moveDir = GetVector(objPtr->mTransform.pos, _value->targetValue);
+		_value->moveSpeed = GetSpeed(objPtr->mTransform.pos, _value->targetValue, _value->moveTime);
+		
+		break;
+	case FUNC::MOVE_Y:
+		_value->targetValue.x = objPtr->mTransform.pos.x;
+		_value->targetValue.z = objPtr->mTransform.pos.z;
+		_value->moveDir = GetVector(objPtr->mTransform.pos, _value->targetValue);
+		_value->moveSpeed = GetSpeed(objPtr->mTransform.pos, _value->targetValue, _value->moveTime);
+		break;
+
+	case FUNC::MOVE_Z:
+
+		break;
+
+	case FUNC::MOVE:
+		_value->moveDir = GetVector(objPtr->mTransform.pos, _value->targetValue);
+		_value->moveSpeed = GetSpeed(objPtr->mTransform.pos, _value->targetValue, _value->moveTime);
+		break;
+
+	case FUNC::SCALE:
+		_value->moveDir = GetVector(objPtr->mTransform.scale, _value->targetValue);
+		_value->moveSpeed = GetSpeed(objPtr->mTransform.scale, _value->targetValue, _value->moveTime);
+		break;
+
+	case FUNC::ROTATION:
+		_value->moveDir = GetVector(objPtr->mTransform.rotation, _value->targetValue);
+		_value->moveSpeed = GetSpeed(objPtr->mTransform.rotation, _value->targetValue, _value->moveTime);
+		break;
+	}
+}
 
 Vector3 DoTween::GetVector(Vector3 _start, Vector3 _end)
 {
@@ -8,18 +400,22 @@ Vector3 DoTween::GetVector(Vector3 _start, Vector3 _end)
 					_end.y - _start.y,
 					_end.z - _start.z };
 
+
+
 	// ベクトルの長さを求める
 	double dis = pow((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z), 0.5);
 
-	// 単位ベクトルを求める
-	vec = { vec.x / (float)dis,vec.y / (float)dis, vec.z / (float)dis };
-
-
-	/*DirectX::XMVECTOR v = XMLoadFloat3(dirChange(vec));
-	v = DirectX::XMVector3Normalize(v);
-	XMStoreFloat3(dirChange(vec), v);*/
-
+	if (dis == 0.0f)
+	{
+		vec = Vector3::zero;
+	}
+	else
+	{
+		// 単位ベクトルを求める
+		vec = { vec.x / (float)dis,vec.y / (float)dis, vec.z / (float)dis };
+	}
 	return vec;
+
 }
 
 float DoTween::GetVector(float _start, float _end)
@@ -61,434 +457,27 @@ float DoTween::GetSpeed(Vector3 _start, Vector3 _end, float _time)
 	return spd;
 }
 
-void DoTween::Update()
+void DoTween::flowLoopSet(std::list<VALUE>* _resetList)
 {
-	// Dotween起動していないなら抜ける	
-	if (!IsDoMove)	return;
+	// ループ再生するflowの最初のイテレータを取得
+	auto itr = _resetList->begin();
 
-	// 現在時間が移動にかかる時間を超えていないなら
-	if (nowTime < moveTime)
+	// 再生する処理（Do,Join）は方向ベクトルとかを求める
+	while (true)
 	{
-		/*nowTime += Time::deltaTime;*/
-		nowTime += 1.0f / 60;
-		switch (state)
-		{
-		case TYPE::MOVE:
-			objptr->mTransform.pos.x += moveDir.x * moveSpeed;
-			objptr->mTransform.pos.y += moveDir.y * moveSpeed;
-			objptr->mTransform.pos.z += moveDir.z * moveSpeed;
-			break;
+		GetValue(&*itr);
 
-		case TYPE::SCALE:
-			objptr->mTransform.scale.x += moveDir.x * moveSpeed;
-			objptr->mTransform.scale.y += moveDir.y * moveSpeed;
-			objptr->mTransform.scale.z += moveDir.z * moveSpeed;
-			break;
+		itr++;
 
-		case TYPE::ROTATION:
-			objptr->mTransform.rotation.x += moveDir.x * moveSpeed;
-			objptr->mTransform.rotation.y += moveDir.y * moveSpeed;
-			objptr->mTransform.rotation.z += moveDir.z * moveSpeed;
-			break;
-		}
-
+		if ((*itr).start != START::JOIN) break;
 	}
-
-	// 移動時間が終わると
-	else
-	{
-		switch (state)
-		{
-		case TYPE::MOVE:
-			objptr->mTransform.pos = targetValue;
-			break;
-
-		case TYPE::SCALE:
-			objptr->mTransform.scale = targetValue;
-			break;
-
-		case TYPE::ROTATION:
-			objptr->mTransform.rotation = targetValue;
-			break;
-		}
-		state = TYPE::NONE;
-		IsDoMove = false;
-		nowTime = 0.0f;
-		objptr = nullptr;
-	}
+	
 }
 
-//void DoTween::Update()
-//{
-//	if (!IsDoMove)
-//	{
-//		return;
-//	}
-//	if (moveTime > 0.0f)
-//	{
-//		debugCnt++;
-//		switch (moveState)
-//		{
-//		case DoTween::NONE:
-//			return;
-//			break;
-//		case DoTween::MOVE:
-//			moveTime -= 1 / 60.0f * Time::slowTime;
-//			switch (movedir)
-//			{
-//			case TO_TOP_LEFT:
-//				objptr->SetDir(Vector3(-1.0f,-1.0f,0.0f));
-//				if (moveTime < 0)
-//				{
-//					moveTime = 0;
-//					objptr->SetMoveSpeed(0);
-//					objptr->SetDir(Vector3::zero);
-//					IsDoMove = false;
-//					moveState = MOVESTATE::NONE;
-//				}
-//				break;
-//
-//			case MOVE_POS:
-//				
-//
-//				break;
-//			case TO_TOP_RIGHT:
-//				objptr->SetDir(Vector3(1.0f,1.0f,0.0f));
-//				if (moveTime < 0)
-//				{
-//					moveTime = 0;
-//					objptr->SetMoveSpeed(0);
-//					objptr->SetDir(Vector3::zero);
-//					IsDoMove = false;
-//					moveState = MOVESTATE::NONE;
-//				}
-//				break;
-//			case TO_BOTTOM_LEFT:
-//				objptr->SetDir(Vector3(-1.0f,-1.0f,0.0f));
-//				if (moveTime < 0)
-//				{
-//					moveTime = 0;
-//					objptr->SetMoveSpeed(0);
-//					objptr->SetDir(Vector3::zero);
-//					IsDoMove = false;
-//					moveState = MOVESTATE::NONE;
-//				}
-//				break;
-//			case TO_BOTTOM_RIGHT:
-//				objptr->SetDir(Vector3(1.0f, -1.0f, 0.0f));
-//				if (moveTime < 0)
-//				{
-//					moveTime = 0;
-//					objptr->SetMoveSpeed(0);
-//					objptr->SetDir(Vector3::zero);
-//					IsDoMove = false;
-//					moveState = MOVESTATE::NONE;
-//				}
-//				break;
-//			default:
-//				break;
-//
-//			}
-//			break;
-//		case DoTween::MOVEX:
-//			moveTime -= 1 / 60.0f * Time::slowTime;
-//			objptr->SetMoveSpeed(moveSpeed);
-//			if (movedir == MOVEDIR::RIGHT)
-//			{
-//				objptr->SetDir(Vector3::right);
-//			}
-//			else
-//			{
-//				objptr->SetDir(Vector3::left);
-//			}
-//			if (moveTime < 0)
-//			{
-//				moveTime = 0;
-//				objptr->SetMoveSpeed(0);
-//				objptr->SetDir(Vector3::zero);
-//				IsDoMove = false;
-//				moveState = MOVESTATE::NONE;
-//			}
-//			break;
-//		case DoTween::MOVEY:
-//			moveTime -= 1 / 60.0f * Time::slowTime;
-//			objptr->SetMoveSpeed(moveSpeed);
-//			if (movedir == MOVEDIR::UP)
-//			{
-//				objptr->SetDir(Vector3::up);
-//			}
-//			else
-//			{
-//				objptr->SetDir(Vector3::down);
-//			}
-//			if (moveTime < 0)
-//			{
-//				moveTime = 0;
-//				objptr->SetMoveSpeed(0);
-//				objptr->SetDir(Vector3::zero);
-//				IsDoMove = false;
-//				moveState = MOVESTATE::NONE;
-//			}
-//			break;
-//		case DoTween::SCALEDOWN:
-//			moveTime -= 1 / 60.0f * Time::slowTime;
-//			if (objptr->mTransform.scale >= Vector3::zero)
-//			{
-//				objptr->mTransform.scale.x -= moveSpeed * Time::slowTime;
-//				objptr->mTransform.scale.y -= moveSpeed * Time::slowTime;
-//			}
-//			if (moveTime < 0)
-//			{
-//				moveTime = 0;
-//				objptr->SetMoveSpeed(0);
-//				objptr->SetDir(Vector3::zero);
-//				IsDoMove = false;
-//				moveState = MOVESTATE::NONE;
-//			}
-//			break;
-//		case DoTween::SCALEUP:
-//			moveTime -= 1 / 60.0f * Time::slowTime;
-//			objptr->mTransform.scale.x += moveSpeed *Time::slowTime;
-//			objptr->mTransform.scale.y += moveSpeed * Time::slowTime;
-//			//objptr->mTransform.scale.z += moveSpeed;
-//			if (moveTime  < 0)
-//			{
-//				moveTime = 0;
-//				objptr->SetMoveSpeed(0);
-//				objptr->SetDir(Vector3::zero);
-//				IsDoMove = false;
-//				moveState = MOVESTATE::NONE;
-//			}
-//			break;
-//		case DoTween::MOVESTATE::MOVECURVE:
-//			nowTime += 1.0f / 60;
-//			float t = nowTime * (1.0f / moveTime);
-//			objptr->mTransform.pos.x =
-//				((pow((1 - t), 2) * oldPos.x)
-//				+ (2 * t) * (1 - t) * ((oldPos.x + targetPos.x) / 2)
-//				+ (pow(t, 2) * targetPos.x)*Time::slowTime);
-//
-//			objptr->mTransform.pos.y =
-//				((pow((1 - t), 2) * oldPos.y)
-//				+ (2 * t) * (1 - t) * ((oldPos.y + targetPos.y) / 2 + curvePos)
-//				+ (pow(t, 2) * targetPos.y) * Time::slowTime);
-//
-//			if (moveTime <= nowTime)
-//			{
-//				moveState = MOVESTATE::NONE;
-//				IsDoMove = false;
-//				objptr->mTransform.pos.x = targetPos.x;
-//				objptr->mTransform.pos.y = targetPos.y;
-//				objptr = nullptr;
-//
-//			}
-//			break;
-//		}
-//	}
-//	//else if (moveTime < 0)
-//	//{
-//	//	moveTime = 0;
-//	//	objptr->SetMoveSpeed(0);
-//	//	objptr->SetDir(Vector3::zero);
-//	//	IsDoMove = false;
-//	//	moveState = MOVESTATE::NONE;
-//
-//	//}
-//}
 
-DoTween::DoTween()
-{
-	objptr = nullptr;
-	moveSpeed = 0.0f;
-	moveTime = 0.0f;
-	nowTime = 0.0f;
-	curvePos = 0.0f;
-	IsDoMove = false;
-	state = TYPE::NONE;
-	moveDir = MOVEDIR::NONE;
-}
 
 DoTween::~DoTween()
 {
-	if (objptr != nullptr)
-	{
-		objptr = nullptr;
-	}
+	sequence.clear();
 }
 
-void DoTween::DoMove(CObject* _Objptr, Vector3 _targetPos, float _moveTime)
-{
-	if (!IsDoMove)
-	{
-		IsDoMove = true;	// Dotween起動
-		targetValue = _targetPos;
-		objptr = _Objptr;
-		moveTime = _moveTime - (1.0f / 60);
-		state = TYPE::MOVE;
-
-		// 単位ベクトルを求める
-		moveDir = GetVector(objptr->mTransform.pos, _targetPos);
-
-		moveSpeed = GetSpeed(objptr->mTransform.pos, targetValue, _moveTime);
-	}
-}
-
-
-
-
-
-void DoTween::DoMoveX(CObject* _Objptr, float _targetPosX, float _moveTime)
-{
-	if (!IsDoMove)
-	{
-		IsDoMove = true;	// Dotween起動
-		objptr = _Objptr;
-		moveTime = _moveTime;
-		targetValue.x = _targetPosX;
-		state = TYPE::MOVE;
-
-		// 方向ベクトルを求める
-		moveDir = Vector3::zero;
-		moveDir.x = GetVector(_Objptr->mTransform.pos.x, _targetPosX);
-
-		// 速度を求める
-		moveSpeed = GetSpeed({ objptr->mTransform.pos.x,0,0 },
-			{ _targetPosX, 0,0 }, _moveTime);
-	}
-}
-
-void DoTween::DoMoveY(CObject* _Objptr, float _targetPosY, float _moveTime)
-{
-	if (!IsDoMove)
-	{
-		IsDoMove = true;	// Dotween起動
-		objptr = _Objptr;
-		moveTime = _moveTime;
-		targetValue.y = _targetPosY;
-		state = TYPE::MOVE;
-
-		// 方向ベクトルを求める
-		moveDir = Vector3::zero;
-		moveDir.y = GetVector(_Objptr->mTransform.pos.y, _targetPosY);
-
-		// 速度を求める
-		moveSpeed = GetSpeed({ 0,objptr->mTransform.pos.y, 0 },
-			{ 0, _targetPosY, 0 }, _moveTime);
-	}
-}
-
-void DoTween::DoScale(CObject* _Objptr, Vector3 _targetScale, float _moveTime)
-{
-	if (!IsDoMove)
-	{
-		IsDoMove = true;	// Dotween起動
-		targetValue = _targetScale;
-		objptr = _Objptr;
-		moveTime = _moveTime - (1.0f / 60);
-		state = TYPE::SCALE;
-
-		// 単位ベクトルを求める
-		moveDir = GetVector(objptr->mTransform.scale, _targetScale);
-
-		moveSpeed = GetSpeed(objptr->mTransform.scale, _targetScale, _moveTime);
-	}
-}
-
-void DoTween::DoRotation(CObject* _Objptr, Vector3 _targetAngle, float _moveTime)
-{
-	if (!IsDoMove)
-	{
-		IsDoMove = true;	// Dotween起動
-		targetValue = _targetAngle;
-		objptr = _Objptr;
-		moveTime = _moveTime - (1.0f / 60);
-		state = TYPE::ROTATION;
-
-		// 単位ベクトルを求める
-		moveDir = GetVector(objptr->mTransform.rotation, _targetAngle);
-
-		moveSpeed = GetSpeed(objptr->mTransform.rotation, _targetAngle, _moveTime);
-	}
-}
-
-//void DoTween::DoMoveX(CObject* _Objptr, float _moveSpeed, float _moveTime, Vector3 _movedir)
-//{
-//	if (!IsDoMove)
-//	{
-//		objptr = _Objptr;
-//		moveSpeed = _moveSpeed / (_moveTime * 60) * Time::slowTime;
-//		moveTime =
-//			IsDoMove = true;
-//		moveDir = _movedir;
-//		moveState = MOVESTATE::MOVEX;
-//	}
-//}
-//
-//void DoTween::DoMoveY(CObject* _Objptr, float _moveSpeed, float _moveTime, Vector3 _movedir)
-//{
-//	if (!IsDoMove)
-//	{
-//		objptr = _Objptr;
-//		moveSpeed = _moveSpeed / (_moveTime * 60) * Time::slowTime;
-//		moveTime = _moveTime - (1.0 / 60);
-//		IsDoMove = true;
-//		moveDir = _movedir;
-//		moveState = MOVESTATE::MOVEY;
-//	}
-//}
-//
-//void DoTween::DoScaleUp(CObject* _Objptr, float _moveSpeed, float _moveTime)
-//{
-//	if (!IsDoMove)
-//	{
-//		objptr = _Objptr;
-//		moveSpeed = _moveSpeed / (_moveTime * 60);
-//		moveTime = _moveTime - (1.0 / 60);
-//		IsDoMove = true;
-//		moveState = MOVESTATE::SCALEUP;
-//	}
-//}
-//
-//void DoTween::DoScaleDown(CObject* _Objptr, float _moveSpeed, float _moveTime)
-//{
-//	if (!IsDoMove)
-//	{
-//		objptr = _Objptr;
-//		moveSpeed = _moveSpeed / (_moveTime * 60);
-//		moveTime = _moveTime - (1.0 / 60);
-//		IsDoMove = true;
-//		moveState = MOVESTATE::SCALEDOWN;
-//	}
-//}
-//
-//void DoTween::DoMoveCurve(CObject* _Objptr, Vector3 _movePos, float _curvePos, float _moveTime)
-//{
-//	if (!IsDoMove)
-//	{
-//		objptr = _Objptr;
-//		targetPos.x = _movePos.x + objptr->mTransform.pos.x;
-//		targetPos.y = _movePos.y + objptr->mTransform.pos.y;
-//		moveTime = _moveTime;
-//		nowTime = 0.0f;
-//		oldPos = objptr->mTransform.pos;
-//		curvePos = _curvePos;
-//		moveState = MOVESTATE::MOVECURVE;
-//		IsDoMove = true;
-//	}
-//}
-//
-//void DoTween::DoMove(CObject* _Objptr, float _moveSpeed, float _moveTime, Vector3 _movedir)
-//{
-//	if (!IsDoMove)
-//	{
-//		objptr = _Objptr;
-//		moveSpeed = _moveSpeed / (_moveTime * 60);
-//		objptr->SetMoveSpeed(moveSpeed);
-//		moveTime = _moveTime - (1.0 / 60);
-//		IsDoMove = true;
-//		moveDir = _movedir;
-//		objptr->SetDir(moveDir);
-//		moveState = MOVESTATE::MOVE;
-//	}
-//}
-//
