@@ -139,6 +139,9 @@
     <Filter Include="ソース ファイル\Base\GameBase\Vector2">
       <UniqueIdentifier>{00374157-292e-48cb-9a1f-6469169f1c70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
+      <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="Vector2.h">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClInclude>
+    <ClInclude Include="COperation.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -346,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
+    </ClCompile>
+    <ClCompile Include="COperation.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
