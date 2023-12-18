@@ -25,14 +25,12 @@ public:
 		JOIN	// 前のと同タイミングで始まる
 	};
 
-	template <typename T>
-
-	struct ONCOMPLETE
-	{
-		T* recive;	// 受け取る方
-		T send;
-	};
-
+	//template <typename T>
+	//struct ONCOMPLETE
+	//{
+	//	T* recive;	// データを受け取る変数ポインタ
+	//	T send;		// データを送る変数
+	//};
 
 	struct VALUE
 	{
@@ -49,12 +47,13 @@ public:
 		Vector3 targetValue = Vector3::zero;	// 目標の座標 
 	};
 
+	/*template <typename T>*/
 	// 1連の流れの構造体
 	struct FLOW
 	{
 		std::list<VALUE> flowList;	// 処理をする順序（flow)
 		int actNum = 1;	// 残りの実行回数(-1は永久ループ)
-		
+		/*ONCOMPLETE onComplete;*/
 	};
 	
 private:
@@ -124,9 +123,8 @@ public:
 	/// <param name="_loopNum">ループ回数(-1は永久ループ)</param>
 	void SetLoop(int _loopNum);
 
-
-	void OnComplete();
-
+	/*template <typename T>
+	void OnComplete(T* _recive, T _send);*/
 
 	/// <summary>
 	/// 今、登録している処理を全て止める
@@ -173,3 +171,9 @@ public:
 	void DoRotation(Vector3 _targetAngle, float _moveTime);
 };
 
+//template<typename T>
+//inline void DoTween::OnComplete(T* _recive, T _send)
+//{
+//	// シーケンスの最後の要素に追加する
+//	sequence.back().onComplete = {_recive, _send};
+//}
