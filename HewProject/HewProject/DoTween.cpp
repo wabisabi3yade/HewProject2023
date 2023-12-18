@@ -109,9 +109,6 @@ void DoTween::Update()
 				// 再生中のものがないなら
 				if (count <= 0)
 				{
-					// OnCompleteの関数を実行する
-					(*itr1).fpCallBack;
-
 					// 永久ループは回数を引かない
 					if ((*itr1).actNum != -1)
 					{
@@ -120,6 +117,11 @@ void DoTween::Update()
 					// 実行回数が0なら
 					if ((*itr1).actNum == 0)
 					{
+						// OnCompleteはここで実行する//////////////
+
+
+						///////////////////////////////////////////
+
 						// 全て終わるとシーケンスからこのflowを削除する
 						itr1 = sequence.erase(itr1);
 						isDelete = true;
