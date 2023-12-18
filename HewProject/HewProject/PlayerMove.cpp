@@ -49,7 +49,7 @@ void PlayerMove::Move()
 
 		target = { 0.0f, 0.0f, 90.0f };
 
-		dotween->Append(-2.0f, 2.0f, DoTween::FUNC::MOVE_Y);
+		dotween->Append(target, 2.0f, DoTween::FUNC::ROTATION);
 
 		
 
