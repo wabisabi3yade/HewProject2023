@@ -40,7 +40,7 @@ void CWakamuraScene::Draw()
 	Write->SetFont(Font::HG_Gyosyo);
 	Write->DrawString(std::to_string(Write->nKcal), DirectX::XMFLOAT2(90, 180), D2D1_DRAW_TEXT_OPTIONS_NONE);
 
-	Write->SetFont(Font::a);
+	Write->SetFont(Font::komadorimini);
 	Write->DrawString("‚±‚Ü‚Ç‚è‚Ý‚É ‚ç‚¢‚ß‚¢‚Æ‚Æ‚à‚É‚¿‚êI", DirectX::XMFLOAT2(90, 200), D2D1_DRAW_TEXT_OPTIONS_NONE);
 
 	Write->SetFont(Font::marker);

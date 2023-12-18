@@ -15,7 +15,7 @@
 enum class Font
 {
 	marker,
-	a,
+	komadorimini,
 	MelodyLine,
 	HG_Gyosyo,
 	HGP_POP,
