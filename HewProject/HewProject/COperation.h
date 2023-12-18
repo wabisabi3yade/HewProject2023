@@ -1,9 +1,13 @@
 #pragma once
+
 #include "CSceneManager.h"
 #include "CScene.h"
-#include "COperation.h"
+#include "Ccontroller.h"
+#include "direct3d.h"
+#include "Vector2.h"
+#include "Vector3.h"
 
-class CTatemizoScene :
+class COperation:
 	public CScene
 {
 	//現在の向きを表すベクトル変数
@@ -28,15 +32,9 @@ public:
 	//回転角度
 	float angle = 0.0f;
 
-	CTatemizoScene();
+	void Update();
 
-	~CTatemizoScene();
-
-	void Update() override;
-
-	void LateUpdate() override;
-
-	void Draw() override;
+	void Draw();
 
 	void SetMoveSpeed(float sp)
 	{
@@ -47,6 +45,5 @@ public:
 	{
 		dir = v;
 	}
-
 };
 
