@@ -10,7 +10,7 @@ class PlayerMove
 
 	std::unique_ptr<DoTween> dotween;
 
-	Vector3 target[4] = {};	// 目的座標（上下左右）
+	//Vector3 target[4] = {};	// 目的座標（上下左右）
 
 	bool isMoving;	// 移動可能フラグ
 

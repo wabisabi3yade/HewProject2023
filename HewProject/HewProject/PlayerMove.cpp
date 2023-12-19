@@ -58,9 +58,9 @@ void PlayerMove::Move()
 
 	if (gInput->GetKeyTrigger(VK_UP))
 	{
-		isMoving = true;
-		target = {player->mTransform.pos.x + };
-		dotween->DoMove()
+		/*isMoving = true;
+		target = {player->mTransform.pos.x};
+		dotween->DoMove();*/
 	}
 	if (gInput->GetKeyTrigger(VK_DOWN))
 	{
