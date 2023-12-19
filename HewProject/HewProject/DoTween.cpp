@@ -22,7 +22,7 @@ void DoTween::Update()
 				continue;
 			}
 			// 現在時間が移動にかかる時間を超えていないなら
-			if ((*itr2).nowTime < (*itr2).moveTime)
+			if ((*itr2).nowTime <= (*itr2).moveTime - 1.0f / 60)
 			{
 				/*nowTime += Time::deltaTime;*/
 				(*itr2).nowTime += 1.0f / 60;
@@ -89,7 +89,7 @@ void DoTween::Update()
 						// APPENDの次がJoinならそれも始める（それ以降もJoinならそれも）
 						nextItr++;
 
-						if ( nextItr == (*itr1).flowList.end() || 
+						if (nextItr == (*itr1).flowList.end() ||
 							((*nextItr).start != START::JOIN))
 						{
 							break;
@@ -119,6 +119,12 @@ void DoTween::Update()
 					{
 						// OnCompleteはここで実行する//////////////
 
+						// OnComplete関数が実行しているなら
+						if ((*itr1).onComplete != nullptr)
+						{
+							// 処理する
+							(*itr1).onComplete();
+						}
 
 						///////////////////////////////////////////
 
@@ -246,9 +252,14 @@ void DoTween::SetLoop(int _loopNum)
 	sequence.back().actNum = _loopNum;
 }
 
+void DoTween::OnComplete(std::function<void()> _onComplete)
+{
+	sequence.back().onComplete = _onComplete;
+}
+
 void DoTween::Stop()
 {
-	
+
 	sequence.clear();	// 全てを消す
 }
 
@@ -374,7 +385,7 @@ void DoTween::GetValue(VALUE* _value)
 		_value->targetValue.z = objPtr->mTransform.pos.z;
 		_value->moveDir = GetVector(objPtr->mTransform.pos, _value->targetValue);
 		_value->moveSpeed = GetSpeed(objPtr->mTransform.pos, _value->targetValue, _value->moveTime);
-		
+
 		break;
 	case FUNC::MOVE_Y:
 		_value->targetValue.x = objPtr->mTransform.pos.x;
@@ -482,7 +493,7 @@ void DoTween::flowLoopSet(std::list<VALUE>* _resetList)
 
 		if ((*itr).start != START::JOIN) break;
 	}
-	
+
 }
 
 
