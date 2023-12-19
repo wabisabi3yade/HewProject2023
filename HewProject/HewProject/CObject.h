@@ -1,7 +1,6 @@
 #pragma once
 
 #include "direct3d.h"
-#include "CCamera.h"
 #include "CAnimation.h"
 #include"Vector3.h"
 #include "Transform.h"
@@ -17,6 +16,7 @@ enum ObjectLayer
 	BACK_GROUND,
 };
 
+class CCamera;
 
 class CObject
 {
@@ -59,6 +59,10 @@ public:
 	//float mRotZ = 0.0f;	// 回転する角度を持つ変数
 
 public:
+	// メンバー関数
+	// 初期化処理（コンストラクタ）
+	CObject();
+
 	// メンバー関数
 	// 初期化処理（コンストラクタ）
 	CObject(D3DBUFFER vb, D3DTEXTURE tex);
