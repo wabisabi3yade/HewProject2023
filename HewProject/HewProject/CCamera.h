@@ -1,16 +1,14 @@
 #pragma once
 
+#include "CObject.h"
+
 #include "direct3d.h"
-#include"Vector3.h"
-#include"Transform.h"
 
 // ゲームのカメラのクラス
 // カメラはプレイヤーを追従していく
 class CCamera
+	: public CObject
 {
-
-	Transform mTransform;
-
 	CCamera();
 
 	~CCamera();
