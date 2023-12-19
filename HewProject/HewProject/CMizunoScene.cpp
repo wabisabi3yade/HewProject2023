@@ -371,7 +371,7 @@ void CMizunoScene::LateUpdate()
 
 void CMizunoScene::Draw()
 {
-	charObj->Draw();
+	//charObj->Draw();
 	//charObj2->Draw();
 
 	stagescene->Draw();
