@@ -20,11 +20,21 @@ private:
     const wchar_t* CsvPath[PathLength] = {L"asset/mizuno/Stage.csv"};
 
     D3DBUFFER stageBuffer;
-    D3DTEXTURE stageTexture;
+    D3DTEXTURE stageTextureFloor;
 
+    D3DTEXTURE stageTextureFloor2;
 
-    D3DTEXTURE stageTexture2;
-
+    D3DTEXTURE stageTextureWall;
+    D3DTEXTURE stageTextureWataame;
+    D3DTEXTURE stageTextureCastella;
+    D3DTEXTURE stageTextureBaumkuchen;
+    D3DTEXTURE stageTextureChocolate;
+    D3DTEXTURE stageTextureCake;
+    D3DTEXTURE stageTextureChili;
+    D3DTEXTURE stageTextureCoin;
+    D3DTEXTURE stageTextureGallChest;
+    D3DTEXTURE stageTextureGumi;
+    D3DTEXTURE stageTextureProtein;
 
     
 public:
