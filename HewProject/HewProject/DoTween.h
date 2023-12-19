@@ -2,6 +2,9 @@
 #include "CObject.h"
 #include <list>
 
+#include <iostream>
+#include <functional>
+
 class DoTween
 {
 public:
@@ -25,13 +28,6 @@ public:
 		JOIN	// 前のと同タイミングで始まる
 	};
 
-	//template <typename T>
-	//struct ONCOMPLETE
-	//{
-	//	T* recive;	// データを受け取る変数ポインタ
-	//	T send;		// データを送る変数
-	//};
-
 	struct VALUE
 	{
 		bool isPlay = false;
@@ -53,7 +49,8 @@ public:
 	{
 		std::list<VALUE> flowList;	// 処理をする順序（flow)
 		int actNum = 1;	// 残りの実行回数(-1は永久ループ)
-		/*ONCOMPLETE onComplete;*/
+		std::function<void()> onComplete = nullptr;	// OnCompleteで処理するラムダ式
+													//（関数実行しないならnullptr） 
 	};
 	
 private:
@@ -123,8 +120,8 @@ public:
 	/// <param name="_loopNum">ループ回数(-1は永久ループ)</param>
 	void SetLoop(int _loopNum);
 
-	/*template <typename T>
-	void OnComplete(T* _recive, T _send);*/
+	
+	void OnComplete(std::function<void()> _onComplete);
 
 	/// <summary>
 	/// 今、登録している処理を全て止める

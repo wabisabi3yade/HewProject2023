@@ -1,6 +1,5 @@
 #include "PlayerMove.h"
 
-#include "Vector3.h"
 #include "CInput.h"
 #include "DoTween.h"
 #include "Player.h"
@@ -18,60 +17,119 @@ PlayerMove::PlayerMove(Player* _p)
 
 void PlayerMove::Update()
 {
-	static float time = 0.0f;
-	static bool o_isMove = false;;
+	//static float time = 0.0f;
+	//static bool o_isMove = false;;
 
-	if (!o_isMove && isMoving)
-	{
-		time = 0.0f;
-	}
+	//// ˆÚ“®ŒãisMoving‚ðfalse‚É‚·‚éˆ—i‰¼j
+	//if (!o_isMove && isMoving)
+	//{
+	//	time = 0.0f;
+	//}
 
 	Move();
 
-	if (isMoving)
-	{
-		time += 1.0f / 60.0f;
+	//if (isMoving)
+	//{
+	//	time += 1.0f / 60.0f;
 
-		if (time >= moveTime)
-		{
-			isMoving = false;
-			time = 0.0f;
-		}
-	}
-	
+	//	if (time >= moveTime)
+	//	{
+	//		isMoving = false;
+	//		time = 0.0f;
+	//	}
+	//}
 
 
-	o_isMove = isMoving;
+
+	//o_isMove = isMoving;
 	dotween->Update();
 }
 
 PlayerMove::~PlayerMove()
 {
-	
+
 }
 
 void PlayerMove::Move()
 {
-	/*if (isoving) return;*/
+	if (isMoving) return;
+
+	bool isInput = false;
 
 	Vector3 target = Vector3::zero;
 
 	if (gInput->GetKeyTrigger(VK_UP))
 	{
-		isMoving = true;
-		target = {player->mTransform.pos.x + };
-		dotween->DoMove()
+		isInput = true;
+
+		target = { 6.0f, 3.0f, 1.0f };
+		dotween->DoMove(target, 1.0f);
+		target = { 2.0f, 2.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+		target = { 1.0f, 1.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+
+		target = { 6.0f, -3.0f, 1.0f };
+		dotween->Append(target, 1.0f, DoTween::FUNC::MOVE);
+		target = { 2.0f, 2.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+		target = { 1.0f, 1.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+
+		target = { -6.0f, -3.0f, 1.0f };
+		dotween->Append(target, 1.0f, DoTween::FUNC::MOVE);
+		target = { 2.0f, 2.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+		target = { 1.0f, 1.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+
+		target = { -6.0f, 3.0f, 1.0f };
+		dotween->Append(target, 1.0f, DoTween::FUNC::MOVE);
+		target = { 2.0f, 2.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+		target = { 1.0f, 1.0f, 1.0f };
+		dotween->Append(target, 0.5f, DoTween::FUNC::SCALE);
+
+		dotween->SetLoop(3);
+
+		dotween->OnComplete
+		([&]() {
+			isMoving = false;
+			});
+
+
 	}
 	if (gInput->GetKeyTrigger(VK_DOWN))
 	{
-		isMoving = true;
-		
+		isInput = true;
+
+		target = { 6.0f, 3.0f, 1.0f };
+		dotween->DoMove(target, 1.0f);
+		dotween->OnComplete
+		([&]() {
+			isMoving = false;
+			});
 	}
 	if (gInput->GetKeyTrigger(VK_RIGHT))
 	{
-		isMoving = true;
+		isInput = true;
+
+		dotween->OnComplete
+		([&]() {
+			isMoving = false;
+			});
 	}
 	if (gInput->GetKeyTrigger(VK_LEFT))
+	{
+		isInput = true;
+
+		dotween->OnComplete
+		([&]() {
+			isMoving = false;
+			});
+	}
+
+	if (isInput)
 	{
 		isMoving = true;
 	}
