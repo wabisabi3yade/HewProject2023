@@ -1,7 +1,11 @@
 #pragma once
 #include "CSceneManager.h"
 #include "CScene.h"
-#include "COperation.h"
+#include "direct3d.h"
+#include "Vector2.h"
+#include "Vector3.h"
+
+//#include "COperation.h"
 
 class CTatemizoScene :
 	public CScene
@@ -31,6 +35,8 @@ public:
 	CTatemizoScene();
 
 	~CTatemizoScene();
+	
+	static bool Op;
 
 	void Update() override;
 

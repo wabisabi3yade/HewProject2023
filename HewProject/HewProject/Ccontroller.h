@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <Xinput.h>
 #include <Dinput.h>
+#include "Vector3.h"
 
 class Input
 {
@@ -14,10 +15,9 @@ class Input
 	static XINPUT_STATE ControllerState;	//今のコントローラーの状態
 	static XINPUT_STATE FControllerState;	//前フレームのコントローラーの状態
 
-public:
+	int* gValue = 0;
 
-	//初期化
-	static void Init();
+public:
 
 	//setter
 	//setterは特になし！
@@ -25,15 +25,15 @@ public:
 	//Getter
 	static bool	 GetControllerDown(int);		//ボタンが押されたか
 	static bool  GetController(int);			//ボタンが押されているか
-	static bool  GetControllerUp(int);		//ボタンが離されたか
-	static int   GetControllerStick(int);	//スティック
-	static float GetControllerTrigger(int);	//trigger(LT,RT)
+	static bool  GetControllerUp(int);			//ボタンが離されたか
+	static Vector3  GetControllerStick(int);	//スティック
+	static float GetControllerTrigger(int);		//trigger(LT,RT)
 
 	//入力
 	static float GetVertical();			//縦入力
 	static float GetHorizontal();		//横入力
 	static bool FDpadVertical;
-	static bool GetDpadVerticaldown();		//十字キーの縦入力
+	static bool GetDpadVerticaldown();	//十字キーの縦入力
 	static bool GetDpadVertical();
 	static bool FDpadHorizontal;
 	static bool GetDpadHorizontalDown();//十字キーの横入力

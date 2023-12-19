@@ -43,8 +43,6 @@ void COperation::Update()
     }
 
     charObj->SetDir(dir);
-
-    charObj->Update();
 }
 
 void COperation::Draw()

@@ -1,4 +1,7 @@
 #include "CTatemizoScene.h"
+#include "Ccontroller.h"
+
+Input* gValue = new Input;
 
 CTatemizoScene::CTatemizoScene()
 {
@@ -20,7 +23,23 @@ CTatemizoScene::~CTatemizoScene()
 
 void CTatemizoScene::Update()
 {
+    // 操作で設定する用のベクトル変数
+    Vector3 d;
 
+    // 方向なしベクトルに設定
+    d.x = 0;
+    d.y = 0;
+    d.z = 0;
+
+    // 移動速度を初めに０にする
+    moveSpeed = 0.0f;
+
+    dir = { 0,0,0 };
+
+    //スティックの値で角度を判定して動かす
+    CTatemizoScene::
+
+	charObj->Update();
     // ベクトルを使って移動
     //charObj->SetMoveSpeed(moveSpeed);
     //pos.x = pos.x + dir.x * moveSpeed;

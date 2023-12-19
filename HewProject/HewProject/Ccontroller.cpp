@@ -4,11 +4,6 @@
 XINPUT_STATE Input::ControllerState; //コントローラーの状態
 XINPUT_STATE Input::FControllerState;//前のコントローラーの状態
 
-//初期化
-void Input::Init() {}
-
-
-
 //setter
 //特になし！
 
@@ -19,9 +14,8 @@ bool Input::GetControllerUp(int _button) { return !(ControllerState.Gamepad.wBut
 
 //スティックの入力
 //引数0or1でL,Rを判定
-int Input::GetControllerStick(int _stick)
+Vector3 Input::GetControllerStick(int _stick)
 {
-	int Value=0;
 	float x = 0, y = 0;
 
 	switch (_stick)
@@ -37,9 +31,8 @@ int Input::GetControllerStick(int _stick)
 		y = ControllerState.Gamepad.sThumbRY;	//右スティックのY軸
 		break;
 	};
-	return Value,(x,y) / 32767;	//XInputは65535段階(-32767～32767)
+	return Vector3(x,y) / 32767;	//XInputは65535段階(-32768～32767)
 }
-
 
 //triggerの入力
 //引数0or1でL,Rを判定
@@ -64,11 +57,11 @@ float Input::GetControllerTrigger(int _trigger)
 //縦入力
 float Input::GetVertical()
 {
-	float ControllerVal = GetControllerStick(0), y;	//スティックのY軸の値
+	Vector3 ControllerVal = GetControllerStick(0). y;	//スティックのY軸の値
 
-	if (ControllerVal != 0)
+	if (ControllerVal.y != 0)
 	{
-		return ControllerVal;
+		return ControllerVal.y; 
 	}
 }
 
@@ -92,10 +85,10 @@ bool Input::GetDpadVertical()
 //横入力
 float Input::GetHorizontal()
 {
-	float ControllerVal = GetControllerStick(0), x;	//スティックのX軸の値
-	if (ControllerVal != 0)
+	Vector3 ControllerVal = GetControllerStick(0), x;	//スティックのX軸の値
+	if (ControllerVal.x != 0)
 	{
-		return ControllerVal;
+		return ControllerVal.x;
 	}
 }
 
