@@ -1,6 +1,7 @@
 #pragma once
 #include "CObject.h"
 #include <list>
+#include <vector>
 #include"CEffect.h"
 class Vector3;
 
@@ -8,12 +9,12 @@ class Vector3;
 
 class EffectManeger //public CObject
 {
-	
+
 public:
-	
+
 	typedef enum
 	{
-		EFFECT_UP=0,
+		EFFECT_UP = 0,
 		EFFECT_DOWN,
 		CHARE,
 		EFFECT_MAX,
@@ -21,6 +22,10 @@ public:
 
 private:
 	std::list<CEffect*>EffectList;
+
+	std::vector<D3DTEXTURE> effectTexBox;	// エフェクトのオブジェクトをまとめた配列
+
+	/*std::vector<const wchar_t*> effectTexPath;*/	// エフェクト画像のパスが入ったリスト
 
 	D3DBUFFER charBuffer;
 	D3DTEXTURE charTexture;
@@ -35,16 +40,16 @@ private:
 	~EffectManeger();
 public:
 
-	D3DTEXTURE EffectBox[EFFECT_MAX];
-
 	static EffectManeger* GetInstance();
 
-	void Play(Vector3 _pos , Vector3 _scale , FX_TYPE _type ,bool _isLoop);
+	void Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLoop);
 
 	void Draw();
 
 	void Update();
 
-	void Delete();
+	static void Delete();
+
+	int GetTexBoxSize()const { return effectTexBox.size(); };
 };
 
