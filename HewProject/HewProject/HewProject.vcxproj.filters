@@ -139,15 +139,29 @@
     <Filter Include="ソース ファイル\Base\GameBase\Vector2">
       <UniqueIdentifier>{00374157-292e-48cb-9a1f-6469169f1c70}</UniqueIdentifier>
     </Filter>
-
-	  <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
-		  <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
-	  </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
+      <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
       <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Base\GameBase\GridObject">
       <UniqueIdentifier>{165b52df-7038-4c82-8b6a-a9a41e37a9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Cake">
+      <UniqueIdentifier>{c8d66336-856d-4fdb-9e7c-926deb34fedd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Castella">
+      <UniqueIdentifier>{104f7904-4460-4c74-8096-6fca0f23bbd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Wall">
+      <UniqueIdentifier>{0dcdcce6-b865-4f48-9545-8771c3c83fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Holl">
+      <UniqueIdentifier>{55c99746-5751-4002-b6d6-0d66c0de300a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Choco">
+      <UniqueIdentifier>{2ec347e4-c714-4ad4-b7c8-958bdbe81d14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -253,20 +267,32 @@
     <ClInclude Include="Vector2.h">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClInclude>
-
-	  <ClInclude Include="COperation.h">
-		  <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
-	  </ClInclude>
+    <ClInclude Include="COperation.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerMove.h">
       <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
     </ClInclude>
-	  <ClInclude Include="CGridObject.h">
-		  <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
-	  </ClInclude>
+    <ClInclude Include="CGridObject.h">
+      <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+    </ClInclude>
     <ClInclude Include="Ckcal_gauge.h">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
-
-
+    </ClInclude>
+    <ClInclude Include="CCake.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Cake</Filter>
+    </ClInclude>
+    <ClInclude Include="CCastella.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Castella</Filter>
+    </ClInclude>
+    <ClInclude Include="CWall.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="CHoll.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Holl</Filter>
+    </ClInclude>
+    <ClInclude Include="CChoco.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Choco</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -372,18 +398,32 @@
     <ClCompile Include="Vector2.cpp">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClCompile>
-	  <ClCompile Include="COperation.cpp">
-		  <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
-	  </ClCompile>
+    <ClCompile Include="COperation.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerMove.cpp">
       <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
     </ClCompile>
-
-	  <ClCompile Include="CGridObject.cpp">
-		  <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
-	  </ClCompile>
+    <ClCompile Include="CGridObject.cpp">
+      <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+    </ClCompile>
     <ClCompile Include="Ckcal_gauge.cpp">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CCake.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Cake</Filter>
+    </ClCompile>
+    <ClCompile Include="CCastella.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Castella</Filter>
+    </ClCompile>
+    <ClCompile Include="CWall.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="CHoll.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Holl</Filter>
+    </ClCompile>
+    <ClCompile Include="CChoco.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Choco</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

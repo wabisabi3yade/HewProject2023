@@ -1,6 +1,11 @@
 #include "StageScene.h"
 #include<iostream>
 #include<algorithm>
+#include"CCake.h"
+#include"CChoco.h"
+#include"CCastella.h"
+#include"CWall.h"
+#include"CHoll.h"
 
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
@@ -106,17 +111,17 @@ void StageScene::Init()
 			//stageObj->SetTexture(stageTextureFloor);
 			break;
 		case CStageMake::BlockType::WALL:
-			stageObj->SetTexture(stageTextureWall);
+			stageObj = new CWall(stageBuffer, stageTextureWall);
 			break;
 		case CStageMake::BlockType::HOLL:
-			stageObj->SetTexture(NULL);
+			stageObj = new CHoll(stageBuffer, NULL);
 			break;
 		case CStageMake::BlockType::CAKE:
-			stageObj->SetTexture(stageTextureCake);
+			stageObj = new CCake(stageBuffer, stageTextureCake);
 			break;
 		case CStageMake::BlockType::CASTELLA:
-			stageObj->SetTexture(stageTextureCastella);
-			break;
+			stageObj = new CCastella(stageBuffer, stageTextureCastella);
+				break;
 		case CStageMake::BlockType::BAUM:
 			stageObj->SetTexture(stageTextureBaumkuchen);
 			break;
@@ -127,8 +132,8 @@ void StageScene::Init()
 			stageObj->SetTexture(stageTextureWataame);
 			break;
 		case CStageMake::BlockType::CHOCO:
-			stageObj->SetTexture(stageTextureChocolate);
-			break;
+			stageObj = new CChoco(stageBuffer, stageTextureChocolate);
+				break;
 		case CStageMake::BlockType::GUMI:
 			stageObj->SetTexture(stageTextureGumi);
 			break;
@@ -144,6 +149,7 @@ void StageScene::Init()
 		default:
 			break;
 		}
+		stageObj->mTransform.scale = { 3,3,3 };
 		if ((stageposX % 3) == 0)
 		{
 			stageObj->mTransform.pos.x = -kariX + (stageObj->mTransform.scale.x / 2) + ( stageObj->mTransform.scale.x / 2 * Stage.pos.y);
