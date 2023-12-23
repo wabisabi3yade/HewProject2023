@@ -18,6 +18,7 @@ private:
     CStageMake* stageMake;
     std::vector<STAGEPOS> stagePos;
     const wchar_t* CsvPath[PathLength] = {L"asset/mizuno/Stage.csv"};
+    CGridObject* stageObj;
 
     D3DBUFFER stageBuffer;
     D3DTEXTURE stageTextureFloor;

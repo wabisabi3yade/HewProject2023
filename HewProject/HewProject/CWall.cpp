@@ -8,7 +8,7 @@ CWall::~CWall()
 {
 }
 
-void CWall::Updata()
+void CWall::Update()
 {
 	CGridObject::Update();
 }

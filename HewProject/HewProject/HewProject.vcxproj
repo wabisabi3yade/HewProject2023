@@ -140,18 +140,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAnimation.h" />
+    <ClInclude Include="CBaum.h" />
     <ClInclude Include="CCake.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCastella.h" />
     <ClInclude Include="CChoco.h" />
+    <ClInclude Include="CCoin.h" />
     <ClInclude Include="Ccontroller.h" />
     <ClInclude Include="CDirectWrite.h" />
     <ClInclude Include="CEffect.h" />
     <ClInclude Include="CEffectAnim.h" />
     <ClInclude Include="CEffectManeger.h" />
     <ClInclude Include="CFade.h" />
+    <ClInclude Include="CFloor.h" />
+    <ClInclude Include="CGall.h" />
     <ClInclude Include="CGrid.h" />
     <ClInclude Include="CGridObject.h" />
+    <ClInclude Include="CGumi.h" />
     <ClInclude Include="CHoll.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CItem.h" />
@@ -163,6 +168,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="COperation.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CProtein.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CSelect.h" />
@@ -171,6 +177,7 @@
     <ClInclude Include="CTest.h" />
     <ClInclude Include="CWakamuraScene.h" />
     <ClInclude Include="CWall.h" />
+    <ClInclude Include="CWataame.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
     <ClInclude Include="Player.h" />
@@ -185,18 +192,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
+    <ClCompile Include="CBaum.cpp" />
     <ClCompile Include="CCake.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCastella.cpp" />
     <ClCompile Include="CChoco.cpp" />
+    <ClCompile Include="CCoin.cpp" />
     <ClCompile Include="Ccontroller.cpp" />
     <ClCompile Include="CDirectWrite.cpp" />
     <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CEffectAnim.cpp" />
     <ClCompile Include="CEffectManeger.cpp" />
     <ClCompile Include="CFade.cpp" />
+    <ClCompile Include="CFloor.cpp" />
+    <ClCompile Include="CGall.cpp" />
     <ClCompile Include="CGrid.cpp" />
     <ClCompile Include="CGridObject.cpp" />
+    <ClCompile Include="CGumi.cpp" />
     <ClCompile Include="CHoll.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CItem.cpp" />
@@ -208,6 +220,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="COperation.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CProtein.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CSelect.cpp" />
@@ -216,6 +229,7 @@
     <ClCompile Include="CTest.cpp" />
     <ClCompile Include="CWakamuraScene.cpp" />
     <ClCompile Include="CWall.cpp" />
+    <ClCompile Include="CWataame.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DoTween.cpp" />
     <ClCompile Include="main.cpp" />

@@ -9,7 +9,7 @@ CChoco::~CChoco()
 {
 }
 
-void CChoco::Updata()
+void CChoco::Update()
 {
 	CGridObject::Update();
 }

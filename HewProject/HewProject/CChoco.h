@@ -6,7 +6,7 @@ class CChoco :
 public:
     CChoco(D3DBUFFER vb, D3DTEXTURE tex);
     ~CChoco();
-    void Updata();
+    void Update();
     void Draw();
 };
 

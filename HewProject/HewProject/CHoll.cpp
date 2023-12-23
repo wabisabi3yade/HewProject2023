@@ -9,7 +9,7 @@ CHoll::~CHoll()
 {
 }
 
-void CHoll::Updata()
+void CHoll::Update()
 {
 	CGridObject::Update();
 }

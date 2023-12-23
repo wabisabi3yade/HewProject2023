@@ -9,7 +9,7 @@ public:
     CWall(D3DBUFFER vb, D3DTEXTURE tex);
     ~CWall();
 
-    void Updata();
+    void Update();
     void Draw();
 };
 

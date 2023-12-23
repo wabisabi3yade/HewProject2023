@@ -6,6 +6,13 @@
 #include"CCastella.h"
 #include"CWall.h"
 #include"CHoll.h"
+#include "CFloor.h"
+#include"CBaum.h"
+#include"CCoin.h"
+#include"CWataame.h"
+#include"CGumi.h"
+#include"CProtein.h"
+#include"CGall.h"
 
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
@@ -17,6 +24,8 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 
 StageScene::~StageScene()
 {
+	CLASS_DELETE(stageObj);
+
 	SAFE_RELEASE(stageBuffer);
 	SAFE_RELEASE(stageTextureFloor);
 	SAFE_RELEASE(stageTextureFloor2);
@@ -32,7 +41,7 @@ StageScene::~StageScene()
 	SAFE_RELEASE(stageTextureWall);
 	SAFE_RELEASE(stageTextureWataame);
 
-		CLASS_DELETE(stageMake);
+	CLASS_DELETE(stageMake);
 	CLASS_DELETE(stage);
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
@@ -91,16 +100,7 @@ void StageScene::Init()
 	//float kariX = 16.0f / 2.0f;
 	int stageNum = 0;
 	for (auto& Stage : stagePos)
-	{
-		CGridObject* stageObj = new CGridObject(stageBuffer, stageTextureFloor);
-		stageObj->mTransform.scale = { 3,3,3 };
-	float kariX = stageObj->mTransform.scale.x * 3 / 2;
-		if (stageNum % 2 == 0)
-		{
-			stageObj->SetTexture(stageTextureFloor2);
-		}
-
-		stageObj->SetGridPos((const int)Stage.pos.x, (const int)Stage.pos.y);
+	{	
 		int stageposX = (int)Stage.pos.x;
 		//int stageType = (int)Stage.blockType;
 		//°‚Ì‰æ‘œƒZƒbƒg‚Ìˆ—
@@ -108,10 +108,16 @@ void StageScene::Init()
 		{
 		case CStageMake::BlockType::FLOOR:
 			//stageObj = new ‚¤‚ñ‚Ê‚ñ‚©‚ñ‚Ê‚ñ
-			//stageObj->SetTexture(stageTextureFloor);
+			stageObj = new CFloor(stageBuffer, stageTextureFloor);
+		if (stageNum % 2 == 0)
+		{
+			stageObj->SetTexture(stageTextureFloor2);
+		}
+		stageObj->CheckFloor();
 			break;
 		case CStageMake::BlockType::WALL:
 			stageObj = new CWall(stageBuffer, stageTextureWall);
+
 			break;
 		case CStageMake::BlockType::HOLL:
 			stageObj = new CHoll(stageBuffer, NULL);
@@ -123,33 +129,45 @@ void StageScene::Init()
 			stageObj = new CCastella(stageBuffer, stageTextureCastella);
 				break;
 		case CStageMake::BlockType::BAUM:
-			stageObj->SetTexture(stageTextureBaumkuchen);
+			stageObj = new CBaum(stageBuffer, stageTextureBaumkuchen);
 			break;
 		case CStageMake::BlockType::COIN:
-			stageObj->SetTexture(stageTextureCoin);
+			stageObj = new CCoin(stageBuffer, stageTextureCoin);
 			break;
 		case CStageMake::BlockType::WATAAME:
-			stageObj->SetTexture(stageTextureWataame);
+			stageObj = new CWataame(stageBuffer, stageTextureWataame);
 			break;
 		case CStageMake::BlockType::CHOCO:
 			stageObj = new CChoco(stageBuffer, stageTextureChocolate);
 				break;
 		case CStageMake::BlockType::GUMI:
-			stageObj->SetTexture(stageTextureGumi);
+			stageObj = new CGumi(stageBuffer, stageTextureGumi);
 			break;
 		case CStageMake::BlockType::PROTEIN:
-			stageObj->SetTexture(stageTextureProtein);
+			stageObj = new CProtein(stageBuffer, stageTextureProtein);
 			break;
 		case CStageMake::BlockType::START:
-			//stageObj->SetTexture(stageTextureFloor);
+			stageObj = new CFloor(stageBuffer, stageTextureFloor);
+			if (stageNum % 2 == 0)
+			{
+				stageObj->SetTexture(stageTextureFloor2);
+			}
+			stageObj->CheckFloor();
 			break;
 		case CStageMake::BlockType::GALL:
-			stageObj->SetTexture(stageTextureGallChest);
+			stageObj = new CGall(stageBuffer, stageTextureGallChest);
 				break;
 		default:
 			break;
 		}
+		float kariX = 0;
+		if (stageObj != nullptr)
+		{
+
 		stageObj->mTransform.scale = { 3,3,3 };
+		kariX = stageObj->mTransform.scale.x * 3 / 2;
+		stageObj->SetGridPos((const int)Stage.pos.x, (const int)Stage.pos.y);
+		}
 		if ((stageposX % 3) == 0)
 		{
 			stageObj->mTransform.pos.x = -kariX + (stageObj->mTransform.scale.x / 2) + ( stageObj->mTransform.scale.x / 2 * Stage.pos.y);
@@ -213,7 +231,7 @@ Vector3 StageScene::GetGridToPos(CGrid::GRID_XY _gridXY)
 {
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
-		if ((*it)->GetGridPos().x == _gridXY.x && (*it)->GetGridPos().y == _gridXY.y)
+		if ((*it)->GetGridPos().x == _gridXY.x && (*it)->GetGridPos().y == _gridXY.y && (*it)->GetIsFloor() == true)
 		{
 			return (*it)->mTransform.pos;
 		}
