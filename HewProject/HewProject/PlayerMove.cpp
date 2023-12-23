@@ -38,14 +38,31 @@ void PlayerMove::Move()
 	if (gInput->GetKeyTrigger(VK_UP))
 	{
 		isInput = true;
+		Vector3 target = Vector3::zero;
 
-		target = Vector3::zero;
-		target.z = player->mTransform.rotation.z + 90.0f;
-		dotween->DoRotation(target, 1.0f);
+		target = { 2.0f, 2.0f,1.0f };
+		// シーケンスの最初の処理はDo～の関数から始める
+		dotween->DoMove(target, 2.0f);	// 移動
 
+		target = { 0.0f,0.0f,player->mTransform.rotation.z + 90.0f };
+		// 前の処理と同じタイミングで始める
+		dotween->Join(target, 2.0f, DoTween::FUNC::ROTATION);	// 回転
+
+		target = { player->mTransform.scale.x + 2.0f,
+				   player->mTransform.scale.y + 2.0f,
+				   1.0f };
+		// 前の処理が終わると始める
+		dotween->Append(target, 2.0f, DoTween::FUNC::SCALE);	// 拡大
+
+		dotween->Join(-3.0f, 2.0f, DoTween::FUNC::MOVE_Y);
+
+		dotween->SetLoop(3);	// 上の処理を3回繰り返す
+
+		// 上の処理が終わるとスケールを戻す
 		dotween->OnComplete
 		([&]() {
-			isMoving = false;
+			player->mTransform.scale.x = 1.0f;
+			player->mTransform.scale.y = 1.0f;
 			});
 
 	}

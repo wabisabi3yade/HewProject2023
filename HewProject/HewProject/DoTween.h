@@ -28,9 +28,16 @@ public:
 		JOIN	// 前のと同タイミングで始まる
 	};
 
+	enum class STATE
+	{
+		WAIT,	// 待機状態
+		PLAY,	// 再生中
+		END		// 終了
+	};
+
 	struct VALUE
 	{
-		bool isPlay = false;
+		STATE state = STATE::WAIT;
 
 		FUNC dotweenType = FUNC::NONE;	// Dotweenの種類変数
 		START start = START::DO;	//　始まる方法の種類変数

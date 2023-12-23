@@ -13,10 +13,11 @@ void DoTween::Update()
 	for (auto itr1 = sequence.begin(); itr1 != sequence.end(); )
 	{
 		bool isDelete = false;	// 今回のループでリストを削除したかどうか
+
 		for (auto itr2 = (*itr1).flowList.begin(); itr2 != (*itr1).flowList.end();)
 		{
 			// 再生しないなら返す
-			if (!(*itr2).isPlay)
+			if ((*itr2).state != STATE::PLAY)
 			{
 				itr2++;
 				continue;
@@ -51,12 +52,13 @@ void DoTween::Update()
 				}
 
 				itr2++;	// 次のイテレータに進む
+				
 			}
 
 			// 時間が終わると /////////////////////////////////////
 			else
 			{
-				(*itr2).isPlay = false;
+				(*itr2).state = STATE::END;
 				switch ((*itr2).dotweenType)
 				{
 				case FUNC::MOVE:
@@ -76,6 +78,8 @@ void DoTween::Update()
 				}
 
 				auto nextItr = std::next(itr2);
+
+
 
 				// 終わった要素の次のものがAPPENDなら
 				if (nextItr != (*itr1).flowList.end() && (*nextItr).start == START::APPEND)
@@ -104,7 +108,7 @@ void DoTween::Update()
 
 				// 今見ているリストで再生中の物を数える
 				int count = std::count_if((*itr1).flowList.begin(), (*itr1).flowList.end(),
-					[](VALUE v) {return(v.isPlay); });
+					[](VALUE v) {return(v.state == STATE::PLAY); });
 
 				// 再生中のものがないなら
 				if (count <= 0)
@@ -160,7 +164,7 @@ void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type)
 	set.dotweenType = _type;
 	set.start = START::APPEND;
 
-	set.isPlay = false;
+	set.state = STATE::WAIT;
 
 	// シーケンスの最後の要素に追加する
 	sequence.back().flowList.push_back(set);
@@ -186,7 +190,7 @@ void DoTween::Append(float _target, float _moveTime, FUNC _type)
 	set.dotweenType = _type;
 	set.start = START::APPEND;
 
-	set.isPlay = false;
+	set.state = STATE::WAIT;
 
 	// シーケンスの最後の要素に追加する
 	sequence.back().flowList.push_back(set);
@@ -201,9 +205,9 @@ void DoTween::Join(Vector3 _target, float _moveTime, FUNC _type)
 	set.dotweenType = _type;
 	set.start = START::JOIN;
 
-	set.isPlay = false;
+	set.state = STATE::WAIT;
 
-	if (sequence.back().flowList.back().isPlay)
+	if (sequence.back().flowList.back().state == STATE::PLAY)
 	{
 		GetValue(&set);
 	}
@@ -232,9 +236,9 @@ void DoTween::Join(float _target, float _moveTime, FUNC _type)
 	set.dotweenType = _type;
 	set.start = START::JOIN;
 
-	set.isPlay = false;
+	set.state = STATE::WAIT;
 
-	if (sequence.back().flowList.back().isPlay)
+	if (sequence.back().flowList.back().state == STATE::PLAY)
 	{
 		GetValue(&set);
 	}
@@ -370,7 +374,7 @@ void DoTween::DoRotation(Vector3 _targetAngle, float _moveTime)
 
 void DoTween::GetValue(VALUE* _value)
 {
-	_value->isPlay = true;	// Dotween起動
+	_value->state = STATE::PLAY;	// Dotween起動
 	_value->nowTime = 0;	// 初期化
 
 	// 単位ベクトルを求める
@@ -475,6 +479,12 @@ float DoTween::GetSpeed(Vector3 _start, Vector3 _end, float _time)
 
 void DoTween::flowLoopSet(std::list<VALUE>* _resetList)
 {
+	// 全て待機状態に戻す
+	for (auto i = _resetList->begin(); i != _resetList->end(); i++)
+	{
+		(*i).state = STATE::WAIT;
+	}
+
 	// ループ再生するflowの最初のイテレータを取得
 	auto itr = _resetList->begin();
 
