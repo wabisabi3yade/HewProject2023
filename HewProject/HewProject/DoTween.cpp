@@ -126,8 +126,6 @@ void DoTween::Update()
 							(*itr1).onComplete();
 						}
 
-						///////////////////////////////////////////
-
 						// 全て終わるとシーケンスからこのflowを削除する
 						itr1 = sequence.erase(itr1);
 						isDelete = true;
@@ -197,8 +195,6 @@ void DoTween::Append(float _target, float _moveTime, FUNC _type)
 void DoTween::Join(Vector3 _target, float _moveTime, FUNC _type)
 {
 	VALUE set;
-
-
 
 	set.targetValue = _target;
 	set.moveTime = _moveTime;
@@ -422,8 +418,6 @@ Vector3 DoTween::GetVector(Vector3 _start, Vector3 _end)
 					_end.y - _start.y,
 					_end.z - _start.z };
 
-
-
 	// ベクトルの長さを求める
 	double dis = pow((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z), 0.5);
 
@@ -491,7 +485,8 @@ void DoTween::flowLoopSet(std::list<VALUE>* _resetList)
 
 		itr++;
 
-		if ((*itr).start != START::JOIN) break;
+		// 見ている要素がリスト範囲外　もしくは　Join　なら　終わる
+		if ( itr == _resetList->end() || (*itr).start != START::JOIN) break;
 	}
 
 }

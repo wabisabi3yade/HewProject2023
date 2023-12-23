@@ -25,6 +25,8 @@ private:
 	// グリッドクラスのポインタ
 	std::shared_ptr<CGrid> grid;
 
+	int calorie;	// カロリー
+
 	bool canMove;	// 移動可能フラグ
 
 	DIR moveDir;
@@ -33,8 +35,6 @@ public:
 	Player(D3DBUFFER vb, D3DTEXTURE tex);
 
 	void Update() override;
-	// プレイヤーが移動する関数(1マスずつ)
-	void Move();
 
 	void Draw() override;
 
