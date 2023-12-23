@@ -140,7 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAnimation.h" />
+    <ClInclude Include="CCake.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCastella.h" />
+    <ClInclude Include="CChoco.h" />
     <ClInclude Include="Ccontroller.h" />
     <ClInclude Include="CDirectWrite.h" />
     <ClInclude Include="CEffect.h" />
@@ -149,6 +152,7 @@
     <ClInclude Include="CFade.h" />
     <ClInclude Include="CGrid.h" />
     <ClInclude Include="CGridObject.h" />
+    <ClInclude Include="CHoll.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CItem.h" />
     <ClInclude Include="CKawadaScene.h" />
@@ -166,6 +170,7 @@
     <ClInclude Include="CTatemizoScene.h" />
     <ClInclude Include="CTest.h" />
     <ClInclude Include="CWakamuraScene.h" />
+    <ClInclude Include="CWall.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
     <ClInclude Include="Player.h" />
@@ -180,7 +185,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
+    <ClCompile Include="CCake.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCastella.cpp" />
+    <ClCompile Include="CChoco.cpp" />
     <ClCompile Include="Ccontroller.cpp" />
     <ClCompile Include="CDirectWrite.cpp" />
     <ClCompile Include="CEffect.cpp" />
@@ -189,6 +197,7 @@
     <ClCompile Include="CFade.cpp" />
     <ClCompile Include="CGrid.cpp" />
     <ClCompile Include="CGridObject.cpp" />
+    <ClCompile Include="CHoll.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CItem.cpp" />
     <ClCompile Include="CKawadaScene.cpp" />
@@ -206,6 +215,7 @@
     <ClCompile Include="CTatemizoScene.cpp" />
     <ClCompile Include="CTest.cpp" />
     <ClCompile Include="CWakamuraScene.cpp" />
+    <ClCompile Include="CWall.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DoTween.cpp" />
     <ClCompile Include="main.cpp" />
