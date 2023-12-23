@@ -36,7 +36,7 @@ CMizunoScene::CMizunoScene()
 	//std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageData, 13);
 
 	stagescene = new StageScene(NULL,NULL);
-	stagescene->Init();
+	stagescene->Init(L"asset/mizuno/Stage.csv",3);
 	//std::vector<Stage> StageTable = stage->LoadStage("asset/mizuno/Stage.csv");
 	//std::vector<STAGEPOS> stagepos = stageMake->StagePos(StageTable);
 

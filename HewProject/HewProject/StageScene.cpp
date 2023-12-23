@@ -71,7 +71,7 @@ void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
 	std::sort(_sortList.begin(), _sortList.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
 }
 
-void StageScene::Init()
+void StageScene::Init(const wchar_t* filePath, float _stageScale)
 {
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 
@@ -92,7 +92,7 @@ void StageScene::Init()
 	stage = new CLoadStage;
 	stageMake = new CStageMake;
 
-	std::vector<LoadData> StageData = stage->LoadStage(L"asset/mizuno/Stage.csv");
+	std::vector<LoadData> StageData = stage->LoadStage(filePath);
 
 	stagePos = stageMake->StagePos(StageData, 3);
 
@@ -164,7 +164,7 @@ void StageScene::Init()
 		if (stageObj != nullptr)
 		{
 
-		stageObj->mTransform.scale = { 3,3,3 };
+		stageObj->mTransform.scale = { _stageScale,_stageScale,_stageScale };
 		kariX = stageObj->mTransform.scale.x * 3 / 2;
 		stageObj->SetGridPos((const int)Stage.pos.x, (const int)Stage.pos.y);
 		}

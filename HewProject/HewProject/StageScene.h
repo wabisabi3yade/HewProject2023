@@ -48,7 +48,7 @@ public:
     void Update();
     void Draw();
     void Z_Sort(std::vector<CGridObject*>& _sortList);
-    void Init();
+    void Init(const wchar_t* filePath ,float _stageScale);
     Vector3 GetGridToPos(CGrid::GRID_XY _gridXY);
 };
 
