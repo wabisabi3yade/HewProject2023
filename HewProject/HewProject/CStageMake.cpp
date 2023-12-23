@@ -40,8 +40,6 @@ std::vector<STAGEPOS> CStageMake::StagePos(std::vector<LoadData> _vStage, int _s
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::HOLL:
-				pushstagepos.blockType = 0;
-				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::CAKE:
 				pushstagepos.blockType = 0;

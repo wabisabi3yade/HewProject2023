@@ -1,11 +1,12 @@
 #pragma once
 #include "CGridObject.h"
-class CHoll :
+class CCoin :
     public CGridObject
 {
 public:
-    CHoll(D3DBUFFER vb, D3DTEXTURE tex);
-    ~CHoll();
+    CCoin(D3DBUFFER vb, D3DTEXTURE tex);
+    ~CCoin();
+
     void Update();
     void Draw();
 };

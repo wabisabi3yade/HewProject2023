@@ -1,11 +1,12 @@
 #pragma once
 #include "CGridObject.h"
-class CHoll :
+class CProtein :
     public CGridObject
 {
 public:
-    CHoll(D3DBUFFER vb, D3DTEXTURE tex);
-    ~CHoll();
+    CProtein(D3DBUFFER vb, D3DTEXTURE tex);
+    ~CProtein();
+
     void Update();
     void Draw();
 };

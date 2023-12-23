@@ -163,6 +163,27 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Choco">
       <UniqueIdentifier>{2ec347e4-c714-4ad4-b7c8-958bdbe81d14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Floor">
+      <UniqueIdentifier>{606ce8a9-d8a3-4172-9efe-e341dae141b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Baum">
+      <UniqueIdentifier>{7dff0813-b4f5-4009-899a-f35db116efa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Coin">
+      <UniqueIdentifier>{5b5a69ca-9b49-4257-8c24-217ebfd5dc31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Wataame">
+      <UniqueIdentifier>{3758202d-3a90-4b2b-882b-9f27d1bece1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Gumi">
+      <UniqueIdentifier>{3b87996c-ff56-4531-9015-0be6e37f8351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Protein">
+      <UniqueIdentifier>{8f87f2c1-20e8-4839-98f9-f656efbeff6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Gall">
+      <UniqueIdentifier>{50dfa6dd-a888-4605-ba40-27283ffcde7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -294,6 +315,27 @@
     <ClInclude Include="CChoco.h">
       <Filter>ソース ファイル\Mizuno\Stage\Choco</Filter>
     </ClInclude>
+    <ClInclude Include="CFloor.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="CBaum.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+    </ClInclude>
+    <ClInclude Include="CCoin.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="CWataame.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Wataame</Filter>
+    </ClInclude>
+    <ClInclude Include="CGumi.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Gumi</Filter>
+    </ClInclude>
+    <ClInclude Include="CProtein.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Protein</Filter>
+    </ClInclude>
+    <ClInclude Include="CGall.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -424,6 +466,27 @@
     </ClCompile>
     <ClCompile Include="CChoco.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Choco</Filter>
+    </ClCompile>
+    <ClCompile Include="CFloor.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="CBaum.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+    </ClCompile>
+    <ClCompile Include="CCoin.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="CWataame.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Wataame</Filter>
+    </ClCompile>
+    <ClCompile Include="CGumi.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Gumi</Filter>
+    </ClCompile>
+    <ClCompile Include="CProtein.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Protein</Filter>
+    </ClCompile>
+    <ClCompile Include="CGall.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
