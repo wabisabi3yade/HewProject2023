@@ -44,4 +44,10 @@ public:
 
 	// ƒJƒƒ‰‚Ì‰ñ“]Šp“xiZ²j‚ğæ“¾
 	float GetRotZ() { return mTransform.rotation.z; }
+
+	//Šg‘å
+	void Zoom();
+
+	//k¬
+	void Reduction();
 };
