@@ -7,13 +7,29 @@ class DoTween;
 
 class PlayerMove
 {
+
+public:
+	enum class DIRECTION
+	{
+		UP,
+		DOWN,
+		RIGHT,
+		LEFT
+	};
+
+
+private:
 	std::unique_ptr<Player> player;	// プレイヤークラスのポインタ
 
 	std::unique_ptr<DoTween> dotween;
 
-	Vector3 a[4];	// 目的座標（上下左右）
+	DIRECTION direction;
+
+	bool canMoveDir[4];	// 移動可能である方向
 
 	bool isMoving;	// 移動可能フラグ
+
+	bool isMovingTrigger;	// isMove = true->falseに変わった瞬間だけtrue
 
 	float moveTime = 0.0f;	// 仮
 
@@ -21,8 +37,14 @@ public:
 	PlayerMove(Player* _p);
 
 	void Update();
-	void Move();
+	void Move(Vector3 _pos);
+
+	// 移動終えた瞬間に次の移動のための準備をする関数
+	void SettingMove();
 
 	~PlayerMove();
+
+	bool GetIsMoving()const { return isMoving; }
+	DIRECTION GetDirection()const { return direction; }
 };
 

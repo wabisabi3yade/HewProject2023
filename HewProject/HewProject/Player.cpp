@@ -2,20 +2,12 @@
 #include "CGrid.h"
 #include "CInput.h"
 
-#include "PlayerMove.h"
-
 
 Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
-	:CObject(vb, tex)
+	:CGridObject(vb, tex)
 {
-	// グリッドクラスのポインタ
-	grid = std::make_shared<CGrid>();
-	grid->gridPos = { 0,0 };
-
 	move = std::make_shared<PlayerMove>(this);
 
-	canMove = true;	// 一旦移動できないようにする
-	moveDir = DIR::UP;	// 一旦うえにする
 }
 
 void Player::Update()
@@ -32,7 +24,17 @@ Player::~Player()
 {
 }
 
-CGrid* Player::GetGrid()
+bool Player::GetIsMoving() const
 {
-	return grid.get();
+	return move->GetIsMoving();
+}
+
+int Player::GetDirection() const
+{
+	return static_cast<int>(move->GetDirection());
+}
+
+PlayerMove* Player::GetPlayerMove() const
+{
+	return move.get();
 }

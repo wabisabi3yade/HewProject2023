@@ -29,7 +29,9 @@ struct STAGE_XY
 
 struct LoadData
 {
-	int data;
+	std::vector<int> data;	// ステージのデータが入る
+	int numX;	// ステージに列が難行あるか
+	int numY;	// ステージの行が何行あるか
 };
 
 class CLoadStage
@@ -40,9 +42,9 @@ class CLoadStage
 public:
 	//CLoadStage();
 	//~CLoadStage();
-	
 
-	std::vector<LoadData>LoadStage(const wchar_t* filePath);
+
+	LoadData LoadStage(const wchar_t* filePath);
 
 };
 
