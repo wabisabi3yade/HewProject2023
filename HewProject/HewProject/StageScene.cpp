@@ -61,14 +61,49 @@ StageScene::~StageScene()
 
 void StageScene::Update()
 {
+	player->mTransform.pos;
+
 	if (gInput->GetKeyTrigger(VK_RIGHT))
 	{
 		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-		Vector3 v(Offset_X + (playerGridPos.y  + playerGridPos.x + 1) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x +1 - playerGridPos.y + 1.5f ) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
+		playerGridPos.x += 1;
+		Vector3 v(GridToPos(playerGridPos, CStageMake::BlockType::START));
 		PLAYER->GetPlayerMove()->Move(v);
-		PLAYER->SetGridPos(playerGridPos.x + 1, playerGridPos.y);
+		PLAYER->SetGridPos(playerGridPos.x , playerGridPos.y);
+	}
+	if (gInput->GetKeyTrigger(VK_LEFT))
+	{
+		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+		Vector3 v(Offset_X + (playerGridPos.y + playerGridPos.x - 1) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x - 1 - playerGridPos.y + PLAYER->mTransform.scale.y / 2.0f) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
+		PLAYER->GetPlayerMove()->Move(v);
+		PLAYER->SetGridPos(playerGridPos.x - 1, playerGridPos.y);
+		Z_Sort(vStageObj);
+
+	}
+	if (gInput->GetKeyTrigger(VK_UP))
+	{
+		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+		Vector3 v(Offset_X + (playerGridPos.y - 1 + playerGridPos.x) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x - playerGridPos.y + 1 + PLAYER->mTransform.scale.y / 2.0f) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
+		PLAYER->GetPlayerMove()->Move(v);
+		PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y - 1);
+		Z_Sort(vStageObj);
+
+	}
+	if (gInput->GetKeyTrigger(VK_DOWN))
+	{
+		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+		if (oneFloor.gridTable[playerGridPos.x][playerGridPos.y + 1] != CStageMake::BlockType::CASTELLA)
+		{
+
+		Vector3 v(Offset_X + (playerGridPos.y + 1 + playerGridPos.x) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x - playerGridPos.y - 1 + PLAYER->mTransform.scale.y / 2.0f) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
+		PLAYER->GetPlayerMove()->Move(v);
+		PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y + 1);
+		Z_Sort(vStageObj);
+		}
 	}
 	PLAYER->Update();
+	Z_Sort(vStageObj);
+
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
 		(*it)->Update();
@@ -85,6 +120,7 @@ void StageScene::SettingPlayerDir()
 
 void StageScene::Draw()
 {
+	Z_Sort(vStageObj);
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
 		(*it)->Draw();
@@ -133,11 +169,11 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	stageScale = { _stageScale,_stageScale,1.0f };
 
 	// [0,0]の床の座標
-	 Offset_X = - stageScale.x * (StageData.numX - 1) / 2.0f;
+	Offset_X = -stageScale.x * (StageData.numX - 1) / 2.0f;
 	// ↓要調整
-	 Offset_Y = - stageScale.y / 2.0f;	// 床なので少し下に下げる
+	Offset_Y = -stageScale.y / 2.0f;	// 床なので少し下に下げる
 
-	// 行
+   // 行
 	for (int i = 0; i < StageData.numY; i++)
 	{
 		// 列
@@ -282,4 +318,36 @@ Vector3 StageScene::GetGridToPos(CGrid::GRID_XY _gridXY)
 		}
 	}
 	return Vector3();
+}
+Vector3 StageScene::GridToPos(CGrid::GRID_XY _gridXY, CStageMake::BlockType _type)
+{
+	float disTimes = 0.0f;
+	switch (_type)
+	{
+	case CStageMake::WALL:
+	case CStageMake::CASTELLA:
+	case CStageMake::BAUM:
+	case CStageMake::COIN:
+	case CStageMake::GUMI:
+		disTimes = 0.455f;
+
+		break;
+
+	case CStageMake::CAKE:
+	case CStageMake::PROTEIN:
+		disTimes = 0.7f;
+		break;
+
+	case CStageMake::START:
+		disTimes = 0.5f;
+		break;
+	}
+
+	Vector3 v;
+	v.x = Offset_X + (_gridXY.y + _gridXY.x ) * (stageScale.x / 2.0f);
+	v.y = Offset_Y + (_gridXY.x  - _gridXY.y) * stageScale.y / ISOME_FLOOR_SUBPOSY
+		+ stageScale.y * disTimes;
+	v.z = (Offset_Y + (_gridXY.x - _gridXY.y) * stageScale.y / ISOME_FLOOR_SUBPOSY) - 0.001f;
+
+	return v;
 }

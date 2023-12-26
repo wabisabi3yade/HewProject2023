@@ -77,6 +77,7 @@ public:
 	void Z_Sort(std::vector<CGridObject*>& _sortList);
 	void Init(const wchar_t* filePath, float _stageScale);
 	Vector3 GetGridToPos(CGrid::GRID_XY _gridXY);
+	Vector3 GridToPos(CGrid::GRID_XY _gridXY, CStageMake::BlockType _type);
 
 };
 
