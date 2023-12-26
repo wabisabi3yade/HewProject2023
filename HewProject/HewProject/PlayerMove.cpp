@@ -30,34 +30,17 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Move(Vector3 _pos)
 {
 	if (isMoving) return;
-
-	bool isInput = false;
-
-	Vector3 target = Vector3::zero;
-
-	if (gInput->GetKeyTrigger(VK_UP))
-	{
-		isInput = true;
-
-
-	}
-	if (gInput->GetKeyTrigger(VK_DOWN))
-	{
-		isInput = true;
-	}
-	if (gInput->GetKeyTrigger(VK_RIGHT))
-	{
-		isInput = true;
-	}
-	if (gInput->GetKeyTrigger(VK_LEFT))
-	{
-		isInput = true;
-	}
-
-	if (isInput)
+	else
 	{
 		isMoving = true;
 	}
+
+
+
+	dotween->DoMove(_pos, 3.0f);
+	dotween->OnComplete([&]{isMoving = false; });
+
+
 }
 
 void PlayerMove::SettingMove()

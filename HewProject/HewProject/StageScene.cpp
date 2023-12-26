@@ -61,8 +61,14 @@ StageScene::~StageScene()
 
 void StageScene::Update()
 {
+	if (gInput->GetKeyTrigger(VK_RIGHT))
+	{
+		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+		Vector3 v(Offset_X + (playerGridPos.y  + playerGridPos.x + 1) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x +1 - playerGridPos.y + 1.5f ) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
+		PLAYER->GetPlayerMove()->Move(v);
+		PLAYER->SetGridPos(playerGridPos.x + 1, playerGridPos.y);
+	}
 	PLAYER->Update();
-
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
 		(*it)->Update();
@@ -124,12 +130,12 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	oneFloor.isUse = true;
 
 	// ステージの大きさ
-	Vector3 stageScale = { _stageScale,_stageScale,1.0f };
+	stageScale = { _stageScale,_stageScale,1.0f };
 
 	// [0,0]の床の座標
-	float Offset_X = -stageScale.x * (StageData.numX - 1) / 2.0f;
+	 Offset_X = - stageScale.x * (StageData.numX - 1) / 2.0f;
 	// ↓要調整
-	float Offset_Y = -stageScale.y / 2.0f;	// 床なので少し下に下げる
+	 Offset_Y = - stageScale.y / 2.0f;	// 床なので少し下に下げる
 
 	// 行
 	for (int i = 0; i < StageData.numY; i++)

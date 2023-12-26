@@ -23,6 +23,11 @@ public:
 	};
 
 private:
+
+	float Offset_X;
+	float Offset_Y;
+
+	Vector3 stageScale;
 	CLoadStage* stage;
 	CStageMake* stageMake;
 	std::vector<STAGEPOS> stagePos;
