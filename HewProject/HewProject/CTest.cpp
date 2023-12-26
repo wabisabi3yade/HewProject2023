@@ -11,9 +11,7 @@ CTest::CTest()
 	/*player = new Player(playerBuffer, playerTexture);*/
 
 	player = std::make_shared<Player>(playerBuffer, playerTexture);
-	player->mTransform.pos = { 0,0,0 };
-	player->mTransform.scale = { 1,1,1 };
-	player->GetGrid()->gridPos = { 1,1 };
+	
 }
 
 CTest::~CTest()

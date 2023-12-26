@@ -13,11 +13,17 @@
 #include"CGumi.h"
 #include"CProtein.h"
 #include"CGall.h"
+#include "Player.h"
 
+#define ISOME_FLOOR_SUBPOSY (3.6f)	// アイソメでの隣床のY座標の差（スケールを割る）
+#define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	: CObject(vb, tex)
 {
+	oneFloor.FloorNum = 1;
+	secondFloor.FloorNum = 2;
+	thirdFloor.FloorNum = 3;
 
 
 }
@@ -27,6 +33,8 @@ StageScene::~StageScene()
 	CLASS_DELETE(stageObj);
 
 	SAFE_RELEASE(stageBuffer);
+	SAFE_RELEASE(playerBuffer);
+
 	SAFE_RELEASE(stageTextureFloor);
 	SAFE_RELEASE(stageTextureFloor2);
 	SAFE_RELEASE(stageTextureBaumkuchen);
@@ -40,6 +48,7 @@ StageScene::~StageScene()
 	SAFE_RELEASE(stageTextureProtein);
 	SAFE_RELEASE(stageTextureWall);
 	SAFE_RELEASE(stageTextureWataame);
+	SAFE_RELEASE(playerTexture);
 
 	CLASS_DELETE(stageMake);
 	CLASS_DELETE(stage);
@@ -52,10 +61,20 @@ StageScene::~StageScene()
 
 void StageScene::Update()
 {
+	PLAYER->Update();
+
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
 		(*it)->Update();
 	}
+}
+
+void StageScene::Move()
+{
+}
+
+void StageScene::SettingPlayerDir()
+{
 }
 
 void StageScene::Draw()
@@ -73,7 +92,10 @@ void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
 
 void StageScene::Init(const wchar_t* filePath, float _stageScale)
 {
+
+
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
+	/*D3D_CreateSquare({ 3,4 }, &playerBuffer);*/
 
 	D3D_LoadTexture(L"asset/mizuno/floor_y (1).png", &stageTextureFloor);
 	D3D_LoadTexture(L"asset/mizuno/floor_g.png", &stageTextureFloor2);
@@ -88,142 +110,159 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	D3D_LoadTexture(L"asset/hashimoto/Protein.png", &stageTextureProtein);
 	D3D_LoadTexture(L"asset/hashimoto/Wall.png", &stageTextureWall);
 	D3D_LoadTexture(L"asset/hashimoto/Wataame.png", &stageTextureWataame);
+	D3D_LoadTexture(L"asset/hashimoto/N_Walk01_Back.png", &playerTexture);
 
 	stage = new CLoadStage;
 	stageMake = new CStageMake;
 
-	std::vector<LoadData> StageData = stage->LoadStage(filePath);
+	LoadData StageData = stage->LoadStage(filePath);
 
-	stagePos = stageMake->StagePos(StageData, 3);
+	//	ワールド座標
+	stagePos = stageMake->StagePos(StageData);
 
-	StageBlockNum = stageMake->GetStageNum();
-	//float kariX = 16.0f / 2.0f;
-	int stageNum = 0;
-	for (auto& Stage : stagePos)
-	{	
-		int stageposX = (int)Stage.pos.x;
-		//int stageType = (int)Stage.blockType;
-		//床の画像セットの処理
-		switch (Stage.blockType)
-		{
-		case CStageMake::BlockType::FLOOR:
-			//stageObj = new うんぬんかんぬん
-			stageObj = new CFloor(stageBuffer, stageTextureFloor);
-		if (stageNum % 2 == 0)
-		{
-			stageObj->SetTexture(stageTextureFloor2);
-		}
-		stageObj->CheckFloor();
-			break;
-		case CStageMake::BlockType::WALL:
-			stageObj = new CWall(stageBuffer, stageTextureWall);
+	// ここでグリッドテーブルを作成する　/////////////
+	oneFloor.isUse = true;
 
-			break;
-		case CStageMake::BlockType::HOLL:
-			stageObj = new CHoll(stageBuffer, NULL);
-			break;
-		case CStageMake::BlockType::CAKE:
-			stageObj = new CCake(stageBuffer, stageTextureCake);
-			break;
-		case CStageMake::BlockType::CASTELLA:
-			stageObj = new CCastella(stageBuffer, stageTextureCastella);
-				break;
-		case CStageMake::BlockType::BAUM:
-			stageObj = new CBaum(stageBuffer, stageTextureBaumkuchen);
-			break;
-		case CStageMake::BlockType::COIN:
-			stageObj = new CCoin(stageBuffer, stageTextureCoin);
-			break;
-		case CStageMake::BlockType::WATAAME:
-			stageObj = new CWataame(stageBuffer, stageTextureWataame);
-			break;
-		case CStageMake::BlockType::CHOCO:
-			stageObj = new CChoco(stageBuffer, stageTextureChocolate);
-				break;
-		case CStageMake::BlockType::GUMI:
-			stageObj = new CGumi(stageBuffer, stageTextureGumi);
-			break;
-		case CStageMake::BlockType::PROTEIN:
-			stageObj = new CProtein(stageBuffer, stageTextureProtein);
-			break;
-		case CStageMake::BlockType::START:
-			stageObj = new CFloor(stageBuffer, stageTextureFloor);
-			if (stageNum % 2 == 0)
-			{
-				stageObj->SetTexture(stageTextureFloor2);
-			}
-			stageObj->CheckFloor();
-			break;
-		case CStageMake::BlockType::GALL:
-			stageObj = new CGall(stageBuffer, stageTextureGallChest);
-				break;
-		default:
-			break;
-		}
-		float kariX = 0;
-		if (stageObj != nullptr)
-		{
+	// ステージの大きさ
+	Vector3 stageScale = { _stageScale,_stageScale,1.0f };
 
-		stageObj->mTransform.scale = { _stageScale,_stageScale,_stageScale };
-		kariX = stageObj->mTransform.scale.x * 3 / 2;
-		stageObj->SetGridPos((const int)Stage.pos.x, (const int)Stage.pos.y);
-		}
-		if ((stageposX % 3) == 0)
+	// [0,0]の床の座標
+	float Offset_X = -stageScale.x * (StageData.numX - 1) / 2.0f;
+	// ↓要調整
+	float Offset_Y = -stageScale.y / 2.0f;	// 床なので少し下に下げる
+
+	// 行
+	for (int i = 0; i < StageData.numY; i++)
+	{
+		// 列
+		for (int j = 0; j < StageData.numX; j++)
 		{
-			stageObj->mTransform.pos.x = -kariX + (stageObj->mTransform.scale.x / 2) + ( stageObj->mTransform.scale.x / 2 * Stage.pos.y);
-			stageObj->mTransform.pos.y = (stageObj->mTransform.scale.y * Stage.pos.y * -1.0f) + (0.03f * (Stage.pos.x + Stage.pos.y) * stageObj->mTransform.scale.y) - (stageObj->mTransform.scale.y / 2) + (stageObj->mTransform.scale.y / 2 * Stage.pos.y) - ((stageObj->mTransform.scale.y / 2) * (Stage.pos.y)) + ((stageObj->mTransform.scale.y / 2) * (Stage.pos.y)) + ((stageObj->mTransform.scale.y / 4) * (Stage.pos.y + 1)) - (0.1f * Stage.pos.y*stageObj->mTransform.scale.y)/*+0.3f*/;
-			if (stageObj->mTransform.pos.y < 0)
+			// グリッドテーブルに一つずつデータを入れていく
+			oneFloor.gridTable[i][j] = StageData.data[i * StageData.numX + j];
+
+			// 最初に床の座標を求める
+			Vector3 floorPos = Vector3::zero;
+			floorPos.x = Offset_X + (i + j) * (stageScale.x / 2.0f);
+			floorPos.y = Offset_Y + (j - i) * stageScale.y / ISOME_FLOOR_SUBPOSY;
+			floorPos.z = floorPos.y * 0.01f;
+
+			// 床からアイテムまでの距離（床のスケールに掛けることで調整する）
+			float disTimes = 0;
+
+			stageObj = nullptr;
+
+			//床の画像セットの処理
+			switch (oneFloor.gridTable[i][j])
 			{
-				stageObj->mTransform.pos.z = stageObj->mTransform.pos.y * 0.01f;
-			}
-			else
-			{
-				stageObj->mTransform.pos.z = stageObj->mTransform.pos.y * 0.01f;
-			}
-			if (Stage.blockType == (int)CStageMake::BlockType::BAUM || Stage.blockType == (int)CStageMake::BlockType::CAKE || Stage.blockType == (int)CStageMake::BlockType::CASTELLA
-				|| Stage.blockType == (int)CStageMake::BlockType::GALL || Stage.blockType == (int)CStageMake::BlockType::WALL || Stage.blockType == (int)CStageMake::BlockType::PROTEIN)
-			{
-				stageObj->mTransform.pos.y += stageObj->mTransform.scale.y / 2;
-				if (Stage.blockType == (int)CStageMake::BlockType::CAKE || Stage.blockType == (int)CStageMake::BlockType::PROTEIN)
+			case CStageMake::BlockType::FLOOR:
+				stageObj = new CFloor(stageBuffer, stageTextureFloor);
+				if ((i + j) % 2 == 0)
 				{
-					stageObj->mTransform.pos.y += stageObj->mTransform.scale.y / 4;
+					stageObj->SetTexture(stageTextureFloor2);
 				}
-				stageObj->mTransform.pos.z -= 0.01f;
+				stageObj->mTransform.pos = floorPos;
+				stageObj->CheckFloor();
+				break;
 
-			}
-		}
-		else
-		{
-			stageObj->mTransform.pos.x = -kariX + (stageObj->mTransform.scale.x / 2) + ((stageObj->mTransform.scale.x / 2) * (int)(stageposX + Stage.pos.y)) - 0.01f * Stage.pos.x;
-			stageObj->mTransform.pos.y = (stageObj->mTransform.scale.y * Stage.pos.y * -1.0f) + (0.03f * (Stage.pos.x + Stage.pos.y) * stageObj->mTransform.scale.y) - (stageObj->mTransform.scale.y / 2) + (stageObj->mTransform.scale.y / 2 * Stage.pos.y) - ((stageObj->mTransform.scale.y / 2) * (Stage.pos.y)) + ((stageObj->mTransform.scale.y / 2) * (Stage.pos.y)) + ((stageObj->mTransform.scale.y / 4) * (Stage.pos.y + 1)) + ((stageObj->mTransform.scale.y / 4) * (Stage.pos.x)) - (0.1f * Stage.pos.y * stageObj->mTransform.scale.y) /*+0.01f*Stagepos.pos.x*/;
-			if (stageObj->mTransform.pos.y < 0)
-			{
-				stageObj->mTransform.pos.z = +stageObj->mTransform.pos.y * 0.01f;
-			}
-			else
-			{
-				stageObj->mTransform.pos.z = +stageObj->mTransform.pos.y * 0.01f;
-			}
-			if (Stage.blockType == (int)CStageMake::BlockType::BAUM || Stage.blockType == (int)CStageMake::BlockType::CAKE || Stage.blockType == (int)CStageMake::BlockType::CASTELLA
-				|| Stage.blockType == (int)CStageMake::BlockType::GALL || Stage.blockType == (int)CStageMake::BlockType::PROTEIN || Stage.blockType == (int)CStageMake::BlockType::WALL)
-			{
-				//浮いてるもの
-				stageObj->mTransform.pos.x += 0.05f;
-				stageObj->mTransform.pos.y += stageObj->mTransform.scale.y / 2;
-				if (Stage.blockType == (int)CStageMake::BlockType::CAKE || Stage.blockType == (int)CStageMake::BlockType::PROTEIN)
-				{
-					stageObj->mTransform.pos.y += stageObj->mTransform.scale.y / 4;
-				}
-				stageObj->mTransform.pos.z -= 0.01f;
-			}
-		}
+			case CStageMake::BlockType::WALL:
+				stageObj = new CWall(stageBuffer, stageTextureWall);
+				disTimes = 0.455f;
+				break;
 
-		vStageObj.push_back(stageObj);
-		if (Stage.blockType == CStageMake::BlockType::FLOOR)
-		{
-			stageNum++;
+			case CStageMake::BlockType::HOLL:
+				stageObj = new CHoll(stageBuffer, NULL);
+				break;
+
+			case CStageMake::BlockType::CAKE:
+				stageObj = new CCake(stageBuffer, stageTextureCake);
+				disTimes = 0.7f;
+				break;
+
+			case CStageMake::BlockType::CASTELLA:
+				stageObj = new CCastella(stageBuffer, stageTextureCastella);
+				disTimes = 0.455f;
+				break;
+
+			case CStageMake::BlockType::BAUM:
+				stageObj = new CBaum(stageBuffer, stageTextureBaumkuchen);
+				disTimes = 0.455f;
+				break;
+
+			case CStageMake::BlockType::COIN:
+				stageObj = new CCoin(stageBuffer, stageTextureCoin);
+				disTimes = 0.455f;
+				break;
+			case CStageMake::BlockType::WATAAME:
+				stageObj = new CWataame(stageBuffer, stageTextureWataame);
+				break;
+
+			case CStageMake::BlockType::CHOCO:
+				stageObj = new CChoco(stageBuffer, stageTextureChocolate);
+				break;
+
+			case CStageMake::BlockType::GUMI:
+				stageObj = new CGumi(stageBuffer, stageTextureGumi);
+				disTimes = 0.455f;
+				break;
+
+			case CStageMake::BlockType::PROTEIN:
+				stageObj = new CProtein(stageBuffer, stageTextureProtein);
+				disTimes = 0.7f;
+				break;
+
+			case CStageMake::BlockType::START:
+				player = new Player(stageBuffer, playerTexture);
+				player->mTransform.pos = floorPos;
+				player->mTransform.pos.y += stageScale.y * 0.5f;
+				player->mTransform.pos.z -= 0.01f;
+				player->mTransform.scale = stageScale;
+				player->SetGridPos(j, i);
+				vStageObj.push_back(player);
+				break;
+
+			case CStageMake::BlockType::GALL:
+				stageObj = new CGall(stageBuffer, stageTextureGallChest);
+				disTimes = 0.55f;
+				break;
+
+			default:
+				break;
+			}
+
+			// ここまでにオブジェクトが作成しているなら（床以外）
+			if (oneFloor.gridTable[i][j] != CStageMake::BlockType::FLOOR &&
+				oneFloor.gridTable[i][j] != CStageMake::BlockType::START)
+			{
+				// ステージ全体の大きさを設定
+				stageObj->mTransform.scale = stageScale;
+				// 座標を設定
+				stageObj->mTransform.pos = floorPos;
+				stageObj->mTransform.pos.y += stageScale.y * disTimes;
+				stageObj->mTransform.pos.z -= 0.001f;
+				// オブジェクトをリストに入れる
+				vStageObj.push_back(stageObj);
+			}
+
+			// 床がいらないオブジェクトは次のループに進める
+			if (oneFloor.gridTable[i][j] == CStageMake::BlockType::CHOCO) continue;
+			if (oneFloor.gridTable[i][j] == CStageMake::BlockType::WATAAME) continue;
+			if (oneFloor.gridTable[i][j] == CStageMake::BlockType::HOLL) continue;
+
+			// 床を作成
+			CGridObject* floorObj = new CFloor(stageBuffer, stageTextureFloor);
+			if ((i + j) % 2 == 0)
+			{
+				floorObj->SetTexture(stageTextureFloor2);
+			}
+			// パラメータ設定
+			floorObj->CheckFloor();
+			floorObj->mTransform.pos = floorPos;
+			floorObj->mTransform.scale = stageScale;
+
+			vStageObj.push_back(floorObj);
 		}
 	}
+
 	Z_Sort(vStageObj);
 }
 

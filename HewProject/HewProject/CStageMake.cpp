@@ -18,18 +18,18 @@ int CStageMake::StageNum(std::vector<LoadData> _vStage, int _stageY)
 	return Stagenum;
 }
 
-std::vector<STAGEPOS> CStageMake::StagePos(std::vector<LoadData> _vStage, int _stageY)
+std::vector<STAGEPOS> CStageMake::StagePos(LoadData _vStage)
 {
 	float i = 0;
 	STAGEPOS pushstagepos;
-	for (std::vector<LoadData>::iterator it = _vStage.begin(); it < _vStage.end(); )
+	for (auto it = _vStage.data.begin(); it < _vStage.data.end(); )
 	{
-		for (float j = 0; j < _stageY; j++)
+		for (float j = 0; j < _vStage.data.size() / _vStage.numY; j++)
 		{
 
 			pushstagepos.pos.x = j;
 			pushstagepos.pos.y = i;
-			pushstagepos.blockType = (*it).data;
+			pushstagepos.blockType = (*it);
 			BkType = (BlockType)pushstagepos.blockType;
 			//stagePos.emplace_back(pushstagepos);
 			stagePos.push_back(pushstagepos);

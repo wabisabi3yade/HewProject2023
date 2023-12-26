@@ -1,37 +1,34 @@
 #pragma once
-#include "CObject.h"
+#include "CGridObject.h"
 #include <iostream>
 #include "CGrid.h"
-
-
-class PlayerMove;
+#include "PlayerMove.h"
 
 // プレイヤー（リス）のオブジェクトクラス
-class Player: 
-	public CObject
+class Player :
+	public CGridObject
 {
 public:
-	enum class DIR
+
+
+	enum class STATE
 	{
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT
+		NORMAL,	// 通常
+		THIN,	// ガリ
+		FAT,	// デブ
+		MUSCLE,	// マッチョ
+		NUM
 	};
 
 private:
 	std::shared_ptr<PlayerMove> move;
 
-	// グリッドクラスのポインタ
-	std::shared_ptr<CGrid> grid;
-
 	int calorie;	// カロリー
 
-	bool canMove;	// 移動可能フラグ
-
-	DIR moveDir;
+	int nowFloor;	// 今何層目にいるか
 
 public:
+
 	Player(D3DBUFFER vb, D3DTEXTURE tex);
 
 	void Update() override;
@@ -40,6 +37,10 @@ public:
 
 	~Player();
 
-	CGrid* GetGrid();
+	bool GetIsMoving()const;
+
+	int GetDirection()const;
+
+	PlayerMove* GetPlayerMove()const;
 };
 
