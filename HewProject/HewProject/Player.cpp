@@ -16,19 +16,17 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 void Player::Update()
 {
 	move->Update();
-	if (mAnim->isPlaying)
+
+	if (gInput->GetKeyTrigger(VK_LEFT))
 	{
-		if (gInput->GetKeyPress(VK_LEFT))
-		{
-			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(2);
-		}
-		if (gInput->GetKeyPress(VK_RIGHT))
-		{
-			dynamic_cast <CPlayerAnim*>(mAnim)->PlayWalk(3);
-		}
+		dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(2);
+	}
+	if (gInput->GetKeyTrigger(VK_RIGHT))
+	{
+		dynamic_cast <CPlayerAnim*>(mAnim)->PlayWalk(3);
 	}
 
-	if (gInput->GetKeyPress(VK_BACK))
+	if (gInput->GetKeyTrigger(VK_BACK))
 	{
 		dynamic_cast <CPlayerAnim*>(mAnim)->StopWalk();
 	}
