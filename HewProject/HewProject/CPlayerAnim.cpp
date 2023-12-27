@@ -58,21 +58,13 @@ void CPlayerAnim::Update()
 
 void CPlayerAnim::PlayWalk(int num)
 {
+	isPlaying = true;
 	SetPattern(num);
 }
 
 void CPlayerAnim::StopWalk()
 {
-	if (isStop == false)
-	{
-		isPlaying = false;
-		isStop = true;
-	}
-	else
-	{
-		isPlaying = true;
-		isStop = false;
-	}
-
+	isPlaying = false;
+	animCounter = 1;
 }
 
