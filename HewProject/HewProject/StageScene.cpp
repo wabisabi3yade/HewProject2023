@@ -56,53 +56,14 @@ StageScene::~StageScene()
 	{
 		CLASS_DELETE((*it));
 	}
-
 }
 
 void StageScene::Update()
 {
 	player->mTransform.pos;
 
-	if (gInput->GetKeyTrigger(VK_RIGHT))
-	{
-		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-		playerGridPos.x += 1;
-		Vector3 v(GridToPos(playerGridPos, CStageMake::BlockType::START));
-		PLAYER->GetPlayerMove()->Move(v);
-		PLAYER->SetGridPos(playerGridPos.x , playerGridPos.y);
-	}
-	if (gInput->GetKeyTrigger(VK_LEFT))
-	{
-		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-		Vector3 v(Offset_X + (playerGridPos.y + playerGridPos.x - 1) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x - 1 - playerGridPos.y + PLAYER->mTransform.scale.y / 2.0f) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
-		PLAYER->GetPlayerMove()->Move(v);
-		PLAYER->SetGridPos(playerGridPos.x - 1, playerGridPos.y);
-		Z_Sort(vStageObj);
-
-	}
-	if (gInput->GetKeyTrigger(VK_UP))
-	{
-		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-		Vector3 v(Offset_X + (playerGridPos.y - 1 + playerGridPos.x) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x - playerGridPos.y + 1 + PLAYER->mTransform.scale.y / 2.0f) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
-		PLAYER->GetPlayerMove()->Move(v);
-		PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y - 1);
-		Z_Sort(vStageObj);
-
-	}
-	if (gInput->GetKeyTrigger(VK_DOWN))
-	{
-		CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-		if (oneFloor.gridTable[playerGridPos.x][playerGridPos.y + 1] != CStageMake::BlockType::CASTELLA)
-		{
-
-		Vector3 v(Offset_X + (playerGridPos.y + 1 + playerGridPos.x) * (stageScale.x / 2.0f), Offset_Y + (playerGridPos.x - playerGridPos.y - 1 + PLAYER->mTransform.scale.y / 2.0f) * stageScale.y / ISOME_FLOOR_SUBPOSY, PLAYER->mTransform.pos.z);
-		PLAYER->GetPlayerMove()->Move(v);
-		PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y + 1);
-		Z_Sort(vStageObj);
-		}
-	}
+	PlayerMove();
 	PLAYER->Update();
-	Z_Sort(vStageObj);
 
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
@@ -110,8 +71,57 @@ void StageScene::Update()
 	}
 }
 
-void StageScene::Move()
+void StageScene::PlayerMove()
 {
+	if (PLAYER->GetPlayerMove()->GetIsMoving() == false)
+	{
+		if (gInput->GetKeyTrigger(VK_RIGHT))
+		{
+			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+			if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 0 && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+			{
+				playerGridPos.x += 1;
+				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			}
+		}
+		else if (gInput->GetKeyTrigger(VK_LEFT))
+		{
+			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+			if (playerGridPos.x != 0 && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+			{
+				playerGridPos.x -= 1;
+				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			}
+
+		}
+		else if (gInput->GetKeyTrigger(VK_UP))
+		{
+			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+			if (oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 0 && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+			{
+				playerGridPos.y -= 1;
+				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			}
+
+		}
+		else if (gInput->GetKeyTrigger(VK_DOWN))
+		{
+			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
+			if (oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 0 && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+			{
+				playerGridPos.y += 1;
+				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			}
+		}
+	}
 }
 
 void StageScene::SettingPlayerDir()
@@ -197,13 +207,13 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			switch (oneFloor.gridTable[i][j])
 			{
 			case CStageMake::BlockType::FLOOR:
-				stageObj = new CFloor(stageBuffer, stageTextureFloor);
-				if ((i + j) % 2 == 0)
-				{
-					stageObj->SetTexture(stageTextureFloor2);
-				}
-				stageObj->mTransform.pos = floorPos;
-				stageObj->CheckFloor();
+				//stageObj = new CFloor(stageBuffer, stageTextureFloor);
+				//if ((i + j) % 2 == 0)
+				//{
+				//	stageObj->SetTexture(stageTextureFloor2);
+				//}
+				//stageObj->mTransform.pos = floorPos;
+				//stageObj->CheckFloor();
 				break;
 
 			case CStageMake::BlockType::WALL:
@@ -256,7 +266,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 				player = new Player(stageBuffer, playerTexture);
 				player->mTransform.pos = floorPos;
 				player->mTransform.pos.y += stageScale.y * 0.5f;
-				player->mTransform.pos.z -= 0.01f;
+				player->mTransform.pos.z -= 0.5f;
 				player->mTransform.scale = stageScale;
 				player->SetGridPos(j, i);
 				vStageObj.push_back(player);
@@ -272,15 +282,14 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			}
 
 			// ここまでにオブジェクトが作成しているなら（床以外）
-			if (oneFloor.gridTable[i][j] != CStageMake::BlockType::FLOOR &&
-				oneFloor.gridTable[i][j] != CStageMake::BlockType::START)
+			if (stageObj != nullptr)
 			{
 				// ステージ全体の大きさを設定
 				stageObj->mTransform.scale = stageScale;
 				// 座標を設定
 				stageObj->mTransform.pos = floorPos;
 				stageObj->mTransform.pos.y += stageScale.y * disTimes;
-				stageObj->mTransform.pos.z -= 0.001f;
+				stageObj->mTransform.pos.z -= 0.5f;
 				// オブジェクトをリストに入れる
 				vStageObj.push_back(stageObj);
 			}
@@ -319,6 +328,7 @@ Vector3 StageScene::GetGridToPos(CGrid::GRID_XY _gridXY)
 	}
 	return Vector3();
 }
+
 Vector3 StageScene::GridToPos(CGrid::GRID_XY _gridXY, CStageMake::BlockType _type)
 {
 	float disTimes = 0.0f;
@@ -344,10 +354,10 @@ Vector3 StageScene::GridToPos(CGrid::GRID_XY _gridXY, CStageMake::BlockType _typ
 	}
 
 	Vector3 v;
-	v.x = Offset_X + (_gridXY.y + _gridXY.x ) * (stageScale.x / 2.0f);
-	v.y = Offset_Y + (_gridXY.x  - _gridXY.y) * stageScale.y / ISOME_FLOOR_SUBPOSY
+	v.x = Offset_X + (_gridXY.y + _gridXY.x) * (stageScale.x / 2.0f);
+	v.y = Offset_Y + (_gridXY.x - _gridXY.y) * stageScale.y / ISOME_FLOOR_SUBPOSY
 		+ stageScale.y * disTimes;
-	v.z = (Offset_Y + (_gridXY.x - _gridXY.y) * stageScale.y / ISOME_FLOOR_SUBPOSY) - 0.001f;
+	v.z = (Offset_Y + (_gridXY.x - _gridXY.y) * stageScale.y / ISOME_FLOOR_SUBPOSY) * 0.01f - 0.5f;
 
 	return v;
 }

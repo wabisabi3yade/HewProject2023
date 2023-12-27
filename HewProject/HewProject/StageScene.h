@@ -68,7 +68,7 @@ public:
 	~StageScene();
 
 	void Update();
-	void Move();
+	void PlayerMove();
 
 	// •Ç‚Ì•ûŒü‚É‚Í“®‚¯‚È‚¢‚æ‚¤‚É‚·‚é
 	void SettingPlayerDir();

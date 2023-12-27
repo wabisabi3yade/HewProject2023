@@ -36,48 +36,48 @@ std::vector<STAGEPOS> CStageMake::StagePos(LoadData _vStage)
 			switch (BkType)
 			{
 			case CStageMake::WALL:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::HOLL:
 				break;
 			case CStageMake::CAKE:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::CASTELLA:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::BAUM:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::COIN:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::WATAAME:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::CHOCO:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::GUMI:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::PROTEIN:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			case CStageMake::START:
 
 				break;
 			case CStageMake::GALL:
-				pushstagepos.blockType = 0;
+				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
 			default:

@@ -27,18 +27,56 @@ PlayerMove::~PlayerMove()
 
 }
 
-void PlayerMove::Move(Vector3 _pos)
+void PlayerMove::Move(Vector3 _nowpos, Vector3 _targetpos)
 {
 	if (isMoving) return;
-	else
+
+	SettingMove();
+	if (_targetpos.x > _nowpos.x && _targetpos.y > _nowpos.y)
 	{
-		isMoving = true;
+		if (canMoveDir[(int)DIRECTION::RIGHT] != false)
+		{
+			direction = DIRECTION::RIGHT;
+			isMoving = true;
+			dotween->DoMove(_targetpos, 3.0f);
+			dotween->OnComplete([&] {isMoving = false; });
+		}
+	}
+	else if (_targetpos.x < _nowpos.x && _targetpos.y < _nowpos.y)
+	{
+		if (canMoveDir[(int)DIRECTION::LEFT] != false)
+		{
+			direction = DIRECTION::LEFT;
+			isMoving = true;
+			dotween->DoMove(_targetpos, 3.0f);
+			dotween->OnComplete([&] {isMoving = false; });
+			SettingMove();
+		}
+	}
+	else if (_targetpos.y < _nowpos.y && _targetpos.x > _nowpos.x)
+	{
+		if (canMoveDir[(int)DIRECTION::DOWN] != false)
+		{
+			direction = DIRECTION::DOWN;
+			isMoving = true;
+			dotween->DoMove(_targetpos, 3.0f);
+			dotween->OnComplete([&] {isMoving = false; });
+			SettingMove();
+		}
+	}
+	else if (_targetpos.y > _nowpos.y && _targetpos.x < _nowpos.x)
+	{
+		if (canMoveDir[(int)DIRECTION::UP] != false)
+		{
+			isMoving = true;
+			direction = DIRECTION::UP;
+			dotween->DoMove(_targetpos, 3.0f);
+			dotween->OnComplete([&] {isMoving = false; });
+			SettingMove();
+		}
 	}
 
 
-
-	dotween->DoMove(_pos, 3.0f);
-	dotween->OnComplete([&]{isMoving = false; });
 
 
 }
