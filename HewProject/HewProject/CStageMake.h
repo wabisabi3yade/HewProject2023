@@ -18,19 +18,19 @@ class CStageMake
 public:
 	enum BlockType
 	{
-		FLOOR,			// 床				0
-		WALL,			// 壁				1
-		HOLL,			// 穴				2
-		CAKE,			// ケーキ			3
-		CASTELLA,		// カステラ			4
-		BAUM,			// バウムクーヘン	5
-		COIN,			// コイン			6
-		WATAAME,		// 綿あめ			7
-		CHOCO,			// チョコ			8
-		GUMI,			// グミ				9
-		PROTEIN,		// プロテイン		10
-		START,			// スタート			11
-		GALL			// ゴール			12
+		FLOOR =	1,			// 床				1
+		WALL,				// 壁				2
+		HOLL,				// 穴				3
+		CAKE,				// ケーキ			4
+		CASTELLA,			// カステラ			5
+		BAUM,				// バウムクーヘン	6
+		COIN,				// コイン			7
+		WATAAME,			// 綿あめ			8
+		CHOCO,				// チョコ			9
+		GUMI,				// グミ				10
+		PROTEIN,			// プロテイン		11
+		START,				// スタート			12
+		GALL				// ゴール			13
 	};
 private:
 	BlockType BkType;
