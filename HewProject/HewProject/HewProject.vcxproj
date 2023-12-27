@@ -168,6 +168,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="COperation.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CPlayerAnim.h" />
     <ClInclude Include="CProtein.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="COperation.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CPlayerAnim.cpp" />
     <ClCompile Include="CProtein.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
