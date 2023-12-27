@@ -13,6 +13,9 @@ CWakamuraScene::CWakamuraScene()
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 	D3D_LoadTexture(L"asset/wakamura/char01.png", &playerTexture);
 
+	D3D_CreateSquare({ 3,4 }, &playerBuffer);
+	D3D_LoadTexture(L"asset/wakamura/char02.png", &playerTexture1);
+
 	player = new Player(playerBuffer, playerTexture);
 	
 	test = new Ckcal_gauge();
@@ -28,6 +31,43 @@ void CWakamuraScene::Update()
 {
 	player->Update();
 	test->Update();
+
+	if (isFlashTime == true)
+	{
+		if (isGO == false)
+		{
+			player->SetTexture(playerTexture);
+			isGO = true;
+		}
+		else {
+			player->SetTexture(playerTexture1);
+
+			isGO = false;
+		}
+
+		if (GetTickCount64() > pushTime + 1 * 1000)
+		{
+			if (isChange == false)
+			{
+				player->SetTexture(playerTexture1);
+				isChange = true;
+				isFlashTime = false;
+			}
+			else {
+				player->SetTexture(playerTexture);
+				isChange = false;
+				isFlashTime = false;
+			}
+
+		}
+	}
+
+
+	if (gInput->GetKeyTrigger(VK_SPACE))
+	{
+		pushTime = GetTickCount64();
+		isFlashTime = true;
+	}
 }
 
 void CWakamuraScene::LateUpdate()
