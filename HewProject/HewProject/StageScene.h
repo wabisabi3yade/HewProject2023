@@ -24,6 +24,8 @@ public:
 
 private:
 
+	int PlayerState;
+
 	float Offset_X;
 	float Offset_Y;
 
@@ -69,6 +71,10 @@ public:
 
 	void Update();
 	void PlayerMove();
+	void PlayerNomalMove();
+	void PlayerFatMove();
+	void PlayerSkinnyMove();
+	void PlayerMachoMove();
 
 	// •Ç‚Ì•ûŒü‚É‚Í“®‚¯‚È‚¢‚æ‚¤‚É‚·‚é
 	void SettingPlayerDir();

@@ -19,16 +19,16 @@ void Player::Update()
 
 	if (gInput->GetKeyTrigger(VK_LEFT))
 	{
-		dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(2);
+		//dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(2);
 	}
 	if (gInput->GetKeyTrigger(VK_RIGHT))
 	{
-		dynamic_cast <CPlayerAnim*>(mAnim)->PlayWalk(3);
+		//dynamic_cast <CPlayerAnim*>(mAnim)->PlayWalk(3);
 	}
 
 	if (gInput->GetKeyTrigger(VK_BACK))
 	{
-		dynamic_cast <CPlayerAnim*>(mAnim)->StopWalk();
+		//dynamic_cast <CPlayerAnim*>(mAnim)->StopWalk();
 	}
 }
 

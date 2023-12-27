@@ -37,7 +37,7 @@ public:
 	PlayerMove(Player* _p);
 
 	void Update();
-	void Move(Vector3 _nowpos ,Vector3 _targetpos);
+	void Move(Vector3 _nowpos ,Vector3 _targetpos );
 
 	// ˆÚ“®I‚¦‚½uŠÔ‚ÉŸ‚ÌˆÚ“®‚Ì‚½‚ß‚Ì€”õ‚ğ‚·‚éŠÖ”
 	void SettingMove();
