@@ -7,7 +7,7 @@ class CGridObject :
 
 private:
     CGrid *Grid;
-    bool isFloor;
+    int BlookType;
 public:
     CGridObject(D3DBUFFER vb, D3DTEXTURE tex);
     ~CGridObject();
@@ -15,7 +15,7 @@ public:
     void Update();
     void SetGridPos(const int _PosX, const int _PosY);
     CGrid::GRID_XY GetGridPos();
-    void CheckFloor();
-    bool GetIsFloor();
+    void SetBlookType(int _BkType);
+    int GetBlookType();
 };
 

@@ -4,7 +4,6 @@ CGridObject::CGridObject(D3DBUFFER vb, D3DTEXTURE tex)
 	:CObject(vb,tex)
 {
 	Grid = new CGrid();
-	isFloor = false;
 }
 
 CGridObject::~CGridObject()
@@ -32,12 +31,12 @@ CGrid::GRID_XY CGridObject::GetGridPos()
 	return Grid->gridPos;
 }
 
-void CGridObject::CheckFloor()
+void CGridObject::SetBlookType(int _bkType)
 {
-	isFloor = true;
+	BlookType = _bkType;
 }
 
-bool CGridObject::GetIsFloor()
+int CGridObject::GetBlookType()
 {
-	return isFloor;
+	return BlookType;
 }
