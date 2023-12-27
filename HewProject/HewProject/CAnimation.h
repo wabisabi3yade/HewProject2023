@@ -28,6 +28,7 @@ protected:
 public:
 	float animSpeed = 0.1f;	// 再生速度
 	bool isPlaying = false;	// 再生中かどうかを表す変数
+	bool isStop = false;    // アニメーション停止
 
 public:
 

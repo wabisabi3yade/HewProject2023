@@ -336,6 +336,9 @@
     <ClInclude Include="CGall.h">
       <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerAnim.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -487,6 +490,9 @@
     </ClCompile>
     <ClCompile Include="CGall.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerAnim.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
