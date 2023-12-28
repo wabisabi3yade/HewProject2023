@@ -70,7 +70,10 @@ void StageScene::Update()
 		if (PlayerState == 4)
 			PlayerState = 0;
 	}
-
+	if (gInput->GetKeyTrigger(VK_ESCAPE))
+	{
+		
+	}
 	for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 	{
 		(*it)->Update();
@@ -105,57 +108,99 @@ void StageScene::PlayerNomalMove()
 		if (gInput->GetKeyTrigger(VK_RIGHT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 0 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 2 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 3 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 5 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 13) &&
-				PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1];
+			switch (bkType)
 			{
-				playerGridPos.x += 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+				{
+					if(PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+					PLAYER->SetTexture(playerTexture);
+					playerGridPos.x += 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
+
 		}
 		else if (gInput->GetKeyTrigger(VK_LEFT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((playerGridPos.x != 0 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 2 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 3 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 5 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 13) && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1];
+			switch (bkType)
 			{
-				playerGridPos.x -= 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+				{
+					playerGridPos.x -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 
 		}
 		else if (gInput->GetKeyTrigger(VK_UP))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 0 && oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 2 &&
-				oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 3 && oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 5 &&
-				oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 13) && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x];
+			switch (bkType)
 			{
-				playerGridPos.y -= 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+				{
+					playerGridPos.y -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 
 		}
 		else if (gInput->GetKeyTrigger(VK_DOWN))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 0 && oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 2 &&
-				oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 3 && oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 5 &&
-				oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 13)
-				&& PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x];
+			switch (bkType)
 			{
-				playerGridPos.y += 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+				{
+					PLAYER->SetTexture(playerTexture_NF);
+					playerGridPos.y += 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -168,126 +213,235 @@ void StageScene::PlayerFatMove()
 		if (gInput->GetKeyTrigger(VK_RIGHT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 0 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 2 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 3 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 13) &&
-				PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1];
+			switch (bkType)
 			{
+			case CStageMake::CASTELLA:
 				playerGridPos.x += 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] == 5)
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 				{
-					for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+					if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
 					{
-						if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
+						if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] == (int)CStageMake::BlockType::HOLL)
 						{
-							if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 2] == (int)CStageMake::BlockType::HOLL)
-							{
-								CGrid::GRID_XY xy = playerGridPos;
-								xy.x += 1;
-								Vector3 v = (GridToPos(xy, CStageMake::BlockType::CASTELLA));
-								(*it)->mTransform.pos = v;
-								oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
-							}
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.x += 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::FLOOR));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							playerGridPos.x -= 1;
+						}
+						else if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != (int)CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != (int)CStageMake::BlockType::WALL
+							&& oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 0)
+						{
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.x += 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::CASTELLA));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::CASTELLA;
+							playerGridPos.x -= 1;
+						}
+						else
+						{
+							playerGridPos.x -= 2;
+
 						}
 					}
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+				{
+					playerGridPos.x += 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
+
 		}
 		else if (gInput->GetKeyTrigger(VK_LEFT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((playerGridPos.x != 0 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 2 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 3 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 13) && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1];
+			switch (bkType)
 			{
+			case CStageMake::CASTELLA:
 				playerGridPos.x -= 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] == 5)
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 				{
-					for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+					if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
 					{
-						if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
+						if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] == (int)CStageMake::BlockType::HOLL)
 						{
-							if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 2] == (int)CStageMake::BlockType::HOLL)
-							{
-								CGrid::GRID_XY xy = playerGridPos;
-								xy.x -= 1;
-								Vector3 v = (GridToPos(xy, CStageMake::BlockType::CASTELLA));
-								(*it)->mTransform.pos = v;
-								oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
-							}
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.x -= 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::FLOOR));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							playerGridPos.x += 1;
+						}
+						else if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != (int)CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != (int)CStageMake::BlockType::WALL
+							&& oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 0)
+						{
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.x -= 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::CASTELLA));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::CASTELLA;
+							playerGridPos.x += 1;
+						}
+						else
+						{
+							playerGridPos.x += 2;
+
 						}
 					}
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+				{
+					playerGridPos.x -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
-
 		}
 		else if (gInput->GetKeyTrigger(VK_UP))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 0 && oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 2 &&
-				oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 3 &&
-				oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 13) && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x];
+			switch (bkType)
 			{
-				playerGridPos.y -= 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] == 5)
+			case CStageMake::CASTELLA:
+				playerGridPos.y += 1;
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 				{
-					for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+					if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
 					{
-						if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
+						if (oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] == (int)CStageMake::BlockType::HOLL)
 						{
-							if (oneFloor.gridTable[playerGridPos.y-2][playerGridPos.x] == (int)CStageMake::BlockType::HOLL)
-							{
-								CGrid::GRID_XY xy = playerGridPos;
-								xy.y -= 1;
-								Vector3 v = (GridToPos(xy, CStageMake::BlockType::CASTELLA));
-								(*it)->mTransform.pos = v;
-								oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
-							}
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.y -= 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::FLOOR));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							playerGridPos.y += 1;
+						}
+						else if (oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != (int)CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y-1][playerGridPos.x] != (int)CStageMake::BlockType::WALL
+							&& oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 0)
+						{
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.y -= 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::CASTELLA));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::CASTELLA;
+							playerGridPos.y += 1;
+						}
+						else
+						{
+							playerGridPos.y += 2;
+
 						}
 					}
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+				{
+					playerGridPos.y -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
-
 		}
 		else if (gInput->GetKeyTrigger(VK_DOWN))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 0 && oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 2 &&
-				oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 3 &&
-				oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 13)
-				&& PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x];
+			switch (bkType)
 			{
+			case CStageMake::CASTELLA:
 				playerGridPos.y += 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] == 5)
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
 				{
-					for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+					if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
 					{
-						if ((*it)->GetBlookType() == (int)CStageMake::BlockType::CASTELLA)
+						if (oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] == (int)CStageMake::BlockType::HOLL)
 						{
-							if (oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] == (int)CStageMake::BlockType::HOLL)
-							{
-								CGrid::GRID_XY xy = playerGridPos;
-								xy.y += 1;
-								Vector3 v = (GridToPos(xy, CStageMake::BlockType::FLOOR));
-								(*it)->mTransform.pos = v;
-								oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
-							}
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.y += 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::FLOOR));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							playerGridPos.y -= 1;
+						}
+						else if (oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != (int)CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y+1][playerGridPos.x] != (int)CStageMake::BlockType::WALL
+							&& oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 0)
+						{
+							CGrid::GRID_XY xy = playerGridPos;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::FLOOR;
+							xy.y += 1;
+							Vector3 v = (GridToPos(xy, CStageMake::BlockType::CASTELLA));
+							(*it)->mTransform.pos = v;
+							oneFloor.gridTable[xy.y][xy.x] = (int)CStageMake::BlockType::CASTELLA;
+							playerGridPos.y -= 1;
+						}
+						else
+						{
+							playerGridPos.y -= 2;
+
 						}
 					}
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+				{
+					PLAYER->SetTexture(playerTexture_FF);
+					playerGridPos.y += 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
+
 		}
 	}
 
@@ -300,73 +454,126 @@ void StageScene::PlayerSkinnyMove()
 		if (gInput->GetKeyTrigger(VK_RIGHT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 0 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 2 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 3 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 5 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 13) &&
-				PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1];
+			switch (bkType)
 			{
-				playerGridPos.x += 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] != 6)
+			case CStageMake::BAUM:
+				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 2] != CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 2] != CStageMake::BlockType::WALL
+					&& oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 2] != 0)
 				{
 					playerGridPos.x += 1;
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+				{
+					playerGridPos.x += 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		else if (gInput->GetKeyTrigger(VK_LEFT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((playerGridPos.x != 0 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 2 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 3 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 5 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 13) && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1];
+			switch (bkType)
 			{
-				playerGridPos.x -= 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] != 6)
+			case CStageMake::BAUM:
+				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 2] != CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 2] != CStageMake::BlockType::WALL)
+				{
+					if (playerGridPos.x - 2 < 0)
+					{
+						playerGridPos.x += 1;
+					}
+					else
+					{
+						playerGridPos.x -= 1;
+					}
+				}
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT && playerGridPos.x > 0)
 				{
 					playerGridPos.x -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				break;
+			default:
+				break;
 			}
 
 		}
 		else if (gInput->GetKeyTrigger(VK_UP))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 0 && oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 2 &&
-				oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 3 && oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 5 &&
-				oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 13) && PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y-1][playerGridPos.x];
+			switch (bkType)
 			{
-				playerGridPos.y -= 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] != 6)
+			case CStageMake::BAUM:
+				if (oneFloor.gridTable[playerGridPos.y-2][playerGridPos.x ] != CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y-2][playerGridPos.x ] != CStageMake::BlockType::WALL
+					&& oneFloor.gridTable[playerGridPos.y-2][playerGridPos.x ] != 0)
 				{
 					playerGridPos.y -= 1;
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+				{
+					playerGridPos.y -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 
 		}
 		else if (gInput->GetKeyTrigger(VK_DOWN))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 0 && oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 2 &&
-				oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 3 && oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 5 &&
-				oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 13)
-				&& PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x];
+			switch (bkType)
 			{
-				playerGridPos.y += 1;
-				if (oneFloor.gridTable[playerGridPos.y][playerGridPos.x] != 6)
+			case CStageMake::BAUM:
+				if (oneFloor.gridTable[playerGridPos.y + 2][playerGridPos.x] != CStageMake::BlockType::HOLL && oneFloor.gridTable[playerGridPos.y + 2][playerGridPos.x] != CStageMake::BlockType::WALL
+					&& oneFloor.gridTable[playerGridPos.y + 2][playerGridPos.x] != 0)
 				{
 					playerGridPos.y += 1;
 				}
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+				{
+					PLAYER->SetTexture(playerTexture_SF);
+					playerGridPos.y += 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -382,59 +589,163 @@ void StageScene::PlayerMachoMove()
 		if (gInput->GetKeyTrigger(VK_RIGHT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 0 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 3 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1] != 5) &&
-				PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x + 1];
+			switch (bkType)
 			{
-				playerGridPos.x += 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::WALL:
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+					{
+						if ((*it)->GetBlookType() == (int)CStageMake::BlockType::WALL)
+						{
+							(*it)->SetTexture(NULL);
+							oneFloor.gridTable[playerGridPos.y][playerGridPos.x+1] = (int)CStageMake::BlockType::FLOOR;
+						}
+					}
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::GALL:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::LEFT)
+				{
+					playerGridPos.x += 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		else if (gInput->GetKeyTrigger(VK_LEFT))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((playerGridPos.x != 0 && oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 3 &&
-				oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1] != 5) &&
-				PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y][playerGridPos.x - 1];
+			switch (bkType)
 			{
-				playerGridPos.x -= 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::WALL:
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+				{
+					if ((*it)->GetBlookType() == (int)CStageMake::BlockType::WALL)
+					{
+						(*it)->SetTexture(NULL);
+						oneFloor.gridTable[playerGridPos.y][playerGridPos.x-1] = (int)CStageMake::BlockType::FLOOR;
+					}
+				}
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::GALL:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::RIGHT)
+				{
+					playerGridPos.x -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
-
 		}
 		else if (gInput->GetKeyTrigger(VK_UP))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 0 &&
-				oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 3 && oneFloor.gridTable[playerGridPos.y - 1][playerGridPos.x] != 5) &&
-				PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y-1][playerGridPos.x];
+			switch (bkType)
 			{
-				playerGridPos.y -= 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::WALL:
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+				{
+					if ((*it)->GetBlookType() == (int)CStageMake::BlockType::WALL)
+					{
+						(*it)->SetTexture(NULL);
+						oneFloor.gridTable[playerGridPos.y-1][playerGridPos.x] = (int)CStageMake::BlockType::FLOOR;
+					}
+				}
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::GALL:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::DOWN)
+				{
+					playerGridPos.y -= 1;
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
-
 		}
 		else if (gInput->GetKeyTrigger(VK_DOWN))
 		{
 			CGrid::GRID_XY playerGridPos = PLAYER->GetGridPos();
-			if ((oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 0 &&
-				oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 3 && oneFloor.gridTable[playerGridPos.y + 1][playerGridPos.x] != 5) &&
-				PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+			CStageMake::BlockType bkType = (CStageMake::BlockType)oneFloor.gridTable[playerGridPos.y+1][playerGridPos.x];
+			switch (bkType)
 			{
-				playerGridPos.y += 1;
-				Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
-				PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
-				PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+			case CStageMake::WALL:
+				for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); it++)
+				{
+					if ((*it)->GetBlookType() == (int)CStageMake::BlockType::WALL)
+					{
+						(*it)->SetTexture(NULL);
+						oneFloor.gridTable[playerGridPos.y+1][playerGridPos.x] = (int)CStageMake::BlockType::FLOOR;
+					}
+				}
+			case CStageMake::CAKE:
+			case CStageMake::COIN:
+			case CStageMake::PROTEIN:
+			case CStageMake::START:
+			case CStageMake::GALL:
+			case CStageMake::FLOOR:
+				if (PLAYER->GetPlayerMove()->GetDirection() != PlayerMove::DIRECTION::UP)
+				{
+					PLAYER->SetTexture(playerTexture_MF);
+					playerGridPos.y += 1;	
+					Vector3 v = (GridToPos(playerGridPos, CStageMake::BlockType::START));
+					PLAYER->GetPlayerMove()->Move(PLAYER->mTransform.pos, v);
+					PLAYER->SetGridPos(playerGridPos.x, playerGridPos.y);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}
 
+}
+
+void StageScene::Reset(const wchar_t* filePath, float _stageScale)
+{
+	oneFloor = oneFloorCopy;
+	//std::vector<CGridObject*>::iterator cit = vStageObjCopy.begin();
+	//for (std::vector<CGridObject*>::iterator it = vStageObj.begin(); it < vStageObj.end(); )
+	//{ 
+	//	グリッド座標で値を代入する対象かを判断する
+	//	CGrid::GRID_XY itXY = (*it)->GetGridPos();
+	//	CGrid::GRID_XY citXY = (*cit)->GetGridPos();
+
+	//	if (itXY.x == citXY.x && itXY.y == citXY.y)
+	//	{
+	//		(*it)->mTransform = (*cit)->mTransform;
+	//		it++;
+	//		cit = vStageObjCopy.begin();
+	//	}
+	//	if(cit != vStageObjCopy.end())
+	//	cit++;
+	//}
+
+	PlayerState = 0;
+	vStageObj.clear();
+	Init(filePath ,_stageScale);
 }
 
 void StageScene::SettingPlayerDir()
@@ -476,11 +787,15 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	D3D_LoadTexture(L"asset/hashimoto/Wall.png", &stageTextureWall);
 	D3D_LoadTexture(L"asset/hashimoto/Wataame.png", &stageTextureWataame);
 	D3D_LoadTexture(L"asset/hashimoto/N_Walk01_Back.png", &playerTexture);
+	D3D_LoadTexture(L"asset/mizuno/N_Walk01_Forword.png", &playerTexture_NF);
+	D3D_LoadTexture(L"asset/mizuno/M_Walk01_Forword.png", &playerTexture_MF);
+	D3D_LoadTexture(L"asset/mizuno/S_Walk01_Forword.png", &playerTexture_SF);
+	D3D_LoadTexture(L"asset/mizuno/F_Walk01_Forword.png", &playerTexture_FF);
 
 	stage = new CLoadStage;
 	stageMake = new CStageMake;
 
-	LoadData StageData = stage->LoadStage(filePath);
+	StageData = stage->LoadStage(filePath);
 
 	//	ワールド座標
 	stagePos = stageMake->StagePos(StageData);
@@ -533,6 +848,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 				stageObj = new CWall(stageBuffer, stageTextureWall);
 				stageObj->SetBlookType((int)CStageMake::BlockType::WALL);
 				disTimes = 0.455f;
+				stageObj->SetGridPos(j, i);
 				break;
 
 			case CStageMake::BlockType::HOLL:
@@ -549,6 +865,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			case CStageMake::BlockType::CASTELLA:
 				stageObj = new CCastella(stageBuffer, stageTextureCastella);
 				stageObj->SetBlookType((int)CStageMake::BlockType::CASTELLA);
+				stageObj->SetGridPos(j, i);
 				disTimes = 0.455f;
 				break;
 
@@ -598,6 +915,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			case CStageMake::BlockType::GALL:
 				stageObj = new CGall(stageBuffer, stageTextureGallChest);
 				stageObj->SetBlookType((int)CStageMake::BlockType::GALL);
+				stageObj->SetGridPos(j, i);
 				disTimes = 0.55f;
 				break;
 
@@ -633,12 +951,14 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			floorObj->SetBlookType((int)CStageMake::BlockType::FLOOR);
 			floorObj->mTransform.pos = floorPos;
 			floorObj->mTransform.scale = stageScale;
-
+			floorObj->SetGridPos(j, i);
 			vStageObj.push_back(floorObj);
 		}
 	}
-
+	oneFloorCopy = oneFloor;
 	Z_Sort(vStageObj);
+	vStageObjCopy = vStageObj;
+
 }
 
 Vector3 StageScene::GetGridToPos(CGrid::GRID_XY _gridXY)
@@ -667,7 +987,7 @@ Vector3 StageScene::GridToPos(CGrid::GRID_XY _gridXY, CStageMake::BlockType _typ
 		floorPos.z = floorPos.y * 0.01f;
 		return floorPos;
 	}
-		break;
+	break;
 	case CStageMake::WALL:
 	case CStageMake::CASTELLA:
 	case CStageMake::BAUM:

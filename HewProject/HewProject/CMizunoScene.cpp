@@ -288,6 +288,7 @@ void CMizunoScene::Update()
 	{
 		//doToween->DoScaleDown(charObj, 5.0f, 1.0f);
 		//fade->FadeOut(fade->RIGHT, 1);
+		stagescene->Reset(L"asset/mizuno/Stage.csv", 3);
 	}
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
