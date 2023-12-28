@@ -29,6 +29,8 @@ private:
 	float Offset_X;
 	float Offset_Y;
 
+	LoadData StageData;
+
 	Vector3 stageScale;
 	CLoadStage* stage;
 	CStageMake* stageMake;
@@ -41,6 +43,10 @@ private:
 	FIELD oneFloor;
 	FIELD secondFloor;
 	FIELD thirdFloor;
+
+	FIELD oneFloorCopy;
+	FIELD secondFloorCopy;
+	FIELD thirdFloorCopy;
 
 	D3DBUFFER stageBuffer;
 	D3DBUFFER playerBuffer;
@@ -61,10 +67,15 @@ private:
 	D3DTEXTURE stageTextureGumi;
 	D3DTEXTURE stageTextureProtein;
 	D3DTEXTURE playerTexture;
+	D3DTEXTURE playerTexture_NF;
+	D3DTEXTURE playerTexture_MF;
+	D3DTEXTURE playerTexture_SF;
+	D3DTEXTURE playerTexture_FF;
 
 public:
 
 	std::vector<CGridObject*> vStageObj;
+	std::vector<CGridObject*> vStageObjCopy;
 
 	StageScene(D3DBUFFER vb, D3DTEXTURE tex);
 	~StageScene();
@@ -75,7 +86,7 @@ public:
 	void PlayerFatMove();
 	void PlayerSkinnyMove();
 	void PlayerMachoMove();
-
+	void Reset(const wchar_t* filePath, float _stageScale);
 	// •Ç‚Ì•ûŒü‚É‚Í“®‚¯‚È‚¢‚æ‚¤‚É‚·‚é
 	void SettingPlayerDir();
 
