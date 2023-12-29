@@ -2,7 +2,9 @@
 #include "CGrid.h"
 #include "CInput.h"
 #include "CPlayerAnim.h"
-
+#include"Ckcal_gauge.h"
+#define InitCalorie (10)
+#define MaxCalorie (15)
 
 Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb, tex)
@@ -11,10 +13,59 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	mAnim = new CPlayerAnim();
 	mAnim->SetPattern(0);
 	mAnim->isStop = false;
+	calorie = InitCalorie;
+	state = STATE::NORMAL;
+	KcalyGauge = new Ckcal_gauge();
+	KcalyGauge->SetKcal(10);
 }
 
 void Player::Update()
 {
+
+	if (move->GetIsMovingTrrger())
+	{
+		calorie--;
+		if (state == STATE::MUSCLE)
+		{
+			//switch (calorie)
+			//{
+			//case 5:
+			//	mTransform.scale.y /= 1.5f;
+			//	break;
+			//case 10:
+			//	mTransform.scale.y /= 1.5f;
+			//	break;
+			//case 15:
+			//	mTransform.scale.y /= 1.5f;
+			//	break;
+			//default:
+			//	break;
+			//}
+		}
+		//プレイヤーのステートを変更
+		else
+		{
+			switch (calorie)
+			{
+			case 0:
+				//state = STATE::NUM;
+				break;
+			case 5:
+				state = STATE::THIN;
+				break;
+			case 10:
+				state = STATE::NORMAL;
+				break;
+			case 15:
+				state = STATE::FAT;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	KcalyGauge->SetKcal(calorie);
+	KcalyGauge->Update();
 	move->Update();
 
 	if (gInput->GetKeyTrigger(VK_LEFT))
@@ -35,11 +86,24 @@ void Player::Update()
 void Player::Draw()
 {
 	CObject::Draw();
+	KcalyGauge->Draw();
+}
+
+void Player::CakeEat()
+{
+	calorie = 16;
+}
+
+void Player::DrinkProtein()
+{
+	CakeEat();
+	state = STATE::MUSCLE;
 }
 
 Player::~Player()
 {
 	CLASS_DELETE(mAnim);
+	CLASS_DELETE(KcalyGauge);
 }
 
 bool Player::GetIsMoving() const
@@ -50,6 +114,11 @@ bool Player::GetIsMoving() const
 int Player::GetDirection() const
 {
 	return static_cast<int>(move->GetDirection());
+}
+
+Player::STATE Player::GetPlayerState() const
+{
+	return state;
 }
 
 PlayerMove* Player::GetPlayerMove() const

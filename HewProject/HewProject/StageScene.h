@@ -8,6 +8,7 @@
 #include<list>
 #include"CGridObject.h"
 
+
 #define MAX_GRIDNUM (12)    // グリッドの最大マス数
 #define MAX_LAYER (3)         // 階層の最大数
 
@@ -24,10 +25,12 @@ public:
 
 private:
 
-	int PlayerState;
+	/*int PlayerState;*/
 
 	float Offset_X;
 	float Offset_Y;
+
+
 
 	LoadData StageData;
 

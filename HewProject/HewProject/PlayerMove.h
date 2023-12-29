@@ -45,6 +45,7 @@ public:
 	~PlayerMove();
 
 	bool GetIsMoving()const { return isMoving; }
+	bool GetIsMovingTrrger()const { return isMovingTrigger; }
 	DIRECTION GetDirection()const { return direction; }
 };
 

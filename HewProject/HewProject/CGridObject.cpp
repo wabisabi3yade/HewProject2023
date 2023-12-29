@@ -12,6 +12,7 @@ CGridObject::~CGridObject()
 
 void CGridObject::Draw()
 {
+	if(mTexture!=NULL)
 	CObject::Draw();
 }
 
