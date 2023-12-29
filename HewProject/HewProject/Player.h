@@ -4,6 +4,9 @@
 #include "CGrid.h"
 #include "PlayerMove.h"
 
+class Ckcal_gauge;
+
+
 // プレイヤー（リス）のオブジェクトクラス
 class Player :
 	public CGridObject
@@ -27,6 +30,10 @@ private:
 
 	int nowFloor;	// 今何層目にいるか
 
+	STATE state;
+
+	Ckcal_gauge* KcalyGauge;
+
 public:
 
 	Player(D3DBUFFER vb, D3DTEXTURE tex);
@@ -35,11 +42,17 @@ public:
 
 	void Draw() override;
 
+	void CakeEat();
+
+	void DrinkProtein();
+
 	~Player();
 
 	bool GetIsMoving()const;
 
 	int GetDirection()const;
+
+	STATE GetPlayerState() const;
 
 	PlayerMove* GetPlayerMove()const;
 };

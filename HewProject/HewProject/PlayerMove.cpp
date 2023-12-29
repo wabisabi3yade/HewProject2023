@@ -12,7 +12,8 @@ PlayerMove::PlayerMove(Player* _p)
 	dotween = std::make_unique<DoTween>(player.get());
 
 	// ˆÚ“®‰Â”\ƒtƒ‰ƒO‚ðON‚É‚·‚é
-	isMoving = false;;
+	isMoving = false;
+	isMovingTrigger = false;
 
 	direction = DIRECTION::UP;
 }
@@ -20,6 +21,11 @@ PlayerMove::PlayerMove(Player* _p)
 void PlayerMove::Update()
 {
 	dotween->Update();
+	if (isMovingTrigger)
+	{
+		SettingMove();
+		isMovingTrigger = false;
+	}
 }
 
 PlayerMove::~PlayerMove()
@@ -31,7 +37,6 @@ void PlayerMove::Move(Vector3 _nowpos, Vector3 _targetpos)
 {
 	if (isMoving) return;
 
-	SettingMove();
 	if (_targetpos.x > _nowpos.x && _targetpos.y > _nowpos.y)
 	{
 		if (canMoveDir[(int)DIRECTION::RIGHT] != false)
@@ -40,6 +45,7 @@ void PlayerMove::Move(Vector3 _nowpos, Vector3 _targetpos)
 			isMoving = true;
 			dotween->DoMove(_targetpos, 3.0f);
 			dotween->OnComplete([&] {isMoving = false; });
+			isMovingTrigger = true;
 		}
 	}
 	else if (_targetpos.x < _nowpos.x && _targetpos.y < _nowpos.y)
@@ -50,7 +56,7 @@ void PlayerMove::Move(Vector3 _nowpos, Vector3 _targetpos)
 			isMoving = true;
 			dotween->DoMove(_targetpos, 3.0f);
 			dotween->OnComplete([&] {isMoving = false; });
-			SettingMove();
+			isMovingTrigger = true;
 		}
 	}
 	else if (_targetpos.y < _nowpos.y && _targetpos.x > _nowpos.x)
@@ -61,7 +67,7 @@ void PlayerMove::Move(Vector3 _nowpos, Vector3 _targetpos)
 			isMoving = true;
 			dotween->DoMove(_targetpos, 3.0f);
 			dotween->OnComplete([&] {isMoving = false; });
-			SettingMove();
+			isMovingTrigger = true;
 		}
 	}
 	else if (_targetpos.y > _nowpos.y && _targetpos.x < _nowpos.x)
@@ -72,7 +78,7 @@ void PlayerMove::Move(Vector3 _nowpos, Vector3 _targetpos)
 			direction = DIRECTION::UP;
 			dotween->DoMove(_targetpos, 3.0f);
 			dotween->OnComplete([&] {isMoving = false; });
-			SettingMove();
+			isMovingTrigger = true;
 		}
 	}
 
