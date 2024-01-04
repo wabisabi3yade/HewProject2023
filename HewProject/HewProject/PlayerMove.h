@@ -29,6 +29,8 @@ private:
 
 	bool isMoving;	// ˆÚ“®‰Â”\ƒtƒ‰ƒO
 
+	bool isMovingLast;
+
 	bool isMovingTrigger;	// isMove = true->false‚É•Ï‚í‚Á‚½uŠÔ‚¾‚¯true
 
 	float moveTime = 0.0f;	// ‰¼

@@ -23,14 +23,16 @@ public:
 		HOLL,				// 穴				3
 		CAKE,				// ケーキ			4
 		CASTELLA,			// カステラ			5
-		BAUM,				// バウムクーヘン	6
-		COIN,				// コイン			7
-		WATAAME,			// 綿あめ			8
-		CHOCO,				// チョコ			9
-		GUMI,				// グミ				10
-		PROTEIN,			// プロテイン		11
-		START,				// スタート			12
-		GALL				// ゴール			13
+		BAUMHORIZONTAL,		// バウムクーヘン縦	6
+		BAUMVERTICAL,		// バウムクーヘン横	7
+		COIN,				// コイン			8
+		WATAAME,			// 綿あめ			9
+		CHOCO,				// チョコ			10
+		CHOCOCRACK,			// チョコひび		11
+		GUMI,				// グミ				12
+		PROTEIN,			// プロテイン		13
+		START,				// スタート			14
+		GALL				// ゴール			15
 	};
 private:
 	BlockType BkType;

@@ -49,7 +49,11 @@ std::vector<STAGEPOS> CStageMake::StagePos(LoadData _vStage)
 				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
-			case CStageMake::BAUM:
+			case CStageMake::BAUMHORIZONTAL:
+				pushstagepos.blockType = 1;
+				stagePos.push_back(pushstagepos);
+				break;
+			case CStageMake::BAUMVERTICAL:
 				pushstagepos.blockType = 1;
 				stagePos.push_back(pushstagepos);
 				break;
