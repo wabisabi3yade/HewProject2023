@@ -31,8 +31,9 @@ public:
 		CHOCOCRACK,			// チョコひび		11
 		GUMI,				// グミ				12
 		PROTEIN,			// プロテイン		13
-		START,				// スタート			14
-		GALL				// ゴール			15
+		CHILI,				// 唐辛子			14
+		START,				// スタート			15
+		GALL				// ゴール			16
 	};
 private:
 	BlockType BkType;

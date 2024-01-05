@@ -1,9 +1,9 @@
 #pragma once
 #include <iostream>
 #include "Vector3.h"
-
+#include"DoTween.h"
 class Player;
-class DoTween;
+//class DoTween;
 
 class PlayerMove
 {
@@ -40,6 +40,7 @@ public:
 
 	void Update();
 	void Move(Vector3 _nowpos ,Vector3 _targetpos );
+	void MoveAppend(Vector3 _targetPos, float _moveTime, DoTween::FUNC _moveFunc);
 
 	// ˆÚ“®I‚¦‚½uŠÔ‚ÉŸ‚ÌˆÚ“®‚Ì‚½‚ß‚Ì€”õ‚ğ‚·‚éŠÖ”
 	void SettingMove();

@@ -184,6 +184,9 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Gall">
       <UniqueIdentifier>{50dfa6dd-a888-4605-ba40-27283ffcde7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Chili">
+      <UniqueIdentifier>{9998fbb4-f21a-47ab-8896-65a7f5339c57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -339,6 +342,9 @@
     <ClInclude Include="CPlayerAnim.h">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
     </ClInclude>
+    <ClInclude Include="CChili.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Chili</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -493,6 +499,9 @@
     </ClCompile>
     <ClCompile Include="CPlayerAnim.cpp">
       <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CChili.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Chili</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

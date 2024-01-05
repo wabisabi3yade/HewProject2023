@@ -50,12 +50,24 @@ void Player::Update()
 			case 0:
 				//state = STATE::NUM;
 				break;
+			case 1:
+			case 2:
+			case 3:
+			case 4:
 			case 5:
 				state = STATE::THIN;
 				break;
+			case 6:
+			case 7:
+			case 8:
+			case 9:
 			case 10:
 				state = STATE::NORMAL;
 				break;
+			case 11:
+			case 12:
+			case 13:
+			case 14:
 			case 15:
 				state = STATE::FAT;
 				break;
@@ -98,6 +110,18 @@ void Player::DrinkProtein()
 {
 	CakeEat();
 	state = STATE::MUSCLE;
+}
+
+void Player::ChiliEat()
+{
+	if (calorie >= 2)
+	{
+		calorie -= 2;
+	}
+	else
+	{
+		calorie -= 1;
+	}
 }
 
 Player::~Player()

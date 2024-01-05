@@ -144,6 +144,7 @@
     <ClInclude Include="CCake.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCastella.h" />
+    <ClInclude Include="CChili.h" />
     <ClInclude Include="CChoco.h" />
     <ClInclude Include="CCoin.h" />
     <ClInclude Include="Ccontroller.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="CCake.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCastella.cpp" />
+    <ClCompile Include="CChili.cpp" />
     <ClCompile Include="CChoco.cpp" />
     <ClCompile Include="CCoin.cpp" />
     <ClCompile Include="Ccontroller.cpp" />
