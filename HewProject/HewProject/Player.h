@@ -46,6 +46,8 @@ public:
 
 	void DrinkProtein();
 
+	void ChiliEat();
+
 	~Player();
 
 	bool GetIsMoving()const;

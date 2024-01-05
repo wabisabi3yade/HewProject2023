@@ -93,6 +93,11 @@ void PlayerMove::Move(Vector3 _nowpos, Vector3 _targetpos)
 
 }
 
+void PlayerMove::MoveAppend(Vector3 _targetPos, float _moveTime, DoTween::FUNC _moveFunc)
+{
+	dotween->Append(_targetPos, _moveTime, _moveFunc);
+}
+
 void PlayerMove::SettingMove()
 {
 	for (int i = 0; i < 4; i++)
