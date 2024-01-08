@@ -62,7 +62,7 @@ private:
 
 public:
 
-
+	int nNumProtein;
 
 	StageScene(D3DBUFFER vb, D3DTEXTURE tex);
 	~StageScene();
