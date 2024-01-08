@@ -75,6 +75,24 @@ const bool& Vector3::operator>=(const Vector3& _v) const
 	return false;
 }
 
+const bool& Vector3::operator==(const Vector3& _v) const
+{
+	if (this->x == _v.x && this->y == _v.y && this->z == _v.z)
+	{
+		return true;
+	}
+	return false;
+}
+
+const bool& Vector3::operator!=(const Vector3& _v) const
+{
+	if (this->x != _v.x || this->y != _v.y || this->z != _v.z)
+	{
+		return true;
+	}
+	return false;
+}
+
 DirectX::XMFLOAT3* dirChange(Vector3 _vec)
 {
 	DirectX::XMFLOAT3 v(_vec.x, _vec.y, _vec.z);

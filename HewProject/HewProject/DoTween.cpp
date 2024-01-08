@@ -34,12 +34,24 @@ void DoTween::Update()
 				switch ((*itr2).dotweenType)
 				{
 				case FUNC::MOVE:
-				case FUNC::MOVE_X:
-				case FUNC::MOVE_Y:
-				case FUNC::MOVE_Z:
 					objPtr->mTransform.pos.x += (*itr2).moveDir.x * (*itr2).moveSpeed;
 					objPtr->mTransform.pos.y += (*itr2).moveDir.y * (*itr2).moveSpeed;
 					objPtr->mTransform.pos.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
+					break;
+
+				case FUNC::MOVE_X:
+					objPtr->mTransform.pos.x += (*itr2).moveDir.x * (*itr2).moveSpeed;
+					break;
+				case FUNC::MOVE_Y:
+					objPtr->mTransform.pos.y += (*itr2).moveDir.y * (*itr2).moveSpeed;
+					break;
+				case FUNC::MOVE_Z:
+					objPtr->mTransform.pos.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
+					break;
+
+				case FUNC::MOVE_XY:
+					objPtr->mTransform.pos.x += (*itr2).moveDir.x * (*itr2).moveSpeed;
+					objPtr->mTransform.pos.y += (*itr2).moveDir.y * (*itr2).moveSpeed;
 					break;
 
 				case FUNC::SCALE:
@@ -66,10 +78,22 @@ void DoTween::Update()
 				switch ((*itr2).dotweenType)
 				{
 				case FUNC::MOVE:
-				case FUNC::MOVE_X:
-				case FUNC::MOVE_Y:
-				case FUNC::MOVE_Z:
 					objPtr->mTransform.pos = (*itr2).targetValue;
+					break;
+
+				case FUNC::MOVE_X:
+					objPtr->mTransform.pos.x = (*itr2).targetValue.x;
+					break;
+				case FUNC::MOVE_Y:
+					objPtr->mTransform.pos.y = (*itr2).targetValue.y;
+					break;
+				case FUNC::MOVE_Z:
+					objPtr->mTransform.pos.z = (*itr2).targetValue.z;
+					break;
+
+				case FUNC::MOVE_XY:
+					objPtr->mTransform.pos.x = (*itr2).targetValue.x;
+					objPtr->mTransform.pos.y = (*itr2).targetValue.y;
 					break;
 
 				case FUNC::SCALE:
@@ -82,8 +106,6 @@ void DoTween::Update()
 				}
 
 				auto nextItr = std::next(itr2);
-
-
 
 				// 終わった要素の次のものがAPPENDなら
 				if (nextItr != (*itr1).flowList.end() && (*nextItr).start == START::APPEND)
@@ -187,7 +209,7 @@ void DoTween::Append(float _target, float _moveTime, FUNC _type)
 		set.targetValue.y = _target;
 		break;
 	case FUNC::MOVE_Z:
-		//set.targetValue.z = _target;
+		set.targetValue.z = _target;
 		break;
 	}
 	set.moveTime = _moveTime;
@@ -291,6 +313,27 @@ void DoTween::DoMove(Vector3 _targetPos, float _moveTime)
 
 }
 
+void DoTween::DoMoveXY(Vector2 _targetPos, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::MOVE_XY;
+	set.start = START::DO;
+	set.targetValue = {_targetPos.x, _targetPos.y,0};
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
 void DoTween::DoMoveX(float _targetPosX, float _moveTime)
 {
 	//　設定をする
@@ -319,6 +362,27 @@ void DoTween::DoMoveY(float _targetPosY, float _moveTime)
 	set.dotweenType = FUNC::MOVE_Y;
 	set.start = START::DO;
 	set.targetValue.y = _targetPosY;
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTween::DoMoveZ(float _targetPosZ, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::MOVE_Z;
+	set.start = START::DO;
+	set.targetValue.z = _targetPosZ;
 	set.moveTime = _moveTime;
 
 	// 設定したパラメータからベクトル、速度を求める
@@ -374,6 +438,26 @@ void DoTween::DoRotation(Vector3 _targetAngle, float _moveTime)
 	// シーケンスの最後にflowを入れる
 	sequence.push_back(flow);
 
+}
+
+void DoTween::DoDelay(float _delayTime)
+{
+	//なにもしない処理（時間毛経過するだけ）
+	VALUE set;
+	set.dotweenType = FUNC::DELAY;
+	set.start = START::DO;
+	set.moveTime = _delayTime;
+
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
 }
 
 void DoTween::AppendDelay(float _delayTime)
@@ -436,10 +520,19 @@ void DoTween::GetValue(VALUE* _value)
 		break;
 
 	case FUNC::MOVE_Z:
-
+		_value->targetValue.x = objPtr->mTransform.pos.x;
+		_value->targetValue.y = objPtr->mTransform.pos.y;
+		_value->moveDir = GetVector(objPtr->mTransform.pos, _value->targetValue);
+		_value->moveSpeed = GetSpeed(objPtr->mTransform.pos, _value->targetValue, _value->moveTime);
 		break;
 
 	case FUNC::MOVE:
+		_value->moveDir = GetVector(objPtr->mTransform.pos, _value->targetValue);
+		_value->moveSpeed = GetSpeed(objPtr->mTransform.pos, _value->targetValue, _value->moveTime);
+		break;
+
+	case FUNC::MOVE_XY:
+		_value->targetValue.z = objPtr->mTransform.pos.z;
 		_value->moveDir = GetVector(objPtr->mTransform.pos, _value->targetValue);
 		_value->moveSpeed = GetSpeed(objPtr->mTransform.pos, _value->targetValue, _value->moveTime);
 		break;

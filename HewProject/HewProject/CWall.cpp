@@ -8,11 +8,13 @@ CWall::CWall(D3DBUFFER vb, D3DTEXTURE tex)
 }
 CWall::~CWall()
 {
+	CLASS_DELETE(dotween);
 }
 
 void CWall::Update()
 {
 	CGridObject::Update();
+	dotween->Update();
 }
 
 void CWall::Draw()
@@ -22,6 +24,8 @@ void CWall::Draw()
 
 void CWall::Break()
 {
-	dotween->DelayedCall(3.0f, [&]()
-		{isActive = false; });
+	dotween->DelayedCall(BREAK_TIME, [&]()
+		{
+			this->SetActive(false); 
+		});
 }

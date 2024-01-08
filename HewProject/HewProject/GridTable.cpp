@@ -2,9 +2,8 @@
 #include "Vector3.h"
 #include "Player.h"
 
-#define ISOME_FLOOR_SUBY (3.6f)	// アイソメでの隣床のY座標の差（スケールを割る）
+#define OFFSET_Z (0.0f)	// [0,0]の床のz座標
 
-#define ISOME_FLOOR_SUBZ (0.01f) // 隣のグリッドとのZ座標の差
 
 GridTable::GridTable(CGrid::GRID_XY _max, float _scale)
 {
@@ -17,6 +16,8 @@ GridTable::GridTable(CGrid::GRID_XY _max, float _scale)
 
 	// 要調整
 	offset.y = -oneGridScale.y / 2.0f;
+
+	offsetZ = OFFSET_Z;
 }
 
 GridTable::~GridTable()
@@ -36,15 +37,16 @@ int GridTable::CheckFloorType(CGrid::GRID_XY _gridPos)
 Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type)
 {
 	float disTimes = 0.0f;
-	Vector3 ret = Vector3::zero;
+	Vector3 floorPos = Vector3::zero;
+	floorPos.x = offset.x + (_grid.y + _grid.x) * (oneGridScale.x / 2.0f);
+	floorPos.y = offset.y + (_grid.x - _grid.y) * oneGridScale.y / ISOME_FLOOR_SUBPOSY;
+	floorPos.z = offsetZ + (_grid.x - _grid.y) * INFRONT_PLUSZ + _grid.x * HORIZONLINE_PLUSZ;
+
 	switch (_type)
 	{
 	case CStageMake::BlockType::FLOOR:
 	{
-		ret.x = offset.x + (_grid.y + _grid.x) * (oneGridScale.x / 2.0f);
-		ret.y = offset.y + (_grid.x - _grid.y) * oneGridScale.y / ISOME_FLOOR_SUBPOSY;
-		ret.z = ret.y * 0.01f;
-		return ret;
+		return floorPos;
 	}
 	break;
 	case CStageMake::BlockType::WALL:
@@ -73,10 +75,9 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type
 		break;
 	}
 	
-	ret.x = offset.x + (_grid.y + _grid.x) * (oneGridScale.x / 2.0f);
-	ret.y = offset.y + (_grid.x - _grid.y) * oneGridScale.y / ISOME_FLOOR_SUBPOSY
-		+ oneGridScale.y * disTimes;
-	ret.z = (offset.y + (_grid.x - _grid.y) * oneGridScale.y / ISOME_FLOOR_SUBPOSY) * 0.01f - 0.55f;
+	Vector3 ret = floorPos;
+	ret.y += disTimes * oneGridScale.y;
+	ret.z -= 0.01f;
 
 	return ret;
 }

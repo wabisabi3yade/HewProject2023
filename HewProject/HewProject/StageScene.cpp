@@ -203,7 +203,7 @@ void StageScene::CastellaMoveOrder()
 	}
 	else
 	{
-		castella->Move(target);
+		castella->Move(target, player->GetDirection());
 		castella->SetGridPos(targetGrid.x, targetGrid.y);
 	}
 }

@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <functional>
+#include "Vector2.h"
+
 
 class DoTween
 {
@@ -13,6 +15,7 @@ public:
 	{
 		NONE,
 		MOVE,
+		MOVE_XY,
 		MOVE_X,
 		MOVE_Y,
 		MOVE_Z,
@@ -143,6 +146,8 @@ public:
 	/// <param name="_moveTime">移動時間</param>
 	void DoMove(Vector3 _targetPos, float _moveTime);
 
+	void DoMoveXY(Vector2 _targetPos, float _moveTime);
+
 	/// <summary>
 	/// 目的のX座標まで何秒で移動する関数
 	/// </summary>
@@ -160,6 +165,14 @@ public:
 	void DoMoveY(float _targetPosY, float _moveTime);
 
 	/// <summary>
+	/// 目的のZ座標まで何秒で移動する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的のZ座標</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoMoveZ(float _targetPosZ, float _moveTime);
+
+	/// <summary>
 	/// 目的の大きさまで何秒で変化する関数
 	/// </summary>
 	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
@@ -174,6 +187,9 @@ public:
 	/// <param name="_targetAngle">目的の大きさ</param>
 	/// <param name="_moveTime">移動時間</param>
 	void DoRotation(Vector3 _targetAngle, float _moveTime);
+
+	// 遅らせる処理
+	void DoDelay(float _delayTime);
 
 	// これ以降の処理を遅らせる
 	void AppendDelay(float _delayTime);
