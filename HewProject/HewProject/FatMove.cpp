@@ -74,20 +74,27 @@ void FatMove::Move(DIRECTION _dir)
 	case CStageMake::BlockType::CASTELLA:
 		// カステラが落ちると移動できるようにする
 		player->dotween->DoMove(forwardPos, CASTELLAWALK_TIME);
-		// 移動終わりの待機時間
-		{
-			float waitTime = 0;
+		// カステラの移動先に穴があるなら
 
-			// カステラの移動先に穴があるなら
-			if (player->GetGridTable()->CheckFloorType({ nextGridPos.x + d.x, nextGridPos.y + d.y }) ==
-				static_cast<int>(CStageMake::BlockType::HOLL))
-			{
-				waitTime = CASTELLAFALL_TIME;
-			}
+		if (player->GetGridTable()->CheckFloorType({ nextGridPos.x + d.x, nextGridPos.y + d.y }) ==
+			static_cast<int>(CStageMake::BlockType::HOLL))
+		{
 
 			player->dotween->OnComplete([&]()
 				{
-					player->dotween->DelayedCall(waitTime, [&]() { WalkAfter(); MoveAfter(); });
+					WalkAfter();
+					player->dotween->DelayedCall(CASTELLAFALL_TIME, [&]()
+						{
+							MoveAfter();
+						});
+				});
+		}
+		else
+		{
+			player->dotween->OnComplete([&]()
+				{
+					WalkAfter();
+					MoveAfter();
 				});
 		}
 

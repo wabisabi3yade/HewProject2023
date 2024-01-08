@@ -48,7 +48,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 {
 	dotween = std::make_unique<DoTween>(this);
 
-	move = std::make_shared<ThinMove>(this);
+	move = std::make_shared<NormalMove>(this);
 	
 	// アニメーションを作成
 	mAnim = new CPlayerAnim();
@@ -138,9 +138,11 @@ void Player::ChangeState(STATE _set)
 		SetTexture(thinTex[0]);
 		break;
 
-	/*case STATE::MUSCLE:
+	case STATE::MUSCLE:
 		move = std::make_shared<MuscleMove>(this);
-		break;*/
+		playerState = STATE::MUSCLE;
+		SetTexture(muscleTex[0]);
+		break;
 	}
 
 	// 状態が変わって行けるところも変わるので行ける方向を更新

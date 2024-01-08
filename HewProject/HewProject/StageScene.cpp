@@ -25,6 +25,7 @@
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	: CObject(vb, tex)
 {
+	nNumProtein = 0;
 }
 
 StageScene::~StageScene()
@@ -85,6 +86,13 @@ void StageScene::StageMove()
 		{
 			// カステラに移動しろと命令する
 			CastellaMoveOrder();
+		}
+		// プレイヤーがマッチョ　かつ　移動先が壁なら
+		if (player->GetState() == Player::STATE::MUSCLE &&
+			player->GetPlayerMove()->CheckNextObjectType() == CStageMake::BlockType::WALL)
+		{
+			CWall* wallobj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<int>(CStageMake::BlockType::WALL)));
+			wallobj->Break();
 		}
 	}
 
@@ -208,9 +216,15 @@ void StageScene::ItemDelete()
 		(nowFloor->objectTable[next.y][next.x]))
 	{
 		// プレイヤーの位置にこのアイテムがあれば
+	case CStageMake::BlockType::PROTEIN:
+		nNumProtein--;
+		if (nNumProtein <= 0)
+		{
+			player->ChangeState(Player::STATE::MUSCLE);
+		}
 	case CStageMake::BlockType::CAKE:
 	case CStageMake::BlockType::COIN:
-	case CStageMake::BlockType::PROTEIN:
+	case CStageMake::BlockType::CHILI:
 	{
 		// リストの中からプレイヤーの座標と同じもの　かつ　床じゃない物を探す
 		auto itr = std::find_if(vStageObj.begin(), vStageObj.end(), [&](CGridObject* _obj)
@@ -263,6 +277,8 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	D3D_LoadTexture(L"asset/Stage/Wall.png", &stageTextureWall);
 	D3D_LoadTexture(L"asset/Stage/Wataame.png", &stageTextureWataame);
 	D3D_LoadTexture(L"asset/Player/N_Walk01_Back.png", &playerTexture);
+
+	nNumProtein = 0;
 
 	stage = new CLoadStage;
 	stageMake = new CStageMake;
@@ -387,6 +403,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 
 			case CStageMake::BlockType::PROTEIN:
 				stageObj = new CProtein(stageBuffer, stageTextureProtein);
+				nNumProtein++;
 				break;
 
 			case CStageMake::BlockType::START:
