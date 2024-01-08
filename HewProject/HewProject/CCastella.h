@@ -20,7 +20,7 @@ public:
     /// <param name="_pos">動く先のワールド座標</param>
     /// <param name="isFall">落ちるのかどうか</param>
     /// <param name="_fallPos">落ちる座標</param>
-    void Move(Vector3 _pos, bool isFall = false, Vector3 _fallPos = Vector3::zero);
+    void Move(Vector3 _pos, int _dir, Vector3 _fallPos = Vector3::zero);
     void Draw();
 };
 

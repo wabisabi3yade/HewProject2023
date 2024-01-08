@@ -8,6 +8,12 @@
 
 #define ISOME_FLOOR_SUBPOSY (3.6f)	// アイソメでの隣床のY座標の差（スケールを割る）
 
+// 上から大きい数値にする
+#define INFRONT_PLUSZ (0.1f)	// アイソメで1列手前に行くと足されるZ座標
+#define ISOME_BACKMOVE (0.001f)	// アイソメの奥に移動するときに使用する
+#define HORIZONLINE_PLUSZ (0.0001f)	// 同じ横のラインで右に行くほど足される
+
+
 // アイソメ用グリッドの盤（テーブル）のクラス
 class GridTable
 {
@@ -16,6 +22,7 @@ class GridTable
 
 	// [0,0]のグリッドの中心座標(ワールド)
 	Vector2 offset;
+	float offsetZ;
 
 	// グリッドで
 	CGrid::GRID_XY maxGrid;

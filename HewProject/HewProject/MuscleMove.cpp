@@ -48,13 +48,28 @@ void MuscleMove::Move(DIRECTION _dir)
 	//	ここから移動する先の種類によってすることを変える //////////////////////////
 	// キャラクターを移動先の座標
 	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);
+	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
+
+	// 奥側に行くときの行動の順番
+	// ① ISOME_BACKMOVE足す　（同じ横列の↑にあるオブジェクトより奥に移動するのでオブジェクトより奥にする）
+	// ②移動先に到着するとその床に合わせたZ座標に合わせる
+	if (_dir == DIRECTION::UP || _dir == DIRECTION::RIGHT)
+	{
+		player->mTransform.pos.z += ISOME_BACKMOVE;
+	}
+	// 手前のマスに行くときは先にZ座標を手前に合わせる
+	else
+	{
+		player->mTransform.pos.z = forwardPos.z;
+	}
 
 	// 進んだ先のブロックによって対応するアクションを設定する
 	switch (CheckNextObjectType())
 	{
 	case CStageMake::BlockType::CAKE:
 		// 移動する
-		player->dotween->DoMove(forwardPos, WALK_TIME);
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		// 移動し終えたらケーキを食べる
 		player->dotween->OnComplete([&]()
 			{
@@ -65,7 +80,9 @@ void MuscleMove::Move(DIRECTION _dir)
 		break;
 
 	case CStageMake::BlockType::CHILI:
-		player->dotween->DoMove(forwardPos, WALK_TIME);
+		// 移動する
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
@@ -75,8 +92,11 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	case CStageMake::BlockType::WALL:
 
-		player->dotween->DelayedCall(BREAK_TIME, [&]() {player->dotween->DoMove(forwardPos, WALK_TIME);
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); }); });
+		player->dotween->DoDelay(BREAK_TIME);
+		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
 		
 		break;
 	case CStageMake::BlockType::HOLL:
@@ -90,7 +110,10 @@ void MuscleMove::Move(DIRECTION _dir)
 		break;
 
 	default:
-		player->dotween->DoMove(forwardPos, WALK_TIME);
+		// 移動する
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
 		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
 		break;
 	}
