@@ -20,7 +20,7 @@ public:
 
 protected:
 	// アニメーション変数
-	FLOAT_XY uv = {};	// アニメーションのUV移動量を保存
+	FLOAT_XY nowUV = {};	// アニメーションのUV移動量を保存
 	float animCounter = 0.0f;	// アニメテーブルのカウンター
 	int animPattern = 0;	// 再生するアニメーションのパターンIDを持つ変数
 	
@@ -33,6 +33,7 @@ public:
 public:
 
 	CAnimation();
+	virtual ~CAnimation();
 
 	// メンバー関数
 	virtual void Update();
@@ -43,7 +44,7 @@ public:
 	// 再生するアニメーションを変更する
 
 	// セッター関数(u)
-	FLOAT_XY GetUV() { return uv; }
+	FLOAT_XY GetUV() { return nowUV; }
 
 	// セッター関数(animPattern)
 	void SetPattern(int setpattern);	
@@ -54,6 +55,5 @@ public:
 
 	//effect用セッター
 	virtual void SetEffectLoop(bool) { 0; }
-
 };
 

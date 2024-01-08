@@ -145,6 +145,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	UnregisterClass(CLASS_NAME, hInstance);
 
+
+	_CrtDumpMemoryLeaks();
 	return (int)msg.wParam;
 }
 

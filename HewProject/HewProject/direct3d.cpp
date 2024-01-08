@@ -244,7 +244,8 @@ HRESULT D3D_Create(HWND hwnd)
 
 	Write = new DirectWrite(data);
 	
-	//CLASS_DELETE(data);
+	// ↓これがあると時々エラーが出るようになる
+	/*CLASS_DELETE(data);*/
 
 	Write->Init(hwnd);
 

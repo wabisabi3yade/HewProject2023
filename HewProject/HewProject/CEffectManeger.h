@@ -50,6 +50,6 @@ public:
 
 	static void Delete();
 
-	int GetTexBoxSize()const { return effectTexBox.size(); };
+	int GetTexBoxSize()const { return static_cast<int>(effectTexBox.size()); };
 };
 

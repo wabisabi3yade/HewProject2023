@@ -17,7 +17,8 @@ public:
 		MOVE_Y,
 		MOVE_Z,
 		SCALE,
-		ROTATION
+		ROTATION,
+		DELAY
 	};
 
 	// 始まるときの種類
@@ -173,11 +174,10 @@ public:
 	/// <param name="_targetAngle">目的の大きさ</param>
 	/// <param name="_moveTime">移動時間</param>
 	void DoRotation(Vector3 _targetAngle, float _moveTime);
-};
 
-//template<typename T>
-//inline void DoTween::OnComplete(T* _recive, T _send)
-//{
-//	// シーケンスの最後の要素に追加する
-//	sequence.back().onComplete = {_recive, _send};
-//}
+	// これ以降の処理を遅らせる
+	void AppendDelay(float _delayTime);
+
+	// 何秒後に実行する処理
+	void DelayedCall(float _delayTime, std::function<void()> _onComplete);
+};

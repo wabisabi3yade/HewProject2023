@@ -1,3 +1,7 @@
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
+
 #include "CEffectManeger.h"
 #include "Vector3.h"
 //#include "CObject.h"
@@ -30,8 +34,6 @@ EffectManeger::EffectManeger()
 //==============デスストラクタ==============//
 EffectManeger::~EffectManeger()
 {
-	CLASS_DELETE(charObj);
-
 	SAFE_RELEASE(charBuffer);
 
 	SAFE_RELEASE(charTexture);

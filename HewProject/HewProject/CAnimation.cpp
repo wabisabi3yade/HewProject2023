@@ -5,6 +5,10 @@ CAnimation::CAnimation()
 	isPlaying = true;
 }
 
+CAnimation::~CAnimation()
+{
+}
+
 void CAnimation::Update()
 {
 	// 2Dゲームでおすすめのアニメーション方法
@@ -49,9 +53,9 @@ void CAnimation::Update()
 	int animID = animTable[animPattern][(int)animCounter];
 
 	// 表示させるUVを計算
-	uv.x = (animID % 3) * 0.33f;
+	nowUV.x = (animID % 3) * 0.33f;
 
-	uv.y = (animID / 3) * 0.25f;
+	nowUV.y = (animID / 3) * 0.25f;
 }
 
 // セッター関数(animPattern)

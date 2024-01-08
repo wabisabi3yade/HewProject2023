@@ -147,3 +147,4 @@ extern ID3D11Device* m_pDevice; // デバイス＝DirectXの各機能を作る
 extern IDXGISwapChain* m_pSwapChain;// ダブルバッファ機能
 extern ID3D11DeviceContext* m_pImmediateContext;// コンテキスト＝描画機能
 extern ID3D11RenderTargetView* m_pRenderTargetView;
+extern DirectWrite* Write;
