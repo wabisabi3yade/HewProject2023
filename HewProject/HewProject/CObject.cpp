@@ -4,11 +4,13 @@
 
 using namespace DirectX;
 
-#define SCREEN_RATIO_W (16.0f)	// 画面比率（横）
-#define SCREEN_RATIO_H (9.0f)	// 画面比率（縦）
-
 CObject::CObject()
 {
+}
+
+CObject::~CObject()
+{
+	CLASS_DELETE(mAnim);
 }
 
 CObject::CObject(D3DBUFFER vb, D3DTEXTURE tex)
@@ -32,6 +34,8 @@ void CObject::LateUpdate()
 
 void CObject::Draw()
 {
+	if (!isActive) return;
+
 	// uv座標を宣言
 	FLOAT_XY uv = { 0,0 };
 

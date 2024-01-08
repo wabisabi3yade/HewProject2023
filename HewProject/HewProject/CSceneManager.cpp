@@ -6,6 +6,7 @@
 #include "CTatemizoScene.h"
 #include "CMizunoScene.h"
 #include "CWakamuraScene.h"
+#include "Stage.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -16,6 +17,8 @@ CSceneManager::CSceneManager()
 
 CSceneManager::~CSceneManager()
 {
+	EffectManeger::Delete();
+	CLASS_DELETE(pNowScene);
 }
 
 CSceneManager* CSceneManager::GetInstance()
@@ -92,7 +95,7 @@ void CSceneManager::SceneChange(int _scene)
 
 	case HASHIMOTO:
 		nowSceneName = HASHIMOTO;
-		pNowScene = new CTest();
+		pNowScene = new Stage(L"asset/mizuno/Stage.csv");
 		break;
 	}
 }

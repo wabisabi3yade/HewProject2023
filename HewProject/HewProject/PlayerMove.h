@@ -1,54 +1,83 @@
 #pragma once
 #include <iostream>
 #include "Vector3.h"
-#include"DoTween.h"
+#include <vector>
+#include "GridTable.h"
+#include "CStageMake.h"
+
+#define WALK_TIME (1.0f)	// 歩くときの移動時間
+
 class Player;
-//class DoTween;
 
 class PlayerMove
 {
 
 public:
+	// 方向
 	enum class DIRECTION
 	{
 		UP,
 		DOWN,
 		RIGHT,
-		LEFT
+		LEFT,
+		NUM
 	};
 
+protected:
+	Player* player;	// プレイヤークラスのポインタ
 
-private:
-	std::unique_ptr<Player> player;	// プレイヤークラスのポインタ
-
-	std::unique_ptr<DoTween> dotween;
-
-	DIRECTION direction;
-
-	bool canMoveDir[4];	// 移動可能である方向
+	bool canMoveDir[static_cast<int>(DIRECTION::NUM)];	// 移動可能である方向
 
 	bool isMoving;	// 移動可能フラグ
 
-	bool isMovingLast;
+	bool isMoveStartTrigger;	// 動き始めたフラグ
 
 	bool isMovingTrigger;	// isMove = true->falseに変わった瞬間だけtrue
 
-	float moveTime = 0.0f;	// 仮
+	bool isWalkEnd;	// 歩き終わった瞬間true
+
+	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
+
+	std::vector<int> cantMoveBlock;	// 移動できない床の種類を保持
 
 public:
 	PlayerMove(Player* _p);
 
-	void Update();
-	void Move(Vector3 _nowpos ,Vector3 _targetpos );
-	void MoveAppend(Vector3 _targetPos, float _moveTime, DoTween::FUNC _moveFunc);
+	// 入力関数
+	void Input();
+	// フラグを初期化する
+	void FlagInit();
+	// 入力されると移動を行う関数
+	virtual void Move(DIRECTION _dir) = 0;
 
-	// 移動終えた瞬間に次の移動のための準備をする関数
-	void SettingMove();
+	// 歩き終わった後にする処理（歩き終わって食べるアニメーションをしたりする）
+	virtual void WalkAfter();
 
-	~PlayerMove();
+	// 完全に移動が終わった後にする処理（次に進む方向をここできめたりする）
+	// 引数　移動先のグリッド座標
+	virtual void MoveAfter();
+
+	// プレイヤーの移動先の座標にあるマスの種類を取得する
+	// オブジェクト優先→なにもないなら床の種類が帰ってくる
+	// 間違えているかもしれないっす・・・
+	CStageMake::BlockType CheckNextMassType();
+
+	// 移動先のプレイヤーのグリッド座標にある物の種類を取得する
+	CStageMake::BlockType CheckNextObjectType();
+
+	// 移動先のプレイヤーのグリッド座標にある床の種類を取得する
+	CStageMake::BlockType CheckNextFloorType();
+
+	// どの方向に移動ができるか取得する関数
+	virtual void  CheckCanMove() = 0;
+
+	virtual ~PlayerMove();
+
+	CGrid::GRID_XY GetNextGridPos() const { return nextGridPos; };
 
 	bool GetIsMoving()const { return isMoving; }
-	bool GetIsMovingTrrger()const { return isMovingTrigger; }
-	DIRECTION GetDirection()const { return direction; }
+	bool GetIsMoveStart()const { return isMoveStartTrigger; }
+	bool GetIsMoveTrigger() const { return isMovingTrigger; }
+	bool GetIsWalkEnd() const { return isWalkEnd; }
 };
 

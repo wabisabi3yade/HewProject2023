@@ -187,6 +187,27 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Chili">
       <UniqueIdentifier>{9998fbb4-f21a-47ab-8896-65a7f5339c57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\FatMove">
+      <UniqueIdentifier>{10b15db6-1d87-4575-8325-29e582744d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove">
+      <UniqueIdentifier>{d4230061-8c6e-4b6a-84bb-82606f56d829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove">
+      <UniqueIdentifier>{fc79e383-e0cc-46d5-ac96-b7a25d310ecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
+      <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\GridTable">
+      <UniqueIdentifier>{245040de-01e8-47db-8699-598b52fdd55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\debugText">
+      <UniqueIdentifier>{6da28bc9-f924-4fc0-a66f-b54cbb703efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\stageScene">
+      <UniqueIdentifier>{95226933-b755-45a9-ac95-5cad9942290a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -345,6 +366,27 @@
     <ClInclude Include="CChili.h">
       <Filter>ソース ファイル\Mizuno\Stage\Chili</Filter>
     </ClInclude>
+    <ClInclude Include="FatMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\FatMove</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove</Filter>
+    </ClInclude>
+    <ClInclude Include="ThinMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove</Filter>
+    </ClInclude>
+    <ClInclude Include="MuscleMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove</Filter>
+    </ClInclude>
+    <ClInclude Include="GridTable.h">
+      <Filter>ソース ファイル\Hashimoto\GridTable</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugTable.h">
+      <Filter>ソース ファイル\Hashimoto\debugText</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -502,6 +544,27 @@
     </ClCompile>
     <ClCompile Include="CChili.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Chili</Filter>
+    </ClCompile>
+    <ClCompile Include="FatMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\FatMove</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove</Filter>
+    </ClCompile>
+    <ClCompile Include="ThinMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove</Filter>
+    </ClCompile>
+    <ClCompile Include="MuscleMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove</Filter>
+    </ClCompile>
+    <ClCompile Include="GridTable.cpp">
+      <Filter>ソース ファイル\Hashimoto\GridTable</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugTable.cpp">
+      <Filter>ソース ファイル\Hashimoto\debugText</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

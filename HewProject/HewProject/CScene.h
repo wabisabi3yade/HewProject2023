@@ -21,7 +21,7 @@ protected:
 public:
 	CScene();
 
-	~CScene();
+	virtual ~CScene();
 
 	// XVˆ—
 	virtual void Update() = 0;

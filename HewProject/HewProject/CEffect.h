@@ -12,7 +12,7 @@ public:
 
     void Draw() override;
 
-    ~CEffect();
+    virtual ~CEffect();
 
     bool GetIsPlaying()const { return mAnim->isPlaying; };
 };

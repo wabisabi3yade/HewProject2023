@@ -38,9 +38,9 @@ void CEffectAnim::Update()
 	int animID = animTable[animPattern][(int)animCounter];
 
 	// •\Ž¦‚³‚¹‚éUV‚ðŒvŽZ
-	uv.x = (animID % 3) * 0.33f;
+	nowUV.x = (animID % 3) * 0.33f;
 
-	uv.y = (animID / 3) * 0.25f;
+	nowUV.y = (animID / 3) * 0.25f;
 }
 
 void CEffectAnim::SetEffectLoop(bool isLoop)

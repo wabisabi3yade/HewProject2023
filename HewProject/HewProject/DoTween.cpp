@@ -1,3 +1,7 @@
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
+
 #include "DoTween.h"
 #include"Time.h"
 #include <algorithm>
@@ -370,6 +374,43 @@ void DoTween::DoRotation(Vector3 _targetAngle, float _moveTime)
 	// シーケンスの最後にflowを入れる
 	sequence.push_back(flow);
 
+}
+
+void DoTween::AppendDelay(float _delayTime)
+{
+	VALUE set;
+
+	set.moveTime = _delayTime;
+	set.dotweenType = FUNC::DELAY;
+	set.start = START::APPEND;
+
+	set.state = STATE::WAIT;
+
+	// シーケンスの最後の要素に追加する
+	sequence.back().flowList.push_back(set);
+}
+
+void DoTween::DelayedCall(float _delayTime, std::function<void()> _onComplete)
+{
+	//なにもしない処理（時間毛経過するだけ）
+	VALUE set;
+	set.dotweenType = FUNC::DELAY;
+	set.start = START::DO;
+	set.moveTime = _delayTime;
+
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+
+	// 終わった後に処理をする
+	OnComplete(_onComplete);
 }
 
 void DoTween::GetValue(VALUE* _value)
