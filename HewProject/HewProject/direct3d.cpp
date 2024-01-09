@@ -236,7 +236,7 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = m_pDevice->CreateBuffer(&cbDesc, NULL, &m_pConstantBuffer);
 	if (FAILED(hr)) return hr;
 
-	FontData* data = new FontData();
+	std::shared_ptr<FontData> data = std::make_shared<FontData>();
 
 	data->fontSize = 60;
 	data->fontWeight = DWRITE_FONT_WEIGHT_BOLD;

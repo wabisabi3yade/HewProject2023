@@ -69,7 +69,7 @@ private:
 	IDXGISurface* pBackBuffer = NULL;
 
 	// フォントデータ
-	FontData* Setting = new FontData();
+	std::shared_ptr<FontData> Setting/* = new FontData()*/;
 
 	// stringをwstringへ変換する
 	std::wstring StringToWString(std::string oString);
@@ -80,11 +80,13 @@ public:
 
 	// コンストラクタ
 	// 第1引数：フォント設定
-	DirectWrite(FontData* set) :Setting(set) { };
+	DirectWrite(std::shared_ptr<FontData> set) {
+		Setting = set;
+	}
 
 	// フォント設定
 	// 第1引数：フォントデータ構造体
-	void SetFont(FontData* set);
+	void SetFont(std::shared_ptr<FontData> set);
 
 	// フォント設定
 	// 第1引数：フォント番号
