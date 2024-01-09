@@ -28,11 +28,19 @@ public:
 	// 方向
 	enum class DIRECTION
 	{
-		UP,
 		DOWN,
-		RIGHT,
 		LEFT,
+		RIGHT,
+		UP,
 		NUM
+	};
+
+	enum ANIM_TEX
+	{
+		WALK,
+		EAT,
+		ACTION,
+		NUM,
 	};
 
 private:
@@ -52,15 +60,14 @@ private:
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 
 	// テクスチャ（状態別）
-	std::vector<D3DTEXTURE> normalTex;	
-	std::vector<D3DTEXTURE> fatTex;
-	std::vector<D3DTEXTURE>	thinTex;
-	std::vector<D3DTEXTURE> muscleTex;
-	
+	D3DTEXTURE normalTex[static_cast<int>(ANIM_TEX::NUM)];
+	D3DTEXTURE fatTex[static_cast<int>(ANIM_TEX::NUM)];
+	D3DTEXTURE thinTex[static_cast<int>(ANIM_TEX::NUM)];
+	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
 	
 	// 画像を上に配列に入れる
 	// 引数①：テクスチャパス ② 度の状態の配列に入れるか
-	void TextureInput(const wchar_t* _texPath, STATE _set);
+	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
 	
 public:
 	std::unique_ptr<DoTween> dotween;

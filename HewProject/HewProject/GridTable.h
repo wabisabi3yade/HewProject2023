@@ -4,7 +4,7 @@
 #include "Vector3.h"
 #include "CStageMake.h"
 
-#define MAX_GRIDNUM (12)    // グリッドの最大マス数
+#define MAX_GRIDNUM (9)    // グリッドの最大マス数
 
 #define ISOME_FLOOR_SUBPOSY (3.6f)	// アイソメでの隣床のY座標の差（スケールを割る）
 

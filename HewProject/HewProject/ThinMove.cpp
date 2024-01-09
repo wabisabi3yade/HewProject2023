@@ -64,6 +64,9 @@ void ThinMove::Move(DIRECTION _dir)
 	switch (CheckNextObjectType())
 	{
 	case CStageMake::BlockType::CAKE:
+
+		WalkStart();
+
 		// 移動する
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -91,10 +94,14 @@ void ThinMove::Move(DIRECTION _dir)
 	case CStageMake::BlockType::HOLL:
 		// ↓におちるときのジャンプ
 
+		WalkStart();
+
 		break;
 
 	case CStageMake::BlockType::GUMI:
 		// ↑にジャンプする
+
+		WalkStart();
 
 		break;
 
@@ -104,6 +111,8 @@ void ThinMove::Move(DIRECTION _dir)
 		// もう一個先に座標設定
 		nextGridPos.x += d.x;
 		nextGridPos.y += d.y;
+
+		WalkStart();
 
 		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);		
 		forwardPosXY = { forwardPos.x, forwardPos.y };
@@ -145,6 +154,9 @@ void ThinMove::Move(DIRECTION _dir)
 		break;
 
 	default:
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 

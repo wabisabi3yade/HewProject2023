@@ -45,6 +45,9 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type
 	switch (_type)
 	{
 	case CStageMake::BlockType::FLOOR:
+	case CStageMake::BlockType::CASTELLA_FLOOR:
+	case CStageMake::BlockType::HOLL:
+	case CStageMake::BlockType::WATAAME:
 	{
 		return floorPos;
 	}

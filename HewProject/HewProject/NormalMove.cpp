@@ -69,6 +69,9 @@ void NormalMove::Move(DIRECTION _dir)
 	switch (CheckNextMassType())
 	{
 	case CStageMake::BlockType::CAKE:
+
+		WalkStart();
+
 		// 移動する
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -87,6 +90,9 @@ void NormalMove::Move(DIRECTION _dir)
 		break;
 
 	case CStageMake::BlockType::CHILI:
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -103,6 +109,9 @@ void NormalMove::Move(DIRECTION _dir)
 		break;
 
 	case CStageMake::BlockType::HOLL:
+
+		WalkStart();
+
 		// ↓におちるときのジャンプ
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -118,11 +127,17 @@ void NormalMove::Move(DIRECTION _dir)
 		break;
 
 	case CStageMake::BlockType::GUMI:
+
+		WalkStart();
+
 		// ↑にジャンプする
 
 		break;
 
 	default:	// 床
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 

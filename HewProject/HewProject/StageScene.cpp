@@ -68,7 +68,7 @@ void StageScene::Update()
 	StageMove();
 
 	// 動いているときと動き終わった瞬間だけ
-	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
+	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsWalkEnd())
 	{
 		// グリッドテーブルを更新する
 		TableUpdate();
@@ -91,16 +91,33 @@ void StageScene::StageMove()
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CStageMake::BlockType::WALL)
 		{
-			CWall* wallobj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<int>(CStageMake::BlockType::WALL)));
-			wallobj->Break();
+			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<int>(CStageMake::BlockType::WALL)));
+			wallObj->Break();
+		}
+		if (player->GetPlayerMove()->CheckNowFloorType() == CStageMake::BlockType::WATAAME)
+		{
+			CWataame* wataameObj = dynamic_cast<CWataame*>(GetStageObject(player->GetGridPos(), static_cast<int>(CStageMake::BlockType::WATAAME)));
+			wataameObj->Melt();
 		}
 	}
 
 	// プレイヤーが動き終えると
 	if (player->GetPlayerMove()->GetIsWalkEnd())
 	{
+		if (player->GetPlayerMove()->CheckNextFloorType() == CStageMake::BlockType::CHOCO ||
+			player->GetPlayerMove()->CheckNextFloorType() == CStageMake::BlockType::CHOCOCRACK)
+		{
+			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<int>(player->GetPlayerMove()->CheckNextFloorType())));
+			chocoObj->CRACK();
+			if (player->GetState() == Player::STATE::FAT)
+			{
+				chocoObj->CRACK();
+			}
+		}
 		// アイテムがあるならそれを画面から消す
 		ItemDelete();
+
+
 	}
 }
 
@@ -126,7 +143,7 @@ void StageScene::TableUpdate()
 	for (auto itr = vStageObj.begin(); itr != vStageObj.end(); itr++)
 	{
 		// そのオブジェクトが画面にないなら次に行く
-		if (!(*itr)->GetActive()) continue;
+		if (!(*itr)->GetActive() && (*itr)->GetBlookType()==NULL ) continue;
 
 		// グリッド座標取って
 		CGrid::GRID_XY g = (*itr)->GetGridPos();
@@ -262,6 +279,7 @@ void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
 void StageScene::Init(const wchar_t* filePath, float _stageScale)
 {
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
+	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 
 	D3D_LoadTexture(L"asset/Stage/floor_y.png", &stageTextureFloor);
 	D3D_LoadTexture(L"asset/Stage/floor_g.png", &stageTextureFloor2);
@@ -407,7 +425,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 				break;
 
 			case CStageMake::BlockType::START:
-				stageObj = new Player(stageBuffer, playerTexture);
+				stageObj = new Player(playerBuffer, NULL);
 				break;
 
 			case CStageMake::BlockType::GALL:

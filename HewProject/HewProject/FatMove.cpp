@@ -65,6 +65,9 @@ void FatMove::Move(DIRECTION _dir)
 	switch (CheckNextObjectType())
 	{
 	case CStageMake::BlockType::CAKE:
+
+		WalkStart();
+
 		// 移動する
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -79,6 +82,9 @@ void FatMove::Move(DIRECTION _dir)
 		break;
 
 	case CStageMake::BlockType::CHILI:
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -90,6 +96,9 @@ void FatMove::Move(DIRECTION _dir)
 		break;
 
 	case CStageMake::BlockType::CASTELLA:
+
+		WalkStart();
+
 		// カステラが落ちると移動できるようにする
 		player->dotween->DoMoveXY(forwardPosXY, CASTELLAWALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -122,14 +131,21 @@ void FatMove::Move(DIRECTION _dir)
 	case CStageMake::BlockType::HOLL:
 		// ↓におちるときのジャンプ
 
+		WalkStart();
+
 		break;
 
 	case CStageMake::BlockType::GUMI:
 		// ↑にジャンプする
 
+		WalkStart();
+
 		break;
 
 	default:
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
