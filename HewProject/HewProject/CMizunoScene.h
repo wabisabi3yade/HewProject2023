@@ -1,7 +1,13 @@
 #pragma once
 #include "CScene.h"
-#include "DoTween.h"
+#include"CStageMake.h"
 #include"Ccontroller.h"
+#include "DoTween.h"
+#include"CFade.h"
+#include<vector>
+#include<list>
+class StageScene;
+
 class CMizunoScene :
     public CScene
 {
@@ -12,8 +18,26 @@ class CMizunoScene :
     D3DBUFFER charBuffer2;
     D3DTEXTURE charTexture2;
     CObject* charObj2;
-    DoTween* doToween;
+    //DoTween* doToween;
 
+    CFade* fade;
+    D3DBUFFER fadeBuffer;
+    D3DTEXTURE fadeTexture;
+
+    CObject* a[5];
+    D3DTEXTURE centerTexture;
+
+    //CLoadStage* stage;
+    //CStageMake* stageMake;
+
+    //CObject* stageobj[39];
+
+    std::vector<CObject*> stageObj;
+    std::list<CObject*> stageObjList;
+
+    StageScene *stagescene;
+
+    int ss = 0;
     Input input;
 public:
     CMizunoScene();
@@ -27,3 +51,5 @@ public:
     void Draw() override;
 };
 
+void Z_Sort(std::vector<CObject*>& _sortList);
+void Z_SortList(std::list<CObject*> _sortList);

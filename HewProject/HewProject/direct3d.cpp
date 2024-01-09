@@ -6,6 +6,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "direct3d.h"
+#include "CDirectWrite.h"
 
 // リンク設定
 #pragma comment (lib, "d3d11.lib")
@@ -53,6 +54,8 @@ ID3D11BlendState* m_pBlendStateAlpha;
 // ブレンドステート変数　（加算合成）
 ID3D11BlendState* m_pBlendStateAdditive;
 
+DirectWrite* Write;
+
 // IASetVertexBuffersで使用する変数
 const UINT strides = sizeof(Vertex);
 const UINT offsets = 0;
@@ -94,7 +97,7 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = D3D11CreateDeviceAndSwapChain(NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
-		flags,
+		D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 		pLevels,
 		1,
 		D3D11_SDK_VERSION,
@@ -233,6 +236,19 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = m_pDevice->CreateBuffer(&cbDesc, NULL, &m_pConstantBuffer);
 	if (FAILED(hr)) return hr;
 
+	FontData* data = new FontData();
+
+	data->fontSize = 60;
+	data->fontWeight = DWRITE_FONT_WEIGHT_BOLD;
+	data->Color = D2D1::ColorF(D2D1::ColorF::White);
+
+	Write = new DirectWrite(data);
+	
+	// ↓これがあると時々エラーが出るようになる
+	/*CLASS_DELETE(data);*/
+
+	Write->Init(hwnd);
+
 	return hr;
 }
 
@@ -266,6 +282,7 @@ void D3D_Release()
 	SAFE_RELEASE(m_pDevice);
 
 	SAFE_RELEASE(m_pConstantBuffer);
+	CLASS_DELETE(Write);
 }
 
 /// <summary>

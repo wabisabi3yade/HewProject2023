@@ -1,10 +1,13 @@
 #include "Ccontroller.h"
 
 //静的変数
-XINPUT_STATE Input::ControllerState;//コントローラーの状態
+XINPUT_STATE Input::ControllerState; //コントローラーの状態
+XINPUT_STATE Input::FControllerState;//前のコントローラーの状態
 
 //初期化
 void Input::Init() {}
+
+
 
 //setter
 //特になし！
@@ -16,11 +19,10 @@ bool Input::GetControllerUp(int _button) { return !(ControllerState.Gamepad.wBut
 
 //スティックの入力
 //引数0or1でL,Rを判定
-bool Input::GetControllerStick(int _stick)
+int Input::GetControllerStick(int _stick)
 {
 	int Value=0;
 	float x = 0, y = 0;
-
 
 	switch (_stick)
 	{
@@ -35,7 +37,7 @@ bool Input::GetControllerStick(int _stick)
 		y = ControllerState.Gamepad.sThumbRY;	//右スティックのY軸
 		break;
 	};
-	return Value; (x, y) / 32768;	//XInputは65535段階(-32768～327768)int型
+	return Value,(x,y) / 32767;	//XInputは65535段階(-32767～32767)
 }
 
 
@@ -70,6 +72,23 @@ float Input::GetVertical()
 	}
 }
 
+//十字キーの縦入力
+bool Input::FDpadVertical=false;
+bool Input::GetDpadVerticaldown() { return GetDpadVertical() && !FDpadVertical; }
+bool Input::GetDpadVertical()
+{
+	if (GetController(Pad_UP))
+	{
+		return true;
+	}
+	if (GetController(Pad_DOWN))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 //横入力
 float Input::GetHorizontal()
 {
@@ -80,15 +99,37 @@ float Input::GetHorizontal()
 	}
 }
 
+//十字キーの横入力
+bool Input::FDpadHorizontal = false;
+bool Input::GetDpadHorizontalDown() { return GetDpadHorizontal() && !FDpadHorizontal; }
+bool Input::GetDpadHorizontal()
+{
+	if (GetController(Pad_L))
+	{
+		return true;
+	}
+	if (GetController(Pad_R))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
 //Xボタン
-bool Input::GetDecisionDown()
+bool Input::FDecision = false;
+bool Input::GetDecisionDown() { return GetDecision() && !FDecision; }
+bool Input::GetDecision()
 {
 	if (GetController(Pad_X)) { return true; }	//Aが押されたらtrueを返す
 	return false;
 }
 
 //Bボタン
-bool Input::GetCancelDown()
+bool Input::FCancel = false;
+bool Input::GetCancelDown() { return GetCancel() && !FCancel; }
+bool Input::GetCancel()
 {
 	if (GetController(Pad_B)) { return true; }	//Bが押されたらtrueを返す
 	return false;

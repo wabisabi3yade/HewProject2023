@@ -1,16 +1,12 @@
 #include "CTatemizoScene.h"
-#include "CSceneManager.h"
 
-CTatemizoScene::CTatemizoScene() : player(nullptr)
+CTatemizoScene::CTatemizoScene()
 {
 	D3D_CreateSquare({ 3,4 }, &charBuffer);
-	D3D_LoadTexture(L"asset/hashimoto/char01.png", &charTexture);
+	D3D_LoadTexture(L"asset/hashimoto/Char01.png", &charTexture);
 
-	//charObj = new CObject(charBuffer, charTexture);
-	//charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
-
-	// CPlayer オブジェクトの初期化
-	player = new CPlayer(charBuffer, charTexture);
+	charObj = new CObject(charBuffer, charTexture);
+	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
 }
 
 CTatemizoScene::~CTatemizoScene()
@@ -20,16 +16,16 @@ CTatemizoScene::~CTatemizoScene()
 	SAFE_RELEASE(charBuffer);
 
 	SAFE_RELEASE(charTexture);
-
-	// CPlayer オブジェクトの解放
-	delete player;
-	player = nullptr;
 }
 
 void CTatemizoScene::Update()
 {
-	// CPlayer の Update 関数を呼び出す
-	player->Update();
+
+    // ベクトルを使って移動
+    //charObj->SetMoveSpeed(moveSpeed);
+    //pos.x = pos.x + dir.x * moveSpeed;
+    //pos.y = pos.y + dir.y * moveSpeed;
+    //pos.z = pos.z + dir.z * moveSpeed;
 }
 
 void CTatemizoScene::LateUpdate()
@@ -38,5 +34,5 @@ void CTatemizoScene::LateUpdate()
 
 void CTatemizoScene::Draw()
 {
-	player->Draw();
+	charObj->Draw();
 }

@@ -1,12 +1,14 @@
 #pragma once
 
 #include "direct3d.h"
-#include "CCamera.h"
 #include "CAnimation.h"
 #include"Vector3.h"
 #include "Transform.h"
 
 #define PathLength 64
+#define SCREEN_RATIO_W (16.0f)	// 画面比率（横）
+#define SCREEN_RATIO_H (9.0f)	// 画面比率（縦）
+
 
 enum ObjectLayer
 {
@@ -17,6 +19,7 @@ enum ObjectLayer
 	BACK_GROUND,
 };
 
+class CCamera;
 
 class CObject
 {
@@ -61,6 +64,12 @@ public:
 public:
 	// メンバー関数
 	// 初期化処理（コンストラクタ）
+	CObject();
+
+	virtual ~CObject();
+
+	// メンバー関数
+	// 初期化処理（コンストラクタ）
 	CObject(D3DBUFFER vb, D3DTEXTURE tex);
 
 	// ゲームループごとに実行する処理を書く関数
@@ -79,6 +88,7 @@ public:
 
 	int GetLayer() { return mLayer; }
 
+	CAnimation* GetmAnim() { return mAnim; }
 
 	//セッター	
 
@@ -96,5 +106,8 @@ public:
 	void SetMoveSpeed(float _moveSpeed) { mMoveSpeed = _moveSpeed; }
 
 	void SetLayer(ObjectLayer _layer) { mLayer = _layer; }
+
+	void SetActive(bool _set) { isActive = _set; }
+	bool GetActive() const { return isActive; }
 };
 

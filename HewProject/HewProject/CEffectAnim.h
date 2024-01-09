@@ -14,6 +14,10 @@ public:
 
     void Update() override;
 
+    bool isCheck = false;
+
+    void SetEffectLoop(bool);
+
     ~CEffectAnim();
 };
 

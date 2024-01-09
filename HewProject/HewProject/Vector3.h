@@ -26,6 +26,10 @@ public:
 	const Vector3& operator-( const Vector3& _v)const;
 
 	const bool& operator>=(const Vector3& _v)const;
+	const bool& operator==(const Vector3& _v)const;
+	const bool& operator!=(const Vector3& _v)const;
 };
 
 DirectX::XMFLOAT3* dirChange(Vector3);
+
+Vector3 dirChangeVec3(DirectX::XMFLOAT3);

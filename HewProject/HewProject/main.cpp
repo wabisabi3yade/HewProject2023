@@ -5,6 +5,7 @@
 #include "direct3d.h"
 #include "CInput.h"
 #include "CSceneManager.h"
+#include"Time.h"
 
 // マクロ定義
 #define CLASS_NAME    "DX21Smpl"// ウインドウクラスの名前
@@ -107,6 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			// 時間を取得
 			QueryPerformanceCounter(&liWork);
 			nowCount = liWork.QuadPart;
+			Time::deltaTime = (float)nowCount - oldCount * 0.001f;
 
 			if (nowCount >= oldCount + numCount_1frame)	// 1 / FPS秒経過したか？
 			{
@@ -143,6 +145,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	UnregisterClass(CLASS_NAME, hInstance);
 
+
+	_CrtDumpMemoryLeaks();
 	return (int)msg.wParam;
 }
 

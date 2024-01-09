@@ -6,15 +6,19 @@
 #include "CTatemizoScene.h"
 #include "CMizunoScene.h"
 #include "CWakamuraScene.h"
+#include "Stage.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
 {
+	effectManeger = EffectManeger::GetInstance();
 }
 
 CSceneManager::~CSceneManager()
 {
+	EffectManeger::Delete();
+	CLASS_DELETE(pNowScene);
 }
 
 CSceneManager* CSceneManager::GetInstance()
@@ -39,11 +43,16 @@ void CSceneManager::Act()
 	pNowScene->Update();
 	// 後で行う処理
 	pNowScene->LateUpdate();
-
+	
+	//エフェクトマネジャー
+	effectManeger->Update();
+	
 	//画面塗りつぶしと設定
 	D3D_ClearScreen();
 	// 描画処理 /////////////////////////////////
 	pNowScene->Draw();
+
+	effectManeger->Draw();
 	// 画面更新
 	D3D_UpdateScreen();
 
@@ -86,7 +95,7 @@ void CSceneManager::SceneChange(int _scene)
 
 	case HASHIMOTO:
 		nowSceneName = HASHIMOTO;
-		pNowScene = new CTest();
+		pNowScene = new Stage(L"asset/mizuno/Stage.csv");
 		break;
 	}
 }

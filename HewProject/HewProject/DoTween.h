@@ -1,46 +1,199 @@
 #pragma once
 #include "CObject.h"
-enum MOVEDIR
-{
-	NONE,
-	RIGHT,
-	LEFT,
-	UP,
-	DOWN,
-};
+#include <list>
+
+#include <iostream>
+#include <functional>
+#include "Vector2.h"
+
 
 class DoTween
 {
-private:
-	enum  MOVESTATE
+public:
+	// DoTweenの種類列挙型
+	enum class FUNC
 	{
 		NONE,
-		MOVEX,
-		MOVEY,
-		SCALEUP,
-		SCALEDOWN,
-		MOVECURVE,
+		MOVE,
+		MOVE_XY,
+		MOVE_X,
+		MOVE_Y,
+		MOVE_Z,
+		SCALE,
+		ROTATION,
+		DELAY
 	};
-	CObject* objptr;
-	float nowTime;
-	float moveTime;
-	float moveSpeed;
-	float curvePos;
-	bool IsDoMove;
-	MOVESTATE moveState;
-	MOVEDIR movedir;
-	Vector3 oldPos;
-	Vector3 targetPos;
-public:
-	void Updeta();
 
-	DoTween();
+	// 始まるときの種類
+	enum class START
+	{
+		DO,	// すぐ始まる
+		APPEND,	// 前のが終わると始まる
+		JOIN	// 前のと同タイミングで始まる
+	};
+
+	enum class STATE
+	{
+		WAIT,	// 待機状態
+		PLAY,	// 再生中
+		END		// 終了
+	};
+
+	struct VALUE
+	{
+		STATE state = STATE::WAIT;
+
+		FUNC dotweenType = FUNC::NONE;	// Dotweenの種類変数
+		START start = START::DO;	//　始まる方法の種類変数
+
+		float nowTime = 0.0f;	// Dotween始まった時の時間(ms)
+		float moveTime = 0.0f;	// 移動にかかる時間(ms)
+		float moveSpeed = 0.0f;	// 移動速度
+		
+		Vector3 moveDir = Vector3::zero;	// 移動方向(X,Y,Z軸)
+		Vector3 targetValue = Vector3::zero;	// 目標の座標 
+	};
+
+	/*template <typename T>*/
+	// 1連の流れの構造体
+	struct FLOW
+	{
+		std::list<VALUE> flowList;	// 処理をする順序（flow)
+		int actNum = 1;	// 残りの実行回数(-1は永久ループ)
+		std::function<void()> onComplete = nullptr;	// OnCompleteで処理するラムダ式
+													//（関数実行しないならnullptr） 
+	};
+	
+private:
+	CObject* objPtr;	// 動かすオブジェクトのポインタ
+
+	std::list<FLOW> sequence;	// シーケンス（flowを格納する）
+	
+	// Dotweenで使う変数（方向ベクトル、速度、再生フラグ）を決める
+	void GetValue(VALUE* _value);
+
+	/// <summary>
+	/// 2点間の単位ベクトルを求める
+	/// </summary>
+	/// <param name="_start">始点</param>
+	/// <param name="_target">終点</param>
+	/// <returns>単位ベクトル</returns>
+	Vector3 GetVector(Vector3 _start, Vector3 _end);
+
+	/// <summary>
+	/// MoveX等で使われるベクトルを求める
+	/// </summary>
+	/// <param name="_start"></param>
+	/// <param name="_end"></param>
+	/// <returns></returns>
+	float GetVector(float _start, float _end);
+
+	/// <summary>
+	/// 速度を求める
+	/// </summary>
+	/// <param name="_start">始点</param>
+	/// <param name="_end">終点</param>
+	/// <param name="_time">時間(s)</param>
+	/// <returns>速度</returns>
+	float GetSpeed(Vector3 _start, Vector3 _end, float _time);
+
+	// ループするときにリセットする
+	void flowLoopSet(std::list<VALUE>* _resetList);
+
+public:
+	void Update();
+
+	DoTween(CObject* _objPtr);
+
 	~DoTween();
 
-	void DoMoveX(CObject* _Objptr, float _moveSpeed, float _moveTime, MOVEDIR _movedir);
-	void DoMoveY(CObject* _Objptr, float _moveSpeed, float _moveTime,MOVEDIR _movedir);
-	void DoScaleUp(CObject* _Objptr, float _moveSpeed, float _moveTime);
-	void DoScaleDown(CObject* _Objptr, float _moveSpeed, float _moveTime);
-	void DoMoveCurve(CObject* _Objptr, Vector3 _movePos, float _curvePos, float _moveTime);
-};
+	/// <summary>
+	/// 前の処理が終わると呼ばれる
+	/// </summary>
+	/// <param name="_target">目標の値</param>
+	/// <param name="_moveTime">時間</param>
+	/// <param name="_type">Dotweenの種類（DoTween::FUNC::～で呼んでね）</param>
+	void Append(Vector3 _target, float _moveTime, FUNC _type);
+	void Append(float _target, float _moveTime, FUNC _type);
 
+	/// <summary>
+	/// 前の処理と同じタイミングで呼ばれる
+	/// </summary>
+	/// <param name="_target">目標の値</param>
+	/// <param name="_moveTime">時間</param>
+	/// <param name="_type">Dotweenの種類（DoTween::FUNC::～で呼んでね）</param>
+	void Join(Vector3 _target, float _moveTime, FUNC _type);
+	void Join(float _target, float _moveTime, FUNC _type);
+
+	/// <summary>
+	/// 前のflowのループをするか決める
+	/// </summary>
+	/// <param name="_loopNum">ループ回数(-1は永久ループ)</param>
+	void SetLoop(int _loopNum);
+
+	
+	void OnComplete(std::function<void()> _onComplete);
+
+	/// <summary>
+	/// 今、登録している処理を全て止める
+	/// </summary>
+	void Stop();
+
+	/// <summary>
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPos">目的座標</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoMove(Vector3 _targetPos, float _moveTime);
+
+	void DoMoveXY(Vector2 _targetPos, float _moveTime);
+
+	/// <summary>
+	/// 目的のX座標まで何秒で移動する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的のX座標</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoMoveX(float _targetPosX, float _moveTime);
+
+	/// <summary>
+	/// 目的のY座標まで何秒で移動する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的のY座標</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoMoveY(float _targetPosY, float _moveTime);
+
+	/// <summary>
+	/// 目的のZ座標まで何秒で移動する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的のZ座標</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoMoveZ(float _targetPosZ, float _moveTime);
+
+	/// <summary>
+	/// 目的の大きさまで何秒で変化する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetPosX">目的の大きさ</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoScale(Vector3 _targetScale, float _moveTime);
+
+	/// <summary>
+	/// 目的の角度まで何秒で回転する関数
+	/// </summary>
+	/// <param name="_Objptr">対象のオブジェクトのポインタ</param>
+	/// <param name="_targetAngle">目的の大きさ</param>
+	/// <param name="_moveTime">移動時間</param>
+	void DoRotation(Vector3 _targetAngle, float _moveTime);
+
+	// 遅らせる処理
+	void DoDelay(float _delayTime);
+
+	// これ以降の処理を遅らせる
+	void AppendDelay(float _delayTime);
+
+	// 何秒後に実行する処理
+	void DelayedCall(float _delayTime, std::function<void()> _onComplete);
+};
