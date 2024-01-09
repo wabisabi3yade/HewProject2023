@@ -13,10 +13,10 @@
 //
 //std::vector<aaa> ZZ = stage->LoadStage("asset/mizuno/Stage.csv");
 //std::vector<STAGEPOS> stagepos = stageMake->StagePos(ZZ, 13);
-
+#define MAX_GRIDNUM (9)
 LoadData CLoadStage::LoadStage(const wchar_t* filePath)
 {
-	std::vector<std::string> dat;
+	//std::vector<std::string> dat;
 	LoadData xx;
 	std::ifstream ifs(filePath);
 

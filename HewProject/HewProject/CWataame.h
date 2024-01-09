@@ -8,5 +8,6 @@ public:
     ~CWataame();
     void Update();
     void Draw();
+    void Melt();
 };
 

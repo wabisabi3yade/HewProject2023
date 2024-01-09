@@ -16,31 +16,31 @@
 #define CAKE_CALORIE (15)	// ケーキ食べたあとのリスのカロリー
 #define CHILI_CALORIE (2)	// とうがらし食べた減るのリスのカロリー
 
-void Player::TextureInput(const wchar_t* _texPath, STATE _set)
+void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_tex)
 {
 	D3DTEXTURE tex = NULL;
-	std::vector<D3DTEXTURE>* _vector = nullptr;
+	D3DTEXTURE* Arry = nullptr;
 
 	switch (_set)
 	{
 	case STATE::NORMAL:
-		_vector = &normalTex;
+		Arry = normalTex;
 		break;
 
 	case STATE::FAT:
-		_vector = &fatTex;
+		Arry = fatTex;
 		break;
 
 	case STATE::THIN:
-		_vector = &thinTex;
+		Arry = thinTex;
 		break;
 
 	case STATE::MUSCLE:
-		_vector = &muscleTex;
+		Arry = muscleTex;
 		break;
 	}
 	D3D_LoadTexture(_texPath, &tex);
-	_vector->push_back(tex);
+	Arry[static_cast<int>(_anim_tex)] = tex;
 }
 
 Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
@@ -56,15 +56,16 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	mAnim->isStop = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
-	TextureInput(L"asset/Player/N_Walk01_Forword.png", STATE::NORMAL);
-	TextureInput(L"asset/Player/F_Walk01_Forword.png", STATE::FAT);
-	TextureInput(L"asset/Player/S_Walk01_Forword.png", STATE::THIN);
-	TextureInput(L"asset/Player/M_Walk01_Forword.png", STATE::MUSCLE);
+	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL,ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/F_Walk.png", STATE::FAT, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/T_Walk.png", STATE::THIN, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/M_Walk01_Forword.png", STATE::MUSCLE, ANIM_TEX::WALK);
 
 	// 通常状態から始める
 	playerState = STATE::NORMAL;
 	direction = DIRECTION::UP;
 	calorie = START_CALORIE;
+	SetTexture(normalTex[0]);
 }
 
 void Player::Init(GridTable* _pTable)
@@ -87,6 +88,19 @@ void Player::Update()
 	// ↓FlagInitの後
 	move->Input();
 	
+	if (move->GetIsWaik_Old() == false && move->GetIsWaik_Now() == true)
+	{
+		dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
+	}
+	else if (move->GetIsWaik_Old() == true && move->GetIsWaik_Now() == false)
+	{
+		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
+	}
+	else if (move->GetIsWaik_Old() == false && move->GetIsWaik_Now() == false)
+	{
+		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
+	}
+
 	dotween->Update();
 }
 
@@ -158,27 +172,23 @@ Player::~Player()
 {
 	CLASS_DELETE(mAnim);
 	
-	for (int i = 0; i < normalTex.size(); i++)
+	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
 	{
 		SAFE_RELEASE(normalTex[i]);
 	}
-	normalTex.clear();
 
-	for (int i = 0; i < fatTex.size(); i++)
+	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
 	{
 		SAFE_RELEASE(fatTex[i]);
 	}
-	fatTex.clear();
-	for (int i = 0; i < thinTex.size(); i++)
+	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
 	{
 		SAFE_RELEASE(thinTex[i]);
 	}
-	thinTex.clear();
-	for (int i = 0; i < muscleTex.size(); i++)
+	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
 	{
 		SAFE_RELEASE(muscleTex[i]);
 	}
-	muscleTex.clear();
 }
 
 bool Player::GetIsMoving() const

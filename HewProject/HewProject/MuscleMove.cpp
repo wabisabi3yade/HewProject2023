@@ -68,6 +68,9 @@ void MuscleMove::Move(DIRECTION _dir)
 	{
 	case CStageMake::BlockType::CAKE:
 		// 移動する
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		// 移動し終えたらケーキを食べる
@@ -81,6 +84,9 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	case CStageMake::BlockType::CHILI:
 		// 移動する
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]()
@@ -92,6 +98,8 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	case CStageMake::BlockType::WALL:
 
+		WalkStart();
+
 		player->dotween->DoDelay(BREAK_TIME);
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -99,18 +107,38 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
 		
 		break;
+
+	case CStageMake::BlockType::CHOCO:
+
+		WalkStart();
+
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+
+
+		break;
+
 	case CStageMake::BlockType::HOLL:
 		// ↓におちるときのジャンプ
+
+		WalkStart();
 
 		break;
 
 	case CStageMake::BlockType::GUMI:
 		// ↑にジャンプする
 
+		WalkStart();
+
 		break;
 
 	default:
 		// 移動する
+
+		WalkStart();
+
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 

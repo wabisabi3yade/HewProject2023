@@ -20,6 +20,8 @@ PlayerMove::PlayerMove(Player* _p)
 	isMoving = false;
 	isWalkEnd = false;
 	isMoveStartTrigger = false;
+	isWalking_now = false;
+	isWalking_old = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -37,18 +39,21 @@ void PlayerMove::Input()
 	{
 		// ‚»‚Ì•ûŒü‚ÉˆÚ“®‚Å‚«‚é‚È‚ç
 		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)]) return;
+		player->SetDirection(static_cast<int>(DIRECTION::RIGHT));
 		// ˆÚ“®‚·‚é
 		Move(DIRECTION::RIGHT);
 	}
 	else if (gInput->GetKeyTrigger(VK_LEFT))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)]) return;
+		player->SetDirection(static_cast<int>(DIRECTION::LEFT));
 		Move(DIRECTION::LEFT);
 
 	}
 	else if (gInput->GetKeyTrigger(VK_UP))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::UP)]) return;
+		player->SetDirection(static_cast<int>(DIRECTION::UP));
 
 		Move(DIRECTION::UP);
 
@@ -56,6 +61,7 @@ void PlayerMove::Input()
 	else if (gInput->GetKeyTrigger(VK_DOWN))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)]) return;
+		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
 		Move(DIRECTION::DOWN);
 	}
 }
@@ -65,12 +71,15 @@ void PlayerMove::FlagInit()
 	isMovingTrigger = false;
 	isWalkEnd = false;
 	isMoveStartTrigger = false;
+	isWalking_old = isWalking_now;
 }
 
 void PlayerMove::WalkAfter()
 {
 	player->WalkCalorie();
 
+	isWalking_now = false;
+	isWalking_old = true;
 	// ˆÚ“®‚µI‚¦‚½ƒtƒ‰ƒO‚ğtrue
 	isWalkEnd = true;
 }
@@ -89,6 +98,11 @@ CStageMake::BlockType PlayerMove::CheckNextMassType()
 	return type;
 }
 
+void PlayerMove::WalkStart()
+{
+	isWalking_now = true;
+}
+
 CStageMake::BlockType PlayerMove::CheckNextObjectType()
 {
 	return static_cast<CStageMake::BlockType>(player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x]);
@@ -97,6 +111,12 @@ CStageMake::BlockType PlayerMove::CheckNextObjectType()
 CStageMake::BlockType PlayerMove::CheckNextFloorType()
 {
 	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[nextGridPos.y][nextGridPos.x]);
+}
+
+CStageMake::BlockType PlayerMove::CheckNowFloorType()
+{
+	CGrid::GRID_XY NowGridPos = player->GetGridPos();
+	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[NowGridPos.y][NowGridPos.x]);
 }
 
 void PlayerMove::CheckCanMove()

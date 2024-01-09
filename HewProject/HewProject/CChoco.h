@@ -8,5 +8,6 @@ public:
     ~CChoco();
     void Update();
     void Draw();
+    void CRACK();
 };
 

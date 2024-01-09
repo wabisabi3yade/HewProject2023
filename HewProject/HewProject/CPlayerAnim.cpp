@@ -13,16 +13,14 @@ CPlayerAnim::~CPlayerAnim()
 void CPlayerAnim::Update()
 {
 	int animTable[][32] = {
-		//‰½‚à‚µ‚È‚¢
-		{ 0, -1 },
 		// ‰ºŒü‚«
-		{ 0, 1, 2, 1, -1 },	//@-1‚ª‚«‚½‚çÅ‰‚É–ß‚é
+		{ 0, 0 ,1, 2, 2, 1, -1 },	//@-1‚ª‚«‚½‚çÅ‰‚É–ß‚é
 		// ¶Œü‚«
-		{ 3, 4, 5, 4, -1 },
+		{ 3, 3, 4, 5, 5, 4, -1 },
 		// ‰EŒü‚«
-		{ 6, 7, 8, 7, -1 },
+		{ 6, 6, 7, 8, 8, 7, -1 },
 		// ãŒü‚«
-		{ 9, 10, 11, 10, -1},
+		{ 9, 9, 10, 11, 11, 10, -1},
 
 	};
 
@@ -60,11 +58,12 @@ void CPlayerAnim::PlayWalk(int num)
 {
 	isPlaying = true;
 	SetPattern(num);
+	animCounter = 0;
 }
 
 void CPlayerAnim::StopWalk()
 {
 	isPlaying = false;
-	animCounter = 1;
+	animCounter = 2;
 }
 

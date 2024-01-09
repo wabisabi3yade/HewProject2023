@@ -16,10 +16,10 @@ public:
 	// 方向
 	enum class DIRECTION
 	{
-		UP,
 		DOWN,
-		RIGHT,
 		LEFT,
+		RIGHT,
+		UP,
 		NUM
 	};
 
@@ -35,6 +35,10 @@ protected:
 	bool isMovingTrigger;	// isMove = true->falseに変わった瞬間だけtrue
 
 	bool isWalkEnd;	// 歩き終わった瞬間true
+
+	bool isWalking_old;	//	前
+
+	bool isWalking_now;	//　今
 
 	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
 
@@ -57,6 +61,8 @@ public:
 	// 引数　移動先のグリッド座標
 	virtual void MoveAfter();
 
+	void WalkStart();
+
 	// プレイヤーの移動先の座標にあるマスの種類を取得する
 	// オブジェクト優先→なにもないなら床の種類が帰ってくる
 	// 間違えているかもしれないっす・・・
@@ -67,6 +73,8 @@ public:
 
 	// 移動先のプレイヤーのグリッド座標にある床の種類を取得する
 	CStageMake::BlockType CheckNextFloorType();
+
+	CStageMake::BlockType CheckNowFloorType();
 
 	// どの方向に移動ができるか取得する関数
 	virtual void  CheckCanMove() = 0;
@@ -79,5 +87,7 @@ public:
 	bool GetIsMoveStart()const { return isMoveStartTrigger; }
 	bool GetIsMoveTrigger() const { return isMovingTrigger; }
 	bool GetIsWalkEnd() const { return isWalkEnd; }
+	bool GetIsWaik_Now() const { return isWalking_now; }
+	bool GetIsWaik_Old() const { return isWalking_old; }
 };
 

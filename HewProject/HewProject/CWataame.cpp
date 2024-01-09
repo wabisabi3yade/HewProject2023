@@ -1,5 +1,5 @@
 #include "CWataame.h"
-
+#include"CStageMake.h"
 CWataame::CWataame(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
@@ -17,4 +17,10 @@ void CWataame::Update()
 void CWataame::Draw()
 {
 	CGridObject::Draw();
+}
+
+void CWataame::Melt()
+{
+	this->SetBlookType(static_cast<int>(CStageMake::BlockType::HOLL));
+	this->SetActive(false);
 }
