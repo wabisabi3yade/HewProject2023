@@ -1,4 +1,5 @@
 #include "CDirectWrite.h"
+
 #pragma comment(lib,"d2d1.lib")    
 #pragma comment(lib,"dwrite.lib")
 
@@ -23,11 +24,11 @@ const std::wstring FontList[] = //必ずフォントファイルから読み込むフォントを上に
 	L"asset\\wakamura\\851MkPOP_101.otf",
 	L"asset\\wakamura\\komadorimini.otf",
 	L"asset\\wakamura\\MelodyLine-free.otf",
-	L"HG行書体",
+	/*L"HG行書体",
 	L"HGP創英角ﾎﾟｯﾌﾟ体",
 	L"ＭＳ 明朝",
 	L"Arial",
-	L"Meiryo UI",
+	L"Meiryo UI",*/
 };
 
 // フォントコレクションローダー

@@ -1,3 +1,7 @@
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <d3d11.h> // DirectX11というライブラリのヘッダー
 #include <atltypes.h>// CRectを使うのに必要なヘッダー
 #include "WICTextureLoader.h" // テクスチャ読み込みライブラリ
