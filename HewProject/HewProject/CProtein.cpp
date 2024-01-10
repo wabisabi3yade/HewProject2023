@@ -1,20 +1,22 @@
 #include "CProtein.h"
 
 CProtein::CProtein(D3DBUFFER vb, D3DTEXTURE tex)
-	:CGridObject(vb,tex)
+	:CItem(vb,tex)
 {
+
 }
 
 CProtein::~CProtein()
 {
+	
 }
 
 void CProtein::Update()
 {
-	CGridObject::Update();
+	CItem::Update();
 }
 
 void CProtein::Draw()
 {
-	CGridObject::Draw();
+	CItem::Draw();
 }

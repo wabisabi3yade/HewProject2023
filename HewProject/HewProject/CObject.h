@@ -23,10 +23,10 @@ class CCamera;
 
 class CObject
 {
+protected:
 	// カメラオブジェクト
 	CCamera* mCamera;
 
-protected:
 	// 現在の向きを表すベクトル変数(3次元座標)
 	Vector3 mDir = { 0, 0, 0 };
 

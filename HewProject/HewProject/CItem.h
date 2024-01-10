@@ -1,31 +1,24 @@
 #pragma once
 #include "CObject.h"
+#include "CGridObject.h"
+#include "CShadow.h"
 
-class CItem:public CObject
+class CItem :
+	public CGridObject
 {
+    float movement; // ふわふわ動かすときのs
+    Vector3 drawPos;       // 描画する座標
+    
+    CShadow* shadow;
 public:
-	float calorie;
+    CItem(D3DBUFFER vb, D3DTEXTURE tex);
+    ~CItem();
 
-public:
-	
-	//コンストラクタ
-	CItem(D3DBUFFER vb, D3DTEXTURE tex, float valcalorie);
+    virtual void Update();
+    virtual void FloatingFluffy();  // ふわふわ浮く
+    virtual void Draw();
 
-	//デストラクタ
-	~CItem();
-
-	//描画
-	void Draw();
-
-	//更新
-	void Update();
-
-	//Get関数
-	float GetCalorie()const;
-
-	//一応、触れた時の処理出来るとこ
-	//void touch();
-
-
+    // 影の設定する※アイテムの座標、大きさが入った後に呼び出す)
+    void SetShadow(D3DTEXTURE _shadowTex);
 };
 
