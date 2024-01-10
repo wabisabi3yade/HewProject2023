@@ -26,6 +26,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	: CObject(vb, tex)
 {
 	nNumProtein = 0;
+
 }
 
 StageScene::~StageScene()
@@ -67,12 +68,51 @@ void StageScene::Update()
 
 	StageMove();
 
+	if (gInput->GetKeyTrigger(VK_BACK))
+	{
+		Undo(3);
+	}
+
 	// 動いているときと動き終わった瞬間だけ
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsWalkEnd())
 	{
 		// グリッドテーブルを更新する
 		TableUpdate();
 	}
+
+	if (player->GetPlayerMove()->GetIsMoveTrigger())
+	{
+		for (int k = 0; k < MAX_LAYER; k++)
+		{
+			if (k == 1 && secondFloor == nullptr)
+			{
+				break;
+			}
+			else if (k == 2 && thirdFloor == nullptr)
+			{
+				break;
+			}
+
+			for (int i = 0; i < stageSquare.y; i++)
+			{
+				for (int j = 0; j < stageSquare.x; j++)
+				{
+					floorUndo[nkari].floorTable[k][i][j] = nowFloor->floorTable[i][j];
+					floorUndo[nkari].objectTable[k][i][j] = nowFloor->objectTable[i][j];
+				}
+			}
+		}
+
+		nkari++;
+		nNumUndo = nkari;
+		if (nkari > 20)
+		{
+			nkari = 0;
+		}
+	}
+
+
+
 }
 
 void StageScene::StageMove()
@@ -143,7 +183,7 @@ void StageScene::TableUpdate()
 	for (auto itr = vStageObj.begin(); itr != vStageObj.end(); itr++)
 	{
 		// そのオブジェクトが画面にないなら次に行く
-		if (!(*itr)->GetActive() && (*itr)->GetBlookType()==NULL ) continue;
+		if (!(*itr)->GetActive()) continue;
 
 		// グリッド座標取って
 		CGrid::GRID_XY g = (*itr)->GetGridPos();
@@ -262,6 +302,278 @@ void StageScene::ItemDelete()
 	}
 }
 
+void StageScene::Undo(float _stageScale)
+{
+	vStageObj.clear();
+
+	nNumUndo--;
+	if (nNumUndo < 0)
+	{
+		nNumUndo = 0;
+	}
+	//int nPlayerKcal = player->GetKcal() + 1;
+
+	//列
+	for (int i = 0; i < stageSquare.y; i++)
+	{
+		// 行
+		for (int j = 0; j < stageSquare.x; j++)
+		{
+			// カテゴリー別にセットする
+			CStageMake::Category nowObjCate;
+			switch (static_cast<CStageMake::BlockType>(floorUndo[nNumUndo].objectTable[floorUndo[nNumUndo].old_Floor][i][j]))
+			{
+			case CStageMake::BlockType::FLOOR:
+			case CStageMake::BlockType::HOLL:
+			case CStageMake::BlockType::WATAAME:
+			case CStageMake::BlockType::CHOCO:
+				nowObjCate = CStageMake::Category::FLOOR;
+				break;
+
+			case CStageMake::BlockType::CAKE:
+			case CStageMake::BlockType::COIN:
+			case CStageMake::BlockType::PROTEIN:
+				nowObjCate = CStageMake::Category::ITEM;
+				break;
+
+			case CStageMake::BlockType::WALL:
+			case CStageMake::BlockType::CASTELLA:
+			case CStageMake::BlockType::BAUMHORIZONTAL:
+			case CStageMake::BlockType::BAUMVERTICAL:
+			case CStageMake::BlockType::GUMI:
+			case CStageMake::BlockType::GALL:
+			case CStageMake::BlockType::START:
+				nowObjCate = CStageMake::Category::OBJECT;
+				break;
+			case CStageMake::BlockType::NONE:
+
+
+				switch (static_cast<CStageMake::BlockType>(floorUndo[nNumUndo].floorTable[floorUndo[nNumUndo].old_Floor][i][j]))
+				{
+				case CStageMake::BlockType::FLOOR:
+				case CStageMake::BlockType::HOLL:
+				case CStageMake::BlockType::WATAAME:
+				case CStageMake::BlockType::CHOCO:
+					nowObjCate = CStageMake::Category::FLOOR;
+					break;
+
+				case CStageMake::BlockType::CAKE:
+				case CStageMake::BlockType::COIN:
+				case CStageMake::BlockType::PROTEIN:
+					nowObjCate = CStageMake::Category::ITEM;
+					break;
+
+				case CStageMake::BlockType::WALL:
+				case CStageMake::BlockType::CASTELLA:
+				case CStageMake::BlockType::BAUMHORIZONTAL:
+				case CStageMake::BlockType::BAUMVERTICAL:
+				case CStageMake::BlockType::GUMI:
+				case CStageMake::BlockType::GALL:
+				case CStageMake::BlockType::START:
+					nowObjCate = CStageMake::Category::OBJECT;
+					break;
+				default:
+					break;
+				}
+
+				break;
+			default:
+				break;
+			}
+
+
+
+			// 読み込んだものが床カテゴリなら
+			if (nowObjCate == CStageMake::Category::FLOOR)
+			{
+				// 床テーブルに入れて
+				oneFloor->floorTable[i][j] = floorUndo[nNumUndo].floorTable[floorUndo->old_Floor][i][j];
+				// オブジェクトテーブルには何も置かない(99を入れてる)
+				oneFloor->objectTable[i][j] = static_cast<int>(CStageMake::BlockType::NONE);
+			}
+			else
+			{
+				oneFloor->objectTable[i][j] = floorUndo[nNumUndo].objectTable[floorUndo->old_Floor][i][j];
+				// 床テーブルには普通の床を入れる
+				oneFloor->floorTable[i][j] = static_cast<int>(CStageMake::BlockType::FLOOR);
+			}
+
+			// 床の座標を入れる
+			Vector3 floorPos = oneFloor->GridToWorld({ j,i }, CStageMake::BlockType::FLOOR);
+
+			stageObj = nullptr;
+			//床の画像セットの処理
+			switch (static_cast<CStageMake::BlockType>(floorUndo[nNumUndo].objectTable[floorUndo->old_Floor][i][j]))
+			{
+			case CStageMake::BlockType::WALL:
+				stageObj = new CWall(stageBuffer, stageTextureWall);
+				break;
+
+			case CStageMake::BlockType::CAKE:
+				stageObj = new CCake(stageBuffer, stageTextureCake);
+				break;
+
+			case CStageMake::BlockType::CASTELLA:
+				stageObj = new CCastella(stageBuffer, stageTextureCastella);
+				break;
+
+			case CStageMake::BlockType::BAUMHORIZONTAL:
+				stageObj = new CBaum(stageBuffer, stageTextureBaumkuchen);
+				break;
+
+			case CStageMake::BlockType::BAUMVERTICAL:
+				stageObj = new CBaum(stageBuffer, stageTextureBaumkuchen);
+				break;
+
+			case CStageMake::BlockType::COIN:
+				stageObj = new CCoin(stageBuffer, stageTextureCoin);
+				break;
+
+			case CStageMake::BlockType::GUMI:
+				stageObj = new CGumi(stageBuffer, stageTextureGumi);
+				break;
+
+			case CStageMake::BlockType::PROTEIN:
+				stageObj = new CProtein(stageBuffer, stageTextureProtein);
+				nNumProtein++;
+				break;
+
+			case CStageMake::BlockType::START:
+				stageObj = new Player(playerBuffer, NULL);
+				break;
+
+			case CStageMake::BlockType::GALL:
+				stageObj = new CGall(stageBuffer, stageTextureGallChest);
+				break;
+
+			case CStageMake::BlockType::NONE:
+
+				switch (static_cast<CStageMake::BlockType>(floorUndo[nNumUndo].floorTable[floorUndo->old_Floor][i][j]))
+				{
+				case CStageMake::BlockType::FLOOR:
+					stageObj = new CFloor(stageBuffer, stageTextureFloor);
+					if ((i + j) % 2 == 0)
+					{
+						stageObj->SetTexture(stageTextureFloor2);
+					}
+					break;
+
+				case CStageMake::BlockType::HOLL:
+					stageObj = new CHoll(stageBuffer, NULL);
+					break;
+
+				case CStageMake::BlockType::WATAAME:
+					stageObj = new CWataame(stageBuffer, stageTextureWataame);
+					break;
+
+				case CStageMake::BlockType::CHOCO:
+					stageObj = new CChoco(stageBuffer, stageTextureChocolate);
+					break;
+
+				case CStageMake::BlockType::GUMI:
+					stageObj = new CGumi(stageBuffer, stageTextureGumi);
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+
+			if (floorUndo[nNumUndo].floorTable[floorUndo->old_Floor][i][j] == static_cast<int>(CStageMake::BlockType::START))
+			{
+				player = dynamic_cast<Player*>(stageObj);
+			}
+
+			// グリッド座標を持たせる
+			stageObj->SetGridPos(j, i);
+			// 座標を設定
+			stageObj->mTransform.pos = oneFloor->GridToWorld({ j, i },
+				static_cast<CStageMake::BlockType>(floorUndo[nNumUndo].objectTable[floorUndo->old_Floor][i][j]));
+			// ステージ全体の大きさを設定
+			stageObj->mTransform.scale = { _stageScale, _stageScale, 1 };
+			// オブジェクトにその種類をもたせる
+			stageObj->SetBlookType(floorUndo[nNumUndo].objectTable[floorUndo->old_Floor][i][j]);
+			// オブジェクトにカテゴリを持たせる
+			stageObj->SetCategory(static_cast<int>(nowObjCate));
+			// オブジェクトをリストに入れる
+			vStageObj.push_back(stageObj);
+
+			//	床が必要ないなら次のループ
+			if (static_cast<CStageMake::Category>(stageObj->GetCategory()) == CStageMake::Category::FLOOR)
+				continue;
+
+			// 床を作成
+			CGridObject* floorObj = new CFloor(stageBuffer, stageTextureFloor);
+			if ((i + j) % 2 == 0)
+			{
+				floorObj->SetTexture(stageTextureFloor2);
+			}
+			floorObj->SetGridPos(j, i);
+			// パラメータ設定
+			floorObj->mTransform.pos = floorPos;
+			floorObj->mTransform.scale = { _stageScale, _stageScale, 1.0f };
+			// オブジェクトにその種類をもたせる
+			floorObj->SetBlookType(static_cast<int>(CStageMake::BlockType::FLOOR));
+			floorObj->SetCategory(static_cast<int>(CStageMake::Category::FLOOR));
+			vStageObj.push_back(floorObj);
+		}
+	}
+
+	GridTable* oldFloor = nullptr;
+
+	for (int k = 0; k < MAX_LAYER; k++)
+	{
+		/*if (k == 1 && secondFloor == nullptr)
+		{
+			break;
+		}
+		else if (k == 2 && thirdFloor == nullptr)
+		{
+			break;
+		}*/
+
+		switch (k)
+		{
+		case 0:
+			oldFloor = oneFloor;
+			break;
+
+		case 1:
+			oldFloor = secondFloor;
+			break;
+
+		case 2:
+			oldFloor = thirdFloor;
+			break;
+
+		default:
+			break;
+		}
+
+		if (oldFloor == nullptr)
+		{
+			continue;
+		}
+
+		for (int i = 0; i < stageSquare.y; i++)
+		{
+			for (int j = 0; j < stageSquare.x; j++)
+			{
+				if (floorUndo[nNumUndo].objectTable[floorUndo[nNumUndo].old_Floor][i][j] == static_cast<int> (CStageMake::BlockType::START))
+				{
+					player->SetGridPos(j, i);
+					player->SetDirection(0);
+				}
+
+				oldFloor->objectTable[i][j] = floorUndo[nNumUndo].objectTable[k][i][j];
+			}
+		}
+	}
+
+	player->Init(oneFloor);
+	Z_Sort(vStageObj);
+}
+
 void StageScene::Draw()
 {
 	Z_Sort(vStageObj);
@@ -303,6 +615,8 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 
 	LoadData StageData = stage->LoadStage(filePath);
 
+	stageSquare = { StageData.numX,StageData.numY };
+
 	//	ワールド座標
 	stagePos = stageMake->StagePos(StageData);
 
@@ -313,7 +627,6 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	thirdFloor = nullptr;
 
 	nowFloor = oneFloor;
-
 
 	//列
 	for (int i = 0; i < StageData.numY; i++)
@@ -452,6 +765,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			stageObj->SetBlookType(StageData.data[i * StageData.numX + j]);
 			// オブジェクトにカテゴリを持たせる
 			stageObj->SetCategory(static_cast<int>(nowObjCate));
+
 			// オブジェクトをリストに入れる
 			vStageObj.push_back(stageObj);
 
@@ -475,6 +789,30 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			vStageObj.push_back(floorObj);
 		}
 	}
+
+	for (int k = 0; k < MAX_LAYER; k++)
+	{
+		if (k == 1 && secondFloor == nullptr)
+		{
+			break;
+		}
+		else if (k == 2 && thirdFloor == nullptr)
+		{
+			break;
+		}
+
+		for (int i = 0; i < StageData.numY; i++)
+		{
+			for (int j = 0; j < StageData.numX; j++)
+			{
+				floorUndo[0].floorTable[k][i][j] = oneFloor->floorTable[i][j];
+				floorUndo[0].objectTable[k][i][j] = oneFloor->objectTable[i][j];
+			}
+		}
+	}
+
+
+
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
 

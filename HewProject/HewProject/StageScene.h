@@ -19,6 +19,18 @@ class StageScene :
 {
 public:
 
+	struct FIELD_FLOOR
+	{
+		// ステージ床の上にあるテーブル
+		short int objectTable[MAX_LAYER][MAX_GRIDNUM][MAX_GRIDNUM] = {};
+
+		// ステージ床のテーブル
+		short int floorTable[MAX_LAYER][MAX_GRIDNUM][MAX_GRIDNUM] = {};
+
+		short int old_Floor;
+
+	};
+
 private:
 	CLoadStage* stage;
 	CStageMake* stageMake;
@@ -33,6 +45,12 @@ private:
 	GridTable* thirdFloor;	// 3階
 	GridTable* nowFloor;	// 現在の階層
 
+	//ステージの縦幅と横幅
+	CGrid::GRID_XY stageSquare;
+
+	FIELD_FLOOR floorUndo[20];
+	int nNumUndo = 0;
+	int nkari = 1;
 
 	std::vector<CGridObject*> oneFStgObj;	// 1階のオブジェクト格納
 	std::vector<CGridObject*>secondFStgObj;	// 2階
@@ -79,6 +97,7 @@ public:
 	// アイテム（ケーキとか）と同じマスに移動するとアイテムを消したりする関数
 	void ItemDelete();
 
+	void Undo(float _stageScale);
 	void Draw();
 	void Z_Sort(std::vector<CGridObject*>& _sortList);
 	void Init(const wchar_t* filePath, float _stageScale);
