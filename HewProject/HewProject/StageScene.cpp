@@ -32,6 +32,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 StageScene::~StageScene()
 {
 	SAFE_RELEASE(stageBuffer);
+	SAFE_RELEASE(playerBuffer);
 
 	SAFE_RELEASE(stageTextureFloor);
 	SAFE_RELEASE(stageTextureFloor2);
@@ -47,6 +48,7 @@ StageScene::~StageScene()
 	SAFE_RELEASE(stageTextureWall);
 	SAFE_RELEASE(stageTextureWataame);
 	SAFE_RELEASE(playerTexture);
+	SAFE_RELEASE(shadowTexture);
 
 	CLASS_DELETE(stageMake);
 	CLASS_DELETE(stage);
@@ -138,6 +140,8 @@ void StageScene::StageMove()
 		{
 			CWataame* wataameObj = dynamic_cast<CWataame*>(GetStageObject(player->GetGridPos(), static_cast<int>(CStageMake::BlockType::WATAAME)));
 			wataameObj->Melt();
+
+			// ↓ここで穴のオブジェクトをnewしてvstageObjにpushbackする
 		}
 	}
 
@@ -269,6 +273,8 @@ void StageScene::ItemDelete()
 {
 	CGrid::GRID_XY next = player->GetPlayerMove()->GetNextGridPos();
 
+	CGridObject* deleteObj;	// 画面から消す予定のポインタがはいる
+
 	switch (static_cast<CStageMake::BlockType>
 		(nowFloor->objectTable[next.y][next.x]))
 	{
@@ -291,8 +297,10 @@ void StageScene::ItemDelete()
 					_obj->GetCategory() == static_cast<int>(CStageMake::Category::ITEM));
 			});
 
+		deleteObj = GetStageObject(next, nowFloor->objectTable[next.y][next.x]);
+
 		// 画面から消す
-		(*itr)->SetActive(false);
+		deleteObj->SetActive(false);
 	}
 
 	break;
@@ -607,6 +615,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	D3D_LoadTexture(L"asset/Stage/Wall.png", &stageTextureWall);
 	D3D_LoadTexture(L"asset/Stage/Wataame.png", &stageTextureWataame);
 	D3D_LoadTexture(L"asset/Player/N_Walk01_Back.png", &playerTexture);
+	D3D_LoadTexture(L"asset/Item/shadow.png", &shadowTexture);
 
 	nNumProtein = 0;
 
@@ -635,35 +644,11 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 		for (int j = 0; j < StageData.numX; j++)
 		{
 			// カテゴリー別にセットする
-			CStageMake::Category nowObjCate;
-			switch (static_cast<CStageMake::BlockType>(StageData.data[i * StageData.numX + j]))
-			{
-			case CStageMake::BlockType::FLOOR:
-			case CStageMake::BlockType::HOLL:
-			case CStageMake::BlockType::WATAAME:
-			case CStageMake::BlockType::CHOCO:
-				nowObjCate = CStageMake::Category::FLOOR;
-				break;
-
-			case CStageMake::BlockType::CAKE:
-			case CStageMake::BlockType::COIN:
-			case CStageMake::BlockType::PROTEIN:
-				nowObjCate = CStageMake::Category::ITEM;
-				break;
-
-			case CStageMake::BlockType::WALL:
-			case CStageMake::BlockType::CASTELLA:
-			case CStageMake::BlockType::BAUMHORIZONTAL:
-			case CStageMake::BlockType::BAUMVERTICAL:
-			case CStageMake::BlockType::GUMI:
-			case CStageMake::BlockType::GALL:
-			case CStageMake::BlockType::START:
-				nowObjCate = CStageMake::Category::OBJECT;
-				break;
-			}
+			int nowObjCate = CStageMake::JudgeTypeToCategory(static_cast<CStageMake::BlockType>
+				(StageData.data[i * StageData.numX + j]));
 
 			// 読み込んだものが床カテゴリなら
-			if (nowObjCate == CStageMake::Category::FLOOR)
+			if (nowObjCate == static_cast<int>(CStageMake::Category::FLOOR))
 			{
 				// 床テーブルに入れて
 				oneFloor->floorTable[i][j] = StageData.data[i * StageData.numX + j];
@@ -764,7 +749,13 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			// オブジェクトにその種類をもたせる
 			stageObj->SetBlookType(StageData.data[i * StageData.numX + j]);
 			// オブジェクトにカテゴリを持たせる
-			stageObj->SetCategory(static_cast<int>(nowObjCate));
+			stageObj->SetCategory(nowObjCate);
+
+			// アイテムならここで影の設定する
+			if (nowObjCate == static_cast<int>(CStageMake::Category::ITEM))
+			{
+				dynamic_cast<CItem*>(stageObj)->SetShadow(shadowTexture);
+			}
 
 			// オブジェクトをリストに入れる
 			vStageObj.push_back(stageObj);
