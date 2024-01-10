@@ -1,21 +1,20 @@
 #include "CCake.h"
 
 CCake::CCake(D3DBUFFER vb, D3DTEXTURE tex)
-	:CGridObject(vb,tex)
+	:CItem(vb,tex)
 {
 }
 
 CCake::~CCake()
 {
-
 }
 
 void CCake::Update()
 {
-	CGridObject::Update();
+	CItem::Update();
 }
 
 void CCake::Draw()
 {
-	CGridObject::Draw();
+	CItem::Draw();
 }

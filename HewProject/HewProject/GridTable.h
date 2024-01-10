@@ -9,7 +9,9 @@
 #define ISOME_FLOOR_SUBPOSY (3.6f)	// アイソメでの隣床のY座標の差（スケールを割る）
 
 // 上から大きい数値にする
-#define INFRONT_PLUSZ (0.1f)	// アイソメで1列手前に行くと足されるZ座標
+#define INFRONT_PLUSZ (0.1f)	// アイソメで1つ奥に行くと足されるZ座標
+#define OBJTOFLOOR_DIS_Z (0.01f)	// オブジェクトと床とのZ座標の距離
+#define ITEMTOFLOOR_DIS_Z (0.005f)	// アイテムと床とのZ座標の距離
 #define ISOME_BACKMOVE (0.001f)	// アイソメの奥に移動するときに使用する
 #define HORIZONLINE_PLUSZ (0.0001f)	// 同じ横のラインで右に行くほど足される
 

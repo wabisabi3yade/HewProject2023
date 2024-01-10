@@ -1,12 +1,15 @@
 #pragma once
-#include "CGridObject.h"
+#include "CItem.h"
+#include "DoTween.h"
+#include <iostream>
+
 class CCake :
-    public CGridObject
+    public CItem
 {
 public:
     CCake(D3DBUFFER vb, D3DTEXTURE tex);
     ~CCake();
-    void Update();
-    void Draw();
+    void Update() override;
+    void Draw() override;
 };
 

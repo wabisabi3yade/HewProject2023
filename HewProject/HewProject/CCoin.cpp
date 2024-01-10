@@ -1,7 +1,7 @@
 #include "CCoin.h"
 
 CCoin::CCoin(D3DBUFFER vb, D3DTEXTURE tex)
-	:CGridObject(vb,tex)
+	:CItem(vb, tex)
 {
 }
 
@@ -11,10 +11,10 @@ CCoin::~CCoin()
 
 void CCoin::Update()
 {
-	CGridObject::Update();
+	CItem::Update();
 }
 
 void CCoin::Draw()
 {
-	CGridObject::Draw();
+	CItem::Draw();
 }

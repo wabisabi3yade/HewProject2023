@@ -40,6 +40,7 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type
 	Vector3 floorPos = Vector3::zero;
 	floorPos.x = offset.x + (_grid.y + _grid.x) * (oneGridScale.x / 2.0f);
 	floorPos.y = offset.y + (_grid.x - _grid.y) * oneGridScale.y / ISOME_FLOOR_SUBPOSY;
+	// Z座標は[0,0]Z座標を0.0fとし、手前
 	floorPos.z = offsetZ + (_grid.x - _grid.y) * INFRONT_PLUSZ + _grid.x * HORIZONLINE_PLUSZ;
 
 	switch (_type)
@@ -49,7 +50,7 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type
 	case CStageMake::BlockType::HOLL:
 	case CStageMake::BlockType::WATAAME:
 	{
-		return floorPos;
+		disTimes = 0.0f;
 	}
 	break;
 	case CStageMake::BlockType::WALL:
@@ -77,10 +78,32 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type
 		disTimes = 0.5f;
 		break;
 	}
-	
+
+	float floorToMinusZ = 0.0f;
+	// タイプからカテゴリを求める
+	CStageMake::Category cate =
+		static_cast<CStageMake::Category>(CStageMake::JudgeTypeToCategory(_type));
+
+	switch (cate)
+	{
+		// それがアイテムなら
+	case CStageMake::Category::ITEM:
+		floorToMinusZ = ITEMTOFLOOR_DIS_Z;
+		break;
+		// それがオブジェクトなら
+	case CStageMake::Category::OBJECT:
+		floorToMinusZ = OBJTOFLOOR_DIS_Z;
+		break;
+		// それが床なら
+	default:
+		break;
+
+	}
+
+
 	Vector3 ret = floorPos;
 	ret.y += disTimes * oneGridScale.y;
-	ret.z -= 0.01f;
+	ret.z -= floorToMinusZ;
 
 	return ret;
 }

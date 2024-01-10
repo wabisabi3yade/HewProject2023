@@ -55,5 +55,8 @@ public:
 	//ステージの横の数 :int　
 	std::vector<STAGEPOS> StagePos(LoadData _vStage);
 	int GetStageNum() { return Stagenum; };
+
+	// そのブロックのタイプが何のカテゴリーかを返す
+	static int JudgeTypeToCategory(BlockType _type);
 };
 

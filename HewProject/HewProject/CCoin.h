@@ -1,13 +1,15 @@
 #pragma once
-#include "CGridObject.h"
+#include "CItem.h"
+#include "DoTween.h"
 class CCoin :
-    public CGridObject
+    public CItem
 {
+ 
 public:
     CCoin(D3DBUFFER vb, D3DTEXTURE tex);
     ~CCoin();
 
-    void Update();
-    void Draw();
+    void Update() override;
+    void Draw() override;
 };
 

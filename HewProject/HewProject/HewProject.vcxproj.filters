@@ -109,9 +109,6 @@
     <Filter Include="ソース ファイル\Kawada\EffectAnimation">
       <UniqueIdentifier>{c0b10ad2-5ee0-4af8-a158-e1dc77d9134c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\item">
-      <UniqueIdentifier>{f68f75b1-071d-4690-aeea-5fed8b7ef714}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Mizuno\Fade">
       <UniqueIdentifier>{0f10ffad-f1c6-4ce4-94de-cf47a655ca8d}</UniqueIdentifier>
     </Filter>
@@ -208,6 +205,12 @@
     <Filter Include="ソース ファイル\Hashimoto\Player\stageScene">
       <UniqueIdentifier>{95226933-b755-45a9-ac95-5cad9942290a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Item">
+      <UniqueIdentifier>{6c038bbd-8cce-4bcd-8c10-3802ddcbe007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Shadow">
+      <UniqueIdentifier>{c84275ad-6251-42bd-b223-f19eece73e34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -281,9 +284,6 @@
     </ClInclude>
     <ClInclude Include="CEffectAnim.h">
       <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
-    </ClInclude>
-    <ClInclude Include="CItem.h">
-      <Filter>ソース ファイル\Tatemizo\TatemizoScene\item</Filter>
     </ClInclude>
     <ClInclude Include="CFade.h">
       <Filter>ソース ファイル\Mizuno\Fade</Filter>
@@ -387,6 +387,12 @@
     <ClInclude Include="Stage.h">
       <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
     </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CShadow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -460,9 +466,6 @@
     </ClCompile>
     <ClCompile Include="CEffectAnim.cpp">
       <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
-    </ClCompile>
-    <ClCompile Include="CItem.cpp">
-      <Filter>ソース ファイル\Tatemizo\TatemizoScene\item</Filter>
     </ClCompile>
     <ClCompile Include="CFade.cpp">
       <Filter>ソース ファイル\Mizuno\Fade</Filter>
@@ -565,6 +568,12 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CShadow.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

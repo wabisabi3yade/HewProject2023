@@ -59,6 +59,7 @@ private:
 	D3DTEXTURE stageTextureGumi;
 	D3DTEXTURE stageTextureProtein;
 	D3DTEXTURE playerTexture;
+	D3DTEXTURE shadowTexture;
 
 public:
 
