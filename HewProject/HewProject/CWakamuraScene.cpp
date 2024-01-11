@@ -2,23 +2,30 @@
 #include "CSceneManager.h"
 #include "CDirectWrite.h"
 #include "Ckcal_gauge.h"
+
+#include "Player.h"
 #include <string>
 
 
-extern DirectWrite* Write;
 CWakamuraScene::CWakamuraScene()
 {
+	D3D_CreateSquare({ 3,4 }, &playerBuffer);
+	D3D_LoadTexture(L"asset/wakamura/char01.png", &playerTexture);
+
+	player = new Player(playerBuffer, playerTexture);
+	
 	test = new Ckcal_gauge();
 }
 
 CWakamuraScene::~CWakamuraScene()
 {
 	CLASS_DELETE(test);
+	CLASS_DELETE(player);
 }
 
 void CWakamuraScene::Update()
 {
-	test->Update();
+	player->Update();
 }
 
 void CWakamuraScene::LateUpdate()
@@ -36,9 +43,7 @@ void CWakamuraScene::Draw()
 	Write->DrawString("MSñæí© èpÇÃñºÇÕÍióŸ", DirectX::XMFLOAT2(90, 100), D2D1_DRAW_TEXT_OPTIONS_NONE);
 
 	test->Draw();
-
-	Write->SetFont(Font::HG_Gyosyo);
-	Write->DrawString(std::to_string(Write->nKcal), DirectX::XMFLOAT2(90, 180), D2D1_DRAW_TEXT_OPTIONS_NONE);
+	player->Draw();
 
 	Write->SetFont(Font::komadorimini);
 	Write->DrawString("Ç±Ç‹Ç«ÇËÇ›Ç… ÇÁÇ¢ÇﬂÇ¢Ç∆Ç∆Ç‡Ç…ÇøÇÍÅI", DirectX::XMFLOAT2(90, 200), D2D1_DRAW_TEXT_OPTIONS_NONE);

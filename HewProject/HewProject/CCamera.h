@@ -1,16 +1,14 @@
 #pragma once
 
+#include "CObject.h"
+
 #include "direct3d.h"
-#include"Vector3.h"
-#include"Transform.h"
 
 // ゲームのカメラのクラス
 // カメラはプレイヤーを追従していく
 class CCamera
+	: public CObject
 {
-
-	Transform mTransform;
-
 	CCamera();
 
 	~CCamera();
@@ -46,4 +44,10 @@ public:
 
 	// カメラの回転角度（Z軸）を取得
 	float GetRotZ() { return mTransform.rotation.z; }
+
+	//拡大
+	void Zoom();
+
+	//縮小
+	void Reduction();
 };

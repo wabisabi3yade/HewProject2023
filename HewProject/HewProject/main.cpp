@@ -1,3 +1,7 @@
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #undef UNICODE  // Unicodeではなく、マルチバイト文字を使う
 
 #include <Windows.h>
@@ -145,6 +149,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	UnregisterClass(CLASS_NAME, hInstance);
 
+
+	_CrtDumpMemoryLeaks();
 	return (int)msg.wParam;
 }
 

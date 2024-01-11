@@ -1,3 +1,7 @@
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <d3d11.h> // DirectX11というライブラリのヘッダー
 #include <atltypes.h>// CRectを使うのに必要なヘッダー
 #include "WICTextureLoader.h" // テクスチャ読み込みライブラリ
@@ -236,7 +240,7 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = m_pDevice->CreateBuffer(&cbDesc, NULL, &m_pConstantBuffer);
 	if (FAILED(hr)) return hr;
 
-	FontData* data = new FontData();
+	std::shared_ptr<FontData> data = std::make_shared<FontData>();
 
 	data->fontSize = 60;
 	data->fontWeight = DWRITE_FONT_WEIGHT_BOLD;
@@ -244,7 +248,8 @@ HRESULT D3D_Create(HWND hwnd)
 
 	Write = new DirectWrite(data);
 	
-	//CLASS_DELETE(data);
+	// ↓これがあると時々エラーが出るようになる
+	/*CLASS_DELETE(data);*/
 
 	Write->Init(hwnd);
 

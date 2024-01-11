@@ -1,9 +1,17 @@
 #include "CObject.h"
 
+#include "CCamera.h"
+
 using namespace DirectX;
 
-#define SCREEN_RATIO_W (16.0f)	// 画面比率（横）
-#define SCREEN_RATIO_H (9.0f)	// 画面比率（縦）
+CObject::CObject()
+{
+}
+
+CObject::~CObject()
+{
+	CLASS_DELETE(mAnim);
+}
 
 CObject::CObject(D3DBUFFER vb, D3DTEXTURE tex)
 {
@@ -18,12 +26,6 @@ CObject::CObject(D3DBUFFER vb, D3DTEXTURE tex)
 
 void CObject::Update()
 {
-	XMVECTOR v = XMLoadFloat3(dirChange(this->mDir));
-	v = XMVector3Normalize(v);
-	XMStoreFloat3(dirChange(this->mDir), v);
-	this->mTransform.pos.x += this->mDir.x * this->mMoveSpeed;
-	this->mTransform.pos.y += this->mDir.y * this->mMoveSpeed;
-	this->mTransform.pos.z += this->mDir.z * this->mMoveSpeed;
 }
 
 void CObject::LateUpdate()
@@ -32,6 +34,8 @@ void CObject::LateUpdate()
 
 void CObject::Draw()
 {
+	if (!isActive) return;
+
 	// uv座標を宣言
 	FLOAT_XY uv = { 0,0 };
 

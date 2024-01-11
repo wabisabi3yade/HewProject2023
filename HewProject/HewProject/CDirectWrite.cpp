@@ -1,4 +1,5 @@
 #include "CDirectWrite.h"
+
 #pragma comment(lib,"d2d1.lib")    
 #pragma comment(lib,"dwrite.lib")
 
@@ -23,11 +24,11 @@ const std::wstring FontList[] = //必ずフォントファイルから読み込むフォントを上に
 	L"asset\\wakamura\\851MkPOP_101.otf",
 	L"asset\\wakamura\\komadorimini.otf",
 	L"asset\\wakamura\\MelodyLine-free.otf",
-	L"HG行書体",
+	/*L"HG行書体",
 	L"HGP創英角ﾎﾟｯﾌﾟ体",
 	L"ＭＳ 明朝",
 	L"Arial",
-	L"Meiryo UI",
+	L"Meiryo UI",*/
 };
 
 // フォントコレクションローダー
@@ -179,7 +180,7 @@ private:
 // フォント設定
 // 第1引数：フォントデータ（ポインタ）
 //=============================================================================
-void DirectWrite::SetFont(FontData* set)
+void DirectWrite::SetFont(std::shared_ptr<FontData> set)
 {
 	Setting = set;
 
@@ -252,17 +253,17 @@ void DirectWrite::SetFont(Font font, IDWriteFontCollection* fontCollection,
 	DWRITE_FONT_STRETCH fontStretch, FLOAT fontSize, WCHAR const* localeName, 
 	DWRITE_TEXT_ALIGNMENT textAlignment, D2D1_COLOR_F Color)
 {
-	FontData fdat;
-	fdat.font = font;
-	fdat.fontWeight = fontWeight;
-	fdat.fontStyle = fontStyle;
-	fdat.fontStretch = fontStretch;
-	fdat.fontSize = fontSize;
-	fdat.localeName = localeName;
-	fdat.textAlignment = textAlignment;
-	fdat.Color = Color;
+	std::shared_ptr<FontData> fdat(new FontData);
+	fdat->font = font;
+	fdat->fontWeight = fontWeight;
+	fdat->fontStyle = fontStyle;
+	fdat->fontStretch = fontStretch;
+	fdat->fontSize = fontSize;
+	fdat->localeName = localeName;
+	fdat->textAlignment = textAlignment;
+	fdat->Color = Color;
 
-	SetFont(&fdat);
+	SetFont(fdat);
 }
 
 //=============================================================================
@@ -339,7 +340,6 @@ HRESULT DirectWrite::Init(HWND hwnd)
 	{
 		return hr;
 	}
-
 
 	// //バックバッファの取得
 	// //型：IDXGISwapChain

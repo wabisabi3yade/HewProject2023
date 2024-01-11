@@ -13,25 +13,32 @@
 //
 //std::vector<aaa> ZZ = stage->LoadStage("asset/mizuno/Stage.csv");
 //std::vector<STAGEPOS> stagepos = stageMake->StagePos(ZZ, 13);
-
-std::vector<LoadData>CLoadStage::LoadStage(const wchar_t* filePath)
+#define MAX_GRIDNUM (9)
+LoadData CLoadStage::LoadStage(const wchar_t* filePath)
 {
-	std::vector<std::string> dat;
-	std::vector<LoadData> xx;
-	LoadData bb;
+	//std::vector<std::string> dat;
+	LoadData xx;
 	std::ifstream ifs(filePath);
+
+	int countY = 0;
+
 	if (ifs) { //読み込みに成功したかチェック
 		std::string str;
 		while (getline(ifs, str)) { //1 行ずつ読み込み
 			std::istringstream iss(str);
+
+			countY++;
 			while (getline(iss, str, ','))
 			{
 				//dat.push_back(str);
-				bb.data = std::stoi(str);
-				xx.push_back(bb);
+				xx.data.push_back(std::stoi(str));
 			}
 		}
 		ifs.close(); //ファイルを閉じる
 	}
+	// 行と列の数を求める
+	xx.numY = countY;
+	xx.numX = xx.data.size() / xx.numY;
+
 	return xx;
 }

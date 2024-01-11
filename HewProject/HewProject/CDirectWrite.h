@@ -1,4 +1,8 @@
 #pragma once
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <dwrite_3.h>
 #include <d2d1.h>
 #include <d3d11_1.h>
@@ -69,7 +73,7 @@ private:
 	IDXGISurface* pBackBuffer = NULL;
 
 	// フォントデータ
-	FontData* Setting = new FontData();
+	std::shared_ptr<FontData> Setting/* = new FontData()*/;
 
 	// stringをwstringへ変換する
 	std::wstring StringToWString(std::string oString);
@@ -80,11 +84,13 @@ public:
 
 	// コンストラクタ
 	// 第1引数：フォント設定
-	DirectWrite(FontData* set) :Setting(set) { };
+	DirectWrite(std::shared_ptr<FontData> set) {
+		Setting = set;
+	}
 
 	// フォント設定
 	// 第1引数：フォントデータ構造体
-	void SetFont(FontData* set);
+	void SetFont(std::shared_ptr<FontData> set);
 
 	// フォント設定
 	// 第1引数：フォント番号
@@ -147,3 +153,4 @@ extern ID3D11Device* m_pDevice; // デバイス＝DirectXの各機能を作る
 extern IDXGISwapChain* m_pSwapChain;// ダブルバッファ機能
 extern ID3D11DeviceContext* m_pImmediateContext;// コンテキスト＝描画機能
 extern ID3D11RenderTargetView* m_pRenderTargetView;
+extern DirectWrite* Write;

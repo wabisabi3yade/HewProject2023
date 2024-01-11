@@ -17,7 +17,6 @@ void CGridObject::Draw()
 
 void CGridObject::Update()
 {
-	CObject::Update();
 }
 
 void CGridObject::SetGridPos(const int _PosX,const int _PosY)
@@ -26,7 +25,3 @@ void CGridObject::SetGridPos(const int _PosX,const int _PosY)
 	Grid->gridPos.y = _PosY;
 }
 
-CGrid::GRID_XY CGridObject::GetGridPos()
-{
-	return Grid->gridPos;
-}

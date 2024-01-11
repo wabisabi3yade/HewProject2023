@@ -2,7 +2,7 @@
 
 CEffectAnim::CEffectAnim()
 {
-
+	
 }
 
 void CEffectAnim::Update()
@@ -13,7 +13,7 @@ void CEffectAnim::Update()
 	// 二次元配列のときは後ろの添え字は指定しなくちゃいけない（これぐらいあればいいだろうぐらいの数を入れるしかない）
 	int animTable[][32] = {
 		// 下向き
-		{0,1,2,3,4,5,6,7,8,9,10,11,-2},//　-1がきたら最初に戻る
+		{0,1,2,3,4,5,6,7,8,9,10,11,-1},//　-1がきたら最初に戻る
 	};
 
 	// 再生中なら
@@ -38,9 +38,9 @@ void CEffectAnim::Update()
 	int animID = animTable[animPattern][(int)animCounter];
 
 	// 表示させるUVを計算
-	uv.x = (animID % 3) * 0.33f;
+	nowUV.x = (animID % 3) * 0.33f;
 
-	uv.y = (animID / 3) * 0.25f;
+	nowUV.y = (animID / 3) * 0.25f;
 }
 
 void CEffectAnim::SetEffectLoop(bool isLoop)
