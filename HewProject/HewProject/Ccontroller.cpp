@@ -1,4 +1,5 @@
 #include "Ccontroller.h"
+#include "CInput.h"
 
 //静的変数
 XINPUT_STATE Input::ControllerState; //コントローラーの状態
@@ -8,9 +9,14 @@ XINPUT_STATE Input::FControllerState;//前のコントローラーの状態
 //特になし！
 
 //getter
-bool Input::GetControllerDown(int _button) { return(ControllerState.Gamepad.wButtons & _button); }	//ボタンが押されたか返す
-bool Input::GetController(int _button) { return(ControllerState.Gamepad.wButtons & _button); }		//ボタンが押されているか返す
-bool Input::GetControllerUp(int _button) { return !(ControllerState.Gamepad.wButtons & _button); }	//ボタンが離されたか返す
+bool Input::GetControllerDown(int _button) 
+{ return(ControllerState.Gamepad.wButtons & _button); }		//ボタンが押されたか返す
+
+bool Input::GetController(int _button) 
+{ return(ControllerState.Gamepad.wButtons & _button); }		//ボタンが押されているか返す
+
+bool Input::GetControllerUp(int _button) 
+{ return !(ControllerState.Gamepad.wButtons & _button); }	//ボタンが離されたか返す
 
 //スティックの入力
 //引数0or1でL,Rを判定
@@ -53,6 +59,7 @@ float Input::GetControllerTrigger(int _trigger)
 	}
 	return val;		//XInputのトリガー入力はint型で255段階(0～255)
 }
+
 
 //縦入力
 float Input::GetVertical()
@@ -110,12 +117,12 @@ bool Input::GetDpadHorizontal()
 }
 
 
-//Xボタン
+//Aボタン
 bool Input::FDecision = false;
 bool Input::GetDecisionDown() { return GetDecision() && !FDecision; }
 bool Input::GetDecision()
 {
-	if (GetController(Pad_X)) { return true; }	//Aが押されたらtrueを返す
+	if (GetController(Pad_A)) { return true; }	//Aが押されたらtrueを返す
 	return false;
 }
 
@@ -128,15 +135,19 @@ bool Input::GetCancel()
 	return false;
 }
 
-//Aボタン
-bool Input::GetJumpDown()
+//Xボタン
+bool Input::FJump = false;
+bool Input::GetJumpDown() { return GetJump() && !FJump; }
+bool Input::GetJump()
 {
-	if (GetController(Pad_A)) { return true; }
+	if (GetController(Pad_X)) { return true; }
 	return false;
 }
 
 //Yボタン
-bool Input::GetAttackDown()
+bool Input::FAttack = false;
+bool Input::GetAttackDown() { return GetAttack() && !FAttack; }
+bool Input::GetAttack()
 {
 	if (GetController(Pad_Y)) { return true; }
 	return false;

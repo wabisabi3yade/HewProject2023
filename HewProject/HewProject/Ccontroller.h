@@ -9,6 +9,11 @@
 #include <Dinput.h>
 #include "Vector3.h"
 
+//試し用
+#include "CSceneManager.h"
+#include "CScene.h"
+#include "direct3d.h"
+
 class Input
 {
 	//コントローラーの状態を表す
@@ -29,6 +34,7 @@ public:
 	static Vector3  GetControllerStick(int);	//スティック
 	static float GetControllerTrigger(int);		//trigger(LT,RT)
 
+
 	//入力
 	static float GetVertical();			//縦入力
 	static float GetHorizontal();		//横入力
@@ -44,8 +50,12 @@ public:
 	static bool FCancel;
 	static bool GetCancelDown();		//キャンセル
 	static bool GetCancel();
+	static bool FJump;
 	static bool GetJumpDown();			//ジャンプ
+	static bool GetJump();
+	static bool FAttack;
 	static bool GetAttackDown();		//攻撃
+	static bool GetAttack();
 
 	//更新
 	static void Update();
