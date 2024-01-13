@@ -67,3 +67,5 @@ extern const UINT strides;
 extern const UINT offsets;
 extern ID3D11BlendState* m_pBlendStateAlpha;
 extern ID3D11BlendState* m_pBlendStateAdditive;
+
+extern bool isDirectWriteUse;

@@ -11,7 +11,7 @@
 #include <iostream>
 #include <DirectXMath.h>
 #include <vector>						// 動的配列
-
+#include "direct3d.h"
 
 //=============================================================================
 //		フォントリスト
@@ -46,6 +46,8 @@ struct FontData
 	// デフォルト設定
 	FontData()
 	{
+		if (!isDirectWriteUse) return;
+
 		font = Font::MS_Mincho; //適当な初期フォント
 		fontWeight = DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_NORMAL;
 		fontStyle = DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_NORMAL;
