@@ -44,6 +44,7 @@ StageScene::~StageScene()
 	SAFE_RELEASE(stageTextureCoin);
 	SAFE_RELEASE(stageTextureGallChest);
 	SAFE_RELEASE(stageTextureGumi);
+	SAFE_RELEASE(stageTextureHoll);
 	SAFE_RELEASE(stageTextureProtein);
 	SAFE_RELEASE(stageTextureWall);
 	SAFE_RELEASE(stageTextureWataame);
@@ -142,6 +143,12 @@ void StageScene::StageMove()
 			wataameObj->Melt();
 
 			// ↓ここで穴のオブジェクトをnewしてvstageObjにpushbackする
+
+			CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+			hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
+			hollObj->SetBlookType(static_cast<int>(CStageMake::BlockType::HOLL));
+			hollObj->mTransform.pos = nowFloor->GridToWorld(hollObj->GetGridPos(), static_cast<CStageMake::BlockType>(hollObj->GetBlookType()));
+			vStageObj.push_back(hollObj);
 		}
 	}
 
@@ -156,6 +163,14 @@ void StageScene::StageMove()
 			if (player->GetState() == Player::STATE::FAT)
 			{
 				chocoObj->CRACK();
+			}
+			if (chocoObj->GetActive() == false)
+			{
+				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
+				hollObj->SetBlookType(static_cast<int>(CStageMake::BlockType::HOLL));
+				hollObj->mTransform.pos = nowFloor->GridToWorld(hollObj->GetGridPos(), static_cast<CStageMake::BlockType>(hollObj->GetBlookType()));
+				vStageObj.push_back(hollObj);
 			}
 		}
 		// アイテムがあるならそれを画面から消す
@@ -467,7 +482,7 @@ void StageScene::Undo(float _stageScale)
 					break;
 
 				case CStageMake::BlockType::HOLL:
-					stageObj = new CHoll(stageBuffer, NULL);
+					stageObj = new CHoll(stageBuffer, stageTextureHoll);
 					break;
 
 				case CStageMake::BlockType::WATAAME:
@@ -616,6 +631,8 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	D3D_LoadTexture(L"asset/Stage/Wataame.png", &stageTextureWataame);
 	D3D_LoadTexture(L"asset/Player/N_Walk01_Back.png", &playerTexture);
 	D3D_LoadTexture(L"asset/Item/shadow.png", &shadowTexture);
+	//D3D_LoadTexture(L"asset/Item/shadow.png", &stageTextureHoll);
+	stageTextureHoll = NULL;
 
 	nNumProtein = 0;
 
@@ -682,7 +699,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 				break;
 
 			case CStageMake::BlockType::HOLL:
-				stageObj = new CHoll(stageBuffer, NULL);
+				stageObj = new CHoll(stageBuffer, stageTextureHoll);
 				break;
 
 			case CStageMake::BlockType::CAKE:

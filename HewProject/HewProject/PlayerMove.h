@@ -40,6 +40,8 @@ protected:
 
 	bool isWalking_now;	//　今
 
+	bool isFalling;
+
 	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
 
 	std::vector<int> cantMoveBlock;	// 移動できない床の種類を保持
@@ -62,6 +64,12 @@ public:
 	virtual void MoveAfter();
 
 	void WalkStart();
+
+	void  FallStart();
+	//落ち終わったあとにする処理
+	virtual void FallAfter();
+
+
 
 	// プレイヤーの移動先の座標にあるマスの種類を取得する
 	// オブジェクト優先→なにもないなら床の種類が帰ってくる
@@ -87,7 +95,9 @@ public:
 	bool GetIsMoveStart()const { return isMoveStartTrigger; }
 	bool GetIsMoveTrigger() const { return isMovingTrigger; }
 	bool GetIsWalkEnd() const { return isWalkEnd; }
-	bool GetIsWaik_Now() const { return isWalking_now; }
-	bool GetIsWaik_Old() const { return isWalking_old; }
+	bool GetIsWalk_Now() const { return isWalking_now; }
+	bool GetIsWalk_Old() const { return isWalking_old; }
+	bool GetIsFalling()const { return isFalling; }
+
 };
 

@@ -49,14 +49,14 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	dotween = std::make_unique<DoTween>(this);
 
 	move = std::make_shared<NormalMove>(this);
-	
+
 	// アニメーションを作成
 	mAnim = new CPlayerAnim();
 	mAnim->SetPattern(0);
 	mAnim->isStop = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
-	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL,ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/F_Walk.png", STATE::FAT, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/T_Walk.png", STATE::THIN, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/M_Walk01_Forword.png", STATE::MUSCLE, ANIM_TEX::WALK);
@@ -77,7 +77,7 @@ void Player::Init(GridTable* _pTable)
 
 	//プレイヤーの座標をグリッドテーブルとグリッド座標から求める
 	mTransform.pos = GetGridTable()->GridToWorld(Grid->gridPos, CStageMake::BlockType::START);
-	
+
 }
 
 void Player::Update()
@@ -87,20 +87,21 @@ void Player::Update()
 
 	// ↓FlagInitの後
 	move->Input();
-	
-	if (move->GetIsWaik_Old() == false && move->GetIsWaik_Now() == true)
+	if (move->GetIsFalling() == false)
 	{
-		dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
+		if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == true)
+		{
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
+		}
+		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false)
+		{
+			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
+		}
+		else if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == false)
+		{
+			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
+		}
 	}
-	else if (move->GetIsWaik_Old() == true && move->GetIsWaik_Now() == false)
-	{
-		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
-	}
-	else if (move->GetIsWaik_Old() == false && move->GetIsWaik_Now() == false)
-	{
-		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
-	}
-
 	dotween->Update();
 }
 
@@ -129,7 +130,7 @@ void Player::ChangeState(STATE _set)
 {
 	// 移動クラスを解放する
 	move.reset();
-	
+
 	// 各状態の移動クラスを取得する
 	switch (_set)
 	{
@@ -168,10 +169,16 @@ void Player::Draw()
 	CObject::Draw();
 }
 
+void Player::Fall()
+{
+	dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction), 2.0f);
+	move->FallStart();
+}
+
 Player::~Player()
 {
 	CLASS_DELETE(mAnim);
-	
+
 	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
 	{
 		SAFE_RELEASE(normalTex[i]);

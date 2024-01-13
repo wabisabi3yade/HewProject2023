@@ -53,14 +53,6 @@ public:
 
 	Transform mTransform;
 
-	//読み込むファイルのパス保存用
-	const wchar_t* TexPath[PathLength];
-	//Vector3 mPos = { 0, 0, 0 };	// 位置座標
-
-	//Vector3 mScale = { 1.0f,1.0f,1.0f };	// 拡大縮小率を持つ変数
-
-	//float mRotZ = 0.0f;	// 回転する角度を持つ変数
-
 public:
 	// メンバー関数
 	// 初期化処理（コンストラクタ）

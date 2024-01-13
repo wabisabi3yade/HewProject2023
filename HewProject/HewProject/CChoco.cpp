@@ -34,7 +34,7 @@ void CChoco::CRACK()
 	}
 	else if (this->BlockType == static_cast<int>(CStageMake::BlockType::CHOCOCRACK))
 	{
-		this->BlockType = static_cast <int> (CStageMake::BlockType::HOLL);
+		//this->BlockType = static_cast <int> (CStageMake::BlockType::HOLL);
 		this->SetActive(false);
 	};
 }

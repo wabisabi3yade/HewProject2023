@@ -66,6 +66,7 @@ private:
 	D3DTEXTURE stageTextureFloor2;
 
 	D3DTEXTURE stageTextureWall;
+	D3DTEXTURE stageTextureHoll;
 	D3DTEXTURE stageTextureWataame;
 	D3DTEXTURE stageTextureCastella;
 	D3DTEXTURE stageTextureBaumkuchen;

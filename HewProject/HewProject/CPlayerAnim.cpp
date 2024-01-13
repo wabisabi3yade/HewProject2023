@@ -2,7 +2,9 @@
 
 CPlayerAnim::CPlayerAnim()
 {
-
+	AnimSpeedRate = 1.0f;
+	Now_IsFall = false;
+	Old_IsFall = false;
 }
 
 CPlayerAnim::~CPlayerAnim()
@@ -24,11 +26,12 @@ void CPlayerAnim::Update()
 
 	};
 
+
 	// 再生中なら
 	if (isPlaying)
 	{
 		// アニメーションのカウンターを進める
-		animCounter += animSpeed;
+		animCounter += animSpeed * AnimSpeedRate;
 
 		// -1が来たら最初に戻る（ループ再生）
 		if (animTable[animPattern][(int)animCounter] == -1)
@@ -52,13 +55,17 @@ void CPlayerAnim::Update()
 	nowUV.x = (animID % 3) * 0.33f;
 
 	nowUV.y = (animID / 3) * 0.25f;
+
+	Old_IsFall = Now_IsFall;
+
 }
 
-void CPlayerAnim::PlayWalk(int num)
+void CPlayerAnim::PlayWalk(int num, float _animSpeedRate)
 {
 	isPlaying = true;
 	SetPattern(num);
 	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
 }
 
 void CPlayerAnim::StopWalk()
@@ -66,4 +73,13 @@ void CPlayerAnim::StopWalk()
 	isPlaying = false;
 	animCounter = 2;
 }
+
+void CPlayerAnim::PlayFall(int _num, float _animSpeedRate)
+{
+	isPlaying = true;
+	SetPattern(_num);
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+}
+
 
