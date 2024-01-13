@@ -79,7 +79,7 @@ private:
 	std::wstring StringToWString(std::string oString);
 
 public:
-	DirectWrite();
+	DirectWrite() = delete;
 	~DirectWrite();
 
 	// コンストラクタ
@@ -142,10 +142,7 @@ private:
 	IDWriteFontCollection1* fontCollection = nullptr;
 
 	// フォントファイルリスト
-	std::vector< IDWriteFontFile*>pFontFileList;
-
-public:
-	int nKcal = 10;
+	std::vector<IDWriteFontFile*>pFontFileList;
 };
 
 
