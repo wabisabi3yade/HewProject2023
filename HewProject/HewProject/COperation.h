@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Xinput.h>
 #include <Windows.h>
+#include <Xinput.h>
 #include "Vector3.h"
 
 class GameController
@@ -15,7 +15,7 @@ public:
 	float moveSpeed = 1.0f;
 
 	// キー操作可能なキャラクターか？
-	bool isPlayer = false;
+	bool isPlayer = true;
 
 	//仮想世界の中の位置座標
 	Vector3 pos = { 0, 0, 0 };
@@ -31,7 +31,8 @@ public:
 
 	~GameController();
 
-	void Update();
+
+	Vector3 GamePad();
 
 	void SetMoveSpeed(float sp)
 	{
@@ -46,4 +47,13 @@ public:
 
 private:
 	XINPUT_STATE m_controllerState;
+
+	// XInputの初期化
+	XINPUT_STATE controllerState;
+
+	// スティックの値を格納する変数
+	float m_leftStickX;
+	float m_leftStickY;
+	float m_rightStickX;
+	float m_rightStickY;
 };

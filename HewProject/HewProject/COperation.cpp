@@ -10,7 +10,7 @@ GameController::~GameController()
 {
 }
 
-void GameController::Update()
+Vector3 GameController::GamePad()
 {
 	if (isPlayer)
 	{
@@ -22,7 +22,59 @@ void GameController::Update()
 
 		dir = { 0,0,0 };
 
-		if (XInputGetState(0, &m_controllerState) == ERROR_SUCCESS)
+		// XInputからコントローラの状態を取得
+		if (XInputGetState(0, &controllerState) == ERROR_SUCCESS)
+		{
+			// スティックの値の取得
+			float stickX = static_cast<float>(controllerState.Gamepad.sThumbLX) / 32767.0f;
+			float stickY = static_cast<float>(controllerState.Gamepad.sThumbLY) / 32767.0f;
+
+			// 移動度の設定
+			float sensitivity = 2.0f;
+			float moveX = stickX * sensitivity;
+			float moveY = stickY * sensitivity;
+
+			// キャラを動かしたい…うごいてー
+			//右上
+  			if ((moveX > 1) && (moveY > 1))
+			{
+				d.y = 1;// 上方向ベクトル
+				moveSpeed = 0.01f;
+
+				d.x = 1;// 右方向ベクトル
+				moveSpeed = 0.01f;
+			}
+			//右下
+			if ((moveX == 2) && (moveY > -2))
+			{
+				d.y = -1;// 上方向ベクトル
+				moveSpeed = 0.01f;
+
+				d.x = 1;// 右方向ベクトル
+				moveSpeed = 0.01f;
+			}
+			//左下
+			if ((moveX > -2) && (moveY > -2.0))
+			{
+				d.y = -1;// 上方向ベクトル
+				moveSpeed = 0.01f;
+
+				d.x = -1;// 右方向ベクトル
+				moveSpeed = 0.01f;
+			}
+			//左上
+			if ((moveX > -2) && (moveY > 1))
+			{
+				d.y = 1;// 上方向ベクトル
+				moveSpeed = 0.01f;
+
+				d.x = -1;// 右方向ベクトル
+				moveSpeed = 0.01f;
+			}
+		
+		}
+
+		/*if (XInputGetState(0, &m_controllerState) == ERROR_SUCCESS)
 		{
 			if (m_controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
 			{
@@ -36,7 +88,7 @@ void GameController::Update()
 			}
 			if (m_controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_B)
 			{
-				d.x = 1;//右方向ベクトル
+				d.x = 1;// 右方向ベクトル
 				moveSpeed = 0.01f;
 			}
 			if (m_controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_B)
@@ -44,15 +96,20 @@ void GameController::Update()
 				d.y = 1;// 上方向ベクトル
 				moveSpeed = 0.01f;
 			}
-		}
+		}*/
+
 		// キー操作でベクトルが設定されていたらdirに代入する
 		if (d.x != 0.0f || d.y != 0.0f)
 		{
 			dir = d;
 		}
+
+		return d;
 	}
 	// ベクトルを使って移動
 	pos.x = pos.x + dir.x * moveSpeed;
 	pos.y = pos.y + dir.y * moveSpeed;
 	pos.z = pos.z + dir.z * moveSpeed;
+
+	
 }

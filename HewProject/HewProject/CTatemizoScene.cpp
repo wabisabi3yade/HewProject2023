@@ -2,8 +2,8 @@
 #include "direct3d.h"
 #include "CTatemizoScene.h"
 #include "CInput.h"
+#include "COperation.h"
 
-extern CInput* gInput;
 
 CTatemizoScene::CTatemizoScene()
 {
@@ -12,6 +12,9 @@ CTatemizoScene::CTatemizoScene()
 
 	charObj = new CObject(charBuffer, charTexture);
 	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
+
+	x = new GameController();
+
 }
 
 CTatemizoScene::~CTatemizoScene()
@@ -21,71 +24,17 @@ CTatemizoScene::~CTatemizoScene()
 	SAFE_RELEASE(charBuffer);
 
 	SAFE_RELEASE(charTexture);
+
+	CLASS_DELETE(x)
 }
 
 void CTatemizoScene::Update()
 {
-	if (isPlayer)
-	{
-		// 操作で設定する用のベクトル変数
-		Vector3 d = { 0.0f,0.0f,0.0f};
 
-		/*// 方向なしベクトルに設定
-		d.x = 0;
-		d.y = 0;
-		d.z = 0;*/
-
-		// 移動速度を初めに０にする
-		moveSpeed = 0.0f;
-
-		//dir = { 0,0,0 };
-
-		//操作試し
-		if (gInput->GetKeyPress(VK_DOWN))
-		{
-			d.y = -1;// 下方向ベクトル
-			moveSpeed = 0.01f;
-		}
-		if (gInput->GetKeyPress(VK_LEFT))
-		{
-			d.x = -1;// 左方向ベクトル
-			moveSpeed = 0.01f;
-		}
-		if (gInput->GetKeyPress(VK_RIGHT))
-		{
-			d.x = 1;//右方向ベクトル
-			moveSpeed = 0.01f;
-		}
-		if (gInput->GetKeyPress(VK_UP))
-		{
-			d.y = 1;// 上方向ベクトル
-			moveSpeed = 0.01f;
-		}
-		//if (XInputGetState(0, &m_controllerState) == ERROR_SUCCESS)
-		//{
-		//	if (m_controllerState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
-		//	{
-		//		dir.y = 1;
-		//		d.y = -1;// 下方向ベクトル
-		//		moveSpeed = 0.01f;
-		//	}
-		//}
-
-		// キー操作でベクトルが設定されていたらdirに代入する
-		if (d.x != 0.0f || d.y != 0.0f)
-		{
-			dir = d;
-		}
-
-		charObj->SetDir(dir);
-
-		charObj->Update();
-	}
-
-	// ベクトルを使って移動
-	pos.x = pos.x + dir.x * moveSpeed;
-	pos.y = pos.y + dir.y * moveSpeed;
-	pos.z = pos.z + dir.z * moveSpeed;
+	Vector3 G (x->GamePad());
+	
+	charObj->mTransform.pos.x += G.x*0.01;
+	charObj->mTransform.pos.y += G.y*0.01;
 
 }
 
