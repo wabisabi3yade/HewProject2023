@@ -59,6 +59,8 @@ ID3D11BlendState* m_pBlendStateAlpha;
 ID3D11BlendState* m_pBlendStateAdditive;
 
 DirectWrite* Write;
+// DirectWrite使用するかどうか変数
+bool isDirectWriteUse = true;
 
 // IASetVertexBuffersで使用する変数
 const UINT strides = sizeof(Vertex);
@@ -66,8 +68,7 @@ const UINT offsets = 0;
 
 // 関数のプロトタイプ宣言
 HRESULT D3D_Create(HWND hwnd);
-void    D3D_Release();
-
+void D3D_Release();
 
 // Direct3Dの初期化を行う関数
 HRESULT D3D_Create(HWND hwnd)
@@ -240,18 +241,22 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = m_pDevice->CreateBuffer(&cbDesc, NULL, &m_pConstantBuffer);
 	if (FAILED(hr)) return hr;
 
-	std::shared_ptr<FontData> data = std::make_shared<FontData>();
 
-	data->fontSize = 60;
-	data->fontWeight = DWRITE_FONT_WEIGHT_BOLD;
-	data->Color = D2D1::ColorF(D2D1::ColorF::White);
+	if (isDirectWriteUse)
+	{
+		std::shared_ptr<FontData> data = std::make_shared<FontData>();
 
-	Write = new DirectWrite(data);
-	
-	// ↓これがあると時々エラーが出るようになる
-	/*CLASS_DELETE(data);*/
+		data->fontSize = 60;
+		data->fontWeight = DWRITE_FONT_WEIGHT_BOLD;
+		data->Color = D2D1::ColorF(D2D1::ColorF::White);
 
-	Write->Init(hwnd);
+		Write = new DirectWrite(data);
+
+		// ↓これがあると時々エラーが出るようになる
+		/*CLASS_DELETE(data);*/
+
+		Write->Init(hwnd);
+	}
 
 	return hr;
 }

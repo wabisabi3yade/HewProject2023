@@ -12,16 +12,21 @@ Stage::Stage(const wchar_t* _csvPath)
 	stage = new StageScene(NULL, NULL);
 	stage->Init(_csvPath, 3);
 
-	dbgFloorTable = new DebugTable(stage->GetNowFloor(),true);
-	dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
-
-	gauge = new Ckcal_gauge();
+	if (isDirectWriteUse)
+	{
+		dbgFloorTable = new DebugTable(stage->GetNowFloor(), true);
+		dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
+		gauge = new Ckcal_gauge();
+	}	
 }
 
 void Stage::Update()
 {
 	stage->Update();
-	gauge->SetKcal(stage->GetPlayer()->GetCalorie());
+	if (isDirectWriteUse)
+	{
+		gauge->SetKcal(stage->GetPlayer()->GetCalorie());
+	}
 }
 
 void Stage::LateUpdate()
@@ -31,10 +36,12 @@ void Stage::LateUpdate()
 void Stage::Draw()
 {
 	stage->Draw();
-	dbgFloorTable->Draw();
-	dbgObjTable->Draw();
-	gauge->Draw();
-
+	if (isDirectWriteUse)
+	{
+		dbgFloorTable->Draw();
+		dbgObjTable->Draw();
+		gauge->Draw();
+	}
 }
 
 Stage::~Stage()

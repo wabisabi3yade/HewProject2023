@@ -14,8 +14,6 @@
 
 // リンク設定
 #pragma comment (lib, "d3d11.lib")
-
-
 //=============================================================================
 //		フォント名
 //=============================================================================
@@ -44,6 +42,7 @@ public:
 	CustomFontFileEnumerator(IDWriteFactory* factory, const std::vector<std::wstring>& fontFilePaths)
 		: refCount_(0), factory_(factory), fontFilePaths_(fontFilePaths), currentFileIndex_(-1)
 	{
+		if (!isDirectWriteUse) return;
 		factory_->AddRef();
 	}
 
@@ -54,6 +53,7 @@ public:
 
 	IFACEMETHODIMP QueryInterface(REFIID iid, void** ppvObject) override
 	{
+		if (!isDirectWriteUse) return 0;
 		if (iid == __uuidof(IUnknown) || iid == __uuidof(IDWriteFontCollectionLoader))
 		{
 			*ppvObject = this;
@@ -69,6 +69,7 @@ public:
 
 	IFACEMETHODIMP_(ULONG) AddRef() override
 	{
+		if (!isDirectWriteUse) return 0;
 		return InterlockedIncrement(&refCount_);
 	}
 
@@ -82,6 +83,7 @@ public:
 	}
 
 	IFACEMETHODIMP MoveNext(OUT BOOL* hasCurrentFile) override {
+		if (!isDirectWriteUse) return 0;
 		if (++currentFileIndex_ < static_cast<int>(fontFilePaths_.size())) {
 			*hasCurrentFile = TRUE;
 			return S_OK;
@@ -94,6 +96,7 @@ public:
 
 	IFACEMETHODIMP GetCurrentFontFile(OUT IDWriteFontFile** fontFile) override
 	{
+		if (!isDirectWriteUse) return 0;
 		// フォントファイルを読み込む
 		 auto res = factory_->CreateFontFileReference(fontFilePaths_[currentFileIndex_].c_str(), nullptr, fontFile);
 
@@ -125,6 +128,7 @@ public:
 	// IUnknown メソッド
 	IFACEMETHODIMP QueryInterface(REFIID iid, void** ppvObject) override
 	{
+		if (!isDirectWriteUse) return 0;
 		if (iid == __uuidof(IUnknown) || iid == __uuidof(IDWriteFontCollectionLoader))
 		{
 			*ppvObject = this;
@@ -140,6 +144,7 @@ public:
 
 	IFACEMETHODIMP_(ULONG) AddRef() override
 	{
+		if (!isDirectWriteUse) return 0;
 		return InterlockedIncrement(&refCount_);
 	}
 
@@ -160,6 +165,7 @@ public:
 		UINT32 collectionKeySize,
 		OUT IDWriteFontFileEnumerator** fontFileEnumerator) override
 	{
+		if (!isDirectWriteUse) return 0;
 		// 読み込むフォントファイルのパスを渡す
 		std::vector<std::wstring> fontFilePaths(std::begin(FontList), std::end(FontList));
 
@@ -182,6 +188,8 @@ private:
 //=============================================================================
 void DirectWrite::SetFont(std::shared_ptr<FontData> set)
 {
+	if (!isDirectWriteUse) return;
+
 	Setting = set;
 
 	//解放
@@ -211,6 +219,7 @@ void DirectWrite::SetFont(std::shared_ptr<FontData> set)
 	}
 	else
 	{
+		if (!isDirectWriteUse) return;
 		name = fontNamesList[num];
 	}
 
@@ -253,6 +262,8 @@ void DirectWrite::SetFont(Font font, IDWriteFontCollection* fontCollection,
 	DWRITE_FONT_STRETCH fontStretch, FLOAT fontSize, WCHAR const* localeName, 
 	DWRITE_TEXT_ALIGNMENT textAlignment, D2D1_COLOR_F Color)
 {
+	if (!isDirectWriteUse) return;
+
 	std::shared_ptr<FontData> fdat(new FontData);
 	fdat->font = font;
 	fdat->fontWeight = fontWeight;
@@ -275,6 +286,8 @@ void DirectWrite::SetFont(Font font, IDWriteFontCollection* fontCollection,
 //=============================================================================
 void DirectWrite::DrawString(std::string str, DirectX::XMFLOAT2 pos, D2D1_DRAW_TEXT_OPTIONS options)
 {
+	if (!isDirectWriteUse) return;
+
 	// 文字列の変換
 	std::wstring wstr = StringToWString(str.c_str());
 
@@ -313,6 +326,8 @@ void DirectWrite::DrawString(std::string str, DirectX::XMFLOAT2 pos, D2D1_DRAW_T
 //=============================================================================
 void DirectWrite::DrawString(std::string str, D2D1_RECT_F rect, D2D1_DRAW_TEXT_OPTIONS options)
 {
+	if (!isDirectWriteUse) return;
+
 	// 文字列の変換
 	std::wstring wstr = StringToWString(str.c_str());
 
@@ -331,6 +346,8 @@ void DirectWrite::DrawString(std::string str, D2D1_RECT_F rect, D2D1_DRAW_TEXT_O
 //=============================================================================
 HRESULT DirectWrite::Init(HWND hwnd)
 {
+	if (!isDirectWriteUse) return 0;
+
 	HRESULT hr;
 
 	// Direct2D,DirectWriteの初期化
@@ -395,6 +412,8 @@ HRESULT DirectWrite::Init(HWND hwnd)
 
 HRESULT DirectWrite::GetFontFamilyName(IDWriteFontCollection* customFontCollection, const WCHAR* locale)
 {
+	if (!isDirectWriteUse) return 0;
+
 	HRESULT result = S_OK;
 
 	// フォントファミリー名一覧をリセット
@@ -485,6 +504,8 @@ DirectWrite::~DirectWrite()
 //=============================================================================
 std::wstring DirectWrite::StringToWString(std::string oString)
 {
+	if (!isDirectWriteUse) return 0;
+
 	// SJIS → wstring
 	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, oString.c_str(), -1, (wchar_t*)NULL, 0);
 
