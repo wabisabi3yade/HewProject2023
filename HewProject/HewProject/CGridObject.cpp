@@ -8,6 +8,7 @@ CGridObject::CGridObject(D3DBUFFER vb, D3DTEXTURE tex)
 
 CGridObject::~CGridObject()
 {
+	CLASS_DELETE(Grid)
 }
 
 void CGridObject::Draw()
@@ -23,5 +24,10 @@ void CGridObject::SetGridPos(const int _PosX,const int _PosY)
 {
 	Grid->gridPos.x = _PosX;
 	Grid->gridPos.y = _PosY;
+}
+
+void CGridObject::SetGridPos(CGrid::GRID_XY _gridXY)
+{
+	this->Grid->gridPos = _gridXY;
 }
 

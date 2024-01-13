@@ -22,6 +22,7 @@ PlayerMove::PlayerMove(Player* _p)
 	isMoveStartTrigger = false;
 	isWalking_now = false;
 	isWalking_old = false;
+	isFalling = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -108,6 +109,11 @@ CStageMake::BlockType PlayerMove::CheckNextObjectType()
 	return static_cast<CStageMake::BlockType>(player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x]);
 }
 
+void PlayerMove::FallStart()
+{
+	isFalling = true;
+}
+
 CStageMake::BlockType PlayerMove::CheckNextFloorType()
 {
 	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[nextGridPos.y][nextGridPos.x]);
@@ -117,6 +123,11 @@ CStageMake::BlockType PlayerMove::CheckNowFloorType()
 {
 	CGrid::GRID_XY NowGridPos = player->GetGridPos();
 	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[NowGridPos.y][NowGridPos.x]);
+}
+
+void PlayerMove::FallAfter()
+{
+	isFalling = false;
 }
 
 void PlayerMove::CheckCanMove()

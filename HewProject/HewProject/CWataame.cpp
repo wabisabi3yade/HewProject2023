@@ -21,6 +21,6 @@ void CWataame::Draw()
 
 void CWataame::Melt()
 {
-	this->SetBlookType(static_cast<int>(CStageMake::BlockType::HOLL));
+	//this->SetBlookType(static_cast<int>(CStageMake::BlockType::HOLL));
 	this->SetActive(false);
 }

@@ -4,10 +4,12 @@
 #include "CGrid.h"
 #include "DoTween.h"
 #include "PlayerMove.h"
+#include"CPlayerAnim.h"
 
 #define MOVEROOT_MAX (20)	// 今まで取ってきた道を保存する最大数
 #define EAT_TIME (1.0f)	// 食べ物食べる時間
 #define BREAK_TIME (3.0f) //壁を壊してから移動できるまでの時間
+#define FALL_TIME (3.0f) //チョコが壊れてから落ち始めるまでの時間
 #define THIN_CALOMAX (5)	// ガリ状態時での最大カロリー数 
 #define NORMAL_CALOMAX (10)	// 普通状態時での最大カロリー数 
 
@@ -96,6 +98,8 @@ public:
 
 	void Draw() override;
 
+	void Fall();
+
 	~Player();
 
 	int GetCalorie() const { return calorie; }
@@ -104,6 +108,8 @@ public:
 	void SetDirection(int _set);
 
 	PlayerMove* GetPlayerMove()const;
+
+	CPlayerAnim* GetPlayerAnim() { return dynamic_cast<CPlayerAnim*> (mAnim); }
 
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }

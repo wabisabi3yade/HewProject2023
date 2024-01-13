@@ -7,7 +7,7 @@
 #include "CMizunoScene.h"
 #include "CWakamuraScene.h"
 #include "Stage.h"
-
+#include "CCamera.h"
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
@@ -19,6 +19,7 @@ CSceneManager::~CSceneManager()
 {
 	EffectManeger::Delete();
 	CLASS_DELETE(pNowScene);
+	CCamera::Delete();
 }
 
 CSceneManager* CSceneManager::GetInstance()

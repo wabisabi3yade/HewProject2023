@@ -15,6 +15,7 @@ public:
 	void Draw();
 	void Update();
 	void SetGridPos(const int _PosX, const int _PosY);
+	void SetGridPos(CGrid::GRID_XY _gridXY);
 	CGrid::GRID_XY GetGridPos() const { return Grid->gridPos; };
 
 	void SetBlookType(int _BkType) { BlockType = _BkType; };
