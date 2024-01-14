@@ -60,7 +60,7 @@ ID3D11BlendState* m_pBlendStateAdditive;
 
 DirectWrite* Write;
 // DirectWrite使用するかどうか変数
-bool isDirectWriteUse = true;
+bool isDirectWriteUse = false;
 
 // IASetVertexBuffersで使用する変数
 const UINT strides = sizeof(Vertex);

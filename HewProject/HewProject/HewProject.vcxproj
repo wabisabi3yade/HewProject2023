@@ -192,6 +192,7 @@
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageScene.h" />
+    <ClInclude Include="TextureFactory.h" />
     <ClInclude Include="ThinMove.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
@@ -255,6 +256,7 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageScene.cpp" />
+    <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="ThinMove.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Vector2.cpp" />

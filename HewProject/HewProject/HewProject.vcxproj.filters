@@ -211,6 +211,9 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Shadow">
       <UniqueIdentifier>{c84275ad-6251-42bd-b223-f19eece73e34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\TextureFactory">
+      <UniqueIdentifier>{eb4ece78-3595-434e-9767-f49bc97263e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -393,6 +396,9 @@
     <ClInclude Include="CShadow.h">
       <Filter>ソース ファイル\Mizuno\Stage\Shadow</Filter>
     </ClInclude>
+    <ClInclude Include="TextureFactory.h">
+      <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -574,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="CShadow.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureFactory.cpp">
+      <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
