@@ -23,7 +23,7 @@
 // 関数のプロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-// グローバル変数の宣言
+//// グローバル変数の宣言
 CSceneManager* gSceneManager;
 CInput* gInput = new CInput();
 
@@ -69,7 +69,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	// Direct3Dの初期化
 	D3D_Create(hWnd);
-	
+
 	int nFpsCounter = 0;
 	// fpsを測定する時に使用
 	ULONGLONG o_ms = GetTickCount64();	// １秒間測定するときに使う変数
@@ -84,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	QueryPerformanceFrequency(&liWork);
 	frequency = liWork.QuadPart;	// 1秒あたりの解像度が入る
 	// 1フレームあたりのカウント値を計算
-	long long numCount_1frame = frequency / FPS;	
+	long long numCount_1frame = frequency / FPS;
 	// 現在時間(単位：カウント)を取得
 	QueryPerformanceCounter(&liWork);
 	long long oldCount = liWork.QuadPart;
@@ -94,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	gSceneManager = CSceneManager::GetInstance();
 	gSceneManager->SceneChange(CSceneManager::SELECT);
-	
+
 	// ゲームループ
 	for (;;) {
 		BOOL isAnyMessage = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -149,7 +149,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	UnregisterClass(CLASS_NAME, hInstance);
 
-
 	_CrtDumpMemoryLeaks();
 	return (int)msg.wParam;
 }
@@ -167,13 +166,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		DestroyWindow(hWnd);  // “WM_DESTROY”メッセージを送る
 		break;
 
-	
+
 	case WM_KEYDOWN:	// キーが押されたら
 		gInput->SetKeyDownState(wParam);	// 押されたのを記録する
 		break;
 
 	case WM_KEYUP:	// キーが離されたら
 		gInput->SetKeyUpState(wParam);	// 離されたのを記録する
+		break;
 
 	default:
 		// 上のcase以外の場合の処理を実行

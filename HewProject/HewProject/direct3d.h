@@ -14,7 +14,6 @@ typedef ID3D11ShaderResourceView* D3DTEXTURE;
 
 typedef ID3D11Buffer* D3DBUFFER;
 
-
 // 構造体の定義
 // x,yを表す構造体
 struct FLOAT_XY
@@ -67,5 +66,5 @@ extern const UINT strides;
 extern const UINT offsets;
 extern ID3D11BlendState* m_pBlendStateAlpha;
 extern ID3D11BlendState* m_pBlendStateAdditive;
-
+// DirectWriteクラスを使うかどうか変数（プッシュするときはtrueに戻す！！！）
 extern bool isDirectWriteUse;

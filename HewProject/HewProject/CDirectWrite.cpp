@@ -17,7 +17,7 @@
 //=============================================================================
 //		フォント名
 //=============================================================================
-const std::wstring FontList[] = //必ずフォントファイルから読み込むフォントを上に持ってくる！
+const std::vector<std::wstring> FontList = //必ずフォントファイルから読み込むフォントを上に持ってくる！
 {
 	L"asset\\wakamura\\851MkPOP_101.otf",
 	L"asset\\wakamura\\komadorimini.otf",
@@ -48,6 +48,8 @@ public:
 
 	~CustomFontFileEnumerator()
 	{
+		if (!isDirectWriteUse) return;
+
 		factory_->Release();
 	}
 
@@ -75,6 +77,8 @@ public:
 
 	IFACEMETHODIMP_(ULONG) Release() override
 	{
+		if (!isDirectWriteUse) return 0;
+
 		ULONG newCount = InterlockedDecrement(&refCount_);
 		if (newCount == 0)
 			delete this;
@@ -129,6 +133,7 @@ public:
 	IFACEMETHODIMP QueryInterface(REFIID iid, void** ppvObject) override
 	{
 		if (!isDirectWriteUse) return 0;
+
 		if (iid == __uuidof(IUnknown) || iid == __uuidof(IDWriteFontCollectionLoader))
 		{
 			*ppvObject = this;
@@ -150,6 +155,8 @@ public:
 
 	IFACEMETHODIMP_(ULONG) Release() override
 	{
+		if (!isDirectWriteUse) return 0;
+
 		ULONG newCount = InterlockedDecrement(&refCount_);
 		if (newCount == 0)
 			delete this;
@@ -205,15 +212,15 @@ void DirectWrite::SetFont(std::shared_ptr<FontData> set)
 	IDWriteFontCollection1* fc = fontCollection;
 	if (num >= (int)fontNamesList.size() || fontNamesList.empty()) {
 		// numがfontの種類より大きい or フォント名のリストが空だったらとりあえず先頭のfontを採用
-		if (num >= (int)FontList->size()) {
+		if (num >= (int)FontList.size()) {
 
 			name = fontNamesList[0];
 		} else {
 			name = FontList[num];
-//			if (fontCollection != nullptr) {
-//				fontCollection->Release();
-//				fontCollection = nullptr;
-//			}
+			/*if (fontCollection != nullptr) {
+				fontCollection->Release();
+				fontCollection = nullptr;
+			}*/
 			fc = nullptr;
 		}
 	}
