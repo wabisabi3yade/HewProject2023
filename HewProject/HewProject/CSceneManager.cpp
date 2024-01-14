@@ -13,13 +13,16 @@ CSceneManager* CSceneManager::instance = nullptr;
 CSceneManager::CSceneManager()
 {
 	effectManeger = EffectManeger::GetInstance();
+	textureFactory = TextureFactory::GetInstance();
 }
 
 CSceneManager::~CSceneManager()
 {
-	EffectManeger::Delete();
 	CLASS_DELETE(pNowScene);
+
+	EffectManeger::Delete();
 	CCamera::Delete();
+	TextureFactory::Delete();
 }
 
 CSceneManager* CSceneManager::GetInstance()
