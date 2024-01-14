@@ -80,13 +80,36 @@ private:
 	// stringをwstringへ変換する
 	std::wstring StringToWString(std::string oString);
 
-public:
 	DirectWrite() = delete;
-	~DirectWrite();
 
+	
+
+public:
+	//=============================================================================
+//		フォント名
+//=============================================================================
+	static std::vector<std::wstring> FontList;
+
+	static void testInit();
+
+	~DirectWrite();
 	// コンストラクタ
 	// 第1引数：フォント設定
 	DirectWrite(std::shared_ptr<FontData> set) {
+		if (!isDirectWriteUse) return;
+
+		FontList = //必ずフォントファイルから読み込むフォントを上に持ってくる！
+		{
+			L"asset\\wakamura\\851MkPOP_101.otf",
+			L"asset\\wakamura\\komadorimini.otf",
+			L"asset\\wakamura\\MelodyLine-free.otf",
+			L"HG行書体",
+			L"HGP創英角ﾎﾟｯﾌﾟ体",
+			L"ＭＳ 明朝",
+			L"Arial",
+			L"Meiryo UI",
+		};
+
 		Setting = set;
 	}
 

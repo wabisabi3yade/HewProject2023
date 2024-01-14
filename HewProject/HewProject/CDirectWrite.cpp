@@ -14,20 +14,8 @@
 
 // リンク設定
 #pragma comment (lib, "d3d11.lib")
-//=============================================================================
-//		フォント名
-//=============================================================================
-const std::vector<std::wstring> FontList = //必ずフォントファイルから読み込むフォントを上に持ってくる！
-{
-	L"asset\\wakamura\\851MkPOP_101.otf",
-	L"asset\\wakamura\\komadorimini.otf",
-	L"asset\\wakamura\\MelodyLine-free.otf",
-	L"HG行書体",
-	L"HGP創英角ﾎﾟｯﾌﾟ体",
-	L"ＭＳ 明朝",
-	L"Arial",
-	L"Meiryo UI",
-};
+
+std::vector<std::wstring> DirectWrite::FontList = {};
 
 // フォントコレクションローダー
 class CustomFontCollectionLoader;
@@ -174,7 +162,7 @@ public:
 	{
 		if (!isDirectWriteUse) return 0;
 		// 読み込むフォントファイルのパスを渡す
-		std::vector<std::wstring> fontFilePaths(std::begin(FontList), std::end(FontList));
+		std::vector<std::wstring> fontFilePaths(std::begin(DirectWrite::FontList), std::end(DirectWrite::FontList));
 
 		// カスタムフォントファイル列挙子の作成
 		*fontFileEnumerator = new (std::nothrow) CustomFontFileEnumerator(factory, fontFilePaths);
@@ -217,10 +205,10 @@ void DirectWrite::SetFont(std::shared_ptr<FontData> set)
 			name = fontNamesList[0];
 		} else {
 			name = FontList[num];
-			/*if (fontCollection != nullptr) {
+			if (fontCollection != nullptr) {
 				fontCollection->Release();
 				fontCollection = nullptr;
-			}*/
+			}
 			fc = nullptr;
 		}
 	}
@@ -411,9 +399,12 @@ HRESULT DirectWrite::Init(HWND hwnd)
 	hr = GetFontFamilyName(fontCollection, L"ja-JP");
 	if (FAILED(hr)) return hr;
 
-	// フォントを設定
-	SetFont(Setting);
-
+	if (fontCollection->GetFontFamilyCount() != 0)
+	{
+		// フォントを設定
+		SetFont(Setting);
+	}
+	
 	return hr;
 }
 
@@ -426,7 +417,8 @@ HRESULT DirectWrite::GetFontFamilyName(IDWriteFontCollection* customFontCollecti
 	// フォントファミリー名一覧をリセット
 	std::vector<std::wstring>().swap(fontNamesList);
 
-	// フォントの数を取得
+	// フォントの数を取得(0になる)
+	// SetFontFamilyがコードに書かれていない
 	UINT32 familyCount = customFontCollection->GetFontFamilyCount();
 
 	for (UINT32 i = 0; i < familyCount; i++)
@@ -491,20 +483,24 @@ void DirectWrite::Release()
 
 	if (fontCollection) fontCollection->Release();
 	if (pFontCollectionLoader) pFontCollectionLoader->Release();
-	
+
 	for (int i = 0; i < pFontFileList.size(); i++)pFontFileList[i]->Release();
 	pFontFileList.clear();
-}
 
-//DirectWrite::DirectWrite()
-//{
-//
-//}
+	DirectWrite::FontList.clear();
+}
 
 DirectWrite::~DirectWrite()
 {
 	Release();
 }
+
+void DirectWrite::testInit()
+{
+
+}
+
+
 
 //=============================================================================
 //     stringをwstringへ変換する
