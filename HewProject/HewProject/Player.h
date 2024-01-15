@@ -105,6 +105,7 @@ public:
 	~Player();
 
 	int GetCalorie() const { return calorie; }
+	void SetCalorie(int _cal) { calorie = _cal; }
 	bool GetIsMoving()const;
 	int GetDirection()const;
 	void SetDirection(int _set);
