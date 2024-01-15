@@ -108,22 +108,64 @@ void NormalMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::HOLL:
+	case CStageMake::BlockType::CHOCOCRACK:
 
 		WalkStart();
 
-		// ↓におちるときのジャンプ
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
+		player->dotween->OnComplete([&]()
+			{
+
+				WalkAfter();
+				//画面外まで移動するようにYをマクロで定義して使用する			
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+					{
+						player->Fall();
+					});
+				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+			});
+		break;
+
+	case CStageMake::BlockType::HOLL:
+
+		WalkStart();
+		//ジャンプしてから落ちるように
+
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
-				// 穴に落ちた時の処理をする
-				// ↓完成していない現状床と同じ処理にしてる
+
 				WalkAfter();
-				MoveAfter();
+				//画面外まで移動するようにYをマクロで定義して使用する
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+					{
+						player->Fall();
+					});
+				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 			});
+
+		//// ↓におちるときのジャンプ
+		//player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		//player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+
+		//player->dotween->OnComplete([&]()
+		//	{
+		//		// 穴に落ちた時の処理をする
+		//		// ↓完成していない現状床と同じ処理にしてる
+		//		WalkAfter();
+		//		MoveAfter();
+		//	});
 		break;
 
 	case CStageMake::BlockType::GUMI:
