@@ -11,6 +11,7 @@
 #include "FatMove.h"
 #include "ThinMove.h"
 #include "MuscleMove.h"
+#include "TextureFactory.h"
 
 #define START_CALORIE (10)	// スタート時のカロリー
 #define CAKE_CALORIE (15)	// ケーキ食べたあとのリスのカロリー
@@ -19,12 +20,12 @@
 void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_tex)
 {
 	D3DTEXTURE tex = NULL;
-	D3DTEXTURE* Arry = nullptr;
+	D3DTEXTURE* Arry = normalTex;
 
 	switch (_set)
 	{
 	case STATE::NORMAL:
-		Arry = normalTex;
+		/*Arry = normalTex;*/
 		break;
 
 	case STATE::FAT:
@@ -39,8 +40,10 @@ void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_te
 		Arry = muscleTex;
 		break;
 	}
-	D3D_LoadTexture(_texPath, &tex);
-	Arry[static_cast<int>(_anim_tex)] = tex;
+	// テクスチャを管理するクラスから指定したテクスチャを取得する
+	D3DTEXTURE texWork = TextureFactory::GetInstance()->Fetch(_texPath);
+	// 配列の指定したところにテクスチャ情報を格納する
+	Arry[static_cast<int>(_anim_tex)] = texWork;
 }
 
 Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
@@ -179,7 +182,7 @@ Player::~Player()
 {
 	CLASS_DELETE(mAnim);
 
-	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
+	/*for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
 	{
 		SAFE_RELEASE(normalTex[i]);
 	}
@@ -195,7 +198,7 @@ Player::~Player()
 	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
 	{
 		SAFE_RELEASE(muscleTex[i]);
-	}
+	}*/
 }
 
 bool Player::GetIsMoving() const
