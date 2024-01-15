@@ -61,7 +61,7 @@ void ThinMove::Move(DIRECTION _dir)
 	}
 
 	// 進んだ先のブロックによって対応するアクションを設定する
-	switch (CheckNextObjectType())
+	switch (CheckNextMassType())
 	{
 	case CStageMake::BlockType::CAKE:
 
@@ -91,10 +91,56 @@ void ThinMove::Move(DIRECTION _dir)
 			});
 		break;
 
+	case CStageMake::BlockType::CHOCOCRACK:
+
+		WalkStart();
+
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+
+				WalkAfter();
+				CGrid::GRID_XY GridXY = (nextGridPos);
+				float player_z = player->mTransform.pos.z;
+				//画面外まで移動するようにYをマクロで定義して使用する
+				GridXY.x -= 1;
+				GridXY.y += 1;
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(GridXY, CStageMake::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y) - (player->mTransform.scale.y / 2.0f);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+					{
+						player->Fall();
+					});
+				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->Append(fallPos,	FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+			});
+
+		break;
+
 	case CStageMake::BlockType::HOLL:
 		// ↓におちるときのジャンプ
 
 		WalkStart();
+
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+
+				WalkAfter();
+				//画面外まで移動するようにYをマクロで定義して使用する
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+					{
+						player->Fall();
+					});
+				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+			});
 
 		break;
 
@@ -146,12 +192,38 @@ void ThinMove::Move(DIRECTION _dir)
 
 					break;
 
+				case CStageMake::BlockType::CHOCOCRACK:
+
+					WalkStart();
+
+					player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+					player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+					player->dotween->OnComplete([&]()
+						{
+
+							WalkAfter();
+							//画面外まで移動するようにYをマクロで定義して使用する
+							Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+							fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+							player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+								{
+									player->Fall();
+								});
+							player->dotween->DoDelay(FALL_TIME);
+							player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+						});
+
+
+					break;
+
 				default:
 					MoveAfter();
 					break;
 				}				
 			});
 		break;
+
 
 	default:
 

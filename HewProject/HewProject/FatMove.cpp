@@ -140,12 +140,9 @@ void FatMove::Move(DIRECTION _dir)
 			{
 
 				WalkAfter();
-				CGrid::GRID_XY GridXY = (nextGridPos);
-				float player_z = player->mTransform.pos.z;
 				//画面外まで移動するようにYをマクロで定義して使用する
-				GridXY.x -= 1;
-				GridXY.y += 1;
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(GridXY, CStageMake::BlockType::FLOOR));
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
 						player->Fall();

@@ -10,6 +10,8 @@
 #define EAT_TIME (1.0f)	// 食べ物食べる時間
 #define BREAK_TIME (3.0f) //壁を壊してから移動できるまでの時間
 #define FALL_TIME (3.0f) //チョコが壊れてから落ち始めるまでの時間
+#define FALLMOVE_TIME (1.0f) //落ちる移動時間
+#define FALL_POS_Y (-4.5f) //落ちる最終座標
 #define THIN_CALOMAX (5)	// ガリ状態時での最大カロリー数 
 #define NORMAL_CALOMAX (10)	// 普通状態時での最大カロリー数 
 

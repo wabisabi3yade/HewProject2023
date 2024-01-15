@@ -64,7 +64,7 @@ void MuscleMove::Move(DIRECTION _dir)
 	}
 
 	// 進んだ先のブロックによって対応するアクションを設定する
-	switch (CheckNextObjectType())
+	switch (CheckNextMassType())
 	{
 	case CStageMake::BlockType::CAKE:
 		// 移動する
@@ -116,6 +116,31 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+
+
+		break;
+
+	case CStageMake::BlockType::CHOCOCRACK:
+
+		WalkStart();
+
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+
+				WalkAfter();
+				//画面外まで移動するようにYをマクロで定義して使用する
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+					{
+						player->Fall();
+					});
+				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+			});
 
 
 		break;
