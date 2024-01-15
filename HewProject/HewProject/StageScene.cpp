@@ -17,7 +17,7 @@
 #include"CGumi.h"
 #include"CProtein.h"
 #include"CGall.h"
-#include "Player.h"
+//#include "Player.h"
 #include "GridTable.h"
 #include "TextureFactory.h"
 
@@ -129,17 +129,22 @@ void StageScene::Update()
 			{
 				for (int j = 0; j < stageSquare.x; j++)
 				{
-					floorUndo[nkari].floorTable[k][i][j] = nowFloor->floorTable[i][j];
-					floorUndo[nkari].objectTable[k][i][j] = nowFloor->objectTable[i][j];
+					floorUndo[nNextUndo].floorTable[k][i][j] = nowFloor->floorTable[i][j];
+					floorUndo[nNextUndo].objectTable[k][i][j] = nowFloor->objectTable[i][j];
 				}
 			}
 		}
 
-		nkari++;
-		nNumUndo = nkari;
-		if (nkari > 20)
+		floorUndo[nNextUndo].playerUndo = player->GetGridPos();
+		floorUndo[nNextUndo].stateUndo = player->GetState();
+		floorUndo[nNextUndo].dirUndo = player->GetDirection();
+		floorUndo[nNextUndo].calorieUndo = player->GetCalorie();
+
+		nNextUndo++;
+		nNumUndo = nNextUndo;
+		if (nNextUndo > 20)
 		{
-			nkari = 0;
+			nNextUndo = 0;
 		}
 	}
 
@@ -614,13 +619,17 @@ void StageScene::Undo(float _stageScale)
 				if (floorUndo[nNumUndo].objectTable[floorUndo[nNumUndo].old_Floor][i][j] == static_cast<int> (CStageMake::BlockType::START))
 				{
 					player->SetGridPos(j, i);
-					player->SetDirection(0);
+					//player->SetDirection(0);
+					player->SetDirection(floorUndo[nNumUndo].dirUndo);
 				}
 
 				oldFloor->objectTable[i][j] = floorUndo[nNumUndo].objectTable[k][i][j];
 			}
 		}
 	}
+
+	player->ChangeState(floorUndo[nNumUndo].stateUndo);
+	player->SetCalorie(floorUndo[nNumUndo].calorieUndo);
 
 	player->Init(oneFloor);
 	Z_Sort(vStageObj);
@@ -836,6 +845,11 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
+
+	floorUndo[0].playerUndo = player->GetGridPos();
+	floorUndo[0].stateUndo = player->GetState();
+	floorUndo[0].dirUndo = player->GetDirection();
+	floorUndo[0].calorieUndo = player->GetCalorie();
 
 	Z_Sort(vStageObj);
 }

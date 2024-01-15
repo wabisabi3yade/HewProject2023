@@ -7,12 +7,13 @@
 #include<vector>
 #include<list>
 #include"CGridObject.h"
+#include "Player.h"
 
 #define MAX_GRIDNUM (12)    // グリッドの最大マス数
 #define MAX_LAYER (3)         // 階層の最大数
 
 class GridTable;
-class Player;
+//class Player;
 
 class StageScene :
 	public CObject
@@ -28,6 +29,18 @@ public:
 		short int floorTable[MAX_LAYER][MAX_GRIDNUM][MAX_GRIDNUM] = {};
 
 		short int old_Floor;
+
+		//プレイヤーの座標
+		CGrid::GRID_XY playerUndo;
+
+		//プレイヤーの状態
+		Player::STATE stateUndo;
+
+		//プレイヤーの方向
+		int dirUndo;
+
+		//プレイヤーのカロリー
+		int calorieUndo;
 
 	};
 
@@ -50,7 +63,7 @@ private:
 
 	FIELD_FLOOR floorUndo[20];
 	int nNumUndo = 0;
-	int nkari = 1;
+	int nNextUndo = 1;
 
 	std::vector<CGridObject*> oneFStgObj;	// 1階のオブジェクト格納
 	std::vector<CGridObject*>secondFStgObj;	// 2階
