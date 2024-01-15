@@ -19,6 +19,7 @@
 #include"CGall.h"
 #include "Player.h"
 #include "GridTable.h"
+#include "TextureFactory.h"
 
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
@@ -27,6 +28,34 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 {
 	nNumProtein = 0;
 
+	// テクスチャを管理するクラスのインスタンスを取得
+	TextureFactory* texFactory = TextureFactory::GetInstance();
+
+	// 各オブジェクトのテクスチャを取得する
+	stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
+	stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
+	/*stageTextureFloor = texFactory->Fetch(L"asset/Stage/2floor_y.png");
+	stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/2floor_g.png"); */
+
+
+	stageTextureWall = texFactory->Fetch(L"asset/Stage/Wall.png");
+	stageTextureHoll = texFactory->Fetch(L"asset/Stage/test_Hool.png");
+	stageTextureWataame = texFactory->Fetch(L"asset/Stage/Wataame.png");
+
+	/*stageTextureCastella = texFactory->Fetch(L"asset/Stage/Castella.png");*/
+	stageTextureCastella = texFactory->Fetch(L"asset/Stage/2castella.png");
+
+	stageTextureBaumkuchen = texFactory->Fetch(L"asset/Stage/Baumkuchen_R.png");
+	stageTextureChocolate = texFactory->Fetch(L"asset/Stage/Chocolate.png");
+	stageTextureCake = texFactory->Fetch(L"asset/Item/Cake.png");
+	stageTextureChili = texFactory->Fetch(L"asset/Item/Chili.png");
+	stageTextureCoin = texFactory->Fetch(L"asset/Item/Coin.png");
+	stageTextureGallChest = texFactory->Fetch(L"asset/Stage/GallChest.png");
+	stageTextureGumi = texFactory->Fetch(L"asset/Stage/Gumi.png");
+	stageTextureProtein = texFactory->Fetch(L"asset/Item/Protein.png");
+	/*playerTexture = texFactory->Fetch(L"asset/Stage/floor_y.png");*/
+	shadowTexture = texFactory->Fetch(L"asset/Item/shadow.png");
+
 }
 
 StageScene::~StageScene()
@@ -34,7 +63,7 @@ StageScene::~StageScene()
 	SAFE_RELEASE(stageBuffer);
 	SAFE_RELEASE(playerBuffer);
 
-	SAFE_RELEASE(stageTextureFloor);
+	/*SAFE_RELEASE(stageTextureFloor);
 	SAFE_RELEASE(stageTextureFloor2);
 	SAFE_RELEASE(stageTextureBaumkuchen);
 	SAFE_RELEASE(stageTextureCake);
@@ -49,7 +78,7 @@ StageScene::~StageScene()
 	SAFE_RELEASE(stageTextureWall);
 	SAFE_RELEASE(stageTextureWataame);
 	SAFE_RELEASE(playerTexture);
-	SAFE_RELEASE(shadowTexture);
+	SAFE_RELEASE(shadowTexture);*/
 
 	CLASS_DELETE(stageMake);
 	CLASS_DELETE(stage);
@@ -616,22 +645,6 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 
-	D3D_LoadTexture(L"asset/Stage/floor_y.png", &stageTextureFloor);
-	D3D_LoadTexture(L"asset/Stage/floor_g.png", &stageTextureFloor2);
-	D3D_LoadTexture(L"asset/Stage/Baumkuchen_R.png", &stageTextureBaumkuchen);
-	D3D_LoadTexture(L"asset/Item/Cake.png", &stageTextureCake);
-	D3D_LoadTexture(L"asset/Stage/Castella.png", &stageTextureCastella);
-	D3D_LoadTexture(L"asset/Item/Chili.png", &stageTextureChili);
-	D3D_LoadTexture(L"asset/Stage/Chocolate.png", &stageTextureChocolate);
-	D3D_LoadTexture(L"asset/Item/Coin.png", &stageTextureCoin);
-	D3D_LoadTexture(L"asset/Stage/GallChest.png", &stageTextureGallChest);
-	D3D_LoadTexture(L"asset/Stage/Gumi.png", &stageTextureGumi);
-	D3D_LoadTexture(L"asset/Item/Protein.png", &stageTextureProtein);
-	D3D_LoadTexture(L"asset/Stage/Wall.png", &stageTextureWall);
-	D3D_LoadTexture(L"asset/Stage/Wataame.png", &stageTextureWataame);
-	D3D_LoadTexture(L"asset/Player/N_Walk01_Back.png", &playerTexture);
-	D3D_LoadTexture(L"asset/Item/shadow.png", &shadowTexture);
-	//D3D_LoadTexture(L"asset/Item/shadow.png", &stageTextureHoll);
 	stageTextureHoll = NULL;
 
 	nNumProtein = 0;

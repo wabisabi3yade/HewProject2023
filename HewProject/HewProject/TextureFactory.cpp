@@ -53,6 +53,8 @@ void TextureFactory::Load()
 
 		L"asset/Stage/floor_y.png",
 		L"asset/Stage/floor_g.png",
+		L"asset/Stage/2floor_y.png",
+		L"asset/Stage/2floor_g.png",
 		L"asset/Stage/Wall.png",
 		L"asset/Stage/test_Hool.png",
 		L"asset/Stage/Wataame.png",
@@ -60,6 +62,7 @@ void TextureFactory::Load()
 		L"asset/Stage/Baumkuchen_R.png",
 		L"asset/Stage/Baumkuchen_L.png",
 		L"asset/Stage/Castella.png",
+		L"asset/Stage/2castella.png",
 		L"asset/Stage/GallChest.png",
 		L"asset/Stage/Gumi.png",
 
