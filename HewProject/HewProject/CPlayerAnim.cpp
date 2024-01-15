@@ -52,7 +52,7 @@ void CPlayerAnim::Update()
 	int animID = animTable[animPattern][(int)animCounter];
 
 	// •\Ž¦‚³‚¹‚éUV‚ðŒvŽZ
-	nowUV.x = (animID % 3) * 0.33f;
+	nowUV.x = (animID % 3) * (1.0f / 3);
 
 	nowUV.y = (animID / 3) * 0.25f;
 
