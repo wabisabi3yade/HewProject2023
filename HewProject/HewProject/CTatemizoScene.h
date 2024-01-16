@@ -1,7 +1,11 @@
 #pragma once
+
 #include "CSceneManager.h"
 #include "CScene.h"
-#include "COperation.h"
+#include "direct3d.h"
+#include "Vector3.h"
+
+class GameController;
 
 class CTatemizoScene :
 	public CScene
@@ -18,6 +22,8 @@ public:
 	CObject* charObj;
 
 public:
+	/*// キー操作可能なキャラクターか？
+	bool isPlayer = false;
 
 	//仮想世界の中の位置座標
 	Vector3 pos = { 0, 0, 0 };
@@ -26,7 +32,7 @@ public:
 	Vector3 scale = { 1.0f, 1.0f, 1.0f };
 
 	//回転角度
-	float angle = 0.0f;
+	float angle = 0.0f;*/
 
 	CTatemizoScene();
 
@@ -38,7 +44,9 @@ public:
 
 	void Draw() override;
 
-	void SetMoveSpeed(float sp)
+	GameController* x;
+
+	/*void SetMoveSpeed(float sp)
 	{
 		moveSpeed = sp;
 	}
@@ -48,5 +56,7 @@ public:
 		dir = v;
 	}
 
+private:
+	XINPUT_STATE m_controllerState;*/
 };
 

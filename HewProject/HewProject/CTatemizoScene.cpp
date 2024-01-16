@@ -1,4 +1,9 @@
+#include <DirectXMath.h>
+#include "direct3d.h"
 #include "CTatemizoScene.h"
+#include "CInput.h"
+#include "COperation.h"
+
 
 CTatemizoScene::CTatemizoScene()
 {
@@ -7,6 +12,9 @@ CTatemizoScene::CTatemizoScene()
 
 	charObj = new CObject(charBuffer, charTexture);
 	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
+
+	x = new GameController();
+
 }
 
 CTatemizoScene::~CTatemizoScene()
@@ -16,16 +24,18 @@ CTatemizoScene::~CTatemizoScene()
 	SAFE_RELEASE(charBuffer);
 
 	SAFE_RELEASE(charTexture);
+
+	CLASS_DELETE(x)
 }
 
 void CTatemizoScene::Update()
 {
 
-    // ベクトルを使って移動
-    //charObj->SetMoveSpeed(moveSpeed);
-    //pos.x = pos.x + dir.x * moveSpeed;
-    //pos.y = pos.y + dir.y * moveSpeed;
-    //pos.z = pos.z + dir.z * moveSpeed;
+	Vector3 G (x->GamePad());
+	
+	charObj->mTransform.pos.x += G.x*0.1;
+	charObj->mTransform.pos.y += G.y*0.1;
+
 }
 
 void CTatemizoScene::LateUpdate()

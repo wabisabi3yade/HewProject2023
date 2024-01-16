@@ -1,27 +1,21 @@
 #pragma once
 
-#include "CSceneManager.h"
-#include "CScene.h"
-#include "Ccontroller.h"
-#include "direct3d.h"
-#include "Vector2.h"
+#include <Windows.h>
+#include <Xinput.h>
 #include "Vector3.h"
 
-class COperation:
-	public CScene
+class GameController
 {
+public:
+
 	//現在の向きを表すベクトル変数
 	Vector3 dir = { 0, 0, 0 };
 
 	//移動速度
 	float moveSpeed = 1.0f;
 
-public:
-	D3DBUFFER charBuffer;
-	D3DTEXTURE charTexture;
-	CObject* charObj;
-
-public:
+	// キー操作可能なキャラクターか？
+	bool isPlayer = true;
 
 	//仮想世界の中の位置座標
 	Vector3 pos = { 0, 0, 0 };
@@ -32,9 +26,13 @@ public:
 	//回転角度
 	float angle = 0.0f;
 
-	void Update();
 
-	void Draw();
+	GameController();
+
+	~GameController();
+
+
+	Vector3 GamePad();
 
 	void SetMoveSpeed(float sp)
 	{
@@ -45,5 +43,17 @@ public:
 	{
 		dir = v;
 	}
-};
 
+
+private:
+	XINPUT_STATE m_controllerState;
+
+	// XInputの初期化
+	XINPUT_STATE controllerState;
+
+	// スティックの値を格納する変数
+	float m_leftStickX;
+	float m_leftStickY;
+	float m_rightStickX;
+	float m_rightStickY;
+};
