@@ -79,6 +79,141 @@
     <Filter Include="ソース ファイル\Select">
       <UniqueIdentifier>{3cd70f10-4797-4da5-b83e-b65c53251909}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller">
+      <UniqueIdentifier>{b83d45f4-6e7d-4b44-8af5-056557ac0b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\sound">
+      <UniqueIdentifier>{fd0487aa-a738-4207-b273-08432f995e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Vector3">
+      <UniqueIdentifier>{0736ae91-e869-426c-8557-0acfe459410f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Transform">
+      <UniqueIdentifier>{f20113f2-617b-4b2c-9808-cd5fbf1878cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\DoTween">
+      <UniqueIdentifier>{744ed02a-ef7f-4c58-9ee9-7544e4c85d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Collsion">
+      <UniqueIdentifier>{9890a305-27f9-4c7e-9563-cb962f5e54f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\player">
+      <UniqueIdentifier>{079b777e-663a-4b8b-9ec7-cf3998730635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\EffectManeger">
+      <UniqueIdentifier>{49565f4d-3158-4abf-97c3-6faaf4e5e010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\Effect">
+      <UniqueIdentifier>{b9dab24c-c8bc-40fa-a677-32dbccd7ea6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\EffectAnimation">
+      <UniqueIdentifier>{c0b10ad2-5ee0-4af8-a158-e1dc77d9134c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Fade">
+      <UniqueIdentifier>{0f10ffad-f1c6-4ce4-94de-cf47a655ca8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage">
+      <UniqueIdentifier>{a2c8b72d-5eab-405c-a191-90cb0e85d936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Load">
+      <UniqueIdentifier>{dfacca5d-0996-4be0-93ea-2193870a9341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Make">
+      <UniqueIdentifier>{62a9e623-fec9-4ec1-8485-7dd1197a2548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Time">
+      <UniqueIdentifier>{fad93da0-9973-4f64-8b31-799f2f0c72eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\StageScene">
+      <UniqueIdentifier>{8b0aea10-a1cd-42cd-b0b9-5a4a81875ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player">
+      <UniqueIdentifier>{1e83258f-39ac-46d1-bbfc-811e1a76fa3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Grid">
+      <UniqueIdentifier>{823d067e-9176-4aa6-8848-59a6237cee0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\Vector2">
+      <UniqueIdentifier>{00374157-292e-48cb-9a1f-6469169f1c70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
+      <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
+      <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\GridObject">
+      <UniqueIdentifier>{165b52df-7038-4c82-8b6a-a9a41e37a9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Cake">
+      <UniqueIdentifier>{c8d66336-856d-4fdb-9e7c-926deb34fedd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Castella">
+      <UniqueIdentifier>{104f7904-4460-4c74-8096-6fca0f23bbd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Wall">
+      <UniqueIdentifier>{0dcdcce6-b865-4f48-9545-8771c3c83fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Holl">
+      <UniqueIdentifier>{55c99746-5751-4002-b6d6-0d66c0de300a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Choco">
+      <UniqueIdentifier>{2ec347e4-c714-4ad4-b7c8-958bdbe81d14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Floor">
+      <UniqueIdentifier>{606ce8a9-d8a3-4172-9efe-e341dae141b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Baum">
+      <UniqueIdentifier>{7dff0813-b4f5-4009-899a-f35db116efa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Coin">
+      <UniqueIdentifier>{5b5a69ca-9b49-4257-8c24-217ebfd5dc31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Wataame">
+      <UniqueIdentifier>{3758202d-3a90-4b2b-882b-9f27d1bece1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Gumi">
+      <UniqueIdentifier>{3b87996c-ff56-4531-9015-0be6e37f8351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Protein">
+      <UniqueIdentifier>{8f87f2c1-20e8-4839-98f9-f656efbeff6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Gall">
+      <UniqueIdentifier>{50dfa6dd-a888-4605-ba40-27283ffcde7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Chili">
+      <UniqueIdentifier>{9998fbb4-f21a-47ab-8896-65a7f5339c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\FatMove">
+      <UniqueIdentifier>{10b15db6-1d87-4575-8325-29e582744d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove">
+      <UniqueIdentifier>{d4230061-8c6e-4b6a-84bb-82606f56d829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove">
+      <UniqueIdentifier>{fc79e383-e0cc-46d5-ac96-b7a25d310ecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
+      <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\GridTable">
+      <UniqueIdentifier>{245040de-01e8-47db-8699-598b52fdd55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\debugText">
+      <UniqueIdentifier>{6da28bc9-f924-4fc0-a66f-b54cbb703efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\stageScene">
+      <UniqueIdentifier>{95226933-b755-45a9-ac95-5cad9942290a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Item">
+      <UniqueIdentifier>{6c038bbd-8cce-4bcd-8c10-3802ddcbe007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Shadow">
+      <UniqueIdentifier>{c84275ad-6251-42bd-b223-f19eece73e34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\TextureFactory">
+      <UniqueIdentifier>{eb4ece78-3595-434e-9767-f49bc97263e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -123,6 +258,147 @@
     <ClInclude Include="CSelect.h">
       <Filter>ソース ファイル\Select</Filter>
     </ClInclude>
+    <ClInclude Include="xa2.h">
+      <Filter>ソース ファイル\Kawada\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Ccontroller.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>ソース ファイル\Mizuno\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="DoTween.h">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\Mizuno\Collsion</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\player</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectManeger.h">
+      <Filter>ソース ファイル\Kawada\EffectManeger</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>ソース ファイル\Kawada\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectAnim.h">
+      <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="CFade.h">
+      <Filter>ソース ファイル\Mizuno\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoadStage.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="CStageMake.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
+    </ClInclude>
+    <ClInclude Include="CDirectWrite.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>ソース ファイル\Mizuno\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="StageScene.h">
+      <Filter>ソース ファイル\Mizuno\Stage\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソース ファイル\Hashimoto\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrid.h">
+      <Filter>ソース ファイル\Hashimoto\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
+    </ClInclude>
+    <ClInclude Include="COperation.h">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
+    </ClInclude>
+    <ClInclude Include="CGridObject.h">
+      <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Ckcal_gauge.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CCake.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Cake</Filter>
+    </ClInclude>
+    <ClInclude Include="CCastella.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Castella</Filter>
+    </ClInclude>
+    <ClInclude Include="CWall.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="CHoll.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Holl</Filter>
+    </ClInclude>
+    <ClInclude Include="CChoco.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Choco</Filter>
+    </ClInclude>
+    <ClInclude Include="CFloor.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="CBaum.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+    </ClInclude>
+    <ClInclude Include="CCoin.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="CWataame.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Wataame</Filter>
+    </ClInclude>
+    <ClInclude Include="CGumi.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Gumi</Filter>
+    </ClInclude>
+    <ClInclude Include="CProtein.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Protein</Filter>
+    </ClInclude>
+    <ClInclude Include="CGall.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerAnim.h">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CChili.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Chili</Filter>
+    </ClInclude>
+    <ClInclude Include="FatMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\FatMove</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove</Filter>
+    </ClInclude>
+    <ClInclude Include="ThinMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove</Filter>
+    </ClInclude>
+    <ClInclude Include="MuscleMove.h">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove</Filter>
+    </ClInclude>
+    <ClInclude Include="GridTable.h">
+      <Filter>ソース ファイル\Hashimoto\GridTable</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugTable.h">
+      <Filter>ソース ファイル\Hashimoto\debugText</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CShadow.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureFactory.h">
+      <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -136,9 +412,6 @@
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>ソース ファイル\Base\GameBase\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="CObject.cpp">
-      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
     </ClCompile>
     <ClCompile Include="CScene.cpp">
       <Filter>ソース ファイル\Base\GameBase\Scene</Filter>
@@ -169,6 +442,147 @@
     </ClCompile>
     <ClCompile Include="CSelect.cpp">
       <Filter>ソース ファイル\Select</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="xa2.cpp">
+      <Filter>ソース ファイル\Kawada\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Ccontroller.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>ソース ファイル\Mizuno\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="DoTween.cpp">
+      <Filter>ソース ファイル\Mizuno\DoTween</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\Mizuno\Collsion</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\player</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectManeger.cpp">
+      <Filter>ソース ファイル\Kawada\EffectManeger</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>ソース ファイル\Kawada\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectAnim.cpp">
+      <Filter>ソース ファイル\Kawada\EffectAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="CFade.cpp">
+      <Filter>ソース ファイル\Mizuno\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoadStage.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageMake.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
+    </ClCompile>
+    <ClCompile Include="CDirectWrite.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル\Mizuno\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="StageScene.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrid.cpp">
+      <Filter>ソース ファイル\Hashimoto\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
+    </ClCompile>
+    <ClCompile Include="COperation.cpp">
+      <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove</Filter>
+    </ClCompile>
+    <ClCompile Include="CGridObject.cpp">
+      <Filter>ソース ファイル\Base\GameBase\GridObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Ckcal_gauge.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CCake.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Cake</Filter>
+    </ClCompile>
+    <ClCompile Include="CCastella.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Castella</Filter>
+    </ClCompile>
+    <ClCompile Include="CWall.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="CHoll.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Holl</Filter>
+    </ClCompile>
+    <ClCompile Include="CChoco.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Choco</Filter>
+    </ClCompile>
+    <ClCompile Include="CFloor.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="CBaum.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+    </ClCompile>
+    <ClCompile Include="CCoin.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="CWataame.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Wataame</Filter>
+    </ClCompile>
+    <ClCompile Include="CGumi.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Gumi</Filter>
+    </ClCompile>
+    <ClCompile Include="CProtein.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Protein</Filter>
+    </ClCompile>
+    <ClCompile Include="CGall.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerAnim.cpp">
+      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CChili.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Chili</Filter>
+    </ClCompile>
+    <ClCompile Include="FatMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\FatMove</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove</Filter>
+    </ClCompile>
+    <ClCompile Include="ThinMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove</Filter>
+    </ClCompile>
+    <ClCompile Include="MuscleMove.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove</Filter>
+    </ClCompile>
+    <ClCompile Include="GridTable.cpp">
+      <Filter>ソース ファイル\Hashimoto\GridTable</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugTable.cpp">
+      <Filter>ソース ファイル\Hashimoto\debugText</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CShadow.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureFactory.cpp">
+      <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

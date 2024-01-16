@@ -9,8 +9,6 @@ class CSceneManager; //マネージャのプロトタイプ宣言
 // シーンの基礎クラス
 class CScene
 {
-	// シーンを変えるフラグ
-	bool isSceneChange = false;
 
 	// シーンマネージャー
 	CSceneManager* pSceneManager = nullptr;
@@ -18,10 +16,12 @@ class CScene
 protected:
 	int nextScene;
 
+	// シーンを変えるフラグ
+	bool isSceneChange = false;
 public:
 	CScene();
 
-	~CScene();
+	virtual ~CScene();
 
 	// 更新処理
 	virtual void Update() = 0;

@@ -1,4 +1,6 @@
 #include "CCamera.h"
+#include "CScene.h"
+float CCamera::scaleScreen = 1.0f;	// ‰æ‘œ‚Ì‘å‚«‚³i’l‚ª¬‚³‚­‚È‚é‚Ù‚Ç‰æ‘œ‚Í‘å‚«‚­‚È‚éj
 
 using namespace DirectX;
 
@@ -23,6 +25,30 @@ void CCamera::Update()
 {
 }
 
+void CCamera::Zoom()
+{
+	if (gInput->GetKeyTrigger(VK_SPACE))
+	{
+		scaleScreen -= 0.1f;
+		if (scaleScreen < 0.1f)
+		{
+			scaleScreen = 0.1f;
+		}
+	}
+}
+
+void CCamera::Reduction()
+{
+	if (gInput->GetKeyTrigger(VK_BACK))
+	{
+		scaleScreen += 0.1f;
+		if (scaleScreen > 2.0f)
+		{
+			scaleScreen = 2.0f;
+		}
+	}
+}
+
 void CCamera::Delete()
 {
 	CLASS_DELETE(instance);
@@ -30,8 +56,8 @@ void CCamera::Delete()
 
 void CCamera::Init()
 {
-	pos = { 0, 0, 0 };
-	rotZ = 0;
+	mTransform.pos = { 0, 0, 0 };
+	mTransform.rotation.z = 0.0f;
 }
 
 

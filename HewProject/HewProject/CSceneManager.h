@@ -1,5 +1,9 @@
 #pragma once
 #include "CScene.h"
+#include "CEffectManeger.h"
+#include "TextureFactory.h"
+
+//static EffectManeger* EffectMane;
 
 // シーンを管理するクラス
 class CSceneManager
@@ -25,6 +29,8 @@ private:
 	CScene* pNowScene = nullptr;
 	SCENE_NAME nowSceneName;
 		
+	EffectManeger* effectManeger;
+	TextureFactory* textureFactory;
 	CSceneManager();
 
 	~CSceneManager();

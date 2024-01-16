@@ -1,3 +1,7 @@
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <d3d11.h> // DirectX11というライブラリのヘッダー
 #include <atltypes.h>// CRectを使うのに必要なヘッダー
 #include "WICTextureLoader.h" // テクスチャ読み込みライブラリ
@@ -6,6 +10,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "direct3d.h"
+#include "CDirectWrite.h"
 
 // リンク設定
 #pragma comment (lib, "d3d11.lib")
@@ -53,14 +58,17 @@ ID3D11BlendState* m_pBlendStateAlpha;
 // ブレンドステート変数　（加算合成）
 ID3D11BlendState* m_pBlendStateAdditive;
 
+DirectWrite* Write;
+// DirectWrite使用するかどうか変数
+bool isDirectWriteUse = true;
+
 // IASetVertexBuffersで使用する変数
 const UINT strides = sizeof(Vertex);
 const UINT offsets = 0;
 
 // 関数のプロトタイプ宣言
 HRESULT D3D_Create(HWND hwnd);
-void    D3D_Release();
-
+void D3D_Release();
 
 // Direct3Dの初期化を行う関数
 HRESULT D3D_Create(HWND hwnd)
@@ -94,7 +102,7 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = D3D11CreateDeviceAndSwapChain(NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
-		flags,
+		D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 		pLevels,
 		1,
 		D3D11_SDK_VERSION,
@@ -233,6 +241,23 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = m_pDevice->CreateBuffer(&cbDesc, NULL, &m_pConstantBuffer);
 	if (FAILED(hr)) return hr;
 
+
+	if (isDirectWriteUse)
+	{
+		std::shared_ptr<FontData> data = std::make_shared<FontData>();
+
+		data->fontSize = 60;
+		data->fontWeight = DWRITE_FONT_WEIGHT_BOLD;
+		data->Color = D2D1::ColorF(D2D1::ColorF::White);
+
+		Write = new DirectWrite(data);
+
+		// ↓これがあると時々エラーが出るようになる
+		/*CLASS_DELETE(data);*/
+
+		Write->Init(hwnd);
+	}
+
 	return hr;
 }
 
@@ -266,6 +291,7 @@ void D3D_Release()
 	SAFE_RELEASE(m_pDevice);
 
 	SAFE_RELEASE(m_pConstantBuffer);
+	CLASS_DELETE(Write);
 }
 
 /// <summary>
@@ -282,6 +308,47 @@ void D3D_CreateSquare(FLOAT_XY size, FLOAT_XY uvDivide, ID3D11Buffer** vb)
 	float bottom = -(size.y / 2);
 	// uvの値を求める
 	FLOAT_XY uvValue = { 1.0f / uvDivide.x, 1.0f / uvDivide.y };
+
+
+	Vertex vertexList[] =
+	{
+		// 時計回りに頂点が結ばれる面がポリゴンの表
+		{ left,  top, 0.5f, 0.0f, 0.0f },  // ０番目の頂点データ  { x, y, z, u, v }
+		{ right, bottom, 0.5f, uvValue.x, uvValue.y },  // １番目の頂点データ
+		{ left,  bottom, 0.5f, 0.0f, uvValue.y },  // ２番目の頂点データ
+
+		{ left,  top, 0.5f, 0.0f, 0.0f },  // ３番目の頂点
+		{ right, top, 0.5f, uvValue.x, 0.0f },  // ４番目の頂点
+		{ right, bottom, 0.5f, uvValue.x, uvValue.y },  // ５番目の頂点
+	};
+
+	//頂点バッファ作成
+	D3D11_BUFFER_DESC bufferDesc;
+	bufferDesc.ByteWidth = sizeof(vertexList);// 作成する頂点バッファのサイズ
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;// 頂点バッファを指定する値
+	bufferDesc.CPUAccessFlags = 0;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA subResourceData;
+	subResourceData.pSysMem = vertexList;// 作った頂点バッファに送るデータ
+	subResourceData.SysMemPitch = 0;
+	subResourceData.SysMemSlicePitch = 0;
+
+	//頂点バッファ作成して、それを第3引数(頂点バッファ）に保存
+	m_pDevice->CreateBuffer(&bufferDesc, &subResourceData, vb);
+}
+
+
+void D3D_CreateSquare(FLOAT_XY uv, ID3D11Buffer** vb)
+{
+	float left = -(1.0f / 2);
+	float right = (1.0f / 2);
+	float top = (1.0f / 2);
+	float bottom = -(1.0f / 2);
+	// uvの値を求める
+	FLOAT_XY uvValue = { 1.0f / uv.x, 1.0f / uv.y };
 
 
 	Vertex vertexList[] =
