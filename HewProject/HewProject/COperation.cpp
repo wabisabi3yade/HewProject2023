@@ -34,9 +34,8 @@ Vector3 GameController::GamePad()
 			float moveX = stickX * sensitivity;
 			float moveY = stickY * sensitivity;
 
-			// キャラを動かしたい…うごいてー
 			//右上
-  			if ((moveX > 1) && (moveY > 1))
+  			if ((moveX <= 2) && (moveX > 1) && (moveY >= 1))
 			{
 				d.y = 1;// 上方向ベクトル
 				moveSpeed = 0.01f;
@@ -45,7 +44,7 @@ Vector3 GameController::GamePad()
 				moveSpeed = 0.01f;
 			}
 			//右下
-			if ((moveX == 2) && (moveY > -2))
+			if ((moveX >= 1) && (moveY > -2) && (moveY < -1))
 			{
 				d.y = -1;// 上方向ベクトル
 				moveSpeed = 0.01f;
@@ -54,7 +53,7 @@ Vector3 GameController::GamePad()
 				moveSpeed = 0.01f;
 			}
 			//左下
-			if ((moveX > -2) && (moveY > -2.0))
+			if ((moveX < 0) && (moveY < 0))
 			{
 				d.y = -1;// 上方向ベクトル
 				moveSpeed = 0.01f;
@@ -63,7 +62,7 @@ Vector3 GameController::GamePad()
 				moveSpeed = 0.01f;
 			}
 			//左上
-			if ((moveX > -2) && (moveY > 1))
+			if ((moveX < 0) && (moveY > 1))
 			{
 				d.y = 1;// 上方向ベクトル
 				moveSpeed = 0.01f;

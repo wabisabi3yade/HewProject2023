@@ -33,8 +33,8 @@ void CTatemizoScene::Update()
 
 	Vector3 G (x->GamePad());
 	
-	charObj->mTransform.pos.x += G.x*0.01;
-	charObj->mTransform.pos.y += G.y*0.01;
+	charObj->mTransform.pos.x += G.x*0.1;
+	charObj->mTransform.pos.y += G.y*0.1;
 
 }
 
