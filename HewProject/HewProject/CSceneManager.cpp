@@ -8,6 +8,7 @@
 #include "CWakamuraScene.h"
 #include "Stage.h"
 #include "CCamera.h"
+#include "CWorldSelectScene.h"
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
@@ -94,7 +95,7 @@ void CSceneManager::SceneChange(int _scene)
 
 	case WAKAMURA:
 		nowSceneName = WAKAMURA;
-		pNowScene = new CWakamuraScene();
+		pNowScene = new CWorldSelectScene();
 		break;
 
 	case HASHIMOTO:

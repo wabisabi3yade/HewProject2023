@@ -181,6 +181,8 @@
     <ClInclude Include="CWakamuraScene.h" />
     <ClInclude Include="CWall.h" />
     <ClInclude Include="CWataame.h" />
+    <ClInclude Include="CWorldSelectPlayer.h" />
+    <ClInclude Include="CWorldSelectScene.h" />
     <ClInclude Include="DebugTable.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
@@ -244,6 +246,8 @@
     <ClCompile Include="CWakamuraScene.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="CWataame.cpp" />
+    <ClCompile Include="CWorldSelectPlayer.cpp" />
+    <ClCompile Include="CWorldSelectScene.cpp" />
     <ClCompile Include="DebugTable.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DoTween.cpp" />
