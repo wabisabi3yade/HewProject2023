@@ -82,7 +82,8 @@ private:
 	D3DTEXTURE stageTextureHoll;
 	D3DTEXTURE stageTextureWataame;
 	D3DTEXTURE stageTextureCastella;
-	D3DTEXTURE stageTextureBaumkuchen;
+	D3DTEXTURE stageTextureBaumkuchen_R;
+	D3DTEXTURE stageTextureBaumkuchen_L;
 	D3DTEXTURE stageTextureChocolate;
 	D3DTEXTURE stageTextureCake;
 	D3DTEXTURE stageTextureChili;
@@ -124,6 +125,8 @@ public:
 
 	// ステージをグリッドテーブルから作る関数
 	void CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList);
+
+	void ChangeFloor(int _nextFloor);
 
 	// 今の階層にある指定したグリッド座標のオブジェクトを取得する
 	CGridObject* GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType);

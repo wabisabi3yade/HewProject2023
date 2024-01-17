@@ -12,8 +12,8 @@ public:
 		HOLL,			// 穴				3
 		CAKE,			// ケーキ			4
 		CASTELLA,		// カステラ			5
-		BAUMHORIZONTAL,	// バウムクーヘン縦	6
-		BAUMVERTICAL,	// バウムクーヘン横	7
+		BAUMHORIZONTAL,	// バウムクーヘン横	6
+		BAUMVERTICAL,	// バウムクーヘン縦	7
 		COIN,			// コイン			8
 		WATAAME,		// 綿あめ			9
 		CHOCO,			// チョコ			10

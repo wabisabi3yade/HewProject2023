@@ -91,6 +91,16 @@ void ThinMove::Move(DIRECTION _dir)
 			});
 		break;
 
+	case CGridObject::BlockType::PROTEIN:
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
+				player->dotween->DelayedCall(EAT_TIME, [&]() { MoveAfter(); });
+			});
+		break;
 	case CGridObject::BlockType::CHOCOCRACK:
 
 		WalkStart();
@@ -142,7 +152,18 @@ void ThinMove::Move(DIRECTION _dir)
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 			});
-
+		switch (player->GetNowFloor())
+		{
+		case 1:
+			player->GameOver();
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
 		break;
 
 	case CGridObject::BlockType::GUMI:
@@ -186,7 +207,7 @@ void ThinMove::Move(DIRECTION _dir)
 					break;
 
 				case CGridObject::BlockType::PROTEIN:
-					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
+					player->dotween->DelayedCall(EAT_TIME, [&]() { MoveAfter(); });
 					break;
 
 				case CGridObject::BlockType::COIN:
@@ -206,7 +227,6 @@ void ThinMove::Move(DIRECTION _dir)
 
 					player->dotween->OnComplete([&]()
 						{
-
 							WalkAfter();
 							//画面外まで移動するようにYをマクロで定義して使用する
 							Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
@@ -218,10 +238,7 @@ void ThinMove::Move(DIRECTION _dir)
 							player->dotween->DoDelay(FALL_TIME);
 							player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 						});
-
-
 					break;
-
 				default:
 					MoveAfter();
 					break;

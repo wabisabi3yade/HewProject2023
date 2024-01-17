@@ -52,6 +52,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	mAnim = new CPlayerAnim();
 	mAnim->SetPattern(static_cast<int>(CPlayerAnim::PATTERN::STAY_DOWN));
 	mAnim->isStop = false;
+	IsgameOver = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -205,6 +206,11 @@ int Player::GetDirection() const
 PlayerMove* Player::GetPlayerMove() const
 {
 	return move.get();
+}
+
+void Player::GameOver()
+{
+	IsgameOver = true;
 }
 
 void Player::SetDirection(int _set)

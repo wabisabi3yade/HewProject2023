@@ -108,6 +108,17 @@ void NormalMove::Move(DIRECTION _dir)
 			});
 		break;
 
+	case CGridObject::BlockType::PROTEIN:
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
+				player->dotween->DelayedCall(EAT_TIME, [&]() { MoveAfter(); });
+			});
+		break;
+
 	case CGridObject::BlockType::CHOCOCRACK:
 
 		WalkStart();

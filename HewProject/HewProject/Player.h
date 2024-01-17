@@ -62,6 +62,8 @@ private:
 
 	int nowFloor;	// 今何層目にいるか
 
+	bool IsgameOver;
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 
 	// テクスチャ（状態別）
@@ -115,6 +117,9 @@ public:
 
 	CPlayerAnim* GetPlayerAnim() { return dynamic_cast<CPlayerAnim*> (mAnim); }
 
+	bool GetIsGameOver() { return  IsgameOver; }
+	int GetNowFloor() { return nowFloor; }
+	void GameOver();
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
