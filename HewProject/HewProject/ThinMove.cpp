@@ -61,7 +61,7 @@ void ThinMove::Move(DIRECTION _dir)
 	}
 
 	// 進んだ先のブロックによって対応するアクションを設定する
-	switch (CheckNextMassType())
+	switch (CheckNextObjectType())
 	{
 	case CStageMake::BlockType::CAKE:
 
@@ -124,7 +124,8 @@ void ThinMove::Move(DIRECTION _dir)
 
 		WalkStart();
 
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->DoMoveX(forwardPosXY.x, WALK_TIME);
+		//player->dotween->Join(forwardPosXY.y, WALK_TIME, DoTween::FUNC::MOVE_Y);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
@@ -139,7 +140,7 @@ void ThinMove::Move(DIRECTION _dir)
 						player->Fall();
 					});
 				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 			});
 
 		break;
@@ -181,6 +182,10 @@ void ThinMove::Move(DIRECTION _dir)
 
 				case CStageMake::BlockType::CHILI:
 					// 食べ終わったら移動できるようにする
+					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
+					break;
+
+				case CStageMake::BlockType::PROTEIN:
 					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
 					break;
 
