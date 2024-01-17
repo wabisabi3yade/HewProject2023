@@ -5,7 +5,6 @@
 class CChili :
     public CGridObject
 {
-    DoTween* dotween;
 public:
     CChili(D3DBUFFER vb, D3DTEXTURE tex);
     ~CChili();

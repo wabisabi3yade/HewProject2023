@@ -3,6 +3,8 @@
 CCoin::CCoin(D3DBUFFER vb, D3DTEXTURE tex)
 	:CItem(vb, tex)
 {
+	type = BlockType::COIN;
+	category = Category::ITEM;
 }
 
 CCoin::~CCoin()

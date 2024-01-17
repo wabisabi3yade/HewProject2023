@@ -1,5 +1,4 @@
 #include "CWataame.h"
-#include"CStageMake.h"
 CWataame::CWataame(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {

@@ -32,11 +32,12 @@ public:
 	// 方向
 	enum class DIRECTION
 	{
-		DOWN,
-		LEFT,
-		RIGHT,
-		UP,
-		NUM
+		DOWN,	// 下
+		LEFT,	// 左
+		RIGHT,	// 右
+		UP,	// 上
+		NUM,
+		EVERY,	// 全方位移動可能（キャラの画像の向きは下向き）
 	};
 
 	enum ANIM_TEX
@@ -79,7 +80,7 @@ public:
 	Player(D3DBUFFER vb, D3DTEXTURE tex);
 
 	/// <summary>
-	/// プレイヤーオブジェクトの初期化関数
+	/// ステージに入った時に使われる初期化関数
 	/// </summary>
 	/// <param name="_grid">スタート時のグリッド座標</param>
 	/// <param name="_pTable">グリッドテーブル</param>

@@ -15,6 +15,18 @@ CPlayerAnim::~CPlayerAnim()
 void CPlayerAnim::Update()
 {
 	int animTable[][32] = {
+
+		// 待機
+		// 下向き
+		{ 1, -1 },	//　-1がきたら最初に戻る
+		// 左向き
+		{ 4 -1 },
+		// 右向き
+		{ 7, -1 },
+		// 上向き
+		{ 10, -1},
+
+		// 歩き
 		// 下向き
 		{ 0, 0 ,1, 2, 2, 1, -1 },	//　-1がきたら最初に戻る
 		// 左向き
@@ -63,15 +75,40 @@ void CPlayerAnim::Update()
 void CPlayerAnim::PlayWalk(int num, float _animSpeedRate)
 {
 	isPlaying = true;
-	SetPattern(num);
 	animCounter = 0;
 	AnimSpeedRate = _animSpeedRate;
+
+	switch (num)
+	{
+		//　下
+		// 全方位行動可
+	case 0:
+		SetPattern(static_cast<int>(PATTERN::WALK_DOWN));
+		break;
+
+		// 左
+	case 1:
+		SetPattern(static_cast<int>(PATTERN::WALK_LEFT));
+		break;
+
+		// 右
+	case 2:
+		SetPattern(static_cast<int>(PATTERN::WALK_RIGHT));
+		break;
+
+		// 上
+	case 3:
+		SetPattern(static_cast<int>(PATTERN::WALK_UP));
+		break;
+	}
 }
 
 void CPlayerAnim::StopWalk()
 {
 	isPlaying = false;
-	animCounter = 2;
+	animCounter = 0.0f;
+	animPattern -= static_cast<int>(PATTERN::WALK_DOWN);
+	if (animPattern < 0) animPattern = 0;
 }
 
 void CPlayerAnim::PlayFall(int _num, float _animSpeedRate)

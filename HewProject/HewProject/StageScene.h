@@ -1,6 +1,6 @@
 #pragma once
 #include"CScene.h"
-#include"CStageMake.h"
+//#include"CStageMake.h"
 #include"CLoadStage.h"
 #include"Ccontroller.h"
 #include"CFade.h"
@@ -9,11 +9,9 @@
 #include"CGridObject.h"
 #include "Player.h"
 
-#define MAX_GRIDNUM (12)    // グリッドの最大マス数
 #define MAX_LAYER (3)         // 階層の最大数
 
 class GridTable;
-//class Player;
 
 class StageScene :
 	public CObject
@@ -27,8 +25,9 @@ public:
 
 		// ステージ床のテーブル
 		short int floorTable[MAX_LAYER][MAX_GRIDNUM][MAX_GRIDNUM] = {};
-
-		short int old_Floor;
+		
+		//　プレイヤーが1つ前にいた何階層にいたか 
+		short int old_Floor;	
 
 		//プレイヤーの座標
 		CGrid::GRID_XY playerUndo;
@@ -46,11 +45,11 @@ public:
 
 private:
 	CLoadStage* stage;
-	CStageMake* stageMake;
-	std::vector<STAGEPOS> stagePos;
+	/*CStageMake* stageMake;*/
+	/*std::vector<STAGEPOS> stagePos;*/
 	const wchar_t* CsvPath[PathLength] = { L"asset/mizuno/Stage.csv" };
 	Player* player;
-	CGridObject* stageObj;
+	short nowFloorNum;	// 現在にいる階層の数字
 
 	// ステージのグリッドテーブル
 	GridTable* oneFloor;	// 1階
@@ -60,7 +59,10 @@ private:
 
 	//ステージの縦幅と横幅
 	CGrid::GRID_XY stageSquare;
+	// ステージの大きさ
+	float stageScale = 0.0f;
 
+	// やり直し機能
 	FIELD_FLOOR floorUndo[20];
 	int nNumUndo = 0;
 	int nNextUndo = 1;
@@ -70,14 +72,13 @@ private:
 	std::vector<CGridObject*>thirdFStgObj;	// 3階
 	std::vector<CGridObject*> vStageObj;	// 現在の階層の配列のポインタ変数
 											//（ここに今の階層のvector配列のアドレスを入れる）
+	// バッファ	
+	D3DBUFFER stageBuffer;	// ステージのオブジェクト
+	D3DBUFFER playerBuffer;	// プレイヤー
 
-	D3DBUFFER stageBuffer;
-	D3DBUFFER playerBuffer;
-
+	// テクスチャ
 	D3DTEXTURE stageTextureFloor;
-
 	D3DTEXTURE stageTextureFloor2;
-
 	D3DTEXTURE stageTextureWall;
 	D3DTEXTURE stageTextureHoll;
 	D3DTEXTURE stageTextureWataame;
@@ -94,8 +95,7 @@ private:
 	D3DTEXTURE shadowTexture;
 
 public:
-
-	int nNumProtein;
+	int nNumProtein;	// 現在ステージにあるプロテインの数
 
 	StageScene(D3DBUFFER vb, D3DTEXTURE tex);
 	~StageScene();
@@ -112,14 +112,24 @@ public:
 	// アイテム（ケーキとか）と同じマスに移動するとアイテムを消したりする関数
 	void ItemDelete();
 
+	// ステージの状態を一つ前に戻す関数
 	void Undo(float _stageScale);
+
+	// ひとつ前に戻すときにプレイヤーの情報を設定する
+	void UndoPlayerSet(const int& _dir, const int& _calorie, const Player::STATE& _state);
+
 	void Draw();
 	void Z_Sort(std::vector<CGridObject*>& _sortList);
+	// ステージの初期化関数
 	void Init(const wchar_t* filePath, float _stageScale);
-	// 今の階層にある指定したグリッド座標のオブジェクトを取得する
-	CGridObject* GetStageObject(CGrid::GRID_XY _gridPos, int _blockType);
 
-	CGridObject* GetStageFloor(CGrid::GRID_XY _gridPos, int _blockType);
+	// ステージをグリッドテーブルから作る関数
+	void CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList);
+
+	// 今の階層にある指定したグリッド座標のオブジェクトを取得する
+	CGridObject* GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType);
+
+	CGridObject* GetStageFloor(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType);
 
 	// ステージ内のプレイヤーを取得
 	Player* GetPlayer() const { return player; };

@@ -3,6 +3,8 @@
 CGall::CGall(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
+	type = BlockType::GALL;
+	category = Category::OBJECT;
 }
 
 CGall::~CGall()
