@@ -6,7 +6,6 @@
 #include "CGrid.h"
 #include "CInput.h"
 #include "PlayerMove.h"
-#include "CPlayerAnim.h"
 #include "NormalMove.h"
 #include "FatMove.h"
 #include "ThinMove.h"

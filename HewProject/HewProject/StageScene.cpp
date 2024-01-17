@@ -184,7 +184,7 @@ void StageScene::StageMove()
 	}
 
 	// プレイヤーが動き終えると
-	if (player->GetPlayerMove()->GetIsMoveTrigger())
+	if (player->GetPlayerMove()->GetIsWalkEnd())
 	{
 		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
 			player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
@@ -372,7 +372,7 @@ void StageScene::Undo(float _stageScale)
 	switch (o_floorNum)
 	{
 	case 1:
-		
+
 		break;
 	case 2:
 		updateTable = secondFloor;
@@ -449,7 +449,7 @@ void StageScene::Undo(float _stageScale)
 	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
 }
 
-void StageScene::UndoPlayerSet(const int& _dir,	const int& _calorie, 
+void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 	const Player::STATE& _state)
 {
 	player->SetGridTable(nowFloor);
@@ -528,8 +528,19 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	// ここでグリッドテーブルを作成する　/////////////
 	// 階層ごとのテーブルに入れていく ///////////////
 	oneFloor = new GridTable({ StageData.numX, StageData.numY }, _stageScale);
-	secondFloor = nullptr;
-	thirdFloor = nullptr;
+	if (StageData.secondFloor.floorTable[0][0] != 0) //0が入っていれば作られてない　階層なし
+	{
+		secondFloor = new GridTable({ StageData.numX, StageData.numY }, _stageScale);
+		if (StageData.thirdFloor.floorTable[0][0] != 0)
+		{
+			thirdFloor = new GridTable({ StageData.numX,StageData.numY }, _stageScale);
+		}
+	}
+	else
+	{
+		secondFloor = nullptr;
+		thirdFloor = nullptr;
+	}
 
 	nowFloor = oneFloor;	// 最初の始まる階層を設定
 	nowFloorNum = 1;	// 1階から
@@ -540,14 +551,14 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 		for (int j = 0; j < StageData.numX; j++)
 		{
 			// オブジェクトのカテゴリを取得する
-			CGridObject::BlockType bType = static_cast<CGridObject::BlockType>(StageData.data[i * StageData.numX + j]);
+			CGridObject::BlockType bType = static_cast<CGridObject::BlockType>(StageData.oneFloor.floorTable[i][j]);
 			CGridObject::Category bCate = static_cast<CGridObject::Category>(CGridObject::TypeToCategory(bType));
 
 			// 床だったら
 			if (bCate == CGridObject::Category::FLOOR)
 			{
 				// 床テーブルに入れて
-				oneFloor->floorTable[i][j] = StageData.data[i * StageData.numX + j];
+				oneFloor->floorTable[i][j] = StageData.oneFloor.floorTable[i][j];
 				// オブジェクトテーブルには何も置かない(99を入れてる)
 				oneFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
 			}
@@ -555,9 +566,57 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 			else
 			{
 				//	オブジェクトテーブルに入れて
-				oneFloor->objectTable[i][j] = StageData.data[i * StageData.numX + j];
+				oneFloor->objectTable[i][j] = StageData.oneFloor.floorTable[i][j];
 				// 床テーブルには通常床を入れる
 				oneFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
+			}
+
+			//２階があればテーブル作成
+			if (secondFloor != nullptr)
+			{
+				CGridObject::BlockType bType = static_cast<CGridObject::BlockType>(StageData.secondFloor.floorTable[i][j]);
+				CGridObject::Category bCate = static_cast<CGridObject::Category>(CGridObject::TypeToCategory(bType));
+
+				// 床だったら
+				if (bCate == CGridObject::Category::FLOOR)
+				{
+					// 床テーブルに入れて
+					secondFloor->floorTable[i][j] = StageData.secondFloor.floorTable[i][j];
+					// オブジェクトテーブルには何も置かない(99を入れてる)
+					secondFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
+				}
+				// オブジェクト・アイテムなら
+				else
+				{
+					//	オブジェクトテーブルに入れて
+					secondFloor->objectTable[i][j] = StageData.secondFloor.floorTable[i][j];
+					// 床テーブルには通常床を入れる
+					secondFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
+				}
+
+				//３階があればテーブルを作成する
+				if (thirdFloor != nullptr)
+				{
+					CGridObject::BlockType bType = static_cast<CGridObject::BlockType>(StageData.thirdFloor.floorTable[i][j]);
+					CGridObject::Category bCate = static_cast<CGridObject::Category>(CGridObject::TypeToCategory(bType));
+
+					// 床だったら
+					if (bCate == CGridObject::Category::FLOOR)
+					{
+						// 床テーブルに入れて
+						thirdFloor->floorTable[i][j] = StageData.thirdFloor.floorTable[i][j];
+						// オブジェクトテーブルには何も置かない(99を入れてる)
+						thirdFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
+					}
+					// オブジェクト・アイテムなら
+					else
+					{
+						//	オブジェクトテーブルに入れて
+						thirdFloor->objectTable[i][j] = StageData.thirdFloor.floorTable[i][j];
+						// 床テーブルには通常床を入れる
+						thirdFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
+					}
+				}
 			}
 		}
 	}
@@ -567,10 +626,16 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	CreateStage(*oneFloor, oneFStgObj);
 
 	vStageObj = oneFStgObj;
-	
+
 	// 2階と3階が使われているなら
-	/*CreateStage(*secondFloor, secondFStgObj);
-	CreateStage(*thirdFloor, thirdFStgObj);*/
+	if (secondFloor != nullptr)
+	{
+		CreateStage(*secondFloor, secondFStgObj);
+		if (thirdFloor != nullptr)
+		{
+			CreateStage(*thirdFloor, thirdFStgObj);
+		}
+	}
 
 	for (int k = 0; k < MAX_LAYER; k++)
 	{
@@ -692,7 +757,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				// 座標を設定
 				CGridObject::BlockType b =
 					static_cast<CGridObject::BlockType>(_gridTable.objectTable[i][j]);
-				
+
 				// ステージ全体の大きさを設定
 				objWork->mTransform.scale = { stageScale, stageScale, 1 };
 				// オブジェクトにその種類をもたせる
@@ -708,7 +773,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 					dynamic_cast<CItem*>(objWork)->InitItem(shadowTexture);
 				}
 
-				
+
 				_settingList.push_back(objWork);
 			}
 			// オブジェクト /////////////////////////////////////
@@ -756,7 +821,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				// 座標を設定
 				CGridObject::BlockType b =
 					static_cast<CGridObject::BlockType>(_gridTable.floorTable[i][j]);
-				
+
 				// ステージ全体の大きさを設定
 				floorWork->mTransform.scale = { stageScale, stageScale, 1 };
 				// オブジェクトにその種類をもたせる

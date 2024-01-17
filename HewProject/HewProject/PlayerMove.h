@@ -97,6 +97,6 @@ public:
 	bool GetIsWalk_Now() const { return isWalking_now; }
 	bool GetIsWalk_Old() const { return isWalking_old; }
 	bool GetIsFalling()const { return isFalling; }
-
+	bool* GetCanMoveDir() { return &canMoveDir[0]; }
 };
 

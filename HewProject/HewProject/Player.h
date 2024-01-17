@@ -117,7 +117,7 @@ public:
 
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
-
+	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
 	STATE GetState() const { return playerState; }
 };
 
