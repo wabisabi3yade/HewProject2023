@@ -44,7 +44,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 	//	ここから移動する先の種類によってすることを変える //////////////////////////
 	// キャラクターを移動先の座標
-	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);
+	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
 
 	// 奥側に行くときの行動の順番
@@ -63,7 +63,7 @@ void ThinMove::Move(DIRECTION _dir)
 	// 進んだ先のブロックによって対応するアクションを設定する
 	switch (CheckNextObjectType())
 	{
-	case CStageMake::BlockType::CAKE:
+	case CGridObject::BlockType::CAKE:
 
 		WalkStart();
 
@@ -80,7 +80,7 @@ void ThinMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::CHILI:
+	case CGridObject::BlockType::CHILI:
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -91,7 +91,7 @@ void ThinMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::CHOCOCRACK:
+	case CGridObject::BlockType::CHOCOCRACK:
 
 		WalkStart();
 
@@ -107,7 +107,7 @@ void ThinMove::Move(DIRECTION _dir)
 				//画面外まで移動するようにYをマクロで定義して使用する
 				GridXY.x -= 1;
 				GridXY.y += 1;
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(GridXY, CStageMake::BlockType::FLOOR));
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(GridXY, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y) - (player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
@@ -119,7 +119,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 		break;
 
-	case CStageMake::BlockType::HOLL:
+	case CGridObject::BlockType::HOLL:
 		// ↓におちるときのジャンプ
 
 		WalkStart();
@@ -133,7 +133,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
@@ -145,15 +145,15 @@ void ThinMove::Move(DIRECTION _dir)
 
 		break;
 
-	case CStageMake::BlockType::GUMI:
+	case CGridObject::BlockType::GUMI:
 		// ↑にジャンプする
 
 		WalkStart();
 
 		break;
 
-	case CStageMake::BlockType::BAUMHORIZONTAL:
-	case CStageMake::BlockType::BAUMVERTICAL:
+	case CGridObject::BlockType::BAUMHORIZONTAL:
+	case CGridObject::BlockType::BAUMVERTICAL:
 		// バウムクーヘンの向こう側に移動する
 		// もう一個先に座標設定
 		nextGridPos.x += d.x;
@@ -161,7 +161,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 		WalkStart();
 
-		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);		
+		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);		
 		forwardPosXY = { forwardPos.x, forwardPos.y };
 
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
@@ -173,31 +173,31 @@ void ThinMove::Move(DIRECTION _dir)
 				WalkAfter();
 
 				// カステラ超えた先にブロックによって処理をする
-				switch (static_cast<CStageMake::BlockType>(player->GetGridTable()->CheckObjectType(nextGridPos)))
+				switch (static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckObjectType(nextGridPos)))
 				{
-				case CStageMake::BlockType::CAKE:
+				case CGridObject::BlockType::CAKE:
 					// 食べ終わったら移動できるようにする
 					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatCake(); MoveAfter(); });
 					break;
 
-				case CStageMake::BlockType::CHILI:
+				case CGridObject::BlockType::CHILI:
 					// 食べ終わったら移動できるようにする
 					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
 					break;
 
-				case CStageMake::BlockType::PROTEIN:
+				case CGridObject::BlockType::PROTEIN:
 					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
 					break;
 
-				case CStageMake::BlockType::COIN:
+				case CGridObject::BlockType::COIN:
 
 					break;
 
-				case CStageMake::BlockType::CHOCO:
+				case CGridObject::BlockType::CHOCO:
 
 					break;
 
-				case CStageMake::BlockType::CHOCOCRACK:
+				case CGridObject::BlockType::CHOCOCRACK:
 
 					WalkStart();
 
@@ -209,7 +209,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 							WalkAfter();
 							//画面外まで移動するようにYをマクロで定義して使用する
-							Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+							Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 							fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 							player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 								{
@@ -328,7 +328,7 @@ void ThinMove::CheckCanMove()
 		// バウムクーヘンの方向で行けるか確認する
 		// 移動先が横向きバウム　かつ　移動方向が縦なら
 		if (player->GetGridTable()->CheckObjectType(forwordPos) ==
-			static_cast<int>(CStageMake::BlockType::BAUMHORIZONTAL) &&
+			static_cast<int>(CGridObject::BlockType::BAUMHORIZONTAL) &&
 			d.y != 0)
 		{
 			canMoveDir[dirRoop] = false;
@@ -336,7 +336,7 @@ void ThinMove::CheckCanMove()
 		}
 		// 移動先が縦向きバウム　かつ　移動方向が横なら
 		else if (player->GetGridTable()->CheckObjectType(forwordPos) ==
-			static_cast<int>(CStageMake::BlockType::BAUMVERTICAL) &&
+			static_cast<int>(CGridObject::BlockType::BAUMVERTICAL) &&
 			d.x != 0)
 		{
 			canMoveDir[dirRoop] = false;

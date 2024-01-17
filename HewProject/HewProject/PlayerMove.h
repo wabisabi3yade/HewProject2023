@@ -3,7 +3,6 @@
 #include "Vector3.h"
 #include <vector>
 #include "GridTable.h"
-#include "CStageMake.h"
 
 #define WALK_TIME (1.0f)	// 歩くときの移動時間
 
@@ -74,15 +73,15 @@ public:
 	// プレイヤーの移動先の座標にあるマスの種類を取得する
 	// オブジェクト優先→なにもないなら床の種類が帰ってくる
 	// 間違えているかもしれないっす・・・
-	CStageMake::BlockType CheckNextMassType();
+	CGridObject::BlockType CheckNextMassType();
 
 	// 移動先のプレイヤーのグリッド座標にある物の種類を取得する
-	CStageMake::BlockType CheckNextObjectType();
+	CGridObject::BlockType CheckNextObjectType();
 
 	// 移動先のプレイヤーのグリッド座標にある床の種類を取得する
-	CStageMake::BlockType CheckNextFloorType();
+	CGridObject::BlockType CheckNextFloorType();
 
-	CStageMake::BlockType CheckNowFloorType();
+	CGridObject::BlockType CheckNowFloorType();
 
 	// どの方向に移動ができるか取得する関数
 	virtual void  CheckCanMove() = 0;

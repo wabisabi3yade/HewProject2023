@@ -47,7 +47,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	//	ここから移動する先の種類によってすることを変える //////////////////////////
 	// キャラクターを移動先の座標
-	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);
+	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
 
 	// 奥側に行くときの行動の順番
@@ -66,7 +66,7 @@ void MuscleMove::Move(DIRECTION _dir)
 	// 進んだ先のブロックによって対応するアクションを設定する
 	switch (CheckNextMassType())
 	{
-	case CStageMake::BlockType::CAKE:
+	case CGridObject::BlockType::CAKE:
 		// 移動する
 
 		WalkStart();
@@ -82,7 +82,7 @@ void MuscleMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::CHILI:
+	case CGridObject::BlockType::CHILI:
 		// 移動する
 
 		WalkStart();
@@ -96,7 +96,7 @@ void MuscleMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::WALL:
+	case CGridObject::BlockType::WALL:
 
 		WalkStart();
 
@@ -108,7 +108,7 @@ void MuscleMove::Move(DIRECTION _dir)
 		
 		break;
 
-	case CStageMake::BlockType::CHOCO:
+	case CGridObject::BlockType::CHOCO:
 
 		WalkStart();
 
@@ -120,7 +120,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 		break;
 
-	case CStageMake::BlockType::CHOCOCRACK:
+	case CGridObject::BlockType::CHOCOCRACK:
 
 		WalkStart();
 
@@ -132,7 +132,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
@@ -145,7 +145,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 		break;
 
-	case CStageMake::BlockType::HOLL:
+	case CGridObject::BlockType::HOLL:
 		// ↓におちるときのジャンプ
 
 		WalkStart();
@@ -158,7 +158,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
@@ -169,7 +169,7 @@ void MuscleMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::GUMI:
+	case CGridObject::BlockType::GUMI:
 		// ↑にジャンプする
 
 		WalkStart();
