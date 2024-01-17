@@ -46,7 +46,8 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	/*stageTextureCastella = texFactory->Fetch(L"asset/Stage/Castella.png");*/
 	stageTextureCastella = texFactory->Fetch(L"asset/Stage/2castella.png");
 
-	stageTextureBaumkuchen = texFactory->Fetch(L"asset/Stage/Baumkuchen_R.png");
+	stageTextureBaumkuchen_R = texFactory->Fetch(L"asset/Stage/Baumkuchen_R.png");
+	stageTextureBaumkuchen_L = texFactory->Fetch(L"asset/Stage/Baumkuchen_L.png");
 	stageTextureChocolate = texFactory->Fetch(L"asset/Stage/Chocolate.png");
 	stageTextureCake = texFactory->Fetch(L"asset/Item/Cake.png");
 	stageTextureChili = texFactory->Fetch(L"asset/Item/Chili.png");
@@ -104,8 +105,13 @@ void StageScene::Update()
 		Undo(stageScale);
 	}
 
+	if (gInput->GetKeyTrigger(VK_ESCAPE))
+	{
+		ChangeFloor(2);
+	}
+
 	// 動いているときと動き終わった瞬間だけ
-	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsWalkEnd())
+	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
 	{
 		// グリッドテーブルを更新する
 		TableUpdate();
@@ -207,6 +213,15 @@ void StageScene::StageMove()
 		// アイテムがあるならそれを画面から消す
 		ItemDelete();
 	}
+	if (player->GetPlayerMove()->GetIsMoveTrigger())
+	{
+		if (player->GetState() != Player::STATE::MUSCLE && nNumProtein <= 0)
+		{
+			player->ChangeState(Player::STATE::MUSCLE);
+		}
+
+	}
+
 }
 
 void StageScene::TableUpdate()
@@ -325,10 +340,6 @@ void StageScene::ItemDelete()
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
 		nNumProtein--;
-		if (nNumProtein <= 0)
-		{
-			player->ChangeState(Player::STATE::MUSCLE);
-		}
 	case CGridObject::BlockType::CAKE:
 	case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::CHILI:
@@ -364,9 +375,9 @@ void StageScene::Undo(float _stageScale)
 	}
 
 	// 更新するテーブル
-	GridTable* updateTable = oneFloor;
+	GridTable* updateTable = nowFloor;
 	// 更新するオブジェクトのリスト
-	std::vector<CGridObject*>& updateObjList = oneFStgObj;
+	std::vector<CGridObject*>& updateObjList = vStageObj;
 	// 前にいた階数のグリッドテーブルを更新する
 	const short& o_floorNum = floorUndo[nNumUndo].old_Floor;
 	switch (o_floorNum)
@@ -542,8 +553,8 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 		thirdFloor = nullptr;
 	}
 
-	nowFloor = oneFloor;	// 最初の始まる階層を設定
-	nowFloorNum = 1;	// 1階から
+	//開始する階層
+	int startfloor = 0;
 
 	// ロードしたデータからグリッドテーブルに入れる
 	for (int i = 0; i < StageData.numY; i++)
@@ -569,6 +580,19 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 				oneFloor->objectTable[i][j] = StageData.oneFloor.floorTable[i][j];
 				// 床テーブルには通常床を入れる
 				oneFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
+				//読み込んだ数字ごとに処理するモノ
+				switch (static_cast<CGridObject::BlockType>(StageData.oneFloor.floorTable[i][j]))
+				{
+				case CGridObject::BlockType::START:
+					startfloor = 1;
+					nowFloor = oneFloor;
+					break;
+				case CGridObject::BlockType::PROTEIN:
+					nNumProtein++;
+					break;
+				default:
+					break;
+				}
 			}
 
 			//２階があればテーブル作成
@@ -592,6 +616,18 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 					secondFloor->objectTable[i][j] = StageData.secondFloor.floorTable[i][j];
 					// 床テーブルには通常床を入れる
 					secondFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
+					switch (static_cast<CGridObject::BlockType>(StageData.secondFloor.floorTable[i][j]))
+					{
+					case CGridObject::BlockType::START:
+						startfloor = 2;
+						nowFloor = secondFloor;
+						break;
+					case CGridObject::BlockType::PROTEIN:
+						nNumProtein++;
+						break;
+					default:
+						break;
+					}
 				}
 
 				//３階があればテーブルを作成する
@@ -615,11 +651,27 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 						thirdFloor->objectTable[i][j] = StageData.thirdFloor.floorTable[i][j];
 						// 床テーブルには通常床を入れる
 						thirdFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
+						switch (static_cast<CGridObject::BlockType>(StageData.thirdFloor.floorTable[i][j]))
+						{
+						case CGridObject::BlockType::START:
+							startfloor = 3;
+							nowFloor = thirdFloor;
+							break;
+						case CGridObject::BlockType::PROTEIN:
+							nNumProtein++;
+							break;
+						default:
+							break;
+						}
 					}
 				}
 			}
 		}
 	}
+
+	nowFloorNum = startfloor;	// 1階から
+
+
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 
 	// ステージを作成する
@@ -671,8 +723,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 
 void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList)
 {
-	// プロテインの数えなおすので初期化する
-	nNumProtein = 0;
+
 	// 解放する
 	for (int i = 0; i < _settingList.size(); i++)
 	{
@@ -710,11 +761,11 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				break;
 
 			case CGridObject::BlockType::BAUMHORIZONTAL:
-				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen);
+				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_L);
 				break;
 
 			case CGridObject::BlockType::BAUMVERTICAL:
-				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen);
+				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_R);
 				break;
 
 			case CGridObject::BlockType::COIN:
@@ -727,7 +778,6 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 
 			case CGridObject::BlockType::PROTEIN:
 				objWork = new CProtein(stageBuffer, stageTextureProtein);
-				nNumProtein++;	// プロテインの数を数える
 				break;
 
 			case CGridObject::BlockType::CHILI:
@@ -837,6 +887,28 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 
 		}
 
+	}
+}
+
+void StageScene::ChangeFloor(int _nextFloor)
+{
+	vStageObj.clear();
+	switch (_nextFloor)
+	{
+	case 1:
+		vStageObj = oneFStgObj;
+		player->SetGridTable(oneFloor);
+		break;
+	case 2:
+		vStageObj = secondFStgObj;
+		player->SetGridTable(secondFloor);
+		break;
+	case 3:
+		vStageObj = thirdFStgObj;
+		player->SetGridTable(thirdFloor);
+		break;
+	default:
+		break;
 	}
 }
 
