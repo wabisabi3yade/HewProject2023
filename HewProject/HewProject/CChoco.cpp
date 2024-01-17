@@ -1,12 +1,11 @@
 #include "CChoco.h"
-#include"CStageMake.h"
 #include"DoTween.h"
 #include"Player.h"
 
 CChoco::CChoco(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb, tex)
 {
-
+	category = Category::FLOOR;
 }
 
 CChoco::~CChoco()
@@ -27,12 +26,12 @@ void CChoco::Draw()
 
 void CChoco::CRACK()
 {
-	if (this->BlockType == static_cast<int>(CStageMake::BlockType::CHOCO))
+	if (this->type == CGridObject::BlockType::CHOCO)
 	{
-		this->BlockType = static_cast <int> (CStageMake::BlockType::CHOCOCRACK);
-		this->category = static_cast<int> (CStageMake::Category::FLOOR);
+		this->type = CGridObject::BlockType::CHOCOCRACK;
+		this->category = CGridObject::Category::FLOOR;
 	}
-	else if (this->BlockType == static_cast<int>(CStageMake::BlockType::CHOCOCRACK))
+	else if (this->type == CGridObject::BlockType::CHOCOCRACK)
 	{
 		//this->BlockType = static_cast <int> (CStageMake::BlockType::HOLL);
 		this->SetActive(false);

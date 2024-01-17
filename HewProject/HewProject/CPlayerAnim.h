@@ -3,6 +3,20 @@
 class CPlayerAnim :
     public CAnimation
 {
+public:
+    enum class PATTERN
+    {
+        STAY_DOWN,	// 待機下
+        STAY_LEFT,	// 待機左
+        STAY_RIGHT,	// 待機右
+        STAY_UP,	// 待機上
+
+        WALK_DOWN,	// 歩き下
+        WALK_LEFT,	// 歩き左
+        WALK_RIGHT,	// 歩き右
+        WALK_UP,    // 歩き左
+    };
+private:
     float AnimSpeedRate;
     bool Now_IsFall;
     bool Old_IsFall;

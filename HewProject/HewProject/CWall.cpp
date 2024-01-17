@@ -28,6 +28,5 @@ void CWall::Break()
 	dotween->DelayedCall(BREAK_TIME, [&]()
 		{
 			this->SetActive(false); 
-			this->SetBlookType(NULL);
 		});
 }

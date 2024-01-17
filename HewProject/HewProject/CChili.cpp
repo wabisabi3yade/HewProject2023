@@ -3,18 +3,17 @@
 CChili::CChili(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
-	dotween = new DoTween(this);
+	type = BlockType::CHILI;
+	category = Category::ITEM;
 }
 
 CChili::~CChili()
 {
-	CLASS_DELETE(dotween);
 }
 
 void CChili::Update()
 {
 	CGridObject::Update();
-	dotween->Update();
 }
 
 void CChili::Draw()

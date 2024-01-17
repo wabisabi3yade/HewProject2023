@@ -18,6 +18,9 @@ public:
     virtual void FloatingFluffy();  // ふわふわ浮く
     virtual void Draw();
 
+    // アイテムの初期化
+    void InitItem(D3DTEXTURE _shadowTex);
+
     // 影の設定する※アイテムの座標、大きさが入った後に呼び出す)
     void SetShadow(D3DTEXTURE _shadowTex);
 };

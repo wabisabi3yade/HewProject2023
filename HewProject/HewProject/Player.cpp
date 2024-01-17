@@ -50,12 +50,8 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb, tex)
 {
 	dotween = std::make_unique<DoTween>(this);
-
-	move = std::make_shared<NormalMove>(this);
-
-	// アニメーションを作成
 	mAnim = new CPlayerAnim();
-	mAnim->SetPattern(0);
+	mAnim->SetPattern(static_cast<int>(CPlayerAnim::PATTERN::STAY_DOWN));
 	mAnim->isStop = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
@@ -63,23 +59,33 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureInput(L"asset/Player/F_Walk.png", STATE::FAT, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/T_Walk.png", STATE::THIN, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/M_Walk01_Forword.png", STATE::MUSCLE, ANIM_TEX::WALK);
-
-	// 通常状態から始める
-	playerState = STATE::NORMAL;
-	direction = DIRECTION::UP;
-	calorie = START_CALORIE;
-	SetTexture(normalTex[0]);
 }
 
 void Player::Init(GridTable* _pTable)
 {
 	// 現在いるグリッドテーブル設定
 	SetGridTable(_pTable);
+	// 方向を設定する
+	direction = DIRECTION::EVERY;
 
-	move->CheckCanMove();
+	// 最初は普通状態から始める
+	move = std::make_shared<NormalMove>(this);
+
+	// 通常状態から始める
+	/*playerState = STATE::NORMAL;*/
+
+	ChangeState(STATE::NORMAL);
+
+	
+	calorie = START_CALORIE;
+	/*SetTexture(normalTex[0]);*/
+
+	
+
+	/*move->CheckCanMove();*/
 
 	//プレイヤーの座標をグリッドテーブルとグリッド座標から求める
-	mTransform.pos = GetGridTable()->GridToWorld(Grid->gridPos, CStageMake::BlockType::START);
+	mTransform.pos = GetGridTable()->GridToWorld(Grid->gridPos, CGridObject::BlockType::START);
 
 }
 
@@ -90,6 +96,9 @@ void Player::Update()
 
 	// ↓FlagInitの後
 	move->Input();
+
+	dotween->Update();
+
 	if (move->GetIsFalling() == false)
 	{
 		if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == true)
@@ -100,12 +109,12 @@ void Player::Update()
 		{
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
 		}
-		else if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == false)
+		/*else if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == false)
 		{
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
-		}
+		}*/
 	}
-	dotween->Update();
+	
 }
 
 // 歩いた時のカロリー消費
@@ -163,7 +172,7 @@ void Player::ChangeState(STATE _set)
 		break;
 	}
 
-	// 状態が変わって行けるところも変わるので行ける方向を更新
+	// 移動できる方向を更新
 	move->CheckCanMove();
 }
 
@@ -178,27 +187,10 @@ void Player::Fall()
 	move->FallStart();
 }
 
+// テクスチャは解放しない
 Player::~Player()
 {
 	CLASS_DELETE(mAnim);
-
-	/*for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
-	{
-		SAFE_RELEASE(normalTex[i]);
-	}
-
-	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
-	{
-		SAFE_RELEASE(fatTex[i]);
-	}
-	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
-	{
-		SAFE_RELEASE(thinTex[i]);
-	}
-	for (int i = 0; i < static_cast<int>(ANIM_TEX::NUM); i++)
-	{
-		SAFE_RELEASE(muscleTex[i]);
-	}*/
 }
 
 bool Player::GetIsMoving() const

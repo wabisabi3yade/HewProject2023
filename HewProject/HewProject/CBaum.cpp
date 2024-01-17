@@ -1,8 +1,11 @@
 #include "CBaum.h"
 
+
+
 CBaum::CBaum(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
+	category = Category::OBJECT;
 }
 
 CBaum::~CBaum()

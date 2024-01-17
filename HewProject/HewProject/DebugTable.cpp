@@ -1,5 +1,6 @@
 #include "DebugTable.h"
 #include "CDirectWrite.h"
+#include <string>
 
 DebugTable::DebugTable(GridTable* _table, bool _isFloorTable)
 {

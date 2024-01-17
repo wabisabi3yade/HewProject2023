@@ -34,6 +34,80 @@ int GridTable::CheckFloorType(CGrid::GRID_XY _gridPos)
 	return floorTable[_gridPos.y][_gridPos.x];
 }
 
+Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _type)
+{
+	float disTimes = 0.0f;
+	Vector3 floorPos = Vector3::zero;
+	floorPos.x = offset.x + (_grid.y + _grid.x) * (oneGridScale.x / 2.0f);
+	floorPos.y = offset.y + (_grid.x - _grid.y) * oneGridScale.y / ISOME_FLOOR_SUBPOSY;
+	// Z座標は[0,0]Z座標を0.0fとし、手前
+	floorPos.z = offsetZ + (_grid.x - _grid.y) * INFRONT_PLUSZ + _grid.x * HORIZONLINE_PLUSZ;
+
+	switch (_type)
+	{
+	case CGridObject::BlockType::FLOOR:
+	case CGridObject::BlockType::CASTELLA_FLOOR:
+	case CGridObject::BlockType::HOLL:
+	case CGridObject::BlockType::WATAAME:
+	{
+		disTimes = 0.0f;
+	}
+	break;
+	case CGridObject::BlockType::WALL:
+	case CGridObject::BlockType::CASTELLA:
+	case CGridObject::BlockType::BAUMHORIZONTAL:
+	case CGridObject::BlockType::BAUMVERTICAL:
+	case CGridObject::BlockType::COIN:
+	case CGridObject::BlockType::GUMI:
+	case CGridObject::BlockType::GALL:
+		disTimes = 0.455f;
+
+		break;
+
+	case CGridObject::BlockType::CAKE:
+	case CGridObject::BlockType::PROTEIN:
+		disTimes = 0.7f;
+		break;
+
+	case CGridObject::BlockType::START:
+		/*Player::STATE PlayerState = PLAYER->GetPlayerState();
+		if (PlayerState == Player::STATE::MUSCLE)
+		{
+			disTimes = 0.5f * 1.5f;
+		}*/
+		disTimes = 0.5f;
+		break;
+	}
+
+	float floorToMinusZ = 0.0f;
+	// タイプからカテゴリを求める
+	CGridObject::Category cate =
+		static_cast<CGridObject::Category>(CGridObject::TypeToCategory(_type));
+
+	switch (cate)
+	{
+		// それがアイテムなら
+	case CGridObject::Category::ITEM:
+		floorToMinusZ = ITEMTOFLOOR_DIS_Z;
+		break;
+		// それがオブジェクトなら
+	case CGridObject::Category::OBJECT:
+		floorToMinusZ = OBJTOFLOOR_DIS_Z;
+		break;
+		// それが床なら
+	default:
+		break;
+
+	}
+
+
+	Vector3 ret = floorPos;
+	ret.y += disTimes * oneGridScale.y;
+	ret.z -= floorToMinusZ;
+
+	return ret;
+}
+
 Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type)
 {
 	float disTimes = 0.0f;
@@ -81,17 +155,17 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CStageMake::BlockType _type
 
 	float floorToMinusZ = 0.0f;
 	// タイプからカテゴリを求める
-	CStageMake::Category cate =
-		static_cast<CStageMake::Category>(CStageMake::JudgeTypeToCategory(_type));
+	CGridObject::Category cate =
+		static_cast<CGridObject::Category>(CStageMake::JudgeTypeToCategory(_type));
 
 	switch (cate)
 	{
 		// それがアイテムなら
-	case CStageMake::Category::ITEM:
+	case CGridObject::Category::ITEM:
 		floorToMinusZ = ITEMTOFLOOR_DIS_Z;
 		break;
 		// それがオブジェクトなら
-	case CStageMake::Category::OBJECT:
+	case CGridObject::Category::OBJECT:
 		floorToMinusZ = OBJTOFLOOR_DIS_Z;
 		break;
 		// それが床なら

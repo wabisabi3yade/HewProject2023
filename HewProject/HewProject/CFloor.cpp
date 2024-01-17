@@ -3,6 +3,8 @@
 CFloor::CFloor(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
+	type = BlockType::FLOOR;
+	category = Category::FLOOR;
 }
 
 CFloor::~CFloor()

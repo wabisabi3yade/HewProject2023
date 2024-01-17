@@ -3,6 +3,8 @@
 CCake::CCake(D3DBUFFER vb, D3DTEXTURE tex)
 	:CItem(vb,tex)
 {
+	type = BlockType::CAKE;
+	category = Category::ITEM;
 }
 
 CCake::~CCake()
