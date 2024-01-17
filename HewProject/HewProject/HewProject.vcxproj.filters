@@ -214,6 +214,12 @@
     <Filter Include="ソース ファイル\Base\GameCore\TextureFactory">
       <UniqueIdentifier>{eb4ece78-3595-434e-9767-f49bc97263e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CWorldSelectScene">
+      <UniqueIdentifier>{09435ef5-03ac-4b80-8ec8-f1e6c2a1c708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CWorldSelectPlayer">
+      <UniqueIdentifier>{8d20f394-e632-4ff7-aae4-863850d7f0bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -399,6 +405,12 @@
     <ClInclude Include="TextureFactory.h">
       <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
     </ClInclude>
+    <ClInclude Include="CWorldSelectScene.h">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorldSelectPlayer.h">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -583,6 +595,12 @@
     </ClCompile>
     <ClCompile Include="TextureFactory.cpp">
       <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldSelectScene.cpp">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldSelectPlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
