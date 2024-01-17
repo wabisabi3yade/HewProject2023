@@ -53,9 +53,7 @@ LoadData CLoadStage::LoadStage(const wchar_t* filePath)
 				{
 					i++;
 				}
-				j++;
-				LoadDataWork.data.push_back(std::stoi(str));
-			}
+				j++;			}
 					countY++;
 		}
 		ifs.close(); //ƒtƒ@ƒCƒ‹‚ð•Â‚¶‚é

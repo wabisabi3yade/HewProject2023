@@ -2,7 +2,7 @@
 #include "CScene.h"
 #include "StageScene.h"
 #include "DebugTable.h"
-
+#include<iostream>
 class Ckcal_gauge;
 
 class Stage :
@@ -15,8 +15,6 @@ class Stage :
 
     DebugTable* dbgFloorTable; // テスト用
     DebugTable* dbgObjTable; // テスト用
-
-
 public:
     /// <summary>
     /// ステージシーンのコンストラクタ

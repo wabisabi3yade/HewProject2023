@@ -34,7 +34,6 @@ struct LoadData
 	// ステージのデータが入る
 	StageGridTable oneFloor;
 	StageGridTable secondFloor;
-	std::vector<int> data;
 	StageGridTable thirdFloor;
 
 	int numX;	// ステージに列が難行あるか
