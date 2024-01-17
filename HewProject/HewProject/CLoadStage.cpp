@@ -1,44 +1,68 @@
 #include "CLoadStage.h"
-//#include <iostream>
-//#include <fstream>
-//#include <sstream> 
-//using namespace std;
-//#include"Direct3D.h"
-//ヨコの数一回の読み込みの時に何回行うのか　ファイルだ終わるまで
 
-//これを実行したいところで実行
-// 
-//stage = new CLoadStage;
-//stageMake = new CStageMake;
-//
-//std::vector<aaa> ZZ = stage->LoadStage("asset/mizuno/Stage.csv");
-//std::vector<STAGEPOS> stagepos = stageMake->StagePos(ZZ, 13);
-#define MAX_GRIDNUM (9)
+
 LoadData CLoadStage::LoadStage(const wchar_t* filePath)
 {
-	//std::vector<std::string> dat;
-	LoadData xx;
+	LoadData LoadDataWork;
 	std::ifstream ifs(filePath);
 
 	int countY = 0;
-
+	int countX = 0;
+	int i = 0;
+	int j = 0;
 	if (ifs) { //読み込みに成功したかチェック
 		std::string str;
 		while (getline(ifs, str)) { //1 行ずつ読み込み
 			std::istringstream iss(str);
 
-			countY++;
 			while (getline(iss, str, ','))
 			{
-				//dat.push_back(str);
-				xx.data.push_back(std::stoi(str));
+				if (std::stoi(str) == -1  )
+				{
+					if (countX == 0)
+					{
+						countX = i;
+					}
+					i = 0;
+					j = 0;
+					break;
+				}
+
+				if ( j % MAX_GRIDNUM  == 0 || std::stoi(str) == -1)
+					if(j != 0 )
+					i = 0;
+
+				switch (j / MAX_GRIDNUM)
+				{
+				case 0:
+					LoadDataWork.oneFloor.floorTable[countY][i] = std::stoi(str);
+					break;
+				case 1:
+					LoadDataWork.secondFloor.floorTable[countY][i] = std::stoi(str);
+					break;
+				case 2:
+					LoadDataWork.thirdFloor.floorTable[countY][i] = std::stoi(str);
+					break;
+				case 3:
+					break;
+					j = 0;
+				default:
+					break;
+				}
+				if (std::stoi(str) != 0 )
+				{
+					i++;
+				}
+				j++;
+				LoadDataWork.data.push_back(std::stoi(str));
 			}
+					countY++;
 		}
 		ifs.close(); //ファイルを閉じる
 	}
 	// 行と列の数を求める
-	xx.numY = countY;
-	xx.numX = xx.data.size() / xx.numY;
+	LoadDataWork.numY = countY;
+	LoadDataWork.numX = countX;
 
-	return xx;
+	return LoadDataWork;
 }

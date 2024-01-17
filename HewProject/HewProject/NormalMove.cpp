@@ -136,7 +136,8 @@ void NormalMove::Move(DIRECTION _dir)
 		WalkStart();
 		//ジャンプしてから落ちるように
 
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->DoMoveX(forwardPosXY.x, WALK_TIME);
+		//player->dotween->Join(forwardPosXY.y, WALK_TIME, DoTween::FUNC::MOVE_Y);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
@@ -151,7 +152,7 @@ void NormalMove::Move(DIRECTION _dir)
 						player->Fall();
 					});
 				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 			});
 
 		//// ↓におちるときのジャンプ
