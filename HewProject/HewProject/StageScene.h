@@ -1,6 +1,5 @@
 #pragma once
 #include"CScene.h"
-//#include"CStageMake.h"
 #include"CLoadStage.h"
 #include"Ccontroller.h"
 #include"CFade.h"

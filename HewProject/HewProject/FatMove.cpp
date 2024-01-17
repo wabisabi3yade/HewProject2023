@@ -45,7 +45,7 @@ void FatMove::Move(DIRECTION _dir)
 
 	//	ここから移動する先の種類によってすることを変える //////////////////////////
 	// キャラクターを移動先の座標
-	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);
+	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
 
 	// 奥側に行くときの行動の順番
@@ -64,7 +64,7 @@ void FatMove::Move(DIRECTION _dir)
 	// 進んだ先のブロックによって対応するアクションを設定する
 	switch (CheckNextMassType())
 	{
-	case CStageMake::BlockType::CAKE:
+	case CGridObject::BlockType::CAKE:
 
 		WalkStart();
 
@@ -81,7 +81,7 @@ void FatMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::CHILI:
+	case CGridObject::BlockType::CHILI:
 
 		WalkStart();
 
@@ -95,7 +95,7 @@ void FatMove::Move(DIRECTION _dir)
 			});
 		break;
 
-	case CStageMake::BlockType::CASTELLA:
+	case CGridObject::BlockType::CASTELLA:
 
 		WalkStart();
 
@@ -105,7 +105,7 @@ void FatMove::Move(DIRECTION _dir)
 
 		// カステラの移動先に穴があるなら
 		if (player->GetGridTable()->CheckFloorType({ nextGridPos.x + d.x, nextGridPos.y + d.y }) ==
-			static_cast<int>(CStageMake::BlockType::HOLL))
+			static_cast<int>(CGridObject::BlockType::HOLL))
 		{
 
 			player->dotween->OnComplete([&]()
@@ -128,8 +128,8 @@ void FatMove::Move(DIRECTION _dir)
 
 		break;
 
-	case CStageMake::BlockType::CHOCO:
-	case CStageMake::BlockType::CHOCOCRACK:
+	case CGridObject::BlockType::CHOCO:
+	case CGridObject::BlockType::CHOCOCRACK:
 
 		WalkStart();
 
@@ -141,7 +141,7 @@ void FatMove::Move(DIRECTION _dir)
 
 				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
@@ -153,7 +153,7 @@ void FatMove::Move(DIRECTION _dir)
 
 
 		break;
-	case CStageMake::BlockType::HOLL:
+	case CGridObject::BlockType::HOLL:
 		// ↓におちるときのジャンプ
 
 		WalkStart();
@@ -168,7 +168,7 @@ void FatMove::Move(DIRECTION _dir)
 
 				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
@@ -180,7 +180,7 @@ void FatMove::Move(DIRECTION _dir)
 
 		break;
 
-	case CStageMake::BlockType::GUMI:
+	case CGridObject::BlockType::GUMI:
 		// ↑にジャンプする
 
 		WalkStart();
@@ -286,7 +286,7 @@ void FatMove::CheckCanMove()
 
 		// 移動先にカステラがあるなら
 		if (player->GetGridTable()->CheckObjectType(forwordPos) ==
-			static_cast<int>(CStageMake::BlockType::CASTELLA))
+			static_cast<int>(CGridObject::BlockType::CASTELLA))
 		{
 			// 移動先のカステラの座標
 			CGrid::GRID_XY nextCastella = forwordPos;
@@ -294,18 +294,18 @@ void FatMove::CheckCanMove()
 			nextCastella.y += d.y;
 
 			// カステラ移動先にこれらがあるなら
-			switch (static_cast<CStageMake::BlockType>
+			switch (static_cast<CGridObject::BlockType>
 				(player->GetGridTable()->CheckObjectType(nextCastella)))
 			{
-			case CStageMake::BlockType::WALL:
-			case CStageMake::BlockType::CAKE:
-			case CStageMake::BlockType::CHILI:
-			case CStageMake::BlockType::COIN:
-			case CStageMake::BlockType::PROTEIN:
-			case CStageMake::BlockType::GALL:
-			case CStageMake::BlockType::GUMI:
-			case CStageMake::BlockType::BAUMHORIZONTAL:
-			case CStageMake::BlockType::BAUMVERTICAL:
+			case CGridObject::BlockType::WALL:
+			case CGridObject::BlockType::CAKE:
+			case CGridObject::BlockType::CHILI:
+			case CGridObject::BlockType::COIN:
+			case CGridObject::BlockType::PROTEIN:
+			case CGridObject::BlockType::GALL:
+			case CGridObject::BlockType::GUMI:
+			case CGridObject::BlockType::BAUMHORIZONTAL:
+			case CGridObject::BlockType::BAUMVERTICAL:
 
 				canMoveDir[dirRoop] = false;
 				continue;

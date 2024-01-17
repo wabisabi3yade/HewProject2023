@@ -5,7 +5,6 @@
 #include "PlayerMove.h"
 #include "CInput.h"
 #include "Player.h"
-#include "CStageMake.h"
 
 PlayerMove::PlayerMove(Player* _p)
 {
@@ -85,13 +84,13 @@ void PlayerMove::WalkAfter()
 	isWalkEnd = true;
 }
 
-CStageMake::BlockType PlayerMove::CheckNextMassType()
+CGridObject::BlockType PlayerMove::CheckNextMassType()
 {
 	// 先にオブジェクトの型を見る
-	CStageMake::BlockType type = CheckNextObjectType();
+	CGridObject::BlockType type = CheckNextObjectType();
 
 	// 何もなかったら
-	if (type == CStageMake::BlockType::NONE)
+	if (type == CGridObject::BlockType::NONE)
 	{
 		// 床のテーブルを確認
 		type = CheckNextFloorType();
@@ -104,9 +103,9 @@ void PlayerMove::WalkStart()
 	isWalking_now = true;
 }
 
-CStageMake::BlockType PlayerMove::CheckNextObjectType()
+CGridObject::BlockType PlayerMove::CheckNextObjectType()
 {
-	return static_cast<CStageMake::BlockType>(player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x]);
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x]);
 }
 
 void PlayerMove::FallStart()
@@ -114,15 +113,15 @@ void PlayerMove::FallStart()
 	isFalling = true;
 }
 
-CStageMake::BlockType PlayerMove::CheckNextFloorType()
+CGridObject::BlockType PlayerMove::CheckNextFloorType()
 {
-	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[nextGridPos.y][nextGridPos.x]);
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->floorTable[nextGridPos.y][nextGridPos.x]);
 }
 
-CStageMake::BlockType PlayerMove::CheckNowFloorType()
+CGridObject::BlockType PlayerMove::CheckNowFloorType()
 {
 	CGrid::GRID_XY NowGridPos = player->GetGridPos();
-	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[NowGridPos.y][NowGridPos.x]);
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->floorTable[NowGridPos.y][NowGridPos.x]);
 }
 
 void PlayerMove::FallAfter()

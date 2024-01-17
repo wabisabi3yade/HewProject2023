@@ -156,19 +156,19 @@ void StageScene::StageMove()
 	{
 		// プレイヤーが太ってる　かつ　移動した先がカステラなら
 		if (player->GetState() == Player::STATE::FAT &&
-			player->GetPlayerMove()->CheckNextObjectType() == static_cast<CStageMake::BlockType>(CGridObject::BlockType::CASTELLA))
+			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CASTELLA)
 		{
 			// カステラに移動しろと命令する
 			CastellaMoveOrder();
 		}
 		// プレイヤーがマッチョ　かつ　移動先が壁なら
 		if (player->GetState() == Player::STATE::MUSCLE &&
-			player->GetPlayerMove()->CheckNextObjectType() == static_cast<CStageMake::BlockType>(CGridObject::BlockType::WALL))
+			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::WALL)
 		{
 			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::WALL));
 			wallObj->Break();
 		}
-		if (player->GetPlayerMove()->CheckNowFloorType() == static_cast<CStageMake::BlockType>(CGridObject::BlockType::WATAAME))
+		if (player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::WATAAME)
 		{
 			CWataame* wataameObj = dynamic_cast<CWataame*>(GetStageObject(player->GetGridPos(), CGridObject::BlockType::WATAAME));
 			wataameObj->Melt();
@@ -186,8 +186,8 @@ void StageScene::StageMove()
 	// プレイヤーが動き終えると
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{
-		if (player->GetPlayerMove()->CheckNextFloorType() == static_cast<CStageMake::BlockType>(CGridObject::BlockType::CHOCO) ||
-			player->GetPlayerMove()->CheckNextFloorType() == static_cast<CStageMake::BlockType>(CGridObject::BlockType::CHOCOCRACK))
+		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
+			player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
 		{
 			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType> (player->GetPlayerMove()->CheckNextFloorType())));
 			chocoObj->CRACK();
