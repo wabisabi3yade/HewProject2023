@@ -53,6 +53,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	mAnim->SetPattern(static_cast<int>(CPlayerAnim::PATTERN::STAY_DOWN));
 	mAnim->isStop = false;
 	IsgameOver = false;
+	fallFloorChange = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -109,10 +110,35 @@ void Player::Update()
 		{
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
 		}
-		/*else if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == false)
+	}
+	else
+	{
+		switch (nowFloor)
 		{
-			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
-		}*/
+		case 1:
+			if (mTransform.pos.y <= (FALL_POS_Y - mTransform.scale.y / 2))
+			{
+				move->MoveAfter();
+				move->FallAfter();
+				GameOver();
+			}
+			break;
+		case 2:
+		case 3:
+			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2)
+			{
+				mTransform.pos.y = (FALL_POS_Y * -1.0f) /*+ mTransform.scale.y / 2*/;  //最終地点の反対 ＝ 画面の最上部地点
+				fallFloorChange = true;
+			}
+			if (fallFloorChange && mTransform.pos == gridTable->GridToWorld(this->GetGridPos(), CGridObject::BlockType::START))
+			{
+				move->FallAfter();
+				move->MoveAfter();
+			}
+			break;
+		default:
+			break;
+		} 
 	}
 	
 }
@@ -169,6 +195,7 @@ void Player::ChangeState(STATE _set)
 		move = std::make_shared<MuscleMove>(this);
 		playerState = STATE::MUSCLE;
 		SetTexture(muscleTex[0]);
+		this->calorie = CAKE_CALORIE;
 		break;
 	}
 
@@ -206,6 +233,11 @@ int Player::GetDirection() const
 PlayerMove* Player::GetPlayerMove() const
 {
 	return move.get();
+}
+
+void Player::SetNowFloor(int _set)
+{
+	nowFloor = _set;
 }
 
 void Player::GameOver()

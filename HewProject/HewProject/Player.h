@@ -64,6 +64,8 @@ private:
 
 	bool IsgameOver;
 
+	bool fallFloorChange; //落ちて階層が変わったか
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 
 	// テクスチャ（状態別）
@@ -119,6 +121,7 @@ public:
 
 	bool GetIsGameOver() { return  IsgameOver; }
 	int GetNowFloor() { return nowFloor; }
+	void SetNowFloor(int _set);
 	void GameOver();
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
