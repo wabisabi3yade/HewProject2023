@@ -217,8 +217,9 @@
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove">
       <UniqueIdentifier>{fc79e383-e0cc-46d5-ac96-b7a25d310ecf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
-      <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
+	  <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
+		  <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
+	  </Filter>
     <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
       <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
     </Filter>
