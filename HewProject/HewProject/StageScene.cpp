@@ -107,7 +107,7 @@ void StageScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_ESCAPE))
 	{
-		ChangeFloor(2);
+		ChangeFloor(1);
 	}
 
 	// 動いているときと動き終わった瞬間だけ
@@ -713,12 +713,15 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
 
+	player->SetNowFloor(startfloor);
+
 	floorUndo[0].playerUndo = player->GetGridPos();
 	floorUndo[0].stateUndo = player->GetState();
 	floorUndo[0].dirUndo = player->GetDirection();
 	floorUndo[0].calorieUndo = player->GetCalorie();
-	floorUndo[0].old_Floor = 1;
+	floorUndo[0].old_Floor = nowFloorNum;
 	Z_Sort(vStageObj);
+	ChangeFloor(nowFloorNum);
 }
 
 void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList)

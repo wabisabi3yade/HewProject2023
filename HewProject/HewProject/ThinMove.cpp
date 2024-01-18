@@ -61,7 +61,7 @@ void ThinMove::Move(DIRECTION _dir)
 	}
 
 	// 進んだ先のブロックによって対応するアクションを設定する
-	switch (CheckNextObjectType())
+	switch (CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
 
@@ -70,7 +70,7 @@ void ThinMove::Move(DIRECTION _dir)
 		// 移動する
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-		
+
 		// 移動し終えたらケーキを食べる
 		player->dotween->OnComplete([&]()
 			{
@@ -118,13 +118,13 @@ void ThinMove::Move(DIRECTION _dir)
 				GridXY.x -= 1;
 				GridXY.y += 1;
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(GridXY, CGridObject::BlockType::FLOOR));
-				fallPos.y = (FALL_POS_Y) - (player->mTransform.scale.y / 2.0f);
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
 						player->Fall();
 					});
 				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos,	FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 			});
 
 		break;
@@ -134,7 +134,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 		WalkStart();
 
-		player->dotween->DoMoveX(forwardPosXY.x, WALK_TIME);
+		player->dotween->DoMoveXY(forwardPosXY.x, WALK_TIME);
 		//player->dotween->Join(forwardPosXY.y, WALK_TIME, DoTween::FUNC::MOVE_Y);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -150,20 +150,30 @@ void ThinMove::Move(DIRECTION _dir)
 						player->Fall();
 					});
 				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+				player->dotween->Append(fallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				switch (player->GetNowFloor())
+				{
+				case 1:
+					break;
+				case 2:
+				{
+					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
+					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				}
+					break;
+				case 3:
+				{
+
+					player->dotween->DoDelay(FALLMOVE_TIME);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
+					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				}
+					break;
+				default:
+					break;
+				}
 			});
-		switch (player->GetNowFloor())
-		{
-		case 1:
-			player->GameOver();
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		default:
-			break;
-		}
 		break;
 
 	case CGridObject::BlockType::GUMI:
@@ -182,7 +192,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 		WalkStart();
 
-		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);		
+		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 		forwardPosXY = { forwardPos.x, forwardPos.y };
 
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
@@ -242,7 +252,7 @@ void ThinMove::Move(DIRECTION _dir)
 				default:
 					MoveAfter();
 					break;
-				}				
+				}
 			});
 		break;
 

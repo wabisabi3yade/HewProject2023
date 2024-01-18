@@ -139,9 +139,6 @@
     <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
       <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
-      <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Base\GameBase\GridObject">
       <UniqueIdentifier>{165b52df-7038-4c82-8b6a-a9a41e37a9d5}</UniqueIdentifier>
     </Filter>
@@ -184,18 +181,6 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Chili">
       <UniqueIdentifier>{9998fbb4-f21a-47ab-8896-65a7f5339c57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\FatMove">
-      <UniqueIdentifier>{10b15db6-1d87-4575-8325-29e582744d95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove">
-      <UniqueIdentifier>{d4230061-8c6e-4b6a-84bb-82606f56d829}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove">
-      <UniqueIdentifier>{fc79e383-e0cc-46d5-ac96-b7a25d310ecf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
-      <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Hashimoto\GridTable">
       <UniqueIdentifier>{245040de-01e8-47db-8699-598b52fdd55e}</UniqueIdentifier>
     </Filter>
@@ -220,6 +205,20 @@
     <Filter Include="ソース ファイル\Wakamura\CWorldSelectPlayer">
       <UniqueIdentifier>{8d20f394-e632-4ff7-aae4-863850d7f0bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
+      <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\FatMove">
+      <UniqueIdentifier>{10b15db6-1d87-4575-8325-29e582744d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\ThinMove">
+      <UniqueIdentifier>{d4230061-8c6e-4b6a-84bb-82606f56d829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove">
+      <UniqueIdentifier>{fc79e383-e0cc-46d5-ac96-b7a25d310ecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
+      <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
     <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
       <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
     </Filter>
