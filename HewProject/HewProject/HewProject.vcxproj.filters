@@ -219,6 +219,8 @@
     </Filter>
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
       <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
+      <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -411,6 +413,9 @@
     <ClInclude Include="CWorldSelectPlayer.h">
       <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="CStage1SelectScene.h">
+      <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -601,6 +606,9 @@
     </ClCompile>
     <ClCompile Include="CWorldSelectPlayer.cpp">
       <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage1SelectScene.cpp">
+      <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

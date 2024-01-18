@@ -9,6 +9,7 @@
 #include "Stage.h"
 #include "CCamera.h"
 #include "CWorldSelectScene.h"
+#include "CStage1SelectScene.h"
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
@@ -73,40 +74,44 @@ void CSceneManager::SceneChange(int _scene)
 
 	switch (_scene)
 	{
-	case SELECT:
-		nowSceneName = SELECT;
+	case CScene::SELECT:
+		nowSceneName = CScene::SELECT;
 		pNowScene = new CSelect();
 		break;
 
-	case KAWADA:
-		nowSceneName = KAWADA;
+	case CScene::KAWADA:
+		nowSceneName = CScene::KAWADA;
 		pNowScene = new CKawadaScene();
 		break;
 
-	case TATEMIZO:
-		nowSceneName = TATEMIZO;
+	case CScene::TATEMIZO:
+		nowSceneName = CScene::TATEMIZO;
 		pNowScene = new CTatemizoScene();
 		break;
 
-	case MIZUNO:
-		nowSceneName = MIZUNO;
+	case CScene::MIZUNO:
+		nowSceneName = CScene::MIZUNO;
 		pNowScene = new CMizunoScene();
 		break;
 
-	case WAKAMURA:
-		nowSceneName = WAKAMURA;
+	case CScene::WAKAMURA:
+		nowSceneName = CScene::WAKAMURA;
 		pNowScene = new CWorldSelectScene();
 		break;
 
-	case HASHIMOTO:
-		nowSceneName = HASHIMOTO;
+	case CScene::HASHIMOTO:
+		nowSceneName = CScene::HASHIMOTO;
 		pNowScene = new Stage(L"asset/mizuno/Stage.csv");
+		break;
+	case CScene::STAGE1:
+		nowSceneName = CScene::STAGE1;
+		pNowScene = new CStage1SelectScene();
 		break;
 	}
 }
 
 // ÉVÅ[Éìî‘çÜÇï‘Ç∑
-CSceneManager::SCENE_NAME CSceneManager::GetNowScene()
+CScene::SCENE_NAME CSceneManager::GetNowScene()
 {
 	return nowSceneName;
 }

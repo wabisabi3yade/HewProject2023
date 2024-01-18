@@ -93,7 +93,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	MSG msg;
 
 	gSceneManager = CSceneManager::GetInstance();
-	gSceneManager->SceneChange(CSceneManager::SELECT);
+	gSceneManager->SceneChange(CScene::SELECT);
 
 	// ƒQ[ƒ€ƒ‹[ƒv
 	for (;;) {

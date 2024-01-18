@@ -9,7 +9,23 @@ class CSceneManager; //マネージャのプロトタイプ宣言
 // シーンの基礎クラス
 class CScene
 {
+public:
+	// シーンの名前
+	enum SCENE_NAME
+	{
+		KAWADA,	// 河田シーン
+		TATEMIZO,	// 立溝シーン
+		MIZUNO,	// 水野シーン
+		WAKAMURA,	// 若村シーン
+		HASHIMOTO,	// 橋本シーン
+		// ↓　シーンを追加するならここに書いてね
+		STAGE1,
+		SCENE_NUM,	// シーンの数
 
+		SELECT,	// セレクトシーン
+	};
+
+private:
 	// シーンマネージャー
 	CSceneManager* pSceneManager = nullptr;
 
