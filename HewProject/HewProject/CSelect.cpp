@@ -4,10 +4,12 @@
 
 #include "CSelect.h"
 #include "CSceneManager.h"
+#include "CDirectWrite.h"
+#include <string>
 
 CSelect::CSelect()
 {
-	nextScene = CSceneManager::KAWADA;
+	nextScene = SCENE_NAME::KAWADA;
 
 	D3D_CreateSquare({ 3.0f,3.0f }, { 1.0f,1.0f }, &charBuffer);
 
@@ -40,26 +42,43 @@ void CSelect::Update()
 
 		if (nextScene < 0)
 		{
-			nextScene = CSceneManager::SCENE_NUM - 1;
+			nextScene = SCENE_NAME::SCENE_NUM - 1;
 		}
 
-		charObj->SetTexture(charTexture[nextScene]);
+		/*	if (nextScene <= CSceneManager::HASHIMOTO)
+			{
+				charObj->SetTexture(charTexture[nextScene]);
+			}
+			else
+			{
+				charObj->SetTexture(NULL);
+			}*/
+
 	}
 
 	if (gInput->GetKeyTrigger(VK_DOWN))
 	{
 		nextScene++;
 
-		if (nextScene >= CSceneManager::SCENE_NUM)
+		if (nextScene >= SCENE_NAME::SCENE_NUM)
 		{
 			nextScene = 0;
 		}
-		charObj->SetTexture(charTexture[nextScene]);
+
 	}
 
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
 		CScene::SetScene(nextScene);
+	}
+
+	if (nextScene <= SCENE_NAME::HASHIMOTO)
+	{
+		charObj->SetTexture(charTexture[nextScene]);
+	}
+	else
+	{
+		charObj->SetTexture(NULL);
 	}
 }
 
@@ -69,5 +88,8 @@ void CSelect::LateUpdate()
 
 void CSelect::Draw()
 {
+
 	charObj->Draw();
+	Write->SetFont(Font::MelodyLine);
+	Write->DrawString(std::to_string(nextScene), DirectX::XMFLOAT2(90, 100), D2D1_DRAW_TEXT_OPTIONS_NONE);
 }

@@ -12,6 +12,8 @@ CWorldSelectPlayer::CWorldSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CGridObjec
 	mAnim->isStop = false;
 	isMoving = false;
 	isNoPush = false;
+	isChangeScene = false;
+	nNumSelectScene = 2;
 }
 
 CWorldSelectPlayer::~CWorldSelectPlayer()
@@ -25,6 +27,20 @@ void CWorldSelectPlayer::Update()
 	{
 		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
 		isNoPush = false;
+
+		if (gInput->GetKeyTrigger(VK_RETURN))
+		{
+			isMoving = true;
+
+			Vector2 playerXY;
+			playerXY.x = mTransform.pos.x;
+			playerXY.y = mTransform.pos.y + 2.0f;
+
+			dotween->DoMoveY(playerXY.y, 1.0f);
+
+			dotween->OnComplete([&]() {isChangeScene = true; });
+
+		}
 	}
 
 	if (isNoPush == false)
@@ -41,7 +57,17 @@ void CWorldSelectPlayer::Update()
 
 			dotween->DoMoveX(playerXY.x, 2.0f);
 
-			dotween->OnComplete([&]() { isMoving = false; });
+			dotween->OnComplete([&]()
+				{
+					isMoving = false;
+					nNumSelectScene--;
+
+					if (nNumSelectScene < 0)
+					{
+						nNumSelectScene = 0;
+					}
+
+				});
 		}
 
 		if (gInput->GetKeyTrigger(VK_RIGHT))
@@ -56,12 +82,20 @@ void CWorldSelectPlayer::Update()
 
 			dotween->DoMoveX(playerXY.x, 2.0f);
 
-			dotween->OnComplete([&]() { isMoving = false; });
+			dotween->OnComplete([&]()
+				{
+					isMoving = false;
+					nNumSelectScene++;
+
+					if (nNumSelectScene > 4)
+					{
+						nNumSelectScene = 4;
+					}
+
+				});
 
 		}
 	}
-
-
 
 	dotween->Update();
 	CObject::Update();
@@ -70,4 +104,14 @@ void CWorldSelectPlayer::Update()
 void CWorldSelectPlayer::Draw()
 {
 	CObject::Draw();
+}
+
+void CWorldSelectPlayer::FlagInit()
+{
+	mAnim->SetPattern(0);
+	mAnim->isStop = false;
+	isMoving = false;
+	isNoPush = false;
+	isChangeScene = false;
+	nNumSelectScene = 2;
 }

@@ -220,6 +220,9 @@
     <Filter Include="ソース ファイル\Wakamura\CWorldSelectPlayer">
       <UniqueIdentifier>{8d20f394-e632-4ff7-aae4-863850d7f0bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
+      <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -411,6 +414,9 @@
     <ClInclude Include="CWorldSelectPlayer.h">
       <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="CStage1SelectScene.h">
+      <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -601,6 +607,9 @@
     </ClCompile>
     <ClCompile Include="CWorldSelectPlayer.cpp">
       <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage1SelectScene.cpp">
+      <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

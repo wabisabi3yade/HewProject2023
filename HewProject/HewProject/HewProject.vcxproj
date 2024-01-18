@@ -175,6 +175,7 @@
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CSelect.h" />
     <ClInclude Include="CShadow.h" />
+    <ClInclude Include="CStage1SelectScene.h" />
     <ClInclude Include="CStageMake.h" />
     <ClInclude Include="CTatemizoScene.h" />
     <ClInclude Include="CTest.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CSelect.cpp" />
     <ClCompile Include="CShadow.cpp" />
+    <ClCompile Include="CStage1SelectScene.cpp" />
     <ClCompile Include="CStageMake.cpp" />
     <ClCompile Include="CTatemizoScene.cpp" />
     <ClCompile Include="CTest.cpp" />
