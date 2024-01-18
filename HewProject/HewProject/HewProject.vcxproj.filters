@@ -217,11 +217,14 @@
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove">
       <UniqueIdentifier>{fc79e383-e0cc-46d5-ac96-b7a25d310ecf}</UniqueIdentifier>
     </Filter>
-	  <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
-		  <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
-	  </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
+      <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
       <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CStageSelectPlayer">
+      <UniqueIdentifier>{2ec5f6b3-a280-424f-9329-316fcc5c30f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -417,6 +420,9 @@
     <ClInclude Include="CStage1SelectScene.h">
       <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
     </ClInclude>
+    <ClInclude Include="CStageSelectPlayer.h">
+      <Filter>ソース ファイル\Wakamura\CStageSelectPlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -610,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="CStage1SelectScene.cpp">
       <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageSelectPlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\CStageSelectPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

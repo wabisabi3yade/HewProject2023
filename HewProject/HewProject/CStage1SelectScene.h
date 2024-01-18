@@ -2,6 +2,7 @@
 #include "CScene.h"
 
 class CGridObject;
+class CStageSelectPlayer;
 
 class CStage1SelectScene :
     public CScene
@@ -13,7 +14,7 @@ public:
     D3DBUFFER stageBuffer;
     D3DTEXTURE stage1Texture;
 
-    //SelectPlayer* player;
+    CStageSelectPlayer* player;
     CGridObject* stage[4];
 
 public:
