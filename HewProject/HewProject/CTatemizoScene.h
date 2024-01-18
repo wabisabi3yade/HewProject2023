@@ -10,11 +10,6 @@ class GameController;
 class CTatemizoScene :
 	public CScene
 {
-	//現在の向きを表すベクトル変数
-	Vector3 dir = { 0, 0, 0 };
-
-	//移動速度
-	float moveSpeed = 1.0f;
 
 public:
 	D3DBUFFER charBuffer;
@@ -22,8 +17,12 @@ public:
 	CObject* charObj;
 
 public:
-	/*// キー操作可能なキャラクターか？
-	bool isPlayer = false;
+
+	//現在の向きを表すベクトル変数
+	Vector3 dir = { 0, 0, 0 };
+
+	// キー操作可能なキャラクターか？
+	bool isPlayer = true;
 
 	//仮想世界の中の位置座標
 	Vector3 pos = { 0, 0, 0 };
@@ -32,7 +31,7 @@ public:
 	Vector3 scale = { 1.0f, 1.0f, 1.0f };
 
 	//回転角度
-	float angle = 0.0f;*/
+	float angle = 0.0f;
 
 	CTatemizoScene();
 
@@ -46,17 +45,10 @@ public:
 
 	GameController* x;
 
-	/*void SetMoveSpeed(float sp)
-	{
-		moveSpeed = sp;
-	}
 
 	void SetDir(Vector3 v)
 	{
 		dir = v;
 	}
-
-private:
-	XINPUT_STATE m_controllerState;*/
 };
 
