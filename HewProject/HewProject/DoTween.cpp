@@ -77,7 +77,8 @@ void DoTween::Update()
 
 					objPtr->mTransform.pos.y =
 						(pow((1 - t), 2) * (*itr2).oldPos.y)
-						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y) / 2 + ((*itr2).oldPos.y * 2))
+						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y) / 2 
+						+ (*itr2).curvePos )
 						+ (pow(t, 2) * (*itr2).targetValue.y);
 					break;
 				}
@@ -478,13 +479,14 @@ void DoTween::DoDelay(float _delayTime)
 	sequence.push_back(flow);
 }
 
-void DoTween::DoMoveCurve(Vector2 _targetPosXY, float _moveTime)
+void DoTween::DoMoveCurve(Vector2 _targetPosXY, float _moveTime, float _curvePos)
 {
 	//@Ý’è‚ð‚·‚é
 	VALUE set;
 	set.dotweenType = FUNC::MOVECURVE;
 	set.start = START::DO;
 	set.oldPos = objPtr->mTransform.pos;
+	set.curvePos = _curvePos;
 	set.targetValue = { _targetPosXY.x, _targetPosXY.y,0 };
 	set.moveTime = _moveTime;
 

@@ -125,7 +125,7 @@ void Player::Update()
 			break;
 		case 2:
 		case 3:
-			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2)
+			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2+0.1f)
 			{
 				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 				fallFloorChange = true;

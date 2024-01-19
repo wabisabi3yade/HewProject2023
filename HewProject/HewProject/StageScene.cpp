@@ -107,7 +107,7 @@ void StageScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_ESCAPE))
 	{
-		ChangeFloor(1);
+		ChangeFloor(2);
 	}
 
 	// “®‚¢‚Ä‚¢‚é‚Æ‚«‚Æ“®‚«I‚í‚Á‚½uŠÔ‚¾‚¯

@@ -161,7 +161,7 @@ void ThinMove::Move(DIRECTION _dir)
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 				}
-					break;
+				break;
 				case 3:
 				{
 
@@ -169,7 +169,7 @@ void ThinMove::Move(DIRECTION _dir)
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 				}
-					break;
+				break;
 				default:
 					break;
 				}
@@ -178,13 +178,27 @@ void ThinMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::GUMI:
 		// ↑にジャンプする
-
+	{
 		WalkStart();
 
+		Vector2 junpPos = {};
+
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DoMoveCurve(junpPos, 1.5f,junpPos.y );
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+
+		// ↑にジャンプする
+	}
 		break;
 
 	case CGridObject::BlockType::BAUMHORIZONTAL:
 	case CGridObject::BlockType::BAUMVERTICAL:
+	{
+
 		// バウムクーヘンの向こう側に移動する
 		// もう一個先に座標設定
 		nextGridPos.x += d.x;
@@ -254,6 +268,7 @@ void ThinMove::Move(DIRECTION _dir)
 					break;
 				}
 			});
+	}
 		break;
 
 
