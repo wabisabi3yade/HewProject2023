@@ -177,6 +177,7 @@
     <ClInclude Include="CShadow.h" />
     <ClInclude Include="CStage1SelectScene.h" />
     <ClInclude Include="CStageMake.h" />
+    <ClInclude Include="CStageSelectPlayer.h" />
     <ClInclude Include="CTatemizoScene.h" />
     <ClInclude Include="CTest.h" />
     <ClInclude Include="CWakamuraScene.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="CShadow.cpp" />
     <ClCompile Include="CStage1SelectScene.cpp" />
     <ClCompile Include="CStageMake.cpp" />
+    <ClCompile Include="CStageSelectPlayer.cpp" />
     <ClCompile Include="CTatemizoScene.cpp" />
     <ClCompile Include="CTest.cpp" />
     <ClCompile Include="CWakamuraScene.cpp" />
