@@ -10,12 +10,14 @@
 #include "CCamera.h"
 #include "CWorldSelectScene.h"
 #include "CStage1SelectScene.h"
+
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
 {
 	effectManeger = EffectManeger::GetInstance();
 	textureFactory = TextureFactory::GetInstance();
+	fade = Fade::GetInstance();
 }
 
 CSceneManager::~CSceneManager()
@@ -25,6 +27,7 @@ CSceneManager::~CSceneManager()
 	EffectManeger::Delete();
 	CCamera::Delete();
 	TextureFactory::Delete();
+	Fade::Delete();
 }
 
 CSceneManager* CSceneManager::GetInstance()
@@ -52,6 +55,9 @@ void CSceneManager::Act()
 	
 	//エフェクトマネジャー
 	effectManeger->Update();
+
+	// フェードの更新処理
+	fade->Update();
 	
 	//画面塗りつぶしと設定
 	D3D_ClearScreen();
@@ -59,6 +65,11 @@ void CSceneManager::Act()
 	pNowScene->Draw();
 
 	effectManeger->Draw();
+
+	// フェード描画
+	// 1番後に書く
+	fade->Draw();
+
 	// 画面更新
 	D3D_UpdateScreen();
 

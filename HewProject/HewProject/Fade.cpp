@@ -1,36 +1,47 @@
 #include "Fade.h"
 #include "CObject.h"
 
+Fade* Fade::instance = nullptr;
 
 using namespace DirectX;
 
-D3DBUFFER Fade::mVertexBuffer = NULL;
-D3DTEXTURE Fade::mTexture = NULL;
-bool Fade::isMakeInstance = false;
-
 Fade::Fade()
 {
+	mTransform.pos = {};
+	mTransform.rotation = {};
+	mTransform.scale = { 1,1,1 };
+
+	mTexture = NULL;
+
+	D3D_CreateSquare({ 1,1 }, &mVertexBuffer);
 
 }
 
 // 描画に使用するテクスチャ
 Fade::~Fade()
 {
+	
 }
 
-Fade* Fade::Get()
+Fade* Fade::GetInstance()
 {
 	// 作成していないなら
-	if (!isMakeInstance)
+	if (instance == nullptr)
 	{
-		// 初期化する
-		isMakeInstance = true;
-		Init();
+		instance = new Fade();
 	}
 
-	static Fade instance;
+	return instance;
+}
 
-	return &instance;
+void Fade::Delete()
+{
+	CLASS_DELETE(instance);
+}
+
+void Fade::Update()
+{
+	if (!isActive) return;
 }
 
 void Fade::Draw()
@@ -87,8 +98,3 @@ void Fade::Draw()
 	m_pImmediateContext->Draw(6, 0);
 }
 
-void Fade::Init()
-{
-	D3D_CreateSquare({ 1,1 }, &mVertexBuffer);
-	D3D_LoadTexture(L"asset/hashimoto/B.png", &mTexture);
-}
