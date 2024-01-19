@@ -44,6 +44,7 @@ CGridObject::Category CGridObject::TypeToCategory(BlockType _type)
 	case BlockType::BAUMVERTICAL:
 	case BlockType::START:
 	case BlockType::GALL:
+	case BlockType::GUMI:
 	case BlockType::NONE:
 		ret = Category::OBJECT;
 		break;
