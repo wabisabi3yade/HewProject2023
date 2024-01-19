@@ -21,6 +21,7 @@ public:
 		MOVE_Z,
 		SCALE,
 		ROTATION,
+		MOVECURVE,
 		DELAY
 	};
 
@@ -45,7 +46,7 @@ public:
 
 		FUNC dotweenType = FUNC::NONE;	// Dotweenの種類変数
 		START start = START::DO;	//　始まる方法の種類変数
-
+		Vector3 oldPos = {};	//	移動開始時の座標保持用（CURVE）
 		float nowTime = 0.0f;	// Dotween始まった時の時間(ms)
 		float moveTime = 0.0f;	// 移動にかかる時間(ms)
 		float moveSpeed = 0.0f;	// 移動速度
@@ -190,6 +191,8 @@ public:
 
 	// 遅らせる処理
 	void DoDelay(float _delayTime);
+
+	void DoMoveCurve(Vector2 _targetPosXY, float _moveTime);
 
 	// これ以降の処理を遅らせる
 	void AppendDelay(float _delayTime);

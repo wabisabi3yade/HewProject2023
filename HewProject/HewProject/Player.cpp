@@ -108,7 +108,7 @@ void Player::Update()
 		}
 		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false)
 		{
-			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
+			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 		}
 	}
 	else
@@ -127,10 +127,10 @@ void Player::Update()
 		case 3:
 			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2)
 			{
-				mTransform.pos.y = (FALL_POS_Y * -1.0f) /*+ mTransform.scale.y / 2*/;  //最終地点の反対 ＝ 画面の最上部地点
+				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 				fallFloorChange = true;
 			}
-			if (fallFloorChange && mTransform.pos == gridTable->GridToWorld(this->GetGridPos(), CGridObject::BlockType::START))
+			if (fallFloorChange && mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START))
 			{
 				move->FallAfter();
 				move->MoveAfter();
@@ -199,6 +199,8 @@ void Player::ChangeState(STATE _set)
 		break;
 	}
 
+	dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(direction));
+
 	// 移動できる方向を更新
 	move->CheckCanMove();
 }
@@ -210,7 +212,7 @@ void Player::Draw()
 
 void Player::Fall()
 {
-	dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction), 2.0f);
+	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
 	move->FallStart();
 }
 

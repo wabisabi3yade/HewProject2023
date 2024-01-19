@@ -1,9 +1,9 @@
 #pragma once
-#include "CGridObject.h"
+#include "CItem.h"
 #include "DoTween.h"
 
 class CChili :
-    public CGridObject
+    public CItem
 {
 public:
     CChili(D3DBUFFER vb, D3DTEXTURE tex);

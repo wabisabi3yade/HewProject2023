@@ -65,6 +65,21 @@ void DoTween::Update()
 					objPtr->mTransform.rotation.y += (*itr2).moveDir.y * (*itr2).moveSpeed;
 					objPtr->mTransform.rotation.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
 					break;
+				case FUNC::MOVECURVE:
+
+					float t = (*itr2).nowTime * (1.0f / (*itr2).moveTime);
+
+					//Bスプライン曲線の計算式
+					objPtr->mTransform.pos.x =
+						(pow((1 - t), 2) * (*itr2).oldPos.x)
+						+ (2 * t) * (1 - t) * (((*itr2).oldPos.x + (*itr2).targetValue.x) / 2)
+						+ (pow(t, 2) * (*itr2).targetValue.x);
+
+					objPtr->mTransform.pos.y =
+						(pow((1 - t), 2) * (*itr2).oldPos.y)
+						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y) / 2 + ((*itr2).oldPos.y * 2))
+						+ (pow(t, 2) * (*itr2).targetValue.y);
+					break;
 				}
 
 				itr2++;	// 次のイテレータに進む
@@ -103,6 +118,9 @@ void DoTween::Update()
 				case FUNC::ROTATION:
 					objPtr->mTransform.rotation = (*itr2).targetValue;
 					break;
+				case FUNC::MOVECURVE:
+					objPtr->mTransform.pos.x = (*itr2).targetValue.x;
+					objPtr->mTransform.pos.y = (*itr2).targetValue.y;
 				}
 
 				auto nextItr = std::next(itr2);
@@ -450,6 +468,28 @@ void DoTween::DoDelay(float _delayTime)
 
 	set.state = STATE::PLAY;	// Dotween起動
 	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTween::DoMoveCurve(Vector2 _targetPosXY, float _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::MOVECURVE;
+	set.start = START::DO;
+	set.oldPos = objPtr->mTransform.pos;
+	set.targetValue = { _targetPosXY.x, _targetPosXY.y,0 };
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
 
 	// flowの最初の要素として追加する
 	FLOW flow;	// 1連の流れ
