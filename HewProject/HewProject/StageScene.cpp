@@ -68,15 +68,15 @@ StageScene::~StageScene()
 
 	CLASS_DELETE(stage);
 
-	for (std::vector<CGridObject*>::iterator it = oneFStgObj.begin(); it != oneFStgObj.end(); it++)
+	for (int i = 0; i < oneFStgObj.size(); i++)
 	{
-		CLASS_DELETE((*it));
+		CLASS_DELETE(oneFStgObj[i]);
 	}
 	oneFStgObj.clear();
-
-	for (std::vector<CGridObject*>::iterator it = secondFStgObj.begin(); it != secondFStgObj.end(); it++)
+	
+	for (int i = 0; i < secondFStgObj.size(); i++)
 	{
-		CLASS_DELETE((*it));
+		CLASS_DELETE(secondFStgObj[i]);
 	}
 	secondFStgObj.clear();
 

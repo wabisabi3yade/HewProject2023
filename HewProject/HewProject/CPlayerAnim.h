@@ -15,6 +15,11 @@ public:
         WALK_LEFT,	// •à‚«¶
         WALK_RIGHT,	// •à‚«‰E
         WALK_UP,    // •à‚«¶
+
+        PANIC_DOWN, //Å‚Á‚Ä‚¢‚é•à‚«‰º
+        PANIC_LEFT, //Å‚Á‚Ä‚¢‚é•à‚«¶
+        PANIC_RIGHT,//Å‚Á‚Ä‚¢‚é•à‚«‰E
+        PANIC_UP,   //Å‚Á‚Ä‚¢‚é•à‚«ã
     };
 private:
     float AnimSpeedRate;
@@ -25,7 +30,7 @@ public:
     ~CPlayerAnim();
     void Update()override;
     void PlayWalk(int num , float _animSpeedRate = 1);
-    void StopWalk();
+    void StopWalk(int _num = 0);
     void PlayFall(int _num, float _animSpeedRate = 1);
     bool GetIsFall() { return Now_IsFall; }
     bool GetOldIsFall() { return Old_IsFall; }

@@ -187,6 +187,28 @@ void FatMove::Move(DIRECTION _dir)
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+				switch (player->GetNowFloor())
+				{
+				case 1:
+					break;
+				case 2:
+				{
+					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				}
+				break;
+				case 3:
+				{
+
+					player->dotween->DoDelay(FALLMOVE_TIME);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				}
+				break;
+				default:
+					break;
+				}
 			});
 
 		break;
