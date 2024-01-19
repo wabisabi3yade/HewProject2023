@@ -1,7 +1,7 @@
 #pragma once
 #include "CScene.h"
 
-class CGridObject;
+class CObject;
 class CStageSelectPlayer;
 
 class CStage1SelectScene :
@@ -15,7 +15,7 @@ public:
     D3DTEXTURE stage1Texture;
 
     CStageSelectPlayer* player;
-    CGridObject* stage[4];
+    CObject* stage[4];
 
 public:
     CStage1SelectScene();

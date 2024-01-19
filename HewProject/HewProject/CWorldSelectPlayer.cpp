@@ -31,10 +31,13 @@ void CWorldSelectPlayer::Update()
 		if (gInput->GetKeyTrigger(VK_RETURN))
 		{
 			isMoving = true;
+			isNoPush = true;
 
 			Vector2 playerXY;
 			playerXY.x = mTransform.pos.x;
 			playerXY.y = mTransform.pos.y + 2.0f;
+
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
 
 			dotween->DoMoveY(playerXY.y, 1.0f);
 
