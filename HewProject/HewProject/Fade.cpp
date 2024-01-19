@@ -1,8 +1,19 @@
 #include "Fade.h"
 #include "CObject.h"
 
+
 using namespace DirectX;
 
+D3DBUFFER Fade::mVertexBuffer = NULL;
+D3DTEXTURE Fade::mTexture = NULL;
+bool Fade::isMakeInstance = false;
+
+Fade::Fade()
+{
+
+}
+
+// 描画に使用するテクスチャ
 Fade::~Fade()
 {
 }
