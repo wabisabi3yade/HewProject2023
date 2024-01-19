@@ -217,11 +217,17 @@
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\NormalMove">
       <UniqueIdentifier>{fc79e383-e0cc-46d5-ac96-b7a25d310ecf}</UniqueIdentifier>
     </Filter>
-	  <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
-		  <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
-	  </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
+      <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
       <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Fade">
+      <UniqueIdentifier>{0fedf063-ae9c-4330-964b-b3a56bb9b9e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Title">
+      <UniqueIdentifier>{cfbca9c8-21de-492f-879f-61c70e99e4f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -417,6 +423,12 @@
     <ClInclude Include="CStage1SelectScene.h">
       <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
     </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>ソース ファイル\Hashimoto\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>ソース ファイル\Hashimoto\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -610,6 +622,12 @@
     </ClCompile>
     <ClCompile Include="CStage1SelectScene.cpp">
       <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>ソース ファイル\Hashimoto\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>ソース ファイル\Hashimoto\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
