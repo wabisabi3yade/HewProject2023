@@ -16,12 +16,20 @@ bool CollsionCircle(const Transform& _obj1, const Transform& _obj2)
 
 	return syahen <= decision * decision;
 }
-bool CollsionRect(CObject _obj1, CObject _obj2)
+bool CollsionRect(CObject* _obj1, CObject* _obj2)
 {
-	if (_obj1.mTransform.pos.x + _obj1.mTransform.scale.x / 2 >= _obj2.mTransform.pos.x - _obj2.mTransform.scale.x / 2 &&
-		_obj2.mTransform.pos.x + _obj2.mTransform.scale.x / 2 >= _obj1.mTransform.pos.x - _obj2.mTransform.scale.x / 2 &&
-		_obj1.mTransform.pos.y + _obj1.mTransform.scale.y / 2 >= _obj2.mTransform.pos.y - _obj2.mTransform.scale.y / 2 &&
-		_obj2.mTransform.pos.y + _obj2.mTransform.scale.y / 2 >= _obj1.mTransform.pos.y - _obj2.mTransform.scale.y / 2)
+	/*if (_obj1->mTransform.pos.x + _obj1->mTransform.scale.x / 2 >= _obj2->mTransform.pos.x - _obj2->mTransform.scale.x / 2 &&
+		_obj2->mTransform.pos.x + _obj2->mTransform.scale.x / 2 >= _obj1->mTransform.pos.x - _obj2->mTransform.scale.x / 2 &&
+		_obj1->mTransform.pos.y + _obj1->mTransform.scale.y / 2 >= _obj2->mTransform.pos.y - _obj2->mTransform.scale.y / 2 &&
+		_obj2->mTransform.pos.y + _obj2->mTransform.scale.y / 2 >= _obj1->mTransform.pos.y - _obj2->mTransform.scale.y / 2)
+	{
+		return true;
+	}*/
+
+	if (_obj1->mTransform.pos.x + _obj1->mTransform.scale.x / 3 >= _obj2->mTransform.pos.x &&
+		_obj2->mTransform.pos.x >= _obj1->mTransform.pos.x - _obj2->mTransform.scale.x / 3 &&
+		_obj1->mTransform.pos.y + _obj1->mTransform.scale.y / 3 >= _obj2->mTransform.pos.y &&
+		_obj2->mTransform.pos.y >= _obj1->mTransform.pos.y)
 	{
 		return true;
 	}

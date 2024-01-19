@@ -21,7 +21,7 @@ CStageSelectPlayer::CStageSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CObject(vb
 	isOnAnim_Up = false;
 	isOnAnim_Down = false;
 	isDiagonal = false;
-	nNumSelectScene = 2;
+	nNumSelectScene = 7;
 }
 
 CStageSelectPlayer::~CStageSelectPlayer()
@@ -119,6 +119,25 @@ void CStageSelectPlayer::Update()
 	}
 
 
+	if (mTransform.pos.x > 7.0f)
+	{
+		mTransform.pos.x = 7.0f;
+	}
+
+	if (mTransform.pos.x < -7.0f)
+	{
+		mTransform.pos.x = -7.0f;
+	}
+
+	if (mTransform.pos.y > 3.6f)
+	{
+		mTransform.pos.y = 3.6f;
+	}
+
+	if (mTransform.pos.y < -3.7f)
+	{
+		mTransform.pos.y = -3.7f;
+	}
 
 
 	// 動き始めた瞬間
@@ -132,7 +151,7 @@ void CStageSelectPlayer::Update()
 	{
 		// アニメーションを止める
 		// 向いている方向に
-		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
+		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(playerDir));
 	}
 
 	// 前のフラグ状態を持っておく
@@ -166,5 +185,5 @@ void CStageSelectPlayer::FlagInit()
 	isOnAnim_Right = false;
 	isOnAnim_Up = false;
 	isOnAnim_Down = false;
-	nNumSelectScene = 2;
+	nNumSelectScene = 7;
 }
