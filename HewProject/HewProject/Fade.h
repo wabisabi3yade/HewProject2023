@@ -16,7 +16,7 @@ class Fade
 		FADE_OUT,
 	};
 
-	std::unique_ptr<DoTween> dotween;
+	/*std::unique_ptr<DoTween> dotween;*/
 
 	// 描画に使用する頂点バッファ
 	static D3DBUFFER mVertexBuffer;
