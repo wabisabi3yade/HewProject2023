@@ -16,19 +16,18 @@ class Fade
 		FADE_OUT,
 	};
 
-	/*std::unique_ptr<DoTween> dotween;*/
-
-	// 描画に使用する頂点バッファ
-	static D3DBUFFER mVertexBuffer;
-
-	// 描画に使用するテクスチャ
-	static D3DTEXTURE mTexture;
-
-	DirectX::XMFLOAT4 materialDiffuse = { 1,1,1,1 };	// マテリアル色
+	static Fade* instance;
 
 	// アクティブ/非アクティブ切り替え変数
 	bool isActive = false;
-	static bool isMakeInstance;	// インスタンスを既に作ったか
+
+	// 描画に使用する頂点バッファ
+	D3DBUFFER mVertexBuffer;
+
+	// 描画に使用するテクスチャ
+	D3DTEXTURE mTexture;
+
+	DirectX::XMFLOAT4 materialDiffuse = { 1,1,1,1 };	// マテリアル色
 
 	// トランスフォーム
 	Transform mTransform;
@@ -37,11 +36,12 @@ class Fade
 	~Fade();
 
 public:
-	static Fade* Get();
+	static Fade* GetInstance();
+
+	static void Delete();
+
+	void Update();
 
 	void Draw();
-
-	static void Init();
-
 };
 
