@@ -116,7 +116,7 @@ void Player::Update()
 		switch (nowFloor)
 		{
 		case 1:
-			if (mTransform.pos.y <= (FALL_POS_Y - mTransform.scale.y / 2))
+			if (mTransform.pos.y <= (FALL_POS_Y - mTransform.scale.y / 2 + 0.1f))
 			{
 				move->MoveAfter();
 				move->FallAfter();
@@ -125,6 +125,8 @@ void Player::Update()
 			break;
 		case 2:
 		case 3:
+
+
 			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2+0.1f)
 			{
 				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
@@ -132,8 +134,12 @@ void Player::Update()
 			}
 			if (fallFloorChange && mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START))
 			{
-				move->FallAfter();
 				move->MoveAfter();
+				move->FallAfter();
+				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
+				nowFloor--;
+				fallFloorChange = false;
+
 			}
 			break;
 		default:

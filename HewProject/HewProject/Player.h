@@ -12,6 +12,8 @@
 #define FALL_TIME (3.0f) //チョコが壊れてから落ち始めるまでの時間
 #define FALLMOVE_TIME (1.0f) //落ちる移動時間
 #define FALL_POS_Y (-4.5f) //落ちる最終座標
+#define JUMP_TIME (1.5f) //ジャンプの移動時間
+#define BOUND_TIME (1.0f)
 #define THIN_CALOMAX (5)	// ガリ状態時での最大カロリー数 
 #define NORMAL_CALOMAX (10)	// 普通状態時での最大カロリー数 
 
@@ -123,6 +125,7 @@ public:
 	int GetNowFloor() { return nowFloor; }
 	void SetNowFloor(int _set);
 	void GameOver();
+	bool GetFallFloorCahge() { return fallFloorChange; }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
