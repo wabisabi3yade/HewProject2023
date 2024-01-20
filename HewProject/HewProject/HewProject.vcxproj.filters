@@ -223,16 +223,23 @@
     <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
       <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="ソース ファイル\Wakamura\CStageSelectPlayer">
       <UniqueIdentifier>{2ec5f6b3-a280-424f-9329-316fcc5c30f5}</UniqueIdentifier>
-</Filter>
+    </Filter>
     <Filter Include="ソース ファイル\Hashimoto\Fade">
       <UniqueIdentifier>{0fedf063-ae9c-4330-964b-b3a56bb9b9e7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Hashimoto\Title">
       <UniqueIdentifier>{cfbca9c8-21de-492f-879f-61c70e99e4f3}</UniqueIdentifier>
-
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Fade_Test">
+      <UniqueIdentifier>{076b2640-c5c6-4fbf-8bc6-42bf0c55dd6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\UI">
+      <UniqueIdentifier>{fcb6f50d-d592-4854-96e0-4be9a81a1e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\DotweenUI">
+      <UniqueIdentifier>{6bfcca2b-6288-4596-aead-d3003a8589b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -428,16 +435,23 @@
     <ClInclude Include="CStage1SelectScene.h">
       <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
     </ClInclude>
-
     <ClInclude Include="CStageSelectPlayer.h">
       <Filter>ソース ファイル\Wakamura\CStageSelectPlayer</Filter>
-</ClInclude>
+    </ClInclude>
     <ClInclude Include="Fade.h">
       <Filter>ソース ファイル\Hashimoto\Fade</Filter>
     </ClInclude>
     <ClInclude Include="Title.h">
       <Filter>ソース ファイル\Hashimoto\Title</Filter>
-
+    </ClInclude>
+    <ClInclude Include="Fade_TestScene.h">
+      <Filter>ソース ファイル\Hashimoto\Fade_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>ソース ファイル\Hashimoto\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DotweenUI.h">
+      <Filter>ソース ファイル\Hashimoto\DotweenUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -633,16 +647,23 @@
     <ClCompile Include="CStage1SelectScene.cpp">
       <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
     </ClCompile>
-
-	  <ClCompile Include="CStageSelectPlayer.cpp">
-		  <Filter>ソース ファイル\Wakamura\CStageSelectPlayer</Filter>
-	  </ClCompile>
+    <ClCompile Include="CStageSelectPlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\CStageSelectPlayer</Filter>
+    </ClCompile>
     <ClCompile Include="Fade.cpp">
       <Filter>ソース ファイル\Hashimoto\Fade</Filter>
     </ClCompile>
     <ClCompile Include="Title.cpp">
       <Filter>ソース ファイル\Hashimoto\Title</Filter>
-
+    </ClCompile>
+    <ClCompile Include="Fade_TestScene.cpp">
+      <Filter>ソース ファイル\Hashimoto\Fade_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>ソース ファイル\Hashimoto\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DotweenUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\DotweenUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

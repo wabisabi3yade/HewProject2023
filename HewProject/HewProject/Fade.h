@@ -2,6 +2,8 @@
 #include <iostream>
 #include "direct3d.h"
 #include "Transform.h"
+
+class CObject;
 class DoTween;
 
 // ゲーム全体のフェードを担うクラス
@@ -12,7 +14,7 @@ class Fade
 	{
 		STAY,	// 何もしていない状態
 		FADE_IN,	// フェードが入ってくる
-		STOP, // 真ん中で止まっている状態
+		LOADING, // ローディング
 		FADE_OUT,
 	};
 
@@ -20,6 +22,9 @@ class Fade
 
 	// アクティブ/非アクティブ切り替え変数
 	bool isActive = false;
+
+	// フェードが今度の状態か
+	STATE state;
 
 	// 描画に使用する頂点バッファ
 	D3DBUFFER mVertexBuffer;
@@ -30,7 +35,7 @@ class Fade
 	DirectX::XMFLOAT4 materialDiffuse = { 1,1,1,1 };	// マテリアル色
 
 	// トランスフォーム
-	Transform mTransform;
+	CObject* empty;
 
 	Fade();
 	~Fade();
@@ -41,6 +46,10 @@ public:
 	static void Delete();
 
 	void Update();
+	void StayUpdate();
+	void FadeInUpdate();
+	void LoadingUpdate();
+	void FadeOutUpdate();
 
 	void Draw();
 };

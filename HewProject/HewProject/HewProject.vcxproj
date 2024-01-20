@@ -188,7 +188,9 @@
     <ClInclude Include="DebugTable.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
+    <ClInclude Include="DotweenUI.h" />
     <ClInclude Include="Fade.h" />
+    <ClInclude Include="Fade_TestScene.h" />
     <ClInclude Include="FatMove.h" />
     <ClInclude Include="GridTable.h" />
     <ClInclude Include="MuscleMove.h" />
@@ -202,6 +204,7 @@
     <ClInclude Include="Time.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="WICTextureLoader.h" />
@@ -257,7 +260,9 @@
     <ClCompile Include="DebugTable.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DoTween.cpp" />
+    <ClCompile Include="DotweenUI.cpp" />
     <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="Fade_TestScene.cpp" />
     <ClCompile Include="FatMove.cpp" />
     <ClCompile Include="GridTable.cpp" />
     <ClCompile Include="main.cpp" />
@@ -271,6 +276,7 @@
     <ClCompile Include="ThinMove.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
