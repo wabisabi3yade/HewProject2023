@@ -200,7 +200,7 @@ void DoTween::Update()
 
 }
 
-void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type)
+void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type, float _curvepos)
 {
 	VALUE set;
 
@@ -208,6 +208,7 @@ void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type)
 	set.moveTime = _moveTime;
 	set.dotweenType = _type;
 	set.start = START::APPEND;
+	set.curvePos = _curvepos;
 
 	set.state = STATE::WAIT;
 
@@ -215,7 +216,7 @@ void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type)
 	sequence.back().flowList.push_back(set);
 }
 
-void DoTween::Append(float _target, float _moveTime, FUNC _type)
+void DoTween::Append(float _target, float _moveTime, FUNC _type , float _curvepos)
 {
 	VALUE set;
 
@@ -229,6 +230,9 @@ void DoTween::Append(float _target, float _moveTime, FUNC _type)
 		break;
 	case FUNC::MOVE_Z:
 		set.targetValue.z = _target;
+		break;
+	case FUNC::MOVECURVE:
+		set.curvePos = _curvepos;
 		break;
 	}
 	set.moveTime = _moveTime;

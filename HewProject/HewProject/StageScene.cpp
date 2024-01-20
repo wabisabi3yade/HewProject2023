@@ -107,7 +107,7 @@ void StageScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_ESCAPE))
 	{
-		ChangeFloor(2);
+		//ChangeFloor(2);
 	}
 
 	// 動いているときと動き終わった瞬間だけ
@@ -213,6 +213,12 @@ void StageScene::StageMove()
 		// アイテムがあるならそれを画面から消す
 		ItemDelete();
 	}
+	if (player->GetFallFloorCahge() == true)
+	{
+		//player->SetNowFloor(player->GetNowFloor()-1);
+		ChangeFloor(player->GetNowFloor()-1);
+	}
+
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{
 		if (player->GetState() != Player::STATE::MUSCLE && nNumProtein <= 0)
@@ -895,24 +901,34 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 
 void StageScene::ChangeFloor(int _nextFloor)
 {
-	vStageObj.clear();
+	Player* playerCopy = player;
+
+		vStageObj.clear();
+		vStageObj.shrink_to_fit();
 	switch (_nextFloor)
 	{
 	case 1:
 		vStageObj = oneFStgObj;
+		if(nNumUndo != 0)
+		vStageObj.push_back(playerCopy);
 		player->SetGridTable(oneFloor);
 		break;
 	case 2:
 		vStageObj = secondFStgObj;
+		if (nNumUndo != 0)
+		vStageObj.push_back(playerCopy);
 		player->SetGridTable(secondFloor);
 		break;
 	case 3:
 		vStageObj = thirdFStgObj;
+		if (nNumUndo != 0)
+		vStageObj.push_back(playerCopy);
 		player->SetGridTable(thirdFloor);
 		break;
 	default:
 		break;
 	}
+	Z_Sort(vStageObj);
 }
 
 CGridObject* StageScene::GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType)

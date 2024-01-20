@@ -146,11 +146,16 @@ void MuscleMove::Move(DIRECTION _dir)
 		break;
 
 	case CGridObject::BlockType::HOLL:
-		// ↓におちるときのジャンプ
-
+	{
 		WalkStart();
-		player->dotween->DoMoveX(forwardPosXY.x, WALK_TIME);
-		//player->dotween->Join(forwardPosXY.y, WALK_TIME, DoTween::FUNC::MOVE_Y);
+		//ジャンプしてから落ちるように
+
+		Vector2 junpPos = {};
+
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
@@ -159,13 +164,13 @@ void MuscleMove::Move(DIRECTION _dir)
 				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
-				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-					{
-						player->Fall();
-					});
-				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
+				Vector2 fallPosXY;
+				fallPosXY.x = fallPos.x;
+				fallPosXY.y = fallPos.y;
+				player->Fall();
+				player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
+				//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 				switch (player->GetNowFloor())
 				{
 				case 1:
@@ -175,28 +180,43 @@ void MuscleMove::Move(DIRECTION _dir)
 					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+					//バウンドする高さを計算　代入
+					float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
+					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				}
-				break;
 				case 3:
 				{
 
-					player->dotween->DoDelay(FALLMOVE_TIME);
-					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+					//player->dotween->DoDelay(FALLMOVE_TIME);
+					//Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
+					//player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 				}
 				break;
 				default:
 					break;
 				}
 			});
-		break;
+	}
+	break;
 
 	case CGridObject::BlockType::GUMI:
-		// ↑にジャンプする
-
+	{
 		WalkStart();
 
-		break;
+		Vector2 junpPos = {};
+
+		player->mTransform.pos.z = forwardPos.z - 0.001f;
+
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+
+		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+
+		// ↑にジャンプする
+	}
+	break;
 
 	default:
 		// 移動する

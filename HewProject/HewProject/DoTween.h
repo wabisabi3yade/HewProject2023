@@ -115,8 +115,9 @@ public:
 	/// <param name="_target">目標の値</param>
 	/// <param name="_moveTime">時間</param>
 	/// <param name="_type">Dotweenの種類（DoTween::FUNC::～で呼んでね）</param>
-	void Append(Vector3 _target, float _moveTime, FUNC _type);
-	void Append(float _target, float _moveTime, FUNC _type);
+	/// <param name="_curvepos">ジャンプを使用するときジャンプの最高地点(PosYを入れてください) </param>
+	void Append(Vector3 _target, float _moveTime, FUNC _type, float _curvepos = 0);
+	void Append(float _target, float _moveTime, FUNC _type, float _curvepos = 0);
 
 	/// <summary>
 	/// 前の処理と同じタイミングで呼ばれる
