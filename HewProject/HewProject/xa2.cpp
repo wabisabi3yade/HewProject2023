@@ -26,6 +26,7 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/kawada/rockman.wav", false},		// サンプルSE
 	{"SE/kawada/shot0.wav", false},		// サンプルSE
 	{"SE/kawada/shot1.wav", false},		// サンプルSE
+	{"BGM/wakamura/SweetsFactory.wav", true},
 };
 //===================================================//
 //===================================================//
