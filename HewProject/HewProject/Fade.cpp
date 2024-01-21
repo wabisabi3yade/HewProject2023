@@ -2,8 +2,8 @@
 #include "FadeUI.h"
 
 #define FADE_BASE_POSZ (-0.5f)	// フェードの基準座標
-#define FADEOUT_POSX (2.0f)	// フェードアウトの時に向かうX座標
-#define FADE_SPEED (0.02f)	// フェードイン・アウト時の速度
+#define FADEOUT_POSX (3.0f)	// フェードアウトの時に向かうX座標
+#define FADE_TIME (2.0f)
 #define LOAD_TIME (5.0f)	// ロード時間
 
 #define LOADING_BACKSPEED (0.001f)	// ローディング時に動く背景の速度 
@@ -18,6 +18,7 @@ Fade::Fade()
 	// 初期化
 	isActive = false;
 	state = STATE::STAY;
+	time = 0.0f;
 
 	// 空オブジェクト
 	// Dotween使用する
@@ -28,23 +29,19 @@ Fade::Fade()
 	// 背景
 	D3D_LoadTexture(L"asset/BackGround/fade2.png", &tex);
 	D3D_CreateSquare({ 1,1 }, &vb);
-	
-	for (int i = 0; i < FADE_BACK_NUM; i++)
-	{
-		backGround[i] = new FadeUI(vb, tex);
-		backGround[i]->mTransform.scale = { 3.0f, 2.0f, 1.0f };
-		backGround[i]->SetActive(false);
-	}
+
+	backGround = new FadeUI(vb, tex);
+	backGround->mTransform.scale = { 3.0f, 2.0f, 1.0f };
+	backGround->SetActive(false);
+
 }
 
 // 描画に使用するテクスチャ
 Fade::~Fade()
 {
 	CLASS_DELETE(fadeBase);
-	for (int i = 0; i < FADE_BACK_NUM; i++)
-	{
-		CLASS_DELETE(backGround[i]);
-	}
+
+	CLASS_DELETE(backGround);
 
 	SAFE_RELEASE(tex);
 	SAFE_RELEASE(vb);
@@ -94,24 +91,18 @@ void Fade::Update()
 	}
 
 	fadeBase->dotween->Update();
-
-	// フェード全体の中心座標を背景に更新する
-	for (int i = 0; i < FADE_BACK_NUM; i++)
-	{
-		backGround[i]->SetBasePos(fadeBase->mTransform.pos);
-	}	
 }
 
 void Fade::FadeInUpdate()
 {
-	// 右に移動する
-	fadeBase->mTransform.pos.x += FADE_SPEED;
+	time += 1.0f / 60;
+
+	// 右に移動する(イージング)
+	backGround->mTransform.pos.x  = startPos + distance * (1 - std::pow(1 - time / FADE_TIME, 3));
 
 	// 真ん中についたら
-	if (fadeBase->mTransform.pos.x > 0.0f)
+	if (time > FADE_TIME)
 	{
-		fadeBase->mTransform.pos.x = 0.0f;
-
 		// 次の状態でやることをする
 		switch (nextState)
 		{
@@ -133,15 +124,7 @@ void Fade::FadeInUpdate()
 void Fade::LoadingInit()
 {
 	state = STATE::LOADING;
-	loadingTime = 0.0f;
-
-	//// 2枚目の画像を表示する
-	//backGround[1]->SetActive(true);
-	// 座標を1枚目の画像の左にする
-	Vector3 v = { -backGround[1]->mTransform.scale.x , 0.0f, 0.0f };
-	backGround[1]->SetOffset(v);
-
-
+	time = 0.0f;
 }
 
 void Fade::LoadingUpdate()
@@ -149,50 +132,47 @@ void Fade::LoadingUpdate()
 	// 右側に動く
 	float vecX = 1.0f;
 
-	// フェード全体の中心座標を背景に更新する
-	for (int i = 0; i < 1/*FADE_BACK_NUM*/; i++)
-	{
-		// 背景を移動させる
-		float back_offset = backGround[i]->GetOffset().x;
-		back_offset += vecX * LOADING_BACKSPEED;
-		backGround[i]->SetOffset(back_offset);
-	}
-
+	// 背景を移動させる
+	backGround->mTransform.pos.x += vecX * LOADING_BACKSPEED;
 
 	// 1フレームの時間
-	loadingTime += 1.0f / 60;
+	time += 1.0f / 60;
 	// ロード時間が超えたら
-	if (loadingTime < LOAD_TIME) return;
+	if (time < LOAD_TIME) return;
 
 	state = STATE::FADE_OUT;	// フェードアウトする
+
+	FadeOutInit();
 }
 
 void Fade::FadeOutInit()
 {
 	// 状態を更新する
 	state = STATE::FADE_OUT;
+
+	//距離を測る
+	startPos = backGround->mTransform.pos.x;
+	distance = FADEOUT_POSX - startPos;
+
+	time = 0.0f;
 }
 
 void Fade::FadeOutUpdate()
 {
-	// 右に移動する
-	fadeBase->mTransform.pos.x += FADE_SPEED;
+	time += 1.0f / 60;
 
-	// 背景がどっちも画面外に行ったなら
-	if (backGround[0]->mTransform.pos.x - backGround[0]->mTransform.scale.x / 2 > FADEOUT_POSX /*&&
-		backGround[1]->mTransform.pos.x - backGround[1]->mTransform.scale.x / 2 > FADEOUT_POSX*/)
+	// 右に移動する
+	backGround->mTransform.pos.x  = startPos + distance * (1 - std::pow(1 - time / FADE_TIME, 3));
+
+	// 背景が画面外に行ったなら
+	if (time > FADE_TIME)
 	{
 		// 非表示にする
 		isActive = false;
+		// 背景を非表示にする
+		backGround->SetActive(false);
 		// 待機状態にする
 		state = STATE::STAY;
-		// 背景を非表示にしておく
-		for (int i = 0; i < FADE_BACK_NUM; i++)
-		{
-			// オフセットを戻しておく
-			backGround[i]->SetOffset(Vector3::zero);
-			backGround[i]->SetActive(false);
-		}
 	}
 }
 
@@ -207,26 +187,25 @@ void Fade::FadeIn(const STATE& _nextState)
 	state = STATE::FADE_IN;
 	nextState = _nextState;
 
-	// 背景1枚目の初期化する
-	backGround[0]->SetActive(true);
-	// 画像が左画面端に合うようにオフセットを調整する
-	Vector3 v = { (FADEOUT_POSX - backGround[0]->mTransform.scale.x) / 2, 0, 0};
-	backGround[0]->SetOffset(v);
+	// 画面左端に配置する
+	backGround->mTransform.pos.x = -FADEOUT_POSX;
 
-	// 最初にここに置く
-	fadeBase->mTransform.pos = { -FADEOUT_POSX, 0.0f, 0.0f };
+	//距離を測る
+	startPos = backGround->mTransform.pos.x;
+	distance = 0.0f - startPos;
+
+	time = 0.0f;
+
+	// 背景の初期化する
+	backGround->SetActive(true);
 }
 
 void Fade::Draw()
 {
 	if (!isActive) return;
+	
 	// 背景描画
-	
-	for (int i = 0; i < FADE_BACK_NUM; i++)
-	{
-		backGround[i]->Draw();
-	}
-	
+	backGround->Draw();
 }
 
 
