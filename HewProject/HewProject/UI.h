@@ -1,6 +1,7 @@
 #pragma once
 #include "CAnimation.h"
 #include "Transform.h"
+#include "DotweenUI.h"
 
 class UI
 {
@@ -9,8 +10,6 @@ protected:
 	bool isActive;	// 表示・非表示機能
 	CAnimation* mAnim;	// アニメーションクラス
 
-	Transform mTransform;	// トランスフォーム
-
 	// 描画に使用する頂点バッファ
 	D3DBUFFER mVertexBuffer;
 
@@ -18,13 +17,22 @@ protected:
 	D3DTEXTURE mTexture;
 
 public:
+	Transform mTransform;	// トランスフォーム
+	DirectX::XMFLOAT4 materialDiffuse = { 1,1,1,1 };	// マテリアル色
+
+	DoTweenUI* dotween;
+
 	UI();
 	UI(D3DBUFFER vb, D3DTEXTURE tex);	// バッファ、テクスチャを設定するとき
 	virtual ~UI();
 	
 	void Init();
 
-	virtual void Draw() = 0;	// 描画関数
+	virtual void Update();
+
+	virtual void Draw();	// 描画関数
+
+	void MakeDotween();	// DoTweenを使用する場合はnewした後に呼び出す
 
 	// 表示・非表示切り替え関数
 	void SetActive(const bool& _setActive) { isActive = _setActive; }
