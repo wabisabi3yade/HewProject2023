@@ -1,7 +1,7 @@
 #include "CFade.h"
 #include"DoTween.h"
 
-#define TIME_FADEIN (1.0f)	// フェードインにかかる時間
+#define TIME_FADE (1.0f)	// フェードインにかかる時間
 #define TIME_FADEOUT (1.0f)	// フェードアウトにかかる時間
 
 void CFade::FadeIn(FadeType _fadeType)
@@ -19,35 +19,35 @@ void CFade::FadeIn(FadeType _fadeType)
 		break;
 	case CFade::LEFT:
 		mTransform.pos = Vector3::zero + mTransform.scale.x / 2;
-		doTween->DoMoveX(0.0f, TIME_FADEIN);
+		doTween->DoMoveX(0.0f, TIME_FADE);
 		break;
 	case CFade::RIGHT:
 		mTransform.pos = Vector3::zero - mTransform.scale.x;
-		doTween->DoMoveX(0.0f, TIME_FADEIN);
+		doTween->DoMoveX(0.0f, TIME_FADE);
 		break;
 	case CFade::UP:
 		mTransform.pos = Vector3::zero - mTransform.scale.y;
-		doTween->DoMoveX(0.0f, TIME_FADEIN);
+		doTween->DoMoveX(0.0f, TIME_FADE);
 		break;
 	case CFade::DOWN:
 		mTransform.pos = Vector3::zero + mTransform.scale.y;
-		doTween->DoMoveX(0.0f, TIME_FADEIN);
+		doTween->DoMoveX(0.0f, TIME_FADE);
 		break;
 	case CFade::TO_TOP_LEFT:
 		mTransform.pos = Vector3(Vector3::zero.x + mTransform.scale.x, Vector3::zero.y - mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(Vector3::zero, TIME_FADEIN);
+		doTween->DoMove(Vector3::zero, TIME_FADE);
 		break;
 	case CFade::TO_TOP_RIGHT:
 		mTransform.pos = Vector3(Vector3::zero.x - mTransform.scale.x, Vector3::zero.y - mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(Vector3::zero, TIME_FADEIN);
+		doTween->DoMove(Vector3::zero, TIME_FADE);
 		break;
 	case CFade::TO_BOTTOM_LEFT:
 		mTransform.pos = Vector3(Vector3::zero.x + mTransform.scale.x, Vector3::zero.y + mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(Vector3::zero, TIME_FADEIN);
+		doTween->DoMove(Vector3::zero, TIME_FADE);
 		break;
 	case CFade::TO_BOTTOM_RIGHT:
 		mTransform.pos = Vector3(Vector3::zero.x - mTransform.scale.x, Vector3::zero.y + mTransform.scale.y, Vector3::zero.z);
-		doTween->DoMove(Vector3::zero, TIME_FADEIN);
+		doTween->DoMove(Vector3::zero, TIME_FADE);
 		break;
 
 	default:

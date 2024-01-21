@@ -10,6 +10,7 @@
 #include "CCamera.h"
 #include "CWorldSelectScene.h"
 #include "CStage1SelectScene.h"
+#include "Fade_TestScene.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -117,6 +118,11 @@ void CSceneManager::SceneChange(int _scene)
 	case CScene::STAGE1:
 		nowSceneName = CScene::STAGE1;
 		pNowScene = new CStage1SelectScene();
+		break;
+
+	case CScene::FADE_TEST:
+		nowSceneName = CScene::FADE_TEST;
+		pNowScene = new Fade_TestScene();
 		break;
 	}
 }

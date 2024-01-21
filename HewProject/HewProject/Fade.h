@@ -1,14 +1,16 @@
 #pragma once
 #include <iostream>
 #include "direct3d.h"
-#include "Transform.h"
 
-class CObject;
-class DoTween;
+#define FADE_BACK_NUM (2)	// フェード背景の数
+
+class FadeUI;
+class UI;
 
 // ゲーム全体のフェードを担うクラス
 class Fade
 {
+public:
 	// DoTweenの状態
 	enum class STATE
 	{
@@ -18,27 +20,26 @@ class Fade
 		FADE_OUT,
 	};
 
+private:
 	static Fade* instance;
 
 	// アクティブ/非アクティブ切り替え変数
-	bool isActive = false;
+	bool isActive;
 
-	// フェードが今度の状態か
-	STATE state;
+	// ロードの時間
+	float loadingTime;
 
-	// 描画に使用する頂点バッファ
-	D3DBUFFER mVertexBuffer;
+	STATE state;	// フェードが今どの状態か
+	STATE nextState;	// 次のフェードがどの状態か
 
-	// 描画に使用するテクスチャ
-	D3DTEXTURE mTexture;
-
-	DirectX::XMFLOAT4 materialDiffuse = { 1,1,1,1 };	// マテリアル色
-
-	// トランスフォーム
-	CObject* empty;
+	UI* fadeBase;	// 空オブジェクト(Fadeの全体の座標)
+	FadeUI* backGround[FADE_BACK_NUM];	// 背景
 
 	Fade();
 	~Fade();
+
+	D3DTEXTURE tex;
+	D3DBUFFER vb;
 
 public:
 	static Fade* GetInstance();
@@ -46,10 +47,23 @@ public:
 	static void Delete();
 
 	void Update();
-	void StayUpdate();
+
 	void FadeInUpdate();
 	void LoadingUpdate();
 	void FadeOutUpdate();
+
+	/// <summary>
+	/// フェードインする関数
+	/// </summary>
+	/// 引数 フェードインした後にする状態
+	/// FADE_OUT:すぐにフェードが開ける
+	/// LOADING:ローディングに入る
+	void FadeIn(const STATE& _nextState);
+
+	// ローディングのための初期化をする
+	void LoadingInit();
+	// フェードアウトする
+	void FadeOutInit();
 
 	void Draw();
 };
