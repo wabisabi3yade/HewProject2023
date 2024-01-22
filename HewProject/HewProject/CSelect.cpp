@@ -13,11 +13,11 @@ CSelect::CSelect()
 
 	D3D_CreateSquare({ 3.0f,3.0f }, { 1.0f,1.0f }, &charBuffer);
 
-	D3D_LoadTexture(L"asset/hashimoto/kawada.png", &charTexture[0]);
+	/*D3D_LoadTexture(L"asset/hashimoto/kawada.png", &charTexture[0]);
 	D3D_LoadTexture(L"asset/hashimoto/tatemizo.png", &charTexture[1]);
 	D3D_LoadTexture(L"asset/hashimoto/mizuno.png", &charTexture[2]);
 	D3D_LoadTexture(L"asset/hashimoto/wakamura.png", &charTexture[3]);
-	D3D_LoadTexture(L"asset/hashimoto/hashimoto.png", &charTexture[4]);
+	D3D_LoadTexture(L"asset/hashimoto/hashimoto.png", &charTexture[4]);*/
 
 	charObj = new CObject(charBuffer, charTexture[0]);
 }

@@ -1,6 +1,7 @@
 #include "CWorldSelectPlayer.h"
 #include "CInput.h"
 #include"CPlayerAnim.h"
+#include "xa2.h"
 
 CWorldSelectPlayer::CWorldSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CGridObject(vb, tex)
 {
@@ -50,6 +51,7 @@ void CWorldSelectPlayer::Update()
 	{
 		if (gInput->GetKeyTrigger(VK_LEFT))
 		{
+			XA_Play(SOUND_LABEL_SE000);
 			isMoving = true;
 			isNoPush = true;
 			Vector2 playerXY;
