@@ -64,6 +64,8 @@ void DoTweenUI::Update()
 					break;
 				case FUNC::MOVECURVE:
 
+				{
+
 					float t = (*itr2).nowTime * (1.0f / (*itr2).moveTime);
 
 					//Bスプライン曲線の計算式
@@ -77,7 +79,17 @@ void DoTweenUI::Update()
 						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y) / 2
 							+ (*itr2).curvePos)
 						+ (pow(t, 2) * (*itr2).targetValue.y);
-					break;
+				}
+				break;
+
+				case FUNC::EASE_OUTCUBIC:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+					// 動かす
+					uiPtr->mTransform.pos = (*itr2).oldPos + distance * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
+				}
+				break;
 				}
 
 				itr2++;	// 次のイテレータに進む
@@ -91,6 +103,7 @@ void DoTweenUI::Update()
 				switch ((*itr2).dotweenType)
 				{
 				case FUNC::MOVE:
+				case FUNC::EASE_OUTCUBIC:
 					uiPtr->mTransform.pos = (*itr2).targetValue;
 					break;
 
@@ -119,6 +132,7 @@ void DoTweenUI::Update()
 				case FUNC::MOVECURVE:
 					uiPtr->mTransform.pos.x = (*itr2).targetValue.x;
 					uiPtr->mTransform.pos.y = (*itr2).targetValue.y;
+					break;
 				}
 
 				auto nextItr = std::next(itr2);
@@ -493,6 +507,27 @@ void DoTweenUI::DoMoveCurve(Vector2 _targetPosXY, float _moveTime, float _curveP
 
 	// 設定したパラメータからベクトル、速度を求める
 	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTweenUI::DoEaseOutCubic(const Vector3& _targetAngle, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::EASE_OUTCUBIC;
+	set.start = START::DO;
+	set.oldPos = uiPtr->mTransform.pos;
+	set.targetValue = _targetAngle;
+	set.moveTime = _moveTime;
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
 
 	// flowの最初の要素として追加する
 	FLOW flow;	// 1連の流れ

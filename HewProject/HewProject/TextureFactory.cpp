@@ -72,6 +72,9 @@ void TextureFactory::Load()
 		L"asset/Item/Protein.png",
 		L"asset/Item/shadow.png",
 
+		L"asset/UI/fade_BackBlue.png",
+		L"asset/UI/NowLoadingÅc.png",
+		L"asset/UI/LoadCharacter.png",
 	};
 
 	D3DTEXTURE texWork;
