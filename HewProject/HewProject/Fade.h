@@ -25,19 +25,18 @@ private:
 
 	// アクティブ/非アクティブ切り替え変数
 	bool isActive;
-
-	// フェード用変数
-	float distance = 0.0f;
-	float startPos = 0.0f;
-
 	// ロードの時間
-	float time;
+	float loadingTime;
 
 	STATE state;	// フェードが今どの状態か
 	STATE nextState;	// 次のフェードがどの状態か
 
 	UI* fadeBase;	// 空オブジェクト(Fadeの全体の座標)
-	FadeUI* backGround;	// 背景
+
+	// ローディング
+	UI* backGround;	// 背景
+	UI* nowLoading;	// テキスト
+	UI* character;	// キャラクター
 
 	Fade();
 	~Fade();

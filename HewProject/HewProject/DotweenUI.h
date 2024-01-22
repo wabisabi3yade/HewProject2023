@@ -22,6 +22,7 @@ public:
 		SCALE,
 		ROTATION,
 		MOVECURVE,
+		EASE_OUTCUBIC,
 		DELAY
 	};
 
@@ -200,6 +201,8 @@ public:
 	/// <param name="_moveTime">ˆÚ“®ŠÔ</param>
 	/// <param name="_curvePos">ƒJ[ƒu‚·‚éÅ‘å‚Ì‚‚³</param>
 	void DoMoveCurve(Vector2 _targetPosXY, float _moveTime ,float _curvePos = 1.0f);
+
+	void DoEaseOutCubic(const Vector3& _targetAngle, const float& _moveTime);
 
 	// ‚±‚êˆÈ~‚Ìˆ—‚ğ’x‚ç‚¹‚é
 	void AppendDelay(float _delayTime);
