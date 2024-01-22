@@ -53,7 +53,8 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	mAnim->SetPattern(static_cast<int>(CPlayerAnim::PATTERN::STAY_DOWN));
 	mAnim->isStop = false;
 	IsgameOver = false;
-	fallFloorChange = false;
+	fallFloorChangeTrriger = false;
+	fallMoveTrriger = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -100,6 +101,9 @@ void Player::Update()
 
 	dotween->Update();
 
+	fallMoveTrriger = false;
+	fallFloorChangeTrriger = false;
+
 	if (move->GetIsFalling() == false)
 	{
 		if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == true)
@@ -125,21 +129,20 @@ void Player::Update()
 			break;
 		case 2:
 		case 3:
-
-
-			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2+0.1f)
+			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2 + 0.1f)
 			{
 				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
-				fallFloorChange = true;
+				fallFloorChangeTrriger = true;
 			}
-			if (fallFloorChange && mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START))
+			if ( mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START))
 			{
-				move->MoveAfter();
+				move->Move(static_cast<PlayerMove::DIRECTION>(direction));
+				//move->MoveAfter();
 				move->FallAfter();
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 				nowFloor--;
-				fallFloorChange = false;
-
+				fallFloorChangeTrriger = false;
+				fallMoveTrriger = true;
 			}
 			break;
 		default:

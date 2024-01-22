@@ -209,7 +209,7 @@ void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type, float _curvep
 	set.dotweenType = _type;
 	set.start = START::APPEND;
 	set.curvePos = _curvepos;
-
+	set.oldPos = objPtr->mTransform.pos;
 	set.state = STATE::WAIT;
 
 	// シーケンスの最後の要素に追加する
@@ -233,6 +233,7 @@ void DoTween::Append(float _target, float _moveTime, FUNC _type , float _curvepo
 		break;
 	case FUNC::MOVECURVE:
 		set.curvePos = _curvepos;
+		set.oldPos = objPtr->mTransform.pos;
 		break;
 	}
 	set.moveTime = _moveTime;

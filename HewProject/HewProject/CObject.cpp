@@ -46,8 +46,6 @@ void CObject::Draw()
 		mAnim->Update();
 		// uvÀ•W‚ðŽæ“¾
 		uv = mAnim->GetUV();
-
-		if (!mAnim->isPlaying) return;
 	}
 
 	ConstBuffer cb;

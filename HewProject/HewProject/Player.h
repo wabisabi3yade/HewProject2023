@@ -66,8 +66,8 @@ private:
 
 	bool IsgameOver;
 
-	bool fallFloorChange; //落ちて階層が変わったか
-
+	bool fallFloorChangeTrriger; //落ちて階層が変わったか
+	bool fallMoveTrriger;
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 
 	// テクスチャ（状態別）
@@ -125,7 +125,8 @@ public:
 	int GetNowFloor() { return nowFloor; }
 	void SetNowFloor(int _set);
 	void GameOver();
-	bool GetFallFloorCahge() { return fallFloorChange; }
+	bool GetFallTrriger() { return fallMoveTrriger; }
+	bool GetFallFloorChageTrriger() { return fallFloorChangeTrriger; }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
