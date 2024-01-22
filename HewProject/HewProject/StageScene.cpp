@@ -195,28 +195,32 @@ void StageScene::StageMove()
 		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
 			player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
 		{
-			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType> (player->GetPlayerMove()->CheckNextFloorType())));
+			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
+			if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
+			{
+				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
+				hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+				hollObj->mTransform.pos = nowFloor->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+				vStageObj.push_back(hollObj);
+				player->GetPlayerMove()->FallStart();
+			}
 			chocoObj->CRACK();
 			if (player->GetState() == Player::STATE::FAT)
 			{
 				chocoObj->CRACK();
 			}
-			if (chocoObj->GetActive() == false)
-			{
-				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
-				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
-				hollObj->SetBlookType(CGridObject::BlockType::HOLL);
-				hollObj->mTransform.pos = nowFloor->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
-				vStageObj.push_back(hollObj);
-			}
 		}
 		// ƒAƒCƒeƒ€‚ª‚ ‚é‚È‚ç‚»‚ê‚ð‰æ–Ê‚©‚çÁ‚·
 		ItemDelete();
 	}
-	if (player->GetFallFloorCahge() == true)
+	if (player->GetFallFloorChageTrriger() == true)
 	{
 		//player->SetNowFloor(player->GetNowFloor()-1);
-		ChangeFloor(player->GetNowFloor()-1);
+		if (player->GetNowFloor() != 0)
+		{
+			ChangeFloor(player->GetNowFloor() -1 );
+		}
 	}
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
@@ -266,6 +270,7 @@ void StageScene::TableUpdate()
 			nowFloor->objectTable[g.y][g.x] = static_cast<int>((*itr)->GetBlookType());
 		}
 	}
+	player->SetGridTable(nowFloor);
 }
 
 void StageScene::CastellaMoveOrder()
@@ -904,7 +909,7 @@ void StageScene::ChangeFloor(int _nextFloor)
 	Player* playerCopy = player;
 
 		vStageObj.clear();
-		vStageObj.shrink_to_fit();
+	//vStageObj.shrink_to_fit();
 	switch (_nextFloor)
 	{
 	case 1:
