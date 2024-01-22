@@ -4,7 +4,6 @@
 #include "CGridObject.h"
 #include "TextureFactory.h"
 #include "CPlayerAnim.h"
-#include "xa2.h"
 
 CWorldSelectScene::CWorldSelectScene()
 {
@@ -33,25 +32,10 @@ CWorldSelectScene::CWorldSelectScene()
 	stage[3]->mTransform.pos = { 6,2,-1 };
 	stage[3]->mTransform.scale = { 2,2,1 };
 
-	//サウンド初期化
-	HRESULT hr;
-	hr = XA_Initialize();
-
-	//XA_Initialize関数失敗したか判定
-	if (FAILED(hr))
-	{
-		MessageBoxA(NULL, "サウンド初期化失敗", "エラー", MB_ICONERROR | MB_OK);
-	}
-
-	//XA_Play(SOUND_LABEL_BGMSWEETSFACTORY);
-	XA_Play(SOUND_LABEL_BGM000);
 }
 
 CWorldSelectScene::~CWorldSelectScene()
 {
-	//サウンド解放処理
-	XA_Release();
-
 	CLASS_DELETE(player);
 
 	for (int i = 0; i < 4; i++)
@@ -68,8 +52,6 @@ void CWorldSelectScene::Update()
 		{
 		case 0:
 			CScene::SetScene(SCENE_NAME::STAGE1);
-			//XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
-			XA_Stop(SOUND_LABEL_BGM000);
 			player->FlagInit();
 			break;
 		case 1:

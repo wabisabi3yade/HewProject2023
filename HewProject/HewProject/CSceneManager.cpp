@@ -11,6 +11,7 @@
 #include "CWorldSelectScene.h"
 #include "CStage1SelectScene.h"
 #include "Fade_TestScene.h"
+#include "xa2.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -19,6 +20,18 @@ CSceneManager::CSceneManager()
 	effectManeger = EffectManeger::GetInstance();
 	textureFactory = TextureFactory::GetInstance();
 	fade = Fade::GetInstance();
+
+	//サウンド初期化
+	HRESULT hr;
+	hr = XA_Initialize();
+
+	//XA_Initialize関数失敗したか判定
+	if (FAILED(hr))
+	{
+		MessageBoxA(NULL, "サウンド初期化失敗", "エラー", MB_ICONERROR | MB_OK);
+	}
+
+	XA_Play(SOUND_LABEL_BGMSWEETSFACTORY);
 }
 
 CSceneManager::~CSceneManager()
@@ -43,6 +56,8 @@ CSceneManager* CSceneManager::GetInstance()
 
 void CSceneManager::Delete()
 {
+	//サウンド解放処理
+	XA_Release();
 	CLASS_DELETE(instance);
 }
 
@@ -83,6 +98,7 @@ void CSceneManager::SceneChange(int _scene)
 {
 	// 最初に解放する
 	CLASS_DELETE(pNowScene);
+	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
 
 	switch (_scene)
 	{
@@ -107,6 +123,7 @@ void CSceneManager::SceneChange(int _scene)
 		break;
 
 	case CScene::WAKAMURA:
+		XA_Play(SOUND_LABEL_BGMSWEETSFACTORY);
 		nowSceneName = CScene::WAKAMURA;
 		pNowScene = new CWorldSelectScene();
 		break;

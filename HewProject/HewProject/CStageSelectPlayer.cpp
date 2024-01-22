@@ -5,6 +5,10 @@
 
 #define STAGESELECT_SPEED (0.04f)	// プレイヤー速度
 #define STAGESELECT_PLAYER_ANIMSPD (0.2f)	// プレイヤーアニメ速度
+#define SCREEN_RIGHT_MAX (7.0f)   //画面右端
+#define SCREEN_LEFT_MAX (-7.0f)   //画面左端
+#define SCREEN_UP_MAX (3.6f)      //画面上端
+#define SCREEN_DOWN_MAX (-3.7f)   //画面下端
 CStageSelectPlayer::CStageSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CObject(vb, tex)
 {
 	playerDir = DIRECTION::DOWN;
@@ -119,24 +123,24 @@ void CStageSelectPlayer::Update()
 	}
 
 
-	if (mTransform.pos.x > 7.0f)
+	if (mTransform.pos.x > SCREEN_RIGHT_MAX)
 	{
-		mTransform.pos.x = 7.0f;
+		mTransform.pos.x = SCREEN_RIGHT_MAX;
 	}
 
-	if (mTransform.pos.x < -7.0f)
+	if (mTransform.pos.x < SCREEN_LEFT_MAX)
 	{
-		mTransform.pos.x = -7.0f;
+		mTransform.pos.x = SCREEN_LEFT_MAX;
 	}
 
-	if (mTransform.pos.y > 3.6f)
+	if (mTransform.pos.y > SCREEN_UP_MAX)
 	{
-		mTransform.pos.y = 3.6f;
+		mTransform.pos.y = SCREEN_UP_MAX;
 	}
 
-	if (mTransform.pos.y < -3.7f)
+	if (mTransform.pos.y < SCREEN_DOWN_MAX)
 	{
-		mTransform.pos.y = -3.7f;
+		mTransform.pos.y = SCREEN_DOWN_MAX;
 	}
 
 
