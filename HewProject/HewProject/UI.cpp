@@ -77,6 +77,10 @@ void UI::Draw()
 	cb.matrixTex = XMMatrixTranslation(uv.x, uv.y, 0.0f);
 	// XMMatrixTranspose＝転置行列を作る
 	cb.matrixTex = XMMatrixTranspose(cb.matrixTex);
+
+	// 色を変更
+	cb.materialDiffuse = materialDiffuse;
+
 	// 行列をシェーダーに渡す
 	m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, NULL,
 		&cb, 0, 0);

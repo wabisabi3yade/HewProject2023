@@ -29,8 +29,9 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Text = new UI(textBuffer,textTexture);
 	Text->MakeDotween();
-	Text->mTransform.pos = { 0,0,0 };
+	Text->mTransform.pos = { 0,5,0 };
 	Text->mTransform.scale = { 1,1,1 };
+	Text->materialDiffuse = { 1,1,1,1 };
 
 	stage[0]->mTransform.pos = { -5,2,1 };
 	stage[0]->mTransform.scale = { 2,2,1 };
@@ -41,6 +42,7 @@ CStage1SelectScene::CStage1SelectScene()
 	stage[3]->mTransform.pos = { 5,-2,1 };
 	stage[3]->mTransform.scale = { 2,2,1 };
 
+	isPlayerMoving = false;
 }
 
 CStage1SelectScene::~CStage1SelectScene()
@@ -109,8 +111,24 @@ void CStage1SelectScene::Update()
 		}
 	}
 
-	player->Update();
-	Text->Update();
+	if (isPlayerMoving == false)
+	{
+		Vector2 TextXY;
+		TextXY.x = Text->mTransform.pos.x;
+		TextXY.y = Text->mTransform.pos.y = 0;
+
+		
+		Text->dotween->DoMoveY( TextXY.y,2.0f);
+		Text->Update();
+		Text->dotween->OnComplete([&]()
+			{
+				Text->dotween->DoMoveY(-3.0f, 2.0f);
+				//Text->materialDiffuse.w = -0.1f;
+			});
+	}
+	else {
+		player->Update();
+	}
 	
 	for (int i = 0; i < 4; i++)
 	{
@@ -129,8 +147,8 @@ void CStage1SelectScene::Draw()
 		stage[i]->Draw();
 	}
 
-	player->Draw();
-
 	Text->Draw();
+
+	player->Draw();
 	
 }
