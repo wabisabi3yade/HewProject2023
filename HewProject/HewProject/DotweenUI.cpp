@@ -83,7 +83,6 @@ void DoTweenUI::Update()
 				break;
 
 				case FUNC::EASE_OUTCUBIC:
-				case FUNC::EASE_OUTCUBIC_SCALE:
 				{
 					// 始点と終点の距離を取る
 					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
@@ -91,6 +90,16 @@ void DoTweenUI::Update()
 					uiPtr->mTransform.pos = (*itr2).oldPos + distance * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
 				}
 				break;
+
+				case FUNC::EASE_OUTCUBIC_SCALE:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+					//　始点 + 距離 × 0～1の割合
+					uiPtr->mTransform.scale.x = (*itr2).oldPos.x + distance.x * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
+
+					uiPtr->mTransform.scale.y = (*itr2).oldPos.y + distance.y * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
+				}
 
 				}
 
@@ -549,6 +558,7 @@ void DoTweenUI::DoEaseOutCubicScale(const Vector3& _targetAngle, const float& _m
 	set.start = START::DO;
 	set.oldPos = uiPtr->mTransform.scale;
 	set.targetValue = _targetAngle;
+
 	set.moveTime = _moveTime;
 	set.state = STATE::PLAY;	// Dotween起動
 	set.nowTime = 0;	// 初期化
