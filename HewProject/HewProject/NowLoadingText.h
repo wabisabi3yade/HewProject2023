@@ -15,7 +15,9 @@ class NowLoadingText :
         i,
         n,
         g,
-        period,
+        period_1,
+        period_2, 
+        period_3,
         NUM // êî
     };
 
