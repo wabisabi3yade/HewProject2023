@@ -2,10 +2,10 @@
 #include "LoadCharacter.h"
 #include "TextureFactory.h"
 
-#define TEXT_BASEPOSX (-0.2f)	// テキスト1文字目のX座標
+#define TEXT_BASEPOSX (-0.4f)	// テキスト1文字目のX座標
 #define TEXT_SIN_BASEPOSY (-0.7f)	// サイン関数で動かす軸となるY座標
 #define TEXT_SPACE_X (0.09f)	//	文字間のスペース
-#define TEXT_PERIOD_SPACE (0.02f)	// ピリオド間のスペース
+#define TEXT_PERIOD_SPACE (0.04f)	// ピリオド間のスペース
 
 #define TEXT_U_NUM (3)	// テキスト画像のU
 #define TEXT_V_NUM (4)
