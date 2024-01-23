@@ -5,6 +5,7 @@
 #include "TextureFactory.h"
 #include "CStageSelectPlayer.h"
 #include "Collision.h"
+#include "UI.h"
 
 CStage1SelectScene::CStage1SelectScene()
 {
@@ -14,6 +15,9 @@ CStage1SelectScene::CStage1SelectScene()
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
 
+	D3D_CreateSquare({ 1,1 }, &textBuffer);
+	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Blue.png");
+
 	for (int i = 0; i < 4; i++)
 	{
 		stage[i] = new CGridObject(stageBuffer, stage1Texture);
@@ -22,6 +26,11 @@ CStage1SelectScene::CStage1SelectScene()
 	player = new CStageSelectPlayer(playerBuffer, playerTexture);
 	player->mTransform.scale = { 2,2,1 };
 	player->mTransform.pos = { 0,0,0 };
+
+	Text = new UI(textBuffer,textTexture);
+	Text->MakeDotween();
+	Text->mTransform.pos = { 0,0,0 };
+	Text->mTransform.scale = { 1,1,1 };
 
 	stage[0]->mTransform.pos = { -5,2,1 };
 	stage[0]->mTransform.scale = { 2,2,1 };
@@ -101,6 +110,7 @@ void CStage1SelectScene::Update()
 	}
 
 	player->Update();
+	Text->Update();
 	
 	for (int i = 0; i < 4; i++)
 	{
@@ -120,4 +130,7 @@ void CStage1SelectScene::Draw()
 	}
 
 	player->Draw();
+
+	Text->Draw();
+	
 }
