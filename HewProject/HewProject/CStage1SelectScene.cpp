@@ -50,6 +50,7 @@ CStage1SelectScene::CStage1SelectScene()
 CStage1SelectScene::~CStage1SelectScene()
 {
 	CLASS_DELETE(player);
+	CLASS_DELETE(Text);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -82,9 +83,9 @@ void CStage1SelectScene::Update()
 	
 	for (int i = 0; i < 4; i++)
 	{
-		CollsionRect(player, stage[i]);
+		CollsionRect(stage[i], player);
 
-		if (CollsionRect(player, stage[i]) == true)
+		if (CollsionRect(stage[i], player) == true)
 		{
 			if (gInput->GetKeyTrigger(VK_RETURN))
 			{
@@ -129,13 +130,14 @@ void CStage1SelectScene::Update()
 		if (isOnce == false)
 		{
 			Text->dotween->DoScale({ 1,1,1 }, 1.0f);
+			Text->dotween->Append(Vector3::zero, 2.0f, DoTweenUI::FUNC::DELAY);
+			Text->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::SCALE);
 			isOnce = true;
 		}
 
 		Text->dotween->OnComplete([&]()
 			{
-				Text->dotween->DoDelay(2.0f);
-				Text->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::SCALE);
+				//Text->dotween->DoDelay(2.0f);
 				isPlayerMoving = true;
 			});
 	}
