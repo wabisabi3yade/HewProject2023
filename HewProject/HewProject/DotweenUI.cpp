@@ -86,7 +86,7 @@ void DoTweenUI::Update()
 				{
 					// 始点と終点の距離を取る
 					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
-					// 動かす
+					//　始点 + 距離 × 0～1の割合
 					uiPtr->mTransform.pos = (*itr2).oldPos + distance * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
 				}
 				break;

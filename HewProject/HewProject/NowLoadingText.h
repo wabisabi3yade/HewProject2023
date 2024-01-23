@@ -3,8 +3,24 @@
 class NowLoadingText :
     public UI
 {
-    const short textNum = 10;
-    UI* text[10];
+    enum class TEXT
+    {
+        N,
+        o_1,    // o 1‚Â–Ú
+        w,
+        L,
+        o_2,    // o 2‚Â–Ú 
+        a,
+        d,
+        i,
+        n,
+        g,
+        period,
+        NUM // ”
+    };
+
+    UI* text[static_cast<int>(TEXT::NUM)];
+
     UI* character;
 
     D3DBUFFER buffer;
@@ -13,7 +29,10 @@ public:
     NowLoadingText();
     ~NowLoadingText();
 
-    void SetTexText(D3DTEXTURE&& _tex);
-    void SetTexCharacter(D3DTEXTURE&& _tex);
+    void Update() override;
+    void Draw() override;
+
+    // ‘S‘Ì‚ÉZÀ•W‚ğİ’è‚·‚é
+    void SetPosZ(float _setZ);
 };
 

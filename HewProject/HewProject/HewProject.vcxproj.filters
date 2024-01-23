@@ -462,6 +462,9 @@
     <ClInclude Include="FadeUI.h">
       <Filter>ソース ファイル\Hashimoto\Fade</Filter>
     </ClInclude>
+    <ClInclude Include="LoadCharacter.h">
+      <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -679,6 +682,9 @@
     </ClCompile>
     <ClCompile Include="FadeUI.cpp">
       <Filter>ソース ファイル\Hashimoto\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadCharacter.cpp">
+      <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
