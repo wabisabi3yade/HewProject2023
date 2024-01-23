@@ -27,6 +27,8 @@ public:
     UI* Text;
 
     bool isPlayerMoving;
+    bool isOnce;
+    bool isUpDown;
 
 public:
     CStage1SelectScene();

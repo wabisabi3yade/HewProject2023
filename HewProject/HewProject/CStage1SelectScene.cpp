@@ -29,9 +29,9 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Text = new UI(textBuffer,textTexture);
 	Text->MakeDotween();
-	Text->mTransform.pos = { 0,5,0 };
-	Text->mTransform.scale = { 1,1,1 };
-	Text->materialDiffuse = { 1,1,1,1 };
+	Text->mTransform.pos = { 0,0,0 };
+	Text->mTransform.scale = { 0.1f,0.1f,1 };
+	Text->materialDiffuse = { 1,1,1,0 };
 
 	stage[0]->mTransform.pos = { -5,2,1 };
 	stage[0]->mTransform.scale = { 2,2,1 };
@@ -43,6 +43,8 @@ CStage1SelectScene::CStage1SelectScene()
 	stage[3]->mTransform.scale = { 2,2,1 };
 
 	isPlayerMoving = false;
+	isOnce = false;
+	isUpDown = false;
 }
 
 CStage1SelectScene::~CStage1SelectScene()
@@ -111,19 +113,30 @@ void CStage1SelectScene::Update()
 		}
 	}
 
+	Text->Update();
+
 	if (isPlayerMoving == false)
 	{
-		Vector2 TextXY;
-		TextXY.x = Text->mTransform.pos.x;
-		TextXY.y = Text->mTransform.pos.y = 0;
+		if (isUpDown == false)
+		{
+			Text->materialDiffuse.w += 0.02f;
+		}
+		else
+		{
+			Text->materialDiffuse.w -= 0.01f;
+		}
 
-		
-		Text->dotween->DoMoveY( TextXY.y,2.0f);
-		Text->Update();
+		if (isOnce == false)
+		{
+			Text->dotween->DoScale({ 1,1,1 }, 1.0f);
+			isOnce = true;
+		}
+
 		Text->dotween->OnComplete([&]()
 			{
-				Text->dotween->DoMoveY(-3.0f, 2.0f);
-				//Text->materialDiffuse.w = -0.1f;
+				Text->dotween->DoDelay(2.0f);
+				Text->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::SCALE);
+				isPlayerMoving = true;
 			});
 	}
 	else {
