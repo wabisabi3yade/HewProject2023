@@ -8,6 +8,9 @@ class UI
 
 protected:
 	bool isActive;	// 表示・非表示機能
+	// uv座標を宣言
+	FLOAT_XY uv = { 0,0 };
+
 	CAnimation* mAnim;	// アニメーションクラス
 
 	// 描画に使用する頂点バッファ
@@ -25,7 +28,7 @@ public:
 	UI();
 	UI(D3DBUFFER vb, D3DTEXTURE tex);	// バッファ、テクスチャを設定するとき
 	virtual ~UI();
-	
+
 	void Init();
 
 	virtual void Update();
@@ -39,6 +42,8 @@ public:
 
 	void SetBuffer(const D3DBUFFER _vb) { mVertexBuffer = _vb; }
 	void SetTexture(const D3DTEXTURE _tex) { mTexture = _tex; }
+
+	void SetUV(const float& _setU, const float& _setV) { uv.x = _setU; uv.y = _setV; }
 
 };
 

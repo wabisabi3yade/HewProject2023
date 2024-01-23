@@ -47,9 +47,6 @@ void UI::Draw()
 {
 	if (!isActive) return;  // 非表示なら処理終了
 
-	// uv座標を宣言
-	FLOAT_XY uv = { 0,0 };
-
 	// アニメーションするオブジェクトなら
 	if (mAnim != nullptr)
 	{
@@ -57,8 +54,6 @@ void UI::Draw()
 			mAnim->Update();
 		//uv座標を取得
 			uv = mAnim->GetUV();
-
-		if (!mAnim->isPlaying) return;
 	}
 
 	ConstBuffer cb;

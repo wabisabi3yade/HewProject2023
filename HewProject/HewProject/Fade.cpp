@@ -5,11 +5,11 @@
 
 #define FADE_BASE_POSZ (-0.5f)	// フェードの基準座標
 #define FADEOUT_POSX (2.5f)	// フェードアウトの時に向かうX座標
-#define FADE_TIME (2.5f)
+#define FADE_TIME (1.0f)
 #define LOAD_TIME (5.0f)	// ロード時間
 
 #define LOADING_BACKSPEED (0.001f)	// ローディング時に動く背景の速度 
-
+#define NOWLOADING_OFFSET_Z (0.1f)	// NowLoadingのテキストが背景からの差 
 
 Fade* Fade::instance = nullptr;
 
@@ -96,6 +96,11 @@ void Fade::Update()
 	}
 
 	backGround->dotween->Update();
+
+	if (nowLoading != nullptr)
+	{
+		nowLoading->Update();
+	}
 }
 
 void Fade::FadeInUpdate()
@@ -109,6 +114,7 @@ void Fade::LoadingInit()
 
 	// テキストを作成する
 	nowLoading = new NowLoadingText();
+	/*dynamic_cast<NowLoadingText*>(nowLoading)->SetPosZ(FADE_BASE_POSZ - NOWLOADING_OFFSET_Z);*/
 }
 
 void Fade::LoadingUpdate()
@@ -197,6 +203,11 @@ void Fade::Draw()
 
 	// 背景描画
 	backGround->Draw();
+
+	if (nowLoading != nullptr)
+	{
+		nowLoading->Draw();
+	}
 }
 
 
