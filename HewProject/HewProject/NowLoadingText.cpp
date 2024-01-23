@@ -2,10 +2,14 @@
 #include "LoadCharacter.h"
 #include "TextureFactory.h"
 
-#define TEXT_SIN_BASEPOSY (0.0f)	// サイン関数で動かす軸となるY座標
-#define TEXT_SPACE_X (0.09f)	// 
-#define TEXT_U_NUM (3)
+#define TEXT_SIN_BASEPOSY (-0.7f)	// サイン関数で動かす軸となるY座標
+#define TEXT_SPACE_X (0.09f)	//	文字間のスペース 
+
+#define TEXT_U_NUM (3)	// テキスト画像のU
 #define TEXT_V_NUM (4)
+
+#define TEXT_AMPLITUDE (0.1f)	// テキストの振幅
+#define TEXT_MOVESPEED (3.0f)	// テキストの動く速度
 
 NowLoadingText::NowLoadingText()
 {
@@ -71,20 +75,22 @@ NowLoadingText::NowLoadingText()
 		// 左端から文字の距離をとる
 		text[num]->mTransform.pos = textBeginPos;
 		text[num]->mTransform.pos.x += num * TEXT_SPACE_X;
+		
+		// 角度を変えて
 		degree[num] = rand() % 360;
-		/*text[num]->mTransform.pos.y += sin(CONVERT)*/
+		text[num]->mTransform.pos.y += TEXT_AMPLITUDE * sin(DirectX::XMConvertToRadians(degree[num]));
 
 		text[num]->mTransform.scale = { textScale.x, textScale.y, 1.0f };
 
 		// 画像のUVを設定
 		text[num]->SetUV((1.0f / TEXT_U_NUM) * (num % TEXT_U_NUM), (1.0f / TEXT_V_NUM) * (num / TEXT_U_NUM));
 
-		
+		text[num]->materialDiffuse = { 1.0f,0.0f,0.0f,1.0f };
 	};
 
 	texWork = texFactory->Fetch(L"asset/UI/LoadCharacter.png");
 	character = new LoadCharacter(buffer, texWork);
-	character->mTransform.scale = { 0.1f, 0.2f,1.0f };
+	character->mTransform.scale = { 0.2f, 0.4f,1.0f };
 }
 
 NowLoadingText::~NowLoadingText()
@@ -103,7 +109,11 @@ void NowLoadingText::Update()
 {	
 	for (int i = 0; i < static_cast<int>(TEXT::NUM); i++)
 	{
-
+		// 角度を増やしていく
+		degree[i] += TEXT_MOVESPEED;
+		
+		// 上下に動かす
+		text[i]->mTransform.pos.y = TEXT_SIN_BASEPOSY + TEXT_AMPLITUDE * sin(DirectX::XMConvertToRadians(degree[i]));
 	}
 }
 
