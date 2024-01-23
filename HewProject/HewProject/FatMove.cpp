@@ -185,7 +185,7 @@ void FatMove::Move(DIRECTION _dir)
 			{
 
 
-				WalkAfter();
+				//WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
@@ -225,20 +225,30 @@ void FatMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::GUMI:
 	{
+
 		WalkStart();
 
 		Vector2 junpPos = {};
 
-		player->mTransform.pos.z = forwardPos.z - 0.001f;
 
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
-		junpPos.y = Vec3JumpPos.y;
+		junpPos.y = Vec3JumpPos.y + 0.3f;
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
+		player->dotween->OnComplete([&, Vec3JumpPos]()
+			{
+				player->dotween->DoMoveY(player->mTransform.pos.y - 0.3f, 0.5f);
+				player->dotween->Append(Vector3::zero, 0.3f, DoTween::FUNC::DELAY);
+				player->dotween->Append(Vec3JumpPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				//WalkAfter();
+				//MoveAfter();
 
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+			});
 
 		// ↑にジャンプする
+		break;
 	}
 	default:
 

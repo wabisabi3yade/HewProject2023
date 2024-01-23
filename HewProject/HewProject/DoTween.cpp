@@ -66,6 +66,7 @@ void DoTween::Update()
 					objPtr->mTransform.rotation.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
 					break;
 				case FUNC::MOVECURVE:
+				{
 
 					float t = (*itr2).nowTime * (1.0f / (*itr2).moveTime);
 
@@ -77,14 +78,23 @@ void DoTween::Update()
 
 					objPtr->mTransform.pos.y =
 						(pow((1 - t), 2) * (*itr2).oldPos.y)
-						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y) / 2 
-						+ (*itr2).curvePos )
+						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y) / 2
+							+ (*itr2).curvePos)
 						+ (pow(t, 2) * (*itr2).targetValue.y);
 					break;
 				}
 
+				case FUNC::EASE_OUTCUBIC:
+					{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+					//　始点 + 距離 × 0～1の割合
+					objPtr->mTransform.pos = (*itr2).oldPos + distance * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
+					}
+					break;
+				}
 				itr2++;	// 次のイテレータに進む
-				
+
 			}
 
 			// 時間が終わると /////////////////////////////////////
@@ -94,6 +104,7 @@ void DoTween::Update()
 				switch ((*itr2).dotweenType)
 				{
 				case FUNC::MOVE:
+				case FUNC::EASE_OUTCUBIC:
 					objPtr->mTransform.pos = (*itr2).targetValue;
 					break;
 
@@ -216,7 +227,7 @@ void DoTween::Append(Vector3 _target, float _moveTime, FUNC _type, float _curvep
 	sequence.back().flowList.push_back(set);
 }
 
-void DoTween::Append(float _target, float _moveTime, FUNC _type , float _curvepos)
+void DoTween::Append(float _target, float _moveTime, FUNC _type, float _curvepos)
 {
 	VALUE set;
 
@@ -343,7 +354,7 @@ void DoTween::DoMoveXY(Vector2 _targetPos, float _moveTime)
 	VALUE set;
 	set.dotweenType = FUNC::MOVE_XY;
 	set.start = START::DO;
-	set.targetValue = {_targetPos.x, _targetPos.y,0};
+	set.targetValue = { _targetPos.x, _targetPos.y,0 };
 	set.moveTime = _moveTime;
 
 	// 設定したパラメータからベクトル、速度を求める
@@ -521,6 +532,27 @@ void DoTween::AppendDelay(float _delayTime)
 	sequence.back().flowList.push_back(set);
 }
 
+void DoTween::DoEaseOutCubic(const Vector3& _targetAngle, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::EASE_OUTCUBIC;
+	set.start = START::DO;
+	set.oldPos = objPtr->mTransform.pos;
+	set.targetValue = _targetAngle;
+	set.moveTime = _moveTime;
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
 void DoTween::DelayedCall(float _delayTime, std::function<void()> _onComplete)
 {
 	//なにもしない処理（時間毛経過するだけ）
@@ -677,7 +709,7 @@ void DoTween::flowLoopSet(std::list<VALUE>* _resetList)
 		itr++;
 
 		// 見ている要素がリスト範囲外　もしくは　Join　なら　終わる
-		if ( itr == _resetList->end() || (*itr).start != START::JOIN) break;
+		if (itr == _resetList->end() || (*itr).start != START::JOIN) break;
 	}
 
 }

@@ -181,13 +181,26 @@ void ThinMove::Move(DIRECTION _dir)
 
 		Vector2 junpPos = {};
 
-		//player->mTransform.pos.z = forwardPos.z - 0.001f;
+
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
-		junpPos.y = Vec3JumpPos.y;
+		junpPos.y = Vec3JumpPos.y + 0.3f;
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2 ;
+		//MoveAfter();
+		//WalkAfter();
+		player->dotween->Append(junpPos.y - 0.3f, 0.5f,DoTween::FUNC::MOVE_Y);
+		player->dotween->OnComplete([&, Vec3JumpPos]()
+			{
+				player->dotween->DoDelay(0.3f);
+				player->dotween->Append(Vec3JumpPos.y, RISING_TIME,DoTween::FUNC::MOVE_Y);
+				player->Rise();
+				player->GetPlayerMove()->RiseStart();
+				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(Vector3::zero, RISING_TIME, DoTween::FUNC::DELAY);
+				player->dotween->Append(targetPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+			});
 
 		// ª‚ÉƒWƒƒƒ“ƒv‚·‚é
 

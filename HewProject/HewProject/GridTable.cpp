@@ -54,7 +54,7 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _typ
 	}
 	break;
 	case CGridObject::BlockType::CHOCO:
-		disTimes = 0.19f;
+		disTimes = 0.18f;
 		break;
 	case CGridObject::BlockType::WALL:
 	case CGridObject::BlockType::CASTELLA:
