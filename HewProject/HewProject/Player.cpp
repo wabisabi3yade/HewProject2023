@@ -55,6 +55,8 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	IsgameOver = false;
 	fallFloorChangeTrriger = false;
 	fallMoveTrriger = false;
+	risingChangeTrriger = false;
+	risingMoveTrriger = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -78,11 +80,11 @@ void Player::Init(GridTable* _pTable)
 
 	ChangeState(STATE::NORMAL);
 
-	
+
 	calorie = START_CALORIE;
 	/*SetTexture(normalTex[0]);*/
 
-	
+
 
 	/*move->CheckCanMove();*/
 
@@ -103,8 +105,10 @@ void Player::Update()
 
 	fallMoveTrriger = false;
 	fallFloorChangeTrriger = false;
+	//risingChangeTrriger = false;
+	risingMoveTrriger = false;
 
-	if (move->GetIsFalling() == false)
+	if (move->GetIsFalling() == false && move->GetIsRising() == false)
 	{
 		if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == true)
 		{
@@ -117,39 +121,63 @@ void Player::Update()
 	}
 	else
 	{
-		switch (nowFloor)
+		if (move->GetIsFalling() == true)
 		{
-		case 1:
-			if (mTransform.pos.y <= (FALL_POS_Y - mTransform.scale.y / 2 + 0.1f))
+			switch (nowFloor)
 			{
-				move->MoveAfter();
-				move->FallAfter();
-				GameOver();
+			case 1:
+				if (mTransform.pos.y <= (FALL_POS_Y - mTransform.scale.y / 2 + 0.1f))
+				{
+					move->MoveAfter();
+					move->FallAfter();
+					GameOver();
+				}
+				break;
+			case 2:
+			case 3:
+				// 落ちる処理 
+				if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2 + 0.1f)
+				{
+					mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
+					fallFloorChangeTrriger = true;
+				}
+				if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START) )
+				{
+					move->Move(static_cast<PlayerMove::DIRECTION>(direction));
+					//move->MoveAfter();
+					move->FallAfter();
+					dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
+					nowFloor--;
+					fallFloorChangeTrriger = false;
+					fallMoveTrriger = true;
+				}
+				break;
+				default:
+				break;
 			}
-			break;
-		case 2:
-		case 3:
-			if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2 + 0.1f)
-			{
-				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
-				fallFloorChangeTrriger = true;
-			}
-			if ( mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START))
+		}
+		else if(move->GetIsRising() == true)
+		{
+			//上る処理
+			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START)  && risingChangeTrriger)
 			{
 				move->Move(static_cast<PlayerMove::DIRECTION>(direction));
-				//move->MoveAfter();
-				move->FallAfter();
+
+				move->RiseAfter();
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
-				nowFloor--;
-				fallFloorChangeTrriger = false;
-				fallMoveTrriger = true;
+				nowFloor++;
+				risingChangeTrriger = false;
+				risingMoveTrriger = true;
 			}
-			break;
-		default:
-			break;
-		} 
+			if (mTransform.pos.y >= (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2.0f  && risingChangeTrriger == false)
+			{
+				mTransform.pos.y = FALL_POS_Y;
+				risingChangeTrriger = true;
+			}
+
+		}
 	}
-	
+
 }
 
 // 歩いた時のカロリー消費
@@ -223,6 +251,12 @@ void Player::Fall()
 {
 	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
 	move->FallStart();
+}
+
+void Player::Rise()
+{
+	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
+	//move->RiseStart();
 }
 
 // テクスチャは解放しない

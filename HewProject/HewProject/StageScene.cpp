@@ -214,6 +214,12 @@ void StageScene::StageMove()
 				chocoObj->CRACK();
 			}
 		}
+
+		if (player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GUMI)
+		{
+			player->GetPlayerMove()->RiseStart();
+		}
+
 		// ƒAƒCƒeƒ€‚ª‚ ‚é‚È‚ç‚»‚ê‚ð‰æ–Ê‚©‚çÁ‚·
 		ItemDelete();
 	}
@@ -223,6 +229,14 @@ void StageScene::StageMove()
 		if (player->GetNowFloor() != 0)
 		{
 			ChangeFloor(player->GetNowFloor() -1 );
+		}
+	}
+
+	if (player->GetRiseFloorChangeTrriger() == true)
+	{
+		if (player->GetNowFloor() != 3)
+		{
+			ChangeFloor(player->GetNowFloor()+1);
 		}
 	}
 
@@ -910,27 +924,36 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 void StageScene::ChangeFloor(int _nextFloor)
 {
 	Player* playerCopy = player;
-
-		vStageObj.clear();
-	//vStageObj.shrink_to_fit();
+	for (int i = 0; i < stageSquare.y; i++)
+	{
+		for (int j = 0; j < stageSquare.x; j++)
+		{
+			if (nowFloor->objectTable[i][j] == static_cast<short>(CGridObject::BlockType::START))
+			{
+				nowFloor->objectTable[i][j] = static_cast<short>(CGridObject::BlockType::NONE);
+			}
+		}
+	}
+	vStageObj.clear();
+	vStageObj.shrink_to_fit();
 	switch (_nextFloor)
 	{
 	case 1:
 		vStageObj = oneFStgObj;
-		if(nNumUndo != 0)
+		//if(nNumUndo != 0)
 		vStageObj.push_back(playerCopy);
 		player->SetGridTable(oneFloor);
 		break;
 	case 2:
 		vStageObj = secondFStgObj;
-		if (nNumUndo != 0)
-		vStageObj.push_back(playerCopy);
+		//if (nNumUndo != 0)
+		//vStageObj.push_back(playerCopy);
 		player->SetGridTable(secondFloor);
 		break;
 	case 3:
 		vStageObj = thirdFStgObj;
-		if (nNumUndo != 0)
-		vStageObj.push_back(playerCopy);
+		//if (nNumUndo != 0)
+		//vStageObj.push_back(playerCopy);
 		player->SetGridTable(thirdFloor);
 		break;
 	default:
