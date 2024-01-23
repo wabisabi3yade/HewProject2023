@@ -112,21 +112,10 @@ void ThinMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-
 				WalkAfter();
-				CGrid::GRID_XY GridXY = (nextGridPos);
-				float player_z = player->mTransform.pos.z;
-				//画面外まで移動するようにYをマクロで定義して使用する
-				GridXY.x -= 1;
-				GridXY.y += 1;
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(GridXY, CGridObject::BlockType::FLOOR));
-				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-					{
-						player->Fall();
-					});
-				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+
+				MoveAfter();
+
 			});
 
 		break;
@@ -148,8 +137,6 @@ void ThinMove::Move(DIRECTION _dir)
 			player->dotween->OnComplete([&]()
 				{
 
-
-					WalkAfter();
 					//画面外まで移動するようにYをマクロで定義して使用する
 					Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 					fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
@@ -194,12 +181,12 @@ void ThinMove::Move(DIRECTION _dir)
 
 		Vector2 junpPos = {};
 
-		player->mTransform.pos.z = forwardPos.z-0.001f;
+		//player->mTransform.pos.z = forwardPos.z - 0.001f;
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
-
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
 
 		// ↑にジャンプする
@@ -281,7 +268,7 @@ void ThinMove::Move(DIRECTION _dir)
 				}
 			});
 	}
-		break;
+	break;
 
 
 	default:

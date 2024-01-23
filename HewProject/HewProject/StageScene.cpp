@@ -196,6 +196,8 @@ void StageScene::StageMove()
 			player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
 		{
 			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
+			if (player->GetState() != Player::STATE::THIN)
+			{
 			if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
 			{
 				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
@@ -206,6 +208,7 @@ void StageScene::StageMove()
 				player->GetPlayerMove()->FallStart();
 			}
 			chocoObj->CRACK();
+			}
 			if (player->GetState() == Player::STATE::FAT)
 			{
 				chocoObj->CRACK();

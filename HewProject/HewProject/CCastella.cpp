@@ -33,7 +33,7 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 		mTransform.pos.z = _pos.z;
 	}
 
-	dotween->DoMove(_pos, CASTELLAWALK_TIME);
+	dotween->DoMoveXY({_pos.x,_pos.y}, CASTELLAWALK_TIME);
 	dotween->Append(_pos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 	// °‚É—Ž‚¿‚é‚Ì‚È‚ç
