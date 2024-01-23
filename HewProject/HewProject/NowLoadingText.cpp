@@ -3,7 +3,7 @@
 #include "TextureFactory.h"
 
 #define TEXT_SIN_BASEPOSY (0.0f)	// サイン関数で動かす軸となるY座標
-#define TEXT_SPACE_X (0.1f)	// 
+#define TEXT_SPACE_X (0.09f)	// 
 #define TEXT_U_NUM (3)
 #define TEXT_V_NUM (4)
 
@@ -16,7 +16,7 @@ NowLoadingText::NowLoadingText()
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 	D3DTEXTURE texWork = texFactory->Fetch(L"asset/UI/NowLoading….png");
 
-	Vector3 textBeginPos = { 0.0f, -0.5f, -0.5f };
+	Vector3 textBeginPos = { 0.0f, TEXT_SIN_BASEPOSY, -0.5f };
 	Vector2 textScale = Vector2::zero;
 	// テキスト作成
 	for (int num = 0; num < static_cast<int>(TEXT::NUM); num++)
@@ -32,7 +32,7 @@ NowLoadingText::NowLoadingText()
 
 		case TEXT::o_1:
 		case TEXT::o_2:
-			textScale = { 0.085f, 0.17f };
+			textScale = { 0.075f, 0.15f };
 			break;
 
 		case TEXT::w:
@@ -40,15 +40,15 @@ NowLoadingText::NowLoadingText()
 			break;
 
 		case TEXT::L:
-			textScale = { 0.09f, 0.18f };
+			textScale = { 0.1f, 0.2f };
 			break;
 
 		case TEXT::a:
-			textScale = { 0.1f, 0.2f };
+			textScale = { 0.075f, 0.15f };
 			break;
 
 		case TEXT::d:
-			textScale = { 0.1f, 0.2f };
+			textScale = { 0.09f, 0.18f };
 			break;
 
 		case TEXT::i:
@@ -56,11 +56,11 @@ NowLoadingText::NowLoadingText()
 			break;
 
 		case TEXT::n:
-			textScale = { 0.1f, 0.2f };
+			textScale = { 0.08f, 0.16f };
 			break;
 
 		case TEXT::g:
-			textScale = { 0.1f, 0.2f };
+			textScale = { 0.09f, 0.18f };
 			break;
 
 		case TEXT::period:
@@ -71,10 +71,15 @@ NowLoadingText::NowLoadingText()
 		// 左端から文字の距離をとる
 		text[num]->mTransform.pos = textBeginPos;
 		text[num]->mTransform.pos.x += num * TEXT_SPACE_X;
+		degree[num] = rand() % 360;
+		/*text[num]->mTransform.pos.y += sin(CONVERT)*/
+
 		text[num]->mTransform.scale = { textScale.x, textScale.y, 1.0f };
 
 		// 画像のUVを設定
 		text[num]->SetUV((1.0f / TEXT_U_NUM) * (num % TEXT_U_NUM), (1.0f / TEXT_V_NUM) * (num / TEXT_U_NUM));
+
+		
 	};
 
 	texWork = texFactory->Fetch(L"asset/UI/LoadCharacter.png");
@@ -96,7 +101,10 @@ NowLoadingText::~NowLoadingText()
 
 void NowLoadingText::Update()
 {	
-	
+	for (int i = 0; i < static_cast<int>(TEXT::NUM); i++)
+	{
+
+	}
 }
 
 void NowLoadingText::Draw()

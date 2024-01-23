@@ -19,7 +19,11 @@ class NowLoadingText :
         NUM // ”
     };
 
+    // •¶š‚ÌUI
     UI* text[static_cast<int>(TEXT::NUM)];
+    // •¶š“®‚©‚·‚Æ‚«‚ÌŠp“x
+    float degree[static_cast<int>(TEXT::NUM)];
+
 
     UI* character;
 
