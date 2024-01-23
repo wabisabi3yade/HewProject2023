@@ -37,6 +37,12 @@ Vector2 Vector2::operator/(Vector2 _v)
 	return ret;
 }
 
+Vector2 Vector2::operator*(float _v)
+{
+	Vector2 ret(this->x * _v, this->y * _v);
+	return ret;
+}
+
 const bool& Vector2::operator>=(const Vector2& _v) const
 {
 	if (this->x >= _v.x && this->y >= _v.y)

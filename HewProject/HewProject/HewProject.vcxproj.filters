@@ -187,9 +187,6 @@
     <Filter Include="ソース ファイル\Hashimoto\debugText">
       <UniqueIdentifier>{6da28bc9-f924-4fc0-a66f-b54cbb703efc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\stageScene">
-      <UniqueIdentifier>{95226933-b755-45a9-ac95-5cad9942290a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Mizuno\Stage\Item">
       <UniqueIdentifier>{6c038bbd-8cce-4bcd-8c10-3802ddcbe007}</UniqueIdentifier>
     </Filter>
@@ -243,6 +240,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Base\GameBase\UI">
       <UniqueIdentifier>{fcb6f50d-d592-4854-96e0-4be9a81a1e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\stageScene">
+      <UniqueIdentifier>{95226933-b755-45a9-ac95-5cad9942290a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -418,7 +418,7 @@
       <Filter>ソース ファイル\Hashimoto\debugText</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
-      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+      <Filter>ソース ファイル\Hashimoto\stageScene</Filter>
     </ClInclude>
     <ClInclude Include="CItem.h">
       <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>
@@ -639,7 +639,7 @@
       <Filter>ソース ファイル\Hashimoto\debugText</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
-      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+      <Filter>ソース ファイル\Hashimoto\stageScene</Filter>
     </ClCompile>
     <ClCompile Include="CItem.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>

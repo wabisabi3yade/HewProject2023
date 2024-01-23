@@ -2,15 +2,19 @@
 #include "LoadCharacter.h"
 #include "TextureFactory.h"
 
-#define TEXT_BASEPOSX (-0.4f)	// テキスト1文字目のX座標
-#define TEXT_SIN_BASEPOSY (-0.7f)	// サイン関数で動かす軸となるY座標
-#define TEXT_SPACE_X (0.09f)	//	文字間のスペース
-#define TEXT_PERIOD_SPACE (0.04f)	// ピリオド間のスペース
+#define TEXT_BASEPOSX (0.3f)	// テキスト1文字目のX座標
+#define TEXT_SIN_BASEPOSY (-0.0f)	// サイン関数で動かす軸となるY座標
+#define TEXT_POSZ (-0.49f)	// テキストのZ座標
+
+#define ALL_SCALE (0.6f)	// テキストの全体の倍率
+#define TEXT_SPACE_X (ALL_SCALE * 0.09f)	//	文字間のスペース
+#define TEXT_PERIOD_SPACE (ALL_SCALE *0.07f)	// ピリオド間のスペース
+
 
 #define TEXT_U_NUM (3)	// テキスト画像のU
 #define TEXT_V_NUM (4)
 
-#define TEXT_AMPLITUDE (0.1f)	// テキストの振幅
+#define TEXT_AMPLITUDE (0.05f)	// テキストの振幅
 #define TEXT_MOVESPEED (3.0f)	// テキストの動く速度
 
 NowLoadingText::NowLoadingText()
@@ -22,23 +26,25 @@ NowLoadingText::NowLoadingText()
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 	D3DTEXTURE texWork = texFactory->Fetch(L"asset/UI/NowLoading….png");
 
-	Vector3 textBeginPos = { 0.0f, TEXT_SIN_BASEPOSY, -0.5f };
+	Vector3 textBeginPos = { TEXT_BASEPOSX, TEXT_SIN_BASEPOSY, TEXT_POSZ };
 	Vector2 textScale = Vector2::zero;
 	// テキスト作成
 	for (int num = 0; num < static_cast<int>(TEXT::NUM); num++)
 	{
 		text[num] = new UI(buffer, texWork);
 
+
+		// 左端から文字の距離をとる
+		text[num]->mTransform.pos = textBeginPos;
 		if (num < static_cast<int>(TEXT::period_1))
 		{
-			// 左端から文字の距離をとる
-			text[num]->mTransform.pos = textBeginPos;
+			
 			text[num]->mTransform.pos.x += num * TEXT_SPACE_X;
 		}
 		else
 		{
-			const float& gPos = text[static_cast<int>(TEXT::g)]->mTransform.pos.x;
-			text[num]->mTransform.pos.x = gPos + (num - static_cast<int>(TEXT::g)) * TEXT_PERIOD_SPACE;
+			text[num]->mTransform.pos.x += static_cast<int>(TEXT::period_1) * TEXT_SPACE_X +
+				TEXT_PERIOD_SPACE * ( num - static_cast<int>(TEXT::period_1));
 		}
 
 		// 角度を変えて
@@ -96,19 +102,19 @@ NowLoadingText::NowLoadingText()
 			break;
 
 		}
+		// スケール全体の倍率をかける
+		textScale = textScale * ALL_SCALE;
 
 		text[num]->mTransform.scale = { textScale.x, textScale.y, 1.0f };
-		
-
-		
-
-		text[num]->materialDiffuse = { 1.0f / 255 * 255, 1.0f / 255 * 158, 1.0f / 255 * 255,1.0f };
+	
+		text[num]->materialDiffuse = { 1.0f / 255 * 255, 1.0f / 255 * 192, 1.0f / 255 * 103,1.0f };
 	};
 
 	texWork = texFactory->Fetch(L"asset/UI/LoadCharacter.png");
 	character = new LoadCharacter(buffer, texWork);
-	character->mTransform.scale = { 0.2f, 0.4f,1.0f };
-	character->materialDiffuse = { 1.0f / 255 * 255, 1.0f / 255 * 158, 1.0f / 255 * 255,1.0f };
+	character->mTransform.scale = { 0.15f, 0.3f,1.0f };
+	character->mTransform.pos.x = 0.2f;
+	character->materialDiffuse = { 1.0f / 255 * 255, 1.0f / 255 * 192, 1.0f / 255 * 103,1.0f };
 }
 
 NowLoadingText::~NowLoadingText()
