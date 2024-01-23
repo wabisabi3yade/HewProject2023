@@ -26,6 +26,8 @@ public:
     CObject* stage[4];
     UI* Text;
 
+    bool isPlayerMoving;
+
 public:
     CStage1SelectScene();
     ~CStage1SelectScene();
