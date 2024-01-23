@@ -161,7 +161,7 @@ void NormalMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 
-				WalkAfter();
+				//WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
