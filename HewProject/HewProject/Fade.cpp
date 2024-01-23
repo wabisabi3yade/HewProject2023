@@ -3,7 +3,7 @@
 #include "NowLoadingText.h"
 #include "TextureFactory.h"
 
-#define FADE_BASE_POSZ (-0.5f)	// フェードの基準座標
+#define FADE_BASE_POSZ (-0.45f)	// フェードの基準座標
 #define FADEOUT_POSX (2.5f)	// フェードアウトの時に向かうX座標
 #define FADE_TIME (1.0f)
 #define LOAD_TIME (5.0f)	// ロード時間
@@ -114,7 +114,6 @@ void Fade::LoadingInit()
 
 	// テキストを作成する
 	nowLoading = new NowLoadingText();
-	/*dynamic_cast<NowLoadingText*>(nowLoading)->SetPosZ(FADE_BASE_POSZ - NOWLOADING_OFFSET_Z);*/
 }
 
 void Fade::LoadingUpdate()
@@ -143,7 +142,11 @@ void Fade::FadeOutInit()
 	// 状態を更新する
 	state = STATE::FADE_OUT;
 
-	backGround->dotween->DoEaseOutCubic(FADEOUT_POSX, FADE_TIME);
+
+	Vector3 v = Vector3::zero;
+	v.x = FADEOUT_POSX;
+	v.z = FADE_BASE_POSZ;
+	backGround->dotween->DoEaseOutCubic(v, FADE_TIME);
 	backGround->dotween->OnComplete([&]()
 		{
 			// 非表示にする
@@ -177,7 +180,9 @@ void Fade::FadeIn(const STATE& _nextState)
 	backGround->SetActive(true);
 
 	// フェードが画面端に到達する瞬間の座標
-	backGround->dotween->DoEaseOutCubic(0.0f, FADE_TIME);
+	Vector3 v = Vector3::zero;
+	v.z = FADE_BASE_POSZ;
+	backGround->dotween->DoEaseOutCubic(v, FADE_TIME);
 	backGround->dotween->OnComplete([&]()
 		{
 			switch (nextState)
