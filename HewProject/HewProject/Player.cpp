@@ -159,6 +159,12 @@ void Player::Update()
 		else if(move->GetIsRising() == true)
 		{
 			//ã‚éˆ—
+			if (mTransform.pos.y >= (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2.0f  && risingChangeTrriger == false)
+			{
+				mTransform.pos.y = FALL_POS_Y - mTransform.scale.y/2;
+				risingChangeTrriger = true;
+				risingMoveTrriger = true;
+			}
 			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START)  && risingChangeTrriger)
 			{
 				move->Move(static_cast<PlayerMove::DIRECTION>(direction));
@@ -167,12 +173,6 @@ void Player::Update()
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 				nowFloor++;
 				risingChangeTrriger = false;
-				risingMoveTrriger = true;
-			}
-			if (mTransform.pos.y >= (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2.0f  && risingChangeTrriger == false)
-			{
-				mTransform.pos.y = FALL_POS_Y;
-				risingChangeTrriger = true;
 			}
 
 		}

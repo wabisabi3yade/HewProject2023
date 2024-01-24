@@ -61,6 +61,9 @@ private:
 	// ステージの大きさ
 	float stageScale = 0.0f;
 
+	//開始フロア
+	int startFloor;
+
 	// やり直し機能
 	FIELD_FLOOR floorUndo[20];
 	int nNumUndo = 0;

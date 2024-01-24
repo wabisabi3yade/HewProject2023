@@ -151,6 +151,7 @@ void ThinMove::Move(DIRECTION _dir)
 					case 1:
 						break;
 					case 2:
+					case 3:
 					{
 						player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 						Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
@@ -159,13 +160,7 @@ void ThinMove::Move(DIRECTION _dir)
 						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 					}
-					case 3:
-					{
 
-						//player->dotween->DoDelay(FALLMOVE_TIME);
-						//Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
-						//player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-					}
 					break;
 					default:
 						break;
@@ -198,8 +193,9 @@ void ThinMove::Move(DIRECTION _dir)
 				player->Rise();
 				player->GetPlayerMove()->RiseStart();
 				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-				player->dotween->Append(Vector3::zero, RISING_TIME, DoTween::FUNC::DELAY);
-				player->dotween->Append(targetPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->Append(Vector3::zero, RISING_TIME+0.1f, DoTween::FUNC::DELAY);
+				player->dotween->Append(targetPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->Append(targetPos, RISING_TIME+0.5f, DoTween::FUNC::MOVECURVE,targetPos.y + 7.0f);
 			});
 
 		// ª‚ÉƒWƒƒƒ“ƒv‚·‚é
