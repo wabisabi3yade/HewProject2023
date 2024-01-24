@@ -12,6 +12,7 @@
 #include "CStage1SelectScene.h"
 #include "Fade_TestScene.h"
 #include "xa2.h"
+#include "CTitleScene.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -140,6 +141,11 @@ void CSceneManager::SceneChange(int _scene)
 	case CScene::FADE_TEST:
 		nowSceneName = CScene::FADE_TEST;
 		pNowScene = new Fade_TestScene();
+		break;
+
+	case CScene::TITLE:
+		nowSceneName = CScene::TITLE;
+		pNowScene = new CTitleScene();
 		break;
 	}
 }

@@ -180,6 +180,7 @@
     <ClInclude Include="CStageSelectPlayer.h" />
     <ClInclude Include="CTatemizoScene.h" />
     <ClInclude Include="CTest.h" />
+    <ClInclude Include="CTitleScene.h" />
     <ClInclude Include="CWakamuraScene.h" />
     <ClInclude Include="CWall.h" />
     <ClInclude Include="CWataame.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="CStageSelectPlayer.cpp" />
     <ClCompile Include="CTatemizoScene.cpp" />
     <ClCompile Include="CTest.cpp" />
+    <ClCompile Include="CTitleScene.cpp" />
     <ClCompile Include="CWakamuraScene.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="CWataame.cpp" />
