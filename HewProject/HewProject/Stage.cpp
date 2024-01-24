@@ -1,7 +1,3 @@
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
 #include "Stage.h"
 #include "CSceneManager.h"
 #include "Ckcal_gauge.h"

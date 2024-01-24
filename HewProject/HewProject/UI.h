@@ -45,5 +45,17 @@ public:
 
 	void SetUV(const float& _setU, const float& _setV) { uv.x = _setU; uv.y = _setV; }
 
+	/// <summary>
+	/// UIの色を設定する
+	/// </summary>
+	/// <param name="_color">x：赤 y：緑 z：青 （0～255)</param>
+	void SetColor(DirectX::XMFLOAT3 _color);
+	
+	/// <summary>
+	///  UIの透明度を設定する
+	/// </summary>
+	/// <param name="_alpha">透明度（0.0～1.0）</param>
+	void SetAlpha(float _alpha);
+
 };
 

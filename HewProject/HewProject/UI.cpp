@@ -100,3 +100,53 @@ void UI::MakeDotween()
 
 	dotween = new DoTweenUI(this);
 }
+
+void UI::SetColor(DirectX::XMFLOAT3 _color)
+{
+	// 255 = 1.0f‚É‚·‚éŠ„‡
+	float cr = 1.0f / 255;
+	materialDiffuse = { cr * _color.x, cr * _color.y, cr * _color.z, materialDiffuse.w };
+
+	// ”ÍˆÍ’´‚¦‚Ä‚½‚çC³
+	float* check = &materialDiffuse.x;
+	for (int i = 0; i < 3; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			break;
+
+		case 1:
+			check = &materialDiffuse.y;
+			break;
+
+		case 2:
+			check = &materialDiffuse.z;
+			break;
+		}
+
+		// ”ÍˆÍ“à‚Éû‚ß‚é
+		if (*check < 0)
+		{
+			*check = 0.0f;
+		}
+		else if(*check > 1.0f)
+		{
+			*check = 1.0f;
+		}
+	}
+}
+
+void UI::SetAlpha(float _alpha)
+{
+	if (_alpha < 0.0f)
+	{
+		_alpha = 0.0f;
+	}
+	else if (_alpha > 1.0f)
+	{
+		_alpha = 1.0f;
+	}
+
+	materialDiffuse.w = _alpha;
+}
