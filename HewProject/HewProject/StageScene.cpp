@@ -29,6 +29,8 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 {
 	nNumProtein = 0;
 
+	startFloor = 0;
+
 	// テクスチャを管理するクラスのインスタンスを取得
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 
@@ -232,11 +234,20 @@ void StageScene::StageMove()
 		}
 	}
 
-	if (player->GetRiseFloorChangeTrriger() == true)
+	if (player->GetRiseTrriger() == true)
 	{
 		if (player->GetNowFloor() != 3)
 		{
-			ChangeFloor(player->GetNowFloor()+1);
+			ChangeFloor(player->GetNowFloor() + 1);
+			CGrid::GRID_XY playerNextGridXY = player->GetPlayerMove()->GetNextGridPos();
+			auto itr = std::find_if(vStageObj.begin(), vStageObj.end(),
+				[&,playerNextGridXY](CGridObject* _obj)
+				{
+					return (_obj->GetGridPos().x == playerNextGridXY.x && _obj->GetGridPos().y == playerNextGridXY.y &&
+						_obj->GetBlookType() == CGridObject::BlockType::FLOOR);
+				});
+			CFloor* floor = static_cast<CFloor*>((*itr));
+			floor->FloorBound();
 		}
 	}
 
@@ -698,7 +709,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	}
 
 	nowFloorNum = startfloor;	// 1階から
-
+	startFloor = startfloor;
 
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 
@@ -940,20 +951,20 @@ void StageScene::ChangeFloor(int _nextFloor)
 	{
 	case 1:
 		vStageObj = oneFStgObj;
-		//if(nNumUndo != 0)
+		if(startFloor != 1)
 		vStageObj.push_back(playerCopy);
 		player->SetGridTable(oneFloor);
 		break;
 	case 2:
 		vStageObj = secondFStgObj;
-		//if (nNumUndo != 0)
-		//vStageObj.push_back(playerCopy);
+		if (startFloor != 2)
+		vStageObj.push_back(playerCopy);
 		player->SetGridTable(secondFloor);
 		break;
 	case 3:
 		vStageObj = thirdFStgObj;
-		//if (nNumUndo != 0)
-		//vStageObj.push_back(playerCopy);
+		if (startFloor != 3)
+		vStageObj.push_back(playerCopy);
 		player->SetGridTable(thirdFloor);
 		break;
 	default:

@@ -200,6 +200,7 @@ void FatMove::Move(DIRECTION _dir)
 				case 1:
 					break;
 				case 2:
+				case 3:
 				{
 					player->dotween->Append(Vector3::zero, 1.5f, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
@@ -207,13 +208,6 @@ void FatMove::Move(DIRECTION _dir)
 					//バウンドする高さを計算　代入
 					float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 					player->dotween->Append(floorFallPos, 1.0f, DoTween::FUNC::MOVECURVE, BoundPosY);
-				}
-				case 3:
-				{
-
-					//player->dotween->DoDelay(FALLMOVE_TIME);
-					//Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-					//player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 				}
 				break;
 				default:
@@ -237,19 +231,25 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
+		//MoveAfter();
+		//WalkAfter();
+		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
 		player->dotween->OnComplete([&, Vec3JumpPos]()
 			{
-				player->dotween->DoMoveY(player->mTransform.pos.y - 0.3f, 0.5f);
-				player->dotween->Append(Vector3::zero, 0.3f, DoTween::FUNC::DELAY);
-				player->dotween->Append(Vec3JumpPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
-				//WalkAfter();
-				//MoveAfter();
-
+				player->dotween->DoDelay(0.3f);
+				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->Rise();
+				player->GetPlayerMove()->RiseStart();
+				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
+				player->dotween->Append(targetPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->Append(targetPos, RISING_TIME + 0.5f, DoTween::FUNC::MOVECURVE, targetPos.y + 7.0f);
 			});
 
 		// ↑にジャンプする
-		break;
+
 	}
+	break;
 	default:
 
 		WalkStart();
