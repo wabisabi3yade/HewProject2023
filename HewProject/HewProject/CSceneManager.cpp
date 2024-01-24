@@ -13,6 +13,7 @@
 #include "Fade_TestScene.h"
 #include "xa2.h"
 #include "CTitleScene.h"
+#include "HosodaSelect.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -147,7 +148,21 @@ void CSceneManager::SceneChange(int _scene)
 		nowSceneName = CScene::TITLE;
 		pNowScene = new CTitleScene();
 		break;
+
+	case CScene::HOSODA_SELECT:
+		nowSceneName = CScene::HOSODA_SELECT;
+		pNowScene = new HosodaSelect();
+		break;
 	}
+}
+
+void CSceneManager::SceneChangeStage(const wchar_t* _path)
+{
+	// ç≈èâÇ…âï˙Ç∑ÇÈ
+	CLASS_DELETE(pNowScene);
+	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
+
+	pNowScene = new Stage(_path);
 }
 
 // ÉVÅ[Éìî‘çÜÇï‘Ç∑

@@ -195,6 +195,7 @@
     <ClInclude Include="Fade_TestScene.h" />
     <ClInclude Include="FatMove.h" />
     <ClInclude Include="GridTable.h" />
+    <ClInclude Include="HosodaSelect.h" />
     <ClInclude Include="LoadCharacter.h" />
     <ClInclude Include="MuscleMove.h" />
     <ClInclude Include="NormalMove.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="Fade_TestScene.cpp" />
     <ClCompile Include="FatMove.cpp" />
     <ClCompile Include="GridTable.cpp" />
+    <ClCompile Include="HosodaSelect.cpp" />
     <ClCompile Include="LoadCharacter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MuscleMove.cpp" />

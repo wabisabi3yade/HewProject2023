@@ -1,24 +1,29 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "HosodaSelect.h"
 #include "CSceneManager.h"
 #include "CDirectWrite.h"
+#include"CSceneManager.h"
 
 
-wchar_t templaName[20] = L"asset/StageCsv/";
 
-// ↓asset/StageCsvファイル内に入れたファイル名をここに書く
-std::vector<const char*> csvFilePath
+// ↓asset/StageCsv/ファイル内に入れたファイル名をここに書く
+std::vector<const wchar_t*> csvFilePath
 {
-		"Stage.csv"
+		L"Stage.csv",
+		L"Stage2.csv"
 };
 
 HosodaSelect::HosodaSelect()
 {
 	nextScene = 0;
-	WriteText = wcscat(templaName, (wchar_t*)csvFilePath[nextScene]);
+
 }
 
 HosodaSelect::~HosodaSelect()
 {
+	
+	
 }
 
 void HosodaSelect::Update()
@@ -32,24 +37,24 @@ void HosodaSelect::Update()
 			nextScene = csvFilePath.size() - 1;
 		}
 
-		WriteText = wcscat(templaName, (wchar_t*)csvFilePath[nextScene]);
-
 	}
 
 	if (gInput->GetKeyTrigger(VK_DOWN))
 	{
 		nextScene++;
 
-		if (nextScene > csvFilePath.size())
+		if (nextScene > csvFilePath.size() - 1 )
 		{
 			nextScene = 0;
 		}
-		WriteText = wcscat(templaName, (wchar_t*)csvFilePath[nextScene]);
 	}
 
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
-		
+		wchar_t textureName[256];
+		wcscpy_s(textureName, L"asset/StageCsv/"); // 文字列コピー関数
+		wcscat_s(textureName, csvFilePath[nextScene]); // 文字列結合関数
+		pSceneManager->SceneChangeStage(textureName);
 	}
 
 }
@@ -60,9 +65,11 @@ void HosodaSelect::LateUpdate()
 
 void HosodaSelect::Draw()
 {
-	char* c;
-	wcstombs(c, WriteText, 100);
+	// wcstombs 関数を使って wchar_t を char に変換
+	size_t len = wcslen(csvFilePath[nextScene]) + 1; // 終端のNULL文字も含めた長さ
+	char* mbstr = new char[len * MB_CUR_MAX]; // MB_CUR_MAX はマルチバイト文字の最大サイズ
 
+	wcstombs( mbstr,csvFilePath[nextScene], 100);
 	Write->SetFont(Font::MelodyLine);
-	Write->DrawString(std::string(c), DirectX::XMFLOAT2(90, 100), D2D1_DRAW_TEXT_OPTIONS_NONE);
+	Write->DrawString(std::string(mbstr), DirectX::XMFLOAT2(90, 100), D2D1_DRAW_TEXT_OPTIONS_NONE);
 }
