@@ -100,13 +100,13 @@ void Player::Update()
 
 	// ↓FlagInitの後
 	move->Input();
+	fallMoveTrriger = false;
+	risingMoveTrriger = false;
 
 	dotween->Update();
 
-	fallMoveTrriger = false;
 	fallFloorChangeTrriger = false;
 	//risingChangeTrriger = false;
-	risingMoveTrriger = false;
 
 	if (move->GetIsFalling() == false && move->GetIsRising() == false)
 	{
@@ -126,7 +126,7 @@ void Player::Update()
 			switch (nowFloor)
 			{
 			case 1:
-				if (mTransform.pos.y <= (FALL_POS_Y - mTransform.scale.y / 2 + 0.1f))
+				if (fallMoveTrriger == true)
 				{
 					move->MoveAfter();
 					move->FallAfter();
@@ -136,7 +136,7 @@ void Player::Update()
 			case 2:
 			case 3:
 				// 落ちる処理 
-				if (mTransform.pos.y <= FALL_POS_Y - mTransform.scale.y / 2 + 0.1f)
+				if (fallMoveTrriger == true)
 				{
 					mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 					fallFloorChangeTrriger = true;
@@ -149,7 +149,6 @@ void Player::Update()
 					dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 					nowFloor--;
 					fallFloorChangeTrriger = false;
-					fallMoveTrriger = true;
 				}
 				break;
 				default:
@@ -159,16 +158,15 @@ void Player::Update()
 		else if(move->GetIsRising() == true)
 		{
 			//上る処理
-			if (mTransform.pos.y >= (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2.0f  && risingChangeTrriger == false)
+			if (risingMoveTrriger == true)
 			{
 				mTransform.pos.y = FALL_POS_Y - mTransform.scale.y/2;
 				risingChangeTrriger = true;
-				risingMoveTrriger = true;
+
 			}
 			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START)  && risingChangeTrriger)
 			{
 				move->Move(static_cast<PlayerMove::DIRECTION>(direction));
-
 				move->RiseAfter();
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 				nowFloor++;

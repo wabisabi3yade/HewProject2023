@@ -208,6 +208,10 @@ void FatMove::Move(DIRECTION _dir)
 					//バウンドする高さを計算　代入
 					float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 					player->dotween->Append(floorFallPos, 1.0f, DoTween::FUNC::MOVECURVE, BoundPosY);
+					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+						{
+							player->fallMoveTrriger = true;
+						});
 				}
 				break;
 				default:
@@ -244,6 +248,10 @@ void FatMove::Move(DIRECTION _dir)
 				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
 				player->dotween->Append(targetPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
 				player->dotween->Append(targetPos, RISING_TIME + 0.5f, DoTween::FUNC::MOVECURVE, targetPos.y + 7.0f);
+				player->dotween->DelayedCall(RISING_TIME+0.3f, [&]()
+					{
+						player->risingMoveTrriger = true;
+					});
 			});
 
 		// ↑にジャンプする

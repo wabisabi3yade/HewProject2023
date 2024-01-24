@@ -292,6 +292,8 @@ void DoTween::Join(float _target, float _moveTime, FUNC _type)
 	case FUNC::MOVE_Z:
 		//set.targetValue.z = _target;
 		break;
+	case FUNC::ROTATION:
+		set.targetValue.z = _target;
 	}
 	set.moveTime = _moveTime;
 	set.dotweenType = _type;
