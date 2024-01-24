@@ -149,10 +149,10 @@ void CSceneManager::SceneChange(int _scene)
 		pNowScene = new CTitleScene();
 		break;
 
-	case CScene::HOSODA_SELECT:
+	/*case CScene::HOSODA_SELECT:
 		nowSceneName = CScene::HOSODA_SELECT;
 		pNowScene = new HosodaSelect();
-		break;
+		break;*/
 	}
 }
 
