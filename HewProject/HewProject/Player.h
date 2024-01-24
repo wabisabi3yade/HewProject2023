@@ -68,9 +68,8 @@ private:
 	bool IsgameOver;
 
 	bool fallFloorChangeTrriger; //落ちて階層が変わったか
-	bool fallMoveTrriger;
 	bool risingChangeTrriger;
-	bool risingMoveTrriger;
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 
 	// テクスチャ（状態別）
@@ -84,6 +83,8 @@ private:
 	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
 	
 public:
+	bool fallMoveTrriger;
+	bool risingMoveTrriger;
 	std::unique_ptr<DoTween> dotween;
 
 	Player(D3DBUFFER vb, D3DTEXTURE tex);

@@ -64,6 +64,8 @@ private:
 	//開始フロア
 	int startFloor;
 
+	bool changeflag;
+
 	// やり直し機能
 	FIELD_FLOOR floorUndo[20];
 	int nNumUndo = 0;
@@ -72,7 +74,7 @@ private:
 	std::vector<CGridObject*> oneFStgObj;	// 1階のオブジェクト格納
 	std::vector<CGridObject*>secondFStgObj;	// 2階
 	std::vector<CGridObject*>thirdFStgObj;	// 3階
-	std::vector<CGridObject*> vStageObj;	// 現在の階層の配列のポインタ変数
+	std::vector<CGridObject*> *vStageObj;	// 現在の階層の配列のポインタ変数
 											//（ここに今の階層のvector配列のアドレスを入れる）
 	// バッファ	
 	D3DBUFFER stageBuffer;	// ステージのオブジェクト
