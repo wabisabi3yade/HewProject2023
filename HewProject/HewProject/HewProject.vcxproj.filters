@@ -259,6 +259,9 @@
     <Filter Include="ソース ファイル\Stage\WorldEx">
       <UniqueIdentifier>{796ba7e4-557f-4757-afef-229754961aef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CTitleScene">
+      <UniqueIdentifier>{5774fff4-f88d-4e96-8929-215b586c8edd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -492,6 +495,9 @@
     <ClInclude Include="StageEx1.h">
       <Filter>ソース ファイル\Stage\WorldEx</Filter>
     </ClInclude>
+    <ClInclude Include="CTitleScene.h">
+      <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -724,6 +730,9 @@
     </ClCompile>
     <ClCompile Include="StageEx1.cpp">
       <Filter>ソース ファイル\Stage\WorldEx</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleScene.cpp">
+      <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

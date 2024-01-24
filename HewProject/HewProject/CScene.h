@@ -21,6 +21,7 @@ public:
 		// ↓　シーンを追加するならここに書いてね
 		STAGE1,
 		FADE_TEST,
+		TITLE,
 		SCENE_NUM,	// シーンの数
 
 		SELECT,	// セレクトシーン
