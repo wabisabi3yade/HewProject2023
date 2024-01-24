@@ -262,6 +262,9 @@
     <Filter Include="ソース ファイル\Wakamura\CTitleScene">
       <UniqueIdentifier>{5774fff4-f88d-4e96-8929-215b586c8edd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hosoda">
+      <UniqueIdentifier>{c33f2221-962a-4164-ac92-c3e769fbda35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -498,6 +501,9 @@
     <ClInclude Include="CTitleScene.h">
       <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
     </ClInclude>
+    <ClInclude Include="HosodaSelect.h">
+      <Filter>ソース ファイル\Hosoda</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -733,6 +739,9 @@
     </ClCompile>
     <ClCompile Include="CTitleScene.cpp">
       <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="HosodaSelect.cpp">
+      <Filter>ソース ファイル\Hosoda</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

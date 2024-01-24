@@ -3,9 +3,6 @@
 class HosodaSelect
 	: public CScene
 {
-
-	wchar_t* WriteText;
-
 public:
 	HosodaSelect();
 	~HosodaSelect();
