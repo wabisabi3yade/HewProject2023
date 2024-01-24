@@ -12,8 +12,10 @@ CTitleScene::CTitleScene()
 	for (int i = 0; i < MAXNUM; i++)
 	{
 		Sweets[i] = new UI(sweetsBuffer, sweetsTexture);
-		Sweets[i]->mTransform.pos = {-1 + i * 0.5f,1.5f,0};
-		Sweets[i]->mTransform.scale = {1,1,1};
+		Sweets[i]->MakeDotween();
+		Sweets[i]->mTransform.pos = {-0.7f + i * 0.4f,1.0f + i * 0.4f,0};
+		Sweets[i]->mTransform.scale = {0.5f,0.5f,0.5f};
+		Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 		Sweets[i]->materialDiffuse = {1,1,1,1};
 	}
 
@@ -45,12 +47,22 @@ void CTitleScene::Update()
 {
 	Title->Update();
 
+	for (int i = 0; i < MAXNUM; i++)
+	{
+		Sweets[i]->Update();
+	}
+
 	if (isNoMoving == false)
 	{
 		if (isOnce == false)
 		{
-			Title->dotween->DoMoveY(0.5f, 2.0f);
-			//Title->dotween->Append(Vector3::zero, 2.0f, DoTweenUI::FUNC::SCALE);
+			for (int i = 0; i < MAXNUM; i++)
+			{
+				Sweets[i]->dotween->DoMoveY(-1.2f, 3.0f);
+				Sweets[i]->dotween->Join(360.0f, 3.0f, DoTweenUI::FUNC::ROTATION);
+			}
+			
+			Title->dotween->DoMoveY(0.5f, 5.0f);
 			isOnce = true;
 		}
 
@@ -79,7 +91,6 @@ void CTitleScene::Update()
 			}
 		}
 
-		//Title->mTransform.rotation.z += 1.0f;
 		if (gInput->GetKeyTrigger(VK_RETURN))
 		{
 			CScene::SetScene(SCENE_NAME::WAKAMURA);
@@ -94,4 +105,9 @@ void CTitleScene::LateUpdate()
 void CTitleScene::Draw()
 {
 	Title->Draw();
+
+	for (int i = 0; i < MAXNUM; i++)
+	{
+		Sweets[i]->Draw();
+	}
 }
