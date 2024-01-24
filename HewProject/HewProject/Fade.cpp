@@ -6,7 +6,7 @@
 #define FADE_BASE_POSZ (-0.45f)	// フェードの基準座標
 #define FADEOUT_POSX (2.5f)	// フェードアウトの時に向かうX座標
 #define FADE_TIME (1.0f)
-#define LOAD_TIME (5.0f)	// ロード時間
+#define LOAD_TIME (2.5f)	// ロード時間
 
 #define LOADING_BACKSPEED (0.001f)	// ローディング時に動く背景の速度 
 #define NOWLOADING_OFFSET_Z (0.1f)	// NowLoadingのテキストが背景からの差 

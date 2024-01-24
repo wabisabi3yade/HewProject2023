@@ -36,11 +36,13 @@ NowLoadingText::NowLoadingText()
 
 		// 左端から文字の距離をとる
 		text[num]->mTransform.pos = textBeginPos;
+		// ピリオドまでの文字
 		if (num < static_cast<int>(TEXT::period_1))
 		{
 			
 			text[num]->mTransform.pos.x += num * TEXT_SPACE_X;
 		}
+		// ピリオドから
 		else
 		{
 			text[num]->mTransform.pos.x += static_cast<int>(TEXT::period_1) * TEXT_SPACE_X +
@@ -106,15 +108,15 @@ NowLoadingText::NowLoadingText()
 		textScale = textScale * ALL_SCALE;
 
 		text[num]->mTransform.scale = { textScale.x, textScale.y, 1.0f };
-	
-		text[num]->materialDiffuse = { 1.0f / 255 * 255, 1.0f / 255 * 192, 1.0f / 255 * 103,1.0f };
+		// 色を変える
+		text[num]->SetColor({ 255, 192, 103 });
 	};
 
 	texWork = texFactory->Fetch(L"asset/UI/LoadCharacter.png");
 	character = new LoadCharacter(buffer, texWork);
 	character->mTransform.scale = { 0.15f, 0.3f,1.0f };
 	character->mTransform.pos.x = 0.2f;
-	character->materialDiffuse = { 1.0f / 255 * 255, 1.0f / 255 * 192, 1.0f / 255 * 103,1.0f };
+	character->SetColor({ 255, 192, 103 });
 }
 
 NowLoadingText::~NowLoadingText()

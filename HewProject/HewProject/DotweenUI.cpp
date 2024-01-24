@@ -101,6 +101,10 @@ void DoTweenUI::Update()
 					uiPtr->mTransform.scale.y = (*itr2).oldPos.y + distance.y * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
 				}
 
+				case FUNC::ALPHA:
+					uiPtr->materialDiffuse.w += (*itr2).moveDir.x * (*itr2).moveSpeed;
+					break;
+
 				}
 
 				itr2++;	// 次のイテレータに進む
@@ -144,6 +148,10 @@ void DoTweenUI::Update()
 				case FUNC::MOVECURVE:
 					uiPtr->mTransform.pos.x = (*itr2).targetValue.x;
 					uiPtr->mTransform.pos.y = (*itr2).targetValue.y;
+					break;
+
+				case FUNC::ALPHA:
+					uiPtr->materialDiffuse.w = (*itr2).targetValue.x;
 					break;
 				}
 
@@ -257,6 +265,10 @@ void DoTweenUI::Append(float _target, float _moveTime, FUNC _type, float _curvep
 	case FUNC::MOVECURVE:
 		set.curvePos = _curvepos;
 		break;
+
+	case FUNC::ALPHA:
+		set.targetValue.x = _target;
+		break;
 	}
 	set.moveTime = _moveTime;
 	set.dotweenType = _type;
@@ -301,7 +313,11 @@ void DoTweenUI::Join(float _target, float _moveTime, FUNC _type)
 		set.targetValue.y = _target;
 		break;
 	case FUNC::MOVE_Z:
-		//set.targetValue.z = _target;
+		set.targetValue.z = _target;
+		break;
+
+	case FUNC::ALPHA:
+		set.targetValue.x = _target;
 		break;
 	}
 	set.moveTime = _moveTime;
@@ -572,6 +588,27 @@ void DoTweenUI::DoEaseOutCubicScale(const Vector3& _targetAngle, const float& _m
 	sequence.push_back(flow);
 }
 
+void DoTweenUI::DoAlpha(const float& _targetAlpha, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::ALPHA;
+	set.start = START::DO;
+	set.targetValue.x = _targetAlpha;
+	set.moveTime = _moveTime;
+
+	// 設定したパラメータからベクトル、速度を求める
+	GetValue(&set);
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
 void DoTweenUI::AppendDelay(float _delayTime)
 {
 	VALUE set;
@@ -657,6 +694,11 @@ void DoTweenUI::GetValue(VALUE* _value)
 	case FUNC::ROTATION:
 		_value->moveDir = GetVector(uiPtr->mTransform.rotation, _value->targetValue);
 		_value->moveSpeed = GetSpeed(uiPtr->mTransform.rotation, _value->targetValue, _value->moveTime);
+		break;
+
+	case FUNC::ALPHA:
+		_value->moveDir.x = 1.0f;
+		_value->moveSpeed = (_value->targetValue.x - uiPtr->materialDiffuse.w) / (_value->moveTime * 60);
 		break;
 	}
 }

@@ -244,6 +244,21 @@
     <Filter Include="ソース ファイル\Hashimoto\stageScene">
       <UniqueIdentifier>{95226933-b755-45a9-ac95-5cad9942290a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{037eb5bb-3ef6-4cac-8da0-112575ca59bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1">
+      <UniqueIdentifier>{687f611f-3984-4b4e-9696-ac1a7c05e67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2">
+      <UniqueIdentifier>{cce0c517-7d7a-40e5-82be-8373159bf1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3">
+      <UniqueIdentifier>{506cbb4d-54be-483b-b464-3e9f609613cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx">
+      <UniqueIdentifier>{796ba7e4-557f-4757-afef-229754961aef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -465,6 +480,18 @@
     <ClInclude Include="LoadCharacter.h">
       <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
     </ClInclude>
+    <ClInclude Include="Stage11.h">
+      <Filter>ソース ファイル\Stage\World1</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage21.h">
+      <Filter>ソース ファイル\Stage\World2</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage31.h">
+      <Filter>ソース ファイル\Stage\World3</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx1.h">
+      <Filter>ソース ファイル\Stage\WorldEx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -685,6 +712,18 @@
     </ClCompile>
     <ClCompile Include="LoadCharacter.cpp">
       <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage11.cpp">
+      <Filter>ソース ファイル\Stage\World1</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage21.cpp">
+      <Filter>ソース ファイル\Stage\World2</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage31.cpp">
+      <Filter>ソース ファイル\Stage\World3</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx1.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
