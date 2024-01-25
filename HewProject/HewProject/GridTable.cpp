@@ -41,7 +41,7 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _typ
 	floorPos.x = offset.x + (_grid.y + _grid.x) * (oneGridScale.x / 2.0f);
 	floorPos.y = offset.y + (_grid.x - _grid.y) * oneGridScale.y / ISOME_FLOOR_SUBPOSY;
 	// Z座標は[0,0]Z座標を0.0fとし、手前
-	floorPos.z = offsetZ + (_grid.x - _grid.y) * INFRONT_PLUSZ/* + _grid.x * HORIZONLINE_PLUSZ*/;
+	floorPos.z = offsetZ + (_grid.x - _grid.y) * INFRONT_PLUSZ + _grid.x * HORIZONLINE_PLUSZ;
 
 	switch (_type)
 	{
