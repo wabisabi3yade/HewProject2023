@@ -1,8 +1,8 @@
 #include <DirectXMath.h>
-#include "direct3d.h"
 #include "CTatemizoScene.h"
 #include "CInput.h"
 #include "COperation.h"
+#include <iostream>
 
 
 CTatemizoScene::CTatemizoScene()
@@ -13,7 +13,8 @@ CTatemizoScene::CTatemizoScene()
 	charObj = new CObject(charBuffer, charTexture);
 	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
 
-	x = new GameController();
+	val = new GameController();
+	button = new GameController();
 
 }
 
@@ -25,110 +26,88 @@ CTatemizoScene::~CTatemizoScene()
 
 	SAFE_RELEASE(charTexture);
 
-	CLASS_DELETE(x)
+	CLASS_DELETE(val);
+
+	CLASS_DELETE(button);
 }
 
 void CTatemizoScene::Update()
 {
+	/**************************************** 
+	   スティックの操作
+	   Lスティックはデッドゾーンあり
+	   Rスティックはデッドゾーン無し
+	*****************************************/
+		dir = { 0,0 };
 
+		//スティックの関数呼び出し
+		val->PadStick();
 
-	if (isPlayer)
-	{
-		// 操作で設定する用のベクトル変数
-		//V/*ector3 d = { 0.0f,0.0f,0.0f };*/
+		ButtonState();
 
-		dir = { 0,0,0 };
-
-		x->GamePad();
-
-		/*dir.x = x->GetStick_L().x;
-		dir.y = x->GetStick_L().y;*/
-
-		Vector2 a = x->GetStick_L();
+		Vector2 L = val->GetStick_L();
+		Vector2 R = val->GetStick_R();
 		
-		if (x->GetStick_L().x > 0)
+		// 左スティックの操作系統
+		if (val->GetStick_L().x > 0)
 		{
 			// 右上
-			if (x->GetStick_L().y > 0)
+			if (val->GetStick_L().y > 0)
 			{
-				dir = { 1,1,0 };
+				dir = { 1,1 };
 			}
-
 			// 右下
-			if (x->GetStick_L().y < 0)
+			if (val->GetStick_L().y < 0)
 			{
-				dir = { 1,-1,0 };
+				dir = { 1,-1 };
 			}
-
 		}
 
-		if (x->GetStick_L().x < 0)
+		if (val->GetStick_L().x < 0)
 		{
 			// 左上			
-			if (x->GetStick_L().y > 0)
+			if (val->GetStick_L().y > 0)
 			{
-				dir = { -1,1,0 };
+				dir = { -1,1 };
 			}
-
 			// 左下
-			if (x->GetStick_L().y < 0)
+			if (val->GetStick_L().y < 0)
 			{
-				dir = { -1,-1,0 };
+				dir = { -1,-1 };
 			}
-
 		}
-	
+		/*左スティックここまで*/
 
-
-		/*Vector3 G(x->GamePad(0.0, 0.0));*/
-
-
-			/*//右上
-			if ((stickX <= 1) && (stickX > 0.5) && (stickY >= 0.25))
+		// 右スティックの操作系統
+		if (val->GetStick_R().x > 0)
+		{
+			if (val->GetStick_R().y > 0)
 			{
-				d.y = 1;// 上方向ベクトル
-				moveSpeed = 0.01f;
-
-				d.x = 1;// 右方向ベクトル
-				moveSpeed = 0.01f;
+				dir = { 1,1 };
 			}
-			//右下
-			if ((stickX <= 1) && (stickX > 0.25) && (stickY < -0.25))
+			if (val->GetStick_R().y < 0)
 			{
-				d.y = -1;// 上方向ベクトル
-				moveSpeed = 0.01f;
-
-				d.x = 1;// 右方向ベクトル
-				moveSpeed = 0.01f;
+				dir = { 1,-1 };
 			}
-			//左下
-			if ((stickX < 0) && (stickY < 0))
-			{
-				d.y = -1;// 上方向ベクトル
-				moveSpeed = 0.01f;
+		}
 
-				d.x = -1;// 右方向ベクトル
-				moveSpeed = 0.01f;
+		if (val->GetStick_R().x < 0)
+		{
+			if (val->GetStick_R().y > 0)
+			{
+				dir = { -1,1 };
 			}
-			//左上
-			if ((stickX < 0) && (stickY > 0.25))
+			if (val->GetStick_R().y < 0)
 			{
-				d.y = 1;// 上方向ベクトル
-				moveSpeed = 0.01f;
+				dir = { -1,-1 };
+			}
+		}
+		/*右スティックここまで*/
 
-				d.x = -1;// 右方向ベクトル
-				moveSpeed = 0.01f;
-			}*/
 
-			// キー操作でベクトルが設定されていたらdirに代入する
-			/*if (d.x != 0.0f || d.y != 0.0f)
-			{
-				dir = d;
-			}*/
-
-			charObj->mTransform.pos.x += dir.x * 0.1;
-			charObj->mTransform.pos.y += dir.y * 0.1;
-	}
+		//ポジション(座標)の変更でキャラの移動
+		charObj->mTransform.pos.x += dir.x * 0.1;
+		charObj->mTransform.pos.y += dir.y * 0.1;
 
 }
 
@@ -139,4 +118,31 @@ void CTatemizoScene::LateUpdate()
 void CTatemizoScene::Draw()
 {
 	charObj->Draw();
+}
+
+void CTatemizoScene::ButtonState()
+{
+	// ボタンAが押された場合
+	if (button->Button(XINPUT_GAMEPAD_A))
+	{
+		// ここに何らかの処理を書く
+	}
+
+	// ボタンBが押された場合
+	if (button->Button(XINPUT_GAMEPAD_B))
+	{
+		// ここに何らかの処理を書く
+	}
+
+	// ボタンXが押された場合
+	if (button->Button(XINPUT_GAMEPAD_X))
+	{
+		// ここに何らかの処理を書く
+	}
+
+	// ボタンYが押された場合
+	if (button->Button(XINPUT_GAMEPAD_Y))
+	{
+		// ここに何らかの処理を書く
+	}
 }

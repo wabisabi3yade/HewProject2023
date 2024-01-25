@@ -3,7 +3,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "direct3d.h"
-#include "Vector3.h"
+#include "Vector2.h"
 
 class GameController;
 
@@ -18,19 +18,16 @@ public:
 
 public:
 
-	//現在の向きを表すベクトル変数
-	Vector3 dir = { 0, 0, 0 };
+	// 現在の向きを表すベクトル変数
+	Vector2 dir = { 0, 0 };
 
-	// キー操作可能なキャラクターか？
-	bool isPlayer = true;
+	// 仮想世界の中の位置座標
+	Vector2 pos = { 0, 0 };
 
-	//仮想世界の中の位置座標
-	Vector3 pos = { 0, 0, 0 };
+	// 拡大縮小率を持つ変数
+	Vector2 scale = { 1.0f, 1.0f };
 
-	//拡大縮小率を持つ変数
-	Vector3 scale = { 1.0f, 1.0f, 1.0f };
-
-	//回転角度
+	// 回転角度
 	float angle = 0.0f;
 
 	CTatemizoScene();
@@ -43,10 +40,13 @@ public:
 
 	void Draw() override;
 
-	GameController* x;
+	void ButtonState();
+
+	GameController* val;
+	GameController* button;
 
 
-	void SetDir(Vector3 v)
+	void SetDir(Vector2 v)
 	{
 		dir = v;
 	}
