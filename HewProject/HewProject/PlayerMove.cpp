@@ -22,6 +22,7 @@ PlayerMove::PlayerMove(Player* _p)
 	isWalking_now = false;
 	isWalking_old = false;
 	isFalling = false;
+	isRising = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -113,6 +114,11 @@ void PlayerMove::FallStart()
 	isFalling = true;
 }
 
+void PlayerMove::RiseStart()
+{
+	isRising = true;
+}
+
 CGridObject::BlockType PlayerMove::CheckNextFloorType()
 {
 	return static_cast<CGridObject::BlockType>(player->GetGridTable()->floorTable[nextGridPos.y][nextGridPos.x]);
@@ -127,6 +133,11 @@ CGridObject::BlockType PlayerMove::CheckNowFloorType()
 void PlayerMove::FallAfter()
 {
 	isFalling = false;
+}
+
+void PlayerMove::RiseAfter()
+{
+	isRising = false;
 }
 
 void PlayerMove::CheckCanMove()
@@ -196,6 +207,13 @@ void PlayerMove::CheckCanMove()
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
 			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
+		if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::HOLL) &&
+			player->GetNowFloor() == 1)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;

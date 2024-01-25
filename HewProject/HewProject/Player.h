@@ -12,6 +12,9 @@
 #define FALL_TIME (3.0f) //チョコが壊れてから落ち始めるまでの時間
 #define FALLMOVE_TIME (1.0f) //落ちる移動時間
 #define FALL_POS_Y (-4.5f) //落ちる最終座標
+#define JUMP_TIME (1.5f) //ジャンプの移動時間
+#define BOUND_TIME (1.0f) //ジャンプ後のバウンドする時間
+constexpr float RISING_TIME = 0.5f; //グミでの上昇時間
 #define THIN_CALOMAX (5)	// ガリ状態時での最大カロリー数 
 #define NORMAL_CALOMAX (10)	// 普通状態時での最大カロリー数 
 
@@ -64,7 +67,8 @@ private:
 
 	bool IsgameOver;
 
-	bool fallFloorChange; //落ちて階層が変わったか
+	bool fallFloorChangeTrriger; //落ちて階層が変わったか
+	bool risingChangeTrriger;
 
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 
@@ -79,6 +83,8 @@ private:
 	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
 	
 public:
+	bool fallMoveTrriger;
+	bool risingMoveTrriger;
 	std::unique_ptr<DoTween> dotween;
 
 	Player(D3DBUFFER vb, D3DTEXTURE tex);
@@ -107,6 +113,8 @@ public:
 
 	void Fall();
 
+	void Rise();
+
 	~Player();
 
 	int GetCalorie() const { return calorie; }
@@ -123,6 +131,10 @@ public:
 	int GetNowFloor() { return nowFloor; }
 	void SetNowFloor(int _set);
 	void GameOver();
+	bool GetFallTrriger() { return fallMoveTrriger; }
+	bool GetFallFloorChageTrriger() { return fallFloorChangeTrriger; }
+	bool GetRiseFloorChangeTrriger() { return risingChangeTrriger; }
+	bool GetRiseTrriger() { return risingMoveTrriger; }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }

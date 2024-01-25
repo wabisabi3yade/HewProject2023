@@ -10,12 +10,30 @@
 #include "CCamera.h"
 #include "CWorldSelectScene.h"
 #include "CStage1SelectScene.h"
+#include "Fade_TestScene.h"
+#include "xa2.h"
+#include "CTitleScene.h"
+#include "HosodaSelect.h"
+
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
 {
 	effectManeger = EffectManeger::GetInstance();
 	textureFactory = TextureFactory::GetInstance();
+	fade = Fade::GetInstance();
+
+	//サウンド初期化
+	HRESULT hr;
+	hr = XA_Initialize();
+
+	//XA_Initialize関数失敗したか判定
+	if (FAILED(hr))
+	{
+		MessageBoxA(NULL, "サウンド初期化失敗", "エラー", MB_ICONERROR | MB_OK);
+	}
+
+	XA_Play(SOUND_LABEL_BGMSWEETSFACTORY);
 }
 
 CSceneManager::~CSceneManager()
@@ -25,6 +43,7 @@ CSceneManager::~CSceneManager()
 	EffectManeger::Delete();
 	CCamera::Delete();
 	TextureFactory::Delete();
+	Fade::Delete();
 }
 
 CSceneManager* CSceneManager::GetInstance()
@@ -39,6 +58,8 @@ CSceneManager* CSceneManager::GetInstance()
 
 void CSceneManager::Delete()
 {
+	//サウンド解放処理
+	XA_Release();
 	CLASS_DELETE(instance);
 }
 
@@ -52,6 +73,9 @@ void CSceneManager::Act()
 	
 	//エフェクトマネジャー
 	effectManeger->Update();
+
+	// フェードの更新処理
+	fade->Update();
 	
 	//画面塗りつぶしと設定
 	D3D_ClearScreen();
@@ -59,6 +83,11 @@ void CSceneManager::Act()
 	pNowScene->Draw();
 
 	effectManeger->Draw();
+
+	// フェード描画
+	// 1番後に書く
+	fade->Draw();
+
 	// 画面更新
 	D3D_UpdateScreen();
 
@@ -71,6 +100,7 @@ void CSceneManager::SceneChange(int _scene)
 {
 	// 最初に解放する
 	CLASS_DELETE(pNowScene);
+	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
 
 	switch (_scene)
 	{
@@ -95,6 +125,7 @@ void CSceneManager::SceneChange(int _scene)
 		break;
 
 	case CScene::WAKAMURA:
+		XA_Play(SOUND_LABEL_BGMSWEETSFACTORY);
 		nowSceneName = CScene::WAKAMURA;
 		pNowScene = new CWorldSelectScene();
 		break;
@@ -107,7 +138,31 @@ void CSceneManager::SceneChange(int _scene)
 		nowSceneName = CScene::STAGE1;
 		pNowScene = new CStage1SelectScene();
 		break;
+
+	case CScene::FADE_TEST:
+		nowSceneName = CScene::FADE_TEST;
+		pNowScene = new Fade_TestScene();
+		break;
+
+	case CScene::TITLE:
+		nowSceneName = CScene::TITLE;
+		pNowScene = new CTitleScene();
+		break;
+
+	/*case CScene::HOSODA_SELECT:
+		nowSceneName = CScene::HOSODA_SELECT;
+		pNowScene = new HosodaSelect();
+		break;*/
 	}
+}
+
+void CSceneManager::SceneChangeStage(const wchar_t* _path)
+{
+	// 最初に解放する
+	CLASS_DELETE(pNowScene);
+	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
+
+	pNowScene = new Stage(_path);
 }
 
 // シーン番号を返す

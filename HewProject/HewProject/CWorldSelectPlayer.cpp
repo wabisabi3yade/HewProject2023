@@ -1,6 +1,7 @@
 #include "CWorldSelectPlayer.h"
 #include "CInput.h"
 #include"CPlayerAnim.h"
+#include "xa2.h"
 
 CWorldSelectPlayer::CWorldSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CGridObject(vb, tex)
 {
@@ -31,10 +32,13 @@ void CWorldSelectPlayer::Update()
 		if (gInput->GetKeyTrigger(VK_RETURN))
 		{
 			isMoving = true;
+			isNoPush = true;
 
 			Vector2 playerXY;
 			playerXY.x = mTransform.pos.x;
 			playerXY.y = mTransform.pos.y + 2.0f;
+
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
 
 			dotween->DoMoveY(playerXY.y, 1.0f);
 
@@ -47,6 +51,7 @@ void CWorldSelectPlayer::Update()
 	{
 		if (gInput->GetKeyTrigger(VK_LEFT))
 		{
+			XA_Play(SOUND_LABEL_SE000);
 			isMoving = true;
 			isNoPush = true;
 			Vector2 playerXY;

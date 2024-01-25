@@ -33,7 +33,7 @@ void CChoco::CRACK()
 	}
 	else if (this->type == CGridObject::BlockType::CHOCOCRACK)
 	{
-		//this->BlockType = static_cast <int> (CStageMake::BlockType::HOLL);
+		this->type = CGridObject::BlockType::HOLL;
 		this->SetActive(false);
 	};
 }

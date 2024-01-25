@@ -29,7 +29,7 @@ public:
 	Vector2 operator*(Vector2 _v);
 	Vector2 operator/(Vector2 _v);
 
-	
+	Vector2 operator*(float _v);
 
 	const bool& operator>=(const Vector2& _v)const;
 

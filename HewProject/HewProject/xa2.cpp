@@ -26,6 +26,7 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/kawada/rockman.wav", false},		// サンプルSE
 	{"SE/kawada/shot0.wav", false},		// サンプルSE
 	{"SE/kawada/shot1.wav", false},		// サンプルSE
+	{"BGM/wakamura/SweetsFactory.wav", true},
 };
 //===================================================//
 //===================================================//
@@ -181,6 +182,8 @@ void XA_Play(SOUND_LABEL label)
 	// ソースボイス作成
 	g_pXAudio2->CreateSourceVoice( &pSV, &(g_wfx[(int)label].Format) );
 	pSV->SubmitSourceBuffer( &(g_buffer[(int)label]) );	// ボイスキューに新しいオーディオバッファーを追加
+	
+	pSV->SetVolume(0.3f);
 
 	// 再生
 	pSV->Start( 0 );

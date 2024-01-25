@@ -32,7 +32,6 @@ CWorldSelectScene::CWorldSelectScene()
 	stage[3]->mTransform.pos = { 6,2,-1 };
 	stage[3]->mTransform.scale = { 2,2,1 };
 
-
 }
 
 CWorldSelectScene::~CWorldSelectScene()

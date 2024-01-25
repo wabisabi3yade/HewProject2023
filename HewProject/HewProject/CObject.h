@@ -14,7 +14,6 @@ enum ObjectLayer
 {
 	FADE,
 	EFECT,
-	UI,
 	PLAY_GROUND,
 	BACK_GROUND,
 };

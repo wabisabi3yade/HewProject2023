@@ -2,6 +2,7 @@
 #include "CScene.h"
 #include "CEffectManeger.h"
 #include "TextureFactory.h"
+#include "Fade.h"
 
 //static EffectManeger* EffectMane;
 
@@ -14,6 +15,8 @@ private:
 		
 	EffectManeger* effectManeger;
 	TextureFactory* textureFactory;
+	Fade* fade;
+	
 	CSceneManager();
 
 	~CSceneManager();
@@ -34,6 +37,9 @@ public:
 
 	// シーンを設定する
 	void SceneChange(int _scene);
+
+	// シーンを設定する
+	void SceneChangeStage(const wchar_t* _path);
 
 	// 現在のシーンを取得
 	CScene::SCENE_NAME GetNowScene();

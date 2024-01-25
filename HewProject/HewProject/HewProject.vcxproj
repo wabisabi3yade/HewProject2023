@@ -177,8 +177,10 @@
     <ClInclude Include="CShadow.h" />
     <ClInclude Include="CStage1SelectScene.h" />
     <ClInclude Include="CStageMake.h" />
+    <ClInclude Include="CStageSelectPlayer.h" />
     <ClInclude Include="CTatemizoScene.h" />
     <ClInclude Include="CTest.h" />
+    <ClInclude Include="CTitleScene.h" />
     <ClInclude Include="CWakamuraScene.h" />
     <ClInclude Include="CWall.h" />
     <ClInclude Include="CWataame.h" />
@@ -187,18 +189,31 @@
     <ClInclude Include="DebugTable.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DoTween.h" />
+    <ClInclude Include="DotweenUI.h" />
+    <ClInclude Include="Fade.h" />
+    <ClInclude Include="FadeUI.h" />
+    <ClInclude Include="Fade_TestScene.h" />
     <ClInclude Include="FatMove.h" />
     <ClInclude Include="GridTable.h" />
+    <ClInclude Include="HosodaSelect.h" />
+    <ClInclude Include="LoadCharacter.h" />
     <ClInclude Include="MuscleMove.h" />
     <ClInclude Include="NormalMove.h" />
+    <ClInclude Include="NowLoadingText.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="Stage11.h" />
+    <ClInclude Include="Stage21.h" />
+    <ClInclude Include="Stage31.h" />
+    <ClInclude Include="StageEx1.h" />
     <ClInclude Include="StageScene.h" />
     <ClInclude Include="TextureFactory.h" />
     <ClInclude Include="ThinMove.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="WICTextureLoader.h" />
@@ -243,8 +258,10 @@
     <ClCompile Include="CShadow.cpp" />
     <ClCompile Include="CStage1SelectScene.cpp" />
     <ClCompile Include="CStageMake.cpp" />
+    <ClCompile Include="CStageSelectPlayer.cpp" />
     <ClCompile Include="CTatemizoScene.cpp" />
     <ClCompile Include="CTest.cpp" />
+    <ClCompile Include="CTitleScene.cpp" />
     <ClCompile Include="CWakamuraScene.cpp" />
     <ClCompile Include="CWall.cpp" />
     <ClCompile Include="CWataame.cpp" />
@@ -253,18 +270,31 @@
     <ClCompile Include="DebugTable.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DoTween.cpp" />
+    <ClCompile Include="DotweenUI.cpp" />
+    <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="FadeUI.cpp" />
+    <ClCompile Include="Fade_TestScene.cpp" />
     <ClCompile Include="FatMove.cpp" />
     <ClCompile Include="GridTable.cpp" />
+    <ClCompile Include="HosodaSelect.cpp" />
+    <ClCompile Include="LoadCharacter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MuscleMove.cpp" />
     <ClCompile Include="NormalMove.cpp" />
+    <ClCompile Include="NowLoadingText.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Stage11.cpp" />
+    <ClCompile Include="Stage21.cpp" />
+    <ClCompile Include="Stage31.cpp" />
+    <ClCompile Include="StageEx1.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="ThinMove.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
@@ -275,11 +305,21 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ps_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ps_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ps.h</HeaderFileOutput>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vs_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vs_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vs.h</HeaderFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

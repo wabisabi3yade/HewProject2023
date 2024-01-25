@@ -20,16 +20,21 @@ public:
 		HASHIMOTO,	// 橋本シーン
 		// ↓　シーンを追加するならここに書いてね
 		STAGE1,
+		FADE_TEST,
+		TITLE,
 		SCENE_NUM,	// シーンの数
 
 		SELECT,	// セレクトシーン
+		HOSODA_SELECT
 	};
 
 private:
+	
+
+protected:
 	// シーンマネージャー
 	CSceneManager* pSceneManager = nullptr;
 
-protected:
 	int nextScene;
 
 	// シーンを変えるフラグ
