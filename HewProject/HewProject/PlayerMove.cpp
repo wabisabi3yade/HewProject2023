@@ -75,6 +75,7 @@ void PlayerMove::FlagInit()
 	isWalking_old = isWalking_now;
 }
 
+
 void PlayerMove::WalkAfter()
 {
 	player->WalkCalorie();
@@ -101,7 +102,7 @@ CGridObject::BlockType PlayerMove::CheckNextMassType()
 
 void PlayerMove::WalkStart()
 {
-	isWalking_now = true;
+	isWalking_now = true ;
 }
 
 CGridObject::BlockType PlayerMove::CheckNextObjectType()
@@ -128,6 +129,26 @@ CGridObject::BlockType PlayerMove::CheckNowFloorType()
 {
 	CGrid::GRID_XY NowGridPos = player->GetGridPos();
 	return static_cast<CGridObject::BlockType>(player->GetGridTable()->floorTable[NowGridPos.y][NowGridPos.x]);
+}
+
+CGridObject::BlockType PlayerMove::CheckNowObjectType()
+{
+	CGrid::GRID_XY NowGridPos = player->GetGridPos();
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->objectTable[NowGridPos.y][NowGridPos.x]);
+}
+
+CGridObject::BlockType PlayerMove::CheckNowMassType()
+{
+	// 先にオブジェクトの型を見る
+	CGridObject::BlockType type = CheckNowObjectType();
+
+	// 何もなかったら
+	if (type == CGridObject::BlockType::NONE)
+	{
+		// 床のテーブルを確認
+		type = CheckNowFloorType();
+	}
+	return type;
 }
 
 void PlayerMove::FallAfter()
@@ -245,19 +266,4 @@ void PlayerMove::MoveAfter()
 	// 移動できる方向を決定する
 	CheckCanMove();
 
-	// マッチョじゃないなら
-	if (player->GetState() == Player::STATE::MUSCLE) return;
-	// 動き終えたあとにカロリーが状態変わるようなら状態を変化させる
-	Player::STATE nextState = Player::STATE::FAT;
-	if (player->GetCalorie() <= THIN_CALOMAX)
-	{
-		nextState = Player::STATE::THIN;
-	}
-	else if (player->GetCalorie() <= NORMAL_CALOMAX)
-	{
-		nextState = Player::STATE::NORMAL;
-	}
-
-	if (player->GetState() != nextState)
-		player->ChangeState(nextState);
 }

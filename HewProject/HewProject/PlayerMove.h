@@ -57,6 +57,8 @@ public:
 	// 入力されると移動を行う関数
 	virtual void Move(DIRECTION _dir) = 0;
 
+	virtual void Step() =  0 ;
+
 	// 歩き終わった後にする処理（歩き終わって食べるアニメーションをしたりする）
 	virtual void WalkAfter();
 
@@ -86,6 +88,10 @@ public:
 	CGridObject::BlockType CheckNextFloorType();
 
 	CGridObject::BlockType CheckNowFloorType();
+
+	CGridObject::BlockType CheckNowObjectType();
+
+	CGridObject::BlockType CheckNowMassType();
 
 	// どの方向に移動ができるか取得する関数
 	virtual void  CheckCanMove() = 0;

@@ -118,8 +118,8 @@ void StageScene::Update()
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
 	{
 		// グリッドテーブルを更新する
-		TableUpdate();
 	}
+		TableUpdate();
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{
@@ -138,8 +138,8 @@ void StageScene::Update()
 			{
 				for (int j = 0; j < stageSquare.x; j++)
 				{
-					floorUndo[nNextUndo].floorTable[k][i][j] = nowFloor->floorTable[i][j];
-					floorUndo[nNextUndo].objectTable[k][i][j] = nowFloor->objectTable[i][j];
+					floorUndo[nNextUndo].floorTable[k][i][j] = (nowFloor)->floorTable[i][j];
+					floorUndo[nNextUndo].objectTable[k][i][j] = (nowFloor)->objectTable[i][j];
 				}
 			}
 		}
@@ -215,7 +215,7 @@ void StageScene::StageMove()
 			CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 			hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
 			hollObj->SetBlookType(CGridObject::BlockType::HOLL);
-			hollObj->mTransform.pos = nowFloor->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+			hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
 			vStageObj->push_back(hollObj);
 
 		}
@@ -235,7 +235,7 @@ void StageScene::StageMove()
 					CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 					hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
 					hollObj->SetBlookType(CGridObject::BlockType::HOLL);
-					hollObj->mTransform.pos = nowFloor->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+					hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
 					vStageObj->push_back(hollObj);
 					player->GetPlayerMove()->FallStart();
 				}
@@ -283,11 +283,27 @@ void StageScene::StageMove()
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{
+
 		if (player->GetState() != Player::STATE::MUSCLE && nNumProtein <= 0)
 		{
 			player->ChangeState(Player::STATE::MUSCLE);
 			player->mTransform.scale.y *= 1.5f;
 		}
+		// マッチョじゃないなら
+		if (player->GetState() == Player::STATE::MUSCLE) return;
+		// 動き終えたあとにカロリーが状態変わるようなら状態を変化させる
+		Player::STATE nextState = Player::STATE::FAT;
+		if (player->GetCalorie() <= THIN_CALOMAX)
+		{
+			nextState = Player::STATE::THIN;
+		}
+		else if (player->GetCalorie() <= NORMAL_CALOMAX)
+		{
+			nextState = Player::STATE::NORMAL;
+		}
+
+		if (player->GetState() != nextState)
+			player->ChangeState(nextState);
 
 	}
 
@@ -299,15 +315,15 @@ void StageScene::TableUpdate()
 	for (int i = 0; i < MAX_GRIDNUM; i++)
 	{
 		// その行の最初が使われていないなら終わる
-		if (nowFloor->floorTable[i][0] == 0) break;
+		if ((nowFloor)->floorTable[i][0] == 0) break;
 
 		for (int j = 0; j < MAX_GRIDNUM; j++)
 		{
 			// 列が使われていないなら
-			if (nowFloor->floorTable[i][j] == 0) break;
+			if ((nowFloor)->floorTable[i][j] == 0) break;
 
-			nowFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
-			nowFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
+			(nowFloor)->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
+			(nowFloor)->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
 		}
 	}
 
@@ -322,14 +338,14 @@ void StageScene::TableUpdate()
 		// 今の階層のテーブルに更新する
 		if ((*itr)->GetCategory() == CGridObject::Category::FLOOR)
 		{
-			nowFloor->floorTable[g.y][g.x] = static_cast<int>((*itr)->GetBlookType());
+			(nowFloor)->floorTable[g.y][g.x] = static_cast<int>((*itr)->GetBlookType());
 		}
 		else
 		{
-			nowFloor->objectTable[g.y][g.x] = static_cast<int>((*itr)->GetBlookType());
+			(nowFloor)->objectTable[g.y][g.x] = static_cast<int>((*itr)->GetBlookType());
 		}
 	}
-	player->SetGridTable(nowFloor);
+	player->SetGridTable((nowFloor));
 }
 
 void StageScene::CastellaMoveOrder()
@@ -360,7 +376,7 @@ void StageScene::CastellaMoveOrder()
 	// 動かす先のワールド座標を求める
 	CGrid::GRID_XY targetGrid = { next.x + d.x, next.y + d.y };
 
-	Vector3 target = nowFloor->GridToWorld(targetGrid, CGridObject::BlockType::CASTELLA);
+	Vector3 target = (nowFloor)->GridToWorld(targetGrid, CGridObject::BlockType::CASTELLA);
 
 	/////////////////////////////////////////////////////////////////////
 
@@ -375,14 +391,14 @@ void StageScene::CastellaMoveOrder()
 	CCastella* castella = static_cast<CCastella*>((*itr));
 
 	// 動かした先が穴なら
-	if (nowFloor->floorTable[targetGrid.y][targetGrid.x] == static_cast<int>(CGridObject::BlockType::HOLL))
+	if ((nowFloor)->floorTable[targetGrid.y][targetGrid.x] == static_cast<int>(CGridObject::BlockType::HOLL))
 	{
-		Vector3 floorPos = nowFloor->GridToWorld(targetGrid, CGridObject::BlockType::FLOOR);
+		Vector3 floorPos = (nowFloor)->GridToWorld(targetGrid, CGridObject::BlockType::FLOOR);
 		castella->Move(target, true, floorPos);
 		castella->SetGridPos(targetGrid.x, targetGrid.y);
 
 		// オブジェクトテーブルからカステラを消して
-		nowFloor->objectTable[targetGrid.y][targetGrid.x] = static_cast<int>(CGridObject::BlockType::NONE);
+		(nowFloor)->objectTable[targetGrid.y][targetGrid.x] = static_cast<int>(CGridObject::BlockType::NONE);
 
 		//	カステラを床にする
 		castella->SetCategory(CGridObject::Category::FLOOR);
@@ -405,7 +421,7 @@ void StageScene::ItemDelete()
 	CGridObject* deleteObj;	// 画面から消す予定のポインタがはいる
 
 	switch (static_cast<CGridObject::BlockType>
-		(nowFloor->objectTable[next.y][next.x]))
+		((nowFloor)->objectTable[next.y][next.x]))
 	{
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
@@ -422,7 +438,7 @@ void StageScene::ItemDelete()
 					_obj->GetCategory() == CGridObject::Category::ITEM);
 			});
 
-		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>(nowFloor->objectTable[next.y][next.x]));
+		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]));
 
 		// 画面から消す
 		deleteObj->SetActive(false);
@@ -576,7 +592,7 @@ void StageScene::Draw()
 	Z_Sort(*vStageObj);
 	for (auto it : *vStageObj)
 	{
-		(*it).Draw();
+		it->Draw();
 	}
 }
 
@@ -784,12 +800,16 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	{
 	case 1:
 		vStageObj = &oneFStgObj;
+		nowFloor = oneFloor;
 		break;
+		
 	case 2:
 		vStageObj = &secondFStgObj;
+		nowFloor = secondFloor;
 		break;
 	case 3:
 		vStageObj = &thirdFStgObj;
+		nowFloor = thirdFloor;
 		break;
 	default:
 		break;
@@ -993,30 +1013,33 @@ void StageScene::ChangeFloor(int _nextFloor)
 	//vStageObj->clear();
 	//vStageObj->shrink_to_fit();
 
-
-
-
 	auto removeItr = std::remove(vStageObj->begin(), vStageObj->end(), player);
 
 	vStageObj->erase(removeItr, vStageObj->end());
 
 	player->risingMoveTrriger = false;
 	player->fallMoveTrriger = false;
+
+
+
 	switch (_nextFloor)
 	{
 	case 1:
 		vStageObj = &oneFStgObj;
 		vStageObj->push_back(player);
+		nowFloor = oneFloor;
 		player->SetGridTable(oneFloor);
 		break;
 	case 2:
 		vStageObj = &secondFStgObj;
-			vStageObj->push_back(player);
+		vStageObj->push_back(player);
+		nowFloor = secondFloor;
 		player->SetGridTable(secondFloor);
 		break;
 	case 3:
 		vStageObj = &thirdFStgObj;
 		vStageObj->push_back(player);
+		nowFloor = thirdFloor;
 		player->SetGridTable(thirdFloor);
 		break;
 	default:
@@ -1046,8 +1069,14 @@ CGridObject* StageScene::GetStageFloor(CGrid::GRID_XY _gridPos, CGridObject::Blo
 		{
 			return (_obj->GetGridPos().x == _gridPos.x &&
 				_obj->GetGridPos().y == _gridPos.y &&
-				(_obj->GetBlookType() == _blockType));
+				(_obj->GetBlookType() == _blockType)) &&
+				_obj->GetActive()==true;
 		});
 
 	return (*itr);
+}
+
+GridTable* StageScene::GetNowFloor() const
+{
+	return nowFloor;
 }
