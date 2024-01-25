@@ -1,8 +1,11 @@
 #pragma once
 #include "CScene.h"
-#define MAXNUM 5
+#include <vector>
+#include "CGridObject.h"
+#define MAXNUM 20
 
 class UI;
+class CGridObject;
 
 class CTitleScene :
     public CScene
@@ -12,15 +15,26 @@ public:
     D3DBUFFER titleBuffer;
     D3DTEXTURE titleTexture;
     
+    D3DBUFFER bgBuffer;
+    D3DTEXTURE bgTexture;
+
     D3DBUFFER sweetsBuffer;
     D3DTEXTURE sweetsTexture;
 
+    D3DBUFFER selectBuffer;
+    D3DTEXTURE selectTexture;
+
     UI* Title;
     UI* Sweets[MAXNUM];
+    UI* Bg;
+    CGridObject* select[2];
 
     bool isNoMoving;
     bool isOnce;
     bool isRotationSwitch;
+    bool isFlash;
+
+    int m_DrawCount;
 
 public:
     CTitleScene();
