@@ -20,8 +20,12 @@ Stage::Stage(const wchar_t* _csvPath)
 void Stage::Update()
 {
 	stage->Update();
+
+
 	if (isDirectWriteUse)
 	{
+		dbgFloorTable->SetTable(stage->GetNowFloor());
+		dbgObjTable->SetTable(stage->GetNowFloor());
 		gauge->SetKcal(stage->GetPlayer()->GetCalorie());
 
 	}

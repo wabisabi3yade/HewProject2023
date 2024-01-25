@@ -141,5 +141,5 @@ public:
 	// ステージ内のプレイヤーを取得
 	Player* GetPlayer() const { return player; };
 
-	GridTable* GetNowFloor() const { return nowFloor; }
+	GridTable* GetNowFloor() const;
 };
