@@ -24,6 +24,7 @@ public:
 		MOVECURVE,
 		EASE_OUTCUBIC,
 		EASE_OUTCUBIC_SCALE,
+		EASE_OUTBACK,
 		ALPHA,
 		DELAY
 	};
@@ -207,6 +208,8 @@ public:
 	void DoEaseOutCubic(const Vector3& _targetAngle, const float& _moveTime);
 
 	void DoEaseOutCubicScale(const Vector3& _targetAngle, const float& _moveTime);
+
+	void DoEaseOutBack(const Vector3& _targetAngle, const float& _moveTime);
 
 	void DoAlpha(const float& _targetAlpha, const float& _moveTime);
 	
