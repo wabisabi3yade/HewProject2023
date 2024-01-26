@@ -76,7 +76,7 @@ void TextureFactory::Load()
 		L"asset/UI/NowLoadingÅc.png",
 		L"asset/UI/LoadCharacter.png",
 		L"asset/UI/textBox_Blue.png",
-		L"asset/UI/Title.png"
+		L"asset/UI/Title.png",
 	};
 
 	D3DTEXTURE texWork;
