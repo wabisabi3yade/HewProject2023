@@ -67,7 +67,7 @@ CTitleScene::CTitleScene()
 	Title = new UI(titleBuffer, titleTexture);
 	Title->MakeDotween();
 	Title->mTransform.pos = { 0,1.5f,0.3f };
-	Title->mTransform.scale = { 1,1,1 };
+	Title->mTransform.scale = { 1,1.2,1 };
 	Title->materialDiffuse = { 1,1,1,1 };
 
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
