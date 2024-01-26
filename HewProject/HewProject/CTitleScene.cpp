@@ -4,8 +4,6 @@
 #include "UI.h"
 #include "TextureFactory.h"
 #include <random>
-#include <iostream>
-#include <algorithm>
 
 #define MIN -1
 #define MAX 1
@@ -14,6 +12,16 @@
 
 CTitleScene::CTitleScene()
 {
+	D3D_CreateSquare({ 1,1 }, &selectBuffer);
+	selectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
+
+	for (int i = 0; i < 2; i++)
+	{
+		select[i] = new CGridObject(selectBuffer, selectTexture);
+		select[i]->mTransform.pos = { -2.5f + i * 5.0f,-1.0f,0.3f };
+		select[i]->mTransform.scale = { 2,2,1 };
+	}
+
 	D3D_CreateSquare({ 1,1 }, &sweetsBuffer);
 	sweetsTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Cake.png");
 
@@ -43,18 +51,18 @@ CTitleScene::CTitleScene()
 		}
 		else if (i < 15)
 		{
-			Sweets[i] = new UI(sweetsBuffer, sweetsTexture);
+			Sweets[i] = new UI(selectBuffer, selectTexture);
 			Sweets[i]->MakeDotween();
 			Sweets[i]->mTransform.pos = { distr(eng),2.6f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 0.7f,0.7f,1.0f };
+			Sweets[i]->mTransform.scale = { 0.5f,0.5f,1.0f };
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
 		}
 		else {
-			Sweets[i] = new UI(sweetsBuffer, sweetsTexture);
+			Sweets[i] = new UI(selectBuffer, selectTexture);
 			Sweets[i]->MakeDotween();
 			Sweets[i]->mTransform.pos = { distr(eng),2.9f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 0.7f,0.7f,1.0f };
+			Sweets[i]->mTransform.scale = { 0.5f,0.5f,1.0f };
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
 		}
@@ -77,17 +85,6 @@ CTitleScene::CTitleScene()
 	Bg->mTransform.pos = { 0,0,0.4f };
 	Bg->mTransform.scale = { 3,4,1 };
 	Bg->materialDiffuse = { 1,1,1,1 };
-
-	D3D_CreateSquare({ 1,1 }, &selectBuffer);
-	selectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
-
-	for (int i = 0; i < 2; i++)
-	{
-		select[i] = new CGridObject(selectBuffer, selectTexture);
-		select[i]->mTransform.pos = { -2.5f + i * 5.0f,-1.0f,0.3f };
-		select[i]->mTransform.scale = { 2,2,1 };
-	}
-	
 
 	isNoMoving = false;
 	isOnce = false;
@@ -141,8 +138,19 @@ void CTitleScene::Update()
 					Sweets[i]->dotween->DoMoveY(-1.2f, 3.0f);
 					Sweets[i]->dotween->Join(360.0f, 3.0f, DoTweenUI::FUNC::ROTATION);
 				}
-				else {
+				else if(i < 10)
+				{
 					Sweets[i]->dotween->DoMoveY(-1.5f, 4.0f);
+					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
+				}
+				else if (i < 15)
+				{
+					Sweets[i]->dotween->DoMoveY(-1.8f, 4.0f);
+					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
+				}
+				else
+				{
+					Sweets[i]->dotween->DoMoveY(-2.1f, 4.0f);
 					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
 				}
 			}
@@ -161,7 +169,7 @@ void CTitleScene::Update()
 
 		if (isRotationSwitch == false)
 		{
-			Title->mTransform.rotation.z += 1.0f;
+			Title->mTransform.rotation.z += 0.3f;
 			if (Title->mTransform.rotation.z > 45.0f)
 			{
 				isRotationSwitch = true;
@@ -169,7 +177,7 @@ void CTitleScene::Update()
 		}
 		else
 		{
-			Title->mTransform.rotation.z -= 1.0f;
+			Title->mTransform.rotation.z -= 0.3f;
 			if (Title->mTransform.rotation.z < -45.0f)
 			{
 				isRotationSwitch = false;
@@ -210,7 +218,7 @@ void CTitleScene::Draw()
 	{
 		if (isFlash == false)
 		{
-			if (m_DrawCount % 8 == 0)
+			if (m_DrawCount % 5 == 0)
 			{
 				select[0]->Draw();
 			}
@@ -218,7 +226,7 @@ void CTitleScene::Draw()
 			select[1]->Draw();
 		}
 		else {
-			if (m_DrawCount % 8 == 0)
+			if (m_DrawCount % 5 == 0)
 			{
 				select[1]->Draw();
 			}
