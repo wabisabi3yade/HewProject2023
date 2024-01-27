@@ -181,7 +181,7 @@ void StageScene::StageMove()
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CAKE)
 		{
-			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
+			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
 			cakeObj->BlowOff(player->GetDirection());
 		}
 
@@ -241,7 +241,7 @@ void StageScene::StageMove()
 				}
 				chocoObj->CRACK();
 			}
-			if (player->GetState() == Player::STATE::FAT)
+			if (player->GetState() == Player::STATE::FAT || player->GetState() == Player::STATE::MUSCLE)
 			{
 				chocoObj->CRACK();
 			}
