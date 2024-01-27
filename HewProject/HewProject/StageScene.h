@@ -98,6 +98,7 @@ private:
 	D3DTEXTURE stageTextureProtein;
 	D3DTEXTURE playerTexture;
 	D3DTEXTURE shadowTexture;
+	D3DTEXTURE stageTextureCannon;
 
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
