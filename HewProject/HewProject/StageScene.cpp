@@ -18,6 +18,7 @@
 #include"CProtein.h"
 #include"CGall.h"
 #include"CChili.h"
+#include"CCannon.h"
 //#include "Player.h"
 #include "GridTable.h"
 #include "TextureFactory.h"
@@ -901,7 +902,8 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 			case CGridObject::BlockType::GALL:
 				objWork = new CGall(stageBuffer, stageTextureGallChest);
 				break;
-
+			case CGridObject::BlockType::CANNON:
+				objWork = new CCannon(stageBuffer, stageTextureCannon);
 			default:
 				break;
 

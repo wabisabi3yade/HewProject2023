@@ -24,6 +24,7 @@ public:
 		START,			// スタート			15
 		GALL,			// ゴール			16
 		CASTELLA_FLOOR,	// カステラの床		17
+		CANNON,			// 大砲				18
 		NONE = 99,
 	};
 
