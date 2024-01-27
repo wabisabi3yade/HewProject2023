@@ -181,14 +181,18 @@ void NormalMove::Move(DIRECTION _dir)
 					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-					//バウンドする高さを計算　代入
-					float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
-					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 						{
 							player->fallMoveTrriger = true;
-
+							if (player->GetPlayerMove()->CheckNextFloorType() != CGridObject::BlockType::HOLL)
+							{
+								//バウンドする高さを計算　代入
+								player->Fall();
+								float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
+								player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+							}
 						});
+
 				}
 
 				break;
@@ -221,7 +225,7 @@ void NormalMove::Move(DIRECTION _dir)
 				player->dotween->DoDelay(0.3f);
 				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
 				player->Rise();
-				player->GetPlayerMove()->RiseStart();
+				//player->GetPlayerMove()->RiseStart();
 				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
 				player->dotween->Append(targetPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
@@ -243,8 +247,6 @@ void NormalMove::Move(DIRECTION _dir)
 
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
-
 		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
 		break;
 	}
@@ -310,14 +312,6 @@ void NormalMove::Step()
 	{
 		WalkStart();
 		//ジャンプしてから落ちるように
-
-		Vector2 junpPos = {};
-
-		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-		junpPos.x = Vec3JumpPos.x;
-		junpPos.y = Vec3JumpPos.y;
-
-
 		//WalkAfter();
 		//画面外まで移動するようにYをマクロで定義して使用する
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
@@ -339,12 +333,14 @@ void NormalMove::Step()
 			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 			//バウンドする高さを計算　代入
+			//下が穴でないとき
 			float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 			player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+			//if(player->GetGridTable()->)
 			player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 				{
-					player->Fall();
 					player->fallMoveTrriger = true;
+					player->Fall();
 				});
 		}
 		
@@ -361,31 +357,8 @@ void NormalMove::Step()
 	{
 
 		WalkStart();
-
-		Vector2 junpPos = {};
-
-
-		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-		junpPos.x = Vec3JumpPos.x;
-		junpPos.y = Vec3JumpPos.y + 0.3f;
-		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
-		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
-
-		player->dotween->DoDelay(0.3f);
-		player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
-		player->Rise();
-		player->GetPlayerMove()->RiseStart();
-		Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-		player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
-		player->dotween->Append(targetPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
-		player->dotween->Append(targetPos, RISING_TIME + 0.5f, DoTween::FUNC::MOVECURVE, targetPos.y + 7.0f);
-		player->dotween->DelayedCall(RISING_TIME + 0.3f, [&]()
-			{
-				player->Rise();
-				player->risingMoveTrriger = true;
-			});
-
-
+		//WalkAfter();
+		//MoveAfter();
 		// ↑にジャンプする
 
 	}

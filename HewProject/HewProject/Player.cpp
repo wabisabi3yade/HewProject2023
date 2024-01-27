@@ -105,7 +105,7 @@ void Player::Update()
 
 	dotween->Update();
 
-	fallFloorChangeTrriger = false;
+	//fallFloorChangeTrriger = false;
 	//risingChangeTrriger = false;
 
 	if (move->GetIsFalling() == false && move->GetIsRising() == false)
@@ -141,13 +141,18 @@ void Player::Update()
 					mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 					fallFloorChangeTrriger = true;
 				}
-				if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START) )
+				if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
 				{
-					//move->Move();
 					move->Step();
+					if (move->CheckNextFloorType() != CGridObject::BlockType::HOLL)
+					{
 					move->FallAfter();
 					move->WalkAfter();
 					move->MoveAfter();
+					}
+					//move->Move();
+					
+					
 					dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 					nowFloor--;
 					fallFloorChangeTrriger = false;
@@ -259,7 +264,7 @@ void Player::Fall()
 void Player::Rise()
 {
 	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
-	//move->RiseStart();
+	move->RiseStart();
 }
 
 // テクスチャは解放しない
