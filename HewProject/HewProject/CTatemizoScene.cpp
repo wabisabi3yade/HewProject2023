@@ -1,7 +1,7 @@
 #include <DirectXMath.h>
 #include "CTatemizoScene.h"
 #include "CInput.h"
-#include "COperation.h"
+#include "GameController.h"
 #include <iostream>
 
 
@@ -13,8 +13,8 @@ CTatemizoScene::CTatemizoScene()
 	charObj = new CObject(charBuffer, charTexture);
 	charObj->mTransform.scale = { 3.0f,3.0f,1.0f };
 
-	val = new GameController();
-	button = new GameController();
+	//val = new GameController();
+	//button = new GameController();
 
 }
 
@@ -26,9 +26,9 @@ CTatemizoScene::~CTatemizoScene()
 
 	SAFE_RELEASE(charTexture);
 
-	CLASS_DELETE(val);
+	/*CLASS_DELETE(val);
 
-	CLASS_DELETE(button);
+	CLASS_DELETE(button);*/
 }
 
 void CTatemizoScene::Update()
@@ -122,23 +122,23 @@ void CTatemizoScene::Draw()
 
 void CTatemizoScene::ButtonState()
 {
-	// ボタンAが押された場合
-	if (button->Button(XINPUT_GAMEPAD_A))
-	{
-		// ここに何らかの処理を書く
-	}
+	//// ボタンAが押された場合
+	//if (button->Button(XINPUT_GAMEPAD_A))
+	//{
+	//	// ここに何らかの処理を書く
+	//}
 
-	// ボタンBが押された場合
-	if (button->Button(XINPUT_GAMEPAD_B))
-	{
-		// ここに何らかの処理を書く
-	}
+	//// ボタンBが押された場合
+	//if (button->Button(XINPUT_GAMEPAD_B))
+	//{
+	//	// ここに何らかの処理を書く
+	//}
 
-	// ボタンXが押された場合
-	if (button->Button(XINPUT_GAMEPAD_X))
-	{
-		// ここに何らかの処理を書く
-	}
+	//// ボタンXが押された場合
+	//if (button->Button(XINPUT_GAMEPAD_X))
+	//{
+	//	// ここに何らかの処理を書く
+	//}
 
 	// ボタンYが押された場合
 	if (button->Button(XINPUT_GAMEPAD_Y))
