@@ -1,16 +1,42 @@
-#include "COperation.h"
+#include "GameController.h"
 #include  <iostream>
 
 #define XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE  30000
+
+// インスタンスを初期化
+GameController* GameController::instance = nullptr;
 
 // コメントであそぼ
 
 GameController::GameController()
 {
+	ZeroMemory(&ControllerState, sizeof(XINPUT_STATE));
 }
 
 GameController::~GameController()
 {
+}
+
+GameController* GameController::GetInstance()
+{
+	// インスタンスを取得するs
+	if (instance == nullptr)
+	{
+		instance = new GameController();
+	}
+
+	// インスタンスを返す
+	return instance;
+}
+
+void GameController::Delete()
+{
+	// インスタンスを削除する
+	if (instance != nullptr)
+	{
+		delete instance;
+		instance = nullptr;
+	}
 }
 
 void GameController::PadStick()
