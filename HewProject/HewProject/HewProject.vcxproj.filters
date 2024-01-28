@@ -265,6 +265,12 @@
     <Filter Include="ソース ファイル\Hosoda">
       <UniqueIdentifier>{c33f2221-962a-4164-ac92-c3e769fbda35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Cannon">
+      <UniqueIdentifier>{93366efc-7ef3-4e6c-bcda-2a14e2f241af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Arrow">
+      <UniqueIdentifier>{64495bf3-3dd9-4bf9-8282-8e37b5f6c346}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -504,6 +510,12 @@
     <ClInclude Include="HosodaSelect.h">
       <Filter>ソース ファイル\Hosoda</Filter>
     </ClInclude>
+    <ClInclude Include="CCannon.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="CArrow.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -742,6 +754,12 @@
     </ClCompile>
     <ClCompile Include="HosodaSelect.cpp">
       <Filter>ソース ファイル\Hosoda</Filter>
+    </ClCompile>
+    <ClCompile Include="CCannon.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrow.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
