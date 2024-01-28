@@ -17,6 +17,9 @@
 constexpr float RISING_TIME = 0.5f; //グミでの上昇時間
 #define THIN_CALOMAX (5)	// ガリ状態時での最大カロリー数 
 #define NORMAL_CALOMAX (10)	// 普通状態時での最大カロリー数 
+constexpr float CANNONMOVE_TIME = 2.0f;		//大砲でのいどうじかん
+constexpr float CANNONBOUND_TIME = 3.0f;	//大砲で目的地でのバウンドする時間
+constexpr float CANNONBOUND_POS_Y = 3.0f;	//大砲で目的地でのバウンドする高さ
 
 // プレイヤー（リス）のオブジェクトクラス
 class Player :

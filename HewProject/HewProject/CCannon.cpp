@@ -84,7 +84,7 @@ void CCannon::SetStageSize(CGrid::GRID_XY _set)
 
 void CCannon::Update()
 {
-	if (InPlayer)
+	if (inPlayer)
 	{
 		//–îˆó‚ð•\Ž¦
 		for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
