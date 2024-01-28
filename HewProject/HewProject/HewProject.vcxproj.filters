@@ -265,19 +265,27 @@
     <Filter Include="ソース ファイル\Hosoda">
       <UniqueIdentifier>{c33f2221-962a-4164-ac92-c3e769fbda35}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="ソース ファイル\Mizuno\Stage\Cannon">
       <UniqueIdentifier>{93366efc-7ef3-4e6c-bcda-2a14e2f241af}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Mizuno\Stage\Arrow">
       <UniqueIdentifier>{64495bf3-3dd9-4bf9-8282-8e37b5f6c346}</UniqueIdentifier>
+
+    <Filter Include="ソース ファイル\Base\GameCore\Input\CInput">
+      <UniqueIdentifier>{d37b7007-708e-447a-8c5d-67c6233c4546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input\InputManager">
+      <UniqueIdentifier>{5ceb9643-a6b9-4e88-bfd9-6e80baf89763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input\InputStateUpdate">
+      <UniqueIdentifier>{d92c7057-9b29-469e-9676-57e0c32ceaa5}</UniqueIdentifier>
+
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
       <Filter>ソース ファイル\Hashimoto</Filter>
-    </ClInclude>
-    <ClInclude Include="CInput.h">
-      <Filter>ソース ファイル\Base\GameCore\Input</Filter>
     </ClInclude>
     <ClInclude Include="CAnimation.h">
       <Filter>ソース ファイル\Base\GameBase\Animation</Filter>
@@ -372,7 +380,7 @@
     <ClInclude Include="Vector2.h">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClInclude>
-    <ClInclude Include="COperation.h">
+    <ClInclude Include="GameController.h">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMove.h">
@@ -510,19 +518,25 @@
     <ClInclude Include="HosodaSelect.h">
       <Filter>ソース ファイル\Hosoda</Filter>
     </ClInclude>
+
     <ClInclude Include="CCannon.h">
       <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
     </ClInclude>
     <ClInclude Include="CArrow.h">
       <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+    <ClInclude Include="CInput.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\CInput</Filter>
+    </ClInclude>
+    <ClInclude Include="InputStateUpdate.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputStateUpdate</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
       <Filter>ソース ファイル\Hashimoto</Filter>
-    </ClCompile>
-    <ClCompile Include="CInput.cpp">
-      <Filter>ソース ファイル\Base\GameCore\Input</Filter>
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
       <Filter>ソース ファイル\Base\GameBase\Animation</Filter>
@@ -617,7 +631,7 @@
     <ClCompile Include="Vector2.cpp">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClCompile>
-    <ClCompile Include="COperation.cpp">
+    <ClCompile Include="GameController.cpp">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMove.cpp">
@@ -760,6 +774,14 @@
     </ClCompile>
     <ClCompile Include="CArrow.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+    <ClCompile Include="CInput.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\CInput</Filter>
+    </ClCompile>
+    <ClCompile Include="InputStateUpdate.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputStateUpdate</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

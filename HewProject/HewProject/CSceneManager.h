@@ -2,6 +2,7 @@
 #include "CScene.h"
 #include "CEffectManeger.h"
 #include "TextureFactory.h"
+#include "InputManager.h"
 #include "Fade.h"
 
 //static EffectManeger* EffectMane;
@@ -15,6 +16,7 @@ private:
 		
 	EffectManeger* effectManeger;
 	TextureFactory* textureFactory;
+	InputManager* inputManager = nullptr;
 	Fade* fade;
 	
 	CSceneManager();
