@@ -140,9 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAnimation.h" />
+    <ClInclude Include="CArrow.h" />
     <ClInclude Include="CBaum.h" />
     <ClInclude Include="CCake.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCannon.h" />
     <ClInclude Include="CCastella.h" />
     <ClInclude Include="CChili.h" />
     <ClInclude Include="CChoco.h" />
@@ -223,9 +225,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAnimation.cpp" />
+    <ClCompile Include="CArrow.cpp" />
     <ClCompile Include="CBaum.cpp" />
     <ClCompile Include="CCake.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCannon.cpp" />
     <ClCompile Include="CCastella.cpp" />
     <ClCompile Include="CChili.cpp" />
     <ClCompile Include="CChoco.cpp" />
