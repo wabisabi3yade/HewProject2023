@@ -269,9 +269,9 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Cannon">
       <UniqueIdentifier>{93366efc-7ef3-4e6c-bcda-2a14e2f241af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Mizuno\Stage\Arrow">
-      <UniqueIdentifier>{64495bf3-3dd9-4bf9-8282-8e37b5f6c346}</UniqueIdentifier>
-
+	  <Filter Include="ソース ファイル\Mizuno\Stage\Arrow">
+		  <UniqueIdentifier>{64495bf3-3dd9-4bf9-8282-8e37b5f6c346}</UniqueIdentifier>
+	  </Filter>
     <Filter Include="ソース ファイル\Base\GameCore\Input\CInput">
       <UniqueIdentifier>{d37b7007-708e-447a-8c5d-67c6233c4546}</UniqueIdentifier>
     </Filter>
@@ -522,8 +522,9 @@
     <ClInclude Include="CCannon.h">
       <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
     </ClInclude>
-    <ClInclude Include="CArrow.h">
-      <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+	  <ClInclude Include="CArrow.h">
+		  <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+	  </ClInclude>
     <ClInclude Include="CInput.h">
       <Filter>ソース ファイル\Base\GameCore\Input\CInput</Filter>
     </ClInclude>
@@ -772,8 +773,9 @@
     <ClCompile Include="CCannon.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
     </ClCompile>
-    <ClCompile Include="CArrow.cpp">
-      <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+	  <ClCompile Include="CArrow.cpp">
+		  <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+	  </ClCompile>
     <ClCompile Include="CInput.cpp">
       <Filter>ソース ファイル\Base\GameCore\Input\CInput</Filter>
     </ClCompile>
