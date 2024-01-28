@@ -112,15 +112,15 @@ void StageScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_ESCAPE))
 	{
-		//ChangeFloor(2);
+		player->GetPlayerMove()->CannonMoveStart();
 	}
 
 	// 動いているときと動き終わった瞬間だけ
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
 	{
 		// グリッドテーブルを更新する
-	}
 		TableUpdate();
+	}
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{

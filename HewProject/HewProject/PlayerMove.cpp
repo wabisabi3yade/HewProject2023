@@ -14,6 +14,7 @@ PlayerMove::PlayerMove(Player* _p)
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
 		canMoveDir[i] = false;
+		cannonMoveDir[i] = false;
 	}
 	isMovingTrigger = false;
 	isMoving = false;
@@ -102,7 +103,7 @@ CGridObject::BlockType PlayerMove::CheckNextMassType()
 
 void PlayerMove::WalkStart()
 {
-	isWalking_now = true ;
+	isWalking_now = true;
 }
 
 CGridObject::BlockType PlayerMove::CheckNextObjectType()
@@ -159,6 +160,126 @@ void PlayerMove::FallAfter()
 void PlayerMove::RiseAfter()
 {
 	isRising = false;
+}
+
+void PlayerMove::InCannon()
+{
+}
+
+void PlayerMove::CannonMoveStart()
+{
+	CGrid::GRID_XY XY={0,0};
+	for (int i = 0; i < 9; i++)
+	{
+		if (player->GetGridTable()->floorTable[0][i] != 0)
+		{
+			XY.x += 1;
+		}
+		if (player->GetGridTable()->floorTable[i][0] != 0)
+		{
+			XY.y += 1;
+		}
+		else if (player->GetGridTable()->floorTable[i][i] == 0)
+		{
+			break;
+		}
+	}
+
+	CGrid::GRID_XY movePos = player->GetGridPos();
+	int moveDir = 0;
+	cannonMoveDir[static_cast<int>(DIRECTION::UP)] = true;
+	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
+	{
+		if (cannonMoveDir[i] == true)
+		{
+			moveDir = i;
+			break;
+		}
+	}
+
+
+	switch (moveDir)
+	{
+	case static_cast<int>(DIRECTION::DOWN):
+		for (int i = player->GetGridPos().y; i < XY.y; i++)
+		{
+			if (player->GetGridTable()->objectTable[i-1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.y++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	case static_cast<int>(DIRECTION::UP):
+		for (int i = player->GetGridPos().y; i > 0; i--)
+		{
+			if (player->GetGridTable()->objectTable[i-1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.y--;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	case static_cast<int>(DIRECTION::RIGHT):
+		for (int i = player->GetGridPos().x; i < XY.x; i++)
+		{
+			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i-1] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.x++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	case static_cast<int>(DIRECTION::LEFT):
+		for (int i = player->GetGridPos().x; i > 0; i--)
+		{
+			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i-1] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.x--;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	WalkStart();
+	Vector3 v3MovePos = player->GetGridTable()->GridToWorld(movePos, CGridObject::BlockType::START);
+	//ˆÚ“®—Ê‚É‰ž‚¶‚Ä‘¬“x‚ð•Ï‚¦‚é
+	player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME / ((movePos.x - player->GetGridPos().x) + ( movePos.y + player->GetGridPos().y)));
+	player->dotween->OnComplete([&,movePos]()
+	{
+			player->dotween->DoMoveCurve({ player->mTransform.pos.x,player->mTransform.pos.y}, CANNONBOUND_TIME, player->mTransform.pos.y + CANNONBOUND_POS_Y);
+			//‚š‚ð•ÏX‚·‚é
+			//player->dotween->Append(movePos,)
+			player->dotween->DelayedCall(CANNONBOUND_TIME, [&,movePos]()
+				{
+					//WalkAfter();
+					player->SetGridPos(movePos);
+					player->GetPlayerMove()->SetNextGridPos(movePos);
+					MoveAfter();
+					Step();
+				});
+		});
+}
+
+void PlayerMove::CannonMove()
+{
+
+
 }
 
 void PlayerMove::CheckCanMove()

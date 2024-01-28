@@ -27,6 +27,8 @@ protected:
 
 	bool canMoveDir[static_cast<int>(DIRECTION::NUM)];	// 移動可能である方向
 
+	bool cannonMoveDir[static_cast<int>(DIRECTION::NUM)];
+
 	bool isMoving;	// 移動可能フラグ
 
 	bool isMoveStartTrigger;	// 動き始めたフラグ
@@ -76,6 +78,12 @@ public:
 
 	virtual void RiseAfter();
 
+	void InCannon();
+
+	void CannonMoveStart();
+
+	void CannonMove();
+
 	// プレイヤーの移動先の座標にあるマスの種類を取得する
 	// オブジェクト優先→なにもないなら床の種類が帰ってくる
 	// 間違えているかもしれないっす・・・
@@ -99,6 +107,8 @@ public:
 	virtual ~PlayerMove();
 
 	CGrid::GRID_XY GetNextGridPos() const { return nextGridPos; };
+
+	void SetNextGridPos(const CGrid::GRID_XY _nextGirdPos) { nextGridPos = _nextGirdPos; }
 
 	bool GetIsMoving()const { return isMoving; }
 	bool GetIsMoveStart()const { return isMoveStartTrigger; }
