@@ -110,10 +110,10 @@ void StageScene::Update()
 		Undo(stageScale);
 	}
 
-	if (gInput->GetKeyTrigger(VK_ESCAPE))
-	{
-		player->GetPlayerMove()->CannonMoveStart();
-	}
+	//if (gInput->GetKeyTrigger(VK_ESCAPE))
+	//{
+	//	player->GetPlayerMove()->CannonMove2();
+	//}
 
 	// “®‚¢‚Ä‚¢‚é‚Æ‚«‚Æ“®‚«I‚í‚Á‚½uŠÔ‚¾‚¯
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())

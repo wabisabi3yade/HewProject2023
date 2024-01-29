@@ -45,6 +45,10 @@ protected:
 
 	bool isRising;
 
+	bool isCannonMove;
+	bool isCannonMoveStart;
+	bool isCannonMoveEnd;
+
 	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
 
 	std::vector<int> cantMoveBlock;	// 移動できない床の種類を保持
@@ -80,9 +84,9 @@ public:
 
 	void InCannon();
 
-	void CannonMoveStart();
+	void CannonMove1();
 
-	void CannonMove();
+	void CannonMove2();
 
 	// プレイヤーの移動先の座標にあるマスの種類を取得する
 	// オブジェクト優先→なにもないなら床の種類が帰ってくる
@@ -118,6 +122,7 @@ public:
 	bool GetIsWalk_Old() const { return isWalking_old; }
 	bool GetIsFalling()const { return isFalling; }
 	bool GetIsRising()const { return isRising; }
+	bool GetIsCannonMove()const { return isCannonMove; }
 	bool* GetCanMoveDir() { return &canMoveDir[0]; }
 };
 

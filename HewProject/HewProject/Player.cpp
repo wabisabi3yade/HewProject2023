@@ -108,6 +108,11 @@ void Player::Update()
 	//fallFloorChangeTrriger = false;
 	//risingChangeTrriger = false;
 
+	if (move->GetIsCannonMove())
+	{
+		move->CannonMove2();
+	}
+
 	if (move->GetIsFalling() == false && move->GetIsRising() == false)
 	{
 		if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == true)
@@ -141,15 +146,16 @@ void Player::Update()
 					mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 					fallFloorChangeTrriger = true;
 				}
-				if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
+				if (mTransform.pos == gridTable->GridToWorld(this->GetGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
 				{
-					move->Step();
-					if (move->CheckNextFloorType() != CGridObject::BlockType::HOLL)
-					{
-					move->FallAfter();
+					//if (move->CheckNextFloorType() != CGridObject::BlockType::HOLL)
+					//{
+					//}
 					move->WalkAfter();
-					move->MoveAfter();
-					}
+					move->Step();
+					//move->MoveAfter();
+					move->FallAfter();
+					//move->SetNextGridPos(GetGridPos());
 					//move->Move();
 					
 					
@@ -174,10 +180,10 @@ void Player::Update()
 			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START)  && risingChangeTrriger)
 			{
 				//move->Move(static_cast<PlayerMove::DIRECTION>(direction));
-				move->Step();
-				move->RiseAfter();
 				move->WalkAfter();
 				move->MoveAfter();
+				move->Step();
+				move->RiseAfter();
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 				nowFloor++;
 				risingChangeTrriger = false;
