@@ -1,9 +1,8 @@
 #pragma once
 #include "GameController.h"
 
-class InputStateUpdate
+namespace InputType
 {
-public:
 	enum TYPE
 	{
 		DECIDE,	// 決定
@@ -14,21 +13,26 @@ public:
 		R_BUTTON,	// Rボタン
 		NUM
 	};
+}
 
+
+class InputStateUpdate
+{
+public:
 	// タイプの数
-	const short int typeNum = static_cast<short int>(TYPE::NUM);
+	const short int typeNum = static_cast<short int>(InputType::TYPE::NUM);
 
 private:
 	static InputStateUpdate* instance;
 
-	bool c_InputState[static_cast<int>(TYPE::NUM)] = {};	// 現在のボタンの入力状態
-	bool o_InputState[static_cast<int>(TYPE::NUM)] = {};	// 1フレーム前のボタンの入力状態
+	bool c_InputState[static_cast<int>(InputType::TYPE::NUM)] = {};	// 現在のボタンの入力状態
+	bool o_InputState[static_cast<int>(InputType::TYPE::NUM)] = {};	// 1フレーム前のボタンの入力状態
 
 	// CInputで上記ボタンタイプに対応したキーを保管
-	int cInput_Support[static_cast<int>(TYPE::NUM)] = {};
+	int cInput_Support[static_cast<int>(InputType::TYPE::NUM)] = {};
 
 	// GameControllerで上記ボタンタイプに対応したボタンを保管
-	WORD contoroller_Support[static_cast<int>(TYPE::NUM)] = {};
+	WORD contoroller_Support[static_cast<int>(InputType::TYPE::NUM)] = {};
 
 	GameController* controller = nullptr;	// コントローラークラス
 
@@ -40,6 +44,6 @@ public:
 
 	void UpdateKeyState();
 
-	bool GetInputPress(TYPE _buttonType);
-	bool GetInputTrigger(TYPE _buttonType);
+	bool GetInputPress(InputType::TYPE _buttonType);
+	bool GetInputTrigger(InputType::TYPE _buttonType);
 };

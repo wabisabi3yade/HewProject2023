@@ -25,10 +25,10 @@ public:
 	void UpdateInputState();
 
 	// ボタン押されているか
-	bool GetInputPress(InputStateUpdate::TYPE _button);
+	bool GetInputPress(InputType::TYPE _button);
 
 	// ボタン押された状態か
-	bool GetInputTrigger(InputStateUpdate::TYPE _button);
+	bool GetInputTrigger(InputType::TYPE _button);
 
 	// コントローラーのポインタ
 	GameController* GetController()const { return controller; }
