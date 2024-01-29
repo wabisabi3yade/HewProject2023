@@ -50,6 +50,7 @@ void TextureFactory::Load()
 		L"asset/Player/F_Walk.png",
 		L"asset/Player/T_Walk.png",
 		L"asset/Player/M_Walk01_Forword.png",
+		L"asset/Player/N_Wait.png",
 
 		L"asset/Stage/floor_y.png",
 		L"asset/Stage/floor_g.png",

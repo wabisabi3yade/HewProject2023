@@ -26,7 +26,6 @@ void CWorldSelectPlayer::Update()
 {
 	if (isMoving == false)
 	{
-		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk();
 		isNoPush = false;
 
 		if (gInput->GetKeyTrigger(VK_RETURN))
@@ -51,53 +50,65 @@ void CWorldSelectPlayer::Update()
 	{
 		if (gInput->GetKeyTrigger(VK_LEFT))
 		{
-			XA_Play(SOUND_LABEL_SE000);
-			isMoving = true;
-			isNoPush = true;
-			Vector2 playerXY;
-			playerXY.x = mTransform.pos.x - 3.0f;
-			playerXY.y = mTransform.pos.y;
+			if (mTransform.pos.x > -6.0f)
+			{
+				XA_Play(SOUND_LABEL_SE000);
+				isMoving = true;
+				isNoPush = true;
+				Vector2 playerXY;
+				playerXY.x = mTransform.pos.x - 3.0f;
+				playerXY.y = mTransform.pos.y;
 
-			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(1));
+				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(1));
 
-			dotween->DoMoveX(playerXY.x, 2.0f);
+				dotween->DoMoveX(playerXY.x, 2.0f);
 
-			dotween->OnComplete([&]()
-				{
-					isMoving = false;
-					nNumSelectScene--;
-
-					if (nNumSelectScene < 0)
+				dotween->OnComplete([&]()
 					{
-						nNumSelectScene = 0;
-					}
+						isMoving = false;
+						nNumSelectScene--;
 
-				});
+						if (nNumSelectScene < 0)
+						{
+							nNumSelectScene = 0;
+						}
+
+						dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int> (DIRECTION::LEFT));
+
+					});
+			}
+			
 		}
 
 		if (gInput->GetKeyTrigger(VK_RIGHT))
 		{
-			isMoving = true;
-			isNoPush = true;
-			Vector2 playerXY;
-			playerXY.x = mTransform.pos.x + 3.0f;
-			playerXY.y = mTransform.pos.y;
+			if (mTransform.pos.x < 6.0f)
+			{
+				isMoving = true;
+				isNoPush = true;
+				Vector2 playerXY;
+				playerXY.x = mTransform.pos.x + 3.0f;
+				playerXY.y = mTransform.pos.y;
 
-			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
+				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
 
-			dotween->DoMoveX(playerXY.x, 2.0f);
+				dotween->DoMoveX(playerXY.x, 2.0f);
 
-			dotween->OnComplete([&]()
-				{
-					isMoving = false;
-					nNumSelectScene++;
-
-					if (nNumSelectScene > 4)
+				dotween->OnComplete([&]()
 					{
-						nNumSelectScene = 4;
-					}
+						isMoving = false;
+						nNumSelectScene++;
 
-				});
+						if (nNumSelectScene > 4)
+						{
+							nNumSelectScene = 4;
+						}
+
+						dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(DIRECTION::DOWN));
+
+					});
+			}
+			
 
 		}
 	}

@@ -14,6 +14,7 @@ public:
 
     D3DBUFFER playerBuffer;
     D3DTEXTURE playerTexture;
+    D3DTEXTURE player_stopTexture;
 
     D3DBUFFER stageBuffer;
     D3DTEXTURE stage1Texture;
