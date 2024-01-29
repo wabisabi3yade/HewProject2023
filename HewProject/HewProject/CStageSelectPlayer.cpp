@@ -54,31 +54,31 @@ void CStageSelectPlayer::Update()
 	static bool isDown = false;	// 下向いているかフラグ
 	static bool isLeft = false;	// 左向いているかフラグ
 
-	if (input->GetMovement().x < 0)
+	d.x = input->GetMovement().x;
+	d.y = input->GetMovement().y;
+
+
+	if (d.x < 0)
 	{
 		isMoving = true;
-		d.x = -1.0f;
 		isLeft = true;
 	}
 
-	if (input->GetMovement().x > 0)
+	if (d.x > 0)
 	{
 		isMoving = true;
-		d.x = 1.0f;
 		isLeft = false;
 	}
 
-	if (input->GetMovement().y > 0)
+	if (d.y > 0)
 	{
 		isMoving = true;
-		d.y = 1.0f;
 		isDown = false;
 	}
 
-	if (input->GetMovement().y < 0)
+	if (d.y < 0)
 	{
 		isMoving = true;
-		d.y = -1.0f;
 		isDown = true;
 	}
 
