@@ -13,6 +13,7 @@ public:
     //プレイヤー
     D3DBUFFER playerBuffer;
     D3DTEXTURE playerTexture;
+    D3DTEXTURE player_waitTexture;
 
     //ステージ
     D3DBUFFER stageBuffer;

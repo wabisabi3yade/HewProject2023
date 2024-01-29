@@ -1,6 +1,6 @@
 #include "CTitleScene.h"
 #include "CSceneManager.h"
-#include "CInput.h"
+#include "InputManager.h"
 #include "UI.h"
 #include "TextureFactory.h"
 #include <random>
@@ -113,6 +113,8 @@ CTitleScene::~CTitleScene()
 
 void CTitleScene::Update()
 {
+	InputManager* input = InputManager::GetInstance();
+	
 	Title->Update();
 
 	Bg->Update();
@@ -184,20 +186,20 @@ void CTitleScene::Update()
 			}
 		}
 
-		if (gInput->GetKeyTrigger(VK_RETURN) && isFlash == false)
+		if (input->GetInputTrigger(InputType::DECIDE) && isFlash == false)
 		{
 			CScene::SetScene(SCENE_NAME::WAKAMURA);
 		}
-		else if (gInput->GetKeyTrigger(VK_RETURN) && isFlash == true)
+		else if (input->GetInputTrigger(InputType::DECIDE) && isFlash == true)
 		{
 			exit(1);
 		}
 
-		if (gInput->GetKeyTrigger(VK_LEFT))
+		if (input->GetMovement().x < 0)
 		{
 			isFlash = false;
 		}
-		if (gInput->GetKeyTrigger(VK_RIGHT))
+		if (input->GetMovement().x > 0)
 		{
 			isFlash = true;
 		}

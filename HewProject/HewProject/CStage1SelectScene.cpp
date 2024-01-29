@@ -1,6 +1,6 @@
 #include "CStage1SelectScene.h"
 #include "CSceneManager.h"
-#include "CInput.h"
+#include "InputManager.h"
 #include "CGridObject.h"
 #include "TextureFactory.h"
 #include "CStageSelectPlayer.h"
@@ -11,6 +11,7 @@ CStage1SelectScene::CStage1SelectScene()
 {
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Walk.png");
+	player_waitTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Wait.png");
 
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
@@ -26,6 +27,7 @@ CStage1SelectScene::CStage1SelectScene()
 	player = new CStageSelectPlayer(playerBuffer, playerTexture);
 	player->mTransform.scale = { 2,2,1 };
 	player->mTransform.pos = { 0,0,0 };
+	player->SetTexture(player_waitTexture);
 
 	Text = new UI(textBuffer,textTexture);
 	Text->MakeDotween();
@@ -60,6 +62,8 @@ CStage1SelectScene::~CStage1SelectScene()
 
 void CStage1SelectScene::Update()
 {
+	InputManager* input = InputManager::GetInstance();
+
 	if (player->isChangeScene == true)
 	{
 		switch (player->nNumSelectScene)
@@ -87,7 +91,7 @@ void CStage1SelectScene::Update()
 
 		if (CollsionRect(stage[i], player) == true)
 		{
-			if (gInput->GetKeyTrigger(VK_RETURN))
+			if (input->GetInputTrigger(InputType::DECIDE))
 			{
 				switch (i)
 				{
@@ -143,6 +147,14 @@ void CStage1SelectScene::Update()
 	}
 	else {
 		player->Update();
+		
+		if (player->isWait == false)
+		{
+			player->SetTexture(playerTexture);
+		}
+		else {
+			player->SetTexture(player_waitTexture);
+		}
 	}
 	
 	for (int i = 0; i < 4; i++)
