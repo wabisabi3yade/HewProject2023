@@ -24,6 +24,9 @@ PlayerMove::PlayerMove(Player* _p)
 	isWalking_old = false;
 	isFalling = false;
 	isRising = false;
+	isCannonMove = false;
+	isCannonMoveEnd = false;
+	isCannonMoveStart = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -65,6 +68,10 @@ void PlayerMove::Input()
 		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
 		Move(DIRECTION::DOWN);
+	}
+	else if(gInput->GetKeyTrigger(VK_ESCAPE))
+	{
+		isCannonMove = !isCannonMove;
 	}
 }
 
@@ -144,7 +151,7 @@ CGridObject::BlockType PlayerMove::CheckNowMassType()
 	CGridObject::BlockType type = CheckNowObjectType();
 
 	// 何もなかったら
-	if (type == CGridObject::BlockType::NONE)
+	if (type == CGridObject::BlockType::NONE || type == CGridObject::BlockType::START)
 	{
 		// 床のテーブルを確認
 		type = CheckNowFloorType();
@@ -166,9 +173,9 @@ void PlayerMove::InCannon()
 {
 }
 
-void PlayerMove::CannonMoveStart()
+void PlayerMove::CannonMove1()
 {
-	CGrid::GRID_XY XY={0,0};
+	CGrid::GRID_XY XY = { 0,0 };
 	for (int i = 0; i < 9; i++)
 	{
 		if (player->GetGridTable()->floorTable[0][i] != 0)
@@ -203,7 +210,7 @@ void PlayerMove::CannonMoveStart()
 	case static_cast<int>(DIRECTION::DOWN):
 		for (int i = player->GetGridPos().y; i < XY.y; i++)
 		{
-			if (player->GetGridTable()->objectTable[i-1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
+			if (player->GetGridTable()->objectTable[i - 1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
 			{
 				movePos.y++;
 			}
@@ -216,7 +223,7 @@ void PlayerMove::CannonMoveStart()
 	case static_cast<int>(DIRECTION::UP):
 		for (int i = player->GetGridPos().y; i > 0; i--)
 		{
-			if (player->GetGridTable()->objectTable[i-1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
+			if (player->GetGridTable()->objectTable[i - 1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
 			{
 				movePos.y--;
 			}
@@ -229,7 +236,7 @@ void PlayerMove::CannonMoveStart()
 	case static_cast<int>(DIRECTION::RIGHT):
 		for (int i = player->GetGridPos().x; i < XY.x; i++)
 		{
-			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i-1] != static_cast<int>(CGridObject::BlockType::GALL))
+			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i - 1] != static_cast<int>(CGridObject::BlockType::GALL))
 			{
 				movePos.x++;
 			}
@@ -242,7 +249,7 @@ void PlayerMove::CannonMoveStart()
 	case static_cast<int>(DIRECTION::LEFT):
 		for (int i = player->GetGridPos().x; i > 0; i--)
 		{
-			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i-1] != static_cast<int>(CGridObject::BlockType::GALL))
+			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i - 1] != static_cast<int>(CGridObject::BlockType::GALL))
 			{
 				movePos.x--;
 			}
@@ -259,13 +266,13 @@ void PlayerMove::CannonMoveStart()
 	WalkStart();
 	Vector3 v3MovePos = player->GetGridTable()->GridToWorld(movePos, CGridObject::BlockType::START);
 	//移動量に応じて速度を変える
-	player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME / ((movePos.x - player->GetGridPos().x) + ( movePos.y + player->GetGridPos().y)));
-	player->dotween->OnComplete([&,movePos]()
-	{
-			player->dotween->DoMoveCurve({ player->mTransform.pos.x,player->mTransform.pos.y}, CANNONBOUND_TIME, player->mTransform.pos.y + CANNONBOUND_POS_Y);
+	player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME / ((movePos.x - player->GetGridPos().x) + (movePos.y + player->GetGridPos().y)));
+	player->dotween->OnComplete([&, movePos, v3MovePos]()
+		{
+			player->dotween->DoMoveCurve({ player->mTransform.pos.x,player->mTransform.pos.y }, CANNONBOUND_TIME, player->mTransform.pos.y + CANNONBOUND_POS_Y);
 			//ｚを変更する
-			//player->dotween->Append(movePos,)
-			player->dotween->DelayedCall(CANNONBOUND_TIME, [&,movePos]()
+			player->dotween->Append(v3MovePos, 0.0f, DoTween::FUNC::MOVE_Z);
+			player->dotween->DelayedCall(CANNONBOUND_TIME, [&, movePos]()
 				{
 					//WalkAfter();
 					player->SetGridPos(movePos);
@@ -276,9 +283,104 @@ void PlayerMove::CannonMoveStart()
 		});
 }
 
-void PlayerMove::CannonMove()
+void PlayerMove::CannonMove2()
 {
+	if (isCannonMoveStart)
+		return;
+	int moveDir = 0;
+	bool isBound = false;
+	CGrid::GRID_XY movePos = player->GetGridPos();
+	cannonMoveDir[static_cast<int>(DIRECTION::UP)] = true;
+	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
+	{
+		if (cannonMoveDir[i] == true)
+		{
+			moveDir = i;
+			break;
+		}
+	}
+	//nextGridPos = movePos;
+	switch (moveDir)
+	{
+		case static_cast<int>(DIRECTION::DOWN):
+			movePos.y++;
+			movePos.y++;
+			nextGridPos.y++;
+		break;
 
+		case static_cast<int>(DIRECTION::UP):
+			movePos.y--;
+			movePos.y--;
+			nextGridPos.y--;
+		break;
+
+		case static_cast<int>(DIRECTION::RIGHT):
+			movePos.x++;
+			movePos.x++;
+			nextGridPos.x++;
+		break;
+
+		case static_cast<int>(DIRECTION::LEFT):
+			movePos.x--;
+			movePos.x--;
+			nextGridPos.x--;
+		break;
+	default:
+		break;
+	}
+
+	CGrid::GRID_XY XY = { 0,0 };
+	for (int i = 0; i < 9; i++)
+	{
+		if (player->GetGridTable()->floorTable[0][i] != 0)
+		{
+			XY.x += 1;
+		}
+		if (player->GetGridTable()->floorTable[i][0] != 0)
+		{
+			XY.y += 1;
+		}
+		else if (player->GetGridTable()->floorTable[i][i] == 0)
+		{
+			break;
+		}
+	}
+
+
+	if (nextGridPos.x >= 0.0f && nextGridPos.y >= 0.0f &&
+		player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x] != 0)
+	{
+		if (player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x] != static_cast<int> (CGridObject::BlockType::GALL))
+		{
+			Vector3 v3MovePos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
+			isCannonMoveStart = true;
+			player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME);
+			player->dotween->Append(v3MovePos, 0.0f, DoTween::FUNC::MOVE_Z);
+			player->dotween->OnComplete([&,v3MovePos,movePos]()
+			{
+				// 移動した後の処理次のオブジェクト確認
+					if (player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::GALL) ||
+						movePos.x == -1 || movePos.y == -1)
+					{
+						player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
+						player->dotween->DelayedCall(CANNONBOUND_TIME, [&]()
+							{
+								isCannonMove = false;
+								nextGridPos;
+								player->GetPlayerMove()->Step();
+							});
+						
+						isCannonMoveEnd = true;
+					}
+						MoveAfter();
+						isCannonMoveEnd = true;
+						isCannonMoveStart = false;
+			});
+		}
+		//移動可能で泣ければバウンドを実行する
+		//大砲移動フラグを消す
+		
+	}
 
 }
 

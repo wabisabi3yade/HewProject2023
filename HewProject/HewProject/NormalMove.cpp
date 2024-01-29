@@ -255,7 +255,7 @@ void NormalMove::Move(DIRECTION _dir)
 
 void NormalMove::Step()
 {
-	switch (player->GetPlayerMove()->CheckNextMassType())
+	switch (player->GetPlayerMove()->CheckNowMassType())
 	{
 	case CGridObject::BlockType::CAKE:
 
@@ -314,7 +314,7 @@ void NormalMove::Step()
 		//ジャンプしてから落ちるように
 		//WalkAfter();
 		//画面外まで移動するようにYをマクロで定義して使用する
-		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 		Vector2 fallPosXY;
 		fallPosXY.x = fallPos.x;
@@ -330,7 +330,7 @@ void NormalMove::Step()
 		case 3:
 		{
 			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 			//バウンドする高さを計算　代入
 			//下が穴でないとき
