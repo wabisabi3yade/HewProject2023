@@ -42,12 +42,12 @@ void InputManager::UpdateInputState()
 	inputStateUpdate->UpdateKeyState();
 }
 
-bool InputManager::GetInputPress(InputStateUpdate::TYPE _button)
+bool InputManager::GetInputPress(InputType::TYPE _button)
 {
 	return inputStateUpdate->GetInputPress(_button);
 }
 
-bool InputManager::GetInputTrigger(InputStateUpdate::TYPE _button)
+bool InputManager::GetInputTrigger(InputType::TYPE _button)
 {
 	return  inputStateUpdate->GetInputTrigger(_button);
 }

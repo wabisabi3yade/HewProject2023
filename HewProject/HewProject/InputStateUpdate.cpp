@@ -7,41 +7,41 @@ InputStateUpdate::InputStateUpdate()
 {
 	controller = GameController::GetInstance();
 
-	for (int i = 0; i < static_cast<int>(TYPE::NUM); i++)
+	for (int i = 0; i < static_cast<int>(InputType::NUM); i++)
 	{
 		// 作業用変数
 		int keyWork = 0;	
 		WORD controllerWork = 0;
 
 		// 各ボタンタイプに対応したキーとコントローラーを決定する
-		switch (static_cast<TYPE>(i))
+		switch (static_cast<InputType::TYPE>(i))
 		{
-		case TYPE::DECIDE:
+		case InputType::DECIDE:
 			keyWork = VK_SPACE;
 			controllerWork = XINPUT_GAMEPAD_A;
 			break;
 
-		case TYPE::CANCEL:
+		case InputType::CANCEL:
 			keyWork = VK_BACK;
 			controllerWork = XINPUT_GAMEPAD_B;
 			break;
 
-		case TYPE::OPTION:
+		case InputType::OPTION:
 			keyWork = VK_ESCAPE;
 			controllerWork = XINPUT_GAMEPAD_START;
 			break;
 
-		case TYPE::CAMERA:
+		case InputType::CAMERA:
 			keyWork = VK_CONTROL;
 			controllerWork = XINPUT_GAMEPAD_Y;
 			break;
 
-		case TYPE::L_BUTTON:
+		case InputType::L_BUTTON:
 			keyWork = VK_F11;
 			controllerWork = XINPUT_GAMEPAD_LEFT_SHOULDER;
 			break;
 
-		case TYPE::R_BUTTON:
+		case InputType::R_BUTTON:
 			keyWork = VK_F12;
 			controllerWork = XINPUT_GAMEPAD_RIGHT_SHOULDER;
 			break;
@@ -104,12 +104,12 @@ void InputStateUpdate::UpdateKeyState()
 	}
 }
 
-bool InputStateUpdate::GetInputPress(TYPE _buttonType)
+bool InputStateUpdate::GetInputPress(InputType::TYPE _buttonType)
 {
 	return c_InputState[static_cast<int>(_buttonType)];
 }
 
-bool InputStateUpdate::GetInputTrigger(TYPE _buttonType)
+bool InputStateUpdate::GetInputTrigger(InputType::TYPE _buttonType)
 {
 	// 前フレームが押されていない　かつ　今フレームで押されている
 	return !o_InputState[static_cast<int>(_buttonType)] && 
