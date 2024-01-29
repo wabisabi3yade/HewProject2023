@@ -41,6 +41,9 @@ void GameController::Delete()
 
 void GameController::PadStick()
 {
+	// Å‰‚É‰Šú‰»‚·‚é
+	stick_L = Vector2::zero;
+
 	// XInput‚©‚çƒRƒ“ƒgƒ[ƒ‰‚Ìó‘Ô‚ğæ“¾
 	if (XInputGetState(0, &ControllerState) == ERROR_SUCCESS)
 	{

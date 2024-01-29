@@ -8,12 +8,14 @@ InputManager::InputManager()
 {
 	controller = GameController::GetInstance();
 	inputStateUpdate = InputStateUpdate::GetInstance();
+	inputMovement = InputMovement::GetInstance();
 }
 
 InputManager::~InputManager()
 {
 	GameController::Delete();
 	InputStateUpdate::Delete();
+	InputMovement::Delete();
 }
 
 InputManager* InputManager::GetInstance()
@@ -48,6 +50,11 @@ bool InputManager::GetInputPress(InputStateUpdate::TYPE _button)
 bool InputManager::GetInputTrigger(InputStateUpdate::TYPE _button)
 {
 	return  inputStateUpdate->GetInputTrigger(_button);
+}
+
+Vector2 InputManager::GetMovement()
+{
+	return inputMovement->CheckMovement();
 }
 
 

@@ -4,7 +4,7 @@
 class InputStateUpdate
 {
 public:
-	enum class TYPE
+	enum TYPE
 	{
 		DECIDE,	// Œˆ’è
 		CANCEL,	// ƒLƒƒƒ“ƒZƒ‹
