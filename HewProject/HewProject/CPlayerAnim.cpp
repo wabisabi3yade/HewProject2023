@@ -18,13 +18,13 @@ void CPlayerAnim::Update()
 
 		// 待機
 		// 下向き
-		{ 1, -1 },	//　-1がきたら最初に戻る
+		{ 0, 0 ,1, 2, 2, 1, -1 },	//　-1がきたら最初に戻る
 		// 左向き
-		{ 4 ,- 1 },
+		{ 3, 3, 4, 5, 5, 4, -1 },
 		// 右向き
-		{ 7, -1 },
+		{ 6, 6, 7, 8, 8, 7, -1 },
 		// 上向き
-		{ 10, -1},
+		{ 9, 9, 10, 11, 11, 10, -1},
 
 		// 歩き
 		// 下向き
@@ -115,7 +115,7 @@ void CPlayerAnim::PlayWalk(int num, float _animSpeedRate)
 
 void CPlayerAnim::StopWalk(int _num )
 {
-	isPlaying = false;
+	isPlaying = true;
 	switch (_num)
 	{
 	case 0:

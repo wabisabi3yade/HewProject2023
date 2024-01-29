@@ -9,6 +9,7 @@ CWorldSelectScene::CWorldSelectScene()
 {
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Walk.png");
+	player_stopTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Wait.png");
 
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
@@ -22,6 +23,7 @@ CWorldSelectScene::CWorldSelectScene()
 
 	player->mTransform.scale = { 4,4,1 };
 	player->mTransform.pos = { 0,-2,0 };
+	player->SetTexture(player_stopTexture);
 
 	stage[0]->mTransform.pos = { -6,2,-1 };
 	stage[0]->mTransform.scale = { 2,2,1 };
@@ -68,6 +70,14 @@ void CWorldSelectScene::Update()
 	for (int i = 0; i < 4; i++)
 	{
 		stage[i]->Update();
+	}
+
+	if (player->isMoving == false)
+	{
+		player->SetTexture(player_stopTexture);
+	}
+	else {
+		player->SetTexture(playerTexture);
 	}
 
 	player->Update();
