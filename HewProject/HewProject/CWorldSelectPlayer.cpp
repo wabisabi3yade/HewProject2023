@@ -1,5 +1,5 @@
 #include "CWorldSelectPlayer.h"
-#include "CInput.h"
+#include "InputManager.h"
 #include"CPlayerAnim.h"
 #include "xa2.h"
 
@@ -24,11 +24,13 @@ CWorldSelectPlayer::~CWorldSelectPlayer()
 
 void CWorldSelectPlayer::Update()
 {
+	InputManager* input = InputManager::GetInstance();
+
 	if (isMoving == false)
 	{
 		isNoPush = false;
 
-		if (gInput->GetKeyTrigger(VK_RETURN))
+		if (input->GetInputTrigger(InputType::DECIDE))
 		{
 			isMoving = true;
 			isNoPush = true;
@@ -48,7 +50,7 @@ void CWorldSelectPlayer::Update()
 
 	if (isNoPush == false)
 	{
-		if (gInput->GetKeyTrigger(VK_LEFT))
+		if (input->GetMovement().x < 0)
 		{
 			if (mTransform.pos.x > -6.0f)
 			{
@@ -80,7 +82,7 @@ void CWorldSelectPlayer::Update()
 			
 		}
 
-		if (gInput->GetKeyTrigger(VK_RIGHT))
+		if (input->GetMovement().x > 0)
 		{
 			if (mTransform.pos.x < 6.0f)
 			{

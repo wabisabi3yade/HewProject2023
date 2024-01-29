@@ -1,6 +1,6 @@
 #include "CStageSelectPlayer.h"
 #include "CPlayerAnim.h"
-#include "CInput.h"
+#include "InputManager.h"
 #include "Direct3D.h"
 
 #define STAGESELECT_SPEED (0.04f)	// プレイヤー速度
@@ -25,6 +25,7 @@ CStageSelectPlayer::CStageSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CObject(vb
 	isOnAnim_Up = false;
 	isOnAnim_Down = false;
 	isDiagonal = false;
+	isWait = true;
 	nNumSelectScene = 7;
 }
 
@@ -35,6 +36,8 @@ CStageSelectPlayer::~CStageSelectPlayer()
 
 void CStageSelectPlayer::Update()
 {
+	InputManager* input = InputManager::GetInstance();
+	
 	DirectX::XMFLOAT3 d;
 
 	//方向なしベクトルに設定
@@ -51,28 +54,28 @@ void CStageSelectPlayer::Update()
 	static bool isDown = false;	// 下向いているかフラグ
 	static bool isLeft = false;	// 左向いているかフラグ
 
-	if (gInput->GetKeyPress(VK_LEFT))
+	if (input->GetMovement().x < 0)
 	{
 		isMoving = true;
 		d.x = -1.0f;
 		isLeft = true;
 	}
 
-	if (gInput->GetKeyPress(VK_RIGHT))
+	if (input->GetMovement().x > 0)
 	{
 		isMoving = true;
 		d.x = 1.0f;
 		isLeft = false;
 	}
 
-	if (gInput->GetKeyPress(VK_UP))
+	if (input->GetMovement().y > 0)
 	{
 		isMoving = true;
 		d.y = 1.0f;
 		isDown = false;
 	}
 
-	if (gInput->GetKeyPress(VK_DOWN))
+	if (input->GetMovement().y < 0)
 	{
 		isMoving = true;
 		d.y = -1.0f;
@@ -149,6 +152,7 @@ void CStageSelectPlayer::Update()
 	{
 		// 歩くアニメーションをする
 		dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(playerDir));
+		isWait = false;
 	}
 	// 動きが止まった瞬間
 	else if (!isMoving && o_isMoving)
@@ -156,6 +160,7 @@ void CStageSelectPlayer::Update()
 		// アニメーションを止める
 		// 向いている方向に
 		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(playerDir));
+		isWait = true;
 	}
 
 	// 前のフラグ状態を持っておく

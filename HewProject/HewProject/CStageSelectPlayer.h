@@ -23,6 +23,7 @@ public:
     bool isOnAnim_Up;
     bool isOnAnim_Down;
     bool isDiagonal;
+    bool isWait;
 
     int nNumSelectScene;
 
