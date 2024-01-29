@@ -199,6 +199,7 @@
     <ClInclude Include="GridTable.h" />
     <ClInclude Include="HosodaSelect.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InputMovement.h" />
     <ClInclude Include="InputStateUpdate.h" />
     <ClInclude Include="LoadCharacter.h" />
     <ClInclude Include="MuscleMove.h" />
@@ -284,6 +285,7 @@
     <ClCompile Include="GridTable.cpp" />
     <ClCompile Include="HosodaSelect.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="InputMovement.cpp" />
     <ClCompile Include="InputStateUpdate.cpp" />
     <ClCompile Include="LoadCharacter.cpp" />
     <ClCompile Include="main.cpp" />
