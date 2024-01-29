@@ -46,7 +46,7 @@ void CTatemizoScene::Update()
 		ButtonState();
 
 		Vector2 L = val->GetStick_L();
-		Vector2 R = val->GetStick_R();
+		/*Vector2 R = val->GetStick_R();*/
 		
 		// 左スティックの操作系統
 		if (val->GetStick_L().x > 0)
@@ -78,36 +78,36 @@ void CTatemizoScene::Update()
 		}
 		/*左スティックここまで*/
 
-		// 右スティックの操作系統
-		if (val->GetStick_R().x > 0)
-		{
-			if (val->GetStick_R().y > 0)
-			{
-				dir = { 1,1 };
-			}
-			if (val->GetStick_R().y < 0)
-			{
-				dir = { 1,-1 };
-			}
-		}
+		//// 右スティックの操作系統
+		//if (val->GetStick_R().x > 0)
+		//{
+		//	if (val->GetStick_R().y > 0)
+		//	{
+		//		dir = { 1,1 };
+		//	}
+		//	if (val->GetStick_R().y < 0)
+		//	{
+		//		dir = { 1,-1 };
+		//	}
+		//}
 
-		if (val->GetStick_R().x < 0)
-		{
-			if (val->GetStick_R().y > 0)
-			{
-				dir = { -1,1 };
-			}
-			if (val->GetStick_R().y < 0)
-			{
-				dir = { -1,-1 };
-			}
-		}
-		/*右スティックここまで*/
+		//if (val->GetStick_R().x < 0)
+		//{
+		//	if (val->GetStick_R().y > 0)
+		//	{
+		//		dir = { -1,1 };
+		//	}
+		//	if (val->GetStick_R().y < 0)
+		//	{
+		//		dir = { -1,-1 };
+		//	}
+		//}
+		///*右スティックここまで*/
 
 
-		//ポジション(座標)の変更でキャラの移動
-		charObj->mTransform.pos.x += dir.x * 0.1;
-		charObj->mTransform.pos.y += dir.y * 0.1;
+		////ポジション(座標)の変更でキャラの移動
+		//charObj->mTransform.pos.x += dir.x * 0.1;
+		//charObj->mTransform.pos.y += dir.y * 0.1;
 
 }
 

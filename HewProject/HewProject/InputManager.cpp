@@ -37,9 +37,16 @@ void InputManager::Delete()
 	}
 }
 
-void InputManager::UpdateInputState()
+void InputManager::Update()
 {
+	// ボタン入力の状態を更新する
 	inputStateUpdate->UpdateKeyState();
+
+	// コントローラーの左スティックの更新
+	controller->PadStick();
+
+	// キーボードの移動量の更新
+	inputMovement->KeybordMovementUpdate();	
 }
 
 bool InputManager::GetInputPress(InputType::TYPE _button)

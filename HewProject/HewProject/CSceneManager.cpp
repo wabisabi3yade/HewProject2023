@@ -70,7 +70,7 @@ void CSceneManager::Act()
 	// 更新処理 /////////////////////////////////
 	
 	// 入力の状態更新
-	inputManager->UpdateInputState();
+	inputManager->Update();
 
 	// 通常の処理
 	pNowScene->Update();

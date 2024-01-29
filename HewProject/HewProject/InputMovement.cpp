@@ -33,40 +33,36 @@ void InputMovement::Delete()
 	}
 }
 
-Vector2 InputMovement::KeybordMovement()
+void InputMovement::KeybordMovementUpdate()
 {
-	Vector2 keyMovement = Vector2::zero;
+	keyboardMovement = Vector2::zero;
 	const float moveValue = 1.0f;
 
 	// 各移動キーが押されたら、その方向に向けた移動量を足す
 	if (gInput->GetKeyPress(VK_UP))
 	{
-		keyMovement.y += moveValue;
+		keyboardMovement.y += moveValue;
 	}
 
 	if (gInput->GetKeyPress(VK_DOWN))
 	{
-		keyMovement.y -= moveValue;
+		keyboardMovement.y -= moveValue;
 	}
 
 	if (gInput->GetKeyPress(VK_RIGHT))
 	{
-		keyMovement.x += moveValue;
+		keyboardMovement.x += moveValue;
 	}
 
 	if (gInput->GetKeyPress(VK_LEFT))
 	{
-		keyMovement.x -= moveValue;
+		keyboardMovement.x -= moveValue;
 	}
-
-	return keyMovement;
 }
 
 Vector2 InputMovement::CheckMovement()
 {
 	Vector2 movement = Vector2::zero;
-
-	controller->PadStick();
 
 	// コントローラーの左スティックの移動量を取得する
 	movement = controller->GetStick_L();
@@ -76,11 +72,8 @@ Vector2 InputMovement::CheckMovement()
 	if (movement.x != 0.0f || movement.y != 0.0f)
 		return movement;
 
-	// ↓キーボードの入力 ///////////////////////
-
-	// キーボードの入力を取得する
-	movement = KeybordMovement();
-	return movement;
+	// キーボードの入力を取得す;
+	return keyboardMovement;
 }
 
 

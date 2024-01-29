@@ -51,9 +51,9 @@ void GameController::PadStick()
 		stick_L.x = static_cast<float>(ControllerState.Gamepad.sThumbLX) / 32767.0f;
 		stick_L.y = static_cast<float>(ControllerState.Gamepad.sThumbLY) / 32767.0f;
 
-		// Rスティックの値の取得
-		stick_R.x = static_cast<float>(ControllerState.Gamepad.sThumbRX) / 32767.0f;
-		stick_R.y = static_cast<float>(ControllerState.Gamepad.sThumbRY) / 32767.0f;
+		//// Rスティックの値の取得
+		//stick_R.x = static_cast<float>(ControllerState.Gamepad.sThumbRX) / 32767.0f;
+		//stick_R.y = static_cast<float>(ControllerState.Gamepad.sThumbRY) / 32767.0f;
 
 		// X軸のデッドゾーン
 		if (abs(stick_L.x) < deadZone_L.x)

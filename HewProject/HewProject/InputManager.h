@@ -21,8 +21,7 @@ public:
 
 	static void Delete();
 
-	// ボタン状態を更新する
-	void UpdateInputState();
+	void Update();
 
 	// ボタン押されているか
 	bool GetInputPress(InputType::TYPE _button);
