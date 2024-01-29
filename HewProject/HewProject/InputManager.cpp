@@ -9,6 +9,10 @@ InputManager::InputManager()
 	controller = GameController::GetInstance();
 	inputStateUpdate = InputStateUpdate::GetInstance();
 	inputMovement = InputMovement::GetInstance();
+
+	// 仮でデッドゾーン設定
+	Vector2 setDeadZone = { 0.5f,0.5f };
+	SetDeadZone(setDeadZone);
 }
 
 InputManager::~InputManager()
@@ -57,6 +61,12 @@ bool InputManager::GetInputPress(InputType::TYPE _button)
 bool InputManager::GetInputTrigger(InputType::TYPE _button)
 {
 	return  inputStateUpdate->GetInputTrigger(_button);
+}
+
+void InputManager::SetDeadZone(const Vector2& _deadzone)
+{
+	controller->SetDeadZone_L_X(_deadzone.x);
+	controller->SetDeadZone_L_Y(_deadzone.y);
 }
 
 Vector2 InputManager::GetMovement()

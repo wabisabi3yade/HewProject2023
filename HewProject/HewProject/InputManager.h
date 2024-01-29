@@ -29,6 +29,9 @@ public:
 	// ボタン押された状態か
 	bool GetInputTrigger(InputType::TYPE _button);
 
+	// デッドゾーン（スティックの遊びを設定する）
+	void SetDeadZone(const Vector2& _deadzone);
+
 	// コントローラーのポインタ
 	GameController* GetController()const { return controller; }
 
