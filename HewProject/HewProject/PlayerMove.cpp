@@ -69,10 +69,10 @@ void PlayerMove::Input()
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
 		Move(DIRECTION::DOWN);
 	}
-	else if(gInput->GetKeyTrigger(VK_ESCAPE))
-	{
-		isCannonMove = !isCannonMove;
-	}
+	//else if(gInput->GetKeyTrigger(VK_ESCAPE))
+	//{
+	//	isCannonMove = !isCannonMove;
+	//}
 }
 
 void PlayerMove::FlagInit()
