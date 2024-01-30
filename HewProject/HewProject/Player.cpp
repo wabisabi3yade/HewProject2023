@@ -277,7 +277,8 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		SetTexture(normalTex[_animTex]);
 		break;
 	case Player::STATE::THIN:
-
+		//if (_animTex == ANIM_TEX::WAIT)
+		//	mAnim->animSpeed = 2.0f;
 		SetTexture(thinTex[_animTex]);
 		break;
 	case Player::STATE::FAT:

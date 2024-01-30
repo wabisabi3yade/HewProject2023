@@ -289,11 +289,6 @@ void PlayerMove::CannonMove2()
 	{
 		return;
 	}
-	if (player->GetCangeCannonTexture() == false)
-	{
-		player->ChangeTexture(Player::ANIM_TEX::CANNON);
-		player->SetChangeCannonTexture(true);
-	}
 	int moveDir = 0;
 	bool isBound = false;
 	CGrid::GRID_XY movePos = player->GetGridPos();
@@ -306,8 +301,16 @@ void PlayerMove::CannonMove2()
 			break;
 		}
 	}
-	dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayCannon(moveDir, 3.0f);
+	if (player->GetCangeCannonTexture() == false)
+	{
+		player->ChangeTexture(Player::ANIM_TEX::CANNON);
+		player->SetChangeCannonTexture(true);
+		dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayCannon(moveDir, 3.0f);
+	}
 	//nextGridPos = movePos;
+	if (!isCannonMoveStart)
+	{
+
 	switch (moveDir)
 	{
 		case static_cast<int>(DIRECTION::DOWN):
@@ -337,6 +340,7 @@ void PlayerMove::CannonMove2()
 		break;
 	}
 
+	}
 	CGrid::GRID_XY XY = { 0,0 };
 	for (int i = 0; i < 9; i++)
 	{
@@ -371,17 +375,19 @@ void PlayerMove::CannonMove2()
 					if (player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::GALL) ||
 						movePos.x == -1 || movePos.y == -1 || movePos.x == XY.x || movePos.y == XY.y)
 					{
-						player->ChangeTexture(Player::ANIM_TEX::WAIT);
-						dynamic_cast<CPlayerAnim*>(player->GetmAnim())->StopWalk(moveDir);
+						player->ChangeTexture(Player::ANIM_TEX::WALK);
+						dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayFall(moveDir, 2.0f);
 						//dynamic_cast<CPlayerAnim*>(player->GetmAnim())->animSpeed=1.0f;
 						player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
 						player->dotween->DelayedCall(CANNONBOUND_TIME, [&]()
 							{
+								//player->SetGridPos(nextGridPos);
 								isCannonMove = false;
-								nextGridPos;
-								player->GetPlayerMove()->Step();
 								this->CheckCanMove();
+								player->GetPlayerMove()->Step();
 								player->SetChangeCannonTexture(false);
+								player->ChangeTexture(Player::ANIM_TEX::WAIT);
+								dynamic_cast<CPlayerAnim*>(player->GetmAnim())->SetAnimSpeedRate(0.5f);
 							});
 						
 						isCannonMoveEnd = true;
