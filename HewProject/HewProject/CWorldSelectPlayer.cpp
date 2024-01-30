@@ -52,13 +52,13 @@ void CWorldSelectPlayer::Update()
 	{
 		if (input->GetMovement().x < 0)
 		{
-			if (mTransform.pos.x > -6.0f)
+			if (nNumSelectScene > 0)
 			{
 				XA_Play(SOUND_LABEL_SE000);
 				isMoving = true;
 				isNoPush = true;
 				Vector2 playerXY;
-				playerXY.x = mTransform.pos.x - 3.0f;
+				playerXY.x = mTransform.pos.x;
 				playerXY.y = mTransform.pos.y;
 
 				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(1));
@@ -84,12 +84,13 @@ void CWorldSelectPlayer::Update()
 
 		if (input->GetMovement().x > 0)
 		{
-			if (mTransform.pos.x < 6.0f)
+			if (nNumSelectScene < 4)
 			{
+				XA_Play(SOUND_LABEL_SE000);
 				isMoving = true;
 				isNoPush = true;
 				Vector2 playerXY;
-				playerXY.x = mTransform.pos.x + 3.0f;
+				playerXY.x = mTransform.pos.x;
 				playerXY.y = mTransform.pos.y;
 
 				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));

@@ -3,6 +3,7 @@
 
 class CWorldSelectPlayer;
 class CGridObject;
+class UI;
 
 
 class CWorldSelectScene :
@@ -21,7 +22,7 @@ public:
 
 
     CWorldSelectPlayer* player;
-    CGridObject* stage[4];
+    UI* stage[4];
 
 
 

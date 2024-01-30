@@ -1,9 +1,9 @@
 #include "CWorldSelectScene.h"
 #include "CWorldSelectPlayer.h"
-#include "CInput.h"
-#include "CGridObject.h"
+#include "InputManager.h"
 #include "TextureFactory.h"
 #include "CPlayerAnim.h"
+#include "UI.h"
 
 CWorldSelectScene::CWorldSelectScene()
 {
@@ -16,7 +16,8 @@ CWorldSelectScene::CWorldSelectScene()
 
 	for (int i = 0; i < 4; i++)
 	{
-		stage[i] = new CGridObject(stageBuffer, stage1Texture);
+		stage[i] = new UI(stageBuffer, stage1Texture);
+		stage[i]->MakeDotween();
 	}
 
 	player = new CWorldSelectPlayer(playerBuffer, playerTexture);
@@ -25,13 +26,13 @@ CWorldSelectScene::CWorldSelectScene()
 	player->mTransform.pos = { 0,-2,0 };
 	player->SetTexture(player_stopTexture);
 
-	stage[0]->mTransform.pos = { -6,2,-1 };
+	stage[0]->mTransform.pos = { 0,2,-1 };
 	stage[0]->mTransform.scale = { 2,2,1 };
-	stage[1]->mTransform.pos = { -3,2,-1 };
+	stage[1]->mTransform.pos = { 8.0f,2,-1 };
 	stage[1]->mTransform.scale = { 2,2,1 };
-	stage[2]->mTransform.pos = { 3,2,-1 };
+	stage[2]->mTransform.pos = { 16.0f,2,-1 };
 	stage[2]->mTransform.scale = { 2,2,1 };
-	stage[3]->mTransform.pos = { 6,2,-1 };
+	stage[3]->mTransform.pos = { 24.0f,2,-1 };
 	stage[3]->mTransform.scale = { 2,2,1 };
 
 }
@@ -48,6 +49,8 @@ CWorldSelectScene::~CWorldSelectScene()
 
 void CWorldSelectScene::Update()
 {
+	InputManager* input = InputManager::GetInstance();
+	
 	if (player->isChangeScene == true)
 	{
 		switch (player->nNumSelectScene)
@@ -59,6 +62,10 @@ void CWorldSelectScene::Update()
 			break;
 		case 2:
 			CScene::SetScene(SCENE_NAME::SELECT);
+			break;
+		case 3:
+			break;
+		case 4:
 			break;
 		default:
 			break;
