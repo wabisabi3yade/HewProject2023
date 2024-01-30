@@ -17,7 +17,10 @@ CStage1SelectScene::CStage1SelectScene()
 	stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
 
 	D3D_CreateSquare({ 1,1 }, &wordBuffer);
-	wordTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Chili.png");
+	word_RightUpTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Chili.png");
+	word_RightDownTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Cake.png");
+	word_LeftUpTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Coin.png");
+	word_LeftDownTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Protein.png");
 
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
 	text_blueTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Blue.png");
@@ -59,10 +62,25 @@ CStage1SelectScene::CStage1SelectScene()
 	Text[3]->mTransform.scale = { 0.4f,0.4f,1 };
 	Text[3]->materialDiffuse = { 1,1,1,1 };
 
-	Word = new UI(wordBuffer, wordTexture);
-	Word->MakeDotween();
-	Word->mTransform.pos = { 2.0f,0.75,-0.1f };
-	Word->mTransform.scale = { 0.4f,0.4f,1 };
+	Word[0] = new UI(wordBuffer, word_RightUpTexture);
+	Word[0]->MakeDotween();
+	Word[0]->mTransform.pos = {2.0f,0.75,-0.1f};
+	Word[0]->mTransform.scale = {0.4f,0.4f,1};
+
+	Word[1] = new UI(wordBuffer, word_RightDownTexture);
+	Word[1]->MakeDotween();
+	Word[1]->mTransform.pos = { 2.0f,-0.75,-0.1f };
+	Word[1]->mTransform.scale = { 0.4f,0.4f,1 };
+
+	Word[2] = new UI(wordBuffer, word_LeftUpTexture);
+	Word[2]->MakeDotween();
+	Word[2]->mTransform.pos = { -2.0f,0.75,-0.1f };
+	Word[2]->mTransform.scale = { 0.4f,0.4f,1 };
+
+	Word[3] = new UI(wordBuffer, word_LeftDownTexture);
+	Word[3]->MakeDotween();
+	Word[3]->mTransform.pos = { -2.0f,-0.75,-0.1f };
+	Word[3]->mTransform.scale = { 0.4f,0.4f,1 };
 
 	stage[0]->mTransform.pos = { -5,2,1 };
 	stage[0]->mTransform.scale = { 2,2,1 };
@@ -83,7 +101,11 @@ CStage1SelectScene::CStage1SelectScene()
 CStage1SelectScene::~CStage1SelectScene()
 {
 	CLASS_DELETE(player);
-	CLASS_DELETE(Word);
+
+	for (int i = 0; i < 4; i++)
+	{
+		CLASS_DELETE(Word[i]);
+	}
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -134,9 +156,15 @@ void CStage1SelectScene::Update()
 			{
 				Vector3 target = Text[1]->mTransform.pos;
 				target.x = -0.6f;
+				Vector3 target_word = Word[2]->mTransform.pos;
+				target_word.x = -0.6f;
 
 				Text[1]->dotween->DoEaseOutBack(target, 2.0f);
 				Text[1]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				
+				Word[2]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[2]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+
 				Text[1]->dotween->OnComplete([&]() {isOnce = true; });
 			}
 				break;
@@ -144,9 +172,15 @@ void CStage1SelectScene::Update()
 			{
 				Vector3 target = Text[2]->mTransform.pos;
 				target.x = -0.6f;
+				Vector3 target_word = Word[3]->mTransform.pos;
+				target_word.x = -0.6f;
 
 				Text[2]->dotween->DoEaseOutBack(target, 2.0f);
 				Text[2]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				
+				Word[3]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[3]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				
 				Text[2]->dotween->OnComplete([&]() {isOnce = true; });
 			}
 				break;
@@ -154,14 +188,14 @@ void CStage1SelectScene::Update()
 			{
 				Vector3 target = Text[0]->mTransform.pos;
 				target.x = 0.6f;
-				Vector3 target_word = Word->mTransform.pos;
+				Vector3 target_word = Word[0]->mTransform.pos;
 				target_word.x = 0.6f;
 
 				Text[0]->dotween->DoEaseOutBack(target, 2.0f);
 				Text[0]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 				
-				Word->dotween->DoEaseOutBack(target_word, 2.0f);
-				Word->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[0]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[0]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 
 				Text[0]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -170,9 +204,15 @@ void CStage1SelectScene::Update()
 			{
 				Vector3 target = Text[3]->mTransform.pos;
 				target.x = 0.6f;
+				Vector3 target_word = Word[1]->mTransform.pos;
+				target_word.x = 0.6f;
 
 				Text[3]->dotween->DoEaseOutBack(target, 2.0f);
 				Text[3]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				
+				Word[1]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[1]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+
 				Text[3]->dotween->OnComplete([&]() {isOnce = true; });
 			}
 				break;
@@ -219,7 +259,11 @@ void CStage1SelectScene::Update()
 		{
 			Vector3 target = Text[1]->mTransform.pos;
 			target.x = -2.0f;
+			Vector3 target_word = Word[2]->mTransform.pos;
+			target_word.x = -2.0f;
+
 			Text[1]->dotween->DoEaseOutBack(target, 2.0f);
+			Word[2]->dotween->DoEaseOutBack(target_word, 2.0f);
 			isOnce = false;
 		}
 		
@@ -227,7 +271,11 @@ void CStage1SelectScene::Update()
 		{
 			Vector3 target = Text[2]->mTransform.pos;
 			target.x = -2.0f;
+			Vector3 target_word = Word[3]->mTransform.pos;
+			target_word.x = -2.0f;
+
 			Text[2]->dotween->DoEaseOutBack(target, 2.0f);
+			Word[3]->dotween->DoEaseOutBack(target_word, 2.0f);
 			isOnce = false;
 		}
 
@@ -235,10 +283,10 @@ void CStage1SelectScene::Update()
 		{
 			Vector3 target = Text[0]->mTransform.pos;
 			target.x = 2.0f;
-			Vector3 target_word = Word->mTransform.pos;
+			Vector3 target_word = Word[0]->mTransform.pos;
 			target_word.x = 2.0f;
 			Text[0]->dotween->DoEaseOutBack(target, 2.0f);
-			Word->dotween->DoEaseOutBack(target_word, 2.0f);
+			Word[0]->dotween->DoEaseOutBack(target_word, 2.0f);
 			isOnce = false;
 		}
 
@@ -246,7 +294,10 @@ void CStage1SelectScene::Update()
 		{
 			Vector3 target = Text[3]->mTransform.pos;
 			target.x = 2.0f;
+			Vector3 target_word = Word[1]->mTransform.pos;
+			target_word.x = 2.0f;
 			Text[3]->dotween->DoEaseOutBack(target, 2.0f);
+			Word[1]->dotween->DoEaseOutBack(target_word, 2.0f);
 			isOnce = false;
 		}
 	}
@@ -256,35 +307,11 @@ void CStage1SelectScene::Update()
 		Text[i]->Update();
 	}
 	
-	Word->Update();
-	/*if (isPlayerMoving == false)
+	for (int i = 0; i < 4; i++)
 	{
-		if (isUpDown == false)
-		{
-			Text->materialDiffuse.w += 0.02f;
-		}
-		else
-		{
-			Text->materialDiffuse.w -= 0.01f;
-		}
-
-		if (isOnce == false)
-		{
-			Text->dotween->DoScale({ 1,1,1 }, 1.0f);
-			Text->dotween->Append(Vector3::zero, 2.0f, DoTweenUI::FUNC::DELAY);
-			Text->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::SCALE);
-			isOnce = true;
-		}
-
-		Text->dotween->OnComplete([&]()
-			{
-				isPlayerMoving = true;
-			});
+		Word[i]->Update();
 	}
-	else {
-		
-	}*/
-	
+
 	player->Update();
 
 	if (player->isWait == false)
@@ -314,10 +341,13 @@ void CStage1SelectScene::Draw()
 
 	player->Draw();
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		Text[i]->Draw();
 	}
 
-	Word->Draw();
+	for (int i = 0; i < 4; i++)
+	{
+		Word[i]->Draw();
+	}
 }
