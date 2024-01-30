@@ -4,6 +4,8 @@
 Fade_TestScene::Fade_TestScene()
 {
 	fade = Fade::GetInstance();
+
+	calorieGage = new CalorieGage();
 }
 
 Fade_TestScene::~Fade_TestScene()
@@ -20,6 +22,8 @@ void Fade_TestScene::Update()
 	{
 		fade->FadeIn(Fade::STATE::FADE_OUT);
 	}
+
+	calorieGage->Update();
 }
 
 void Fade_TestScene::LateUpdate()
@@ -28,4 +32,5 @@ void Fade_TestScene::LateUpdate()
 
 void Fade_TestScene::Draw()
 {
+	calorieGage->Draw();
 }

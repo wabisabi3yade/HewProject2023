@@ -34,7 +34,7 @@ Fade::Fade()
 
 	backGround = new FadeUI(vb, tex);
 	backGround->MakeDotween();
-	backGround->mTransform.scale = {3.0f, 2.0f, 1.0f };
+	backGround->mTransform.scale = {24.0f, 13.5f, 1.0f };
 	backGround->SetActive(false);
 	backGround->mTransform.pos.z = FADE_BASE_POSZ;
 }

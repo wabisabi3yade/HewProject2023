@@ -11,7 +11,7 @@ class CalorieMark
     D3DTEXTURE markTex;
     D3DBUFFER markBuffer;
 
-    float radius;   // ゲージの目盛りの半径
+    const float baseRadius = 1.6f;   // ゲージの目盛りの半径 
     Transform mTransform;   // 目盛り全体のトランスフォーム
 
 public:
@@ -20,5 +20,8 @@ public:
 
     void Update();
     void Draw();
+
+    void SetPosition(const Vector3& _setPos);
+    void SetScale(const Vector3& _setScale);
 };
 
