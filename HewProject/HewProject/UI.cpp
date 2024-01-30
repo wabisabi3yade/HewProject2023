@@ -57,8 +57,14 @@ void UI::Draw()
 	}
 
 	ConstBuffer cb;
-	// 投影行列を単位行列にすることで、仮想世界ではなく直接仮想画面にポリゴンを配置できる    
-	cb.matrixProj = XMMatrixIdentity();
+	//// 投影行列を単位行列にすることで、仮想世界ではなく直接仮想画面にポリゴンを配置できる    
+	//cb.matrixProj = XMMatrixIdentity();
+	//cb.matrixProj = XMMatrixTranspose(cb.matrixProj);
+
+	// 平行投影の行列作成
+	// 引数　①②：映し出す面の横縦の長さ　
+	// 　　　③④：映し出す空間の奥行（手前と最奥の距離）
+	cb.matrixProj = XMMatrixOrthographicLH(16.0f, 9.0f, -1.0f, 3.0f);
 	cb.matrixProj = XMMatrixTranspose(cb.matrixProj);
 
 	// ワールド変換行列の作成
