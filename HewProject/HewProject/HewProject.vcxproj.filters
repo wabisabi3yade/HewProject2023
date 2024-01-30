@@ -283,6 +283,9 @@
     <Filter Include="ソース ファイル\Base\GameCore\Input\InputMovement">
       <UniqueIdentifier>{7f1f9b67-4914-468a-b472-0131757d2622}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\CarorieGage">
+      <UniqueIdentifier>{07184b37-b8a3-4673-996d-4decfbf61a47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -537,6 +540,9 @@
     <ClInclude Include="InputMovement.h">
       <Filter>ソース ファイル\Base\GameCore\Input\InputMovement</Filter>
     </ClInclude>
+    <ClInclude Include="CalorieGage.h">
+      <Filter>ソース ファイル\Hashimoto\CarorieGage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -790,6 +796,9 @@
     </ClCompile>
     <ClCompile Include="InputMovement.cpp">
       <Filter>ソース ファイル\Base\GameCore\Input\InputMovement</Filter>
+    </ClCompile>
+    <ClCompile Include="CalorieGage.cpp">
+      <Filter>ソース ファイル\Hashimoto\CarorieGage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

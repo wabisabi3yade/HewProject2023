@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CalorieGage.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CArrow.h" />
     <ClInclude Include="CBaum.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="xa2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CalorieGage.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CArrow.cpp" />
     <ClCompile Include="CBaum.cpp" />
