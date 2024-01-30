@@ -286,6 +286,9 @@
     <Filter Include="ソース ファイル\Hashimoto\CarorieGage">
       <UniqueIdentifier>{07184b37-b8a3-4673-996d-4decfbf61a47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\CarorieGage\CalorieMark">
+      <UniqueIdentifier>{e3c224a7-078a-400b-9a57-35d28b6e951b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -543,6 +546,9 @@
     <ClInclude Include="CalorieGage.h">
       <Filter>ソース ファイル\Hashimoto\CarorieGage</Filter>
     </ClInclude>
+    <ClInclude Include="CalorieMark.h">
+      <Filter>ソース ファイル\Hashimoto\CarorieGage\CalorieMark</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -799,6 +805,9 @@
     </ClCompile>
     <ClCompile Include="CalorieGage.cpp">
       <Filter>ソース ファイル\Hashimoto\CarorieGage</Filter>
+    </ClCompile>
+    <ClCompile Include="CalorieMark.cpp">
+      <Filter>ソース ファイル\Hashimoto\CarorieGage\CalorieMark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
