@@ -98,6 +98,7 @@ private:
 	D3DTEXTURE stageTextureProtein;
 	D3DTEXTURE playerTexture;
 	D3DTEXTURE shadowTexture;
+	D3DTEXTURE stageTextureCannon;
 
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
@@ -141,5 +142,5 @@ public:
 	// ステージ内のプレイヤーを取得
 	Player* GetPlayer() const { return player; };
 
-	GridTable* GetNowFloor() const { return nowFloor; }
+	GridTable* GetNowFloor() const;
 };

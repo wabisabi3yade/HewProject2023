@@ -18,13 +18,13 @@ void CPlayerAnim::Update()
 
 		// 待機
 		// 下向き
-		{ 1, -1 },	//　-1がきたら最初に戻る
+		{ 0, 0 ,1, 2, 2, 1, -1 },	//　-1がきたら最初に戻る
 		// 左向き
-		{ 4 ,- 1 },
+		{ 3, 3, 4, 5, 5, 4, -1 },
 		// 右向き
-		{ 7, -1 },
+		{ 6, 6, 7, 8, 8, 7, -1 },
 		// 上向き
-		{ 10, -1},
+		{ 9, 9, 10, 11, 11, 10, -1},
 
 		// 歩き
 		// 下向き
@@ -45,6 +45,16 @@ void CPlayerAnim::Update()
 		{  6, 7, 8, 7, -1 },
 		// 上向き
 		{ 9, 10, 11, 10, -1},
+
+		//大砲の動き
+		// 下向き
+		{0,1,2,-1},
+		// 左向き
+		{3,4,5,-1},
+		// 右向き
+		{6,7,8,-1},
+		// 上向き
+		{9,10,11,-1},
 
 	};
 
@@ -115,7 +125,7 @@ void CPlayerAnim::PlayWalk(int num, float _animSpeedRate)
 
 void CPlayerAnim::StopWalk(int _num )
 {
-	isPlaying = false;
+	isPlaying = true;
 	switch (_num)
 	{
 	case 0:
@@ -164,6 +174,36 @@ void CPlayerAnim::PlayFall(int _num, float _animSpeedRate)
 		// 上
 	case 3:
 		SetPattern(static_cast<int>(PATTERN::PANIC_UP));
+		break;
+	}
+}
+
+void CPlayerAnim::PlayCannon(int _dir, float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	switch (_dir)
+	{
+		//　下
+		// 全方位行動可
+	case 0:
+		SetPattern(static_cast<int>(PATTERN::CANNON_DOWN));
+		break;
+
+		// 左
+	case 1:
+		SetPattern(static_cast<int>(PATTERN::CANNON_LEFT));
+		break;
+
+		// 右
+	case 2:
+		SetPattern(static_cast<int>(PATTERN::CANNON_RIGHT));
+		break;
+
+		// 上
+	case 3:
+		SetPattern(static_cast<int>(PATTERN::CANNON_UP));
 		break;
 	}
 }

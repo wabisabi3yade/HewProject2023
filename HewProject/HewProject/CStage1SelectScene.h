@@ -13,6 +13,7 @@ public:
     //プレイヤー
     D3DBUFFER playerBuffer;
     D3DTEXTURE playerTexture;
+    D3DTEXTURE player_waitTexture;
 
     //ステージ
     D3DBUFFER stageBuffer;
@@ -20,11 +21,19 @@ public:
 
     //テキスト
     D3DBUFFER textBuffer;
-    D3DTEXTURE textTexture;
+    D3DTEXTURE text_blueTexture;
+    D3DTEXTURE text_greenTexture;
+    D3DTEXTURE text_pinkTexture;
+    D3DTEXTURE text_purpleTexture;
+
+    //文字
+    D3DBUFFER wordBuffer;
+    D3DTEXTURE wordTexture;
 
     CStageSelectPlayer* player;
-    CObject* stage[4];
-    UI* Text;
+    CObject* stage[5];
+    UI* Text[4];
+    UI* Word;
 
     bool isPlayerMoving;
     bool isOnce;

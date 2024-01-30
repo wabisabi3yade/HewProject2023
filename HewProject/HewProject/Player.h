@@ -17,6 +17,9 @@
 constexpr float RISING_TIME = 0.5f; //グミでの上昇時間
 #define THIN_CALOMAX (5)	// ガリ状態時での最大カロリー数 
 #define NORMAL_CALOMAX (10)	// 普通状態時での最大カロリー数 
+constexpr float CANNONMOVE_TIME = 1.0f;		//大砲でのいどうじかん
+constexpr float CANNONBOUND_TIME = 1.0f;	//大砲で目的地でのバウンドする時間
+constexpr float CANNONBOUND_POS_Y = 3.0f;	//大砲で目的地でのバウンドする高さ
 
 // プレイヤー（リス）のオブジェクトクラス
 class Player :
@@ -48,6 +51,8 @@ public:
 		WALK,
 		EAT,
 		ACTION,
+		WAIT,
+		CANNON,
 		NUM,
 	};
 
@@ -67,6 +72,8 @@ private:
 
 	bool IsgameOver;
 
+	bool ChangeCannonTexture;
+
 	bool fallFloorChangeTrriger; //落ちて階層が変わったか
 	bool risingChangeTrriger;
 
@@ -77,7 +84,7 @@ private:
 	D3DTEXTURE fatTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE thinTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
-	
+	D3DTEXTURE cannonTex;
 	// 画像を上に配列に入れる
 	// 引数①：テクスチャパス ② 度の状態の配列に入れるか
 	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
@@ -109,6 +116,8 @@ public:
 	/// <param name="_set">変化先の状態</param>
 	void ChangeState(STATE _set);
 
+	void ChangeTexture(ANIM_TEX _animTex);
+
 	void Draw() override;
 
 	void Fall();
@@ -122,6 +131,7 @@ public:
 	bool GetIsMoving()const;
 	int GetDirection()const;
 	void SetDirection(int _set);
+	void SetChangeCannonTexture(const bool _set) { ChangeCannonTexture = _set; }
 
 	PlayerMove* GetPlayerMove()const;
 
@@ -135,6 +145,7 @@ public:
 	bool GetFallFloorChageTrriger() { return fallFloorChangeTrriger; }
 	bool GetRiseFloorChangeTrriger() { return risingChangeTrriger; }
 	bool GetRiseTrriger() { return risingMoveTrriger; }
+	bool GetCangeCannonTexture() { return ChangeCannonTexture; }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }

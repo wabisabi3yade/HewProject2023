@@ -49,7 +49,12 @@ void TextureFactory::Load()
 		L"asset/Player/N_Walk.png",
 		L"asset/Player/F_Walk.png",
 		L"asset/Player/T_Walk.png",
-		L"asset/Player/M_Walk01_Forword.png",
+		L"asset/Player/M_Walk.png",
+		L"asset/Player/N_Wait.png",
+		L"asset/Player/F_Wait.png",
+		L"asset/Player/T_Wait.png",
+		L"asset/Player/M_Wait.png",
+		L"asset/Player/Player_CanonMove.png",
 
 		L"asset/Stage/floor_y.png",
 		L"asset/Stage/floor_g.png",
@@ -76,7 +81,11 @@ void TextureFactory::Load()
 		L"asset/UI/NowLoadingÅc.png",
 		L"asset/UI/LoadCharacter.png",
 		L"asset/UI/textBox_Blue.png",
-		L"asset/UI/Title.png"
+		L"asset/UI/textBox_Green.png",
+		L"asset/UI/textBox_Pink.png",
+		L"asset/UI/textBox_Purple.png",
+		L"asset/UI/Title.png",
+		L"asset/UI/gage.png",
 	};
 
 	D3DTEXTURE texWork;

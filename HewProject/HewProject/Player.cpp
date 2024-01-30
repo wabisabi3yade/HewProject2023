@@ -57,12 +57,18 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	fallMoveTrriger = false;
 	risingChangeTrriger = false;
 	risingMoveTrriger = false;
+	ChangeCannonTexture = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/N_Wait.png", STATE::NORMAL, ANIM_TEX::WAIT);
 	TextureInput(L"asset/Player/F_Walk.png", STATE::FAT, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/F_Wait.png", STATE::FAT, ANIM_TEX::WAIT);
 	TextureInput(L"asset/Player/T_Walk.png", STATE::THIN, ANIM_TEX::WALK);
-	TextureInput(L"asset/Player/M_Walk01_Forword.png", STATE::MUSCLE, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/T_Wait.png", STATE::THIN, ANIM_TEX::WAIT);
+	TextureInput(L"asset/Player/M_Walk.png", STATE::MUSCLE, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/M_Wait.png", STATE::MUSCLE, ANIM_TEX::WAIT);
+	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 }
 
 void Player::Init(GridTable* _pTable)
@@ -105,17 +111,24 @@ void Player::Update()
 
 	dotween->Update();
 
-	fallFloorChangeTrriger = false;
+	//fallFloorChangeTrriger = false;
 	//risingChangeTrriger = false;
+
+	if (move->GetIsCannonMove())
+	{
+		move->CannonMove2();
+	}
 
 	if (move->GetIsFalling() == false && move->GetIsRising() == false)
 	{
 		if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == true)
 		{
+			ChangeTexture(ANIM_TEX::WALK);
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
 		}
 		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false)
 		{
+			ChangeTexture(ANIM_TEX::WAIT);
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 		}
 	}
@@ -141,11 +154,19 @@ void Player::Update()
 					mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 					fallFloorChangeTrriger = true;
 				}
-				if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START) )
+				if (mTransform.pos == gridTable->GridToWorld(this->GetGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
 				{
-					move->Move(static_cast<PlayerMove::DIRECTION>(direction));
+					//if (move->CheckNextFloorType() != CGridObject::BlockType::HOLL)
+					//{
+					//}
+					move->WalkAfter();
+					move->Step();
 					//move->MoveAfter();
 					move->FallAfter();
+					//move->SetNextGridPos(GetGridPos());
+					//move->Move();
+					
+					
 					dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 					nowFloor--;
 					fallFloorChangeTrriger = false;
@@ -166,7 +187,10 @@ void Player::Update()
 			}
 			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START)  && risingChangeTrriger)
 			{
-				move->Move(static_cast<PlayerMove::DIRECTION>(direction));
+				//move->Move(static_cast<PlayerMove::DIRECTION>(direction));
+				move->WalkAfter();
+				move->MoveAfter();
+				move->Step();
 				move->RiseAfter();
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 				nowFloor++;
@@ -211,25 +235,25 @@ void Player::ChangeState(STATE _set)
 		// 通常状態の動きクラスをmoveに確保する
 		move = std::make_shared<NormalMove>(this);
 		playerState = STATE::NORMAL;
-		SetTexture(normalTex[0]);
+		SetTexture(normalTex[ANIM_TEX::WAIT]);
 		break;
 
 	case STATE::FAT:
 		move = std::make_shared<FatMove>(this);
 		playerState = STATE::FAT;
-		SetTexture(fatTex[0]);
+		SetTexture(fatTex[ANIM_TEX::WAIT]);
 		break;
 
 	case STATE::THIN:
 		move = std::make_shared<ThinMove>(this);
 		playerState = STATE::THIN;
-		SetTexture(thinTex[0]);
+		SetTexture(thinTex[ANIM_TEX::WAIT]);
 		break;
 
 	case STATE::MUSCLE:
 		move = std::make_shared<MuscleMove>(this);
 		playerState = STATE::MUSCLE;
-		SetTexture(muscleTex[0]);
+		SetTexture(muscleTex[ANIM_TEX::WAIT]);
 		this->calorie = CAKE_CALORIE;
 		break;
 	}
@@ -238,6 +262,34 @@ void Player::ChangeState(STATE _set)
 
 	// 移動できる方向を更新
 	move->CheckCanMove();
+}
+
+void Player::ChangeTexture(ANIM_TEX _animTex)
+{
+	if (_animTex == ANIM_TEX::CANNON)
+	{
+		SetTexture(cannonTex);
+		return;
+	}
+	switch (playerState)
+	{
+	case Player::STATE::NORMAL:
+		SetTexture(normalTex[_animTex]);
+		break;
+	case Player::STATE::THIN:
+		//if (_animTex == ANIM_TEX::WAIT)
+		//	mAnim->animSpeed = 2.0f;
+		SetTexture(thinTex[_animTex]);
+		break;
+	case Player::STATE::FAT:
+		SetTexture(fatTex[_animTex]);
+		break;
+	case Player::STATE::MUSCLE:
+		SetTexture(muscleTex[_animTex]);
+		break;
+	default:
+		break;
+	}
 }
 
 void Player::Draw()
@@ -254,7 +306,7 @@ void Player::Fall()
 void Player::Rise()
 {
 	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
-	//move->RiseStart();
+	move->RiseStart();
 }
 
 // テクスチャは解放しない

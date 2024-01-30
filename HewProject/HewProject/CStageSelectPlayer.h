@@ -23,6 +23,7 @@ public:
     bool isOnAnim_Up;
     bool isOnAnim_Down;
     bool isDiagonal;
+    bool isWait;
 
     int nNumSelectScene;
 
@@ -33,7 +34,5 @@ public:
     void Update();
     void Draw();
 
-    //ƒtƒ‰ƒO‰Šú‰»
-    void FlagInit();
 };
 

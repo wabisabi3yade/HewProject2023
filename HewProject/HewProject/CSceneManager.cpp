@@ -21,6 +21,7 @@ CSceneManager::CSceneManager()
 {
 	effectManeger = EffectManeger::GetInstance();
 	textureFactory = TextureFactory::GetInstance();
+	inputManager = InputManager::GetInstance();
 	fade = Fade::GetInstance();
 
 	//サウンド初期化
@@ -44,6 +45,7 @@ CSceneManager::~CSceneManager()
 	CCamera::Delete();
 	TextureFactory::Delete();
 	Fade::Delete();
+	InputManager::Delete();
 }
 
 CSceneManager* CSceneManager::GetInstance()
@@ -66,6 +68,10 @@ void CSceneManager::Delete()
 void CSceneManager::Act()
 {
 	// 更新処理 /////////////////////////////////
+	
+	// 入力の状態更新
+	inputManager->Update();
+
 	// 通常の処理
 	pNowScene->Update();
 	// 後で行う処理
