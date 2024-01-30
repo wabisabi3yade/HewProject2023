@@ -41,5 +41,6 @@ public:
     bool GetIsFall() { return Now_IsFall; }
     bool GetOldIsFall() { return Old_IsFall; }
     void SetIsFall(bool _isFall) { Now_IsFall = _isFall ;}
+    void SetAnimSpeedRate(float _animSpeedRate) { AnimSpeedRate = _animSpeedRate; }
 };
 
