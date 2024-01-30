@@ -154,15 +154,17 @@ void Player::Update()
 					mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 					fallFloorChangeTrriger = true;
 				}
-				if (mTransform.pos == gridTable->GridToWorld(this->GetGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
+				if (mTransform.pos == gridTable->GridToWorld(this->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
 				{
-					//if (move->CheckNextFloorType() != CGridObject::BlockType::HOLL)
-					//{
-					//}
-					move->WalkAfter();
-					move->Step();
-					//move->MoveAfter();
+					if (this->gridTable->CheckFloorType(move->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					{
+						move->WalkAfter();
+					}
+					move->MoveAfter();
 					move->FallAfter();
+					move->Step();
+					
+					//move->CheckCanMove();
 					//move->SetNextGridPos(GetGridPos());
 					//move->Move();
 					

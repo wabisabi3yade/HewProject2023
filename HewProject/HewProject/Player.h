@@ -78,6 +78,7 @@ private:
 	bool risingChangeTrriger;
 
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
+	GridTable* nextGridTable; //次の階層グリッドテーブルのポインタを設定
 
 	// テクスチャ（状態別）
 	D3DTEXTURE normalTex[static_cast<int>(ANIM_TEX::NUM)];
@@ -147,7 +148,9 @@ public:
 	bool GetRiseTrriger() { return risingMoveTrriger; }
 	bool GetCangeCannonTexture() { return ChangeCannonTexture; }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
+	void SetNextGridTable(GridTable* _set) { nextGridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
+	GridTable* GetNextGridTable()const { return nextGridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
 	STATE GetState() const { return playerState; }
 };

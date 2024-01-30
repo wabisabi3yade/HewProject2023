@@ -5,6 +5,7 @@ CHoll::CHoll(D3DBUFFER vb, D3DTEXTURE tex)
 {
 	type = BlockType::HOLL;
 	category = Category::FLOOR;
+	this->materialDiffuse.w = 0.5f;
 }
 
 CHoll::~CHoll()
