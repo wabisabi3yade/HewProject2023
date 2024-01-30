@@ -23,9 +23,14 @@ public:
     D3DBUFFER textBuffer;
     D3DTEXTURE textTexture;
 
+    //•¶Žš
+    D3DBUFFER wordBuffer;
+    D3DTEXTURE wordTexture;
+
     CStageSelectPlayer* player;
-    CObject* stage[4];
+    CObject* stage[5];
     UI* Text;
+    UI* Word;
 
     bool isPlayerMoving;
     bool isOnce;

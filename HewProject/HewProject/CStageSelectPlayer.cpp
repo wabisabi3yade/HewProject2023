@@ -184,15 +184,3 @@ void CStageSelectPlayer::Draw()
 	CObject::Draw();
 }
 
-void CStageSelectPlayer::FlagInit()
-{
-	mAnim->SetPattern(0);
-	mAnim->isStop = false;
-	isMoving = false;
-	isChangeScene = false;
-	isOnAnim_Left = false;
-	isOnAnim_Right = false;
-	isOnAnim_Up = false;
-	isOnAnim_Down = false;
-	nNumSelectScene = 7;
-}

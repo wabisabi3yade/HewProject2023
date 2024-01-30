@@ -124,12 +124,3 @@ void CWorldSelectPlayer::Draw()
 	CObject::Draw();
 }
 
-void CWorldSelectPlayer::FlagInit()
-{
-	mAnim->SetPattern(0);
-	mAnim->isStop = false;
-	isMoving = false;
-	isNoPush = false;
-	isChangeScene = false;
-	nNumSelectScene = 2;
-}

@@ -33,7 +33,5 @@ public:
     void Update();
     void Draw();
 
-    //ƒtƒ‰ƒO‰Šú‰»
-    void FlagInit();
 };
 
