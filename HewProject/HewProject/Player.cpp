@@ -60,9 +60,13 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/N_Wait.png", STATE::NORMAL, ANIM_TEX::WAIT);
 	TextureInput(L"asset/Player/F_Walk.png", STATE::FAT, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/F_Wait.png", STATE::FAT, ANIM_TEX::WAIT);
 	TextureInput(L"asset/Player/T_Walk.png", STATE::THIN, ANIM_TEX::WALK);
-	TextureInput(L"asset/Player/M_Walk01_Forword.png", STATE::MUSCLE, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/T_Wait.png", STATE::THIN, ANIM_TEX::WAIT);
+	TextureInput(L"asset/Player/M_Walk.png", STATE::MUSCLE, ANIM_TEX::WALK);
+	TextureInput(L"asset/Player/M_Wait", STATE::MUSCLE, ANIM_TEX::WAIT);
 }
 
 void Player::Init(GridTable* _pTable)
@@ -227,25 +231,25 @@ void Player::ChangeState(STATE _set)
 		// 通常状態の動きクラスをmoveに確保する
 		move = std::make_shared<NormalMove>(this);
 		playerState = STATE::NORMAL;
-		SetTexture(normalTex[0]);
+		SetTexture(normalTex[ANIM_TEX::WAIT]);
 		break;
 
 	case STATE::FAT:
 		move = std::make_shared<FatMove>(this);
 		playerState = STATE::FAT;
-		SetTexture(fatTex[0]);
+		SetTexture(fatTex[ANIM_TEX::WAIT]);
 		break;
 
 	case STATE::THIN:
 		move = std::make_shared<ThinMove>(this);
 		playerState = STATE::THIN;
-		SetTexture(thinTex[0]);
+		SetTexture(thinTex[ANIM_TEX::WAIT]);
 		break;
 
 	case STATE::MUSCLE:
 		move = std::make_shared<MuscleMove>(this);
 		playerState = STATE::MUSCLE;
-		SetTexture(muscleTex[0]);
+		SetTexture(muscleTex[ANIM_TEX::WAIT]);
 		this->calorie = CAKE_CALORIE;
 		break;
 	}

@@ -51,6 +51,7 @@ public:
 		WALK,
 		EAT,
 		ACTION,
+		WAIT,
 		NUM,
 	};
 
