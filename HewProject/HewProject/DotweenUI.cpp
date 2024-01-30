@@ -106,7 +106,7 @@ void DoTweenUI::Update()
 					// 始点と終点の距離を取る
 					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
 
-					const float c1 = 1.2f;
+					const float c1 = 2.0f;
 					const float c3 = c1 + 1;
 
 					const float t = (*itr2).nowTime / (*itr2).moveTime;

@@ -54,13 +54,11 @@ void CWorldSelectScene::Update()
 		{
 		case 0:
 			CScene::SetScene(SCENE_NAME::STAGE1);
-			player->FlagInit();
 			break;
 		case 1:
 			break;
 		case 2:
 			CScene::SetScene(SCENE_NAME::SELECT);
-			player->FlagInit();
 			break;
 		default:
 			break;
