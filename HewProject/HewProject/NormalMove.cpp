@@ -366,7 +366,7 @@ void NormalMove::Step()
 
 	default:	// è∞
 
-		WalkStart();
+	//	WalkStart();
 		break;
 	}
 }

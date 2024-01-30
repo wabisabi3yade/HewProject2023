@@ -20,6 +20,11 @@ public:
         PANIC_LEFT, //Å‚Á‚Ä‚¢‚é•à‚«¶
         PANIC_RIGHT,//Å‚Á‚Ä‚¢‚é•à‚«‰E
         PANIC_UP,   //Å‚Á‚Ä‚¢‚é•à‚«ã
+
+        CANNON_DOWN, //‘å–C‚Ì“®‚«‰º
+        CANNON_LEFT, //‘å–C‚Ì“®‚«¶
+        CANNON_RIGHT,//‘å–C‚Ì“®‚«‰E
+        CANNON_UP,   //‘å–C‚Ì“®‚«ã
     };
 private:
     float AnimSpeedRate;
@@ -32,6 +37,7 @@ public:
     void PlayWalk(int num , float _animSpeedRate = 1);
     void StopWalk(int _num = 0);
     void PlayFall(int _num, float _animSpeedRate = 1);
+    void PlayCannon(int _dir, float _animSpeedRate = 1);
     bool GetIsFall() { return Now_IsFall; }
     bool GetOldIsFall() { return Old_IsFall; }
     void SetIsFall(bool _isFall) { Now_IsFall = _isFall ;}
