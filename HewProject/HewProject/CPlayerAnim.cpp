@@ -46,6 +46,16 @@ void CPlayerAnim::Update()
 		// 上向き
 		{ 9, 10, 11, 10, -1},
 
+		//大砲の動き
+		// 下向き
+		{0,1,2,-1},
+		// 左向き
+		{3,4,5,-1},
+		// 右向き
+		{6,7,8,-1},
+		// 上向き
+		{9,10,11,-1},
+
 	};
 
 
@@ -164,6 +174,36 @@ void CPlayerAnim::PlayFall(int _num, float _animSpeedRate)
 		// 上
 	case 3:
 		SetPattern(static_cast<int>(PATTERN::PANIC_UP));
+		break;
+	}
+}
+
+void CPlayerAnim::PlayCannon(int _dir, float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	switch (_dir)
+	{
+		//　下
+		// 全方位行動可
+	case 0:
+		SetPattern(static_cast<int>(PATTERN::CANNON_DOWN));
+		break;
+
+		// 左
+	case 1:
+		SetPattern(static_cast<int>(PATTERN::CANNON_LEFT));
+		break;
+
+		// 右
+	case 2:
+		SetPattern(static_cast<int>(PATTERN::CANNON_RIGHT));
+		break;
+
+		// 上
+	case 3:
+		SetPattern(static_cast<int>(PATTERN::CANNON_UP));
 		break;
 	}
 }

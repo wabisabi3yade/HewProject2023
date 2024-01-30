@@ -69,10 +69,10 @@ void PlayerMove::Input()
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
 		Move(DIRECTION::DOWN);
 	}
-	//else if(gInput->GetKeyTrigger(VK_ESCAPE))
-	//{
-	//	isCannonMove = !isCannonMove;
-	//}
+	else if(gInput->GetKeyTrigger(VK_ESCAPE))
+	{
+		isCannonMove = !isCannonMove;
+	}
 }
 
 void PlayerMove::FlagInit()
@@ -286,7 +286,14 @@ void PlayerMove::CannonMove1()
 void PlayerMove::CannonMove2()
 {
 	if (isCannonMoveStart)
+	{
 		return;
+	}
+	if (player->GetCangeCannonTexture() == false)
+	{
+		player->ChangeTexture(Player::ANIM_TEX::CANNON);
+		player->SetChangeCannonTexture(true);
+	}
 	int moveDir = 0;
 	bool isBound = false;
 	CGrid::GRID_XY movePos = player->GetGridPos();
@@ -299,6 +306,7 @@ void PlayerMove::CannonMove2()
 			break;
 		}
 	}
+	dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayCannon(moveDir, 3.0f);
 	//nextGridPos = movePos;
 	switch (moveDir)
 	{
@@ -348,7 +356,8 @@ void PlayerMove::CannonMove2()
 
 
 	if (nextGridPos.x >= 0.0f && nextGridPos.y >= 0.0f &&
-		player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x] != 0)
+		player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x] != 0
+		&& nextGridPos.x < XY.x && nextGridPos.y < XY.y )
 	{
 		if (player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x] != static_cast<int> (CGridObject::BlockType::GALL))
 		{
@@ -356,25 +365,30 @@ void PlayerMove::CannonMove2()
 			isCannonMoveStart = true;
 			player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME);
 			player->dotween->Append(v3MovePos, 0.0f, DoTween::FUNC::MOVE_Z);
-			player->dotween->OnComplete([&,v3MovePos,movePos]()
+			player->dotween->OnComplete([&,v3MovePos,movePos,moveDir]()
 			{
 				// 移動した後の処理次のオブジェクト確認
 					if (player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::GALL) ||
-						movePos.x == -1 || movePos.y == -1)
+						movePos.x == -1 || movePos.y == -1 || movePos.x == XY.x || movePos.y == XY.y)
 					{
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+						dynamic_cast<CPlayerAnim*>(player->GetmAnim())->StopWalk(moveDir);
+						//dynamic_cast<CPlayerAnim*>(player->GetmAnim())->animSpeed=1.0f;
 						player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
 						player->dotween->DelayedCall(CANNONBOUND_TIME, [&]()
 							{
 								isCannonMove = false;
 								nextGridPos;
 								player->GetPlayerMove()->Step();
+								this->CheckCanMove();
+								player->SetChangeCannonTexture(false);
 							});
 						
 						isCannonMoveEnd = true;
 					}
 						MoveAfter();
 						isCannonMoveEnd = true;
-						isCannonMoveStart = false;
+						isCannonMoveStart = false; 
 			});
 		}
 		//移動可能で泣ければバウンドを実行する

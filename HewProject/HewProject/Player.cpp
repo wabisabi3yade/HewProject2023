@@ -57,6 +57,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	fallMoveTrriger = false;
 	risingChangeTrriger = false;
 	risingMoveTrriger = false;
+	ChangeCannonTexture = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -66,7 +67,8 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureInput(L"asset/Player/T_Walk.png", STATE::THIN, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/T_Wait.png", STATE::THIN, ANIM_TEX::WAIT);
 	TextureInput(L"asset/Player/M_Walk.png", STATE::MUSCLE, ANIM_TEX::WALK);
-	TextureInput(L"asset/Player/M_Wait", STATE::MUSCLE, ANIM_TEX::WAIT);
+	TextureInput(L"asset/Player/M_Wait.png", STATE::MUSCLE, ANIM_TEX::WAIT);
+	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 }
 
 void Player::Init(GridTable* _pTable)
@@ -121,10 +123,12 @@ void Player::Update()
 	{
 		if (move->GetIsWalk_Old() == false && move->GetIsWalk_Now() == true)
 		{
+			ChangeTexture(ANIM_TEX::WALK);
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
 		}
 		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false)
 		{
+			ChangeTexture(ANIM_TEX::WAIT);
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 		}
 	}
@@ -258,6 +262,33 @@ void Player::ChangeState(STATE _set)
 
 	// 移動できる方向を更新
 	move->CheckCanMove();
+}
+
+void Player::ChangeTexture(ANIM_TEX _animTex)
+{
+	if (_animTex == ANIM_TEX::CANNON)
+	{
+		SetTexture(cannonTex);
+		return;
+	}
+	switch (playerState)
+	{
+	case Player::STATE::NORMAL:
+		SetTexture(normalTex[_animTex]);
+		break;
+	case Player::STATE::THIN:
+
+		SetTexture(thinTex[_animTex]);
+		break;
+	case Player::STATE::FAT:
+		SetTexture(fatTex[_animTex]);
+		break;
+	case Player::STATE::MUSCLE:
+		SetTexture(muscleTex[_animTex]);
+		break;
+	default:
+		break;
+	}
 }
 
 void Player::Draw()

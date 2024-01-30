@@ -52,6 +52,7 @@ public:
 		EAT,
 		ACTION,
 		WAIT,
+		CANNON,
 		NUM,
 	};
 
@@ -71,6 +72,8 @@ private:
 
 	bool IsgameOver;
 
+	bool ChangeCannonTexture;
+
 	bool fallFloorChangeTrriger; //落ちて階層が変わったか
 	bool risingChangeTrriger;
 
@@ -81,7 +84,7 @@ private:
 	D3DTEXTURE fatTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE thinTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
-	
+	D3DTEXTURE cannonTex;
 	// 画像を上に配列に入れる
 	// 引数①：テクスチャパス ② 度の状態の配列に入れるか
 	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
@@ -113,6 +116,8 @@ public:
 	/// <param name="_set">変化先の状態</param>
 	void ChangeState(STATE _set);
 
+	void ChangeTexture(ANIM_TEX _animTex);
+
 	void Draw() override;
 
 	void Fall();
@@ -126,6 +131,7 @@ public:
 	bool GetIsMoving()const;
 	int GetDirection()const;
 	void SetDirection(int _set);
+	void SetChangeCannonTexture(const bool _set) { ChangeCannonTexture = _set; }
 
 	PlayerMove* GetPlayerMove()const;
 
@@ -139,6 +145,7 @@ public:
 	bool GetFallFloorChageTrriger() { return fallFloorChangeTrriger; }
 	bool GetRiseFloorChangeTrriger() { return risingChangeTrriger; }
 	bool GetRiseTrriger() { return risingMoveTrriger; }
+	bool GetCangeCannonTexture() { return ChangeCannonTexture; }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
