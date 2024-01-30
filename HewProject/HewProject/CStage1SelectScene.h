@@ -21,7 +21,10 @@ public:
 
     //テキスト
     D3DBUFFER textBuffer;
-    D3DTEXTURE textTexture;
+    D3DTEXTURE text_blueTexture;
+    D3DTEXTURE text_greenTexture;
+    D3DTEXTURE text_pinkTexture;
+    D3DTEXTURE text_purpleTexture;
 
     //文字
     D3DBUFFER wordBuffer;
@@ -29,7 +32,7 @@ public:
 
     CStageSelectPlayer* player;
     CObject* stage[5];
-    UI* Text;
+    UI* Text[4];
     UI* Word;
 
     bool isPlayerMoving;

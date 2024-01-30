@@ -81,6 +81,9 @@ void TextureFactory::Load()
 		L"asset/UI/NowLoadingÅc.png",
 		L"asset/UI/LoadCharacter.png",
 		L"asset/UI/textBox_Blue.png",
+		L"asset/UI/textBox_Green.png",
+		L"asset/UI/textBox_Pink.png",
+		L"asset/UI/textBox_Purple.png",
 		L"asset/UI/Title.png",
 		L"asset/UI/gage.png",
 	};
