@@ -76,7 +76,13 @@ void ThinMove::Move(DIRECTION _dir)
 			{
 				WalkAfter();
 				// 食べ終わったら移動できるようにする
-				player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatCake(); MoveAfter(); });
+				player->dotween->DelayedCall(EAT_TIME, [&]() 
+					{
+						player->EatCake();
+						MoveAfter();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
 			});
 		break;
 
@@ -87,7 +93,14 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
-				player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
+				player->dotween->DelayedCall(EAT_TIME, [&]()
+					{
+						player->EatChilli(); 
+						MoveAfter();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					
+					});
 			});
 		break;
 
@@ -100,7 +113,12 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
-				player->dotween->DelayedCall(EAT_TIME, [&]() { MoveAfter(); });
+				player->dotween->DelayedCall(EAT_TIME, [&]()
+					{
+						MoveAfter();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
 			});
 		break;
 	case CGridObject::BlockType::CHOCOCRACK:
@@ -115,6 +133,8 @@ void ThinMove::Move(DIRECTION _dir)
 				WalkAfter();
 
 				MoveAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 
 			});
 
@@ -243,24 +263,45 @@ void ThinMove::Move(DIRECTION _dir)
 				{
 				case CGridObject::BlockType::CAKE:
 					// 食べ終わったら移動できるようにする
-					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatCake(); MoveAfter(); });
+					player->dotween->DelayedCall(EAT_TIME, [&]() 
+						{
+							player->EatCake();
+							MoveAfter();
+							player->GetPlayerAnim()->StopWalk(player->GetDirection());
+							player->ChangeTexture(Player::ANIM_TEX::WAIT);
+						});
 					break;
 
 				case CGridObject::BlockType::CHILI:
 					// 食べ終わったら移動できるようにする
-					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
+					player->dotween->DelayedCall(EAT_TIME, [&]() 
+						{
+							player->EatChilli();
+							MoveAfter();
+							player->GetPlayerAnim()->StopWalk(player->GetDirection());
+							player->ChangeTexture(Player::ANIM_TEX::WAIT);
+						});
 					break;
 
 				case CGridObject::BlockType::PROTEIN:
-					player->dotween->DelayedCall(EAT_TIME, [&]() { MoveAfter(); });
+					player->dotween->DelayedCall(EAT_TIME, [&]() 
+						{
+							MoveAfter();
+							player->GetPlayerAnim()->StopWalk(player->GetDirection());
+							player->ChangeTexture(Player::ANIM_TEX::WAIT); 
+						});
 					break;
 
 				case CGridObject::BlockType::COIN:
-
+					MoveAfter();
+					player->GetPlayerAnim()->StopWalk(player->GetDirection());
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					break;
 
 				case CGridObject::BlockType::CHOCO:
-
+					MoveAfter();
+					player->GetPlayerAnim()->StopWalk(player->GetDirection());
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					break;
 
 				case CGridObject::BlockType::CHOCOCRACK:
@@ -300,7 +341,12 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+		player->dotween->OnComplete([&]() 
+			{
+				WalkAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
 		break;
 	}
 }
@@ -318,30 +364,44 @@ void ThinMove::Step()
 			{
 				player->EatCake();
 				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 
 		break;
 
 	case CGridObject::BlockType::CHILI:
 
-		WalkStart();
+		//WalkStart();
 
-		WalkAfter();
+		//WalkAfter();
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
 				player->EatChilli();
 				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 		break;
 
 	case CGridObject::BlockType::PROTEIN:
 
-		player->dotween->DelayedCall(EAT_TIME, [&]() { MoveAfter(); });
+		player->dotween->DelayedCall(EAT_TIME, [&]() 
+			{ 
+				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
 		break;
 	case CGridObject::BlockType::CHOCO:
-		WalkStart();
-		WalkAfter();
+
 		MoveAfter();
+		FallAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		break;
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
@@ -410,17 +470,20 @@ void ThinMove::Step()
 
 	case CGridObject::BlockType::GUMI:
 	{
-		WalkStart();
-		//WalkAfter();
-		//MoveAfter();
+		//WalkStart();
+		MoveAfter();
+		FallAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		// ↑にジャンプする
 	}
 	break;
 
 	default:	// 床
-		WalkStart();
-		WalkAfter();
 		MoveAfter();
+		FallAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		break;
 	}
 }

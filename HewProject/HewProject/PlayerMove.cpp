@@ -384,10 +384,10 @@ void PlayerMove::CannonMove2()
 								//player->SetGridPos(nextGridPos);
 								isCannonMove = false;
 								this->CheckCanMove();
-								player->GetPlayerMove()->Step();
 								player->SetChangeCannonTexture(false);
 								player->ChangeTexture(Player::ANIM_TEX::WAIT);
 								dynamic_cast<CPlayerAnim*>(player->GetmAnim())->SetAnimSpeedRate(0.5f);
+								player->GetPlayerMove()->Step();
 							});
 						
 						isCannonMoveEnd = true;

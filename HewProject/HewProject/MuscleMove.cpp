@@ -78,7 +78,10 @@ void MuscleMove::Move(DIRECTION _dir)
 			{
 				WalkAfter();
 				//player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); });
+				//MoveAfter();
 				MoveAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 		break;
 
@@ -97,6 +100,8 @@ void MuscleMove::Move(DIRECTION _dir)
 				WalkAfter();
 				//player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); });
 				MoveAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 		break;
 
@@ -108,7 +113,13 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+		player->dotween->OnComplete([&]() 
+			{
+				WalkAfter(); 
+				MoveAfter(); 
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
 
 		break;
 
@@ -130,11 +141,38 @@ void MuscleMove::Move(DIRECTION _dir)
 						player->Fall();
 					});
 				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+
+				switch (player->GetNowFloor())
+				{
+				case 1:
+				case 2:
+				case 3:
+				{
+					player->dotween->Append(Vector3::zero, 1.5f, DoTween::FUNC::DELAY);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+					if (player->GetPlayerMove()->CheckNowFloorType() != CGridObject::BlockType::HOLL)
+					{
+						//バウンドする高さを計算　代入
+						player->Fall();
+						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
+						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+					}
+					player->dotween->DelayedCall(WALK_TIME + FALL_TIME, [&]()
+						{
+							player->fallMoveTrriger = true;
+						});
+				}
+				break;
+				default:
+					break;
+				}
 			});
 
 
 		break;
+
 
 	case CGridObject::BlockType::HOLL:
 	{
@@ -238,7 +276,13 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
+				MoveAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
 		break;
 	}
 }
@@ -254,27 +298,39 @@ void MuscleMove::Step()
 		// 食べ終わったら移動できるようにする
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
-				//player->EatCake();
+				player->EatCake();
 				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 
 		break;
 
 	case CGridObject::BlockType::CHILI:
 
-		WalkStart();
+		//WalkStart();
 
-		WalkAfter();
+		//WalkAfter();
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
-				//player->EatChilli();
+				player->EatChilli();
 				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 		break;
 
 	case CGridObject::BlockType::PROTEIN:
 
-		player->dotween->DelayedCall(EAT_TIME, [&]() { MoveAfter(); });
+		player->dotween->DelayedCall(EAT_TIME, [&]() 
+			{
+				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
 		break;
 	case CGridObject::BlockType::CHOCO:
 
@@ -352,9 +408,11 @@ void MuscleMove::Step()
 	case CGridObject::BlockType::GUMI:
 	{
 
-		WalkStart();
-		WalkAfter();
+		//WalkAfter();
 		MoveAfter();
+		FallAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		// ↑にジャンプする
 
 	}
@@ -362,7 +420,10 @@ void MuscleMove::Step()
 
 	default:	// 床
 
-		WalkStart();
+		MoveAfter();
+		FallAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		break;
 	}
 }

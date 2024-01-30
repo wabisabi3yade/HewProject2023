@@ -245,8 +245,36 @@ void StageScene::StageMove()
 			if (player->GetState() == Player::STATE::FAT || player->GetState() == Player::STATE::MUSCLE)
 			{
 				chocoObj->CRACK();
+				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
+				hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+				hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+				vStageObj->push_back(hollObj);
+				player->GetPlayerMove()->FallStart();
 			}
 		}
+		//else if (player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::CHOCO ||
+		//	player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::CHOCOCRACK)
+		//{
+		//	 CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowFloorType())));
+		//	 if (player->GetState() != Player::STATE::THIN)
+		//	 {
+		//		if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
+		//		{
+		//			CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+		//			hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
+		//			hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+		//			hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+		//			vStageObj->push_back(hollObj);
+		//			player->GetPlayerMove()->FallStart();
+		//		}
+		//		chocoObj->CRACK();
+		//	 }
+		//	if (player->GetState() == Player::STATE::FAT || player->GetState() == Player::STATE::MUSCLE)
+		//	{
+		//		chocoObj->CRACK();
+		//	}
+		//}
 
 		if (player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GUMI)
 		{
@@ -607,7 +635,6 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 
-	stageTextureHoll = NULL;
 
 	// ステージの大きさを設定する
 	stageScale = _stageScale;
@@ -803,14 +830,16 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 		vStageObj = &oneFStgObj;
 		nowFloor = oneFloor;
 		break;
-		
+
 	case 2:
 		vStageObj = &secondFStgObj;
 		nowFloor = secondFloor;
+		player->SetNextGridTable(oneFloor);
 		break;
 	case 3:
 		vStageObj = &thirdFStgObj;
 		nowFloor = thirdFloor;
+		player->SetNextGridTable(secondFloor);
 		break;
 	default:
 		break;
@@ -1037,12 +1066,14 @@ void StageScene::ChangeFloor(int _nextFloor)
 		vStageObj->push_back(player);
 		nowFloor = secondFloor;
 		player->SetGridTable(secondFloor);
+		player->SetNextGridTable(oneFloor);
 		break;
 	case 3:
 		vStageObj = &thirdFStgObj;
 		vStageObj->push_back(player);
 		nowFloor = thirdFloor;
 		player->SetGridTable(thirdFloor);
+		player->SetNextGridTable(secondFloor);
 		break;
 	default:
 		break;
@@ -1072,7 +1103,7 @@ CGridObject* StageScene::GetStageFloor(CGrid::GRID_XY _gridPos, CGridObject::Blo
 			return (_obj->GetGridPos().x == _gridPos.x &&
 				_obj->GetGridPos().y == _gridPos.y &&
 				(_obj->GetBlookType() == _blockType)) &&
-				_obj->GetActive()==true;
+				_obj->GetActive() == true;
 		});
 
 	return (*itr);
