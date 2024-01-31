@@ -14,7 +14,7 @@ CWorldSelectPlayer::CWorldSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CGridObjec
 	isMoving = false;
 	isNoPush = false;
 	isChangeScene = false;
-	nNumSelectScene = 2;
+	nNumSelectScene = 0;
 }
 
 CWorldSelectPlayer::~CWorldSelectPlayer()
@@ -63,7 +63,7 @@ void CWorldSelectPlayer::Update()
 
 				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(1));
 
-				dotween->DoMoveX(playerXY.x, 2.0f);
+				dotween->DoMoveX(playerXY.x, 3.0f);
 
 				dotween->OnComplete([&]()
 					{
@@ -95,7 +95,7 @@ void CWorldSelectPlayer::Update()
 
 				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
 
-				dotween->DoMoveX(playerXY.x, 2.0f);
+				dotween->DoMoveX(playerXY.x, 3.0f);
 
 				dotween->OnComplete([&]()
 					{

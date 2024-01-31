@@ -23,17 +23,19 @@ CWorldSelectScene::CWorldSelectScene()
 	player = new CWorldSelectPlayer(playerBuffer, playerTexture);
 
 	player->mTransform.scale = { 4,4,1 };
-	player->mTransform.pos = { 0,-2,0 };
+	player->mTransform.pos = { 0,-2.0f,0 };
 	player->SetTexture(player_stopTexture);
 
-	stage[0]->mTransform.pos = { 0,2,-1 };
+	stage[0]->mTransform.pos = { 8.0f,2.0f,-1.0f };
 	stage[0]->mTransform.scale = { 2,2,1 };
-	stage[1]->mTransform.pos = { 8.0f,2,-1 };
+	stage[1]->mTransform.pos = { 16.0f,2.0f,-1.0f };
 	stage[1]->mTransform.scale = { 2,2,1 };
-	stage[2]->mTransform.pos = { 16.0f,2,-1 };
+	stage[2]->mTransform.pos = { 24.0f,2.0f,-1.0f };
 	stage[2]->mTransform.scale = { 2,2,1 };
-	stage[3]->mTransform.pos = { 24.0f,2,-1 };
+	stage[3]->mTransform.pos = { 32.0f,2.0f,-1.0f };
 	stage[3]->mTransform.scale = { 2,2,1 };
+
+	isStageMove = false;
 
 }
 
@@ -51,6 +53,68 @@ void CWorldSelectScene::Update()
 {
 	InputManager* input = InputManager::GetInstance();
 	
+	if (isStageMove == false)
+	{
+		//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+		//＝＝＝右スティックを傾けたら＝＝＝
+		//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+		if (input->GetMovement().x > 0)
+		{
+			if (player->nNumSelectScene < 4)
+			{
+				isStageMove = true;
+				for (int i = 0; i < 4; i++)
+				{
+					Vector2 playerXY;
+					playerXY.x = stage[i]->mTransform.pos.x - 8.0f;
+					playerXY.y = stage[i]->mTransform.pos.y;
+
+					stage[i]->dotween->DoMoveX(playerXY.x, 3.0f);
+					if (i == 3)
+					{
+						stage[i]->dotween->OnComplete([&]()
+							{
+								isStageMove = false;
+							});
+					}
+				}
+			}
+			
+		}
+
+
+		//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+		//＝＝＝左スティックを傾けたら＝＝＝
+		//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+		if (input->GetMovement().x < 0)
+		{
+			if (player->nNumSelectScene > 0)
+			{
+				isStageMove = true;
+				for (int i = 0; i < 4; i++)
+				{
+					Vector2 playerXY;
+					playerXY.x = stage[i]->mTransform.pos.x + 8.0f;
+					playerXY.y = stage[i]->mTransform.pos.y;
+
+					stage[i]->dotween->DoMoveX(playerXY.x, 3.0f);
+
+					if (i == 3)
+					{
+						stage[i]->dotween->OnComplete([&]()
+							{
+								isStageMove = false;
+							});
+					}
+				}
+			}
+			
+		}
+	}
+
+	//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+	//＝＝＝＝＝シーンチェンジ＝＝＝＝＝
+	//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 	if (player->isChangeScene == true)
 	{
 		switch (player->nNumSelectScene)
@@ -72,17 +136,22 @@ void CWorldSelectScene::Update()
 		}
 	}
 
-	for (int i = 0; i < 4; i++)
-	{
-		stage[i]->Update();
-	}
-
+	//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+	//＝＝待機中と移動中でテクスチャを変える＝＝
+	//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 	if (player->isMoving == false)
 	{
 		player->SetTexture(player_stopTexture);
 	}
 	else {
 		player->SetTexture(playerTexture);
+	}
+
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		stage[i]->Update();
 	}
 
 	player->Update();
