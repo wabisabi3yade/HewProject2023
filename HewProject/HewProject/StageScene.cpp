@@ -282,7 +282,7 @@ void StageScene::StageMove()
 		}
 
 		// ƒAƒCƒeƒ€‚ª‚ ‚é‚È‚ç‚»‚ê‚ð‰æ–Ê‚©‚çÁ‚·
-		ItemDelete();
+ 		ItemDelete();
 	}
 	if (player->GetFallTrriger() == true)
 	{
