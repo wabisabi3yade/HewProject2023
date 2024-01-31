@@ -44,6 +44,7 @@ void CalorieMark::Draw()
 {
 	for (int i = 0; i < MARKNUM_MAX; i++)
 	{
+
 		mark[i]->Draw();
 	}
 }
