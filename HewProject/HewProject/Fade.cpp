@@ -3,12 +3,15 @@
 #include "NowLoadingText.h"
 #include "TextureFactory.h"
 
+#define FADESCALE_X (20.0f)
+#define FADESCALE_Y (9.0f)
 #define FADE_BASE_POSZ (-0.45f)	// フェードの基準座標
-#define FADEOUT_POSX (2.5f)	// フェードアウトの時に向かうX座標
-#define FADE_TIME (1.0f)
+#define FADEOUT_POSX (16.0f + FADESCALE_X / 2.0f)	// フェードアウトの時に向かうX座標
+
+#define FADE_TIME (1.5f)
 #define LOAD_TIME (2.5f)	// ロード時間
 
-#define LOADING_BACKSPEED (0.001f)	// ローディング時に動く背景の速度 
+#define LOADING_BACKSPEED (0.007f)	// ローディング時に動く背景の速度 
 #define NOWLOADING_OFFSET_Z (0.1f)	// NowLoadingのテキストが背景からの差 
 
 Fade* Fade::instance = nullptr;
@@ -34,7 +37,7 @@ Fade::Fade()
 
 	backGround = new FadeUI(vb, tex);
 	backGround->MakeDotween();
-	backGround->mTransform.scale = {24.0f, 13.5f, 1.0f };
+	backGround->mTransform.scale = {FADESCALE_X, FADESCALE_Y, 1.0f };
 	backGround->SetActive(false);
 	backGround->mTransform.pos.z = FADE_BASE_POSZ;
 }
