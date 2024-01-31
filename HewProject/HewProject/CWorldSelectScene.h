@@ -11,12 +11,12 @@ class CWorldSelectScene :
 {
 public:
 
-
-
+    //プレイヤー
     D3DBUFFER playerBuffer;
     D3DTEXTURE playerTexture;
     D3DTEXTURE player_stopTexture;
 
+    //ステージ
     D3DBUFFER stageBuffer;
     D3DTEXTURE stage1Texture;
 
@@ -24,7 +24,8 @@ public:
     CWorldSelectPlayer* player;
     UI* stage[4];
 
-
+    //ステージが移動するフラグ
+    bool isStageMove;
 
 public:
     CWorldSelectScene();
