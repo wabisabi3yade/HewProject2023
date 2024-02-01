@@ -22,6 +22,7 @@ public:
 		STAGE1,
 		FADE_TEST,
 		TITLE,
+		GAMEOVER,
 		SCENE_NUM,	// シーンの数
 
 		SELECT,	// セレクトシーン
