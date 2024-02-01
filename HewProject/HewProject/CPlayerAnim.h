@@ -25,6 +25,11 @@ public:
         CANNON_LEFT, //大砲の動き左
         CANNON_RIGHT,//大砲の動き右
         CANNON_UP,   //大砲の動き上
+
+        EAT_RIGHT,   //食べる右向き
+        EAT_LEFT,    //食べる左向き
+
+        PUNCH,       //パンチ
     };
 private:
     float AnimSpeedRate;
@@ -34,10 +39,12 @@ public:
     CPlayerAnim();
     ~CPlayerAnim();
     void Update()override;
-    void PlayWalk(int num , float _animSpeedRate = 1);
+    void PlayWalk(int num , float _animSpeedRate = 1.0f);
     void StopWalk(int _num = 0);
-    void PlayFall(int _num, float _animSpeedRate = 1);
-    void PlayCannon(int _dir, float _animSpeedRate = 1);
+    void PlayFall(int _num, float _animSpeedRate = 1.0f);
+    void PlayCannon(int _dir, float _animSpeedRate = 1.0f);
+    void PlayEat(int _dir, float _animSpeedRate = 1.0f);
+    void PlayPunch( float _animSpeedRate = 1.0f);
     bool GetIsFall() { return Now_IsFall; }
     bool GetOldIsFall() { return Old_IsFall; }
     void SetIsFall(bool _isFall) { Now_IsFall = _isFall ;}

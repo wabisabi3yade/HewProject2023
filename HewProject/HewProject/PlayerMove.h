@@ -129,5 +129,6 @@ public:
 	bool GetIsRising()const { return isRising; }
 	bool GetIsCannonMove()const { return isCannonMove; }
 	bool* GetCanMoveDir() { return &canMoveDir[0]; }
+	bool GetCannonMoveEnd()const { return isCannonMoveEnd; }
 };
 

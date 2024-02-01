@@ -49,11 +49,14 @@ public:
 	enum ANIM_TEX
 	{
 		WALK,
-		EAT,
+		EAT_CAKE,
+		EAT_CHILI,
 		ACTION,
 		WAIT,
-		CANNON,
 		NUM,
+		CANNON,
+		CASSTELA,
+		PUNCH,
 	};
 
 private:
@@ -86,6 +89,8 @@ private:
 	D3DTEXTURE thinTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE cannonTex;
+	//DIRECTIONと同じ向きのパンチの画像を格納
+	D3DTEXTURE punchTex[static_cast<int>(DIRECTION::NUM)];
 	// 画像を上に配列に入れる
 	// 引数①：テクスチャパス ② 度の状態の配列に入れるか
 	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
