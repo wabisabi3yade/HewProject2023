@@ -5,8 +5,8 @@
 #include "TextureFactory.h"
 #include <random>
 
-#define MIN -1
-#define MAX 1
+#define MIN -9
+#define MAX 9
 
 #define BEGIN_POSZ (0.1f)	// ケーキ一番奥の座標
 
@@ -18,7 +18,7 @@ CTitleScene::CTitleScene()
 	for (int i = 0; i < 2; i++)
 	{
 		select[i] = new CGridObject(selectBuffer, selectTexture);
-		select[i]->mTransform.pos = { -2.5f + i * 5.0f,-1.0f,0.3f };
+		select[i]->mTransform.pos = { -2.5f + i * 5.0f,-1.0f,-0.2f };
 		select[i]->mTransform.scale = { 2,2,1 };
 	}
 
@@ -35,8 +35,8 @@ CTitleScene::CTitleScene()
 		{
 			Sweets[i] = new UI(sweetsBuffer, sweetsTexture);
 			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),2.0f + i * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 0.7f,0.7f,1.0f };
+			Sweets[i]->mTransform.pos = { distr(eng),5.0f + i * 0.4f,BEGIN_POSZ - i * 0.001f };
+			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
 		}
@@ -44,8 +44,8 @@ CTitleScene::CTitleScene()
 		{
 			Sweets[i] = new UI(sweetsBuffer, sweetsTexture);
 			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),2.3f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 0.7f,0.7f,1.0f };
+			Sweets[i]->mTransform.pos = { distr(eng),5.3f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
+			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
 		}
@@ -53,16 +53,16 @@ CTitleScene::CTitleScene()
 		{
 			Sweets[i] = new UI(selectBuffer, selectTexture);
 			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),2.6f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 0.5f,0.5f,1.0f };
+			Sweets[i]->mTransform.pos = { distr(eng),5.6f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
+			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
 		}
 		else {
 			Sweets[i] = new UI(selectBuffer, selectTexture);
 			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),2.9f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 0.5f,0.5f,1.0f };
+			Sweets[i]->mTransform.pos = { distr(eng),5.9f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
+			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
 		}
@@ -74,8 +74,8 @@ CTitleScene::CTitleScene()
 
 	Title = new UI(titleBuffer, titleTexture);
 	Title->MakeDotween();
-	Title->mTransform.pos = { 0,1.5f,0.3f };
-	Title->mTransform.scale = { 1,1.2,1 };
+	Title->mTransform.pos = { 0,8.0f,0.3f };
+	Title->mTransform.scale = { 7,5,1 };
 	Title->materialDiffuse = { 1,1,1,1 };
 
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
@@ -83,7 +83,7 @@ CTitleScene::CTitleScene()
 
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->mTransform.pos = { 0,0,0.4f };
-	Bg->mTransform.scale = { 3,4,1 };
+	Bg->mTransform.scale = { 16,9,1 };
 	Bg->materialDiffuse = { 1,1,1,1 };
 
 	isNoMoving = false;
@@ -137,27 +137,27 @@ void CTitleScene::Update()
 			{
 				if (i < 5)
 				{
-					Sweets[i]->dotween->DoMoveY(-1.2f, 3.0f);
+					Sweets[i]->dotween->DoMoveY(-8.2f, 3.0f);
 					Sweets[i]->dotween->Join(360.0f, 3.0f, DoTweenUI::FUNC::ROTATION);
 				}
 				else if(i < 10)
 				{
-					Sweets[i]->dotween->DoMoveY(-1.5f, 4.0f);
+					Sweets[i]->dotween->DoMoveY(-8.5f, 4.0f);
 					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
 				}
 				else if (i < 15)
 				{
-					Sweets[i]->dotween->DoMoveY(-1.8f, 4.0f);
+					Sweets[i]->dotween->DoMoveY(-8.8f, 4.0f);
 					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
 				}
 				else
 				{
-					Sweets[i]->dotween->DoMoveY(-2.1f, 4.0f);
+					Sweets[i]->dotween->DoMoveY(-8.1f, 4.0f);
 					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
 				}
 			}
 
-			Title->dotween->DoMoveY(0.5f, 3.0f);
+			Title->dotween->DoMoveY(2.5f, 3.0f);
 			isOnce = true;
 		}
 
@@ -168,6 +168,11 @@ void CTitleScene::Update()
 
 	}
 	else {
+
+		for (int i = 0; i < MAXNUM; i++)
+		{
+			Sweets[i]->SetActive(false);
+		}
 
 		if (isRotationSwitch == false)
 		{

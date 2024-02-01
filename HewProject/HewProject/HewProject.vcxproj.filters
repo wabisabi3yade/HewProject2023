@@ -289,6 +289,9 @@
     <Filter Include="ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark">
       <UniqueIdentifier>{23de8dc2-387e-4563-9953-88f7a44044d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CGameOver">
+      <UniqueIdentifier>{59c8e443-44b4-4ca6-b01c-ddce08582c1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -549,6 +552,9 @@
     <ClInclude Include="CalorieMark.h">
       <Filter>ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark</Filter>
     </ClInclude>
+    <ClInclude Include="CGameOver.h">
+      <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -808,6 +814,9 @@
     </ClCompile>
     <ClCompile Include="CalorieMark.cpp">
       <Filter>ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameOver.cpp">
+      <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
