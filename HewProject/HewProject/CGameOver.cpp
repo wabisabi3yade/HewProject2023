@@ -2,6 +2,7 @@
 #include "TextureFactory.h"
 #include "UI.h"
 #include "InputManager.h"
+#include "CWorldSelectPlayer.h"
 
 CGameOver::CGameOver()
 {
@@ -19,6 +20,10 @@ CGameOver::CGameOver()
 	textBox2Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Green.png");
 	textBox3Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");
 
+	D3D_CreateSquare({ 3,4 }, &playerBuffer);
+	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_Wait.png");
+
+
 	Text[0]->mTransform.pos = { -1.5f,6.0f,0 };
 	Text[0]->mTransform.scale = { 2.0f,2.0f,1.0f };
 
@@ -27,18 +32,24 @@ CGameOver::CGameOver()
 
 	Message[0] = new UI(textBoxBuffer, textBox1Texture);
 	Message[0]->MakeDotween();
-	Message[0]->mTransform.pos = { -5.0f,-2.0f,0 };
+	Message[0]->mTransform.pos = { -5.0f,-3.0f,0 };
 	Message[0]->mTransform.scale = { 2.0f,2.0f,1.0f };
 
 	Message[1] = new UI(textBoxBuffer, textBox2Texture);
 	Message[1]->MakeDotween();
-	Message[1]->mTransform.pos = { 0,-2.0f,0 };
+	Message[1]->mTransform.pos = { 0,-3.0f,0 };
 	Message[1]->mTransform.scale = { 2.0f,2.0f,1.0f };
 
 	Message[2] = new UI(textBoxBuffer, textBox3Texture);
 	Message[2]->MakeDotween();
-	Message[2]->mTransform.pos = { 5.0f,-2.0f,0 };
+	Message[2]->mTransform.pos = { 5.0f,-3.0f,0 };
 	Message[2]->mTransform.scale = { 2.0f,2.0f,1.0f };
+
+
+	Player = new CWorldSelectPlayer(playerBuffer, playerTexture);
+	Player->mTransform.pos = { 0,0,0 };
+	Player->mTransform.scale = { 4.0f,4.0f,1.0f };
+	Player->isOnPlayer = false;
 
 	isOnce = false;
 	isOnceBox = false;
@@ -59,6 +70,8 @@ CGameOver::~CGameOver()
 	{
 		CLASS_DELETE(Message[i]);
 	}
+
+	CLASS_DELETE(Player);
 }
 
 void CGameOver::Update()
@@ -100,7 +113,7 @@ void CGameOver::Update()
 				if (isOnceBox == false)
 				{
 					isOnceBox = true;
-					Message[nSelect]->dotween->DoDelay(1.0f);
+					Message[nSelect]->dotween->DoDelay(0.5f);
 					Message[nSelect]->dotween->OnComplete([&]()
 						{
 							isLate = false;
@@ -122,7 +135,7 @@ void CGameOver::Update()
 				if (isOnceBox == false)
 				{
 					isOnceBox = true;
-					Message[nSelect]->dotween->DoDelay(1.0f);
+					Message[nSelect]->dotween->DoDelay(0.5f);
 					Message[nSelect]->dotween->OnComplete([&]()
 						{
 							isLate = false;
@@ -130,12 +143,27 @@ void CGameOver::Update()
 						});
 				}
 			}
+
+			if (input->GetInputTrigger(InputType::DECIDE) && nSelect == 0)
+			{
+				CScene::SetScene(SCENE_NAME::SELECT);
+			}
+
+			if (input->GetInputTrigger(InputType::DECIDE) && nSelect == 1)
+			{
+				CScene::SetScene(SCENE_NAME::TITLE);
+			}
+
+			if (input->GetInputTrigger(InputType::DECIDE) && nSelect == 2)
+			{
+				CScene::SetScene(SCENE_NAME::GAMEOVER);
+			}
 		}
 		
 	}
 	
 	
-
+	Player->Update();
 	
 	for (int i = 0; i < 3; i++)
 	{
@@ -191,6 +219,8 @@ void CGameOver::Draw()
 		}
 
 		++m_DrawCount;
+
+		Player->Draw();
 
 	}
 }

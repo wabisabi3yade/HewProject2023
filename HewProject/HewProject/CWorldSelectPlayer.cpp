@@ -9,9 +9,10 @@ CWorldSelectPlayer::CWorldSelectPlayer(D3DBUFFER vb, D3DTEXTURE tex) :CGridObjec
 
 	// アニメーションを作成
 	mAnim = new CPlayerAnim();
-	mAnim->SetPattern(0);
+	mAnim->SetPattern(1);
 	mAnim->isStop = false;
 	isMoving = false;
+	isOnPlayer = true;
 	isNoPush = false;
 	isChangeScene = false;
 	nNumSelectScene = 0;
@@ -24,29 +25,35 @@ CWorldSelectPlayer::~CWorldSelectPlayer()
 
 void CWorldSelectPlayer::Update()
 {
+
 	InputManager* input = InputManager::GetInstance();
 
-	if (isMoving == false)
+
+	if (isOnPlayer == true)
 	{
-		isNoPush = false;
-
-		if (input->GetInputTrigger(InputType::DECIDE))
+		if (isMoving == false)
 		{
-			isMoving = true;
-			isNoPush = true;
+			isNoPush = false;
 
-			Vector2 playerXY;
-			playerXY.x = mTransform.pos.x;
-			playerXY.y = mTransform.pos.y + 2.0f;
+			if (input->GetInputTrigger(InputType::DECIDE))
+			{
+				isMoving = true;
+				isNoPush = true;
 
-			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
+				Vector2 playerXY;
+				playerXY.x = mTransform.pos.x;
+				playerXY.y = mTransform.pos.y + 2.0f;
 
-			dotween->DoMoveY(playerXY.y, 1.0f);
+				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
 
-			dotween->OnComplete([&]() {isChangeScene = true; });
+				dotween->DoMoveY(playerXY.y, 1.0f);
 
+				dotween->OnComplete([&]() {isChangeScene = true; });
+
+			}
 		}
 	}
+	
 
 	if (isNoPush == false)
 	{
@@ -54,9 +61,13 @@ void CWorldSelectPlayer::Update()
 		{
 			if (nNumSelectScene > 0)
 			{
-				XA_Play(SOUND_LABEL_SE000);
-				isMoving = true;
-				isNoPush = true;
+				if (isOnPlayer == true)
+				{
+					XA_Play(SOUND_LABEL_SE000);
+					isMoving = true;
+					isNoPush = true;
+				}
+				
 				Vector2 playerXY;
 				playerXY.x = mTransform.pos.x;
 				playerXY.y = mTransform.pos.y;
@@ -79,42 +90,49 @@ void CWorldSelectPlayer::Update()
 
 					});
 			}
-			
+
 		}
 
 		if (input->GetMovement().x > 0)
 		{
-			if (nNumSelectScene < 4)
+			if (isOnPlayer == true)
 			{
-				XA_Play(SOUND_LABEL_SE000);
-				isMoving = true;
-				isNoPush = true;
-				Vector2 playerXY;
-				playerXY.x = mTransform.pos.x;
-				playerXY.y = mTransform.pos.y;
+				if (nNumSelectScene < 4)
+				{
+					XA_Play(SOUND_LABEL_SE000);
+					isMoving = true;
+					isNoPush = true;
+					Vector2 playerXY;
+					playerXY.x = mTransform.pos.x;
+					playerXY.y = mTransform.pos.y;
 
-				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
+					dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(0));
 
-				dotween->DoMoveX(playerXY.x, 3.0f);
+					dotween->DoMoveX(playerXY.x, 3.0f);
 
-				dotween->OnComplete([&]()
-					{
-						isMoving = false;
-						nNumSelectScene++;
-
-						if (nNumSelectScene > 4)
+					dotween->OnComplete([&]()
 						{
-							nNumSelectScene = 4;
-						}
+							isMoving = false;
+							nNumSelectScene++;
 
-						dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(DIRECTION::DOWN));
+							if (nNumSelectScene > 4)
+							{
+								nNumSelectScene = 4;
+							}
 
-					});
+							dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(DIRECTION::DOWN));
+
+						});
+				}
 			}
 			
 
+
 		}
 	}
+
+
+
 
 	dotween->Update();
 	CObject::Update();
