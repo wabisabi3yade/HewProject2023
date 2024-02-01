@@ -63,7 +63,6 @@ void DoTweenUI::Update()
 					uiPtr->mTransform.rotation.z += (*itr2).moveDir.z * (*itr2).moveSpeed;
 					break;
 				case FUNC::MOVECURVE:
-
 				{
 
 					float t = (*itr2).nowTime * (1.0f / (*itr2).moveTime);
@@ -106,7 +105,7 @@ void DoTweenUI::Update()
 					// 始点と終点の距離を取る
 					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
 
-					const float c1 = 2.0f;
+					const float c1 = 1.70158f;
 					const float c3 = c1 + 1;
 
 					const float t = (*itr2).nowTime / (*itr2).moveTime;
@@ -116,6 +115,62 @@ void DoTweenUI::Update()
 
 					uiPtr->mTransform.pos.y = (*itr2).oldPos.y + distance.y * (1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2));
 				}
+
+				break;
+
+				case FUNC::EASE_OUTBACK_SCALE:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+
+					const float c1 = 1.70158f;
+					const float c3 = c1 + 1;
+
+					const float t = (*itr2).nowTime / (*itr2).moveTime;
+
+					//　始点 + 距離 × 0～1の割合
+					uiPtr->mTransform.scale.x = (*itr2).oldPos.x + distance.x * (1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2));
+
+					uiPtr->mTransform.scale.y = (*itr2).oldPos.y + distance.y * (1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2));
+				}
+
+				break;
+
+				case FUNC::EASE_INBACK:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+
+					const float c1 = 1.70158f;
+					const float c3 = c1 + 1;
+
+					const float t = (*itr2).nowTime / (*itr2).moveTime;
+
+					//　始点 + 距離 × 0～1の割合
+					uiPtr->mTransform.pos.x = (*itr2).oldPos.x + distance.x * (c3 * pow(t, 3) - c1 * pow(t, 2));
+
+					uiPtr->mTransform.pos.y = (*itr2).oldPos.y + distance.y * (c3 * pow(t, 3) - c1 * pow(t, 2));
+				}
+
+				break;
+
+				case FUNC::EASE_INBACK_SCALE:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+
+					const float c1 = 1.70158f;
+					const float c3 = c1 + 1;
+
+					const float t = (*itr2).nowTime / (*itr2).moveTime;
+
+					//　始点 + 距離 × 0～1の割合
+					uiPtr->mTransform.scale.x = (*itr2).oldPos.x + distance.x * (c3 * pow(t, 3) - c1 * pow(t, 2));
+
+					uiPtr->mTransform.scale.y = (*itr2).oldPos.y + distance.y * (c3 * pow(t, 3) - c1 * pow(t, 2));
+				}
+
+				break;
 
 				case FUNC::ALPHA:
 					uiPtr->materialDiffuse.w += (*itr2).moveDir.x * (*itr2).moveSpeed;
@@ -136,6 +191,7 @@ void DoTweenUI::Update()
 				case FUNC::MOVE:
 				case FUNC::EASE_OUTCUBIC:
 				case FUNC::EASE_OUTBACK:
+				case FUNC::EASE_INBACK:
 					uiPtr->mTransform.pos = (*itr2).targetValue;
 					break;
 
@@ -156,12 +212,15 @@ void DoTweenUI::Update()
 
 				case FUNC::SCALE:
 				case FUNC::EASE_OUTCUBIC_SCALE:
+				case FUNC::EASE_OUTBACK_SCALE:
+				case FUNC::EASE_INBACK_SCALE:
 					uiPtr->mTransform.scale = (*itr2).targetValue;
 					break;
 
 				case FUNC::ROTATION:
 					uiPtr->mTransform.rotation = (*itr2).targetValue;
 					break;
+
 				case FUNC::MOVECURVE:
 					uiPtr->mTransform.pos.x = (*itr2).targetValue.x;
 					uiPtr->mTransform.pos.y = (*itr2).targetValue.y;
@@ -627,6 +686,72 @@ void DoTweenUI::DoEaseOutBack(const Vector3& _targetAngle, const float& _moveTim
 	sequence.push_back(flow);
 }
 
+void DoTweenUI::DoEaseOutBackScale(const Vector3& _targetAngle, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::EASE_OUTBACK_SCALE;
+	set.start = START::DO;
+	set.oldPos = uiPtr->mTransform.scale;
+	set.targetValue = _targetAngle;
+
+	set.moveTime = _moveTime;
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTweenUI::DoEaseInBack(const Vector3& _targetAngle, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::EASE_INBACK;
+	set.start = START::DO;
+	set.oldPos = uiPtr->mTransform.pos;
+	set.targetValue = _targetAngle;
+
+	set.moveTime = _moveTime;
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTweenUI::DoEaseInBackScale(const Vector3& _targetAngle, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::EASE_INBACK_SCALE;
+	set.start = START::DO;
+	set.oldPos = uiPtr->mTransform.scale;
+	set.targetValue = _targetAngle;
+
+	set.moveTime = _moveTime;
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
 void DoTweenUI::DoAlpha(const float& _targetAlpha, const float& _moveTime)
 {
 	//　設定をする
@@ -741,10 +866,16 @@ void DoTweenUI::GetValue(VALUE* _value)
 		break;
 
 	case FUNC::EASE_OUTBACK:
-	case FUNC::EASE_OUTCUBIC_SCALE:
 	case FUNC::EASE_OUTCUBIC:
+	case FUNC::EASE_INBACK:
 		_value->oldPos = uiPtr->mTransform.pos;
-		break;;
+		break;
+
+	case FUNC::EASE_OUTCUBIC_SCALE:
+	case FUNC::EASE_OUTBACK_SCALE:
+	case FUNC::EASE_INBACK_SCALE:
+		_value->oldPos = uiPtr->mTransform.scale;
+		break;
 	}
 }
 

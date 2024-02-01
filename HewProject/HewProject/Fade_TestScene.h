@@ -1,15 +1,14 @@
 #pragma once
 #include "CScene.h"
-#include "CalorieGage.h"
 
 class Fade;
-
+class CalorieGage_hori;
+class UI;
 class Fade_TestScene
 	:public CScene
 {
 	Fade* fade;
-
-	CalorieGage* calorieGage;
+	CalorieGage_hori* gage;
 
 public:
 	Fade_TestScene();
