@@ -283,14 +283,11 @@
     <Filter Include="ソース ファイル\Base\GameCore\Input\InputMovement">
       <UniqueIdentifier>{7f1f9b67-4914-468a-b472-0131757d2622}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\CarorieGage">
-      <UniqueIdentifier>{07184b37-b8a3-4673-996d-4decfbf61a47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\CarorieGage\CalorieMark">
-      <UniqueIdentifier>{e3c224a7-078a-400b-9a57-35d28b6e951b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Hashimoto\CalorieGage_hori">
       <UniqueIdentifier>{ed37f547-e949-426f-ba82-9578cbb328a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark">
+      <UniqueIdentifier>{23de8dc2-387e-4563-9953-88f7a44044d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -546,11 +543,11 @@
     <ClInclude Include="InputMovement.h">
       <Filter>ソース ファイル\Base\GameCore\Input\InputMovement</Filter>
     </ClInclude>
-    <ClInclude Include="CalorieGage.h">
-      <Filter>ソース ファイル\Hashimoto\CarorieGage</Filter>
+    <ClInclude Include="CalorieGage_hori.h">
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori</Filter>
     </ClInclude>
     <ClInclude Include="CalorieMark.h">
-      <Filter>ソース ファイル\Hashimoto\CarorieGage\CalorieMark</Filter>
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -806,11 +803,11 @@
     <ClCompile Include="InputMovement.cpp">
       <Filter>ソース ファイル\Base\GameCore\Input\InputMovement</Filter>
     </ClCompile>
-    <ClCompile Include="CalorieGage.cpp">
-      <Filter>ソース ファイル\Hashimoto\CarorieGage</Filter>
+    <ClCompile Include="CalorieGage_hori.cpp">
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori</Filter>
     </ClCompile>
     <ClCompile Include="CalorieMark.cpp">
-      <Filter>ソース ファイル\Hashimoto\CarorieGage\CalorieMark</Filter>
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -818,9 +815,6 @@
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>ソース ファイル\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="gageShader.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>

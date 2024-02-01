@@ -85,7 +85,10 @@ void TextureFactory::Load()
 		L"asset/UI/textBox_Pink.png",
 		L"asset/UI/textBox_Purple.png",
 		L"asset/UI/Title.png",
-		L"asset/UI/gage.png",
+		L"asset/UI/Carorie_Mark.png",
+		L"asset/UI/Gage_Rogo.png",
+		L"asset/UI/Gage_Back.png",
+		L"asset/UI/Calorie_Number.png",
 	};
 
 	D3DTEXTURE texWork;

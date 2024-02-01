@@ -25,6 +25,9 @@ public:
 		EASE_OUTCUBIC,
 		EASE_OUTCUBIC_SCALE,
 		EASE_OUTBACK,
+		EASE_OUTBACK_SCALE,
+		EASE_INBACK,
+		EASE_INBACK_SCALE,
 		ALPHA,
 		DELAY
 	};
@@ -210,6 +213,12 @@ public:
 	void DoEaseOutCubicScale(const Vector3& _targetAngle, const float& _moveTime);
 
 	void DoEaseOutBack(const Vector3& _targetAngle, const float& _moveTime);
+
+	void DoEaseOutBackScale(const Vector3& _targetAngle, const float& _moveTime);
+
+	void DoEaseInBack(const Vector3& _targetAngle, const float& _moveTime);
+
+	void DoEaseInBackScale(const Vector3& _targetAngle, const float& _moveTime);
 
 	void DoAlpha(const float& _targetAlpha, const float& _moveTime);
 	
