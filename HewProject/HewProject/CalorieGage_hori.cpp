@@ -83,7 +83,6 @@ CalorieGage_hori::~CalorieGage_hori()
 	SAFE_RELEASE(oneBuffer);
 	SAFE_RELEASE(numBuffer);
 
-
 	for (int i = 0; i < MARKNUM_MAX; i++)
 	{
 		CLASS_DELETE(mark[i]);
@@ -117,6 +116,8 @@ void CalorieGage_hori::Draw()
 	{
 		number[i]->Draw();
 	}
+
+	
 
 	// –Ú·‚è‚Ì•`‰æ
 	for (int i = 0; i < MARKNUM_MAX; i++)
@@ -304,6 +305,7 @@ void CalorieGage_hori::NumUISetting()
 	{
 		number[0]->mTransform.pos.x = rogo->mTransform.pos.x;
 		number[1]->SetActive(false);
+
 	}
 	// 2Œ…‚È‚ç’†S‚©‚ç‚¸‚ç‚·‚æ‚¤‚É‚·‚é
 	else

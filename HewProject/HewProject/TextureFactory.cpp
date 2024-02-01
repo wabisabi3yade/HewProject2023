@@ -89,6 +89,8 @@ void TextureFactory::Load()
 		L"asset/UI/Gage_Rogo.png",
 		L"asset/UI/Gage_Back.png",
 		L"asset/UI/Calorie_Number.png",
+		L"asset/UI/Floor_Num.png",
+		
 	};
 
 	D3DTEXTURE texWork;

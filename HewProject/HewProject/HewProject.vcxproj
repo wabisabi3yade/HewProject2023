@@ -172,6 +172,7 @@
     <ClInclude Include="CMizunoScene.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="FloorUI.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CPlayerAnim.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="CMizunoScene.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="FloorUI.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CPlayerAnim.cpp" />
