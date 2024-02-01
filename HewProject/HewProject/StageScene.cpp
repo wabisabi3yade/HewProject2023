@@ -284,6 +284,21 @@ void StageScene::StageMove()
 		// アイテムがあるならそれを画面から消す
  		ItemDelete();
 	}
+	else if (player->GetPlayerMove()->GetCannonMoveEnd())
+	{
+		if (player->GetPlayerMove()->CheckNowObjectType() == CGridObject::BlockType::CAKE)
+		{
+			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowObjectType())));
+			cakeObj->BlowOff(player->GetDirection());
+			cakeObj->dotween->OnComplete([&]()
+				{
+					CannonItemDelete();
+				});
+		}
+		else
+		{
+		}
+	}
 	if (player->GetFallTrriger() == true)
 	{
 		//player->SetNowFloor(player->GetNowFloor()-1);
@@ -446,6 +461,43 @@ void StageScene::CastellaMoveOrder()
 void StageScene::ItemDelete()
 {
 	CGrid::GRID_XY next = player->GetPlayerMove()->GetNextGridPos();
+
+	CGridObject* deleteObj;	// 画面から消す予定のポインタがはいる
+
+	switch (static_cast<CGridObject::BlockType>
+		((nowFloor)->objectTable[next.y][next.x]))
+	{
+		// プレイヤーの位置にこのアイテムがあれば
+	case CGridObject::BlockType::PROTEIN:
+		nNumProtein--;
+	case CGridObject::BlockType::CAKE:
+	case CGridObject::BlockType::COIN:
+	case CGridObject::BlockType::CHILI:
+	{
+		// リストの中からプレイヤーの座標と同じもの　かつ　床じゃない物を探す
+		auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
+			{
+				return (_obj->GetGridPos().x == next.x &&
+					_obj->GetGridPos().y == next.y &&
+					_obj->GetCategory() == CGridObject::Category::ITEM);
+			});
+
+		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]));
+
+		// 画面から消す
+		deleteObj->SetActive(false);
+	}
+
+	break;
+
+	default:
+		break;
+	}
+}
+
+void StageScene::CannonItemDelete()
+{
+	CGrid::GRID_XY next = player->GetGridPos();
 
 	CGridObject* deleteObj;	// 画面から消す予定のポインタがはいる
 

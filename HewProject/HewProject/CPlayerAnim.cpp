@@ -56,6 +56,19 @@ void CPlayerAnim::Update()
 		// 上向き
 		{9,10,11,-1},
 
+		//食べる
+		//右向き
+		{0,0,1,1,2,2,
+		3,3,-1},
+		//左向き
+		{7,7,8,8,9,9,
+		10,10,-1},
+
+		//パンチ
+		{ 0,0,1,1,2,2,
+		 3,3,4,4,5,5,
+		 6,6,7,7,}
+
 	};
 
 
@@ -123,7 +136,7 @@ void CPlayerAnim::PlayWalk(int num, float _animSpeedRate)
 	}
 }
 
-void CPlayerAnim::StopWalk(int _num )
+void CPlayerAnim::StopWalk(int _num)
 {
 	isPlaying = true;
 	switch (_num)
@@ -206,6 +219,37 @@ void CPlayerAnim::PlayCannon(int _dir, float _animSpeedRate)
 		SetPattern(static_cast<int>(PATTERN::CANNON_UP));
 		break;
 	}
+}
+
+void CPlayerAnim::PlayEat(int _dir, float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	switch (_dir)
+	{
+		//　下
+		// 全方位行動可
+	case 0:
+		// 右
+	case 2:
+		SetPattern(static_cast<int>(PATTERN::EAT_RIGHT));
+		break;
+		// 左
+	case 1:
+		// 上
+	case 3:
+		SetPattern(static_cast<int>(PATTERN::EAT_LEFT));
+		break;
+	}
+}
+
+void CPlayerAnim::PlayPunch(float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	SetPattern(static_cast<int>(PATTERN::PUNCH));
 }
 
 

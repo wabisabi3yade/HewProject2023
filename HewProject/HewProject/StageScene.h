@@ -115,8 +115,10 @@ public:
 	// カステラに動かせる命令を出す
 	void CastellaMoveOrder();
 
-	// アイテム（ケーキとか）と同じマスに移動するとアイテムを消したりする関数
+	// アイテム（ケーキとか）と同じマスに移動するとアイテムを消したりする関数 次のマス用
 	void ItemDelete();
+	//現在地のアイテムを消す関数
+	void CannonItemDelete();
 
 	// ステージの状態を一つ前に戻す関数
 	void Undo(float _stageScale);

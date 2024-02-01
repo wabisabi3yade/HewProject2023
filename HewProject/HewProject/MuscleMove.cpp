@@ -68,10 +68,11 @@ void MuscleMove::Move(DIRECTION _dir)
 	{
 	case CGridObject::BlockType::CAKE:
 		// ˆÚ“®‚·‚é
-		WalkStart();
-
-
 		player->dotween->DoDelay(BREAK_TIME);
+		player->dotween->DelayedCall(BREAK_TIME, [&]()
+			{
+				WalkStart();
+			});
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]()
@@ -88,11 +89,13 @@ void MuscleMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHILI:
 		// ˆÚ“®‚·‚é
 
-		WalkStart();
 
 		player->dotween->DoDelay(BREAK_TIME);
 		//player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-
+		player->dotween->DelayedCall(BREAK_TIME, [&]()
+			{
+				WalkStart();
+			});
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]()
@@ -443,7 +446,7 @@ void MuscleMove::Step()
 	break;
 
 	case CGridObject::BlockType::CANNON:
-		WalkAfter();
+		//WalkAfter();
 		MoveAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);

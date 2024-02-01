@@ -366,6 +366,7 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				MoveAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
