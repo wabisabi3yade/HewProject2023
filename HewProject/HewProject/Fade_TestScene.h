@@ -3,12 +3,14 @@
 
 class Fade;
 class CalorieGage_hori;
+class FloorUI;
 class UI;
 class Fade_TestScene
 	:public CScene
 {
 	Fade* fade;
 	CalorieGage_hori* gage;
+	FloorUI* floorUI;
 
 public:
 	Fade_TestScene();

@@ -292,6 +292,9 @@
     <Filter Include="ソース ファイル\Wakamura\CGameOver">
       <UniqueIdentifier>{59c8e443-44b4-4ca6-b01c-ddce08582c1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\FloorUI">
+      <UniqueIdentifier>{f870b5a0-ef4e-42a1-979a-fd03eea4ab32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -555,6 +558,9 @@
     <ClInclude Include="CGameOver.h">
       <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
     </ClInclude>
+    <ClInclude Include="FloorUI.h">
+      <Filter>ソース ファイル\Hashimoto\FloorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -817,6 +823,9 @@
     </ClCompile>
     <ClCompile Include="CGameOver.cpp">
       <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\FloorUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
