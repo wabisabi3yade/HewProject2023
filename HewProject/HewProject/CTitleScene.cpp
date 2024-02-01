@@ -169,6 +169,11 @@ void CTitleScene::Update()
 	}
 	else {
 
+		for (int i = 0; i < MAXNUM; i++)
+		{
+			Sweets[i]->SetActive(false);
+		}
+
 		if (isRotationSwitch == false)
 		{
 			Title->mTransform.rotation.z += 0.3f;
