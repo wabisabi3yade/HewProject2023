@@ -24,6 +24,7 @@ public:
     bool isNoPush;       //移動中に何も押せない
     bool isMoving;       //移動できるかどうか
     bool isChangeScene;  //シーン変換フラグ
+    bool isOnPlayer;
 
     int nNumSelectScene;
 
