@@ -114,22 +114,42 @@ void StageScene::Update()
 	/// ŠK‘w•ÏX‚µ‚Ä‚¢‚é
 	/// 
 
-	if (gInput->GetKeyTrigger(VK_F1))
+	if (player->GetPlayerMove()->GetisLoolMap() == true)
 	{
-		lockStageMap++;
-		if (lockStageMap == nowFloorNum)
+		InputManager* input = InputManager::GetInstance();
+
+		if (input->GetInputTrigger(InputType::L_BUTTON))
 		{
-			//lockStageMap++;
+			if (lockStageMap != nMaxFloor)
+			{
+				lockStageMap++;
+			}
+			if (lockStageMap == nowFloorNum)
+			{
+				//lockStageMap++;
+			}
 		}
-	}
-	if (gInput->GetKeyTrigger(VK_F2))
-	{
-		lockStageMap--;
-		if (lockStageMap == nowFloorNum)
+		else if (input->GetInputTrigger(InputType::R_BUTTON))
 		{
-			//lockStageMap--;
+
+			if (lockStageMap != 1)
+			{
+				lockStageMap--;
+			}
+			if (lockStageMap == nowFloorNum)
+			{
+				//lockStageMap--;
+			}
 		}
+		else if (input->GetInputTrigger(InputType::CANCEL))
+		{
+			player->GetPlayerMove()->CameraEnd();
+		}
+
+		
 	}
+
+	
 	//if (gInput->GetKeyTrigger(VK_ESCAPE))
 	//{
 	//	player->GetPlayerMove()->CannonMove2();
@@ -691,11 +711,18 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 void StageScene::Draw()
 {
 	Z_Sort(*vStageObj);
-	for (auto it : *vStageObj)
+	
+	if (player->GetPlayerMove()->GetisLoolMap() == false)
 	{
-		//	it->Draw();
+		for (auto it : *vStageObj)
+		{
+			it->Draw();
+		}
 	}
-	MapDraw();
+	else {
+		MapDraw();
+	}
+	
 }
 
 void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
@@ -729,15 +756,18 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	if (StageData.secondFloor.floorTable[0][0] != 0) //0‚ª“ü‚Á‚Ä‚¢‚ê‚Îì‚ç‚ê‚Ä‚È‚¢@ŠK‘w‚È‚µ
 	{
 		secondFloor = new GridTable({ StageData.numX, StageData.numY }, _stageScale);
+		nMaxFloor = 2;
 		if (StageData.thirdFloor.floorTable[0][0] != 0)
 		{
 			thirdFloor = new GridTable({ StageData.numX,StageData.numY }, _stageScale);
+			nMaxFloor = 3;
 		}
 	}
 	else
 	{
 		secondFloor = nullptr;
 		thirdFloor = nullptr;
+		nMaxFloor = 1;
 	}
 
 	//ŠJn‚·‚éŠK‘w

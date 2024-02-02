@@ -45,6 +45,8 @@ protected:
 
 	bool isRising;   //上昇中
 
+	bool isLookMap;   //マップを見る
+
 	bool inCannon;
 	bool isCannonMove;
 	bool isCannonMoveStart;
@@ -92,6 +94,10 @@ public:
 	void CannonDirSelect(DIRECTION _dir);
 
 	bool kari = false;
+
+	void CameraEnd();
+
+	bool GetisLoolMap() const { return isLookMap; };
 
 	// プレイヤーの移動先の座標にあるマスの種類を取得する
 	// オブジェクト優先→なにもないなら床の種類が帰ってくる

@@ -29,6 +29,7 @@ PlayerMove::PlayerMove(Player* _p)
 	isCannonMoveEnd = false;
 	isCannonMoveStart = false;
 	inCannon = false;
+	isLookMap = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -39,7 +40,7 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Input()
 {
 	// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ‚«‚Íˆ—‚µ‚È‚¢
-	if (isMoving||isRising||isFalling) return;
+	if (isMoving||isRising||isFalling||isLookMap) return;
 
 	InputManager* input = InputManager::GetInstance();
 
@@ -96,6 +97,10 @@ void PlayerMove::Input()
 	else if (gInput->GetKeyTrigger(VK_SPACE)  || input->GetInputTrigger(InputType::L_BUTTON))
 	{
 		InCannon();
+	}
+	else if (input->GetInputTrigger(InputType::CAMERA))
+	{
+		isLookMap = true;
 	}
 }
 
@@ -182,6 +187,11 @@ CGridObject::BlockType PlayerMove::CheckNowMassType()
 		type = CheckNowFloorType();
 	}
 	return type;
+}
+
+void PlayerMove::CameraEnd()
+{
+	isLookMap = false;
 }
 
 void PlayerMove::FallAfter()
