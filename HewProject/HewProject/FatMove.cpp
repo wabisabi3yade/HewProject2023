@@ -371,9 +371,9 @@ void FatMove::Step()
 
 	case CGridObject::BlockType::CHILI:
 
-		WalkStart();
+		//WalkStart();
 
-		WalkAfter();
+		//WalkAfter();
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
 				player->EatChilli();
@@ -398,8 +398,9 @@ void FatMove::Step()
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 
-		WalkStart();
-		WalkAfter();
+		//WalkStart();
+		//WalkAfter();
+		MoveAfter();
 		//画面外まで移動するようにYをマクロで定義して使用する			
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
@@ -414,7 +415,7 @@ void FatMove::Step()
 	}
 	case CGridObject::BlockType::HOLL:
 	{
-		WalkStart();
+		//WalkStart();
 		//ジャンプしてから落ちるように
 
 		Vector2 junpPos = {};

@@ -68,10 +68,12 @@ void MuscleMove::Move(DIRECTION _dir)
 	{
 	case CGridObject::BlockType::CAKE:
 		// 移動する
+		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
 		player->dotween->DoDelay(BREAK_TIME);
 		player->dotween->DelayedCall(BREAK_TIME, [&]()
 			{
 				WalkStart();
+				player->ChangeTexture(Player::ANIM_TEX::WALK);
 			});
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -89,11 +91,12 @@ void MuscleMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHILI:
 		// 移動する
 
-
+		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
 		player->dotween->DoDelay(BREAK_TIME);
 		//player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->DelayedCall(BREAK_TIME, [&]()
 			{
+				player->ChangeTexture(Player::ANIM_TEX::WALK);
 				WalkStart();
 			});
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
@@ -110,12 +113,15 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::WALL:
 
-		WalkStart();
-
+		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
 		player->dotween->DoDelay(BREAK_TIME);
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
+		player->dotween->DelayedCall(BREAK_TIME, [&]()
+			{
+				player->ChangeTexture(Player::ANIM_TEX::WALK);
+				WalkStart();
+			});
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
@@ -155,7 +161,7 @@ void MuscleMove::Move(DIRECTION _dir)
 					player->dotween->Append(Vector3::zero, 1.5f, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-					if (player->GetPlayerMove()->CheckNowFloorType() != CGridObject::BlockType::HOLL)
+					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
 						//バウンドする高さを計算　代入
 						player->Fall();
@@ -216,7 +222,7 @@ void MuscleMove::Move(DIRECTION _dir)
 					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 						{
 							player->fallMoveTrriger = true;
-							if (player->GetPlayerMove()->CheckNowFloorType() != CGridObject::BlockType::HOLL)
+							if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 							{
 								//バウンドする高さを計算　代入	
 								player->Fall();
