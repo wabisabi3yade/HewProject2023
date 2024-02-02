@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonUI.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CalorieGage_hori.h" />
     <ClInclude Include="CalorieMark.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="NowLoadingText.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="ProteinUI.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage11.h" />
     <ClInclude Include="Stage21.h" />
@@ -229,6 +231,7 @@
     <ClInclude Include="xa2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonUI.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CalorieGage_hori.cpp" />
     <ClCompile Include="CalorieMark.cpp" />
@@ -302,6 +305,7 @@
     <ClCompile Include="NowLoadingText.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="ProteinUI.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage11.cpp" />
     <ClCompile Include="Stage21.cpp" />

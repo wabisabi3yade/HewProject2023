@@ -5,12 +5,17 @@ class Fade;
 class CalorieGage_hori;
 class FloorUI;
 class UI;
+class ButtonUI;
+
 class Fade_TestScene
 	:public CScene
 {
 	Fade* fade;
 	CalorieGage_hori* gage;
 	FloorUI* floorUI;
+
+	D3DBUFFER buffer;
+	ButtonUI* buttonUI;
 
 public:
 	Fade_TestScene();
