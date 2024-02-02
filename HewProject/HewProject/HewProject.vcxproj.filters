@@ -295,6 +295,12 @@
     <Filter Include="ソース ファイル\Hashimoto\FloorUI">
       <UniqueIdentifier>{f870b5a0-ef4e-42a1-979a-fd03eea4ab32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\ProteinUI">
+      <UniqueIdentifier>{4ea25902-1033-4b94-8897-cc848b66186c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\ButtonUI">
+      <UniqueIdentifier>{f23ad8a7-2543-46d1-bcec-496d91dee963}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -561,6 +567,12 @@
     <ClInclude Include="FloorUI.h">
       <Filter>ソース ファイル\Hashimoto\FloorUI</Filter>
     </ClInclude>
+    <ClInclude Include="ProteinUI.h">
+      <Filter>ソース ファイル\Hashimoto\ProteinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUI.h">
+      <Filter>ソース ファイル\Hashimoto\ButtonUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -826,6 +838,12 @@
     </ClCompile>
     <ClCompile Include="FloorUI.cpp">
       <Filter>ソース ファイル\Hashimoto\FloorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ProteinUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\ProteinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\ButtonUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "CalorieGage_hori.h"
 #include "TextureFactory.h"
 #include "FloorUI.h"
+#include "ButtonUI.h"
 
 Fade_TestScene::Fade_TestScene()
 {
@@ -13,6 +14,11 @@ Fade_TestScene::Fade_TestScene()
 
 	gage->SetScale({0.5f, 0.5f,1.0f});
 	gage->SetPosition({ 3.0,3.0f,1.0f });
+
+	D3D_CreateSquare({ 1,2 }, &buffer);
+	D3DTEXTURE texWork = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
+	buttonUI = new ButtonUI(buffer, texWork);
+	buttonUI->mTransform.scale = { 2.0f, 0.5f, 1.0f };
 }
 
 Fade_TestScene::~Fade_TestScene()
@@ -23,6 +29,7 @@ Fade_TestScene::~Fade_TestScene()
 void Fade_TestScene::Update()
 {
 	static int a = 1;
+
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
 		fade->FadeIn(Fade::STATE::LOADING);
@@ -64,6 +71,15 @@ void Fade_TestScene::Update()
 		floorUI->SetHighlight(a);
 	}
 
+	if (gInput->GetKeyTrigger(VK_F3))
+	{
+		buttonUI->SetHighlight(true);
+	}
+	else if (gInput->GetKeyTrigger(VK_F4))
+	{
+		buttonUI->SetHighlight(false);
+	}
+
 	gage->Update();
 }
 
@@ -76,4 +92,6 @@ void Fade_TestScene::Draw()
 	gage->Draw();
 
 	floorUI->Draw();
+
+	buttonUI->Draw();
 }
