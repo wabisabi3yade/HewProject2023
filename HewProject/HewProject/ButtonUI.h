@@ -18,7 +18,7 @@ public:
 	/// <summary>
 	/// ボタンをハイライトにする（選ばれたボタン）
 	/// </summary>
-	/// <param name="_isLight"></param>
+	/// <param name="_isLight">赤くするかどうか</param>
 	void SetHighlight(bool _isLight);
 };
 
