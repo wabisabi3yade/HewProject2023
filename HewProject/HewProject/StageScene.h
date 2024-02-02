@@ -68,6 +68,9 @@ private:
 
 	bool changeflag;
 
+	//最大フロア
+	int nMaxFloor;
+
 	// やり直し機能
 	FIELD_FLOOR floorUndo[20];
 	int nNumUndo = 0;
