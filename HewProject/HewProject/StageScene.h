@@ -64,6 +64,8 @@ private:
 	//開始フロア
 	int startFloor;
 
+	int lockStageMap;
+
 	bool changeflag;
 
 	// やり直し機能
@@ -135,6 +137,8 @@ public:
 	void CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList);
 
 	void ChangeFloor(int _nextFloor);
+
+	void MapDraw();
 
 	// 今の階層にある指定したグリッド座標のオブジェクトを取得する
 	CGridObject* GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType);

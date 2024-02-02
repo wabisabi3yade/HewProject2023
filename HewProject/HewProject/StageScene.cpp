@@ -109,7 +109,27 @@ void StageScene::Update()
 	{
 		Undo(stageScale);
 	}
+	
+	/// 
+	/// 階層変更している
+	/// 
 
+	if (gInput->GetKeyTrigger(VK_F1))
+	{
+		lockStageMap++;
+		if (lockStageMap == nowFloorNum)
+		{
+			//lockStageMap++;
+		}
+	}
+	if (gInput->GetKeyTrigger(VK_F2))
+	{
+		lockStageMap--;
+		if (lockStageMap == nowFloorNum)
+		{
+			//lockStageMap--;
+		}
+	}
 	//if (gInput->GetKeyTrigger(VK_ESCAPE))
 	//{
 	//	player->GetPlayerMove()->CannonMove2();
@@ -282,7 +302,7 @@ void StageScene::StageMove()
 		}
 
 		// アイテムがあるならそれを画面から消す
- 		ItemDelete();
+		ItemDelete();
 	}
 	else if (player->GetPlayerMove()->GetCannonMoveEnd())
 	{
@@ -673,8 +693,9 @@ void StageScene::Draw()
 	Z_Sort(*vStageObj);
 	for (auto it : *vStageObj)
 	{
-		it->Draw();
+		//	it->Draw();
 	}
+	MapDraw();
 }
 
 void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
@@ -838,6 +859,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	nowFloorNum = startfloor;	// 1階から
 	startFloor = startfloor;
 
+	lockStageMap = startfloor;
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 
 	// ステージを作成する
@@ -1132,6 +1154,38 @@ void StageScene::ChangeFloor(int _nextFloor)
 	}
 
 	Z_Sort(*vStageObj);
+}
+
+void StageScene::MapDraw()
+{
+
+	switch (lockStageMap)
+	{
+	case 1:
+		Z_Sort(oneFStgObj);
+		for (std::vector<CGridObject*>::iterator i = oneFStgObj.begin(); i != oneFStgObj.end(); i++)
+		{
+			(*i)->Draw();
+		}
+		break;
+	case 2:
+		Z_Sort(secondFStgObj);
+		for (std::vector<CGridObject*>::iterator j = secondFStgObj.begin(); j != secondFStgObj.end(); j++)
+		{
+			(*j)->Draw();
+		}
+		break;
+	case 3:
+		Z_Sort(thirdFStgObj);
+		for (std::vector<CGridObject*>::iterator thir = thirdFStgObj.begin(); thir < thirdFStgObj.end(); thir++)
+		{
+			(*thir)->Draw();
+		}
+		break;
+	default:
+		break;
+	}
+
 }
 
 CGridObject* StageScene::GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType)
