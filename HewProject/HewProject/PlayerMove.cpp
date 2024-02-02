@@ -39,14 +39,14 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Input()
 {
 	// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ‚«‚Íˆ—‚µ‚È‚¢
-	if (isMoving) return;
+	if (isMoving||isRising||isFalling) return;
 
 	InputManager* input = InputManager::GetInstance();
 
 	Vector2 PadStick = input->GetMovement();
 
 	// “ü—Í‚³‚ê‚é‚Æ
-	if (gInput->GetKeyTrigger(VK_RIGHT) || (0.5f < PadStick.x && PadStick.x < 1.0f ) &&  (0.5f < PadStick.y && PadStick.y < 1.0f))
+	if (gInput->GetKeyTrigger(VK_RIGHT) || (0 < PadStick.x && PadStick.x < 1.0f ) &&  (0.5f < PadStick.y && PadStick.y < 1.0f))
 	{
 		// ‚»‚Ì•ûŒü‚ÉˆÚ“®‚Å‚«‚é‚È‚ç
 		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)]) return;
@@ -61,7 +61,7 @@ void PlayerMove::Input()
 			CannonDirSelect(DIRECTION::RIGHT);
 		}
 	}
-	else if (gInput->GetKeyTrigger(VK_LEFT) || ( - 0.5f > PadStick.x && -1.0f < PadStick.x)&& (PadStick.y > -1.0f && PadStick.y < -0.5f))
+	else if (gInput->GetKeyTrigger(VK_LEFT) || ( 0 > PadStick.x && -1.0f < PadStick.x)&& (PadStick.y > -1.0f && PadStick.y < -0.5f))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::LEFT));
@@ -70,7 +70,7 @@ void PlayerMove::Input()
 		else
 			CannonDirSelect(DIRECTION::LEFT);
 	}
-	else if (gInput->GetKeyTrigger(VK_UP ) ||  ( - 0.25f > PadStick.x && PadStick.x > -1.0f ) && (PadStick.y < 0.5f) && PadStick.y > -1.0f)
+	else if (gInput->GetKeyTrigger(VK_UP ) ||  ( 0 > PadStick.x && PadStick.x > -1.0f ) && (PadStick.y < 0.5f) && PadStick.y > -1.0f)
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::UP)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::UP));
@@ -79,7 +79,7 @@ void PlayerMove::Input()
 		else
 			CannonDirSelect(DIRECTION::UP);
 	}
-	else if (gInput->GetKeyTrigger(VK_DOWN) || (0.5f > PadStick.x && PadStick.x > -1.0f)&& (PadStick.y <-0.5f && PadStick.y > -1.0f ))
+	else if (gInput->GetKeyTrigger(VK_DOWN) || (0 < PadStick.x && PadStick.x < 1.0f)&& (PadStick.y <-0.5f && PadStick.y > -1.0f ))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));

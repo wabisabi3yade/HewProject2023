@@ -41,9 +41,9 @@ protected:
 
 	bool isWalking_now;	//@¡
 
-	bool isFalling;
+	bool isFalling;   //—‰º’†
 
-	bool isRising;
+	bool isRising;   //ã¸’†
 
 	bool inCannon;
 	bool isCannonMove;
