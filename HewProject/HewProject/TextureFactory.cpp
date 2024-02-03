@@ -91,6 +91,8 @@ void TextureFactory::Load()
 		L"asset/UI/Calorie_Number.png",
 		L"asset/UI/Floor_Num.png",
 		L"asset/UI/Button.png",
+		L"asset/UI/Protein_Mark.png",
+		L"asset/UI/Protein_Bar.png",
 	};
 
 	D3DTEXTURE texWork;

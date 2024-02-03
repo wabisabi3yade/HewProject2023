@@ -37,6 +37,8 @@ void UI::Init()
 
 void UI::Update()
 {
+	if (!isActive) return;
+
 	if (dotween != nullptr)
 	{
 		dotween->Update();

@@ -4,6 +4,7 @@
 #include "TextureFactory.h"
 #include "FloorUI.h"
 #include "ButtonUI.h"
+#include "ProteinUI.h"
 
 Fade_TestScene::Fade_TestScene()
 {
@@ -19,6 +20,9 @@ Fade_TestScene::Fade_TestScene()
 	D3DTEXTURE texWork = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
 	buttonUI = new ButtonUI(buffer, texWork);
 	buttonUI->mTransform.scale = { 2.0f, 0.5f, 1.0f };
+
+	proteinUI = new ProteinUI(2);
+	proteinUI->SetPosition({ 2.0f, 2.0f, 0.0f });
 }
 
 Fade_TestScene::~Fade_TestScene()
@@ -80,7 +84,17 @@ void Fade_TestScene::Update()
 		buttonUI->SetHighlight(false);
 	}
 
+	if (gInput->GetKeyTrigger(VK_F5))
+	{
+		proteinUI->SetProtein(0);
+	}
+	else if (gInput->GetKeyTrigger(VK_F6))
+	{
+		proteinUI->AddProtein();
+	}
+
 	gage->Update();
+	proteinUI->Update();
 }
 
 void Fade_TestScene::LateUpdate()
@@ -93,5 +107,7 @@ void Fade_TestScene::Draw()
 
 	floorUI->Draw();
 
-	buttonUI->Draw();
+	/*buttonUI->Draw();*/
+
+	proteinUI->Draw();
 }
