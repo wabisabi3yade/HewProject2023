@@ -43,7 +43,7 @@ void TextureFactory::Load()
 
 	// テクスチャのパス名格納
 	// 順番
-	// プレイヤー　→　ステージ　→　アイテム　→　背景　→　エフェクト　→　UI
+	// プレイヤー　→　ステージ　→　アイテム　→　背景　→　エフェクト　→　UI →　文字
 	const wchar_t* texPath[] =
 	{
 		L"asset/Player/N_Walk.png",
@@ -93,6 +93,8 @@ void TextureFactory::Load()
 		L"asset/UI/Button.png",
 		L"asset/UI/Protein_Mark.png",
 		L"asset/UI/Protein_Bar.png",
+
+		L"asset/Text/T_GameStart.png",
 	};
 
 	D3DTEXTURE texWork;
