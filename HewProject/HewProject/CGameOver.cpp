@@ -32,20 +32,20 @@ CGameOver::CGameOver()
 	Text[1]->mTransform.pos = { 1.5f,6.0f,0 };
 	Text[1]->mTransform.scale = { 2.0f,2.0f,1.0f };
 
-	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture);
-	Message[0]->MakeDotween();
-	Message[0]->mTransform.pos = { -5.0f,-3.0f,0 };
-	Message[0]->mTransform.scale = { 4.0f,1.0f,1.0f };
+	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture,NULL,NULL);
+	//Message[0]->MakeDotween();
+	Message[0]->SetPosition({ -5.0f,-3.0f,0 });
+	Message[0]->SetScale({ 4.0f,1.0f,1.0f });
 
-	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture);
-	Message[1]->MakeDotween();
-	Message[1]->mTransform.pos = { 0,-3.0f,0 };
-	Message[1]->mTransform.scale = { 4.0f,1.0f,1.0f };
+	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture,NULL,NULL);
+	//Message[1]->MakeDotween();
+	Message[1]->SetPosition({ 0,-3.0f,0 });
+	Message[1]->SetScale({ 4.0f,1.0f,1.0f });
 
-	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture);
-	Message[2]->MakeDotween();
-	Message[2]->mTransform.pos = { 5.0f,-3.0f,0 };
-	Message[2]->mTransform.scale = { 4.0f,1.0f,1.0f };
+	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture,NULL,NULL);
+	//Message[2]->MakeDotween();
+	Message[2]->SetPosition({ 5.0f,-3.0f,0 });
+	Message[2]->SetScale({ 4.0f,1.0f,1.0f });
 
 
 	Player = new CWorldSelectPlayer(playerBuffer, playerTexture);
@@ -114,12 +114,12 @@ void CGameOver::Update()
 				if (isOnceBox == false)
 				{
 					isOnceBox = true;
-					Message[nSelect]->dotween->DoDelay(0.3f);
-					Message[nSelect]->dotween->OnComplete([&]()
+					//Message[nSelect]->dotween->DoDelay(0.3f);
+					/*Message[nSelect]->dotween->OnComplete([&]()
 						{
 							isLate = false;
 							isOnceBox = false;
-						});
+						});*/
 				}
 				
 
@@ -136,12 +136,12 @@ void CGameOver::Update()
 				if (isOnceBox == false)
 				{
 					isOnceBox = true;
-					Message[nSelect]->dotween->DoDelay(0.3f);
+					/*Message[nSelect]->dotween->DoDelay(0.3f);
 					Message[nSelect]->dotween->OnComplete([&]()
 						{
 							isLate = false;
 							isOnceBox = false;
-						});
+						});*/
 				}
 			}
 

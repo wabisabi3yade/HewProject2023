@@ -28,6 +28,9 @@ public:
     D3DBUFFER buttonBuffer;
     D3DTEXTURE buttonTexture;
 
+    D3DBUFFER textBuffer;
+    D3DTEXTURE textTexture;
+
     UI* Title;
     UI* Sweets[MAXNUM];
     UI* Bg;
