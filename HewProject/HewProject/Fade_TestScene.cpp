@@ -17,9 +17,13 @@ Fade_TestScene::Fade_TestScene()
 	gage->SetPosition({ 3.0,3.0f,1.0f });
 
 	D3D_CreateSquare({ 1,2 }, &buffer);
+	D3D_CreateSquare({ 1,1 }, &b);
 	D3DTEXTURE texWork = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
-	buttonUI = new ButtonUI(buffer, texWork);
-	buttonUI->mTransform.scale = { 2.0f, 0.5f, 1.0f };
+	D3DTEXTURE textTex = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GameStart.png"); 
+	buttonUI = new ButtonUI(buffer, texWork, b, textTex);
+
+	buttonUI->SetScale({ 8.0f, 8.0f, 1.0f });
+	
 
 	proteinUI = new ProteinUI(2);
 	proteinUI->SetPosition({ 2.0f, 2.0f, 0.0f });
@@ -28,6 +32,12 @@ Fade_TestScene::Fade_TestScene()
 Fade_TestScene::~Fade_TestScene()
 {
 	CLASS_DELETE(gage);
+	CLASS_DELETE(buttonUI);
+	CLASS_DELETE(proteinUI);
+	CLASS_DELETE(floorUI);
+
+	SAFE_RELEASE(buffer);
+	SAFE_RELEASE(b);
 }
 
 void Fade_TestScene::Update()
@@ -107,7 +117,7 @@ void Fade_TestScene::Draw()
 
 	floorUI->Draw();
 
-	/*buttonUI->Draw();*/
+	buttonUI->Draw();
 
-	proteinUI->Draw();
+	/*proteinUI->Draw();*/
 }

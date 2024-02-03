@@ -16,6 +16,7 @@ class Fade_TestScene
 	FloorUI* floorUI;
 
 	D3DBUFFER buffer;
+	D3DBUFFER b;
 	ButtonUI* buttonUI;
 
 	ProteinUI* proteinUI;

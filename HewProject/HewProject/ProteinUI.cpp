@@ -52,6 +52,11 @@ ProteinUI::~ProteinUI()
 	{
 		CLASS_DELETE(circle[i]);
 	}
+	for (int i = 0; i < stageProMax; i++)
+	{
+		CLASS_DELETE(protein[i]);
+	}
+	CLASS_DELETE(bar);
 }
 
 void ProteinUI::Update()
