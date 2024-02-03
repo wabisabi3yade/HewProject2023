@@ -19,12 +19,16 @@ CTitleScene::CTitleScene()
 	D3D_CreateSquare({ 1,2 }, &buttonBuffer);
 	buttonTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
 
-	for (int i = 0; i < 2; i++)
-	{
-		select[i] = new ButtonUI(buttonBuffer, buttonTexture);
-		select[i]->mTransform.pos = { -2.5f + i * 5.0f,-2.0f,-0.2f };
-		select[i]->mTransform.scale = { 4,1,1 };
-	}
+	D3D_CreateSquare({ 1,1 }, &textBuffer);
+	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GameStart.png");
+
+	select[0] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, textTexture);
+	select[0]->SetPosition({ -2.5f,-2.0f,-0.2f });
+	select[0]->SetScale({ 4,4,1 });
+
+	select[1] = new ButtonUI(buttonBuffer, buttonTexture, NULL, NULL);
+	select[1]->SetPosition({ 2.5f,-2.0f,-0.2f });
+	select[1]->SetScale({ 4,4,1 });
 
 	select[0]->SetHighlight(true);
 
