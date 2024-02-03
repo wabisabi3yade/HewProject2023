@@ -23,9 +23,9 @@ void CWall::Draw()
 	CGridObject::Draw();
 }
 
-void CWall::Break()
+void CWall::Break(float _breakTime)
 {
-	dotween->DelayedCall(BREAK_TIME, [&]()
+	dotween->DelayedCall(_breakTime, [&]()
 		{
 			this->SetActive(false); 
 		});

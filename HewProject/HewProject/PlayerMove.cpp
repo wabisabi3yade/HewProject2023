@@ -40,29 +40,25 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Input()
 {
 	// 移動しているときは処理しない
-	if (isMoving||isRising||isFalling||isLookMap) return;
+	if (isMoving || isRising || isFalling || isLookMap) return;
 
 	InputManager* input = InputManager::GetInstance();
 
 	Vector2 PadStick = input->GetMovement();
 
 	// 入力されると
-	if (gInput->GetKeyTrigger(VK_RIGHT) || (0 < PadStick.x && PadStick.x < 1.0f ) &&  (0.5f < PadStick.y && PadStick.y < 1.0f))
+	if (gInput->GetKeyTrigger(VK_RIGHT) || (PadStick.x > 0.0f && PadStick.y > 0.0f))
 	{
 		// その方向に移動できるなら
 		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::RIGHT));
 		if (inCannon == false)
-		{
 			// 移動する
 			Move(DIRECTION::RIGHT);
-		}
 		else
-		{
 			CannonDirSelect(DIRECTION::RIGHT);
-		}
 	}
-	else if (gInput->GetKeyTrigger(VK_LEFT) || ( 0 > PadStick.x && -1.0f < PadStick.x)&& (PadStick.y > -1.0f && PadStick.y < -0.5f))
+	else if (gInput->GetKeyTrigger(VK_LEFT) || (PadStick.x < 0.0f && PadStick.y < 0.0f))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::LEFT));
@@ -71,7 +67,7 @@ void PlayerMove::Input()
 		else
 			CannonDirSelect(DIRECTION::LEFT);
 	}
-	else if (gInput->GetKeyTrigger(VK_UP ) ||  ( 0 > PadStick.x && PadStick.x > -1.0f ) && (PadStick.y < 0.5f) && PadStick.y > -1.0f)
+	else if (gInput->GetKeyTrigger(VK_UP) || (PadStick.x < 0.0f && PadStick.y > 0.0f))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::UP)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::UP));
@@ -80,7 +76,7 @@ void PlayerMove::Input()
 		else
 			CannonDirSelect(DIRECTION::UP);
 	}
-	else if (gInput->GetKeyTrigger(VK_DOWN) || (0 < PadStick.x && PadStick.x < 1.0f)&& (PadStick.y <-0.5f && PadStick.y > -1.0f ))
+	else if (gInput->GetKeyTrigger(VK_DOWN) || (PadStick.x > 0.0f && PadStick.y < 0.0f))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
@@ -91,10 +87,10 @@ void PlayerMove::Input()
 	}
 	else if (gInput->GetKeyTrigger(VK_ESCAPE) || input->GetInputTrigger(InputType::DECIDE))
 	{
-		if(inCannon)
-		isCannonMove = !isCannonMove;
+		if (inCannon)
+			isCannonMove = true;
 	}
-	else if (gInput->GetKeyTrigger(VK_SPACE)  || input->GetInputTrigger(InputType::L_BUTTON))
+	else if (gInput->GetKeyTrigger(VK_SPACE) || input->GetInputTrigger(InputType::L_BUTTON))
 	{
 		InCannon();
 	}
@@ -115,8 +111,8 @@ void PlayerMove::FlagInit()
 
 void PlayerMove::WalkAfter()
 {
-	if(!inCannon)
-	player->WalkCalorie();
+	if (!inCannon)
+		player->WalkCalorie();
 
 	isWalking_now = false;
 	isWalking_old = true;
@@ -326,17 +322,21 @@ void PlayerMove::CannonMove2()
 		isCannonMoveEnd = false;
 		return;
 	}
-	int moveDir = 0;
+	int moveDir = -1;
 	bool isBound = false;
 	CGrid::GRID_XY movePos = player->GetGridPos();
 	//cannonMoveDir[static_cast<int>(DIRECTION::UP)] = true;
 	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
 	{
-		if (cannonMoveDir[i] == true)
+		if (cannonMoveDir[i] == true && canMoveDir[i] == true)
 		{
 			moveDir = i;
 			break;
 		}
+	}
+	if (moveDir == -1)
+	{
+		return;
 	}
 	if (player->GetCangeCannonTexture() == false)
 	{
@@ -345,43 +345,7 @@ void PlayerMove::CannonMove2()
 		dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayCannon(moveDir, 3.0f);
 		nextCannonPos = movePos;
 	}
-	
-	if (!isCannonMoveStart )
-	{
-		switch (moveDir)
-		{
-		case static_cast<int>(DIRECTION::DOWN):
-			movePos.y++;
-			movePos.y++;
-			nextCannonPos.y++;
-			nextGridPos = nextCannonPos;
-			break;
 
-		case static_cast<int>(DIRECTION::UP):
-			movePos.y--;
-			movePos.y--;
-			nextCannonPos.y--;
-			nextGridPos = nextCannonPos;
-			break;
-
-		case static_cast<int>(DIRECTION::RIGHT):
-			movePos.x++;
-			movePos.x++;
-			nextCannonPos.x++;
-			nextGridPos = nextCannonPos;
-			break;
-
-		case static_cast<int>(DIRECTION::LEFT):
-			movePos.x--;
-			movePos.x--;
-			nextCannonPos.x--;
-			nextGridPos = nextCannonPos;
-			break;
-		default:
-			break;
-		}
-
-	}
 	CGrid::GRID_XY XY = { 0,0 };
 	for (int i = 0; i < 9; i++)
 	{
@@ -398,15 +362,56 @@ void PlayerMove::CannonMove2()
 			break;
 		}
 	}
+	if (!isCannonMoveStart && nextCannonPos.x > -1 && nextCannonPos.y > -1 && nextCannonPos.x < XY.x && nextCannonPos.y < XY.y)
+	{
+		switch (moveDir)
+		{
+		case static_cast<int>(DIRECTION::DOWN):
+			movePos.y++;
+			movePos.y++;
+			nextCannonPos.y++;
+			break;
+
+		case static_cast<int>(DIRECTION::UP):
+			movePos.y--;
+			movePos.y--;
+			nextCannonPos.y--;
+			break;
+
+		case static_cast<int>(DIRECTION::RIGHT):
+			movePos.x++;
+			movePos.x++;
+			nextCannonPos.x++;
+			break;
+
+		case static_cast<int>(DIRECTION::LEFT):
+			movePos.x--;
+			movePos.x--;
+			nextCannonPos.x--;
+			break;
+		default:
+			break;
+		}
+		if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::GALL) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::CASTELLA) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMHORIZONTAL) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMVERTICAL))
+			nextGridPos = nextCannonPos;
+
+	}
 	//CGrid::GRID_XY a = nextCannonPos;
 	if (nextCannonPos.x >= 0.0f && nextCannonPos.y >= 0.0f &&
 		player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != 0
 		&& nextCannonPos.x < XY.x && nextCannonPos.y < XY.y)
 	{
-		if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::GALL))
+		if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::GALL) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::CASTELLA) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMHORIZONTAL) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMVERTICAL)
+			)
 		{
 			//WalkAfter();
-			player->ChangeTexture(Player::ANIM_TEX::CANNON);
+			//player->ChangeTexture(Player::ANIM_TEX::CANNON);
 			Vector3 v3MovePos = player->GetGridTable()->GridToWorld(nextCannonPos, CGridObject::BlockType::START);
 			if (moveDir == static_cast<int> (DIRECTION::UP) || moveDir == static_cast<int>(DIRECTION::RIGHT))
 			{
@@ -422,58 +427,37 @@ void PlayerMove::CannonMove2()
 			player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
 				{
-					//アイテムとる用の処理
-					//if (player->GetGridTable()->CheckObjectType(nextCannonPos) == static_cast<int>(CGridObject::BlockType::CAKE))
-					//{
-					//	kari = true;
-					//	//player->EatCake();
-					//	//player->SetChangeCannonTexture(false);
-					//	player->ChangeTexture(Player::ANIM_TEX::CANNON);
-					//	player->SetChangeCannonTexture(true);
-					//	dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayCannon(moveDir, 3.0f);
-					//}
-					
-					//if (player->GetGridTable()->CheckObjectType(a) == static_cast<int>(CGridObject::BlockType::CAKE))
-					//{
-					//	
-					//}
-
-
+					isCannonMoveEnd = true;
+					isCannonMoveStart = false;
+					MoveAfter();
 					// 移動した後の処理次のオブジェクト確認
 					if (player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::GALL) ||
+						player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::CASTELLA) ||
+						player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::BAUMHORIZONTAL) ||
+						player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::BAUMVERTICAL) ||
 						movePos.x == -1 || movePos.y == -1 || movePos.x == XY.x || movePos.y == XY.y)
 					{
 						player->ChangeTexture(Player::ANIM_TEX::WALK);
 						dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayFall(moveDir, 2.0f);
 						//dynamic_cast<CPlayerAnim*>(player->GetmAnim())->animSpeed=1.0f;
 						player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
-						player->dotween->DelayedCall(CANNONBOUND_TIME, [&,movePos]()
+						player->dotween->DelayedCall(CANNONBOUND_TIME, [&]()
 							{
-								//player->SetGridPos(nextGridPos);
 								isCannonMoveStart = false;
-								isCannonMove = false;
-								this->CheckCanMove();
-								player->SetChangeCannonTexture(false);
 								player->ChangeTexture(Player::ANIM_TEX::WAIT);
 								dynamic_cast<CPlayerAnim*>(player->GetmAnim())->SetAnimSpeedRate(0.3f);
+								isCannonMove = false;
+								player->SetChangeCannonTexture(false);
 								inCannon = false;
 								isCannonMoveEnd = true;
-								MoveAfter();
-								//player->SetGridPos(Next);
 								player->GetPlayerMove()->Step();
-								//if (kari)
-								//{
-								//	//player->EatCake();
-								//}
 							});
 
 					}
 					else
 					{
-						//WalkAfter();
-						player->ChangeTexture(Player::ANIM_TEX::CANNON);
-					isCannonMoveEnd = true;
-					isCannonMoveStart = false;
+						isCannonMoveEnd = true;
+						isCannonMoveStart = false;
 						MoveAfter();
 					}
 				});
@@ -489,7 +473,7 @@ void PlayerMove::CannonDirSelect(DIRECTION _dir)
 {
 	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
 	{
-			cannonMoveDir[i] = false;
+		cannonMoveDir[i] = false;
 	}
 
 	cannonMoveDir[static_cast<int>(_dir)] = true;

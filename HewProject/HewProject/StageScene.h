@@ -123,7 +123,7 @@ public:
 	// アイテム（ケーキとか）と同じマスに移動するとアイテムを消したりする関数 次のマス用
 	void ItemDelete();
 	//現在地のアイテムを消す関数
-	void CannonItemDelete();
+	void CannonItemDelete(CGrid::GRID_XY _deletePos = {NULL,NULL});
 
 	// ステージの状態を一つ前に戻す関数
 	void Undo(float _stageScale);

@@ -260,6 +260,7 @@ void StageScene::StageMove()
 			vStageObj->push_back(hollObj);
 
 		}
+
 	}
 
 	// プレイヤーが動き終えると
@@ -326,17 +327,64 @@ void StageScene::StageMove()
 	}
 	else if (player->GetPlayerMove()->GetCannonMoveEnd())
 	{
-		if (player->GetPlayerMove()->CheckNowObjectType() == CGridObject::BlockType::CAKE)
+		CGridObject::BlockType type = player->GetPlayerMove()->CheckNowMassType();
+		switch (type)
 		{
+		case CGridObject::BlockType::WALL:
+		{
+
+			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
+			wallObj->Break(0.0f);
+			break;
+		}
+		case CGridObject::BlockType::CAKE:
+		{
+
 			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowObjectType())));
 			cakeObj->BlowOff(player->GetDirection());
 			cakeObj->dotween->OnComplete([&]()
 				{
 					CannonItemDelete();
 				});
+			break;
 		}
-		else
+		case CGridObject::BlockType::CASTELLA:
+			break;
+		case CGridObject::BlockType::COIN:
 		{
+			CCoin* coinObj = dynamic_cast<CCoin*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
+			coinObj->BlowOff(player->GetDirection());
+			coinObj->dotween->OnComplete([&]()
+				{
+					CannonItemDelete();
+				});
+			break;
+		}
+		case CGridObject::BlockType::PROTEIN:
+		{
+			CProtein* proObj = dynamic_cast<CProtein*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
+			proObj->BlowOff(player->GetDirection());
+			CGrid::GRID_XY deletePos = player->GetGridPos();
+			//nowFloor->objectTable[proObj->GetGridPos().y][proObj->GetGridPos().x] =static_cast<short> (CGridObject::BlockType::NONE);
+			proObj->dotween->OnComplete([&,deletePos]()
+				{
+					CannonItemDelete(deletePos);
+				});
+			break;
+		}
+		case CGridObject::BlockType::CHILI:
+		{
+			CChili* chiliObj = dynamic_cast<CChili*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
+			chiliObj->BlowOff(player->GetDirection());
+			CGrid::GRID_XY deletePos = player->GetGridPos();
+			chiliObj->dotween->OnComplete([&,deletePos]()
+				{
+					CannonItemDelete(deletePos);
+				});
+			break;
+		}
+		default:
+			break;
 		}
 	}
 	if (player->GetFallTrriger() == true)
@@ -535,9 +583,17 @@ void StageScene::ItemDelete()
 	}
 }
 
-void StageScene::CannonItemDelete()
+void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos)
 {
-	CGrid::GRID_XY next = player->GetGridPos();
+	CGrid::GRID_XY next;
+	if (_deletePos.x == NULL && _deletePos.y == NULL)
+	{
+		next = player->GetGridPos();
+	}
+	else
+	{
+		next = _deletePos;
+	}
 
 	CGridObject* deleteObj;	// 画面から消す予定のポインタがはいる
 
@@ -546,7 +602,6 @@ void StageScene::CannonItemDelete()
 	{
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
-		nNumProtein--;
 	case CGridObject::BlockType::CAKE:
 	case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::CHILI:
