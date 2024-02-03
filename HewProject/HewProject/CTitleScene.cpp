@@ -4,6 +4,7 @@
 #include "UI.h"
 #include "TextureFactory.h"
 #include <random>
+#include "ButtonUI.h"
 
 #define MIN -9
 #define MAX 9
@@ -15,12 +16,17 @@ CTitleScene::CTitleScene()
 	D3D_CreateSquare({ 1,1 }, &selectBuffer);
 	selectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
 
+	D3D_CreateSquare({ 1,2 }, &buttonBuffer);
+	buttonTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
+
 	for (int i = 0; i < 2; i++)
 	{
-		select[i] = new CGridObject(selectBuffer, selectTexture);
-		select[i]->mTransform.pos = { -2.5f + i * 5.0f,-1.0f,-0.2f };
-		select[i]->mTransform.scale = { 2,2,1 };
+		select[i] = new ButtonUI(buttonBuffer, buttonTexture);
+		select[i]->mTransform.pos = { -2.5f + i * 5.0f,-2.0f,-0.2f };
+		select[i]->mTransform.scale = { 4,1,1 };
 	}
+
+	select[0]->SetHighlight(true);
 
 	D3D_CreateSquare({ 1,1 }, &sweetsBuffer);
 	sweetsTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Cake.png");
@@ -91,7 +97,6 @@ CTitleScene::CTitleScene()
 	isRotationSwitch = false;
 	isFlash = false;
 
-	m_DrawCount = 0;
 }
 
 CTitleScene::~CTitleScene()
@@ -203,10 +208,14 @@ void CTitleScene::Update()
 		if (input->GetMovement().x < 0)
 		{
 			isFlash = false;
+			select[0]->SetHighlight(true);
+			select[1]->SetHighlight(false);
 		}
 		if (input->GetMovement().x > 0)
 		{
 			isFlash = true;
+			select[0]->SetHighlight(false);
+			select[1]->SetHighlight(true);
 		}
 	}
 }
@@ -223,25 +232,8 @@ void CTitleScene::Draw()
 
 	if (isNoMoving == true)
 	{
-		if (isFlash == false)
-		{
-			if (m_DrawCount % 5 == 0)
-			{
-				select[0]->Draw();
-			}
-			
-			select[1]->Draw();
-		}
-		else {
-			if (m_DrawCount % 5 == 0)
-			{
-				select[1]->Draw();
-			}
-			select[0]->Draw();
-		}
-
-		++m_DrawCount;
-		
+		select[0]->Draw();
+		select[1]->Draw();
 	}
 	
 	for (int i = 0; i < MAXNUM; i++)
