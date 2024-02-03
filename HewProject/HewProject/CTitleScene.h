@@ -6,6 +6,7 @@
 
 class UI;
 class CGridObject;
+class ButtonUI;
 
 class CTitleScene :
     public CScene
@@ -24,17 +25,18 @@ public:
     D3DBUFFER selectBuffer;
     D3DTEXTURE selectTexture;
 
+    D3DBUFFER buttonBuffer;
+    D3DTEXTURE buttonTexture;
+
     UI* Title;
     UI* Sweets[MAXNUM];
     UI* Bg;
-    CGridObject* select[2];
+    ButtonUI* select[2];
 
     bool isNoMoving;
     bool isOnce;
     bool isRotationSwitch;
     bool isFlash;
-
-    int m_DrawCount;
 
 public:
     CTitleScene();
