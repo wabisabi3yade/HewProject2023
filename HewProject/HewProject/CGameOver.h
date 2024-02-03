@@ -3,8 +3,9 @@
 
 #define MAXNUM 2
 
-class UI;
+class ButtonUI;
 class CWorldSelectPlayer;
+class UI;
 
 class CGameOver :
     public CScene
@@ -21,9 +22,10 @@ public:
     D3DTEXTURE textBox1Texture;
     D3DTEXTURE textBox2Texture;
     D3DTEXTURE textBox3Texture;
+    D3DTEXTURE textBoxTexture;
 
     UI* Text[MAXNUM];
-    UI* Message[3];
+    ButtonUI* Message[3];
     CWorldSelectPlayer* Player;
 
     bool isOnce;
@@ -31,7 +33,6 @@ public:
     bool isNoMoving;
     bool isLate;
     int nSelect;
-    int m_DrawCount;
 
 public:
     CGameOver();
