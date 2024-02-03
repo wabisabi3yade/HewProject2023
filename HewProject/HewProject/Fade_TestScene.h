@@ -6,6 +6,7 @@ class CalorieGage_hori;
 class FloorUI;
 class UI;
 class ButtonUI;
+class ProteinUI;
 
 class Fade_TestScene
 	:public CScene
@@ -16,6 +17,9 @@ class Fade_TestScene
 
 	D3DBUFFER buffer;
 	ButtonUI* buttonUI;
+
+	ProteinUI* proteinUI;
+
 
 public:
 	Fade_TestScene();

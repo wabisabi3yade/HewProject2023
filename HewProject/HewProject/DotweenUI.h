@@ -28,6 +28,7 @@ public:
 		EASE_OUTBACK_SCALE,
 		EASE_INBACK,
 		EASE_INBACK_SCALE,
+		EASE_ELASTIC_SCALE,
 		ALPHA,
 		DELAY
 	};
@@ -219,6 +220,8 @@ public:
 	void DoEaseInBack(const Vector3& _targetAngle, const float& _moveTime);
 
 	void DoEaseInBackScale(const Vector3& _targetAngle, const float& _moveTime);
+
+	void DoEaseElasticScale(const Vector3& _targetAngle, const float& _moveTime);
 
 	void DoAlpha(const float& _targetAlpha, const float& _moveTime);
 	
