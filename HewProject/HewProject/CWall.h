@@ -1,5 +1,6 @@
 #pragma once
 #include "CGridObject.h"
+#include"Player.h"
 class DoTween;
 class CWall :
     public CGridObject
@@ -12,6 +13,6 @@ public:
 
     void Update();
     void Draw();
-    void Break();
+    void Break(float _breakTime = BREAK_TIME);
 };
 

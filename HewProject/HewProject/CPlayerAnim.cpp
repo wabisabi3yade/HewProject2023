@@ -139,6 +139,7 @@ void CPlayerAnim::PlayWalk(int num, float _animSpeedRate)
 void CPlayerAnim::StopWalk(int _num)
 {
 	isPlaying = true;
+	AnimSpeedRate = 1.0f;
 	switch (_num)
 	{
 	case 0:

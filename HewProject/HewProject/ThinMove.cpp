@@ -245,6 +245,32 @@ void ThinMove::Move(DIRECTION _dir)
 		nextGridPos.x += d.x;
 		nextGridPos.y += d.y;
 
+		CGrid::GRID_XY XY = { 0,0 };
+		for (int i = 0; i < 9; i++)
+		{
+			if (player->GetGridTable()->floorTable[0][i] != 0)
+			{
+				XY.x += 1;
+			}
+			if (player->GetGridTable()->floorTable[i][0] != 0)
+			{
+				XY.y += 1;
+			}
+			else if (player->GetGridTable()->floorTable[i][i] == 0)
+			{
+				break;
+			}
+		}
+		if (nextGridPos.x < 0 || nextGridPos.y < 0 || nextGridPos.x < XY.x || nextGridPos.y < XY.y)
+		{
+			//nextGridPos.x -= d.x;
+			//nextGridPos.x -= d.x;
+			//nextGridPos.y -= d.y;
+			//nextGridPos.y -= d.y;
+			nextGridPos = player->GetGridPos();
+			MoveAfter();
+			return;
+		}
 		WalkStart();
 
 		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
