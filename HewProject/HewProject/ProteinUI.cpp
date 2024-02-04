@@ -4,9 +4,7 @@
 #define UI_OFFSETZ (0.0001f)	// UIのZ値差分
 
 #define CIRCLE_OFFSETX (1.0f)	// 〇同士のX座標差分
-#define CIRCLE_OFFSETY (0.5f)	// 棒から〇のY座標差分
-
-#define PRO_ADJUST_Y (0.2f)	// プロテインY座標調整
+#define CIRCLE_OFFSETY (0.7f)	// 棒から〇のY座標差分
 #define PRO_SCALETIME (1.3f)	// 大きくなるまでの時間
 ProteinUI::ProteinUI(const int& _proteinNum)
 {
@@ -23,8 +21,8 @@ ProteinUI::ProteinUI(const int& _proteinNum)
 	texWork = texFactory->Fetch(L"asset/UI/Protein_Mark.png");
 	for (int i = 0; i < stageProMax; i++)
 	{
-		circle[i] = new UI(buffer, texWork);
-		circle[i]->mTransform.scale = { 0.4f, 0.4f, 1.0f };
+		proMark[i] = new UI(buffer, texWork);
+		proMark[i]->mTransform.scale = proScale;
 	}
 
 	// プロテイン
@@ -50,7 +48,7 @@ ProteinUI::~ProteinUI()
 
 	for (int i = 0; i < stageProMax; i++)
 	{
-		CLASS_DELETE(circle[i]);
+		CLASS_DELETE(proMark[i]);
 	}
 	for (int i = 0; i < stageProMax; i++)
 	{
@@ -83,7 +81,7 @@ void ProteinUI::SetProtein(const int& _getProtein)
 	for (; roop < _getProtein; roop++)
 	{
 		// 〇は非表示
-		circle[roop]->SetActive(false);
+		proMark[roop]->SetActive(false);
 		// プロテインは表示
 		protein[roop]->SetActive(true);
 		protein[roop]->mTransform.scale = proScale;
@@ -91,7 +89,7 @@ void ProteinUI::SetProtein(const int& _getProtein)
 	// 取得していないUI反映
 	for (; roop < stageProMax; roop++)
 	{
-		circle[roop]->SetActive(true);
+		proMark[roop]->SetActive(true);
 
 		protein[roop]->SetActive(false);
 	}
@@ -114,15 +112,10 @@ void ProteinUI::AddProtein()
 	short n = getProtein - 1;
 	// プロテインを表示させて
 	protein[n]->SetActive(true);
+	proMark[n]->SetActive(false);
 	//大きくする
 	protein[n]->mTransform.scale = { 0.0f, 0.0f, 1.0f };
 	protein[n]->dotween->DoEaseElasticScale(proScale, PRO_SCALETIME);
-	protein[n]->dotween->OnComplete([&]()
-		{
-			// 対策
-			if (n + 1 <= getProtein)
-				circle[n]->SetActive(false);
-		});
 }
 
 void ProteinUI::Draw()
@@ -131,7 +124,7 @@ void ProteinUI::Draw()
 
 	for (int i = 0; i < stageProMax; i++)
 	{
-		circle[i]->Draw();
+		proMark[i]->Draw();
 	}
 
 	for (int i = 0; i < stageProMax; i++)
@@ -149,28 +142,27 @@ void ProteinUI::SetPosition(const Vector3& _pos)
 	switch (stageProMax)
 	{
 	case 1:
-		circle[0]->mTransform.pos.x = _pos.x;
+		proMark[0]->mTransform.pos.x = _pos.x;
 		break;
 
 	case 2:
-		circle[0]->mTransform.pos.x = _pos.x - CIRCLE_OFFSETX / 2;
-		circle[1]->mTransform.pos.x = _pos.x + CIRCLE_OFFSETX / 2;
+		proMark[0]->mTransform.pos.x = _pos.x - CIRCLE_OFFSETX / 2;
+		proMark[1]->mTransform.pos.x = _pos.x + CIRCLE_OFFSETX / 2;
 		break;
 
 	case 3:
-		circle[0]->mTransform.pos.x = _pos.x - CIRCLE_OFFSETX;
-		circle[1]->mTransform.pos.x = _pos.x;
-		circle[2]->mTransform.pos.x = _pos.x + CIRCLE_OFFSETX;
+		proMark[0]->mTransform.pos.x = _pos.x - CIRCLE_OFFSETX;
+		proMark[1]->mTransform.pos.x = _pos.x;
+		proMark[2]->mTransform.pos.x = _pos.x + CIRCLE_OFFSETX;
 		break;
 	}
 
 	for (int i = 0; i < stageProMax; i++)
 	{
-		circle[i]->mTransform.pos.y = _pos.y + CIRCLE_OFFSETY;
-		circle[i]->mTransform.pos.z = _pos.z - i * UI_OFFSETZ;
+		proMark[i]->mTransform.pos.y = _pos.y + CIRCLE_OFFSETY;
+		proMark[i]->mTransform.pos.z = _pos.z - i * UI_OFFSETZ;
 
-		protein[i]->mTransform.pos = circle[i]->mTransform.pos;
-		protein[i]->mTransform.pos.y += PRO_ADJUST_Y;
-		protein[i]->mTransform.pos.z -= UI_OFFSETZ;
+		protein[i]->mTransform.pos = proMark[i]->mTransform.pos;
+		protein[i]->mTransform.pos.z -=  2 * UI_OFFSETZ;
 	}
 }

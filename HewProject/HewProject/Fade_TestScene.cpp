@@ -117,7 +117,7 @@ void Fade_TestScene::Draw()
 
 	floorUI->Draw();
 
-	buttonUI->Draw();
+	/*buttonUI->Draw();*/
 
-	/*proteinUI->Draw();*/
+	proteinUI->Draw();
 }

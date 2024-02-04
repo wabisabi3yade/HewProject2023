@@ -18,10 +18,10 @@ class ProteinUI
 	D3DBUFFER buffer;
 
 	// プロテイン取ってない時の丸
-	UI* circle[max_pro];
+	UI* proMark[max_pro];
 
 	// プロテインのスケール
-	Vector3 proScale = { 1.5f, 1.5f, 1.0f };
+	Vector3 proScale = { 1.4f, 1.4f, 1.0f };
 	// プロテインマーク
 	UI* protein[max_pro];
 	// 下のバー
