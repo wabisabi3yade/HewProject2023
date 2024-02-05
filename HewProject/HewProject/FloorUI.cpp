@@ -10,7 +10,7 @@
 
 FloorUI::FloorUI(const int& _startFloorNum, const int& _maxNum)
 {
-	mTransform.pos = {7.0f, -2.0f, -1.0f};
+	mTransform.pos = {7.0f, -2.0f, 0.0f};
 
 	// ‚±‚ÌŠK‘w‚É•K—v‚ÈŠK‘wUI‚Ì”
 	stageFloorNum = _maxNum;
