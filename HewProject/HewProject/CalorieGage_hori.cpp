@@ -323,7 +323,7 @@ void CalorieGage_hori::NumUISetting()
 	}
 	else if (calorieNum > MARKNUM_MAX * YELLOW_RATIO)
 	{
-		rgb = { 244, 229, 17 };
+		rgb = { 255, 215, 0 };
 	}
 	else
 	{

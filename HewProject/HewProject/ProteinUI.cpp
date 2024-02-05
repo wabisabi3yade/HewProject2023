@@ -37,7 +37,7 @@ ProteinUI::ProteinUI(const int& _proteinNum)
 	// ‰º‚Ì–_
 	texWork = texFactory->Fetch(L"asset/UI/Protein_Bar.png");
 	bar = new UI(buffer, texWork);
-	bar->mTransform.scale = { 3.0f, 0.2f, 1.0f };
+	bar->mTransform.scale = { 3.0f, 0.05f, 1.0f };
 
 	SetPosition(mTransform.pos);
 }
