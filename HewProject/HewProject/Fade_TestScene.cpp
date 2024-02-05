@@ -13,20 +13,20 @@ Fade_TestScene::Fade_TestScene()
 
 	floorUI = new FloorUI(1, 3);
 
-	gage->SetScale({0.5f, 0.5f,1.0f});
+	gage->SetScale({ 0.5f, 0.5f,1.0f });
 	gage->SetPosition({ 3.0,3.0f,1.0f });
 
 	D3D_CreateSquare({ 1,2 }, &buffer);
 	D3D_CreateSquare({ 1,1 }, &b);
 	D3DTEXTURE texWork = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
-	D3DTEXTURE textTex = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GameStart.png"); 
+	D3DTEXTURE textTex = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GameStart.png");
 	buttonUI = new ButtonUI(buffer, texWork, b, textTex);
 
 	buttonUI->SetScale({ 8.0f, 8.0f, 1.0f });
-	
+
 
 	proteinUI = new ProteinUI(2);
-	proteinUI->SetPosition({ 2.0f, 2.0f, 0.0f });
+	proteinUI->SetPosition({ 0.0f,0.0f, 0.0f });
 }
 
 Fade_TestScene::~Fade_TestScene()
@@ -70,9 +70,9 @@ void Fade_TestScene::Update()
 
 	else if (gInput->GetKeyTrigger(VK_RIGHT))
 	{
-		gage->SetCalorie(5,false);
+		gage->SetCalorie(5, false);
 	}
-	
+
 	else if (gInput->GetKeyTrigger(VK_F1))
 	{
 		a++;
