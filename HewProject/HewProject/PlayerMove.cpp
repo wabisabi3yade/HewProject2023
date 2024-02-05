@@ -31,6 +31,7 @@ PlayerMove::PlayerMove(Player* _p)
 	inCannon = false;
 	isLookMap = false;
 	nextCannonType = CGridObject::BlockType::NONE;
+	isCannonMoveStartTrigger = false;
 	flagInit = false;
 }
 
@@ -90,7 +91,10 @@ void PlayerMove::Input()
 	else if (gInput->GetKeyTrigger(VK_ESCAPE) || input->GetInputTrigger(InputType::DECIDE))
 	{
 		if (inCannon)
+		{
 			isCannonMove = true;
+			isCannonMoveStartTrigger = true;
+		}
 	}
 	else if (gInput->GetKeyTrigger(VK_SPACE) || input->GetInputTrigger(InputType::L_BUTTON))
 	{
@@ -319,6 +323,7 @@ void PlayerMove::CannonMove1()
 
 void PlayerMove::CannonMove2()
 {
+	isCannonMoveStartTrigger = false;
 	if (isCannonMoveStart)
 	{
 		return;
@@ -428,12 +433,10 @@ void PlayerMove::CannonMove2()
 			{
 				player->mTransform.pos.z = v3MovePos.z;
 			}
-			if (!isCannonMoveStart)
-			{
 				isCannonMoveStart = true;
-			}
 			player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME);
 			player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+			isCannonMoveStartTrigger = true;
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
 				{
 					isCannonMoveEnd = true;

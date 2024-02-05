@@ -56,6 +56,7 @@ protected:
 	bool inCannon;
 	bool isCannonMove;
 	bool isCannonMoveStart;
+	bool isCannonMoveStartTrigger;
 	bool isCannonMoveEnd;
 
 	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
@@ -143,6 +144,7 @@ public:
 	bool* GetCanMoveDir() { return &canMoveDir[0]; }
 	bool GetCannonMoveEnd()const { return isCannonMoveEnd; }
 	bool GetCannonMoveStart()const { return isCannonMoveStart; }
+	bool GetCannonMoveStartTrigger()const { return isCannonMoveStartTrigger; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 };
 
