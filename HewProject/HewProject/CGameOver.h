@@ -24,6 +24,10 @@ public:
     D3DTEXTURE textBox3Texture;
     D3DTEXTURE textBoxTexture;
 
+    D3DTEXTURE text_restartTexture;
+    D3DTEXTURE text_undoTexture;
+    D3DTEXTURE text_backTexture;
+
     UI* Text[MAXNUM];
     ButtonUI* Message[3];
     CWorldSelectPlayer* Player;

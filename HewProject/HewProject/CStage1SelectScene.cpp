@@ -24,7 +24,7 @@ CStage1SelectScene::CStage1SelectScene()
 
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
 	text_blueTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Blue.png");
-	text_greenTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Green.png");
+	text_whiteTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_White.png");
 	text_pinkTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");
 	text_purpleTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Purple.png");
 
@@ -41,46 +41,46 @@ CStage1SelectScene::CStage1SelectScene()
 	Text[0] = new UI(textBuffer, text_blueTexture);
 	Text[0]->MakeDotween();
 	Text[0]->mTransform.pos = {10.0f,3.5f,-0.01f};
-	Text[0]->mTransform.scale = {4.0f,3.0f,1};
+	Text[0]->mTransform.scale = {3.0f,1.0f,1};
 	Text[0]->materialDiffuse = {1,1,1,1};
 
-	Text[1] = new UI(textBuffer, text_greenTexture);
+	Text[1] = new UI(textBuffer, text_whiteTexture);
 	Text[1]->MakeDotween();
 	Text[1]->mTransform.pos = { -10.0f,3.5f,-0.01f };
-	Text[1]->mTransform.scale = { 4.0f,3.0f,1 };
+	Text[1]->mTransform.scale = { 3.0f,1.0f,1 };
 	Text[1]->materialDiffuse = { 1,1,1,1 };
 
 	Text[2] = new UI(textBuffer, text_pinkTexture);
 	Text[2]->MakeDotween();
 	Text[2]->mTransform.pos = { -10.0f,-3.5f,-0.01f };
-	Text[2]->mTransform.scale = { 4.0f,3.0f,1 };
+	Text[2]->mTransform.scale = { 3.0f,1.0f,1 };
 	Text[2]->materialDiffuse = { 1,1,1,1 };
 
 	Text[3] = new UI(textBuffer, text_purpleTexture);
 	Text[3]->MakeDotween();
 	Text[3]->mTransform.pos = { 10.0f,-3.5f,-0.01f };
-	Text[3]->mTransform.scale = { 4.0f,3.0f,1 };
+	Text[3]->mTransform.scale = { 3.0f,1.0f,1 };
 	Text[3]->materialDiffuse = { 1,1,1,1 };
 
 	Word[0] = new UI(wordBuffer, word_RightUpTexture);
 	Word[0]->MakeDotween();
 	Word[0]->mTransform.pos = {10.0f,3.5,-0.1f};
-	Word[0]->mTransform.scale = {4.0f,4.0f,1};
+	Word[0]->mTransform.scale = {2.0f,2.0f,1};
 
 	Word[1] = new UI(wordBuffer, word_RightDownTexture);
 	Word[1]->MakeDotween();
 	Word[1]->mTransform.pos = { 10.0f,-3.5f,-0.1f };
-	Word[1]->mTransform.scale = { 4.0f,4.0f,1 };
+	Word[1]->mTransform.scale = { 2.0f,2.0f,1 };
 
 	Word[2] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[2]->MakeDotween();
 	Word[2]->mTransform.pos = { -10.0f,3.5f,-0.1f };
-	Word[2]->mTransform.scale = { 4.0f,4.0f,1 };
+	Word[2]->mTransform.scale = { 2.0f,2.0f,1 };
 
 	Word[3] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[3]->MakeDotween();
 	Word[3]->mTransform.pos = { -10.0f,-3.5,-0.1f };
-	Word[3]->mTransform.scale = { 4.0f,4.0f,1 };
+	Word[3]->mTransform.scale = { 2.0f,2.0f,1 };
 
 	stage[0]->mTransform.pos = { -5,2,1 };
 	stage[0]->mTransform.scale = { 2,2,1 };

@@ -22,7 +22,7 @@ public:
     //テキスト
     D3DBUFFER textBuffer;
     D3DTEXTURE text_blueTexture;
-    D3DTEXTURE text_greenTexture;
+    D3DTEXTURE text_whiteTexture;
     D3DTEXTURE text_pinkTexture;
     D3DTEXTURE text_purpleTexture;
 
