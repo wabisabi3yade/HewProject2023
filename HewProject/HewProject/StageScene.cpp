@@ -325,7 +325,7 @@ void StageScene::StageMove()
 		// ƒAƒCƒeƒ€‚ª‚ ‚é‚È‚ç‚»‚ê‚ð‰æ–Ê‚©‚çÁ‚·
 		ItemDelete();
 	}
-	else if (player->GetPlayerMove()->GetCannonMoveStart() && !player->GetPlayerMove()->GetCannonMoveEnd())
+	if (player->GetPlayerMove()->GetCannonMoveStartTrigger())
 	{
 		//player->dotween->DelayedCall(CANNONMOVE_TIME, [&]()
 		//	{
@@ -344,13 +344,13 @@ void StageScene::StageMove()
 		case CGridObject::BlockType::CAKE:
 		{
 			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), type));
-			CGrid::GRID_XY deletePos = player->GetGridPos();
-			cakeObj->dotween->DelayedCall(CANNONMOVE_TIME,[&]()
+			CGrid::GRID_XY deletePos = player->GetPlayerMove()->GetNextGridPos();
+			cakeObj->dotween->DelayedCall(CANNONMOVE_TIME,[&,cakeObj,deletePos]()
 			{
 				cakeObj->BlowOff(player->GetDirection());
-				cakeObj->dotween->OnComplete([&]()
+				cakeObj->dotween->OnComplete([&,deletePos]()
 				{
-					ItemDelete();
+					CannonItemDelete(deletePos);
 				});
 
 			});
@@ -382,12 +382,17 @@ void StageScene::StageMove()
 		}
 		case CGridObject::BlockType::CHILI:
 		{
-			CChili* chiliObj = dynamic_cast<CChili*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
+			CChili* chiliObj = dynamic_cast<CChili*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextMassType())));
 			chiliObj->BlowOff(player->GetDirection());
-			CGrid::GRID_XY deletePos = player->GetGridPos();
-			chiliObj->dotween->OnComplete([&,deletePos]()
+			CGrid::GRID_XY deletePos = player->GetPlayerMove()->GetNextGridPos();
+			chiliObj->dotween->DelayedCall(CANNONMOVE_TIME, [&, chiliObj, deletePos]()
 				{
-					CannonItemDelete(deletePos);
+					chiliObj->BlowOff(player->GetDirection());
+					chiliObj->dotween->OnComplete([&, deletePos]()
+						{
+							CannonItemDelete(deletePos);
+						});
+
 				});
 			break;
 		}
