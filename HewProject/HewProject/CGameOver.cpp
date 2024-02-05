@@ -7,12 +7,12 @@
 
 CGameOver::CGameOver()
 {
-	D3D_CreateSquare({ 1,1 }, &textBuffer);
-	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
+	D3D_CreateSquare({ 3,1 }, &text_failedBuffer);
+	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Sippai.png");
 
-	for (int i = 0; i < MAXNUM; i++)
+	for (int i = 0; i < MAXNUM_TEXT; i++)
 	{
-		Text[i] = new UI(textBuffer, textTexture);
+		Text[i] = new UI(text_failedBuffer, textTexture);
 		Text[i]->MakeDotween();
 	}
 
@@ -22,6 +22,7 @@ CGameOver::CGameOver()
 	textBox3Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
 
+	D3D_CreateSquare({ 1,1 }, &textBuffer);
 	text_restartTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Restart.png");
 	text_undoTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Undo.png");
 	text_backTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Back.png");
@@ -35,6 +36,11 @@ CGameOver::CGameOver()
 
 	Text[1]->mTransform.pos = { 1.5f,6.0f,0 };
 	Text[1]->mTransform.scale = { 2.0f,2.0f,1.0f };
+	Text[1]->SetUV(1.0f/3.0f*1.0f,0);
+
+	Text[2]->mTransform.pos = { 4.5f,6.0f,0 };
+	Text[2]->mTransform.scale = { 2.0f,2.0f,1.0f };
+	Text[2]->SetUV(1.0f / 3.0f * 2.0f, 0);
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_restartTexture);
 	//Message[0]->MakeDotween();
@@ -66,7 +72,7 @@ CGameOver::CGameOver()
 
 CGameOver::~CGameOver()
 {
-	for (int i = 0; i < MAXNUM; i++)
+	for (int i = 0; i < MAXNUM_TEXT; i++)
 	{
 		CLASS_DELETE(Text[i]);
 	}
@@ -87,14 +93,14 @@ void CGameOver::Update()
 	{
 		if (isOnce == false)
 		{
-			for (int i = 0; i < MAXNUM; i++)
+			for (int i = 0; i < MAXNUM_TEXT; i++)
 			{
 				Text[i]->dotween->DoMoveY(3.0f, 1.0f);
 			}
 
 			Text[0]->dotween->OnComplete([&]()
 				{
-					Text[0]->mTransform.rotation.z = 45.0f;
+					Text[0]->mTransform.rotation.z = 20.0f;
 					isNoMoving = true;
 				});
 
@@ -193,7 +199,7 @@ void CGameOver::Update()
 		Message[i]->Update();
 	}
 
-	for (int i = 0; i < MAXNUM; i++)
+	for (int i = 0; i < MAXNUM_TEXT; i++)
 	{
 		Text[i]->Update();
 	}
@@ -205,7 +211,7 @@ void CGameOver::LateUpdate()
 
 void CGameOver::Draw()
 {
-	for (int i = 0; i < MAXNUM; i++)
+	for (int i = 0; i < MAXNUM_TEXT; i++)
 	{
 		Text[i]->Draw();
 	}
