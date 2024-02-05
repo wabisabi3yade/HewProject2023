@@ -320,7 +320,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 void MuscleMove::Step()
 {
-	switch (player->GetPlayerMove()->CheckNextMassType())
+	switch (player->GetPlayerMove()->CheckNowMassType())
 	{
 	case CGridObject::BlockType::CAKE:
 

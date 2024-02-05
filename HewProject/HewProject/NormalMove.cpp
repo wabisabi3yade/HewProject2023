@@ -79,12 +79,13 @@ void NormalMove::Move(DIRECTION _dir)
 		// 移動し終えたらケーキを食べる
 		player->dotween->OnComplete([&]()
 			{
-						WalkAfter();
+				WalkAfter();
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				// 食べ終わったら移動できるようにする
-				player->dotween->DelayedCall(EAT_TIME+0.5f, [&]()
+				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
+						player->EatEnd();
 						player->EatCake();
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -104,9 +105,12 @@ void NormalMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
 						player->EatChilli();
+						player->EatEnd();
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);

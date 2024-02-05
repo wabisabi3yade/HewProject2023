@@ -428,7 +428,6 @@ void PlayerMove::CannonMove2()
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
 				{
 					isCannonMoveEnd = true;
-					isCannonMoveStart = false;
 					MoveAfter();
 					// 移動した後の処理次のオブジェクト確認
 					if (player->GetGridTable()->objectTable[movePos.y][movePos.x] == static_cast<int>(CGridObject::BlockType::GALL) ||
@@ -451,6 +450,10 @@ void PlayerMove::CannonMove2()
 								inCannon = false;
 								isCannonMoveEnd = true;
 								player->GetPlayerMove()->Step();
+								player->dotween->DelayedCall(0.5f, [&]()
+									{
+										isCannonMoveEnd = false;
+									});
 							});
 
 					}
