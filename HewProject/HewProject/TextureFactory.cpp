@@ -90,10 +90,10 @@ void TextureFactory::Load()
 		L"asset/UI/fade_BackBlue.png",
 		L"asset/UI/NowLoadingÅc.png",
 		L"asset/UI/LoadCharacter.png",
-		L"asset/UI/TextBox_Blue.png",
-		L"asset/UI/TextBox_White.png",
-		L"asset/UI/TextBox_Pink.png",
-		L"asset/UI/TextBox_Purple.png",
+		L"asset/UI/textBox_Blue.png",
+		L"asset/UI/textBox_White.png",
+		L"asset/UI/textBox_Pink.png",
+		L"asset/UI/textBox_Purple.png",
 		L"asset/UI/Title.png",
 		L"asset/UI/Carorie_Mark.png",
 		L"asset/UI/Gage_Rogo.png",
@@ -105,6 +105,11 @@ void TextureFactory::Load()
 		L"asset/UI/Protein_Bar.png",
 
 		L"asset/Text/T_GameStart.png",
+		L"asset/Text/T_GameEnd.png",
+		L"asset/Text/T_Back.png",
+		L"asset/Text/T_Help.png",
+		L"asset/Text/T_Restart.png",
+		L"asset/Text/T_Undo.png",
 	};
 
 	D3DTEXTURE texWork;

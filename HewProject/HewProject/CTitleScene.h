@@ -30,6 +30,7 @@ public:
 
     D3DBUFFER textBuffer;
     D3DTEXTURE textTexture;
+    D3DTEXTURE text_endTexture;
 
     UI* Title;
     UI* Sweets[MAXNUM];

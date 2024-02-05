@@ -21,12 +21,13 @@ CTitleScene::CTitleScene()
 
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
 	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GameStart.png");
+	text_endTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GameEnd.png");
 
 	select[0] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, textTexture);
 	select[0]->SetPosition({ -2.5f,-2.0f,-0.2f });
 	select[0]->SetScale({ 4,4,1 });
 
-	select[1] = new ButtonUI(buttonBuffer, buttonTexture, NULL, NULL);
+	select[1] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, text_endTexture);
 	select[1]->SetPosition({ 2.5f,-2.0f,-0.2f });
 	select[1]->SetScale({ 4,4,1 });
 
