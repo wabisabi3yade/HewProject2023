@@ -68,6 +68,7 @@ void MuscleMove::Move(DIRECTION _dir)
 	{
 	case CGridObject::BlockType::CAKE:
 		// ˆÚ“®‚·‚é
+		player->GetPlayerAnim()->PlayPunch();
 		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
 		player->dotween->DoDelay(BREAK_TIME);
 		player->dotween->DelayedCall(BREAK_TIME, [&]()

@@ -69,18 +69,18 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureInput(L"asset/Player/M_Walk.png", STATE::MUSCLE, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/M_Wait.png", STATE::MUSCLE, ANIM_TEX::WAIT);
 
-	//TextureInput(L"asset/Player/N_EatCake.png", STATE::NORMAL, ANIM_TEX::EAT_CAKE);
-	//TextureInput(L"asset/Player/F_EatCake.png", STATE::FAT, ANIM_TEX::EAT_CAKE);
-	//TextureInput(L"asset/Player/T_EatCake.png",STATE::THIN,ANIM_TEX::EAT_CAKE),
-	//TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
-	//TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
-	//TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
+	TextureInput(L"asset/Player/N_EatCake.png", STATE::NORMAL, ANIM_TEX::EAT_CAKE);
+	TextureInput(L"asset/Player/F_EatCake.png", STATE::FAT, ANIM_TEX::EAT_CAKE);
+	TextureInput(L"asset/Player/T_EatCake.png", STATE::THIN,ANIM_TEX::EAT_CAKE),
+	TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
+	TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
+	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
 
 
-	//punchTex[0] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/M_Punch_Down.png");
-	//punchTex[1] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/M_Punch_Left.png");
-	//punchTex[2] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/M_Punch_Right.png");
-	//punchTex[3] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/M_Punch_Up.png");
+	punchTex[0] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Down.png");
+	punchTex[1] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Left.png");
+	punchTex[2] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Right.png");
+	punchTex[3] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Up.png");
 
 	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 }
@@ -287,7 +287,25 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		SetTexture(cannonTex);
 		return;
 	}
-	if (_animTex == ANIM_TEX::EAT_CAKE || _animTex == ANIM_TEX::EAT_CHILI)
+	if (_animTex == ANIM_TEX::EAT_CAKE)
+	{
+		switch (playerState)
+		{
+		case Player::STATE::NORMAL:
+			SetTexture(normalTex[_animTex]);
+			break;
+		case Player::STATE::THIN:
+			SetTexture(thinTex[_animTex]);
+			break;
+		case Player::STATE::FAT:
+			SetTexture(fatTex[_animTex]);
+			break;
+		default:
+			break;
+		}
+		return;
+	}
+	if (_animTex == ANIM_TEX::EAT_CHILI)
 	{
 		switch (playerState)
 		{
