@@ -22,6 +22,10 @@ CGameOver::CGameOver()
 	textBox3Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
 
+	text_restartTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Restart.png");
+	text_undoTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Undo.png");
+	text_backTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Back.png");
+
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_Wait.png");
 
@@ -32,20 +36,20 @@ CGameOver::CGameOver()
 	Text[1]->mTransform.pos = { 1.5f,6.0f,0 };
 	Text[1]->mTransform.scale = { 2.0f,2.0f,1.0f };
 
-	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture,NULL,NULL);
+	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_restartTexture);
 	//Message[0]->MakeDotween();
 	Message[0]->SetPosition({ -5.0f,-3.0f,0 });
-	Message[0]->SetScale({ 4.0f,1.0f,1.0f });
+	Message[0]->SetScale({ 4.0f,4.0f,1.0f });
 
-	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture,NULL,NULL);
+	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_undoTexture);
 	//Message[1]->MakeDotween();
 	Message[1]->SetPosition({ 0,-3.0f,0 });
-	Message[1]->SetScale({ 4.0f,1.0f,1.0f });
+	Message[1]->SetScale({ 4.0f,4.0f,1.0f });
 
-	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture,NULL,NULL);
+	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_backTexture);
 	//Message[2]->MakeDotween();
 	Message[2]->SetPosition({ 5.0f,-3.0f,0 });
-	Message[2]->SetScale({ 4.0f,1.0f,1.0f });
+	Message[2]->SetScale({ 4.0f,4.0f,1.0f });
 
 
 	Player = new CWorldSelectPlayer(playerBuffer, playerTexture);
