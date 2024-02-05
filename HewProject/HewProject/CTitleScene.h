@@ -2,11 +2,13 @@
 #include "CScene.h"
 #include <vector>
 #include "CGridObject.h"
-#define MAXNUM 20
+#define MAXNUM_CAKE 20
+#define MAXNUM_PLAYER 4
 
 class UI;
 class CGridObject;
 class ButtonUI;
+class CTitlePlayer;
 
 class CTitleScene :
     public CScene
@@ -32,10 +34,14 @@ public:
     D3DTEXTURE textTexture;
     D3DTEXTURE text_endTexture;
 
+    D3DBUFFER playerBuffer;
+    D3DTEXTURE playerTexture;
+
     UI* Title;
-    UI* Sweets[MAXNUM];
+    UI* Sweets[MAXNUM_CAKE];
     UI* Bg;
     ButtonUI* select[2];
+    CTitlePlayer* player[MAXNUM_PLAYER];
 
     bool isNoMoving;
     bool isOnce;

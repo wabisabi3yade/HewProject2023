@@ -1,7 +1,7 @@
 #pragma once
 #include "CScene.h"
 
-#define MAXNUM 2
+#define MAXNUM_TEXT 3
 
 class ButtonUI;
 class CWorldSelectPlayer;
@@ -13,6 +13,7 @@ class CGameOver :
 public:
     
     D3DBUFFER textBuffer;
+    D3DBUFFER text_failedBuffer;
     D3DTEXTURE textTexture;
 
     D3DBUFFER playerBuffer;
@@ -28,7 +29,7 @@ public:
     D3DTEXTURE text_undoTexture;
     D3DTEXTURE text_backTexture;
 
-    UI* Text[MAXNUM];
+    UI* Text[MAXNUM_TEXT];
     ButtonUI* Message[3];
     CWorldSelectPlayer* Player;
 

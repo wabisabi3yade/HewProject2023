@@ -5,6 +5,7 @@
 #include "TextureFactory.h"
 #include <random>
 #include "ButtonUI.h"
+#include "CTitlePlayer.h"
 
 #define MIN -9
 #define MAX 9
@@ -24,11 +25,11 @@ CTitleScene::CTitleScene()
 	text_endTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GameEnd.png");
 
 	select[0] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, textTexture);
-	select[0]->SetPosition({ -2.5f,-2.0f,-0.2f });
+	select[0]->SetPosition({ -2.5f,-3.0f,-0.2f });
 	select[0]->SetScale({ 4,4,1 });
 
 	select[1] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, text_endTexture);
-	select[1]->SetPosition({ 2.5f,-2.0f,-0.2f });
+	select[1]->SetPosition({ 2.5f,-3.0f,-0.2f });
 	select[1]->SetScale({ 4,4,1 });
 
 	select[0]->SetHighlight(true);
@@ -40,7 +41,7 @@ CTitleScene::CTitleScene()
 	std::default_random_engine eng(rd());
 	std::uniform_real_distribution<float> distr(MIN, MAX);
 
-	for (int i = 0; i < MAXNUM; i++)
+	for (int i = 0; i < MAXNUM_CAKE; i++)
 	{
 		if (i < 5)
 		{
@@ -86,7 +87,7 @@ CTitleScene::CTitleScene()
 	Title = new UI(titleBuffer, titleTexture);
 	Title->MakeDotween();
 	Title->mTransform.pos = { 0,8.0f,0.3f };
-	Title->mTransform.scale = { 7,5,1 };
+	Title->mTransform.scale = { 8,8,1 };
 	Title->materialDiffuse = { 1,1,1,1 };
 
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
@@ -96,6 +97,19 @@ CTitleScene::CTitleScene()
 	Bg->mTransform.pos = { 0,0,0.4f };
 	Bg->mTransform.scale = { 16,9,1 };
 	Bg->materialDiffuse = { 1,1,1,1 };
+
+	D3D_CreateSquare({ 3,4 }, &playerBuffer);
+	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Wait.png");
+
+	/*for (int i = 0; i < MAXNUM_PLAYER; i++)
+	{
+		player[i] = new CTitlePlayer(playerBuffer, playerTexture);
+		player[i]->mTransform.pos = {4.0f,0,-0.1f};
+		player[i]->mTransform.scale = {2,2,1};
+	}*/
+	player[0] = new CTitlePlayer(playerBuffer, playerTexture);
+	player[0]->mTransform.pos = {4.0f,0,-0.1f};
+	player[0]->mTransform.scale = {2,2,1};
 
 	isNoMoving = false;
 	isOnce = false;
@@ -110,12 +124,18 @@ CTitleScene::~CTitleScene()
 
 	CLASS_DELETE(Bg);
 
+	CLASS_DELETE(player[0]);
+	/*for (int i = 0; i < MAXNUM_PLAYER; i++)
+	{
+		CLASS_DELETE(player[i]);
+	}*/
+
 	for (int i = 0; i < 2; i++)
 	{
 		CLASS_DELETE(select[i]);
 	}
 
-	for (int i = 0; i < MAXNUM; i++)
+	for (int i = 0; i < MAXNUM_CAKE; i++)
 	{
 		CLASS_DELETE(Sweets[i]);
 	}
@@ -129,7 +149,7 @@ void CTitleScene::Update()
 
 	Bg->Update();
 
-	for (int i = 0; i < MAXNUM; i++)
+	for (int i = 0; i < MAXNUM_CAKE; i++)
 	{
 		Sweets[i]->Update();
 	}
@@ -143,7 +163,7 @@ void CTitleScene::Update()
 	{
 		if (isOnce == false)
 		{
-			for (int i = 0; i < MAXNUM; i++)
+			for (int i = 0; i < MAXNUM_CAKE; i++)
 			{
 				if (i < 5)
 				{
@@ -167,7 +187,7 @@ void CTitleScene::Update()
 				}
 			}
 
-			Title->dotween->DoMoveY(2.5f, 3.0f);
+			Title->dotween->DoMoveY(1.5f, 3.0f);
 			isOnce = true;
 		}
 
@@ -179,12 +199,14 @@ void CTitleScene::Update()
 	}
 	else {
 
-		for (int i = 0; i < MAXNUM; i++)
+		for (int i = 0; i < MAXNUM_CAKE; i++)
 		{
 			Sweets[i]->SetActive(false);
 		}
 
-		if (isRotationSwitch == false)
+		player[0]->Update();
+
+		/*if (isRotationSwitch == false)
 		{
 			Title->mTransform.rotation.z += 0.3f;
 			if (Title->mTransform.rotation.z > 45.0f)
@@ -199,7 +221,7 @@ void CTitleScene::Update()
 			{
 				isRotationSwitch = false;
 			}
-		}
+		}*/
 
 		if (input->GetInputTrigger(InputType::DECIDE) && isFlash == false)
 		{
@@ -233,15 +255,21 @@ void CTitleScene::Draw()
 {
 	Bg->Draw();
 
-	Title->Draw();
-
 	if (isNoMoving == true)
 	{
 		select[0]->Draw();
 		select[1]->Draw();
+		player[0]->Draw();
+
+		/*for (int i = 0; i < MAXNUM_PLAYER; i++)
+		{
+			player[i]->Draw();
+		}*/
 	}
 	
-	for (int i = 0; i < MAXNUM; i++)
+	Title->Draw();
+
+	for (int i = 0; i < MAXNUM_CAKE; i++)
 	{
 		Sweets[i]->Draw();
 	}

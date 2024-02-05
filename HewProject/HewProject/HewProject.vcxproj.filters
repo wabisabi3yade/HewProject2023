@@ -301,6 +301,9 @@
     <Filter Include="ソース ファイル\Hashimoto\ButtonUI">
       <UniqueIdentifier>{f23ad8a7-2543-46d1-bcec-496d91dee963}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CTitlePlayer">
+      <UniqueIdentifier>{ee69b16b-4447-49dd-a782-bfb638575baf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -573,6 +576,9 @@
     <ClInclude Include="ButtonUI.h">
       <Filter>ソース ファイル\Hashimoto\ButtonUI</Filter>
     </ClInclude>
+    <ClInclude Include="CTitlePlayer.h">
+      <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -844,6 +850,9 @@
     </ClCompile>
     <ClCompile Include="ButtonUI.cpp">
       <Filter>ソース ファイル\Hashimoto\ButtonUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitlePlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
