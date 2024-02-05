@@ -18,7 +18,7 @@ CGameOver::CGameOver()
 
 	D3D_CreateSquare({ 1,2 }, &textBoxBuffer);
 	textBox1Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Blue.png");
-	textBox2Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Green.png");
+	textBox2Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_White.png");
 	textBox3Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
 
