@@ -25,6 +25,10 @@ public:
 protected:
 	Player* player;	// プレイヤークラスのポインタ
 
+	//大砲移動時に一マス移動後にじぶんのマスを確認時
+	//自分のタイプを取得するため移動した瞬間に次のタイプを保持する変数
+	CGridObject::BlockType nextCannonType;
+
 	bool canMoveDir[static_cast<int>(DIRECTION::NUM)];	// 移動可能である方向
 
 	bool cannonMoveDir[static_cast<int>(DIRECTION::NUM)];
@@ -46,6 +50,8 @@ protected:
 	bool isRising;   //上昇中
 
 	bool isLookMap;   //マップを見る
+
+	bool flagInit;
 
 	bool inCannon;
 	bool isCannonMove;
@@ -137,5 +143,6 @@ public:
 	bool* GetCanMoveDir() { return &canMoveDir[0]; }
 	bool GetCannonMoveEnd()const { return isCannonMoveEnd; }
 	bool GetCannonMoveStart()const { return isCannonMoveStart; }
+	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 };
 

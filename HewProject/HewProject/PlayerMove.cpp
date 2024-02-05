@@ -30,6 +30,8 @@ PlayerMove::PlayerMove(Player* _p)
 	isCannonMoveStart = false;
 	inCannon = false;
 	isLookMap = false;
+	nextCannonType = CGridObject::BlockType::NONE;
+	flagInit = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -319,9 +321,9 @@ void PlayerMove::CannonMove2()
 {
 	if (isCannonMoveStart)
 	{
-		isCannonMoveEnd = false;
 		return;
 	}
+
 	int moveDir = -1;
 	bool isBound = false;
 	CGrid::GRID_XY movePos = player->GetGridPos();
@@ -397,7 +399,6 @@ void PlayerMove::CannonMove2()
 			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMHORIZONTAL) &&
 			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMVERTICAL))
 			nextGridPos = nextCannonPos;
-
 	}
 	//CGrid::GRID_XY a = nextCannonPos;
 	if (nextCannonPos.x >= 0.0f && nextCannonPos.y >= 0.0f &&
@@ -412,6 +413,11 @@ void PlayerMove::CannonMove2()
 		{
 			//WalkAfter();
 			//player->ChangeTexture(Player::ANIM_TEX::CANNON);
+			if (flagInit == false)
+			{
+				nextCannonType = static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckObjectType(nextCannonPos));
+				flagInit = true;
+			}
 			Vector3 v3MovePos = player->GetGridTable()->GridToWorld(nextCannonPos, CGridObject::BlockType::START);
 			if (moveDir == static_cast<int> (DIRECTION::UP) || moveDir == static_cast<int>(DIRECTION::RIGHT))
 			{
@@ -422,7 +428,10 @@ void PlayerMove::CannonMove2()
 			{
 				player->mTransform.pos.z = v3MovePos.z;
 			}
-			isCannonMoveStart = true;
+			if (!isCannonMoveStart)
+			{
+				isCannonMoveStart = true;
+			}
 			player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME);
 			player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
@@ -438,24 +447,24 @@ void PlayerMove::CannonMove2()
 					{
 						player->ChangeTexture(Player::ANIM_TEX::WALK);
 						dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayFall(moveDir, 2.0f);
-						//dynamic_cast<CPlayerAnim*>(player->GetmAnim())->animSpeed=1.0f;
+						nextCannonType = static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckObjectType(nextCannonPos));
 						player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
 						player->dotween->DelayedCall(CANNONBOUND_TIME, [&]()
 							{
-								isCannonMoveStart = false;
 								player->ChangeTexture(Player::ANIM_TEX::WAIT);
 								dynamic_cast<CPlayerAnim*>(player->GetmAnim())->SetAnimSpeedRate(0.3f);
 								isCannonMove = false;
 								player->SetChangeCannonTexture(false);
+								isCannonMoveStart = false;
 								inCannon = false;
 								isCannonMoveEnd = true;
 								player->GetPlayerMove()->Step();
 								player->dotween->DelayedCall(0.5f, [&]()
 									{
+										flagInit = false;
 										isCannonMoveEnd = false;
 									});
 							});
-
 					}
 					else
 					{

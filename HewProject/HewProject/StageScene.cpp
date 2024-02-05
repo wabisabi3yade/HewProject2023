@@ -327,12 +327,11 @@ void StageScene::StageMove()
 	}
 	else if (player->GetPlayerMove()->GetCannonMoveStart() && !player->GetPlayerMove()->GetCannonMoveEnd())
 	{
-		//player->dotween->DelayedCall(0.1f, [&]()
+		//player->dotween->DelayedCall(CANNONMOVE_TIME, [&]()
 		//	{
-		//		CannonItemDelete();
+		//		ItemDelete();
 		//	});
-
-		CGridObject::BlockType type = player->GetPlayerMove()->CheckNowMassType();
+		CGridObject::BlockType type = player->GetPlayerMove()->CheckNextObjectType();
 		switch (type)
 		{
 		case CGridObject::BlockType::WALL:
@@ -344,13 +343,17 @@ void StageScene::StageMove()
 		}
 		case CGridObject::BlockType::CAKE:
 		{
-
-			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowObjectType())));
-			cakeObj->BlowOff(player->GetDirection());
-			cakeObj->dotween->OnComplete([&]()
+			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), type));
+			CGrid::GRID_XY deletePos = player->GetGridPos();
+			cakeObj->dotween->DelayedCall(CANNONMOVE_TIME,[&]()
+			{
+				cakeObj->BlowOff(player->GetDirection());
+				cakeObj->dotween->OnComplete([&]()
 				{
-					CannonItemDelete();
+					ItemDelete();
 				});
+
+			});
 			break;
 		}
 		case CGridObject::BlockType::CASTELLA:
