@@ -136,5 +136,6 @@ public:
 	bool GetIsCannonMove()const { return isCannonMove; }
 	bool* GetCanMoveDir() { return &canMoveDir[0]; }
 	bool GetCannonMoveEnd()const { return isCannonMoveEnd; }
+	bool GetCannonMoveStart()const { return isCannonMoveStart; }
 };
 

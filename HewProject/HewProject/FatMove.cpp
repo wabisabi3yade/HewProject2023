@@ -76,9 +76,12 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				// 食べ終わったら移動できるようにする
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
+						player->EatEnd();
 						player->EatCake();
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -96,8 +99,11 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
+						player->EatEnd();
 						player->EatChilli();
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -342,8 +348,8 @@ void FatMove::Move(DIRECTION _dir)
 			{
 				WalkAfter();
 				MoveAfter();
-				player->GetPlayerAnim()->StopWalk(player->GetDirection());
-				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+				//player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				//player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 		break;
 	}
@@ -351,7 +357,7 @@ void FatMove::Move(DIRECTION _dir)
 
 void FatMove::Step()
 {
-	switch (player->GetPlayerMove()->CheckNextMassType())
+	switch (player->GetPlayerMove()->CheckNowMassType())
 	{
 	case CGridObject::BlockType::CAKE:
 
@@ -418,16 +424,7 @@ void FatMove::Step()
 		//WalkStart();
 		//ジャンプしてから落ちるように
 
-		Vector2 junpPos = {};
-
-		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-		junpPos.x = Vec3JumpPos.x;
-		junpPos.y = Vec3JumpPos.y;
-
-
-		//WalkAfter();
-		//画面外まで移動するようにYをマクロで定義して使用する
-		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 		Vector2 fallPosXY;
 		fallPosXY.x = fallPos.x;
@@ -443,7 +440,7 @@ void FatMove::Step()
 		case 3:
 		{
 			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
@@ -451,6 +448,7 @@ void FatMove::Step()
 				player->Fall();
 				float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+				//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
 			}
 			player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 				{

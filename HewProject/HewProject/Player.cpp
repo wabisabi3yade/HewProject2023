@@ -140,7 +140,7 @@ void Player::Update()
 			ChangeTexture(ANIM_TEX::WALK);
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
 		}
-		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false)
+		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false && isEat == false)
 		{
 			ChangeTexture(ANIM_TEX::WAIT);
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
@@ -303,6 +303,7 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		default:
 			break;
 		}
+		isEat = true;
 		return;
 	}
 	if (_animTex == ANIM_TEX::EAT_CHILI)
@@ -321,6 +322,7 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		default:
 			break;
 		}
+		isEat = true;
 		return;
 	}
 	if (_animTex == ANIM_TEX::PUNCH)
@@ -365,6 +367,11 @@ void Player::Rise()
 {
 	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
 	move->RiseStart();
+}
+
+void Player::EatEnd()
+{
+	isEat = false;
 }
 
 // テクスチャは解放しない

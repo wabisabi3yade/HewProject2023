@@ -109,7 +109,7 @@ void StageScene::Update()
 	{
 		Undo(stageScale);
 	}
-	
+
 	/// 
 	/// ŠK‘w•ÏX‚µ‚Ä‚¢‚é
 	/// 
@@ -146,10 +146,10 @@ void StageScene::Update()
 			player->GetPlayerMove()->CameraEnd();
 		}
 
-		
+
 	}
 
-	
+
 	//if (gInput->GetKeyTrigger(VK_ESCAPE))
 	//{
 	//	player->GetPlayerMove()->CannonMove2();
@@ -325,8 +325,13 @@ void StageScene::StageMove()
 		// ƒAƒCƒeƒ€‚ª‚ ‚é‚È‚ç‚»‚ê‚ð‰æ–Ê‚©‚çÁ‚·
 		ItemDelete();
 	}
-	else if (player->GetPlayerMove()->GetCannonMoveEnd())
+	else if (player->GetPlayerMove()->GetCannonMoveStart() && !player->GetPlayerMove()->GetCannonMoveEnd())
 	{
+		//player->dotween->DelayedCall(0.1f, [&]()
+		//	{
+		//		CannonItemDelete();
+		//	});
+
 		CGridObject::BlockType type = player->GetPlayerMove()->CheckNowMassType();
 		switch (type)
 		{
@@ -766,7 +771,7 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 void StageScene::Draw()
 {
 	Z_Sort(*vStageObj);
-	
+
 	if (player->GetPlayerMove()->GetisLoolMap() == false)
 	{
 		for (auto it : *vStageObj)
@@ -777,7 +782,7 @@ void StageScene::Draw()
 	else {
 		MapDraw();
 	}
-	
+
 }
 
 void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
