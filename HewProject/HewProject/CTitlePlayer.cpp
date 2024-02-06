@@ -2,11 +2,11 @@
 #include"CPlayerAnim.h"
 #include <random>
 
-#define MAX_POSITION_X 9
-#define MIN_POSITION_X -9
+#define MAX_POSITION_X 10
+#define MIN_POSITION_X -10
 
-#define MAX_POSITION_Y 5
-#define MIN_POSITION_Y -5
+#define MAX_POSITION_Y 6
+#define MIN_POSITION_Y -6
 
 #define PLAYER_POSZ (-0.1f)
 
@@ -22,13 +22,15 @@ CTitlePlayer::CTitlePlayer(D3DBUFFER vb, D3DTEXTURE tex) :CGridObject(vb, tex)
 	mAnim = new CPlayerAnim();
 	mAnim->SetPattern(1);
 	mAnim->isStop = false;
-	mAnim->animSpeed = 2.0f;
+	mAnim->animSpeed = 0.1f;
 
 	mTransform.pos = { 7.0f,distr(eng),PLAYER_POSZ };
 
 	nRandomChara = 0;
 	nAction = 0;
 	isNormal = false;
+	isFat = false;
+	isThin = false;
 	isStopMove = false;
 }
 
@@ -47,16 +49,16 @@ void CTitlePlayer::Update()
 		{
 		case 0:
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::LEFT));
-			dotween->DoMoveX(MIN_POSITION_X, 2.0f);
+			dotween->DoMoveX(MIN_POSITION_X, 3.0f);
 			dotween->OnComplete([&]() {
 				isNormal = false;
 				isStopMove = true;
-				mTransform.pos = { distr(eng),MAX_POSITION_Y - 0.1f,PLAYER_POSZ };
+				mTransform.pos = { distr(eng),MAX_POSITION_Y + 0.1f,PLAYER_POSZ };
 				});
 			break;
 		case 1:
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::LEFT));
-			dotween->DoMoveXY({ MIN_POSITION_X,MIN_POSITION_Y }, 2.0f);
+			dotween->DoMoveXY({ MIN_POSITION_X,MIN_POSITION_Y }, 3.0f);
 			dotween->OnComplete([&]() {
 				isNormal = false;
 				isStopMove = true;
@@ -65,7 +67,7 @@ void CTitlePlayer::Update()
 			break;
 		case 2:
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::DOWN));
-			dotween->DoMoveY(MIN_POSITION_Y, 2.0f);
+			dotween->DoMoveY(MIN_POSITION_Y, 3.0f);
 			dotween->OnComplete([&]() {
 				isNormal = false;
 				isStopMove = true;
@@ -74,7 +76,7 @@ void CTitlePlayer::Update()
 			break;
 		case 3:
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::DOWN));
-			dotween->DoMoveXY({MAX_POSITION_X,distr(eng)}, 2.0f);
+			dotween->DoMoveXY({MAX_POSITION_X,MAX_POSITION_Y}, 3.0f);
 			dotween->OnComplete([&]() {
 				isNormal = false;
 				isStopMove = true;
@@ -85,6 +87,55 @@ void CTitlePlayer::Update()
 			break;
 		}
 		
+	}
+
+	if (isFat == false)
+	{
+		isFat = true;
+
+		mAnim->animSpeed = 0.1f;
+
+		switch (nAction)
+		{
+		case 0:
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::DOWN));
+			dotween->DoMoveY(MIN_POSITION_Y, 3.0f);
+			dotween->OnComplete([&]() {
+				isFat = false;
+				isStopMove = true;
+				mTransform.pos = { distr(eng),MIN_POSITION_Y + 0.1f,PLAYER_POSZ - 0.01f };
+				});
+			break;
+		case 1:
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::LEFT));
+			dotween->DoMoveXY({ MIN_POSITION_X,distr(eng)}, 3.0f);
+			dotween->OnComplete([&]() {
+				isFat = false;
+				isStopMove = true;
+				mTransform.pos = { MIN_POSITION_X + 0.1f,distr(eng),PLAYER_POSZ - 0.01f };
+				});
+			break;
+		case 2:
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::UP));
+			dotween->DoMoveY(MAX_POSITION_Y, 3.0f);
+			dotween->OnComplete([&]() {
+				isFat = false;
+				isStopMove = true;
+				mTransform.pos = { distr(eng),MAX_POSITION_Y + 0.1f,PLAYER_POSZ - 0.01f };
+				});
+			break;
+		case 3:
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::DOWN));
+			dotween->DoMoveXY({ MAX_POSITION_X,distr(eng)}, 3.0f);
+			dotween->OnComplete([&]() {
+				isFat = false;
+				isStopMove = true;
+				mTransform.pos = { MAX_POSITION_X - 0.1f,distr(eng),PLAYER_POSZ - 0.01f };
+				});
+			break;
+		default:
+			break;
+		}
 	}
 	
 	dotween->Update();
