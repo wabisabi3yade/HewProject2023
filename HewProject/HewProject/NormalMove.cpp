@@ -178,6 +178,8 @@ void NormalMove::Move(DIRECTION _dir)
 
 				//WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
+				player->SetGridPos(player->GetPlayerMove()->GetNextGridPos());
+				//this->CheckCanMove();
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 				Vector2 fallPosXY;
@@ -384,6 +386,7 @@ void NormalMove::Step()
 		case 2:
 		case 3:
 		{
+			player->Fall();
 			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
@@ -441,7 +444,7 @@ void NormalMove::Step()
 		MoveAfter();
 		FallAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
-		player->ChangeTexture(Player::ANIM_TEX::WAIT);
+		//player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		break;
 	}
 }

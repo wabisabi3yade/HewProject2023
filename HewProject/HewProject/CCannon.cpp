@@ -148,3 +148,49 @@ void CCannon::DirSelect(Player::DIRECTION _dir)
 {
 	moveDir = static_cast<DIRECTION>(_dir);
 }
+void CCannon::CheckCanMove(GridTable _nowTable, bool _canMove[static_cast<int>(DIRECTION::NUM)])
+{
+	for (int dirRoop = 0; dirRoop < static_cast<int>(CCannon::DIRECTION::NUM); dirRoop++)
+	{
+		// 後ろ以外を見るだけで大丈夫なので
+		if (!canMoveDir[dirRoop]) continue;
+
+		// 方向
+		CGrid::GRID_XY d = {};
+
+		switch (static_cast<DIRECTION>(dirRoop))
+		{
+		case DIRECTION::UP:
+			d.y = -1;
+			break;
+
+		case DIRECTION::DOWN:
+			d.y = 1;
+			break;
+
+		case DIRECTION::RIGHT:
+			d.x = 1;
+			break;
+
+		case DIRECTION::LEFT:
+			d.x = -1;
+			break;
+		}
+
+
+		// プレイヤーの進行先のグリッド座標を取得
+		CGrid::GRID_XY forwordPos = this->GetGridPos();
+		forwordPos.x += d.x;
+		forwordPos.y += d.y;
+
+		// 移動先がマップ外なら移動できないようにする
+		if (forwordPos.x < 0 || forwordPos.y < 0
+			|| _nowTable.floorTable[forwordPos.y][forwordPos.x] == 0)
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
+	}
+
+}
