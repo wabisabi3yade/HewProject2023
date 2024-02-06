@@ -85,7 +85,8 @@ void FatMove::Move(DIRECTION _dir)
 						player->EatCake();
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
-						player->ChangeTexture(Player::ANIM_TEX::WAIT);					});
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
 			});
 		break;
 
@@ -362,11 +363,14 @@ void FatMove::Step()
 		//WalkStart();
 
 		// 食べ終わったら移動できるようにする
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
+		// 食べ終わったら移動できるようにする
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
+				player->EatEnd();
 				player->EatCake();
 				MoveAfter();
-				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
@@ -374,15 +378,13 @@ void FatMove::Step()
 		break;
 
 	case CGridObject::BlockType::CHILI:
-
-		//WalkStart();
-
-		//WalkAfter();
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
 				player->EatChilli();
+				player->EatEnd();
 				MoveAfter();
-				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
