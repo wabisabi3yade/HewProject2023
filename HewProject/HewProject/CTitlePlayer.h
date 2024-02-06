@@ -20,6 +20,8 @@ public:
     std::unique_ptr<DoTween> dotween;
 
     bool isNormal;
+    bool isFat;
+    bool isThin;
     bool isStopMove;
 
     int nRandomChara;

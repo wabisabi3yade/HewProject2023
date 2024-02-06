@@ -105,17 +105,21 @@ CTitleScene::CTitleScene()
 
 	srand(time(NULL));
 	nRandom = rand() % 3;
-	/*for (int i = 0; i < MAXNUM_PLAYER; i++)
-	{
-		player[i] = new CTitlePlayer(playerBuffer, playerTexture);
-		player[i]->mTransform.pos = {4.0f,0,-0.1f};
-		player[i]->mTransform.scale = {2,2,1};
-	}*/
+	
 	player[0] = new CTitlePlayer(playerBuffer, player_normalTexture);
-	//player[0]->mTransform.pos = {7.0f,0,-0.1f};
 	player[0]->mTransform.scale = {2,2,1};
 	player[0]->isNormal = false;
+	player[0]->isFat = true;
+	player[0]->isThin = true;
 	player[0]->nRandomChara = nRandom;
+	
+	player[1] = new CTitlePlayer(playerBuffer, player_fatTexture);
+	player[1]->mTransform.pos = { 0,5.0f,-0.11f };
+	player[1]->mTransform.scale = { 2,2,1 };
+	player[1]->isNormal = true;
+	player[1]->isFat = false;
+	player[1]->isThin = true;
+	player[1]->nRandomChara = nRandom;
 
 	isNoMoving = false;
 	isOnce = false;
@@ -130,11 +134,11 @@ CTitleScene::~CTitleScene()
 
 	CLASS_DELETE(Bg);
 
-	CLASS_DELETE(player[0]);
-	/*for (int i = 0; i < MAXNUM_PLAYER; i++)
+	//CLASS_DELETE(player[0]);
+	for (int i = 0; i < MAXNUM_PLAYER; i++)
 	{
 		CLASS_DELETE(player[i]);
-	}*/
+	}
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -210,35 +214,42 @@ void CTitleScene::Update()
 			Sweets[i]->SetActive(false);
 		}
 
-		if (player[0]->isStopMove == true)
+		for (int i = 0; i < MAXNUM_PLAYER; i++)
 		{
-			srand(time(NULL));
-			player[0]->nRandomChara = nRandom = rand() % 3;
-
-			switch (player[0]->nRandomChara)
+			if (player[i]->isStopMove == true)
 			{
-			case 0:
-				player[0]->SetTexture(player_normalTexture);
-				player[0]->isStopMove = false;
-				player[0]->nAction = rand() % 4;
-				break;
-			case 1:
-				player[0]->SetTexture(player_fatTexture);
-				player[0]->isStopMove = false;
-				player[0]->nAction = rand() % 4;
-				break;
-			case 2:
-				player[0]->SetTexture(player_thinTexture);
-				player[0]->isStopMove = false;
-				player[0]->nAction = rand() % 4;
-				break;
-			default:
-				break;
+				srand(time(NULL));
+				player[i]->nRandomChara = nRandom = rand() % 3;
+
+				switch (player[i]->nRandomChara)
+				{
+				case 0:
+					player[i]->SetTexture(player_normalTexture);
+					player[i]->isStopMove = false;
+					player[i]->nAction = rand() % 4;
+					break;
+				case 1:
+					player[i]->SetTexture(player_fatTexture);
+					player[i]->isStopMove = false;
+					player[i]->nAction = rand() % 4;
+					break;
+				case 2:
+					player[i]->SetTexture(player_thinTexture);
+					player[i]->isStopMove = false;
+					player[i]->nAction = rand() % 4;
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		
-
-		player[0]->Update();
+		
+		for (int i = 0; i < MAXNUM_PLAYER; i++)
+		{
+			player[i]->Update();
+		}
+		
 
 		/*if (isRotationSwitch == false)
 		{
@@ -295,10 +306,10 @@ void CTitleScene::Draw()
 		select[1]->Draw();
 		player[0]->Draw();
 
-		/*for (int i = 0; i < MAXNUM_PLAYER; i++)
+		for (int i = 0; i < MAXNUM_PLAYER; i++)
 		{
 			player[i]->Draw();
-		}*/
+		}
 	}
 	
 	Title->Draw();
