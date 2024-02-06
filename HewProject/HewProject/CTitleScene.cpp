@@ -99,17 +99,23 @@ CTitleScene::CTitleScene()
 	Bg->materialDiffuse = { 1,1,1,1 };
 
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
-	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Wait.png");
+	player_normalTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Walk.png");
+	player_fatTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/F_Walk.png");
+	player_thinTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_Walk.png");
 
+	srand(time(NULL));
+	nRandom = rand() % 3;
 	/*for (int i = 0; i < MAXNUM_PLAYER; i++)
 	{
 		player[i] = new CTitlePlayer(playerBuffer, playerTexture);
 		player[i]->mTransform.pos = {4.0f,0,-0.1f};
 		player[i]->mTransform.scale = {2,2,1};
 	}*/
-	player[0] = new CTitlePlayer(playerBuffer, playerTexture);
-	player[0]->mTransform.pos = {4.0f,0,-0.1f};
+	player[0] = new CTitlePlayer(playerBuffer, player_normalTexture);
+	//player[0]->mTransform.pos = {7.0f,0,-0.1f};
 	player[0]->mTransform.scale = {2,2,1};
+	player[0]->isNormal = false;
+	player[0]->nRandomChara = nRandom;
 
 	isNoMoving = false;
 	isOnce = false;
@@ -203,6 +209,34 @@ void CTitleScene::Update()
 		{
 			Sweets[i]->SetActive(false);
 		}
+
+		if (player[0]->isStopMove == true)
+		{
+			srand(time(NULL));
+			player[0]->nRandomChara = nRandom = rand() % 3;
+
+			switch (player[0]->nRandomChara)
+			{
+			case 0:
+				player[0]->SetTexture(player_normalTexture);
+				player[0]->isStopMove = false;
+				player[0]->nAction = rand() % 4;
+				break;
+			case 1:
+				player[0]->SetTexture(player_fatTexture);
+				player[0]->isStopMove = false;
+				player[0]->nAction = rand() % 4;
+				break;
+			case 2:
+				player[0]->SetTexture(player_thinTexture);
+				player[0]->isStopMove = false;
+				player[0]->nAction = rand() % 4;
+				break;
+			default:
+				break;
+			}
+		}
+		
 
 		player[0]->Update();
 

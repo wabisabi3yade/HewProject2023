@@ -35,7 +35,9 @@ public:
     D3DTEXTURE text_endTexture;
 
     D3DBUFFER playerBuffer;
-    D3DTEXTURE playerTexture;
+    D3DTEXTURE player_normalTexture;
+    D3DTEXTURE player_fatTexture;
+    D3DTEXTURE player_thinTexture;
 
     UI* Title;
     UI* Sweets[MAXNUM_CAKE];
@@ -47,6 +49,8 @@ public:
     bool isOnce;
     bool isRotationSwitch;
     bool isFlash;
+
+    int nRandom;
 
 public:
     CTitleScene();
