@@ -234,7 +234,8 @@ void FatMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-
+				// 穴の真上に行ったタイミングで更新
+				player->SetGridPos(nextGridPos);
 
 				//WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する

@@ -164,39 +164,7 @@ void StageScene::Update()
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{
-		for (int k = 0; k < MAX_LAYER; k++)
-		{
-			if (k == 1 && secondFloor == nullptr)
-			{
-				break;
-			}
-			else if (k == 2 && thirdFloor == nullptr)
-			{
-				break;
-			}
-
-			for (int i = 0; i < stageSquare.y; i++)
-			{
-				for (int j = 0; j < stageSquare.x; j++)
-				{
-					floorUndo[nNextUndo].floorTable[k][i][j] = (nowFloor)->floorTable[i][j];
-					floorUndo[nNextUndo].objectTable[k][i][j] = (nowFloor)->objectTable[i][j];
-				}
-			}
-		}
-
-		floorUndo[nNextUndo].playerUndo = player->GetGridPos();
-		floorUndo[nNextUndo].stateUndo = player->GetState();
-		floorUndo[nNextUndo].dirUndo = player->GetDirection();
-		floorUndo[nNextUndo].calorieUndo = player->GetCalorie();
-		floorUndo[nNextUndo].old_Floor = nowFloorNum;
-
-		nNextUndo++;
-		nNumUndo = nNextUndo;
-		if (nNextUndo > 20)
-		{
-			nNextUndo = 0;
-		}
+		UndoTableUpdate();
 	}
 }
 
@@ -650,78 +618,33 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 
 void StageScene::Undo(float _stageScale)
 {
-	// 一個前のUndoを参照する
+	if (player->GetPlayerMove()->GetIsMoving()) return;
+
+	// 0より下に行くと
 	nNumUndo--;
 	if (nNumUndo < 0)
 	{
-		nNumUndo = 0;
+		// まだ使われていないのなら
+		if (floorUndo[UNDO_ARRAY_NUM - 1].objectTable[0][0][0] == 0)
+		{
+			MessageBoxA(NULL, "これ以上戻れません", "Undo", MB_ICONERROR | MB_OK);
+			nNumUndo = 0;
+			return;	// 抜ける
+		}
+
+		nNumUndo = UNDO_ARRAY_NUM - 1;
 	}
 
 	// 更新するテーブル
 	GridTable* updateTable = nowFloor;
 	// 更新するオブジェクトのリスト
-	std::vector<CGridObject*>& updateObjList = *vStageObj;
+	std::vector<CGridObject*>* updateObjList = vStageObj;
 	// 前にいた階数のグリッドテーブルを更新する
 	const short& o_floorNum = floorUndo[nNumUndo].old_Floor;
-	switch (o_floorNum)
+
+	// 階層を移動していないなら
+	if (nowFloorNum == o_floorNum)
 	{
-	case 1:
-
-		break;
-	case 2:
-		updateTable = secondFloor;
-		updateObjList = secondFStgObj;
-		break;
-	case 3:
-		updateTable = thirdFloor;
-		updateObjList = thirdFStgObj;
-		break;
-
-	default:	// エラー
-		MessageBoxA(NULL, "Undo関数でold_Floorが1～3階の範囲でありません", "エラー", MB_ICONERROR | MB_OK);
-		break;
-	}
-
-	// １つずつ入れていく
-	for (int i = 0; i < stageSquare.y; i++)
-	{
-		for (int j = 0; j < stageSquare.x; j++)
-		{
-			// 情報を入れる
-			updateTable->objectTable[i][j] =
-				floorUndo[nNumUndo].objectTable[o_floorNum - 1][i][j];
-		}
-	}
-	// 入れた階層のオブジェクトを作る
-	CreateStage(*updateTable, updateObjList);
-
-	// 現在の階層のテーブル、オブジェクトに設定する
-	nowFloor = updateTable;
-	vStageObj = &updateObjList;
-
-	// 今の階層と前の階層が違うなら今いる階層も入れなおす
-	if (nowFloorNum != o_floorNum)
-	{
-		switch (nowFloorNum)
-		{
-		case 1:
-			updateTable = oneFloor;
-			updateObjList = oneFStgObj;
-			break;
-		case 2:
-			updateTable = secondFloor;
-			updateObjList = secondFStgObj;
-			break;
-		case 3:
-			updateTable = thirdFloor;
-			updateObjList = thirdFStgObj;
-			break;
-
-		default:
-			MessageBoxA(NULL, "Undo関数でnowFloorNumが1～3階の範囲でありません", "エラー", MB_ICONERROR | MB_OK);
-			break;
-		}
-
 		// １つずつ入れていく
 		for (int i = 0; i < stageSquare.y; i++)
 		{
@@ -729,24 +652,163 @@ void StageScene::Undo(float _stageScale)
 			{
 				// 情報を入れる
 				updateTable->objectTable[i][j] =
-					floorUndo[nNumUndo].objectTable[nowFloorNum - 1][i][j];
+					floorUndo[nNumUndo].objectTable[o_floorNum - 1][i][j];
+
+				// 情報を入れる
+				updateTable->floorTable[i][j] =
+					floorUndo[nNumUndo].floorTable[o_floorNum - 1][i][j];
 			}
 		}
 		// 入れた階層のオブジェクトを作る
-		CreateStage(*updateTable, updateObjList);
+		CreateStage(*updateTable, *updateObjList);
 	}
+	// 移動しているなら
+	else
+	{
+		for (int loop = 0; loop < MAX_LAYER; loop++)
+		{
+			// 全ての階層を更新する
+			switch (loop)
+			{
+			case 0:
+				updateTable = oneFloor;
+				updateObjList = &oneFStgObj;
+				break;
+			case 1:
+				updateTable = secondFloor;
+				updateObjList = &secondFStgObj;
+				break;
+			case 2:
+				updateTable = thirdFloor;
+				updateObjList = &thirdFStgObj;
+				break;
+
+			default:	// エラー
+				MessageBoxA(NULL, "Undo関数でold_Floorが1～3階の範囲でありません", "エラー", MB_ICONERROR | MB_OK);
+				break;
+			}
+
+			// 階層がこれ以上ないなら終わる
+			if (updateTable == nullptr) break;
+
+			// １つずつ入れていく
+			for (int i = 0; i < stageSquare.y; i++)
+			{
+				for (int j = 0; j < stageSquare.x; j++)
+				{
+					// 情報を入れる
+					updateTable->objectTable[i][j] =
+						floorUndo[nNumUndo].objectTable[loop][i][j];
+					// 情報を入れる
+					updateTable->floorTable[i][j] =
+						floorUndo[nNumUndo].floorTable[loop][i][j];
+				}
+			}
+			// 入れた階層のオブジェクトを作る
+			CreateStage(*updateTable, *updateObjList);
+		}
+
+
+	}
+
 	// リスがいる階層を更新
 	nowFloorNum = o_floorNum;
+	// 更新する
+	switch (floorUndo[nNumUndo].old_Floor)
+	{
+	case 1:
+		vStageObj = &oneFStgObj;
+		nowFloor = oneFloor;
+
+		break;
+
+	case 2:
+		vStageObj = &secondFStgObj;
+		nowFloor = secondFloor;
+		break;
+
+	case 3:
+		vStageObj = &thirdFStgObj;
+		nowFloor = thirdFloor;
+		break;
+	}
+	player->SetNowFloor(floorUndo[nNumUndo].old_Floor);
+
 
 	FIELD_FLOOR beforeStage = floorUndo[nNumUndo];
 	// プレイヤーに必要な情報を更新する
 	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
+
+}
+
+void StageScene::UndoTableUpdate()
+{
+	nNumUndo++;
+	if (nNumUndo >= UNDO_ARRAY_NUM)
+	{
+		nNumUndo = 0;
+	}
+
+	for (int loop = 0; loop < MAX_LAYER; loop++)
+	{
+		GridTable* setTable = nullptr;
+
+		switch (loop)
+		{
+		case 0:
+			setTable = oneFloor;
+			break;
+
+		case 1:
+			setTable = secondFloor;
+			break;
+
+		case 2:
+			setTable = thirdFloor;
+			break;
+		}
+		// これ以上階層がないなら終わる
+		if (setTable == nullptr) break;
+
+		// 今いる階層だけ更新
+		for (int i = 0; i < stageSquare.y; i++)
+		{
+			for (int j = 0; j < stageSquare.x; j++)
+			{
+				floorUndo[nNumUndo].floorTable[loop][i][j] = setTable->floorTable[i][j];
+				floorUndo[nNumUndo].objectTable[loop][i][j] = setTable->objectTable[i][j];
+			}
+		}
+	}
+
+	floorUndo[nNumUndo].playerUndo = player->GetGridPos();
+	floorUndo[nNumUndo].stateUndo = player->GetState();
+	floorUndo[nNumUndo].dirUndo = player->GetDirection();
+	floorUndo[nNumUndo].calorieUndo = player->GetCalorie();
+	floorUndo[nNumUndo].old_Floor = nowFloorNum;
 }
 
 void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 	const Player::STATE& _state)
 {
 	player->SetGridTable(nowFloor);
+
+
+	GridTable* setNextTable = nullptr;
+	switch (nowFloorNum)
+	{
+	case 1:
+		break;
+
+	case 2:
+		setNextTable = oneFloor;
+		break;
+
+	case 3:
+		setNextTable = secondFloor;
+		break;
+	}
+	player->SetNextGridTable(setNextTable);
 
 	// 方向を設定
 	player->SetDirection(_dir);
@@ -773,11 +835,13 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 		break;
 	}
 
-	// アニメーションの画像も反映させる
-	player->GetmAnim()->SetPattern(static_cast<int>(animPattern));
-
 	// カロリーを設定
 	player->SetCalorie(_calorie);
+
+
+
+	// アニメーションの画像も反映させる
+	player->GetmAnim()->SetPattern(static_cast<int>(animPattern));
 
 	// 状態を変化させる
 	player->ChangeState(_state);
@@ -983,23 +1047,27 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 		}
 	}
 
+	GridTable* setTable = oneFloor;
 	for (int k = 0; k < MAX_LAYER; k++)
 	{
-		if (k == 1 && secondFloor == nullptr)
+		if (k == 1)
 		{
-			break;
+			setTable = secondFloor;
 		}
-		else if (k == 2 && thirdFloor == nullptr)
+		else if (k == 2)
 		{
-			break;
+			setTable = thirdFloor;
 		}
+
+		// 階層これ以上ないなら
+		if (setTable == nullptr) break;
 
 		for (int i = 0; i < StageData.numY; i++)
 		{
 			for (int j = 0; j < StageData.numX; j++)
 			{
-				floorUndo[0].floorTable[k][i][j] = oneFloor->floorTable[i][j];
-				floorUndo[0].objectTable[k][i][j] = oneFloor->objectTable[i][j];
+				floorReset.floorTable[k][i][j] = setTable->floorTable[i][j];
+				floorReset.objectTable[k][i][j] = setTable->objectTable[i][j];
 			}
 		}
 	}
@@ -1030,11 +1098,15 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 
 	player->SetNowFloor(startfloor);
 
-	floorUndo[0].playerUndo = player->GetGridPos();
-	floorUndo[0].stateUndo = player->GetState();
-	floorUndo[0].dirUndo = player->GetDirection();
-	floorUndo[0].calorieUndo = player->GetCalorie();
-	floorUndo[0].old_Floor = nowFloorNum;
+	floorReset.playerUndo = player->GetGridPos();
+	floorReset.stateUndo = player->GetState();
+	floorReset.dirUndo = player->GetDirection();
+	floorReset.calorieUndo = player->GetCalorie();
+	floorReset.old_Floor = nowFloorNum;
+
+	// 最初のUndoに入れておく
+	floorUndo[0] = floorReset;
+
 	Z_Sort(*vStageObj);
 	//ChangeFloor(nowFloorNum);
 }
@@ -1228,6 +1300,19 @@ void StageScene::ChangeFloor(int _nextFloor)
 
 	vStageObj->erase(removeItr, vStageObj->end());
 
+
+	// 移動前の階層のテーブルのプレイヤーをNONEにする
+	for (int i = 0; i < stageSquare.y; i++)
+	{
+		for (int j = 0; j < stageSquare.x; j++)
+		{
+			if (nowFloor->objectTable[i][j] == static_cast<int>(CGridObject::BlockType::START))
+			{
+				nowFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
+			}
+		}
+	}
+
 	player->risingMoveTrriger = false;
 	player->fallMoveTrriger = false;
 
@@ -1239,12 +1324,14 @@ void StageScene::ChangeFloor(int _nextFloor)
 		vStageObj = &oneFStgObj;
 		vStageObj->push_back(player);
 		nowFloor = oneFloor;
+		nowFloorNum = 1;
 		player->SetGridTable(oneFloor);
 		break;
 	case 2:
 		vStageObj = &secondFStgObj;
 		vStageObj->push_back(player);
 		nowFloor = secondFloor;
+		nowFloorNum = 2;
 		player->SetGridTable(secondFloor);
 		player->SetNextGridTable(oneFloor);
 		break;
@@ -1252,6 +1339,7 @@ void StageScene::ChangeFloor(int _nextFloor)
 		vStageObj = &thirdFStgObj;
 		vStageObj->push_back(player);
 		nowFloor = thirdFloor;
+		nowFloorNum = 3;
 		player->SetGridTable(thirdFloor);
 		player->SetNextGridTable(secondFloor);
 		break;

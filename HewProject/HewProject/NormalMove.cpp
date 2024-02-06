@@ -177,6 +177,10 @@ void NormalMove::Move(DIRECTION _dir)
 			{
 
 				//WalkAfter();
+				
+				// 穴の真上に行ったタイミングで更新
+				player->SetGridPos(nextGridPos);
+
 				//画面外まで移動するようにYをマクロで定義して使用する
 				player->SetGridPos(player->GetPlayerMove()->GetNextGridPos());
 				//this->CheckCanMove();
