@@ -91,7 +91,7 @@ CTitleScene::CTitleScene()
 	Title->materialDiffuse = { 1,1,1,1 };
 
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
-	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/fade_BackBlue.png");
+	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage2.png");
 
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->mTransform.pos = { 0,0,0.4f };

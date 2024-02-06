@@ -405,7 +405,7 @@ void CTitlePlayer::Update()
 			{
 				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(DIRECTION::UP));
 			}
-			dotween->DoMoveXY({ distr_X(eng),MAX_POSITION_Y}, 5.0f);
+			dotween->DoMoveXY(target, 5.0f);
 			dotween->OnComplete([&]() {
 				isAll = false;
 				isStopMove = true;
