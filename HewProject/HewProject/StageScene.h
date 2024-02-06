@@ -9,6 +9,7 @@
 #include "Player.h"
 
 #define MAX_LAYER (3)         // 階層の最大数
+#define UNDO_ARRAY_NUM (20)	// Undoの配列の要素数
 
 class GridTable;
 
@@ -71,6 +72,9 @@ private:
 	//最大フロア
 	int nMaxFloor;
 
+	// リセットのときに使用する最初の状態
+	FIELD_FLOOR floorReset;
+
 	// やり直し機能
 	FIELD_FLOOR floorUndo[20];
 	int nNumUndo = 0;
@@ -127,6 +131,8 @@ public:
 
 	// ステージの状態を一つ前に戻す関数
 	void Undo(float _stageScale);
+	// 移動するごとに前のテーブル状態に更新する
+	void UndoTableUpdate();
 
 	// ひとつ前に戻すときにプレイヤーの情報を設定する
 	void UndoPlayerSet(const int& _dir, const int& _calorie, const Player::STATE& _state);

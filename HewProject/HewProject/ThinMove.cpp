@@ -164,6 +164,9 @@ void ThinMove::Move(DIRECTION _dir)
 			player->dotween->OnComplete([&]()
 				{
 
+					// 穴の真上に行ったタイミングで更新
+					player->SetGridPos(nextGridPos);
+
 					//画面外まで移動するようにYをマクロで定義して使用する
 					Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 					fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
