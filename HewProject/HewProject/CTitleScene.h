@@ -3,7 +3,7 @@
 #include <vector>
 #include "CGridObject.h"
 #define MAXNUM_CAKE 20
-#define MAXNUM_PLAYER 2
+#define MAXNUM_PLAYER 4
 
 class UI;
 class CGridObject;

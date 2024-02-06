@@ -111,15 +111,35 @@ CTitleScene::CTitleScene()
 	player[0]->isNormal = false;
 	player[0]->isFat = true;
 	player[0]->isThin = true;
+	player[0]->isAll = true;
 	player[0]->nRandomChara = nRandom;
 	
 	player[1] = new CTitlePlayer(playerBuffer, player_fatTexture);
-	player[1]->mTransform.pos = { 0,5.0f,-0.11f };
+	player[1]->mTransform.pos = { 4.0f,5.0f,-0.11f };
 	player[1]->mTransform.scale = { 2,2,1 };
 	player[1]->isNormal = true;
 	player[1]->isFat = false;
 	player[1]->isThin = true;
+	player[1]->isAll = true;
 	player[1]->nRandomChara = nRandom;
+
+	player[2] = new CTitlePlayer(playerBuffer, player_thinTexture);
+	player[2]->mTransform.pos = { -4.0f,-5.0f,-0.12f };
+	player[2]->mTransform.scale = { 2,2,1 };
+	player[2]->isNormal = true;
+	player[2]->isFat = true;
+	player[2]->isThin = false;
+	player[2]->isAll = true;
+	player[2]->nRandomChara = nRandom;
+
+	player[3] = new CTitlePlayer(playerBuffer, player_normalTexture);
+	player[3]->mTransform.pos = { -9.0f,-5.0f,-0.13f };
+	player[3]->mTransform.scale = { 2,2,1 };
+	player[3]->isNormal = true;
+	player[3]->isFat = true;
+	player[3]->isThin = true;
+	player[3]->isAll = false;
+	player[3]->nRandomChara = nRandom;
 
 	isNoMoving = false;
 	isOnce = false;
@@ -134,7 +154,6 @@ CTitleScene::~CTitleScene()
 
 	CLASS_DELETE(Bg);
 
-	//CLASS_DELETE(player[0]);
 	for (int i = 0; i < MAXNUM_PLAYER; i++)
 	{
 		CLASS_DELETE(player[i]);
@@ -218,7 +237,7 @@ void CTitleScene::Update()
 		{
 			if (player[i]->isStopMove == true)
 			{
-				srand(time(NULL));
+				//srand(time(NULL));
 				player[i]->nRandomChara = nRandom = rand() % 3;
 
 				switch (player[i]->nRandomChara)
