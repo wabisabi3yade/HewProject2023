@@ -35,5 +35,7 @@ public:
     void InPlayer();
     void SetArrow(D3DTEXTURE _tex);
     void DirSelect(Player::DIRECTION _dir);
+    void CheckCanMove(GridTable _nowTable,bool _canMove[static_cast<int>(DIRECTION::NUM)]);
+    bool GetCanMove() { return canMoveDir; }
 };
 

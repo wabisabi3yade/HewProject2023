@@ -348,9 +348,9 @@ void StageScene::StageMove()
 			cakeObj->dotween->DelayedCall(CANNONMOVE_TIME,[&,cakeObj,deletePos]()
 			{
 				cakeObj->BlowOff(player->GetDirection());
-				cakeObj->dotween->OnComplete([&,deletePos]()
+				cakeObj->dotween->OnComplete([&,cakeObj,deletePos]()
 				{
-					CannonItemDelete(deletePos);
+					CannonItemDelete(deletePos,cakeObj->GetBlookType());
 				});
 
 			});
@@ -383,14 +383,14 @@ void StageScene::StageMove()
 		case CGridObject::BlockType::CHILI:
 		{
 			CChili* chiliObj = dynamic_cast<CChili*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextMassType())));
-			chiliObj->BlowOff(player->GetDirection());
+			//chiliObj->BlowOff(player->GetDirection());
 			CGrid::GRID_XY deletePos = player->GetPlayerMove()->GetNextGridPos();
 			chiliObj->dotween->DelayedCall(CANNONMOVE_TIME, [&, chiliObj, deletePos]()
 				{
 					chiliObj->BlowOff(player->GetDirection());
-					chiliObj->dotween->OnComplete([&, deletePos]()
+					chiliObj->dotween->OnComplete([&, chiliObj,deletePos]()
 						{
-							CannonItemDelete(deletePos);
+							CannonItemDelete(deletePos,chiliObj->GetBlookType());
 						});
 
 				});
@@ -596,10 +596,10 @@ void StageScene::ItemDelete()
 	}
 }
 
-void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos)
+void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockType _type)
 {
 	CGrid::GRID_XY next;
-	if (_deletePos.x == NULL && _deletePos.y == NULL)
+	if (_deletePos.x == -1 && _deletePos.y == -1)
 	{
 		next = player->GetGridPos();
 	}
@@ -608,10 +608,18 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos)
 		next = _deletePos;
 	}
 
-	CGridObject* deleteObj;	// 画面から消す予定のポインタがはいる
 
-	switch (static_cast<CGridObject::BlockType>
-		((nowFloor)->objectTable[next.y][next.x]))
+	CGridObject* deleteObj;	// 画面から消す予定のポインタがはいる
+	CGridObject::BlockType type;
+	if (_type == CGridObject::BlockType::NONE)
+	{
+		type = static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]);
+	}
+	else
+	{
+		type = _type;
+	}
+	switch (type)
 	{
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
@@ -627,7 +635,7 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos)
 					_obj->GetCategory() == CGridObject::Category::ITEM);
 			});
 
-		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]));
+		deleteObj = GetStageObject(next, type);
 
 		// 画面から消す
 		deleteObj->SetActive(false);

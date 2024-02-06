@@ -174,8 +174,9 @@ void Player::Update()
 					{
 						move->WalkAfter();
 					}
-					move->MoveAfter();
-					move->FallAfter();
+					this->SetGridPos(move->GetNextGridPos());
+					//move->MoveAfter();
+					//move->FallAfter();
 					move->Step();
 
 					//move->CheckCanMove();
@@ -205,7 +206,8 @@ void Player::Update()
 			{
 				//move->Move(static_cast<PlayerMove::DIRECTION>(direction));
 				move->WalkAfter();
-				move->MoveAfter();
+				this->SetGridPos(move->GetNextGridPos());
+				//move->MoveAfter();
 				move->Step();
 				move->RiseAfter();
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
