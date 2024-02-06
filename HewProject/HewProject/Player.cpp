@@ -83,6 +83,11 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	punchTex[3] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Up.png");
 
 	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
+
+	//BaumTex[0] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowBack.png");
+	//BaumTex[1] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowFront.png");
+	//BaumTex[2] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowFront.png");
+	//BaumTex[3] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowFront.png");
 }
 
 void Player::Init(GridTable* _pTable)
@@ -162,10 +167,7 @@ void Player::Update()
 				{
 					move->WalkAfter();
 				}
-
 				move->Step();
-
-				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 				fallFloorChangeTrriger = false;
 			}
 
@@ -319,7 +321,23 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		SetTexture(punchTex[static_cast<int>(direction)]);
 		return;
 	}
-
+	else if(_animTex == ANIM_TEX::BAUM)
+	{
+		switch (static_cast<int>(this->direction))
+		{
+		case 0:
+		case 1:
+		//SetTexture(BaumTex[0]);
+		//SetTexture(BaumTex[1]);
+			break;
+		case 2:
+		case 3:
+			break;
+		default:
+			break;
+		}
+			return;
+	}
 	switch (playerState)
 	{
 	case Player::STATE::NORMAL:

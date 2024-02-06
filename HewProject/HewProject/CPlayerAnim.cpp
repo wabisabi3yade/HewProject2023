@@ -253,4 +253,27 @@ void CPlayerAnim::PlayPunch(float _animSpeedRate)
 	SetPattern(static_cast<int>(PATTERN::PUNCH));
 }
 
+void CPlayerAnim::PlayBaum(int _dir, float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	switch (_dir)
+	{
+		//　下
+		// 全方位行動可
+	case 0:
+		// 右
+	case 2:
+		SetPattern(static_cast<int>(PATTERN::BAUM_RIGHT));
+		break;
+		// 左
+	case 1:
+		// 上
+	case 3:
+		SetPattern(static_cast<int>(PATTERN::BAUM_LEFT));
+		break;
+	}
+}
+
 

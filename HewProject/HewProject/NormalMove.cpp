@@ -196,7 +196,7 @@ void NormalMove::Move(DIRECTION _dir)
 					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
 						//バウンドする高さを計算　代入
-						player->Fall();
+						//player->Fall();
 						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 						//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
@@ -205,9 +205,7 @@ void NormalMove::Move(DIRECTION _dir)
 						{
 							player->fallMoveTrriger = true;
 						});
-
 				}
-
 				break;
 				default:
 					break;
@@ -303,6 +301,7 @@ void NormalMove::Step()
 				player->EatEnd();
 				player->EatCake();
 				MoveAfter();
+				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
@@ -317,6 +316,7 @@ void NormalMove::Step()
 				player->EatChilli();
 				player->EatEnd();
 				MoveAfter();
+				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
@@ -369,7 +369,7 @@ void NormalMove::Step()
 		Vector2 fallPosXY;
 		fallPosXY.x = fallPos.x;
 		fallPosXY.y = fallPos.y;
-		player->Fall();
+		//player->Fall();
 		player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
 		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 		switch (player->GetNowFloor())
@@ -379,14 +379,14 @@ void NormalMove::Step()
 		case 2:
 		case 3:
 		{
-			player->Fall();
+			//player->Fall();
 			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
 				//バウンドする高さを計算　代入
-				player->Fall();
+				//player->Fall();
 				float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);

@@ -165,7 +165,7 @@ void MuscleMove::Move(DIRECTION _dir)
 					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
 						//バウンドする高さを計算　代入
-						player->Fall();
+						//player->Fall();
 						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 					}
@@ -219,16 +219,17 @@ void MuscleMove::Move(DIRECTION _dir)
 					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					{
+						//バウンドする高さを計算　代入
+						//player->Fall();
+						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
+						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+						//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
+					}
 					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 						{
 							player->fallMoveTrriger = true;
-							if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
-							{
-								//バウンドする高さを計算　代入	
-								player->Fall();
-								float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
-								player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-							}
 						});
 				}
 				break;
@@ -418,7 +419,7 @@ void MuscleMove::Step()
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
 				//バウンドする高さを計算　代入
-				player->Fall();
+				//player->Fall();
 				float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);

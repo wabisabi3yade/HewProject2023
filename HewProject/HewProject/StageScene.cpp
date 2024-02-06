@@ -54,6 +54,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	stageTextureBaumkuchen_R = texFactory->Fetch(L"asset/Stage/Baumkuchen_R.png");
 	stageTextureBaumkuchen_L = texFactory->Fetch(L"asset/Stage/Baumkuchen_L.png");
 	stageTextureChocolate = texFactory->Fetch(L"asset/Stage/Chocolate.png");
+	stageTextureChocolateClack = texFactory->Fetch(L"asset/Stage/ChocoClack.png");
 	stageTextureCake = texFactory->Fetch(L"asset/Item/Cake.png");
 	stageTextureChili = texFactory->Fetch(L"asset/Item/Chili.png");
 	stageTextureCoin = texFactory->Fetch(L"asset/Item/Coin.png");
@@ -250,6 +251,7 @@ void StageScene::StageMove()
 					player->GetPlayerMove()->FallStart();
 				}
 				chocoObj->CRACK();
+				chocoObj->SetTexture(stageTextureChocolateClack);
 			}
 			if (player->GetState() == Player::STATE::FAT || player->GetState() == Player::STATE::MUSCLE)
 			{
@@ -262,29 +264,6 @@ void StageScene::StageMove()
 				player->GetPlayerMove()->FallStart();
 			}
 		}
-		//else if (player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::CHOCO ||
-		//	player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::CHOCOCRACK)
-		//{
-		//	 CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowFloorType())));
-		//	 if (player->GetState() != Player::STATE::THIN)
-		//	 {
-		//		if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
-		//		{
-		//			CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
-		//			hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
-		//			hollObj->SetBlookType(CGridObject::BlockType::HOLL);
-		//			hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
-		//			vStageObj->push_back(hollObj);
-		//			player->GetPlayerMove()->FallStart();
-		//		}
-		//		chocoObj->CRACK();
-		//	 }
-		//	if (player->GetState() == Player::STATE::FAT || player->GetState() == Player::STATE::MUSCLE)
-		//	{
-		//		chocoObj->CRACK();
-		//	}
-		//}
-
 		if (player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GUMI)
 		{
 			player->GetPlayerMove()->RiseStart();
@@ -1246,7 +1225,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				break;
 
 			case CGridObject::BlockType::CHOCOCRACK:
-				floorWork = new CChoco(stageBuffer, stageTextureChocolate);
+				floorWork = new CChoco(stageBuffer, stageTextureChocolateClack);
 				break;
 
 			default:
