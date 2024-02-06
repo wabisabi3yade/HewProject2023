@@ -220,6 +220,14 @@ void Player::EatChilli()
 // ó‘Ô‚ð•Ï‚¦‚é‚Æ‚«‚ÉŒÄ‚Ño‚·ˆ—
 void Player::ChangeState(STATE _set)
 {
+	bool o_isMoveTrigger = false;
+
+	if (move.get() != nullptr)
+	{
+		o_isMoveTrigger = move->GetIsMoveTrigger();
+
+	}
+
 	// ˆÚ“®ƒNƒ‰ƒX‚ð‰ð•ú‚·‚é
 	move.reset();
 
@@ -252,6 +260,8 @@ void Player::ChangeState(STATE _set)
 		this->calorie = CAKE_CALORIE;
 		break;
 	}
+
+	move->SetMoveTrigger(o_isMoveTrigger);
 
 	dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(direction));
 
