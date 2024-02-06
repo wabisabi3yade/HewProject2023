@@ -234,9 +234,6 @@ void FatMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-				// 穴の真上に行ったタイミングで更新
-				player->SetGridPos(nextGridPos);
-
 				//WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
@@ -358,7 +355,7 @@ void FatMove::Move(DIRECTION _dir)
 
 void FatMove::Step()
 {
-	switch (player->GetPlayerMove()->CheckNowMassType())
+	switch (player->GetPlayerMove()->CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
 
@@ -425,7 +422,7 @@ void FatMove::Step()
 		//WalkStart();
 		//ジャンプしてから落ちるように
 
-		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::FLOOR));
+		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 		Vector2 fallPosXY;
 		fallPosXY.x = fallPos.x;
@@ -441,7 +438,7 @@ void FatMove::Step()
 		case 3:
 		{
 			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START));
+			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{

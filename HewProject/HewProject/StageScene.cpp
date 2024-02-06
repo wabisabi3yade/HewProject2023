@@ -1346,6 +1346,7 @@ void StageScene::ChangeFloor(int _nextFloor)
 	default:
 		break;
 	}
+	player->SetNowFloor(nowFloorNum);
 
 	Z_Sort(*vStageObj);
 }
