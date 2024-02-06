@@ -71,8 +71,8 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 
 	TextureInput(L"asset/Player/N_EatCake.png", STATE::NORMAL, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/F_EatCake.png", STATE::FAT, ANIM_TEX::EAT_CAKE);
-	TextureInput(L"asset/Player/T_EatCake.png", STATE::THIN,ANIM_TEX::EAT_CAKE),
-	TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
+	TextureInput(L"asset/Player/T_EatCake.png", STATE::THIN, ANIM_TEX::EAT_CAKE),
+		TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
 
@@ -150,48 +150,26 @@ void Player::Update()
 	{
 		if (move->GetIsFalling() == true)
 		{
-			switch (nowFloor)
+			// 落ちる処理 
+			if (fallMoveTrriger == true)
 			{
-			case 1:
-				if (fallMoveTrriger == true)
-				{
-					move->MoveAfter();
-					move->FallAfter();
-					GameOver();
-				}
-				break;
-			case 2:
-			case 3:
-				// 落ちる処理 
-				if (fallMoveTrriger == true)
-				{
-					mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
-					fallFloorChangeTrriger = true;
-				}
-				if (mTransform.pos == gridTable->GridToWorld(this->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
-				{
-					if (this->gridTable->CheckFloorType(move->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
-					{
-						move->WalkAfter();
-					}
-					this->SetGridPos(move->GetNextGridPos());
-					//move->MoveAfter();
-					//move->FallAfter();
-					move->Step();
-
-					//move->CheckCanMove();
-					//move->SetNextGridPos(GetGridPos());
-					//move->Move();
-
-
-					dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
-					nowFloor--;
-					fallFloorChangeTrriger = false;
-				}
-				break;
-			default:
-				break;
+				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
+				fallFloorChangeTrriger = true;
 			}
+			if (mTransform.pos == gridTable->GridToWorld(this->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
+			{
+				if (this->gridTable->CheckFloorType(move->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+				{
+					move->WalkAfter();
+				}
+
+				move->Step();
+
+				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
+				fallFloorChangeTrriger = false;
+			}
+
+
 		}
 		else if (move->GetIsRising() == true)
 		{
@@ -211,7 +189,6 @@ void Player::Update()
 				move->Step();
 				move->RiseAfter();
 				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
-				nowFloor++;
 				risingChangeTrriger = false;
 			}
 

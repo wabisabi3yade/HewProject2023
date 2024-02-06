@@ -199,9 +199,6 @@ void MuscleMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-				// 穴の真上に行ったタイミングで更新
-				player->SetGridPos(nextGridPos);
-
 				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
@@ -322,7 +319,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 void MuscleMove::Step()
 {
-	switch (player->GetPlayerMove()->CheckNowMassType())
+	switch (player->GetPlayerMove()->CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
 
