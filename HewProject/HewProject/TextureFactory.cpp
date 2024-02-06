@@ -74,6 +74,7 @@ void TextureFactory::Load()
 		L"asset/Stage/test_Hool.png",
 		L"asset/Stage/Wataame.png",
 		L"asset/Stage/Chocolate.png",
+		L"asset/Stage/ChocoClack.png",
 		L"asset/Stage/Baumkuchen_R.png",
 		L"asset/Stage/Baumkuchen_L.png",
 		L"asset/Stage/Castella.png",

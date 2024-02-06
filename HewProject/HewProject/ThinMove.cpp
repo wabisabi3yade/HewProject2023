@@ -182,16 +182,17 @@ void ThinMove::Move(DIRECTION _dir)
 						player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 						Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 						player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+						if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+						{
+							//バウンドする高さを計算　代入
+							//player->Fall();
+							float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
+							player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+							//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
+						}
 						player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 							{
 								player->fallMoveTrriger = true;
-								player->Fall();
-								if (player->GetPlayerMove()->CheckNowFloorType() != CGridObject::BlockType::HOLL)
-								{
-									//バウンドする高さを計算　代入
-									float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
-									player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-								}
 							});
 
 					}
@@ -269,14 +270,13 @@ void ThinMove::Move(DIRECTION _dir)
 		}
 		if (nextGridPos.x < 0 || nextGridPos.y < 0 || nextGridPos.x < XY.x || nextGridPos.y < XY.y)
 		{
-			//nextGridPos.x -= d.x;
-			//nextGridPos.x -= d.x;
-			//nextGridPos.y -= d.y;
-			//nextGridPos.y -= d.y;
 			nextGridPos = player->GetGridPos();
 			MoveAfter();
 			return;
 		}
+
+		player->mTransform.pos = player->GetGridTable()->GridToWorld({ nextGridPos.x - d.x, nextGridPos.y - d.y }, CGridObject::BlockType::START);
+
 		WalkStart();
 
 		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
@@ -411,6 +411,7 @@ void ThinMove::Step()
 	switch (player->GetPlayerMove()->CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
+
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		// 食べ終わったら移動できるようにする
@@ -419,10 +420,10 @@ void ThinMove::Step()
 				player->EatEnd();
 				player->EatCake();
 				MoveAfter();
+				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
-
 		break;
 
 	case CGridObject::BlockType::CHILI:
@@ -433,6 +434,7 @@ void ThinMove::Step()
 				player->EatChilli();
 				player->EatEnd();
 				MoveAfter();
+				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
@@ -502,7 +504,7 @@ void ThinMove::Step()
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
 				//バウンドする高さを計算　代入
-				player->Fall();
+				//player->Fall();
 				float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);

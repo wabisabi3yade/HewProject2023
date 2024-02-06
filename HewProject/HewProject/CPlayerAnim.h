@@ -30,6 +30,10 @@ public:
         EAT_LEFT,    //食べる左向き
 
         PUNCH,       //パンチ
+
+        //バウムクーヘンの動き
+        BAUM_RIGHT,     //右向き
+        BAUM_LEFT,      //左向き
     };
 private:
     float AnimSpeedRate;
@@ -45,6 +49,7 @@ public:
     void PlayCannon(int _dir, float _animSpeedRate = 1.0f);
     void PlayEat(int _dir, float _animSpeedRate = 1.0f);
     void PlayPunch( float _animSpeedRate = 1.0f);
+    void PlayBaum(int _dir, float _animSpeedRate);
     bool GetIsFall() { return Now_IsFall; }
     bool GetOldIsFall() { return Old_IsFall; }
     void SetIsFall(bool _isFall) { Now_IsFall = _isFall ;}

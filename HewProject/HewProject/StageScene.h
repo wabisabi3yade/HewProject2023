@@ -99,6 +99,7 @@ private:
 	D3DTEXTURE stageTextureBaumkuchen_R;
 	D3DTEXTURE stageTextureBaumkuchen_L;
 	D3DTEXTURE stageTextureChocolate;
+	D3DTEXTURE stageTextureChocolateClack;
 	D3DTEXTURE stageTextureCake;
 	D3DTEXTURE stageTextureChili;
 	D3DTEXTURE stageTextureCoin;
