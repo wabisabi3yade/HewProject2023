@@ -411,15 +411,14 @@ void ThinMove::Step()
 	switch (player->GetPlayerMove()->CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
-
-		//WalkStart();
-
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
+				player->EatEnd();
 				player->EatCake();
 				MoveAfter();
-				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
@@ -427,15 +426,13 @@ void ThinMove::Step()
 		break;
 
 	case CGridObject::BlockType::CHILI:
-
-		//WalkStart();
-
-		//WalkAfter();
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
 				player->EatChilli();
+				player->EatEnd();
 				MoveAfter();
-				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
