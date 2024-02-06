@@ -132,6 +132,10 @@ public:
 
 	void SetNextGridPos(const CGrid::GRID_XY _nextGirdPos) { nextGridPos = _nextGirdPos; }
 
+	bool GetMoveTrigger() { return isMovingTrigger; }
+	void SetMoveTrigger(bool _set) { isMovingTrigger = _set; }
+
+
 	bool GetIsMoving()const { return isMoving; }
 	bool GetIsMoveStart()const { return isMoveStartTrigger; }
 	bool GetIsMoveTrigger() const { return isMovingTrigger; }
