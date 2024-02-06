@@ -19,6 +19,12 @@ public:
 
     std::unique_ptr<DoTween> dotween;
 
+    bool isNormal;
+    bool isStopMove;
+
+    int nRandomChara;
+    int nAction;
+
 public:
     CTitlePlayer(D3DBUFFER vb, D3DTEXTURE tex);
     ~CTitlePlayer();
