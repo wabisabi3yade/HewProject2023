@@ -22,6 +22,7 @@ public:
     bool isNormal;
     bool isFat;
     bool isThin;
+    bool isAll;
     bool isStopMove;
 
     int nRandomChara;
