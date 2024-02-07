@@ -7,7 +7,7 @@ class CannonAnim :
     {
         IDLE,
         TURN,
-        L_DIR = 3,//¶•ûŒü
+        L_DIR,//¶•ûŒü
         R_DIR,//‰E•ûŒü
         D_DIR,//‰º•ûŒü
         U_DIR,//ã•ûŒü

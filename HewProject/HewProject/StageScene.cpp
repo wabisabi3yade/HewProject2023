@@ -63,6 +63,9 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	stageTextureProtein = texFactory->Fetch(L"asset/Item/Protein.png");
 	/*playerTexture = texFactory->Fetch(L"asset/Stage/floor_y.png");*/
 	shadowTexture = texFactory->Fetch(L"asset/Item/shadow.png");
+	stageTextureArrow = texFactory->Fetch(L"asset/UI/Arrow.png");
+	stageTextureCannon[0] = texFactory->Fetch(L"asset/Stage/Canon_RightLeft.png");
+	stageTextureCannon[1] = texFactory->Fetch(L"asset/Stage/Canon_UpDown.png");
 
 }
 
@@ -149,7 +152,68 @@ void StageScene::Update()
 
 
 	}
+	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
+	{
+		int isSelectDir = -1;
+		InputManager* input = InputManager::GetInstance();
+		Vector2 PadStick = input->GetMovement();
+		if (PadStick.x > 0.0f && PadStick.y > 0.0f)
+		{
+			isSelectDir = static_cast<int>(Player::DIRECTION::RIGHT);
+		}
+		else if(PadStick.x < 0.0f && PadStick.y < 0.0f)
+		{
+			isSelectDir = static_cast<int>(Player::DIRECTION::LEFT);
+			//player->mTransform.pos.x -= 0.3f;
+		}
+		else if (PadStick.x < 0.0f && PadStick.y > 0.0f)
+		{
+			isSelectDir = static_cast<int>(Player::DIRECTION::UP);
+			//player->mTransform.pos.y -= 0.3f;
+			//player->mTransform.pos.x -= 5.0f;
+		}
+		else if (PadStick.x > 0.0f && PadStick.y < 0.0f)
+		{
+			isSelectDir = static_cast<int>(Player::DIRECTION::DOWN);
+		}
+		if (isSelectDir != -1)
+		{
+			CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetGridPos(), CGridObject::BlockType::CANNON));
+			player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
+			player->SetDirection(isSelectDir);
+			cannonMove = true;
+			if (isSelectDir == 2 || isSelectDir == 1)
+			{
+				cannonObj->SetTexture(stageTextureCannon[0]);
+				dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
+			player->dotween->DelayedCall(0.9f,[&,isSelectDir,cannonObj]()
+				{
+					cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
+					player->dotween->DelayedCall(0.9f, [&,cannonObj]()
+						{
+							cannonObj->CheckCanMove(nowFloor,(player->GetCanMoveDir()));
+							player->GetPlayerMove()->CannonMoveStart();
+							cannonMove = false;
+						});
+				});
+			}
+			else
+			{
+				cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
 
+				player->dotween->DelayedCall(0.9f, [&,cannonObj]()
+					{
+						cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
+						player->GetPlayerMove()->CannonMoveStart();
+						cannonMove = false;
+					});
+			}
+
+
+
+		}
+
+	}
 
 	//if (gInput->GetKeyTrigger(VK_ESCAPE))
 	//{
@@ -230,6 +294,7 @@ void StageScene::StageMove()
 
 		}
 
+
 	}
 
 	// プレイヤーが動き終えると
@@ -272,6 +337,8 @@ void StageScene::StageMove()
 		// アイテムがあるならそれを画面から消す
 		ItemDelete();
 	}
+
+
 	if (player->GetPlayerMove()->GetCannonMoveStartTrigger())
 	{
 		//player->dotween->DelayedCall(CANNONMOVE_TIME, [&]()
@@ -292,15 +359,15 @@ void StageScene::StageMove()
 		{
 			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), type));
 			CGrid::GRID_XY deletePos = player->GetPlayerMove()->GetNextGridPos();
-			cakeObj->dotween->DelayedCall(CANNONMOVE_TIME,[&,cakeObj,deletePos]()
-			{
-				cakeObj->BlowOff(player->GetDirection());
-				cakeObj->dotween->OnComplete([&,cakeObj,deletePos]()
+			cakeObj->dotween->DelayedCall(CANNONMOVE_TIME, [&, cakeObj, deletePos]()
 				{
-					CannonItemDelete(deletePos,cakeObj->GetBlookType());
-				});
+					cakeObj->BlowOff(player->GetDirection());
+					cakeObj->dotween->OnComplete([&, cakeObj, deletePos]()
+						{
+							CannonItemDelete(deletePos, cakeObj->GetBlookType());
+						});
 
-			});
+				});
 			break;
 		}
 		case CGridObject::BlockType::CASTELLA:
@@ -321,7 +388,7 @@ void StageScene::StageMove()
 			proObj->BlowOff(player->GetDirection());
 			CGrid::GRID_XY deletePos = player->GetGridPos();
 			//nowFloor->objectTable[proObj->GetGridPos().y][proObj->GetGridPos().x] =static_cast<short> (CGridObject::BlockType::NONE);
-			proObj->dotween->OnComplete([&,deletePos]()
+			proObj->dotween->OnComplete([&, deletePos]()
 				{
 					CannonItemDelete(deletePos);
 				});
@@ -335,9 +402,9 @@ void StageScene::StageMove()
 			chiliObj->dotween->DelayedCall(CANNONMOVE_TIME, [&, chiliObj, deletePos]()
 				{
 					chiliObj->BlowOff(player->GetDirection());
-					chiliObj->dotween->OnComplete([&, chiliObj,deletePos]()
+					chiliObj->dotween->OnComplete([&, chiliObj, deletePos]()
 						{
-							CannonItemDelete(deletePos,chiliObj->GetBlookType());
+							CannonItemDelete(deletePos, chiliObj->GetBlookType());
 						});
 
 				});
@@ -1163,7 +1230,8 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				objWork = new CGall(stageBuffer, stageTextureGallChest);
 				break;
 			case CGridObject::BlockType::CANNON:
-				objWork = new CCannon(stageBuffer, stageTextureCannon);
+				objWork = new CCannon(playerBuffer, stageTextureCannon[1]);
+				dynamic_cast<CCannon*>(objWork)->SetArrow(stageBuffer, stageTextureArrow);
 			default:
 				break;
 

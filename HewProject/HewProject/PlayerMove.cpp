@@ -55,38 +55,34 @@ void PlayerMove::Input()
 		// ‚»‚Ì•ûŒü‚ÉˆÚ“®‚Å‚«‚é‚È‚ç
 		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::RIGHT));
-		if (inCannon == false)
+		if (inCannon == false && isCannonMove == false)
 			// ˆÚ“®‚·‚é
 			Move(DIRECTION::RIGHT);
-		else
-			CannonDirSelect(DIRECTION::RIGHT);
+
 	}
 	else if (gInput->GetKeyTrigger(VK_LEFT) || (PadStick.x < 0.0f && PadStick.y < 0.0f))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::LEFT));
-		if (inCannon == false)
+		if (inCannon == false && isCannonMove == false)
 			Move(DIRECTION::LEFT);
-		else
-			CannonDirSelect(DIRECTION::LEFT);
+
 	}
 	else if (gInput->GetKeyTrigger(VK_UP) || (PadStick.x < 0.0f && PadStick.y > 0.0f))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::UP)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::UP));
-		if (inCannon == false)
+		if (inCannon == false && isCannonMove == false)
 			Move(DIRECTION::UP);
-		else
-			CannonDirSelect(DIRECTION::UP);
+
 	}
 	else if (gInput->GetKeyTrigger(VK_DOWN) || (PadStick.x > 0.0f && PadStick.y < 0.0f))
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
-		if (inCannon == false)
+		if (inCannon == false && isCannonMove == false)
 			Move(DIRECTION::DOWN);
-		else
-			CannonDirSelect(DIRECTION::DOWN);
+
 	}
 	else if (gInput->GetKeyTrigger(VK_ESCAPE) || input->GetInputTrigger(InputType::DECIDE))
 	{
@@ -94,6 +90,7 @@ void PlayerMove::Input()
 		{
 			isCannonMove = true;
 			isCannonMoveStartTrigger = true;
+			inCannon = false;
 		}
 	}
 	else if (gInput->GetKeyTrigger(VK_SPACE) || input->GetInputTrigger(InputType::L_BUTTON))
@@ -482,6 +479,13 @@ void PlayerMove::CannonMove2()
 
 	}
 
+}
+
+void PlayerMove::CannonMoveStart()
+{
+	isCannonMove = true;
+	isCannonMoveStartTrigger = true;
+	inCannon = false;
 }
 
 void PlayerMove::CannonDirSelect(DIRECTION _dir)

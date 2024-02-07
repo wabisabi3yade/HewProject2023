@@ -63,6 +63,7 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _typ
 	case CGridObject::BlockType::BAUMVERTICAL:
 	case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::GUMI:
+	case CGridObject::BlockType::CANNON:
 	case CGridObject::BlockType::GALL:
 		disTimes = 0.455f;
 

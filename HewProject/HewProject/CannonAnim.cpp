@@ -3,6 +3,7 @@
 CannonAnim::CannonAnim()
 {
 	animPattern = static_cast<int>(PATTERN::IDLE);
+	AnimSpeedRate = 1.0f;
 }
 
 CannonAnim::~CannonAnim()
@@ -16,17 +17,15 @@ void CannonAnim::Update()
 		{0,-1},//上向き待機状態
 
 
-		{0,0,1,1,2,2},//回転、上下から左右方向へ
+		{0,0,1,1,2,2,-2},//回転、上下から左右方向へ
 
-		{2,2,1,1,0,0},//回転、左右から上下方向へ
+		{2,2,3,3,4,4,5,5,-2},//左方向へ
 
-		{3,3,4,4,5,5,-2},//左方向へ
+		{2,2,6,6,7,7,8,8,-2},//右方向へ
 
-		{6,6,7,7,8,8,-2},//右方向へ
+		{0,0,3,3,4,4,5,5,-2},//下方向へ
 
-		{3,3,4,4,5,5,-2},//下方向へ
-
-		{6,6,7,7,8,8,-2},//上方向へ
+		{0,0,6,6,7,7,8,8,-2},//上方向へ
 
 	};
 
@@ -46,10 +45,10 @@ void CannonAnim::Update()
 		else if (animTable[animPattern][(int)animCounter] == -2)
 		{
 			// 再生を止める
-			isPlaying = false;
-			animPattern -= 1;
+			//isPlaying = false;
+			//animPattern -= 1;
 			// 最初のコマに戻して止める
-			//animCounter = 0.0f;
+			animCounter -= 1.0f;
 		}
 	}
 
@@ -67,19 +66,8 @@ void CannonAnim::PlayTurn(int _dir, float _animSpeedRate)
 	isPlaying = true;
 	animCounter = 0;
 	AnimSpeedRate = _animSpeedRate;
-	switch (_dir)
-	{
-	case 0:
-	case 3:
-		SetPattern(static_cast<int>(CannonAnim::PATTERN::TURN)+1);
-		break;
-	case 1:
-	case 2:
-		SetPattern(static_cast<int>(CannonAnim::PATTERN::TURN));
-		break;
-	default:
-		break;
-	}
+
+	SetPattern(static_cast<int>(CannonAnim::PATTERN::TURN));
 }
 
 void CannonAnim::PlayStart(int _dir, float _animSpeedRate)

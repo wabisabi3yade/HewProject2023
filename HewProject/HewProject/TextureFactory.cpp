@@ -80,6 +80,8 @@ void TextureFactory::Load()
 		L"asset/Stage/Baumkuchen_R.png",
 		L"asset/Stage/Baumkuchen_L.png",
 		L"asset/Stage/Castella.png",
+		L"asset/Stage/Canon_RightLeft.png",
+		L"asset/Stage/Canon_UpDown.png",
 		L"asset/Stage/2castella.png",
 		L"asset/Stage/GallChest.png",
 		L"asset/Stage/Gumi.png",
@@ -107,6 +109,7 @@ void TextureFactory::Load()
 		L"asset/UI/Protein_Mark.png",
 		L"asset/UI/Protein_Bar.png",
 		L"asset/UI/Sippai.png",
+		L"asset/UI/Arrow.png",
 
 		L"asset/Text/T_GameStart.png",
 		L"asset/Text/T_GameEnd.png",
