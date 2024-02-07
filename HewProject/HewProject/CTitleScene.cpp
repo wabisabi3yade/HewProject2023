@@ -1,16 +1,17 @@
 #include "CTitleScene.h"
 #include "CSceneManager.h"
 #include "InputManager.h"
-#include "UI.h"
 #include "TextureFactory.h"
 #include <random>
 #include "ButtonUI.h"
 #include "CTitlePlayer.h"
+#include"SweetsUI.h"
 
-#define MIN -9
-#define MAX 9
+#define MIN -8
+#define BETWEEN 0
+#define MAX 8
 
-#define BEGIN_POSZ (0.31f)	// ケーキ一番奥の座標
+#define BEGIN_POSZ (0.32f)	// ケーキ一番奥の座標
 
 CTitleScene::CTitleScene()
 {
@@ -45,40 +46,19 @@ CTitleScene::CTitleScene()
 	{
 		if (i < 5)
 		{
-			Sweets[i] = new UI(sweetsBuffer, sweetsTexture);
-			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),5.0f + i * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
-			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
-			Sweets[i]->materialDiffuse = { 1,1,1,1 };
+			Sweets[i] = new SweetsUI(sweetsBuffer, sweetsTexture);
+			Sweets[i]->SetPosition({ distr(eng),6.0f + i * 2.0f,BEGIN_POSZ - i * 0.001f });
+			Sweets[i]->SetScale({ 3.0f,3.0f,1.0f });
+			Sweets[i]->SetRotation({ 0,0,45.0f + i * 30.0f });
 		}
-		else if (i < 10)
+		else
 		{
-			Sweets[i] = new UI(sweetsBuffer, sweetsTexture);
-			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),5.3f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
-			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
-			Sweets[i]->materialDiffuse = { 1,1,1,1 };
+			Sweets[i] = new SweetsUI(sweetsBuffer, sweetsTexture);
+			Sweets[i]->SetPosition({ distr(eng),7.3f + i * 2.0f,BEGIN_POSZ - i * 0.001f });
+			Sweets[i]->SetScale({ 3.0f, 3.0f, 1.0f });
+			Sweets[i]->SetRotation({ 0,0,45.0f + i * 30.0f });
 		}
-		/*else if (i < 15)
-		{
-			Sweets[i] = new UI(selectBuffer, selectTexture);
-			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),5.6f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
-			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
-			Sweets[i]->materialDiffuse = { 1,1,1,1 };
-		}
-		else {
-			Sweets[i] = new UI(selectBuffer, selectTexture);
-			Sweets[i]->MakeDotween();
-			Sweets[i]->mTransform.pos = { distr(eng),5.9f + i % 5 * 0.4f,BEGIN_POSZ - i * 0.001f };
-			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
-			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
-			Sweets[i]->materialDiffuse = { 1,1,1,1 };
-		}*/
-
+		
 	}
 
 	D3D_CreateSquare({ 1,1 }, &titleBuffer);
@@ -143,7 +123,6 @@ CTitleScene::CTitleScene()
 
 	isNoMoving = false;
 	isOnce = false;
-	isRotationSwitch = false;
 	isFlash = false;
 
 }
@@ -178,11 +157,6 @@ void CTitleScene::Update()
 
 	Bg->Update();
 
-	for (int i = 0; i < MAXNUM_CAKE; i++)
-	{
-		Sweets[i]->Update();
-	}
-
 	for (int i = 0; i < 2; i++)
 	{
 		select[i]->Update();
@@ -204,57 +178,53 @@ void CTitleScene::Update()
 	}
 	else {
 
-		if (isOnce == true)
-		{
-			isOnce = false;
-
-			for (int i = 0; i < MAXNUM_CAKE; i++)
-			{
-				if (i < 5)
-				{
-					Sweets[i]->dotween->DoMoveY(-8.2f, 6.0f);
-					Sweets[i]->dotween->OnComplete([&]() {
-
-						std::random_device rd;
-						std::default_random_engine eng(rd());
-						std::uniform_real_distribution<float> distr(MIN, MAX);
-						//Sweets[i]->mTransform.pos = { 9.0f,distr(eng),BEGIN_POSZ - i * 0.001f };
-
-						});
-					//Sweets[i]->dotween->Join(360.0f, 3.0f, DoTweenUI::FUNC::ROTATION);
-				}
-				else if (i < 10)
-				{
-					Sweets[i]->dotween->DoMoveY(-8.5f, 8.0f);
-					Sweets[i]->dotween->OnComplete([&]() {
-
-						std::random_device rd;
-						std::default_random_engine eng(rd());
-						std::uniform_real_distribution<float> distr(MIN, MAX);
-						//Sweets[i]->mTransform.pos = { 9.0f,distr(eng),BEGIN_POSZ - i * 0.001f };
-
-						});
-					//Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
-				}
-				/*else if (i < 15)
-				{
-					Sweets[i]->dotween->DoMoveY(-8.8f, 4.0f);
-					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
-				}
-				else
-				{
-					Sweets[i]->dotween->DoMoveY(-8.1f, 4.0f);
-					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
-				}*/
-
-				
-			}
-
-		}
-
 		for (int i = 0; i < MAXNUM_CAKE; i++)
 		{
-			Sweets[i]->mTransform.rotation.z += 0.5f;
+			if (i == 0 || i == 1)
+			{
+				Sweets[i]->SetPosSpeed(-5.5f, 15.0f);
+			}
+			else if(i == 2 || i == 3){
+				Sweets[i]->SetPosSpeed(-6.0f, 18.0f);
+			}
+			else if (i == 4 || i == 5)
+			{
+				Sweets[i]->SetPosSpeed(-6.5f, 20.0f);
+			}
+			else if (i == 6 || i == 7)
+			{
+				Sweets[i]->SetPosSpeed(-7.5f, 22.0f);
+			}
+			else if (i == 8 || i == 9 ||i == MAXNUM_CAKE)
+			{
+				Sweets[i]->SetPosSpeed(-8.0f, 25.0f);
+			}
+
+
+			if (Sweets[i]->isResporn == true)
+			{
+				std::random_device rd;
+				std::default_random_engine eng(rd());
+				std::uniform_real_distribution<float> distr_min(MIN, BETWEEN);
+				std::uniform_real_distribution<float> distr_max(BETWEEN,MAX);
+
+				if (i % 2 == 0)
+				{
+					Sweets[i]->vCopy = { distr_min(eng),6.0f + i * 1.0f,BEGIN_POSZ - i * 0.001f };
+					Sweets[i]->SetPosition({ Sweets[i]->vCopy });
+				}
+				else if(i % 2 == 1)
+				{
+					Sweets[i]->vCopy = { distr_max(eng),6.0f + i * 1.0f,BEGIN_POSZ - i * 0.001f };
+					Sweets[i]->SetPosition({ Sweets[i]->vCopy });
+				}
+
+				Sweets[i]->isResporn = false;
+			}
+
+			Sweets[i]->SetRotateZ(1.5f);
+			
+
 		}
 
 		for (int i = 0; i < MAXNUM_PLAYER; i++)
@@ -286,7 +256,11 @@ void CTitleScene::Update()
 			}
 		}
 		
-		
+		for (int i = 0; i < MAXNUM_CAKE; i++)
+		{
+			Sweets[i]->Update();
+		}
+
 		for (int i = 0; i < MAXNUM_PLAYER; i++)
 		{
 			player[i]->Update();

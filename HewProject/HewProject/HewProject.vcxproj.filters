@@ -304,6 +304,9 @@
     <Filter Include="ソース ファイル\Wakamura\CTitlePlayer">
       <UniqueIdentifier>{ee69b16b-4447-49dd-a782-bfb638575baf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\SweetsUI">
+      <UniqueIdentifier>{05f50c75-660b-47cf-b86a-a88512c73bce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -579,8 +582,13 @@
     <ClInclude Include="CTitlePlayer.h">
       <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
     </ClInclude>
+
+    <ClInclude Include="SweetsUI.h">
+      <Filter>ソース ファイル\Wakamura\SweetsUI</Filter>
+ </ClInclude>
     <ClInclude Include="CannonAnim.h">
       <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -857,8 +865,13 @@
     <ClCompile Include="CTitlePlayer.cpp">
       <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
     </ClCompile>
+
+    <ClCompile Include="SweetsUI.cpp">
+      <Filter>ソース ファイル\Wakamura\SweetsUI</Filter>
+ </ClCompile>
     <ClCompile Include="CannonAnim.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
