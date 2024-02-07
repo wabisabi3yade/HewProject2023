@@ -2,7 +2,7 @@
 #include "CScene.h"
 #include <vector>
 #include "CGridObject.h"
-#define MAXNUM_CAKE 20
+#define MAXNUM_CAKE 10
 #define MAXNUM_PLAYER 4
 
 class UI;

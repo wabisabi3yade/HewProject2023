@@ -10,7 +10,7 @@
 #define MIN -9
 #define MAX 9
 
-#define BEGIN_POSZ (0.1f)	// ケーキ一番奥の座標
+#define BEGIN_POSZ (0.31f)	// ケーキ一番奥の座標
 
 CTitleScene::CTitleScene()
 {
@@ -61,7 +61,7 @@ CTitleScene::CTitleScene()
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
 		}
-		else if (i < 15)
+		/*else if (i < 15)
 		{
 			Sweets[i] = new UI(selectBuffer, selectTexture);
 			Sweets[i]->MakeDotween();
@@ -77,7 +77,7 @@ CTitleScene::CTitleScene()
 			Sweets[i]->mTransform.scale = { 3.0f,3.0f,1.0f };
 			Sweets[i]->mTransform.rotation = { 0,0,45.0f + i * 30.0f };
 			Sweets[i]->materialDiffuse = { 1,1,1,1 };
-		}
+		}*/
 
 	}
 
@@ -94,7 +94,7 @@ CTitleScene::CTitleScene()
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage2.png");
 
 	Bg = new UI(bgBuffer, bgTexture);
-	Bg->mTransform.pos = { 0,0,0.4f };
+	Bg->mTransform.pos = { 0,0,0.5f };
 	Bg->mTransform.scale = { 16,9,1 };
 	Bg->materialDiffuse = { 1,1,1,1 };
 
@@ -192,30 +192,6 @@ void CTitleScene::Update()
 	{
 		if (isOnce == false)
 		{
-			for (int i = 0; i < MAXNUM_CAKE; i++)
-			{
-				if (i < 5)
-				{
-					Sweets[i]->dotween->DoMoveY(-8.2f, 3.0f);
-					Sweets[i]->dotween->Join(360.0f, 3.0f, DoTweenUI::FUNC::ROTATION);
-				}
-				else if(i < 10)
-				{
-					Sweets[i]->dotween->DoMoveY(-8.5f, 4.0f);
-					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
-				}
-				else if (i < 15)
-				{
-					Sweets[i]->dotween->DoMoveY(-8.8f, 4.0f);
-					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
-				}
-				else
-				{
-					Sweets[i]->dotween->DoMoveY(-8.1f, 4.0f);
-					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
-				}
-			}
-
 			Title->dotween->DoMoveY(1.5f, 3.0f);
 			isOnce = true;
 		}
@@ -228,16 +204,63 @@ void CTitleScene::Update()
 	}
 	else {
 
+		if (isOnce == true)
+		{
+			isOnce = false;
+
+			for (int i = 0; i < MAXNUM_CAKE; i++)
+			{
+				if (i < 5)
+				{
+					Sweets[i]->dotween->DoMoveY(-8.2f, 6.0f);
+					Sweets[i]->dotween->OnComplete([&]() {
+
+						std::random_device rd;
+						std::default_random_engine eng(rd());
+						std::uniform_real_distribution<float> distr(MIN, MAX);
+						//Sweets[i]->mTransform.pos = { 9.0f,distr(eng),BEGIN_POSZ - i * 0.001f };
+
+						});
+					//Sweets[i]->dotween->Join(360.0f, 3.0f, DoTweenUI::FUNC::ROTATION);
+				}
+				else if (i < 10)
+				{
+					Sweets[i]->dotween->DoMoveY(-8.5f, 8.0f);
+					Sweets[i]->dotween->OnComplete([&]() {
+
+						std::random_device rd;
+						std::default_random_engine eng(rd());
+						std::uniform_real_distribution<float> distr(MIN, MAX);
+						//Sweets[i]->mTransform.pos = { 9.0f,distr(eng),BEGIN_POSZ - i * 0.001f };
+
+						});
+					//Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
+				}
+				/*else if (i < 15)
+				{
+					Sweets[i]->dotween->DoMoveY(-8.8f, 4.0f);
+					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
+				}
+				else
+				{
+					Sweets[i]->dotween->DoMoveY(-8.1f, 4.0f);
+					Sweets[i]->dotween->Join(360.0f, 4.0f, DoTweenUI::FUNC::ROTATION);
+				}*/
+
+				
+			}
+
+		}
+
 		for (int i = 0; i < MAXNUM_CAKE; i++)
 		{
-			Sweets[i]->SetActive(false);
+			Sweets[i]->mTransform.rotation.z += 0.5f;
 		}
 
 		for (int i = 0; i < MAXNUM_PLAYER; i++)
 		{
 			if (player[i]->isStopMove == true)
 			{
-				//srand(time(NULL));
 				player[i]->nRandomChara = nRandom = rand() % 3;
 
 				switch (player[i]->nRandomChara)
@@ -269,24 +292,6 @@ void CTitleScene::Update()
 			player[i]->Update();
 		}
 		
-
-		/*if (isRotationSwitch == false)
-		{
-			Title->mTransform.rotation.z += 0.3f;
-			if (Title->mTransform.rotation.z > 45.0f)
-			{
-				isRotationSwitch = true;
-			}
-		}
-		else
-		{
-			Title->mTransform.rotation.z -= 0.3f;
-			if (Title->mTransform.rotation.z < -45.0f)
-			{
-				isRotationSwitch = false;
-			}
-		}*/
-
 		if (input->GetInputTrigger(InputType::DECIDE) && isFlash == false)
 		{
 			CScene::SetScene(SCENE_NAME::WAKAMURA);
@@ -321,20 +326,20 @@ void CTitleScene::Draw()
 
 	if (isNoMoving == true)
 	{
-		select[0]->Draw();
-		select[1]->Draw();
-		player[0]->Draw();
-
 		for (int i = 0; i < MAXNUM_PLAYER; i++)
 		{
 			player[i]->Draw();
 		}
+
+		for (int i = 0; i < MAXNUM_CAKE; i++)
+		{
+			Sweets[i]->Draw();
+		}
+
+		select[0]->Draw();
+		select[1]->Draw();
 	}
 	
 	Title->Draw();
 
-	for (int i = 0; i < MAXNUM_CAKE; i++)
-	{
-		Sweets[i]->Draw();
-	}
 }
