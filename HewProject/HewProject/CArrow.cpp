@@ -21,9 +21,10 @@ void CArrow::Draw()
 	CObject::Draw();
 }
 
-void CArrow::SetArrow(D3DTEXTURE _tex)
+void CArrow::SetArrow( D3DTEXTURE _tex)
 {
 	mTexture = _tex;
+
 }
 
 void CArrow::SetOwner(CObject* _owner, DIRECTION _dir)

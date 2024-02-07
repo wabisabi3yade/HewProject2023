@@ -62,6 +62,7 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex)
 {
 	inPlayer = false;
 	IsUse = false;
+	mAnim = new CannonAnim();
 	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
 	{
 		Arrow[i] = new CArrow(vb, NULL);
@@ -71,6 +72,7 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex)
 
 CCannon::~CCannon()
 {
+	CLASS_DELETE(mAnim);
 	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
 	{
 		CLASS_DELETE(Arrow[i]);
@@ -107,6 +109,7 @@ void CCannon::Update()
 		}
 		//‚È‚ñ‚©‚ÌƒL[‚Å”­ŽË
 	}
+	mAnim->Update();
 	CGridObject::Update();
 }
 
@@ -136,11 +139,12 @@ void CCannon::InPlayer()
 	inPlayer = true;
 }
 
-void CCannon::SetArrow(D3DTEXTURE _tex)
+void CCannon::SetArrow(D3DBUFFER vb, D3DTEXTURE _tex)
 {
 	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
 	{
-		Arrow[i]->SetArrow(_tex);
+		Arrow[i] = new CArrow(vb, _tex);
+		Arrow[i]->SetOwner(this, static_cast<CArrow::DIRECTION>(i));
 	}
 }
 

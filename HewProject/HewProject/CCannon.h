@@ -1,7 +1,9 @@
 #pragma once
 #include "CGridObject.h"
 #include"Player.h"
+#include"CannonAnim.h"
 class CArrow;
+
 class CCannon :
     public CGridObject
 {
@@ -33,7 +35,7 @@ public:
     void Draw()override;
     void Fire();
     void InPlayer();
-    void SetArrow(D3DTEXTURE _tex);
+    void SetArrow(D3DBUFFER vb, D3DTEXTURE _tex);
     void DirSelect(Player::DIRECTION _dir);
     void CheckCanMove(GridTable _nowTable,bool _canMove[static_cast<int>(DIRECTION::NUM)]);
     bool GetCanMove() { return canMoveDir; }
