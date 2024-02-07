@@ -98,6 +98,8 @@ public:
 
 	void CannonMove2();
 
+	void CannonMoveStart();
+
 	void CannonDirSelect(DIRECTION _dir);
 
 	bool kari = false;
@@ -149,6 +151,7 @@ public:
 	bool GetCannonMoveEnd()const { return isCannonMoveEnd; }
 	bool GetCannonMoveStart()const { return isCannonMoveStart; }
 	bool GetCannonMoveStartTrigger()const { return isCannonMoveStartTrigger; }
+	bool GetIncannon()const { return inCannon; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 };
 

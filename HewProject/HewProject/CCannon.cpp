@@ -68,6 +68,7 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex)
 		Arrow[i] = new CArrow(vb, NULL);
 		Arrow[i]->SetOwner(this, static_cast<CArrow::DIRECTION>(i));
 	}
+	CheckCanMove();
 }
 
 CCannon::~CCannon()
@@ -150,15 +151,40 @@ void CCannon::SetArrow(D3DBUFFER vb, D3DTEXTURE _tex)
 
 void CCannon::DirSelect(Player::DIRECTION _dir)
 {
-	moveDir = static_cast<DIRECTION>(_dir);
+	//moveDir = static_cast<DIRECTION>(_dir);
+
+	//向きに合わせて回転を使う
+	//dynamic_cast<CannonAnim*>(mAnim)->PlayTurn
+
+		//this->mAnim;
+	switch (_dir)
+	{
+	case Player::DIRECTION::DOWN:
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::DOWN));
+		break;
+	case Player::DIRECTION::LEFT:
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::LEFT));
+		break;
+	case Player::DIRECTION::RIGHT:
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::RIGHT));
+		break;
+	case Player::DIRECTION::UP:
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::UP));
+		break;
+	default:
+		break;
+	}
+
 }
-void CCannon::CheckCanMove(GridTable _nowTable, bool _canMove[static_cast<int>(DIRECTION::NUM)])
+void CCannon::CheckCanMove(GridTable* _nowTable, bool* _canMove)
 {
+	// 全ての方向をtrue
+	for (int i = 0; i < 4; i++)
+	{
+		canMoveDir[i] = true;
+	}
 	for (int dirRoop = 0; dirRoop < static_cast<int>(CCannon::DIRECTION::NUM); dirRoop++)
 	{
-		// 後ろ以外を見るだけで大丈夫なので
-		if (!canMoveDir[dirRoop]) continue;
-
 		// 方向
 		CGrid::GRID_XY d = {};
 
@@ -189,12 +215,12 @@ void CCannon::CheckCanMove(GridTable _nowTable, bool _canMove[static_cast<int>(D
 
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
-			|| _nowTable.floorTable[forwordPos.y][forwordPos.x] == 0)
+			|| _nowTable->floorTable[forwordPos.y][forwordPos.x] == 0)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;
 		}
 
 	}
-
+	*_canMove = canMoveDir;
 }
