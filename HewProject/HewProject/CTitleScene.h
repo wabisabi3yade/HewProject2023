@@ -9,6 +9,7 @@ class UI;
 class CGridObject;
 class ButtonUI;
 class CTitlePlayer;
+class SweetsUI;
 
 class CTitleScene :
     public CScene
@@ -40,14 +41,13 @@ public:
     D3DTEXTURE player_thinTexture;
 
     UI* Title;
-    UI* Sweets[MAXNUM_CAKE];
+    SweetsUI* Sweets[MAXNUM_CAKE];
     UI* Bg;
     ButtonUI* select[2];
     CTitlePlayer* player[MAXNUM_PLAYER];
 
     bool isNoMoving;
     bool isOnce;
-    bool isRotationSwitch;
     bool isFlash;
 
     int nRandom;

@@ -220,6 +220,7 @@
     <ClInclude Include="Stage31.h" />
     <ClInclude Include="StageEx1.h" />
     <ClInclude Include="StageScene.h" />
+    <ClInclude Include="SweetsUI.h" />
     <ClInclude Include="TextureFactory.h" />
     <ClInclude Include="ThinMove.h" />
     <ClInclude Include="Time.h" />
@@ -314,6 +315,7 @@
     <ClCompile Include="Stage31.cpp" />
     <ClCompile Include="StageEx1.cpp" />
     <ClCompile Include="StageScene.cpp" />
+    <ClCompile Include="SweetsUI.cpp" />
     <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="ThinMove.cpp" />
     <ClCompile Include="Time.cpp" />
