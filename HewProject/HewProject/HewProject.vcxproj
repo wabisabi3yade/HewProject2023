@@ -143,6 +143,7 @@
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CalorieGage_hori.h" />
     <ClInclude Include="CalorieMark.h" />
+    <ClInclude Include="CannonAnim.h" />
     <ClInclude Include="CArrow.h" />
     <ClInclude Include="CBaum.h" />
     <ClInclude Include="CCake.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CalorieGage_hori.cpp" />
     <ClCompile Include="CalorieMark.cpp" />
+    <ClCompile Include="CannonAnim.cpp" />
     <ClCompile Include="CArrow.cpp" />
     <ClCompile Include="CBaum.cpp" />
     <ClCompile Include="CCake.cpp" />

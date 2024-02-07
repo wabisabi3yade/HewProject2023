@@ -582,8 +582,13 @@
     <ClInclude Include="CTitlePlayer.h">
       <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
     </ClInclude>
+
     <ClInclude Include="SweetsUI.h">
       <Filter>ソース ファイル\Wakamura\SweetsUI</Filter>
+ </ClInclude>
+    <ClInclude Include="CannonAnim.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -860,8 +865,13 @@
     <ClCompile Include="CTitlePlayer.cpp">
       <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
     </ClCompile>
+
     <ClCompile Include="SweetsUI.cpp">
       <Filter>ソース ファイル\Wakamura\SweetsUI</Filter>
+ </ClCompile>
+    <ClCompile Include="CannonAnim.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

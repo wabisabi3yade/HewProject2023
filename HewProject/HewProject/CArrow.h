@@ -17,7 +17,6 @@ public:
 private:
 
     CObject* Owner;
-
 public:
     CArrow(D3DBUFFER vb, D3DTEXTURE tex);
     ~CArrow();
