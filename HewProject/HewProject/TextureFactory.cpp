@@ -91,6 +91,7 @@ void TextureFactory::Load()
 		L"asset/Item/Coin.png",
 		L"asset/Item/Protein.png",
 		L"asset/Item/shadow.png",
+		L"asset/Item/FallCake.png",
 
 		L"asset/UI/fade_BackBlue.png",
 		L"asset/UI/NowLoadingÅc.png",
