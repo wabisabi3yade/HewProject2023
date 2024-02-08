@@ -11,6 +11,14 @@ CGameOver::CGameOver()
 	D3D_CreateSquare({ 7,1 }, &text_failedBuffer);
 	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/GAMEOVER.png");
 
+	D3D_CreateSquare({ 1,1 }, &bgBuffer);
+	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/FadeBlack.png");
+
+	Bg = new UI(bgBuffer, bgTexture);
+	Bg->materialDiffuse = { 1,1,1,0 };
+	Bg->mTransform.pos = { 0,0,0.1f };
+	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
+
 	for (int i = 0; i < MAXNUM_TEXT; i++)
 	{
 		Text[i] = new UI(text_failedBuffer, textTexture);
@@ -18,9 +26,6 @@ CGameOver::CGameOver()
 	}
 
 	D3D_CreateSquare({ 1,2 }, &textBoxBuffer);
-	/*textBox1Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Blue.png");
-	textBox2Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_White.png");
-	textBox3Texture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");*/
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
 
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
@@ -92,7 +97,7 @@ CGameOver::CGameOver()
 	selectControl->Regist(Message[2]);
 
 	Player = new CWorldSelectPlayer(playerBuffer, playerTexture);
-	Player->mTransform.pos = { 0,0,0 };
+	Player->mTransform.pos = { 0,0,-1.0f };
 	Player->mTransform.scale = { 4.0f,4.0f,1.0f };
 	Player->isOnPlayer = false;
 
@@ -113,6 +118,8 @@ CGameOver::~CGameOver()
 	}
 
 	CLASS_DELETE(Player);
+
+	CLASS_DELETE(Bg);
 }
 
 void CGameOver::Update()
@@ -121,6 +128,13 @@ void CGameOver::Update()
 	
 	if (isNoMoving == false)
 	{
+		Bg->materialDiffuse.w += 0.01f;
+
+		if (Bg->materialDiffuse.w > 0.5f)
+		{
+			Bg->SetAlpha(0.5f);
+		}
+		
 		if (isOnce == false)
 		{
 			for (int i = 0; i < MAXNUM_TEXT; i++)
@@ -128,9 +142,8 @@ void CGameOver::Update()
 				Text[i]->dotween->DoMoveY(3.0f, 1.0f);
 			}
 
-			Text[0]->dotween->OnComplete([&]()
+			Text[MAXNUM_MESSAGE]->dotween->OnComplete([&]()
 				{
-					//Text[0]->mTransform.rotation.z = 20.0f;
 					isNoMoving = true;
 				});
 
@@ -140,86 +153,6 @@ void CGameOver::Update()
 	}
 	else {
 		
-		//if (isLate == false)
-		//{
-		//	if (input->GetMovement().x < 0)
-		//	{
-		//		isLate = true;
-		//		nSelect--;
-		//		if (nSelect < 0)
-		//		{
-		//			nSelect = 0;
-		//		}
-
-		//		if (isOnceBox == false)
-		//		{
-		//			isOnceBox = true;
-		//			//Message[nSelect]->dotween->DoDelay(0.3f);
-		//			/*Message[nSelect]->dotween->OnComplete([&]()
-		//				{
-		//					isLate = false;
-		//					isOnceBox = false;
-		//				});*/
-		//		}
-		//		
-
-		//	}
-		//	if (input->GetMovement().x > 0)
-		//	{
-		//		isLate = true;
-		//		nSelect++;
-		//		if (nSelect > 2)
-		//		{
-		//			nSelect = 2;
-		//		}
-
-		//		if (isOnceBox == false)
-		//		{
-		//			isOnceBox = true;
-		//			/*Message[nSelect]->dotween->DoDelay(0.3f);
-		//			Message[nSelect]->dotween->OnComplete([&]()
-		//				{
-		//					isLate = false;
-		//					isOnceBox = false;
-		//				});*/
-		//		}
-		//	}
-
-			/*if (input->GetInputTrigger(InputType::DECIDE) && nSelect == 0)
-			{
-				CScene::SetScene(SCENE_NAME::SELECT);
-			}
-
-			if (input->GetInputTrigger(InputType::DECIDE) && nSelect == 1)
-			{
-				CScene::SetScene(SCENE_NAME::TITLE);
-			}
-
-			if (input->GetInputTrigger(InputType::DECIDE) && nSelect == 2)
-			{
-				CScene::SetScene(SCENE_NAME::GAMEOVER);
-			}*/
-		//}
-		
-		/*if (nSelect == 0)
-		{
-			Message[0]->SetHighlight(true);
-			Message[1]->SetHighlight(false);
-			Message[2]->SetHighlight(false);
-		}
-		else if (nSelect == 1)
-		{
-			Message[0]->SetHighlight(false);
-			Message[1]->SetHighlight(true);
-			Message[2]->SetHighlight(false);
-		}
-		else if (nSelect == 2)
-		{
-			Message[0]->SetHighlight(false);
-			Message[1]->SetHighlight(false);
-			Message[2]->SetHighlight(true);
-		}*/
-
 		if (input->GetInputTrigger(InputType::DECIDE))
 		{
 			selectControl->PushButton();
@@ -236,10 +169,11 @@ void CGameOver::Update()
 		}
 	}
 	
-	
+	Bg->Update();
+
 	Player->Update();
 	
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < MAXNUM_MESSAGE; i++)
 	{
 		Message[i]->Update();
 	}
@@ -256,6 +190,8 @@ void CGameOver::LateUpdate()
 
 void CGameOver::Draw()
 {
+	Bg->Draw();
+	
 	for (int i = 0; i < MAXNUM_TEXT; i++)
 	{
 		Text[i]->Draw();
@@ -263,10 +199,11 @@ void CGameOver::Draw()
 
 	if (isNoMoving == true)
 	{
-		Message[0]->Draw();
-		Message[1]->Draw();
-		Message[2]->Draw();
-
+		for (int i = 0; i < MAXNUM_MESSAGE; i++)
+		{
+			Message[i]->Draw();
+		}
+		
 		Player->Draw();
 
 	}

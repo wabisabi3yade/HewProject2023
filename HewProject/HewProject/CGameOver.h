@@ -2,6 +2,7 @@
 #include "CScene.h"
 
 #define MAXNUM_TEXT 8
+#define MAXNUM_MESSAGE 3
 
 class ButtonUI;
 class CWorldSelectPlayer;
@@ -20,6 +21,9 @@ public:
     D3DBUFFER playerBuffer;
     D3DTEXTURE playerTexture;
 
+    D3DBUFFER bgBuffer;
+    D3DTEXTURE bgTexture;
+
     D3DBUFFER textBoxBuffer;
     D3DTEXTURE textBox1Texture;
     D3DTEXTURE textBox2Texture;
@@ -30,8 +34,9 @@ public:
     D3DTEXTURE text_undoTexture;
     D3DTEXTURE text_backTexture;
 
+    UI* Bg;
     UI* Text[MAXNUM_TEXT];
-    ButtonUI* Message[3];
+    ButtonUI* Message[MAXNUM_MESSAGE];
     CWorldSelectPlayer* Player;
     ButtonSelect* selectControl;
 
