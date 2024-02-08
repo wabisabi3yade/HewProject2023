@@ -108,7 +108,7 @@ void TextureFactory::Load()
 		L"asset/UI/Button.png",
 		L"asset/UI/Protein_Mark.png",
 		L"asset/UI/Protein_Bar.png",
-		L"asset/UI/Sippai.png",
+		L"asset/UI/GAMEOVER.png",
 		L"asset/UI/Arrow.png",
 
 		L"asset/Text/T_GameStart.png",
