@@ -218,7 +218,8 @@ void StageScene::Update()
 				}
 				else
 				{
-					cannonMove = false;
+					//cannonMove = false;
+					
 				}
 			}
 			else

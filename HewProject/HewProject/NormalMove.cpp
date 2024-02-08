@@ -369,7 +369,7 @@ void NormalMove::Step()
 		Vector2 fallPosXY;
 		fallPosXY.x = fallPos.x;
 		fallPosXY.y = fallPos.y;
-		//player->Fall();
+		player->Fall();
 		player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
 		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 		switch (player->GetNowFloor())
