@@ -332,7 +332,7 @@ void PlayerMove::CannonMove2()
 	//cannonMoveDir[static_cast<int>(DIRECTION::UP)] = true;
 	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
 	{
-		if (cannonMoveDir[i] == true && canMoveDir[i] == true)
+		if (cannonMoveDir[i] == true)
 		{
 			moveDir = i;
 			break;
@@ -450,8 +450,8 @@ void PlayerMove::CannonMove2()
 					inCannon = false;
 
 					//player->GetPlayerMove()->SetNextGridPos(player->GetPlayerMove()->GetNextGridPos());
-					WalkAfter();
-					MoveAfter();
+					//WalkAfter();
+					//MoveAfter();
 					player->GetPlayerMove()->Step();
 					isCannonMoveEnd = true;
 					isCannonMoveStart = false;
@@ -499,6 +499,7 @@ void PlayerMove::CannonMove2()
 						flagInit = false;
 						isCannonMoveStart = false;
 						isCannonMoveEnd = false;
+						this->CheckCanMove();
 					});
 			});
 	}

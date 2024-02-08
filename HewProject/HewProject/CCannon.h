@@ -27,7 +27,7 @@ class CCannon :
     CArrow* Arrow[static_cast<int>(DIRECTION::NUM)];
 
 public:
-    CCannon(D3DBUFFER vb,D3DTEXTURE tex );
+    CCannon(D3DBUFFER vb,D3DTEXTURE tex , GridTable* _nowTable);
     ~CCannon();
     void SetStageSize(CGrid::GRID_XY _set);
 
@@ -37,7 +37,7 @@ public:
     void InPlayer();
     void SetArrow(D3DBUFFER vb, D3DTEXTURE _tex);
     void DirSelect(Player::DIRECTION _dir);
-    void CheckCanMove(GridTable* _nowTable,bool* _canMove);
+    void CheckCanMove(const GridTable& _nowTable);
     void PlayTurn(int _dir, float _animSpeedRate = 1.0f);
     void PlayReturn(float _animSpeedRate = 1.0f);
     bool* GetCanMove() { return &canMoveDir[0]; }

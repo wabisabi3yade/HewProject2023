@@ -57,7 +57,7 @@ void CCannon::CheckCanMove()
 
 }
 
-CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex)
+CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex, GridTable* _nowTable)
 	:CGridObject(vb, tex)
 {
 	inPlayer = false;
@@ -68,7 +68,6 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex)
 		Arrow[i] = new CArrow(vb, NULL);
 		Arrow[i]->SetOwner(this, static_cast<CArrow::DIRECTION>(i));
 	}
-	CheckCanMove();
 }
 
 CCannon::~CCannon()
@@ -176,8 +175,9 @@ void CCannon::DirSelect(Player::DIRECTION _dir)
 	}
 
 }
-void CCannon::CheckCanMove(GridTable* _nowTable, bool* _canMove)
+void CCannon::CheckCanMove(const GridTable& _nowTable)
 {
+
 	// 全ての方向をtrue
 	for (int i = 0; i < 4; i++)
 	{
@@ -215,14 +215,12 @@ void CCannon::CheckCanMove(GridTable* _nowTable, bool* _canMove)
 
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
-			|| _nowTable->floorTable[forwordPos.y][forwordPos.x] == 0)
+			|| _nowTable.floorTable[forwordPos.y][forwordPos.x] == 0)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;
 		}
-
 	}
-	*_canMove = canMoveDir;
 }
 
 void CCannon::PlayTurn(int _dir, float _animSpeedRate)

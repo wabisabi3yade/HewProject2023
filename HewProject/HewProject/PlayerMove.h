@@ -152,6 +152,7 @@ public:
 	bool GetCannonMoveStart()const { return isCannonMoveStart; }
 	bool GetCannonMoveStartTrigger()const { return isCannonMoveStartTrigger; }
 	bool GetIncannon()const { return inCannon; }
+	void SetCannonDir(bool* _set) { *cannonMoveDir = _set; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 };
 
