@@ -62,11 +62,11 @@ CGameOver::CGameOver()
 
 	Text[6]->mTransform.pos = { 2.5f,6.0f,0 };
 	Text[6]->mTransform.scale = { 1.0f,1.0f,1.0f };
-	Text[6]->SetUV(1.0f / 7.0f * 6.0f, 0);
+	Text[6]->SetUV(1.0f / 7.0f * 3.0f, 0);
 
 	Text[7]->mTransform.pos = { 3.5f,6.0f,0 };
 	Text[7]->mTransform.scale = { 1.0f,1.0f,1.0f };
-	Text[7]->SetUV(1.0f / 7.0f * 3.0f, 0);
+	Text[7]->SetUV(1.0f / 7.0f * 6.0f, 0);
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_restartTexture);
 	Message[0]->SetPosition({ -5.0f,-3.0f,0 });

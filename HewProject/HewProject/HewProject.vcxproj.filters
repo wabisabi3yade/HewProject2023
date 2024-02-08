@@ -307,6 +307,9 @@
     <Filter Include="ソース ファイル\Hashimoto\ButtonSelect">
       <UniqueIdentifier>{47f9617a-504b-4f05-ac34-a014daa6e9b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CGameClear">
+      <UniqueIdentifier>{8f33a973-5774-449d-929f-69eb20af392f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -588,6 +591,9 @@
     <ClInclude Include="ButtonSelect.h">
       <Filter>ソース ファイル\Hashimoto\ButtonSelect</Filter>
     </ClInclude>
+    <ClInclude Include="CGameClear.h">
+      <Filter>ソース ファイル\Wakamura\CGameClear</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -868,6 +874,9 @@
     </ClCompile>
     <ClCompile Include="ButtonSelect.cpp">
       <Filter>ソース ファイル\Hashimoto\ButtonSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameClear.cpp">
+      <Filter>ソース ファイル\Wakamura\CGameClear</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
