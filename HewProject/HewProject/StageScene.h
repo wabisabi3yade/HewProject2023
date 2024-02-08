@@ -69,6 +69,8 @@ private:
 
 	bool changeflag;
 
+	bool FloorOnlyMap;
+
 	bool cannonMove = false;
 
 	//Å‘åƒtƒƒA

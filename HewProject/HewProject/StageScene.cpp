@@ -34,6 +34,8 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 
 	changeflag = false;
 
+	FloorOnlyMap = false;
+
 	// テクスチャを管理するクラスのインスタンスを取得
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 
@@ -149,6 +151,10 @@ void StageScene::Update()
 		{
 			player->GetPlayerMove()->CameraEnd();
 		}
+		else if(input->GetInputTrigger(InputType::OPTION))
+		{
+			FloorOnlyMap = !FloorOnlyMap;
+		}
 
 
 	}
@@ -223,7 +229,7 @@ void StageScene::Update()
 				{
 					canMoveDir++;
 				}
-				if (*canMoveDir == true )
+				if (*canMoveDir == true)
 				{
 
 					cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
@@ -1440,21 +1446,51 @@ void StageScene::MapDraw()
 		Z_Sort(oneFStgObj);
 		for (std::vector<CGridObject*>::iterator i = oneFStgObj.begin(); i != oneFStgObj.end(); i++)
 		{
-			(*i)->Draw();
+			if (FloorOnlyMap)
+			{
+				if ((*i)->GetCategory() == CGridObject::Category::FLOOR)
+				{
+					(*i)->Draw();
+				}
+			}
+			else
+			{
+				(*i)->Draw();
+			}
 		}
 		break;
 	case 2:
 		Z_Sort(secondFStgObj);
 		for (std::vector<CGridObject*>::iterator j = secondFStgObj.begin(); j != secondFStgObj.end(); j++)
 		{
-			(*j)->Draw();
+			if (FloorOnlyMap)
+			{
+				if ((*j)->GetCategory() == CGridObject::Category::FLOOR)
+				{
+					(*j)->Draw();
+				}
+			}
+			else
+			{
+				(*j)->Draw();
+			}
 		}
 		break;
 	case 3:
 		Z_Sort(thirdFStgObj);
 		for (std::vector<CGridObject*>::iterator thir = thirdFStgObj.begin(); thir < thirdFStgObj.end(); thir++)
 		{
-			(*thir)->Draw();
+			if (FloorOnlyMap)
+			{
+				if ((*thir)->GetCategory() == CGridObject::Category::FLOOR)
+				{
+					(*thir)->Draw();
+				}
+			}
+			else
+			{
+				(*thir)->Draw();
+			}
 		}
 		break;
 	default:
