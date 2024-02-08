@@ -124,6 +124,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				gInput->UpdateKeyState();
 				oldCount = nowCount;
 				nFpsCounter++;
+
+				if (gSceneManager->GetGameExit())
+				{
+					break;
+				}
 			}
 
 			n_ms = GetTickCount64();

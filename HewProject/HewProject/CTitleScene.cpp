@@ -6,6 +6,7 @@
 #include "ButtonUI.h"
 #include "CTitlePlayer.h"
 #include"SweetsUI.h"
+#include "ButtonSelect.h"
 
 #define MIN -8
 #define BETWEEN 0
@@ -28,12 +29,26 @@ CTitleScene::CTitleScene()
 	select[0] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, textTexture);
 	select[0]->SetPosition({ -2.5f,-3.0f,-0.2f });
 	select[0]->SetScale({ 4,4,1 });
+	select[0]->SetFunc([&]()
+		{
+			CScene::SetScene(SCENE_NAME::WAKAMURA);
+		});
 
 	select[1] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, text_endTexture);
 	select[1]->SetPosition({ 2.5f,-3.0f,-0.2f });
 	select[1]->SetScale({ 4,4,1 });
+	select[1]->SetFunc([&]()
+		{
+			// 終了
+			Exit();
+		});
 
 	select[0]->SetHighlight(true);
+
+	// ボタン選択クラス作成
+	selectControl = new ButtonSelect();
+	selectControl->Regist(select[0]);
+	selectControl->Regist(select[1]);
 
 	D3D_CreateSquare({ 1,1 }, &sweetsBuffer);
 	sweetsTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Cake.png");
@@ -142,6 +157,8 @@ CTitleScene::~CTitleScene()
 	{
 		CLASS_DELETE(select[i]);
 	}
+	
+	CLASS_DELETE(selectControl);
 
 	for (int i = 0; i < MAXNUM_CAKE; i++)
 	{
@@ -266,26 +283,35 @@ void CTitleScene::Update()
 			player[i]->Update();
 		}
 		
-		if (input->GetInputTrigger(InputType::DECIDE) && isFlash == false)
+		/*if (input->GetInputTrigger(InputType::DECIDE) && isFlash == false)
 		{
 			CScene::SetScene(SCENE_NAME::WAKAMURA);
 		}
 		else if (input->GetInputTrigger(InputType::DECIDE) && isFlash == true)
 		{
 			exit(1);
+		}*/
+
+		if (input->GetInputTrigger(InputType::DECIDE))
+		{
+			selectControl->PushButton();
 		}
 
+
+		selectControl->FlagUpdate();
 		if (input->GetMovement().x < 0)
 		{
-			isFlash = false;
+			/*isFlash = false;
 			select[0]->SetHighlight(true);
-			select[1]->SetHighlight(false);
+			select[1]->SetHighlight(false);*/
+			selectControl->ButtonMove(-1);
 		}
 		if (input->GetMovement().x > 0)
 		{
-			isFlash = true;
+			/*isFlash = true;
 			select[0]->SetHighlight(false);
-			select[1]->SetHighlight(true);
+			select[1]->SetHighlight(true);*/
+			selectControl->ButtonMove(1);
 		}
 	}
 }

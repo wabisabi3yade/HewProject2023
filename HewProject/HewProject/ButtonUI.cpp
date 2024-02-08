@@ -63,3 +63,14 @@ void ButtonUI::SetPosition(const Vector3& _pos)
 	text->mTransform.pos.y += TXT_OFFSETY * text->mTransform.scale.y;
 	text->mTransform.pos.z -= UI_OFFSETZ;
 }
+
+void ButtonUI::SetFunc(std::function<void()> _setFunction)
+{
+	func = _setFunction;
+}
+
+void ButtonUI::BeginFunc()
+{
+	if (func == nullptr) return;
+	func();
+}

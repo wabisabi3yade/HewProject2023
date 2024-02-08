@@ -10,6 +10,7 @@ class CGridObject;
 class ButtonUI;
 class CTitlePlayer;
 class SweetsUI;
+class ButtonSelect;
 
 class CTitleScene :
     public CScene
@@ -44,6 +45,7 @@ public:
     SweetsUI* Sweets[MAXNUM_CAKE];
     UI* Bg;
     ButtonUI* select[2];
+    ButtonSelect* selectControl;
     CTitlePlayer* player[MAXNUM_PLAYER];
 
     bool isNoMoving;

@@ -1,7 +1,3 @@
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
 #include <d3d11.h> // DirectX11というライブラリのヘッダー
 #include <atltypes.h>// CRectを使うのに必要なヘッダー
 #include "WICTextureLoader.h" // テクスチャ読み込みライブラリ
@@ -60,7 +56,7 @@ ID3D11BlendState* m_pBlendStateAdditive;
 
 DirectWrite* Write;
 // DirectWrite使用するかどうか変数
-bool isDirectWriteUse = true;
+bool isDirectWriteUse = false;
 
 // IASetVertexBuffersで使用する変数
 const UINT strides = sizeof(Vertex);

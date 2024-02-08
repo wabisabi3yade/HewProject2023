@@ -51,7 +51,6 @@ Fade::~Fade()
 
 	CLASS_DELETE(nowLoading);
 
-	SAFE_RELEASE(tex);
 	SAFE_RELEASE(vb);
 }
 
