@@ -319,6 +319,8 @@ void FatMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CANNON:
 	{
 		WalkStart();
+
+
 		Vector2 junpPos = {};
 
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
@@ -329,7 +331,7 @@ void FatMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-				WalkAfter();
+				//WalkAfter();
 				MoveAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);

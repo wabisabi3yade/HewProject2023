@@ -224,3 +224,13 @@ void CCannon::CheckCanMove(GridTable* _nowTable, bool* _canMove)
 	}
 	*_canMove = canMoveDir;
 }
+
+void CCannon::PlayTurn(int _dir, float _animSpeedRate)
+{
+	dynamic_cast<CannonAnim*>(mAnim)->PlayTurn(_dir);
+}
+
+void CCannon::PlayReturn(float _animSpeedRate)
+{
+	dynamic_cast<CannonAnim*>(mAnim)->PlayReturn(_animSpeedRate);
+}
