@@ -1,11 +1,12 @@
 #pragma once
 #include "CScene.h"
 
-#define MAXNUM_TEXT 3
+#define MAXNUM_TEXT 8
 
 class ButtonUI;
 class CWorldSelectPlayer;
 class UI;
+class ButtonSelect;
 
 class CGameOver :
     public CScene
@@ -32,12 +33,10 @@ public:
     UI* Text[MAXNUM_TEXT];
     ButtonUI* Message[3];
     CWorldSelectPlayer* Player;
+    ButtonSelect* selectControl;
 
     bool isOnce;
-    bool isOnceBox;
     bool isNoMoving;
-    bool isLate;
-    int nSelect;
 
 public:
     CGameOver();

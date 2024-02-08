@@ -50,7 +50,6 @@ public:
 
     bool isNoMoving;
     bool isOnce;
-    bool isFlash;
 
     int nRandom;
 

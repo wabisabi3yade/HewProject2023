@@ -138,8 +138,7 @@ CTitleScene::CTitleScene()
 
 	isNoMoving = false;
 	isOnce = false;
-	isFlash = false;
-
+	
 }
 
 CTitleScene::~CTitleScene()
@@ -283,14 +282,6 @@ void CTitleScene::Update()
 			player[i]->Update();
 		}
 		
-		/*if (input->GetInputTrigger(InputType::DECIDE) && isFlash == false)
-		{
-			CScene::SetScene(SCENE_NAME::WAKAMURA);
-		}
-		else if (input->GetInputTrigger(InputType::DECIDE) && isFlash == true)
-		{
-			exit(1);
-		}*/
 
 		if (input->GetInputTrigger(InputType::DECIDE))
 		{
@@ -301,16 +292,10 @@ void CTitleScene::Update()
 		selectControl->FlagUpdate();
 		if (input->GetMovement().x < 0)
 		{
-			/*isFlash = false;
-			select[0]->SetHighlight(true);
-			select[1]->SetHighlight(false);*/
 			selectControl->ButtonMove(-1);
 		}
 		if (input->GetMovement().x > 0)
 		{
-			/*isFlash = true;
-			select[0]->SetHighlight(false);
-			select[1]->SetHighlight(true);*/
 			selectControl->ButtonMove(1);
 		}
 	}
