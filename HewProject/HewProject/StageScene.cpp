@@ -151,7 +151,7 @@ void StageScene::Update()
 		{
 			player->GetPlayerMove()->CameraEnd();
 		}
-		else if(input->GetInputTrigger(InputType::OPTION))
+		else if (input->GetInputTrigger(InputType::OPTION))
 		{
 			FloorOnlyMap = !FloorOnlyMap;
 		}
@@ -160,106 +160,8 @@ void StageScene::Update()
 	}
 	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 	{
-		int isSelectDir = -1;
-		InputManager* input = InputManager::GetInstance();
-		Vector2 PadStick = input->GetMovement();
-		if (PadStick.x > 0.0f && PadStick.y > 0.0f)
-		{
-			isSelectDir = static_cast<int>(Player::DIRECTION::RIGHT);
-		}
-		else if (PadStick.x < 0.0f && PadStick.y < 0.0f)
-		{
-			isSelectDir = static_cast<int>(Player::DIRECTION::LEFT);
-			//player->mTransform.pos.x -= 0.3f;
-		}
-		else if (PadStick.x < 0.0f && PadStick.y > 0.0f)
-		{
-			isSelectDir = static_cast<int>(Player::DIRECTION::UP);
-			//player->mTransform.pos.y -= 0.3f;
-			//player->mTransform.pos.x -= 5.0f;
-		}
-		else if (PadStick.x > 0.0f && PadStick.y < 0.0f)
-		{
-			isSelectDir = static_cast<int>(Player::DIRECTION::DOWN);
-		}
-		if (isSelectDir != -1)
-		{
-			CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetGridPos(), CGridObject::BlockType::CANNON));
-			player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
-			player->SetDirection(isSelectDir);
-			cannonMove = true;
-			if (isSelectDir == 2 || isSelectDir == 1)
-			{
-				cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
-				bool* canMoveDir = cannonObj->GetCanMove();
-				for (int i = 0; i < isSelectDir; i++)
-				{
-					canMoveDir++;
-
-				}
-				if (*canMoveDir == true)
-				{
-
-					cannonObj->SetTexture(stageTextureCannon[0]);
-					dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
-					player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj]()
-						{
-							cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
-
-							//cannonObj->CheckCanMove(nowFloor,(player->GetCanMoveDir()));
-							player->dotween->DelayedCall(0.9f, [&, cannonObj]()
-								{
-									player->GetPlayerMove()->CannonMoveStart();
-									cannonMove = false;
-
-									cannonObj->PlayReturn();
-								});
-						});
-				}
-				else
-				{
-					//cannonMove = false;
-					
-				}
-			}
-			else
-			{
-				cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
-				bool* canMoveDir = cannonObj->GetCanMove();
-				for (int i = 0; i < isSelectDir; i++)
-				{
-					canMoveDir++;
-				}
-				if (*canMoveDir == true)
-				{
-
-					cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
-
-					player->dotween->DelayedCall(0.9f, [&, cannonObj]()
-						{
-							cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
-							player->GetPlayerMove()->CannonMoveStart();
-							cannonMove = false;
-							cannonObj->PlayReturn();
-						});
-				}
-				else
-				{
-					cannonMove = false;
-				}
-			}
-
-
-
-		}
-
+		InCanonInput();
 	}
-
-	//if (gInput->GetKeyTrigger(VK_ESCAPE))
-	//{
-	//	player->GetPlayerMove()->CannonMove2();
-	//}
-
 	// 動いているときと動き終わった瞬間だけ
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
 	{
@@ -611,6 +513,82 @@ void StageScene::CastellaMoveOrder()
 		castella->Move(target, player->GetDirection());
 		castella->SetGridPos(targetGrid.x, targetGrid.y);
 	}
+}
+
+void StageScene::InCanonInput()
+{
+	int isSelectDir = -1;
+	InputManager* input = InputManager::GetInstance();
+	Vector2 PadStick = input->GetMovement();
+	if (PadStick.x > 0.0f && PadStick.y > 0.0f)
+	{
+		isSelectDir = static_cast<int>(Player::DIRECTION::RIGHT);
+	}
+	else if (PadStick.x < 0.0f && PadStick.y < 0.0f)
+	{
+		isSelectDir = static_cast<int>(Player::DIRECTION::LEFT);
+		//player->mTransform.pos.x -= 0.3f;
+	}
+	else if (PadStick.x < 0.0f && PadStick.y > 0.0f)
+	{
+		isSelectDir = static_cast<int>(Player::DIRECTION::UP);
+		//player->mTransform.pos.y -= 0.3f;
+		//player->mTransform.pos.x -= 5.0f;
+	}
+	else if (PadStick.x > 0.0f && PadStick.y < 0.0f)
+	{
+		isSelectDir = static_cast<int>(Player::DIRECTION::DOWN);
+	}
+
+	CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetGridPos(), CGridObject::BlockType::CANNON));
+	bool* canMoveDir = cannonObj->GetCanMove();
+
+	// 入力した大砲の方向で発射できるか見る
+	for (int i = 0; i < isSelectDir; i++)
+	{
+		canMoveDir++;
+	}
+	// 発射出来ない方向なら　入力されていないなら　終了する
+	if (!canMoveDir || isSelectDir == -1) return;
+
+
+	//player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
+	player->SetDirection(isSelectDir);
+	cannonMove = true;
+	// 右 or 左なら　大砲動かす
+	if (isSelectDir == 2 || isSelectDir == 1)
+	{
+		cannonObj->SetTexture(stageTextureCannon[0]);
+		dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
+		player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj]()
+			{
+				cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
+
+				player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
+					{
+						player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
+						player->GetPlayerMove()->CannonMoveStart();
+						cannonMove = false;
+						cannonObj->PlayReturn();
+					});
+			});
+	}
+	else
+	{
+		cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
+
+		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
+			{
+				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
+				player->GetPlayerMove()->CannonMoveStart();
+				cannonMove = false;
+				cannonObj->PlayReturn();
+			});
+	}
+
+
+
+
 }
 
 void StageScene::ItemDelete()
@@ -1270,7 +1248,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				objWork = new CGall(stageBuffer, stageTextureGallChest);
 				break;
 			case CGridObject::BlockType::CANNON:
-				objWork = new CCannon(playerBuffer, stageTextureCannon[1]);
+				objWork = new CCannon(playerBuffer, stageTextureCannon[1], nowFloor);
 				dynamic_cast<CCannon*>(objWork)->SetArrow(stageBuffer, stageTextureArrow);
 			default:
 				break;
@@ -1300,8 +1278,10 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				{
 					dynamic_cast<CItem*>(objWork)->InitItem(shadowTexture);
 				}
-
-
+				else if (objWork->GetBlookType() == CGridObject::BlockType::CANNON)
+				{
+					dynamic_cast<CCannon*>(objWork)->CheckCanMove(_gridTable);
+				}
 				_settingList.push_back(objWork);
 			}
 			// オブジェクト /////////////////////////////////////

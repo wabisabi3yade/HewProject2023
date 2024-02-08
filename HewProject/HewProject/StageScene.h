@@ -130,6 +130,9 @@ public:
 	// カステラに動かせる命令を出す
 	void CastellaMoveOrder();
 
+	// 大砲の中での入力を受け付ける
+	void InCanonInput();
+
 	// アイテム（ケーキとか）と同じマスに移動するとアイテムを消したりする関数 次のマス用
 	void ItemDelete();
 	//現在地のアイテムを消す関数
