@@ -366,8 +366,9 @@ void ThinMove::Move(DIRECTION _dir)
 	break;
 
 	case CGridObject::BlockType::CANNON:
-		WalkStart();
 		{
+			WalkStart();
+
 
 			Vector2 junpPos = {};
 

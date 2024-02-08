@@ -38,6 +38,8 @@ public:
     void SetArrow(D3DBUFFER vb, D3DTEXTURE _tex);
     void DirSelect(Player::DIRECTION _dir);
     void CheckCanMove(GridTable* _nowTable,bool* _canMove);
-    bool GetCanMove() { return canMoveDir; }
+    void PlayTurn(int _dir, float _animSpeedRate = 1.0f);
+    void PlayReturn(float _animSpeedRate = 1.0f);
+    bool* GetCanMove() { return &canMoveDir[0]; }
 };
 

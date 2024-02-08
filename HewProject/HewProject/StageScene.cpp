@@ -161,7 +161,7 @@ void StageScene::Update()
 		{
 			isSelectDir = static_cast<int>(Player::DIRECTION::RIGHT);
 		}
-		else if(PadStick.x < 0.0f && PadStick.y < 0.0f)
+		else if (PadStick.x < 0.0f && PadStick.y < 0.0f)
 		{
 			isSelectDir = static_cast<int>(Player::DIRECTION::LEFT);
 			//player->mTransform.pos.x -= 0.3f;
@@ -184,29 +184,62 @@ void StageScene::Update()
 			cannonMove = true;
 			if (isSelectDir == 2 || isSelectDir == 1)
 			{
-				cannonObj->SetTexture(stageTextureCannon[0]);
-				dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
-			player->dotween->DelayedCall(0.9f,[&,isSelectDir,cannonObj]()
+				cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
+				bool* canMoveDir = cannonObj->GetCanMove();
+				for (int i = 0; i < isSelectDir; i++)
 				{
-					cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
-					player->dotween->DelayedCall(0.9f, [&,cannonObj]()
+					canMoveDir++;
+
+				}
+				if (*canMoveDir == true)
+				{
+
+					cannonObj->SetTexture(stageTextureCannon[0]);
+					dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
+					player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj]()
 						{
-							cannonObj->CheckCanMove(nowFloor,(player->GetCanMoveDir()));
-							player->GetPlayerMove()->CannonMoveStart();
-							cannonMove = false;
+							cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
+
+							//cannonObj->CheckCanMove(nowFloor,(player->GetCanMoveDir()));
+							player->dotween->DelayedCall(0.9f, [&, cannonObj]()
+								{
+									player->GetPlayerMove()->CannonMoveStart();
+									cannonMove = false;
+
+									cannonObj->PlayReturn();
+								});
 						});
-				});
+				}
+				else
+				{
+					cannonMove = false;
+				}
 			}
 			else
 			{
-				cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
+				cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
+				bool* canMoveDir = cannonObj->GetCanMove();
+				for (int i = 0; i < isSelectDir; i++)
+				{
+					canMoveDir++;
+				}
+				if (*canMoveDir == true )
+				{
 
-				player->dotween->DelayedCall(0.9f, [&,cannonObj]()
-					{
-						cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
-						player->GetPlayerMove()->CannonMoveStart();
-						cannonMove = false;
-					});
+					cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
+
+					player->dotween->DelayedCall(0.9f, [&, cannonObj]()
+						{
+							cannonObj->CheckCanMove(nowFloor, player->GetCanMoveDir());
+							player->GetPlayerMove()->CannonMoveStart();
+							cannonMove = false;
+							cannonObj->PlayReturn();
+						});
+				}
+				else
+				{
+					cannonMove = false;
+				}
 			}
 
 
@@ -351,7 +384,7 @@ void StageScene::StageMove()
 		case CGridObject::BlockType::WALL:
 		{
 
-			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
+			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), type));
 			wallObj->Break(0.0f);
 			break;
 		}
