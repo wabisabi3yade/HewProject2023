@@ -23,6 +23,7 @@ public:
 		FADE_TEST,
 		TITLE,
 		GAMEOVER,
+		GAMECLEAR,
 		SCENE_NUM,	// シーンの数
 
 		SELECT,	// セレクトシーン

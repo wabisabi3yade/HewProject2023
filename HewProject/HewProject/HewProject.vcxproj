@@ -162,6 +162,7 @@
     <ClInclude Include="CFade.h" />
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="CGall.h" />
+    <ClInclude Include="CGameClear.h" />
     <ClInclude Include="CGameOver.h" />
     <ClInclude Include="CGrid.h" />
     <ClInclude Include="CGridObject.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="CFade.cpp" />
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="CGall.cpp" />
+    <ClCompile Include="CGameClear.cpp" />
     <ClCompile Include="CGameOver.cpp" />
     <ClCompile Include="CGrid.cpp" />
     <ClCompile Include="CGridObject.cpp" />

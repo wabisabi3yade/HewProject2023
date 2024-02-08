@@ -111,6 +111,7 @@ void TextureFactory::Load()
 		L"asset/UI/GAMEOVER.png",
 		L"asset/UI/Arrow.png",
 		L"asset/UI/FadeBlack.png",
+		L"asset/UI/CLEAR.png",
 
 		L"asset/Text/T_GameStart.png",
 		L"asset/Text/T_GameEnd.png",

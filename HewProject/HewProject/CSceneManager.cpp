@@ -15,6 +15,7 @@
 #include "CTitleScene.h"
 #include "HosodaSelect.h"
 #include "CGameOver.h"
+#include "CGameClear.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -160,6 +161,11 @@ void CSceneManager::SceneChange(int _scene)
 	case CScene::GAMEOVER:
 		nowSceneName = CScene::GAMEOVER;
 		pNowScene = new CGameOver();
+		break;
+
+	case CScene::GAMECLEAR:
+		nowSceneName = CScene::GAMECLEAR;
+		pNowScene = new CGameClear();
 		break;
 
 	/*case CScene::HOSODA_SELECT:
