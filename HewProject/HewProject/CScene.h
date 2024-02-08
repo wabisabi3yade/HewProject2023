@@ -40,6 +40,7 @@ protected:
 
 	// シーンを変えるフラグ
 	bool isSceneChange = false;
+	bool isExit = false;
 public:
 	CScene();
 
@@ -57,8 +58,13 @@ public:
 	// シーンを変えるときに呼ぶ関数
 	void SetScene(int _nextScene);
 
+	void Exit();
+
 	//　シーンマネージャーを変えているか確認する
 	void SceneChangeCheck();
+
+	// 終了するか確認
+	void ExitCheck();
 
 	// シーン変わるフラグを取得
 	bool GetSceneChange() { return isSceneChange; }

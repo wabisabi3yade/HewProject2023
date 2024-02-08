@@ -99,6 +99,7 @@ void CSceneManager::Act()
 	D3D_UpdateScreen();
 
 	pNowScene->SceneChangeCheck();
+	pNowScene->ExitCheck();
 }
 
 
@@ -175,6 +176,11 @@ void CSceneManager::SceneChangeStage(const wchar_t* _path)
 	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
 
 	pNowScene = new Stage(_path);
+}
+
+void CSceneManager::Exit()
+{
+	isGameExit = true;
 }
 
 // ƒV[ƒ“”Ô†‚ğ•Ô‚·
