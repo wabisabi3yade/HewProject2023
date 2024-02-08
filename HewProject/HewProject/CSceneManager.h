@@ -11,6 +11,8 @@
 class CSceneManager
 {
 private:
+	// 終了するか確認フラグ
+	bool isGameExit = false;
 	CScene* pNowScene = nullptr;
 	CScene::SCENE_NAME nowSceneName;
 		
@@ -43,7 +45,12 @@ public:
 	// シーンを設定する
 	void SceneChangeStage(const wchar_t* _path);
 
+	// ゲームを終了する
+	void Exit();
+
 	// 現在のシーンを取得
 	CScene::SCENE_NAME GetNowScene();
+	// 終了フラグ取得
+	bool GetGameExit()const { return isGameExit; }
 };
 

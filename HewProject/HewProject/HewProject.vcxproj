@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonSelect.h" />
     <ClInclude Include="ButtonUI.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CalorieGage_hori.h" />
@@ -225,7 +226,6 @@
     <ClInclude Include="TextureFactory.h" />
     <ClInclude Include="ThinMove.h" />
     <ClInclude Include="Time.h" />
-    <ClInclude Include="Title.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
@@ -234,6 +234,7 @@
     <ClInclude Include="xa2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonSelect.cpp" />
     <ClCompile Include="ButtonUI.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CalorieGage_hori.cpp" />
@@ -321,7 +322,6 @@
     <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="ThinMove.cpp" />
     <ClCompile Include="Time.cpp" />
-    <ClCompile Include="Title.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />

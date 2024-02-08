@@ -33,6 +33,11 @@ void CScene::SetScene(int _nextScene)
 	nextScene = _nextScene;
 }
 
+void CScene::Exit()
+{
+	isExit = true;
+}
+
 void CScene::SceneChangeCheck()
 {
 	// シーンを変えるフラグがfalseなら処理しない
@@ -40,4 +45,11 @@ void CScene::SceneChangeCheck()
 
 	// シーンを変える関数を呼ぶ
 	pSceneManager->SceneChange(nextScene);
+}
+
+void CScene::ExitCheck()
+{
+	if (!isExit) return;
+
+	pSceneManager->Exit();
 }

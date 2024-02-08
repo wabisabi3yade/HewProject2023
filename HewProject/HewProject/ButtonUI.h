@@ -1,10 +1,14 @@
 #pragma once
 #include "UI.h"
+#include <functional>
 
 class ButtonUI
 {
 	UI* text = nullptr;
 	UI* button = nullptr;
+
+	// ボタンを押されたときの関数を
+	std::function<void()> func = nullptr;
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -29,5 +33,11 @@ public:
 	void SetScale(const Vector3& _scale);
 
 	void SetPosition(const Vector3& _scale);
+
+	// ボタンを押されたときに行う処理を設定
+	void SetFunc(std::function<void()> _setFunction);
+
+	// 設定した関数を実行
+	void BeginFunc();
 };
 
