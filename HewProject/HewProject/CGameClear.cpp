@@ -51,8 +51,8 @@ CGameClear::CGameClear()
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
 
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
-	text_nextStageTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Help.png");
-	text_stageSelectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Undo.png");
+	text_nextStageTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_NextStage.png");
+	text_stageSelectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_StageSelectBack.png");
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_nextStageTexture);
 	Message[0]->SetPosition({ -3.0f,-3.0f,0 });
