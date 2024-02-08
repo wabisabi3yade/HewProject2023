@@ -180,7 +180,6 @@ void Player::Update()
 			{
 				mTransform.pos.y = FALL_POS_Y - mTransform.scale.y / 2;
 				risingChangeTrriger = true;
-
 			}
 			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START) && risingChangeTrriger)
 			{
@@ -190,7 +189,6 @@ void Player::Update()
 				//move->MoveAfter();
 				move->Step();
 				move->RiseAfter();
-				dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
 				risingChangeTrriger = false;
 			}
 
