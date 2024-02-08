@@ -34,6 +34,18 @@ int GridTable::CheckFloorType(CGrid::GRID_XY _gridPos)
 	return floorTable[_gridPos.y][_gridPos.x];
 }
 
+int GridTable::CheckMassType(CGrid::GRID_XY _gridPos)
+{
+	int ret = 99;
+	ret = CheckObjectType(_gridPos);
+	
+	if (ret == 99)
+	{
+		ret = CheckFloorType(_gridPos);
+	}
+	return ret;
+}
+
 Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _type)
 {
 	float disTimes = 0.0f;

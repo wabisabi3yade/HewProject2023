@@ -42,6 +42,7 @@ public:
 	// 指定した座標に何があるか確認する
 	int CheckObjectType(CGrid::GRID_XY _gridPos);
 	int CheckFloorType(CGrid::GRID_XY _gridPos);
+	int CheckMassType(CGrid::GRID_XY _gridPos);
 
 	/// <summary>
 	/// グリッド座標からワールド座標を変換する
