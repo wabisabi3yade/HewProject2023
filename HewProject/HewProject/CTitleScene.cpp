@@ -51,7 +51,7 @@ CTitleScene::CTitleScene()
 	selectControl->Regist(select[1]);
 
 	D3D_CreateSquare({ 1,1 }, &sweetsBuffer);
-	sweetsTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Cake.png");
+	sweetsTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/FallCake.png");
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -63,14 +63,14 @@ CTitleScene::CTitleScene()
 		{
 			Sweets[i] = new SweetsUI(sweetsBuffer, sweetsTexture);
 			Sweets[i]->SetPosition({ distr(eng),6.0f + i * 2.0f,BEGIN_POSZ - i * 0.001f });
-			Sweets[i]->SetScale({ 3.0f,3.0f,1.0f });
+			Sweets[i]->SetScale({ 2.0f,2.0f,1.0f });
 			Sweets[i]->SetRotation({ 0,0,45.0f + i * 30.0f });
 		}
 		else
 		{
 			Sweets[i] = new SweetsUI(sweetsBuffer, sweetsTexture);
 			Sweets[i]->SetPosition({ distr(eng),7.3f + i * 2.0f,BEGIN_POSZ - i * 0.001f });
-			Sweets[i]->SetScale({ 3.0f, 3.0f, 1.0f });
+			Sweets[i]->SetScale({ 2.0f, 2.0f, 1.0f });
 			Sweets[i]->SetRotation({ 0,0,45.0f + i * 30.0f });
 		}
 		
