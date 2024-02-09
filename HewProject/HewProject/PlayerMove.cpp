@@ -43,7 +43,7 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Input()
 {
 	// 移動しているときは処理しない
-	if (isMoving || isRising || isFalling || isLookMap) return;
+	if (isMoving || isRising || isFalling || isLookMap || isCannonMove|| inCannon) return;
 
 	InputManager* input = InputManager::GetInstance();
 
@@ -405,11 +405,9 @@ void PlayerMove::CannonMove2()
 			)
 			nextGridPos = nextCannonPos;
 	}
-	//CGrid::GRID_XY a = nextCannonPos;
-	//if (nextCannonPos.x >= 0.0f && nextCannonPos.y >= 0.0f &&
-	//	player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != 0
-	//	&& nextCannonPos.x < XY.x && nextCannonPos.y < XY.y)
-	//{
+
+
+
 	if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::GALL) &&
 		player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::CASTELLA) &&
 		player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMHORIZONTAL) &&
@@ -480,27 +478,27 @@ void PlayerMove::CannonMove2()
 		isCannonMoveStart = true;
 		player->ChangeTexture(Player::ANIM_TEX::WALK);
 		dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayFall(moveDir, 2.0f);
-		//nextCannonType = static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckObjectType(nextCannonPos));
 		player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
 		player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->GetPlayerMove()->SetNextGridPos(nextCannonPos);
 		player->dotween->OnComplete([&]()
 			{
-				isCannonMove = false;
 				player->SetChangeCannonTexture(false);
-				inCannon = false;
 				isCannonMoveEnd = true;
-
+				isCannonMove = false;
 				player->GetPlayerMove()->SetNextGridPos(player->GetGridPos());
-				WalkAfter();
-				player->GetPlayerMove()->Step();
-				player->dotween->DelayedCall(0.5f, [&]()
+				player->dotween->DelayedCall(0.1f, [&]()
 					{
+						inCannon = false;
+						CheckCanMove();
+					});
+						WalkAfter();
+						player->GetPlayerMove()->Step();
 						flagInit = false;
 						isCannonMoveStart = false;
 						isCannonMoveEnd = false;
-						this->CheckCanMove();
-					});
+						//CheckCanMove();
+
 			});
 	}
 	//移動可能で泣ければバウンドを実行する

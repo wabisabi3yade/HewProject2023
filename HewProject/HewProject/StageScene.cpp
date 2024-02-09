@@ -549,7 +549,7 @@ void StageScene::InCanonInput()
 		canMoveDir++;
 	}
 	// 発射出来ない方向なら　入力されていないなら　終了する
-	if (!canMoveDir || isSelectDir == -1) return;
+	if (!*canMoveDir || isSelectDir == -1) return;
 
 
 	//player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
