@@ -68,6 +68,10 @@ void TextureFactory::Load()
 		L"asset/Player/N_EatChili.png",
 		L"asset/Player/F_EatChili.png",
 		L"asset/Player/T_EatChili.png",
+		L"asset/Player/T_ThorwRight.png",
+		L"asset/Player/T_ThrowLeft.png",
+		L"asset/Player/T_ThrowDown.png",
+		L"asset/Player/T_ThrowUp.png",
 		L"asset/Player/Player_CanonMove.png",
 
 		L"asset/Stage/floor_y.png",
