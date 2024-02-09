@@ -292,7 +292,8 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
-				MoveAfter();
+				//MoveAfter();
+				player->SetGridPos(nextGridPos);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 				player->GetPlayerMove()->InCannon();
