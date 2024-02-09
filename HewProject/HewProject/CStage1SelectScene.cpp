@@ -16,6 +16,9 @@ CStage1SelectScene::CStage1SelectScene()
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
 
+	D3D_CreateSquare({ 1,1 }, &bgBuffer);
+	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/WorldSelectBack.png");
+
 	D3D_CreateSquare({ 1,1 }, &wordBuffer);
 	word_RightUpTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Chili.png");
 	word_RightDownTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Cake.png");
@@ -35,7 +38,7 @@ CStage1SelectScene::CStage1SelectScene()
 
 	player = new CStageSelectPlayer(playerBuffer, playerTexture);
 	player->mTransform.scale = { 2,2,1 };
-	player->mTransform.pos = { 0,0,0 };
+	player->mTransform.pos = { 0,0,-0.11f };
 	player->SetTexture(player_waitTexture);
 
 	Text[0] = new UI(textBuffer, text_blueTexture);
@@ -82,16 +85,20 @@ CStage1SelectScene::CStage1SelectScene()
 	Word[3]->mTransform.pos = { -10.0f,-3.5,-0.1f };
 	Word[3]->mTransform.scale = { 2.0f,2.0f,1 };
 
-	stage[0]->mTransform.pos = { -5,2,1 };
+	stage[0]->mTransform.pos = { -5,2,-0.1f };
 	stage[0]->mTransform.scale = { 2,2,1 };
-	stage[1]->mTransform.pos = { -5,-2,1 };
+	stage[1]->mTransform.pos = { -5,-2,-0.1f };
 	stage[1]->mTransform.scale = { 2,2,1 };
-	stage[2]->mTransform.pos = { 5,2,1 };
-	stage[2]->mTransform.scale = { 2,2,1 };
-	stage[3]->mTransform.pos = { 5,-2,1 };
+	stage[2]->mTransform.pos = { 5,2,-0.1f };
+	stage[2]->mTransform.scale = { 2,2,1};
+	stage[3]->mTransform.pos = { 5,-2,-0.1f };
 	stage[3]->mTransform.scale = { 2,2,1 };
-	stage[4]->mTransform.pos = { 0,-2,1 };
+	stage[4]->mTransform.pos = { 0,-2,-0.1f };
 	stage[4]->mTransform.scale = { 2,2,1 };
+
+	Bg = new UI(bgBuffer, bgTexture);
+	Bg->mTransform.pos = { 0,0,0.5f };
+	Bg->mTransform.scale = { 16,9,1 };
 
 	isPlayerMoving = false;
 	isOnce = false;
@@ -101,6 +108,8 @@ CStage1SelectScene::CStage1SelectScene()
 CStage1SelectScene::~CStage1SelectScene()
 {
 	CLASS_DELETE(player);
+
+	CLASS_DELETE(Bg);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -121,6 +130,8 @@ CStage1SelectScene::~CStage1SelectScene()
 void CStage1SelectScene::Update()
 {
 	InputManager* input = InputManager::GetInstance();
+
+	Bg->Update();
 
 	if (player->isChangeScene == true)
 	{
@@ -334,6 +345,8 @@ void CStage1SelectScene::LateUpdate()
 
 void CStage1SelectScene::Draw()
 {
+	Bg->Draw();
+	
 	for (int i = 0; i < 5; i++)
 	{
 		stage[i]->Draw();

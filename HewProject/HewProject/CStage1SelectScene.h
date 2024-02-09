@@ -33,10 +33,14 @@ public:
     D3DTEXTURE word_LeftUpTexture;
     D3DTEXTURE word_LeftDownTexture;
 
+    D3DBUFFER bgBuffer;
+    D3DTEXTURE bgTexture;
+
     CStageSelectPlayer* player;
     CObject* stage[5];
     UI* Text[4];
     UI* Word[4];
+    UI* Bg;
 
     bool isPlayerMoving;
     bool isOnce;

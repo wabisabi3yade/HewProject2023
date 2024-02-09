@@ -47,6 +47,7 @@ void TextureFactory::Load()
 	const wchar_t* texPath[] =
 	{
 		L"asset/Background/Stage2.png",
+		L"asset/Background/WorldSelectBack.png",
 		
 		L"asset/Player/N_Walk.png",
 		L"asset/Player/F_Walk.png",
