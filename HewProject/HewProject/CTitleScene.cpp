@@ -7,6 +7,7 @@
 #include "CTitlePlayer.h"
 #include"SweetsUI.h"
 #include "ButtonSelect.h"
+#include <time.h>
 
 #define MIN -8
 #define BETWEEN 0
@@ -31,7 +32,7 @@ CTitleScene::CTitleScene()
 	select[0]->SetScale({ 4,4,1 });
 	select[0]->SetFunc([&]()
 		{
-			CScene::SetScene(SCENE_NAME::WAKAMURA);
+			CScene::SetScene(SCENE_NAME::TITLE);
 		});
 
 	select[1] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, text_endTexture);
@@ -86,9 +87,10 @@ CTitleScene::CTitleScene()
 	Title->materialDiffuse = { 1,1,1,1 };
 
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
-	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage2.png");
+	bg_Stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage1.png");
+	bg_Stage2Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage2.png");
 
-	Bg = new UI(bgBuffer, bgTexture);
+	Bg = new UI(bgBuffer, bg_Stage1Texture);
 	Bg->mTransform.pos = { 0,0,0.5f };
 	Bg->mTransform.scale = { 16,9,1 };
 	Bg->materialDiffuse = { 1,1,1,1 };
@@ -100,6 +102,7 @@ CTitleScene::CTitleScene()
 
 	srand(time(NULL));
 	nRandom = rand() % 3;
+	nRandom_Bg = rand() % 2;
 	
 	player[0] = new CTitlePlayer(playerBuffer, player_normalTexture);
 	player[0]->mTransform.scale = {2,2,1};
@@ -180,6 +183,18 @@ void CTitleScene::Update()
 
 	if (isNoMoving == false)
 	{
+		switch (nRandom_Bg)
+		{
+		case 0:
+			Bg->SetTexture(bg_Stage1Texture);
+			break;
+		case 1:
+			Bg->SetTexture(bg_Stage2Texture);
+			break;
+		default:
+			break;
+		}
+
 		if (isOnce == false)
 		{
 			Title->dotween->DoMoveY(1.5f, 3.0f);
