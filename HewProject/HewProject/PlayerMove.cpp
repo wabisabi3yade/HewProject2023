@@ -490,7 +490,7 @@ void PlayerMove::CannonMove2()
 				player->dotween->DelayedCall(0.1f, [&]()
 					{
 						inCannon = false;
-						CheckCanMove();
+	//					CheckCanMove();
 					});
 						WalkAfter();
 						player->GetPlayerMove()->Step();
