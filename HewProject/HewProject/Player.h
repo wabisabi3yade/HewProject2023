@@ -93,7 +93,7 @@ private:
 	D3DTEXTURE thinTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE cannonTex;
-	//D3DTEXTURE BaumTex[static_cast<int>(ANIM_TEX::NUM)];
+	D3DTEXTURE BaumTex[static_cast<int>(ANIM_TEX::NUM)];
 	//DIRECTION‚Æ“¯‚¶Œü‚«‚Ìƒpƒ“ƒ`‚Ì‰æ‘œ‚ğŠi”[
 	D3DTEXTURE punchTex[static_cast<int>(DIRECTION::NUM)];
 	// ‰æ‘œ‚ğã‚É”z—ñ‚É“ü‚ê‚é

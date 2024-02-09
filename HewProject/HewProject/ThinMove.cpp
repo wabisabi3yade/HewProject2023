@@ -274,15 +274,18 @@ void ThinMove::Move(DIRECTION _dir)
 			MoveAfter();
 			return;
 		}
+		player->ChangeTexture(Player::ANIM_TEX::BAUM);
 
 		player->mTransform.pos = player->GetGridTable()->GridToWorld({ nextGridPos.x - d.x, nextGridPos.y - d.y }, CGridObject::BlockType::START);
-
-		WalkStart();
+		player->mTransform.pos.z += 0.001f;
+		//WalkStart();
 
 		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 		forwardPosXY = { forwardPos.x, forwardPos.y };
 
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->DoDelay(3.0f);
+		player->dotween->Append({ forwardPosXY.x,forwardPosXY.y }, WALK_TIME, DoTween::FUNC::MOVE_XY);
+		//player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		// “®‚«I‚í‚Á‚½‚ç

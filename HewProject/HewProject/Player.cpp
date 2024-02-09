@@ -84,10 +84,10 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 
 	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 
-	//BaumTex[0] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowBack.png");
-	//BaumTex[1] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowFront.png");
-	//BaumTex[2] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowFront.png");
-	//BaumTex[3] = TextureFactory::GetInstance()->Fetch(L"aseet/Player/T_PlayerThrowFront.png");
+	BaumTex[0] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThrowDown.png");
+	BaumTex[1] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThrowLeft.png");
+	BaumTex[2] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThorwRight.png");
+	BaumTex[3] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThrowUp.png");
 }
 
 void Player::Init(GridTable* _pTable)
@@ -319,22 +319,27 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		SetTexture(punchTex[static_cast<int>(direction)]);
 		return;
 	}
-	else if(_animTex == ANIM_TEX::BAUM)
+	else if (_animTex == ANIM_TEX::BAUM)
 	{
 		switch (static_cast<int>(this->direction))
 		{
 		case 0:
+			SetTexture(BaumTex[0]);
+			break;
 		case 1:
-		//SetTexture(BaumTex[0]);
-		//SetTexture(BaumTex[1]);
+			break;
+			SetTexture(BaumTex[1]);
 			break;
 		case 2:
+			SetTexture(BaumTex[2]);
+			break;
 		case 3:
+			SetTexture(BaumTex[3]);
 			break;
 		default:
 			break;
 		}
-			return;
+		return;
 	}
 	switch (playerState)
 	{
