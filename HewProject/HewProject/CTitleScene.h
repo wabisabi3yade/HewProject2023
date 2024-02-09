@@ -21,7 +21,8 @@ public:
     D3DTEXTURE titleTexture;
     
     D3DBUFFER bgBuffer;
-    D3DTEXTURE bgTexture;
+    D3DTEXTURE bg_Stage1Texture;
+    D3DTEXTURE bg_Stage2Texture;
 
     D3DBUFFER sweetsBuffer;
     D3DTEXTURE sweetsTexture;
@@ -52,6 +53,7 @@ public:
     bool isOnce;
 
     int nRandom;
+    int nRandom_Bg;
 
 public:
     CTitleScene();

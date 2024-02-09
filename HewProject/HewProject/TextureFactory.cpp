@@ -46,6 +46,7 @@ void TextureFactory::Load()
 	// プレイヤー　→　ステージ　→　アイテム　→　背景　→　エフェクト　→　UI →　文字
 	const wchar_t* texPath[] =
 	{
+		L"asset/Background/Stage1.png",
 		L"asset/Background/Stage2.png",
 		L"asset/Background/WorldSelectBack.png",
 		
