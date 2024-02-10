@@ -46,6 +46,7 @@ void ButtonSelect::ButtonMove(int _add)
 
 	// 前のボタンのハイライト表示を止める
 	buttonRegister[o_buttonID]->SetHighlight(false);
+
 	// 新しく指定したボタンをハイライトさせる
 	buttonRegister[pointButtonID]->SetHighlight(true);
 }

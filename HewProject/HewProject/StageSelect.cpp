@@ -1,5 +1,29 @@
 #include "StageSelect.h"
 #include "ButtonSelect.h"
+#include "InputManager.h"
+
+void StageSelect::Input()
+{
+	btnSelect->FlagUpdate();
+
+	InputManager* input = InputManager::GetInstance();
+	if (input->GetMovement().x > 0.0f)
+	{
+		btnSelect->ButtonMove(1);
+	}
+	else if (input->GetMovement().x < 0.0f)
+	{
+		btnSelect->ButtonMove(-1);
+	}
+	else if (input->GetMovement().y < 0.0f)
+	{
+		btnSelect->ButtonMove(3);
+	}
+	else if (input->GetMovement().y > 0.0f)
+	{
+		btnSelect->ButtonMove(-3);
+	}
+}
 
 StageSelect::StageSelect()
 {
@@ -15,12 +39,13 @@ StageSelect::StageSelect()
 
 void StageSelect::Update()
 {
+
+	Input();
+
 	for (auto a : stgButton)
 	{
 		a->Update();
 	}
-
-
 }
 
 void StageSelect::LateUpdate()
