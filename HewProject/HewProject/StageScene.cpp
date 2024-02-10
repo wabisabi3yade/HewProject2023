@@ -158,6 +158,11 @@ void StageScene::Update()
 
 
 	}
+	if (gInput->GetKeyTrigger(VK_ESCAPE))
+	{
+		player->ChangeTexture(Player::ANIM_TEX::BAUM);
+		player->GetPlayerAnim()->PlayBaum(player->GetDirection(), 1.0f);
+	}
 	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 	{
 		InCanonInput();
@@ -570,13 +575,17 @@ void StageScene::InCanonInput()
 						player->GetPlayerMove()->CannonMoveStart();
 						cannonMove = false;
 						cannonObj->PlayReturn();
+						player->dotween->DelayedCall(0.9f, [&,cannonObj,isSelectDir]()
+							{
+								dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(0);
+							});
 					});
 			});
 	}
 	else
 	{
+				cannonObj->SetTexture(stageTextureCannon[1]);
 		cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
-
 		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
 			{
 				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
@@ -1215,11 +1224,13 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				break;
 
 			case CGridObject::BlockType::BAUMHORIZONTAL:
-				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_L);
+				//objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_L);
+				objWork = new CBaum(stageBuffer, NULL);
 				break;
 
 			case CGridObject::BlockType::BAUMVERTICAL:
-				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_R);
+				//objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_R);
+				objWork = new CBaum(stageBuffer, NULL);
 				break;
 
 			case CGridObject::BlockType::COIN:

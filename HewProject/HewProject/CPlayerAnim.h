@@ -32,8 +32,7 @@ public:
         PUNCH,       //パンチ
 
         //バウムクーヘンの動き
-        BAUM_RIGHT,     //右向き
-        BAUM_LEFT,      //左向き
+        BAUM,
     };
 private:
     float AnimSpeedRate;

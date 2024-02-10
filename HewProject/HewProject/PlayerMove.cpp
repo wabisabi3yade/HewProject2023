@@ -129,7 +129,7 @@ CGridObject::BlockType PlayerMove::CheckNextMassType()
 	CGridObject::BlockType type = CheckNextObjectType();
 
 	// 何もなかったら
-	if (type == CGridObject::BlockType::NONE)
+	if (type == CGridObject::BlockType::NONE || type == CGridObject::BlockType::START)
 	{
 		// 床のテーブルを確認
 		type = CheckNextFloorType();

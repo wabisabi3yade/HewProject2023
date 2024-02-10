@@ -67,7 +67,12 @@ void CPlayerAnim::Update()
 		//ÉpÉìÉ`
 		{ 0,0,1,1,2,2,
 		 3,3,4,4,5,5,
-		 6,6,7,7,}
+		 6,6,7,7,},
+		
+
+		{ 0,0,1,1,2,2,
+		3,3,4,4,5,5,
+		6,6,7,7,-1},
 
 	};
 
@@ -265,13 +270,11 @@ void CPlayerAnim::PlayBaum(int _dir, float _animSpeedRate)
 	case 0:
 		// âE
 	case 2:
-		SetPattern(static_cast<int>(PATTERN::BAUM_RIGHT));
-		break;
 		// ç∂
 	case 1:
 		// è„
 	case 3:
-		SetPattern(static_cast<int>(PATTERN::BAUM_LEFT));
+		SetPattern(static_cast<int>(PATTERN::BAUM));
 		break;
 	}
 }
