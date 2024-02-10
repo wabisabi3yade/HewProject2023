@@ -51,6 +51,8 @@ protected:
 
 	bool isLookMap;   //ƒ}ƒbƒv‚ðŒ©‚é
 
+	bool isFallBound;
+
 	bool flagInit;
 
 	bool inCannon;
@@ -152,6 +154,7 @@ public:
 	bool GetCannonMoveStart()const { return isCannonMoveStart; }
 	bool GetCannonMoveStartTrigger()const { return isCannonMoveStartTrigger; }
 	bool GetIncannon()const { return inCannon; }
+	bool GetIsFallBound()const { return isFallBound; }
 	void SetCannonDir(bool* _set) { *cannonMoveDir = _set; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 };

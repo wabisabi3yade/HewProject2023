@@ -150,6 +150,7 @@ void StageScene::Update()
 		else if (input->GetInputTrigger(InputType::CANCEL))
 		{
 			player->GetPlayerMove()->CameraEnd();
+			lockStageMap = nowFloorNum;
 		}
 		else if (input->GetInputTrigger(InputType::OPTION))
 		{
@@ -166,6 +167,49 @@ void StageScene::Update()
 	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 	{
 		InCanonInput();
+	}
+
+	if (player->GetPlayerMove()->GetIsFallBound())
+	{
+		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
+			player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
+		{
+			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
+			switch (player->GetState())
+			{
+			case Player::STATE::MUSCLE:
+			case Player::STATE::FAT:
+			{
+
+				chocoObj->CRACK();
+				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
+				hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+				hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+				vStageObj->push_back(hollObj);
+			}
+			case Player::STATE::NORMAL:
+			{
+				if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
+				{
+					chocoObj->CRACK();
+					CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+					hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
+					hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+					hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+					vStageObj->push_back(hollObj);
+				}
+				else
+				{
+					chocoObj->CRACK();
+					chocoObj->SetTexture(stageTextureChocolateClack);
+				}
+				break;
+			}
+			default:
+				break;
+			}
+		}
 	}
 	// “®‚¢‚Ä‚¢‚é‚Æ‚«‚Æ“®‚«I‚í‚Á‚½uŠÔ‚¾‚¯
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
@@ -203,14 +247,20 @@ void StageScene::StageMove()
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CAKE)
 		{
 			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-			cakeObj->BlowOff(player->GetDirection());
+			cakeObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&,cakeObj]()
+				{
+					cakeObj->BlowOff(player->GetDirection());
+				});
 		}
 
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CHILI)
 		{
 			CChili* chiliObj = dynamic_cast<CChili*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-			chiliObj->BlowOff(player->GetDirection());
+			chiliObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&,chiliObj]()
+				{
+					chiliObj->BlowOff(player->GetDirection());
+				});
 		}
 
 		if (player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::WATAAME)
@@ -253,17 +303,21 @@ void StageScene::StageMove()
 			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
 			if (player->GetState() != Player::STATE::THIN)
 			{
-				if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
+				if (!player->GetPlayerMove()->GetIsFalling())
 				{
-					CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
-					hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
-					hollObj->SetBlookType(CGridObject::BlockType::HOLL);
-					hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
-					vStageObj->push_back(hollObj);
-					player->GetPlayerMove()->FallStart();
+					if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
+					{
+
+						CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+						hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
+						hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+						hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+						vStageObj->push_back(hollObj);
+						player->GetPlayerMove()->FallStart();
+					}
+					chocoObj->CRACK();
+					chocoObj->SetTexture(stageTextureChocolateClack);
 				}
-				chocoObj->CRACK();
-				chocoObj->SetTexture(stageTextureChocolateClack);
 			}
 			if (player->GetState() == Player::STATE::FAT || player->GetState() == Player::STATE::MUSCLE)
 			{
@@ -575,7 +629,7 @@ void StageScene::InCanonInput()
 						player->GetPlayerMove()->CannonMoveStart();
 						cannonMove = false;
 						cannonObj->PlayReturn();
-						player->dotween->DelayedCall(0.9f, [&,cannonObj,isSelectDir]()
+						player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
 							{
 								dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(0);
 							});
@@ -584,7 +638,7 @@ void StageScene::InCanonInput()
 	}
 	else
 	{
-				cannonObj->SetTexture(stageTextureCannon[1]);
+		cannonObj->SetTexture(stageTextureCannon[1]);
 		cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
 		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
 			{
@@ -1440,7 +1494,7 @@ void StageScene::MapDraw()
 		{
 			if (FloorOnlyMap)
 			{
-				if ((*i)->GetCategory() == CGridObject::Category::FLOOR)
+				if ((*i)->GetCategory() == CGridObject::Category::FLOOR || (*i)->GetBlookType() == CGridObject::BlockType::START)
 				{
 					(*i)->Draw();
 				}
@@ -1457,7 +1511,7 @@ void StageScene::MapDraw()
 		{
 			if (FloorOnlyMap)
 			{
-				if ((*j)->GetCategory() == CGridObject::Category::FLOOR)
+				if ((*j)->GetCategory() == CGridObject::Category::FLOOR || (*j)->GetBlookType() == CGridObject::BlockType::START)
 				{
 					(*j)->Draw();
 				}
@@ -1474,7 +1528,7 @@ void StageScene::MapDraw()
 		{
 			if (FloorOnlyMap)
 			{
-				if ((*thir)->GetCategory() == CGridObject::Category::FLOOR)
+				if ((*thir)->GetCategory() == CGridObject::Category::FLOOR || (*thir)->GetBlookType() == CGridObject::BlockType::START)
 				{
 					(*thir)->Draw();
 				}
