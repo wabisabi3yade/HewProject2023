@@ -122,6 +122,12 @@ CGameOver::~CGameOver()
 	CLASS_DELETE(Bg);
 
 	CLASS_DELETE(selectControl);
+
+	SAFE_RELEASE(text_failedBuffer);
+	SAFE_RELEASE(bgBuffer);
+	SAFE_RELEASE(textBoxBuffer);
+	SAFE_RELEASE(textBuffer);
+	SAFE_RELEASE(playerBuffer);
 }
 
 void CGameOver::Update()
