@@ -120,6 +120,8 @@ CGameOver::~CGameOver()
 	CLASS_DELETE(Player);
 
 	CLASS_DELETE(Bg);
+
+	CLASS_DELETE(selectControl);
 }
 
 void CGameOver::Update()

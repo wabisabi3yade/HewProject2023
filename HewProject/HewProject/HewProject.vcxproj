@@ -173,6 +173,7 @@
     <ClInclude Include="CKawadaScene.h" />
     <ClInclude Include="Ckcal_gauge.h" />
     <ClInclude Include="CLoadStage.h" />
+    <ClInclude Include="CMenu.h" />
     <ClInclude Include="CMizunoScene.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="Collision.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="CKawadaScene.cpp" />
     <ClCompile Include="Ckcal_gauge.cpp" />
     <ClCompile Include="CLoadStage.cpp" />
+    <ClCompile Include="CMenu.cpp" />
     <ClCompile Include="CMizunoScene.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="Collision.cpp" />
