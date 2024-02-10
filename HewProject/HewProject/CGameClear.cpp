@@ -146,16 +146,39 @@ void CGameClear::Update()
 
 		if (isFrame == false)
 		{
-			Frame[0]->dotween->DoMoveX(0, 1.0f);
-			Nami[0]->dotween->DoMoveX(0, 1.0f);
-			Frame[0]->dotween->OnComplete([&]()
+
+			Vector3 t = Frame[0]->mTransform.pos;
+			t.x = 0.0f;
+			Frame[0]->dotween->DoEaseOutCubic(t ,1.0f);
+
+			t = Nami[0]->mTransform.pos;
+			t.x = 0.0f;
+			Nami[0]->dotween->DoEaseOutCubic(t, 1.0f);
+
+			Frame[1]->dotween->DelayedCall(0.5f, [&]()
 				{
-					Frame[1]->dotween->DoMoveX(0, 1.0f);
-					Nami[1]->dotween->DoMoveX(0, 1.0f);
+					Vector3 p = Frame[1]->mTransform.pos;
+					p.x = 0.0f;
+					Frame[1]->dotween->DoEaseOutCubic(p, 1.0f);
+					p = Nami[1]->mTransform.pos;
+					p.x = 0.0f;
+					Nami[1]->dotween->DoEaseOutCubic(p, 1.0f);
 					Frame[1]->dotween->OnComplete([&]() {
 						isOnce = true;
 						});
 				});
+			/*Frame[0]->dotween->OnComplete([&]()
+				{*/
+					/*Vector3 p = Frame[1]->mTransform.pos;
+					p.x = 0.0f;
+					Frame[1]->dotween->DoEaseOutCubic(p, 1.0f);
+					p = Nami[1]->mTransform.pos;
+					p.x = 0.0f;
+					Nami[1]->dotween->DoEaseOutCubic(p, 1.0f);
+					Frame[1]->dotween->OnComplete([&]() {
+						isOnce = true;
+						});*/
+				/*});*/
 			
 			isFrame = true;
 

@@ -21,8 +21,11 @@ protected:
     std::vector<StgButton*> stgButton;  // ステージボタン
     ButtonSelect* btnSelect;
 
+    D3DBUFFER oneBuf;   // {1,1}
+
     D3DTEXTURE stageSmpTex; // ステージのサンプルテクスチャ
-    D3DBUFFER stageSmpBuf;
+    D3DTEXTURE stageSmpBack;    // サンプルの背景
+
 
     D3DTEXTURE Back;    // 背景
     D3DTEXTURE WorldBack;   // ワールドの背景
