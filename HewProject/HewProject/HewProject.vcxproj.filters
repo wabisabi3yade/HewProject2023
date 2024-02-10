@@ -328,6 +328,9 @@
     <Filter Include="ソース ファイル\Hashimoto\StageSelect\StageButtton">
       <UniqueIdentifier>{72900537-b8bf-4f32-8094-0e31dc783888}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\UI\ShadowUI">
+      <UniqueIdentifier>{4903ac40-9c5d-44c2-948a-43417e559dff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -621,6 +624,12 @@
     <ClInclude Include="W1Select.h">
       <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
     </ClInclude>
+    <ClInclude Include="CMenu.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowUI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -913,6 +922,12 @@
     </ClCompile>
     <ClCompile Include="W1Select.cpp">
       <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
+    </ClCompile>
+    <ClCompile Include="CMenu.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowUI.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

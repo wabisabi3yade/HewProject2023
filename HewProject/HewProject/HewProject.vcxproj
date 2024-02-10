@@ -218,6 +218,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="ProteinUI.h" />
+    <ClInclude Include="ShadowUI.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage11.h" />
     <ClInclude Include="Stage21.h" />
@@ -319,6 +320,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="ProteinUI.cpp" />
+    <ClCompile Include="ShadowUI.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage11.cpp" />
     <ClCompile Include="Stage21.cpp" />

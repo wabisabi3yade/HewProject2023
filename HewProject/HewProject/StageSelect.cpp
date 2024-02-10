@@ -1,6 +1,7 @@
 #include "StageSelect.h"
 #include "ButtonSelect.h"
 #include "InputManager.h"
+#include "TextureFactory.h"
 
 void StageSelect::Input()
 {
@@ -35,12 +36,20 @@ StageSelect::StageSelect()
 	D3D_LoadTexture(L"asset/UI/Calorie_Number.png", &numberTex);
 
 	btnSelect = new ButtonSelect();
+
+	D3D_CreateSquare({ 1,1 }, &oneBuf);
+	stageSmpBackTex = TextureFactory::GetInstance()->Fetch(L"asset/UI/White.png");
+
+	stageSmpBack = new UI(oneBuf, stageSmpBackTex);
+	stageSmpBack->MakeDotween();
+	stageSmpBack->mTransform.scale = { 9.33f, 7.0f, 1.0f };
 }
 
 void StageSelect::Update()
 {
-
 	Input();
+
+	stageSmpBack->Update();
 
 	for (auto a : stgButton)
 	{
@@ -54,6 +63,14 @@ void StageSelect::LateUpdate()
 
 void StageSelect::Draw()
 {
+	// 背景　→　写真背景　→　写真　→　プレイヤー　→　UI
+
+	stageSmpBack->Draw();
+
+	for (auto a : stgButton)
+	{
+		a->Draw();
+	}
 }
 
 StageSelect::~StageSelect()
@@ -63,6 +80,9 @@ StageSelect::~StageSelect()
 
 	SAFE_RELEASE(numberBuf);
 	SAFE_RELEASE(numberTex);
+
+	SAFE_RELEASE(oneBuf);
+	CLASS_DELETE(stageSmpBack);
 
 	CLASS_DELETE(btnSelect);
 }
