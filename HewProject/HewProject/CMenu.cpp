@@ -18,11 +18,11 @@ CMenu::CMenu()
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
 	D3D_CreateSquare({ 1,1 }, &pauseBuffer);
-	pauseTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Undo.png");
+	pauseTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/Pause.png");
 
 	Pause = new UI(pauseBuffer, pauseTexture);
 	Pause->mTransform.pos = { 0,3.0f,0 };
-	Pause->mTransform.scale = { 1,1,1 };
+	Pause->mTransform.scale = { 4.0f,3.0f,1 };
 
 	D3D_CreateSquare({ 1,2 }, &textBoxBuffer);
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
