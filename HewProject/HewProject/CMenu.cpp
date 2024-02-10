@@ -22,7 +22,7 @@ CMenu::CMenu()
 
 	Pause = new UI(pauseBuffer, pauseTexture);
 	Pause->mTransform.pos = { 0,3.0f,0 };
-	Pause->mTransform.scale = { 4.0f,3.0f,1 };
+	Pause->mTransform.scale = { 4.0f,1.0f,1 };
 
 	D3D_CreateSquare({ 1,2 }, &textBoxBuffer);
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
@@ -33,7 +33,7 @@ CMenu::CMenu()
 	text_escapeTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Back.png");
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
-	Message[0]->SetPosition({ 0,3.0f,0 });
+	Message[0]->SetPosition({ 0,1.0f,0 });
 	Message[0]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[0]->SetHighlight(true);
 	Message[0]->SetFunc([&]() {
@@ -41,7 +41,7 @@ CMenu::CMenu()
 		});
 
 	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_helpTexture);
-	Message[1]->SetPosition({ 0,0,0 });
+	Message[1]->SetPosition({ 0,-1.0f,0 });
 	Message[1]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[1]->SetHighlight(false);
 	Message[1]->SetFunc([&]() {
