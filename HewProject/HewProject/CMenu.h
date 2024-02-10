@@ -11,6 +11,7 @@ class CMenu :
 public:
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
+    D3DTEXTURE ruleTexture;
 
     D3DBUFFER pauseBuffer;
     D3DTEXTURE pauseTexture;
@@ -27,9 +28,13 @@ public:
     UI* Pause;
     ButtonSelect* selectControl;
     ButtonUI* Message[3];
+    UI* Rule[1];
 
     bool isHelp;
     bool isMenu;
+    bool isOnce;
+    bool isButton;
+    int nRule;
 
 public:
     CMenu();
