@@ -10,6 +10,8 @@ class StageSelect :
 {
 
 protected:
+    bool isChangeNumTriger = false; // 数字が変わった瞬間
+
     short stageNum = 0; // ステージの数
     
     short pointStage = 1;   // 選んでいるステージの数
@@ -19,12 +21,13 @@ protected:
     D3DTEXTURE numberTex;
     D3DBUFFER numberBuf;
     std::vector<StgButton*> stgButton;  // ステージボタン
-    ButtonSelect* btnSelect;
+    ButtonSelect* btnSelect; 
 
     D3DBUFFER oneBuf;   // {1,1}
 
-    D3DTEXTURE stageSmpTex; // ステージのサンプルテクスチャ
-    D3DTEXTURE stageSmpBack;    // サンプルの背景
+    D3DTEXTURE stageSmpBackTex; // サンプルの背景のテクスチャ
+    UI* stageSmpBack;   
+    std::vector<D3DTEXTURE> stageSmpTex;    // ステージのサンプルテクスチャ
 
 
     D3DTEXTURE Back;    // 背景

@@ -13,6 +13,7 @@ W1Select::W1Select()
 	StgButton* btnWork = nullptr;
 	for (int i = 0; i < stageNum; i++)
 	{
+		// ボタン関連
 		btnWork = new StgButton(stageBtnBuf, stageBtnTex, numberBuf, numberTex);
 		btnWork->SetScale(btnScale);
 
@@ -29,7 +30,11 @@ W1Select::W1Select()
 		// 配列に代入
 		stgButton.push_back(btnWork);
 		btnSelect->Regist(btnWork);
+
+		// テクスチャ関連
 	}
+
+
 
 	stgButton[0]->SetHighlight(true);
 }
@@ -41,10 +46,7 @@ void W1Select::Update()
 
 void W1Select::Draw()
 {
-	for (auto a : stgButton)
-	{
-		a->Draw();
-	}
+	StageSelect::Draw();
 }
 
 W1Select::~W1Select()

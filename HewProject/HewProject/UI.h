@@ -21,6 +21,11 @@ protected:
 	// 描画に使用するテクスチャ
 	D3DTEXTURE mTexture;
 
+	// 影
+	UI* shadow;
+	// 本体と影の座標の差分値
+	float shadowOffsetY = 0.0f;
+
 public:
 	Transform mTransform;	// トランスフォーム
 	DirectX::XMFLOAT4 materialDiffuse = { 1,1,1,1 };	// マテリアル色
@@ -59,5 +64,6 @@ public:
 	/// <param name="_alpha">透明度（0.0～1.0）</param>
 	void SetAlpha(float _alpha);
 
+	void SetShadow(D3DBUFFER _oneBuffer, float _offsetY);
 };
 
