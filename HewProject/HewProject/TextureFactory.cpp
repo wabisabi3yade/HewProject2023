@@ -122,6 +122,7 @@ void TextureFactory::Load()
 		L"asset/UI/CLEAR_Frame.png",
 		L"asset/UI/CLEAR_Namisen.png",
 		L"asset/UI/White.png",
+		L"asset/UI/Ty_Frame.png",
 
 		L"asset/Text/T_NextStage.png",
 		L"asset/Text/T_StageSelectBack.png",

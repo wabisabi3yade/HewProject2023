@@ -10,6 +10,7 @@ CMenu::CMenu()
 {
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/FadeBlack.png");
+	ruleTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Ty_Frame.png");
 
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->SetColor({ 0,0,0 });
@@ -17,12 +18,17 @@ CMenu::CMenu()
 	Bg->mTransform.pos = { 0,0,0.1f };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
+	Rule[0] = new UI(bgBuffer, ruleTexture);
+	Rule[0]->mTransform.pos = { 0,0,0 };
+	Rule[0]->mTransform.scale = { 14.0f,8.0f,0 };
+
 	D3D_CreateSquare({ 1,1 }, &pauseBuffer);
 	pauseTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/Pause.png");
 
 	Pause = new UI(pauseBuffer, pauseTexture);
+	Pause->MakeDotween();
 	Pause->mTransform.pos = { 0,3.0f,0 };
-	Pause->mTransform.scale = { 4.0f,1.0f,1 };
+	Pause->mTransform.scale = { 0.0f,0.0f,1 };
 
 	D3D_CreateSquare({ 1,2 }, &textBoxBuffer);
 	textBoxTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Button.png");
@@ -46,6 +52,7 @@ CMenu::CMenu()
 	Message[1]->SetHighlight(false);
 	Message[1]->SetFunc([&]() {
 		isHelp = true;
+		nRule = 0;
 		});
 
 	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
@@ -64,6 +71,10 @@ CMenu::CMenu()
 
 	isHelp = false;
 	isMenu = false;
+	isOnce = false;
+	isButton = false;
+
+	nRule = 0;
 }
 
 CMenu::~CMenu()
@@ -78,21 +89,44 @@ CMenu::~CMenu()
 	{
 		CLASS_DELETE(Message[i]);
 	}
+
+	for (int i = 0; i < 1; i++)
+	{
+		CLASS_DELETE(Rule[i]);
+	}
+
+	SAFE_RELEASE(bgBuffer);
+	SAFE_RELEASE(pauseBuffer);
+	SAFE_RELEASE(textBoxBuffer);
+	SAFE_RELEASE(textBuffer)
+
 }
 
 void CMenu::Update()
 {
 	InputManager* input = InputManager::GetInstance();
 	
-	if (input->GetInputTrigger(InputType::OPTION))
+	if (isMenu == false)
 	{
-		isMenu = true;
+		if (input->GetInputTrigger(InputType::OPTION))
+		{
+			isMenu = true;
+			isOnce = false;
+			isButton = false;
+		}
 	}
-
-	if (isMenu == true)
-	{
+	else {
 		if (isHelp == false)
 		{
+			if (isOnce == false)
+			{
+				Pause->dotween->DoScale({ 4.0f,1.0f,1.0f }, 0.1f);
+				Pause->dotween->OnComplete([&]() {
+					isButton = true;
+					});
+				isOnce = true;
+			}
+
 			if (input->GetInputTrigger(InputType::DECIDE))
 			{
 				selectControl->PushButton();
@@ -101,6 +135,7 @@ void CMenu::Update()
 			if (input->GetInputTrigger(InputType::CANCEL))
 			{
 				isMenu = false;
+				Pause->mTransform.scale = { 0,0,1.0f };
 			}
 
 			selectControl->FlagUpdate();
@@ -116,12 +151,22 @@ void CMenu::Update()
 		else {
 			if (input->GetInputTrigger(InputType::L_BUTTON))
 			{
-				
+				nRule--;
+
+				if (nRule < 0)
+				{
+					nRule = 3;
+				}
 			}
 
 			if (input->GetInputTrigger(InputType::R_BUTTON))
 			{
+				nRule++;
 
+				if (nRule > 3)
+				{
+					nRule = 0;
+				}
 			}
 
 			if (input->GetInputTrigger(InputType::CANCEL))
@@ -129,12 +174,8 @@ void CMenu::Update()
 				isHelp = false;
 			}
 		}
-
-		
 	}
-
 	
-
 	Bg->Update();
 
 	Pause->Update();
@@ -142,6 +183,11 @@ void CMenu::Update()
 	for (int i = 0; i < 3; i++)
 	{
 		Message[i]->Update();
+	}
+
+	for (int i = 0; i < 1; i++)
+	{
+		Rule[i]->Update();
 	}
 }
 
@@ -160,10 +206,21 @@ void CMenu::Draw()
 		{
 			Pause->Draw();
 
-			for (int i = 0; i < 3; i++)
+			if (isButton == true)
 			{
-				Message[i]->Draw();
+				for (int i = 0; i < 3; i++)
+				{
+					Message[i]->Draw();
+				}
 			}
+			
+		}
+		else {
+			if (nRule == 0)
+			{
+				Rule[0]->Draw();
+			}
+			
 		}
 		
 	}
