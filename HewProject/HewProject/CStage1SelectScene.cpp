@@ -125,6 +125,12 @@ CStage1SelectScene::~CStage1SelectScene()
 	{
 		CLASS_DELETE(stage[i]);
 	}
+
+	SAFE_RELEASE(playerBuffer);
+	SAFE_RELEASE(stageBuffer);
+	SAFE_RELEASE(bgBuffer);
+	SAFE_RELEASE(wordBuffer);
+	SAFE_RELEASE(textBuffer);
 }
 
 void CStage1SelectScene::Update()

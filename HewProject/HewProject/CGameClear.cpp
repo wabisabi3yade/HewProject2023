@@ -131,6 +131,12 @@ CGameClear::~CGameClear()
 	CLASS_DELETE(Bg);
 
 	CLASS_DELETE(selectControl);
+
+	SAFE_RELEASE(bgBuffer);
+	SAFE_RELEASE(textBuffer);
+	SAFE_RELEASE(textBoxBuffer);
+	SAFE_RELEASE(frameBuffer);
+	SAFE_RELEASE(namiBuffer);
 }
 
 void CGameClear::Update()
