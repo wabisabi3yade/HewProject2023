@@ -33,6 +33,7 @@ PlayerMove::PlayerMove(Player* _p)
 	nextCannonType = CGridObject::BlockType::NONE;
 	isCannonMoveStartTrigger = false;
 	flagInit = false;
+	isFallBound = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -43,7 +44,7 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Input()
 {
 	// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ‚«‚Íˆ—‚µ‚È‚¢
-	if (isMoving || isRising || isFalling || isLookMap || isCannonMove|| inCannon) return;
+	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon) return;
 
 	InputManager* input = InputManager::GetInstance();
 
@@ -109,14 +110,15 @@ void PlayerMove::FlagInit()
 	isWalkEnd = false;
 	isMoveStartTrigger = false;
 	isWalking_old = isWalking_now;
+	isFallBound = false;
 }
-
 
 void PlayerMove::WalkAfter()
 {
-	if (!inCannon)
+	if (CheckNextFloorType() != CGridObject::BlockType::CHOCOCRACK && !inCannon)
+	{
 		player->WalkCalorie();
-
+	}
 	isWalking_now = false;
 	isWalking_old = true;
 	// ˆÚ“®‚µI‚¦‚½ƒtƒ‰ƒO‚ðtrue
@@ -196,11 +198,15 @@ void PlayerMove::CameraEnd()
 void PlayerMove::FallAfter()
 {
 	isFalling = false;
+	isWalking_now = false;
+	isWalking_old = true;
 }
 
 void PlayerMove::RiseAfter()
 {
 	isRising = false;
+	isWalking_now = false;
+	isWalking_old = true;
 }
 
 void PlayerMove::InCannon()
@@ -490,14 +496,14 @@ void PlayerMove::CannonMove2()
 				player->dotween->DelayedCall(0.1f, [&]()
 					{
 						inCannon = false;
-	//					CheckCanMove();
+						//					CheckCanMove();
 					});
-						WalkAfter();
-						player->GetPlayerMove()->Step();
-						flagInit = false;
-						isCannonMoveStart = false;
-						isCannonMoveEnd = false;
-						//CheckCanMove();
+				WalkAfter();
+				player->GetPlayerMove()->Step();
+				flagInit = false;
+				isCannonMoveStart = false;
+				isCannonMoveEnd = false;
+				//CheckCanMove();
 
 			});
 	}

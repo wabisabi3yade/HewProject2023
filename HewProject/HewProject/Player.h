@@ -8,7 +8,7 @@
 
 #define MOVEROOT_MAX (20)	// 今まで取ってきた道を保存する最大数
 #define EAT_TIME (1.3f)	// 食べ物食べる時間
-#define BREAK_TIME (3.0f) //壁を壊してから移動できるまでの時間
+#define BREAK_TIME (1.4f) //壁を壊してから移動できるまでの時間
 #define FALL_TIME (3.0f) //チョコが壊れてから落ち始めるまでの時間
 #define FALLMOVE_TIME (1.0f) //落ちる移動時間
 #define FALL_POS_Y (-4.5f) //落ちる最終座標
