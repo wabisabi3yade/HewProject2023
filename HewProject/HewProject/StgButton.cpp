@@ -2,8 +2,8 @@
 
 #define LIGHT_SCALEUPTIMES (1.5f)	// ハイライト中のUIの大きさ
 #define LIGHT_SCALEDOWNTIMES (1.3f)	// ハイライト中のUIの大きさ
-#define SCALEUP_TIME (0.2f)	// 大きくなるまでの大きさ
-#define SCALEWAIT_TIME (0.6f)	// 待機する時間
+#define SCALEUP_TIME (1.2f)	// 大きくなるまでの大きさ
+#define SCALEWAIT_TIME (0.4f)	// 待機する時間
 
 
 void StgButton::ScaleLoop(Vector3 _downScale, Vector3 _upScale)

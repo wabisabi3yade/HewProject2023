@@ -4,6 +4,9 @@
 
 class ButtonUI
 {
+	Vector3 ButtonScaleConversion(const Vector3& _scale);
+	Vector3 TextScaleConversion(const Vector3& _scale);
+
 protected:
 	UI* text = nullptr;
 	UI* button = nullptr;
@@ -17,7 +20,6 @@ protected:
 	float textScaleTimes = 0.85f;	// ボタンを1.0とした時のテキストの倍率
 
 	virtual void ScaleLoop(Vector3 _downScale, Vector3 _upScale);
-
 public:
 	/// <summary>
 	/// コンストラクタ

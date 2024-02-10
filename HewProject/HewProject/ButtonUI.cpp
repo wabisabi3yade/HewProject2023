@@ -7,18 +7,32 @@
 #define LIGHT_SCALEUPTIMES (1.5f)	// ハイライト中のUIの大きさ
 #define LIGHT_SCALEDOWNTIMES (1.3f)	// ハイライト中のUIの大きさ
 
-#define SCALEUP_TIME (1.0f)	// 大きくなるまでの大きさ
+#define SCALEUP_TIME (0.8f)	// 大きくなるまでの大きさ
+#define WAIT_TIME (0.0f)	// ハイライト中のUIの大きさ
+
+
+Vector3 ButtonUI::ButtonScaleConversion(const Vector3& _scale)
+{
+	return {_scale.x, _scale.y / BTN_HORI_RATIO, 1.0f };
+}
+
+Vector3 ButtonUI::TextScaleConversion(const Vector3& _scale)
+{
+	return { _scale.x * textScaleTimes, _scale.y / TXT_HORI_RATIO * textScaleTimes , 1.0f };
+}
 
 void ButtonUI::ScaleLoop(Vector3 _downScale, Vector3 _upScale)
 {
-	button->mTransform.scale = _downScale;
-	button->dotween->DoEaseOutCubicScale(_upScale, SCALEUP_TIME);
-	button->dotween->Append(_downScale, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
+	button->mTransform.scale = ButtonScaleConversion(_downScale);
+	button->dotween->DoScale(ButtonScaleConversion(_upScale), SCALEUP_TIME);
+	button->dotween->Append(ButtonScaleConversion(_downScale), SCALEUP_TIME, DoTweenUI::FUNC::SCALE);
+	button->dotween->Append(Vector3::zero, WAIT_TIME, DoTweenUI::FUNC::DELAY);
 	button->dotween->SetLoop(-1);
 
-	text->mTransform.scale = _downScale * textScaleTimes;
-	text->dotween->DoEaseOutCubicScale(_upScale * textScaleTimes, SCALEUP_TIME);
-	text->dotween->Append(_downScale * textScaleTimes, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
+	text->mTransform.scale = TextScaleConversion(_downScale);
+	text->dotween->DoScale(TextScaleConversion(_upScale), SCALEUP_TIME);
+	text->dotween->Append(TextScaleConversion(_downScale), SCALEUP_TIME, DoTweenUI::FUNC::SCALE);
+	text->dotween->Append(Vector3::zero, WAIT_TIME, DoTweenUI::FUNC::DELAY);
 	text->dotween->SetLoop(-1);
 }
 
@@ -67,10 +81,13 @@ void ButtonUI::SetHighlight(bool _isLight)
 
 		ScaleLoop(downScale, upScale);
 	}
-	if (_isLight)
+	if (!_isLight)
 	{
 		button->dotween->Stop();
-		button->mTransform.scale = grayState_scale;
+		button->mTransform.scale = ButtonScaleConversion(grayState_scale);
+
+		text->dotween->Stop();
+		text->mTransform.scale = TextScaleConversion(grayState_scale);
 	}
 
 	button->SetUV(0.0f, v);	
