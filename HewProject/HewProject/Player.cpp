@@ -158,6 +158,11 @@ void Player::Update()
 			// 落ちる処理 
 			if (fallMoveTrriger == true)
 			{
+				if (this->GetNowFloor() == 1)
+				{
+					this->GameOver();
+					return;
+				}
 				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 				fallFloorChangeTrriger = true;
 			}

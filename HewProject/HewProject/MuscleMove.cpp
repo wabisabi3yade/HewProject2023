@@ -114,21 +114,36 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::WALL:
 
+		player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
+
 		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
+		player->GetPlayerAnim()->PlayPunch();
 		player->dotween->DoDelay(BREAK_TIME);
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-		player->dotween->DelayedCall(BREAK_TIME, [&]()
+
+		player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos]()
 			{
 				player->ChangeTexture(Player::ANIM_TEX::WALK);
+				player->GetPlayerAnim()->PlayWalk(player->GetDirection());
 				WalkStart();
-			});
-		player->dotween->OnComplete([&]()
-			{
-				WalkAfter();
-				MoveAfter();
-				player->GetPlayerAnim()->StopWalk(player->GetDirection());
-				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+				if (_dir == DIRECTION::UP || _dir == DIRECTION::RIGHT)
+				{
+					player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
+					player->mTransform.pos.z += ISOME_BACKMOVE;
+				}
+				// 手前のマスに行くときは先にZ座標を手前に合わせる
+				else
+				{
+					player->mTransform.pos.z = forwardPos.z;
+				}
+				player->dotween->DelayedCall(WALK_TIME, [&]()
+					{
+						WalkAfter();
+						MoveAfter();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
 			});
 
 		break;
@@ -143,6 +158,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
+				WalkAfter();
 				//画面外まで移動するようにYをマクロで定義して使用する
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
@@ -394,9 +410,13 @@ void MuscleMove::Step()
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
 				//バウンドする高さを計算　代入
-				//player->Fall();
-				float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
-				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+				if (player->GetNowFloor() != 1)
+				{
+
+					//player->Fall();
+					float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
+					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+				}
 			}
 			player->dotween->DelayedCall(FALL_TIME, [&]()
 				{
