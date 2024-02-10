@@ -29,6 +29,8 @@ protected:
     D3DTEXTURE WorldNum;    // ワールド〇
     D3DTEXTURE WorkdName;   // ワールド名
 
+    void Input();
+
 public:
     StageSelect();
 

@@ -1,8 +1,6 @@
 #include "ProteinUI.h"
 #include "TextureFactory.h"
 
-#define UI_OFFSETZ (0.0001f)	// UI‚ÌZ’l·•ª
-
 #define CIRCLE_OFFSETX (1.0f)	// Z“¯m‚ÌXÀ•W·•ª
 #define CIRCLE_OFFSETY (0.7f)	// –_‚©‚çZ‚ÌYÀ•W·•ª
 #define PRO_SCALETIME (1.3f)	// ‘å‚«‚­‚È‚é‚Ü‚Å‚ÌŠÔ

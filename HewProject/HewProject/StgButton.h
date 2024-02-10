@@ -3,6 +3,8 @@
 class StgButton
 	: public ButtonUI
 {
+	void ScaleLoop(Vector3 _downScale, Vector3 _upScale) override;
+
 public:
 	StgButton(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex, D3DBUFFER _textBuffer, D3DTEXTURE _textTex);
 

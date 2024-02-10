@@ -2,9 +2,6 @@
 #include "UI.h"
 #include <functional>
 
-#define LIGHT_SCALEUPTIMES (1.2f)	// ハイライト中のUIの大きさ
-#define SCALEUP_TIME (1.0f)	// 大きくなるまでの大きさ
-
 class ButtonUI
 {
 protected:
@@ -18,6 +15,9 @@ protected:
 	Vector3 grayState_scale = Vector3::one;
 
 	float textScaleTimes = 0.85f;	// ボタンを1.0とした時のテキストの倍率
+
+	virtual void ScaleLoop(Vector3 _downScale, Vector3 _upScale);
+
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -48,5 +48,6 @@ public:
 
 	// 設定した関数を実行
 	void BeginFunc();
+
 };
 

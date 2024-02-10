@@ -1,13 +1,13 @@
 #include "W1Select.h"
-#include "InputManager.h"
 
-#define BTN_OFFSETX (1.5f)	// ボタンごとの差分（X座標）
-#define BTN_OFFSETY (1.5f)	// ボタンごとの差分（Y座標）
+
+#define BTN_OFFSETX (1.3f)	// ボタンごとの差分（X座標）
+#define BTN_OFFSETY (1.3f)	// ボタンごとの差分（Y座標）
 W1Select::W1Select()
 {
 	stageNum = 6;	// ステージの数
 
-	const Vector3 beginBtnPos = {};
+	const Vector3 beginBtnPos = {-6.0f, 1.0f, 0.0f};
 	const Vector3 btnScale = { 1.5f, 1.5f, 1.0f };
 
 	StgButton* btnWork = nullptr;
@@ -21,6 +21,7 @@ W1Select::W1Select()
 		int halfNum = (float)stageNum / 2;
 		p.x += (i % halfNum) * (BTN_OFFSETX * btnScale.x);
 		p.y -= (i / halfNum) * (BTN_OFFSETY * btnScale.y);
+		p.z -= i * UI_OFFSETZ;
 		btnWork->SetPosition(p);
 
 		btnWork->SetNum(i + 1);	// 数字をセット
@@ -35,18 +36,6 @@ W1Select::W1Select()
 
 void W1Select::Update()
 {
-	btnSelect->FlagUpdate();
-	
-	InputManager* input = InputManager::GetInstance();
-	if (input->GetMovement().x > 0.0f)
-	{
-		btnSelect->ButtonMove(1);
-	}
-	else if (input->GetMovement().x < 0.0f)
-	{
-		btnSelect->ButtonMove(-1);
-	}
-
 	StageSelect::Update();
 }
 

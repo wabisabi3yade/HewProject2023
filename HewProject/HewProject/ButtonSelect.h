@@ -26,6 +26,7 @@ public:
 	/// <param name="_add">ボタンをいくつ移動させるか（引くときはマイナスの値を指定）</param>
 	void ButtonMove(int _add);
 
+
 	// 今指定しているボタンの関数を実行
 	void PushButton();
 

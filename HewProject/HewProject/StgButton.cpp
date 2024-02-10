@@ -1,5 +1,25 @@
 #include "StgButton.h"
-#define UI_OFFSETZ (0.0001f)
+
+#define LIGHT_SCALEUPTIMES (1.5f)	// ハイライト中のUIの大きさ
+#define LIGHT_SCALEDOWNTIMES (1.3f)	// ハイライト中のUIの大きさ
+#define SCALEUP_TIME (0.2f)	// 大きくなるまでの大きさ
+#define SCALEWAIT_TIME (0.6f)	// 待機する時間
+
+
+void StgButton::ScaleLoop(Vector3 _downScale, Vector3 _upScale)
+{
+	button->mTransform.scale = _downScale;
+	button->dotween->DoEaseOutCubicScale(_upScale, SCALEUP_TIME);
+	button->dotween->Append(_downScale, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
+	button->dotween->Append(Vector3::zero, SCALEWAIT_TIME, DoTweenUI::FUNC::DELAY);
+	button->dotween->SetLoop(-1);
+
+	text->mTransform.scale = _downScale * textScaleTimes;
+	text->dotween->DoEaseOutCubicScale(_upScale * textScaleTimes, SCALEUP_TIME);
+	text->dotween->Append(_downScale * textScaleTimes, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
+	text->dotween->Append(Vector3::zero, SCALEWAIT_TIME, DoTweenUI::FUNC::DELAY);
+	text->dotween->SetLoop(-1);
+}
 
 StgButton::StgButton(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex, D3DBUFFER _textBuffer, D3DTEXTURE _textTex)
 	: ButtonUI(_buttonBuffer, _buttonTex, _textBuffer, _textTex)
@@ -7,6 +27,8 @@ StgButton::StgButton(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex, D3DBUFFER _
 
 	SetPosition(Vector3::zero);
 	SetScale(Vector3::one);
+
+	textScaleTimes = 0.6f;
 }
 
 StgButton::~StgButton()
@@ -36,9 +58,21 @@ void StgButton::SetHighlight(bool _isLight)
 		// 拡大のスケール
 		Vector3 upScale = grayState_scale * LIGHT_SCALEUPTIMES;
 		upScale.z = 1.0f;
-		button->dotween->DoEaseOutBackScale(upScale, SCALEUP_TIME);
-		button->dotween->Append(grayState_scale, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTBACK_SCALE);
-		button->dotween->SetLoop(-1);
+
+		// 拡大のスケール
+		Vector3 downScale = grayState_scale * LIGHT_SCALEDOWNTIMES;
+		downScale.z = 1.0f;
+
+		ScaleLoop(downScale, upScale);
+	}
+	else
+	{
+		button->dotween->Stop();
+		button->mTransform.scale = grayState_scale;
+
+		text->dotween->Stop();
+		text->mTransform.scale = grayState_scale * textScaleTimes;
+		text->mTransform.scale.z = 1.0f;
 	}
 
 	button->SetUV(u, 0.0f);

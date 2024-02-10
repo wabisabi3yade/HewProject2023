@@ -1,10 +1,26 @@
 #include "ButtonUI.h"
-#define UI_OFFSETZ (0.0001f)
-
 #define TXT_OFFSETY (0.2f)	// ボタンよりちょい上
 
 #define BTN_HORI_RATIO (4)	// ボタンの画像縦1に対して横の比率
 #define TXT_HORI_RATIO (8)	// テキスト画像縦1に対して横の比率
+
+#define LIGHT_SCALEUPTIMES (1.5f)	// ハイライト中のUIの大きさ
+#define LIGHT_SCALEDOWNTIMES (1.3f)	// ハイライト中のUIの大きさ
+
+#define SCALEUP_TIME (1.0f)	// 大きくなるまでの大きさ
+
+void ButtonUI::ScaleLoop(Vector3 _downScale, Vector3 _upScale)
+{
+	button->mTransform.scale = _downScale;
+	button->dotween->DoEaseOutCubicScale(_upScale, SCALEUP_TIME);
+	button->dotween->Append(_downScale, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
+	button->dotween->SetLoop(-1);
+
+	text->mTransform.scale = _downScale * textScaleTimes;
+	text->dotween->DoEaseOutCubicScale(_upScale * textScaleTimes, SCALEUP_TIME);
+	text->dotween->Append(_downScale * textScaleTimes, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
+	text->dotween->SetLoop(-1);
+}
 
 ButtonUI::ButtonUI(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex, D3DBUFFER _textBuffer, D3DTEXTURE _textTex)
 {
@@ -42,10 +58,19 @@ void ButtonUI::SetHighlight(bool _isLight)
 	if (_isLight)
 	{
 		v = 0.5f;
+		// 拡大のスケール
 		Vector3 upScale = grayState_scale * LIGHT_SCALEUPTIMES;
-		button->dotween->DoEaseOutCubicScale(upScale, SCALEUP_TIME);
-		button->dotween->Append(grayState_scale, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
-		button->dotween->SetLoop(-1);
+		upScale.z = 1.0f;
+		// 拡大のスケール
+		Vector3 downScale = grayState_scale * LIGHT_SCALEDOWNTIMES;
+		upScale.z = 1.0f;
+
+		ScaleLoop(downScale, upScale);
+	}
+	if (_isLight)
+	{
+		button->dotween->Stop();
+		button->mTransform.scale = grayState_scale;
 	}
 
 	button->SetUV(0.0f, v);	
