@@ -16,6 +16,12 @@ public:
     D3DBUFFER textBuffer;
     D3DTEXTURE textTexture;
 
+    D3DBUFFER frameBuffer;
+    D3DTEXTURE frameTexture;
+
+    D3DBUFFER namiBuffer;
+    D3DTEXTURE namiTexture;
+
     D3DBUFFER textBoxBuffer;
     D3DTEXTURE textBoxTexture;
 
@@ -26,9 +32,12 @@ public:
     ButtonSelect* selectControl;
     UI* Text[6];
     ButtonUI* Message[2];
+    UI* Frame[2];
+    UI* Nami[2];
 
     bool isNoMoving;
     bool isOnce;
+    bool isFrame;
 
 public:
     CGameClear();
