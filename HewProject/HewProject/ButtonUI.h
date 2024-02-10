@@ -2,13 +2,22 @@
 #include "UI.h"
 #include <functional>
 
+#define LIGHT_SCALEUPTIMES (1.2f)	// ハイライト中のUIの大きさ
+#define SCALEUP_TIME (1.0f)	// 大きくなるまでの大きさ
+
 class ButtonUI
 {
+protected:
 	UI* text = nullptr;
 	UI* button = nullptr;
 
 	// ボタンを押されたときの関数を
 	std::function<void()> func = nullptr;
+
+	// 灰色状態のときの大きさ
+	Vector3 grayState_scale = Vector3::one;
+
+	float textScaleTimes = 0.85f;	// ボタンを1.0とした時のテキストの倍率
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -18,21 +27,21 @@ public:
 	/// <param name="_textBuffer">テキストのバッファ</param>
 	/// <param name="_textTex">テキストのテクスチャ</param>
 	ButtonUI(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex,D3DBUFFER _textBuffer, D3DTEXTURE _textTex);
-	~ButtonUI();
+	virtual ~ButtonUI();
 
-	void Update();
+	virtual void Update();
 
-	void Draw();
+	virtual void Draw();
 	
 	/// <summary>
 	/// ボタンをハイライトにする（選ばれたボタン）
 	/// </summary>
 	/// <param name="_isLight">赤くするかどうか</param>
-	void SetHighlight(bool _isLight);
+	virtual void SetHighlight(bool _isLight);
 
-	void SetScale(const Vector3& _scale);
+	virtual void SetScale(const Vector3& _scale);
 
-	void SetPosition(const Vector3& _scale);
+	virtual void SetPosition(const Vector3& _scale);
 
 	// ボタンを押されたときに行う処理を設定
 	void SetFunc(std::function<void()> _setFunction);

@@ -24,6 +24,8 @@ public:
 		TITLE,
 		GAMEOVER,
 		GAMECLEAR,
+		WORLD1_SELECT,
+
 		SCENE_NUM,	// シーンの数
 
 		SELECT,	// セレクトシーン

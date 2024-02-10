@@ -310,6 +310,24 @@
     <Filter Include="ソース ファイル\Wakamura\CGameClear">
       <UniqueIdentifier>{8f33a973-5774-449d-929f-69eb20af392f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect">
+      <UniqueIdentifier>{80b397dd-7cac-4640-83de-a19ef3623fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World1">
+      <UniqueIdentifier>{1e9c6bdd-a509-4c44-bda6-7749b0147599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World2">
+      <UniqueIdentifier>{f6ea4164-ac74-43b7-95b8-f0e2245fb53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World3">
+      <UniqueIdentifier>{5e410114-5df0-4b8a-8f5a-df7dfeb94daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World4">
+      <UniqueIdentifier>{669cbd7e-2bfd-4a02-a0d8-2e9234ce0752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\StageButtton">
+      <UniqueIdentifier>{72900537-b8bf-4f32-8094-0e31dc783888}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -593,6 +611,15 @@
     </ClInclude>
     <ClInclude Include="CGameClear.h">
       <Filter>ソース ファイル\Wakamura\CGameClear</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelect.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="StgButton.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\StageButtton</Filter>
+    </ClInclude>
+    <ClInclude Include="W1Select.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -878,6 +905,15 @@
     <ClCompile Include="CGameClear.cpp">
       <Filter>ソース ファイル\Wakamura\CGameClear</Filter>
     </ClCompile>
+    <ClCompile Include="StageSelect.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="StgButton.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\StageButtton</Filter>
+    </ClCompile>
+    <ClCompile Include="W1Select.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -886,5 +922,8 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -78,6 +78,30 @@ const Vector3& Vector3::operator/(const Vector3& _v) const
 	return ret;
 }
 
+Vector3 Vector3::operator+(float _v)
+{
+	Vector3 ret(this->x + _v, this->y + _v, this->z + _v);
+	return ret;
+}
+
+Vector3 Vector3::operator-(float _v)
+{
+	Vector3 ret(this->x - _v, this->y - _v, this->z - _v);
+	return ret;
+}
+
+Vector3 Vector3::operator*(float _v)
+{
+	Vector3 ret(this->x * _v, this->y * _v, this->z * _v);
+	return ret;
+}
+
+Vector3 Vector3::operator/(float _v)
+{
+	Vector3 ret(this->x / _v, this->y / _v, this->z / _v);
+	return ret;
+}
+
 const bool& Vector3::operator>=(const Vector3& _v) const
 {
 	if (this->x >= _v.x && this->y >= _v.y && this->z >= _v.z)

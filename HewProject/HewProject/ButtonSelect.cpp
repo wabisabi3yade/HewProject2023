@@ -7,7 +7,8 @@ ButtonSelect::ButtonSelect()
 
 ButtonSelect::~ButtonSelect()
 {
-	/*buttonRegister.clear();*/
+	buttonRegister.clear();
+	buttonRegister.shrink_to_fit();
 }
 
 void ButtonSelect::FlagUpdate()

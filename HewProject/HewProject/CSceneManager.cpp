@@ -16,16 +16,12 @@
 #include "HosodaSelect.h"
 #include "CGameOver.h"
 #include "CGameClear.h"
+#include "W1Select.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
 {
-	effectManeger = EffectManeger::GetInstance();
-	textureFactory = TextureFactory::GetInstance();
-	inputManager = InputManager::GetInstance();
-	fade = Fade::GetInstance();
-
 	//サウンド初期化
 	HRESULT hr;
 	hr = XA_Initialize();
@@ -36,7 +32,11 @@ CSceneManager::CSceneManager()
 		MessageBoxA(NULL, "サウンド初期化失敗", "エラー", MB_ICONERROR | MB_OK);
 	}
 
-	XA_Play(SOUND_LABEL_BGMSWEETSFACTORY);
+	effectManeger = EffectManeger::GetInstance();
+	textureFactory = TextureFactory::GetInstance();
+	inputManager = InputManager::GetInstance();
+	fade = Fade::GetInstance();
+
 }
 
 CSceneManager::~CSceneManager()
@@ -70,7 +70,7 @@ void CSceneManager::Delete()
 void CSceneManager::Act()
 {
 	// 更新処理 /////////////////////////////////
-	
+
 	// 入力の状態更新
 	inputManager->Update();
 
@@ -78,13 +78,13 @@ void CSceneManager::Act()
 	pNowScene->Update();
 	// 後で行う処理
 	pNowScene->LateUpdate();
-	
+
 	//エフェクトマネジャー
 	effectManeger->Update();
 
 	// フェードの更新処理
 	fade->Update();
-	
+
 	//画面塗りつぶしと設定
 	D3D_ClearScreen();
 	// 描画処理 /////////////////////////////////
@@ -168,10 +168,16 @@ void CSceneManager::SceneChange(int _scene)
 		pNowScene = new CGameClear();
 		break;
 
-	/*case CScene::HOSODA_SELECT:
-		nowSceneName = CScene::HOSODA_SELECT;
-		pNowScene = new HosodaSelect();
-		break;*/
+	case CScene::WORLD1_SELECT:
+		nowSceneName = CScene::WORLD1_SELECT;
+		pNowScene = new W1Select();
+		break;
+
+
+		/*case CScene::HOSODA_SELECT:
+			nowSceneName = CScene::HOSODA_SELECT;
+			pNowScene = new HosodaSelect();
+			break;*/
 	}
 }
 
