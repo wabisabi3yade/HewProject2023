@@ -131,6 +131,7 @@ void TextureFactory::Load()
 		L"asset/Text/T_Help.png",
 		L"asset/Text/T_Restart.png",
 		L"asset/Text/T_Undo.png",
+		L"asset/Text/Pause.png",
 	};
 
 	D3DTEXTURE texWork;
