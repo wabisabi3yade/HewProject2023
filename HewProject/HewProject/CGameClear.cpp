@@ -129,6 +129,8 @@ CGameClear::~CGameClear()
 	}
 
 	CLASS_DELETE(Bg);
+
+	CLASS_DELETE(selectControl);
 }
 
 void CGameClear::Update()
