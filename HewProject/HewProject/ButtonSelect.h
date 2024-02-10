@@ -3,7 +3,6 @@
 
 class ButtonUI;
 
-
 class ButtonSelect
 {
 	bool isActive = true;	// ¡g‚í‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©

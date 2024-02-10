@@ -223,6 +223,8 @@
     <ClInclude Include="Stage31.h" />
     <ClInclude Include="StageEx1.h" />
     <ClInclude Include="StageScene.h" />
+    <ClInclude Include="StageSelect.h" />
+    <ClInclude Include="StgButton.h" />
     <ClInclude Include="SweetsUI.h" />
     <ClInclude Include="TextureFactory.h" />
     <ClInclude Include="ThinMove.h" />
@@ -231,6 +233,7 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="W1Select.h" />
     <ClInclude Include="WICTextureLoader.h" />
     <ClInclude Include="xa2.h" />
   </ItemGroup>
@@ -320,6 +323,8 @@
     <ClCompile Include="Stage31.cpp" />
     <ClCompile Include="StageEx1.cpp" />
     <ClCompile Include="StageScene.cpp" />
+    <ClCompile Include="StageSelect.cpp" />
+    <ClCompile Include="StgButton.cpp" />
     <ClCompile Include="SweetsUI.cpp" />
     <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="ThinMove.cpp" />
@@ -327,6 +332,7 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="W1Select.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
     <ClCompile Include="xa2.cpp" />
   </ItemGroup>
@@ -351,6 +357,9 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

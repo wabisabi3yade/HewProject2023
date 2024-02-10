@@ -27,6 +27,11 @@ public:
 	const Vector3& operator*(const Vector3& _v)const;
 	const Vector3& operator/(const Vector3& _v)const;
 
+	Vector3 operator+(float _v);
+	Vector3 operator-(float _v);
+	Vector3 operator*(float _v);
+	Vector3 operator/(float _v);
+
 	const bool& operator>=(const Vector3& _v)const;
 	const bool& operator==(const Vector3& _v)const;
 	const bool& operator!=(const Vector3& _v)const;

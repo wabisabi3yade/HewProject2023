@@ -9,7 +9,9 @@
 ButtonUI::ButtonUI(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex, D3DBUFFER _textBuffer, D3DTEXTURE _textTex)
 {
 	button = new UI(_buttonBuffer, _buttonTex);
+	button->MakeDotween();
 	text = new UI(_textBuffer, _textTex);
+	text->MakeDotween();
 	
 	SetPosition(Vector3::zero);
 	SetScale(Vector3::one);
@@ -40,17 +42,24 @@ void ButtonUI::SetHighlight(bool _isLight)
 	if (_isLight)
 	{
 		v = 0.5f;
+		Vector3 upScale = grayState_scale * LIGHT_SCALEUPTIMES;
+		button->dotween->DoEaseOutCubicScale(upScale, SCALEUP_TIME);
+		button->dotween->Append(grayState_scale, SCALEUP_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC_SCALE);
+		button->dotween->SetLoop(-1);
 	}
 
-	button->SetUV(0.0f, v);
+	button->SetUV(0.0f, v);	
 }
 
 void ButtonUI::SetScale(const Vector3& _scale)
 {
+	// 灰色状態の大きさとして代入する
+	grayState_scale = _scale;
+	grayState_scale.z = 1.0f;
+
 	// 横4 縦1
 	button->mTransform.scale = { _scale.x , _scale.y / BTN_HORI_RATIO, 1.0f };
 
-	const float textScaleTimes = 0.85f;	// ボタンを1.0とした時のテキストの倍率
 	text->mTransform.scale = { _scale.x * textScaleTimes, _scale.y / TXT_HORI_RATIO * textScaleTimes , 1.0f };
 
 	text->mTransform.pos.y = button->mTransform.pos.y + TXT_OFFSETY * text->mTransform.scale.y;
