@@ -1,7 +1,3 @@
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
 #include"InputManager.h"
 #include "PlayerMove.h"
 #include "CInput.h"

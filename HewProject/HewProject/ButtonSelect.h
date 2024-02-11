@@ -6,7 +6,7 @@ class ButtonUI;
 class ButtonSelect
 {
 	bool isActive = true;	// 今使われているかどうか
-	int pointButtonID = 0;	
+	int pointButtonID = 0;
 	int registCnt = 0;	// 登録されているボタンの数
 
 	std::vector<ButtonUI*> buttonRegister;	// 制御するボタンの配列
@@ -38,5 +38,7 @@ public:
 
 	void SetActive(bool _set) { isActive = _set; }
 	bool GetActive()const { return isActive; }
+
+	int GetPointButton()const { return pointButtonID; }
 };
 

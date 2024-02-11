@@ -3,7 +3,9 @@
 #include <vector>
 #include "StgButton.h"
 #include "ButtonSelect.h"
-//class ButtonSelect;
+
+#define UI_POSZ (0.8f)
+#define BTN_OFFSETX (1.3f)	// ボタンごとの差分（X座標）
 
 class StageSelect :
     public CScene
@@ -12,9 +14,10 @@ class StageSelect :
 protected:
     bool isChangeNumTriger = false; // 数字が変わった瞬間
 
-    short stageNum = 0; // ステージの数
-    
-    short pointStage = 1;   // 選んでいるステージの数
+    short stageNum; // ステージの数
+  
+    short c_pointStage = 1;   // 選んでいるステージの数
+    short o_pointStage;
 
     D3DTEXTURE stageBtnTex; // ステージのボタンのテクスチャ
     D3DBUFFER stageBtnBuf;  // ステージのボタンのバッファ
@@ -30,12 +33,19 @@ protected:
     std::vector<D3DTEXTURE> stageSmpTex;    // ステージのサンプルテクスチャ
 
 
-    D3DTEXTURE Back;    // 背景
+    D3DTEXTURE backTex;    // 背景
+    UI* backGround = nullptr;
+
+    D3DTEXTURE startTex;
+    UI* startUI;
+
     D3DTEXTURE WorldBack;   // ワールドの背景
     D3DTEXTURE WorldNum;    // ワールド〇
     D3DTEXTURE WorkdName;   // ワールド名
 
-    void Input();
+    virtual void Input();
+
+    void SmpMove(); // サンプルの移動関数
 
 public:
     StageSelect();
