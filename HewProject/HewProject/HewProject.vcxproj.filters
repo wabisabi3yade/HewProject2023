@@ -334,6 +334,9 @@
     <Filter Include="ソース ファイル\Hashimoto\StageSelect\stageSelectPlayer">
       <UniqueIdentifier>{2a9db323-d51a-4387-ac09-968464bef8e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\Menu">
+      <UniqueIdentifier>{a1be0cdb-474e-4b04-8dee-d39d95c29dd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -627,9 +630,6 @@
     <ClInclude Include="W1Select.h">
       <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
     </ClInclude>
-    <ClInclude Include="CMenu.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ShadowUI.h">
       <Filter>ソース ファイル\Base\GameBase\UI\ShadowUI</Filter>
     </ClInclude>
@@ -641,6 +641,9 @@
     </ClInclude>
     <ClInclude Include="W4Select.h">
       <Filter>ソース ファイル\Hashimoto\StageSelect\World4</Filter>
+    </ClInclude>
+    <ClInclude Include="CMenu.h">
+      <Filter>ソース ファイル\Wakamura\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -935,9 +938,6 @@
     <ClCompile Include="W1Select.cpp">
       <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
     </ClCompile>
-    <ClCompile Include="CMenu.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ShadowUI.cpp">
       <Filter>ソース ファイル\Base\GameBase\UI\ShadowUI</Filter>
     </ClCompile>
@@ -949,6 +949,9 @@
     </ClCompile>
     <ClCompile Include="W4Select.cpp">
       <Filter>ソース ファイル\Hashimoto\StageSelect\World4</Filter>
+    </ClCompile>
+    <ClCompile Include="CMenu.cpp">
+      <Filter>ソース ファイル\Wakamura\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
