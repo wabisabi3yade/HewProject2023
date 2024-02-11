@@ -5,6 +5,8 @@ class W1Select :
 {
     void Input() override;
 
+    void BeginMove() override;
+
 public:
     W1Select();
 

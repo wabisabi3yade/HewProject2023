@@ -1,7 +1,7 @@
 #include "StgButton.h"
 
-#define LIGHT_SCALEUPTIMES (1.5f)	// ハイライト中のUIの大きさ
-#define LIGHT_SCALEDOWNTIMES (1.3f)	// ハイライト中のUIの大きさ
+#define LIGHT_SCALEUPTIMES (1.55f)	// ハイライト中のUIの大きさ
+#define LIGHT_SCALEDOWNTIMES (1.4f)	// ハイライト中のUIの大きさ
 #define SCALEUP_TIME (1.2f)	// 大きくなるまでの大きさ
 #define SCALEWAIT_TIME (0.4f)	// 待機する時間
 
@@ -38,6 +38,9 @@ StgButton::~StgButton()
 void StgButton::Update()
 {
 	button->Update();
+
+	text->mTransform.pos = button->mTransform.pos;
+	text->mTransform.pos.z -= UI_OFFSETZ;
 	text->Update();
 }
 
@@ -87,15 +90,12 @@ void StgButton::SetScale(const Vector3& _scale)
 
 	const float textScaleTimes = 0.7f;	// ボタンを1.0とした時のテキストの倍率
 	text->mTransform.scale = { _scale.x * textScaleTimes, _scale.y  * textScaleTimes , 1.0f };
-
-	/*text->mTransform.pos.y = button->mTransform.pos.y + TXT_OFFSETY * text->mTrasnsform.scale.y;*/
 }
 
 void StgButton::SetPosition(const Vector3& _pos)
 {
 	button->mTransform.pos = _pos;
 	text->mTransform.pos = _pos;
-	/*text->mTransform.pos.y += TXT_OFFSETY * text->mTransform.scale.y;*/
 	text->mTransform.pos.z -= UI_OFFSETZ;
 }
 

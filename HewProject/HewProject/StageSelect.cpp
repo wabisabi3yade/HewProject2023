@@ -10,9 +10,7 @@
 #define SMP_ROT (-10.0f)	// サンプルの回転角度 
 #define SMPBACK_TARGET_POSX (3.5f)	// サンプル背景目標の値
 #define SMPBACK_BEGIN_OFFSETX (0.3f)	
-#define SMP_MOVETIME (0.8f)	// サンプルの移動時間
-
-
+#define SMP_MOVETIME (0.3f)	// サンプルの移動時間
 
 void StageSelect::Input()
 {
@@ -66,22 +64,40 @@ StageSelect::StageSelect()
 	// サンプル背景
 	stageSmpBackTex = TextureFactory::GetInstance()->Fetch(L"asset/UI/White.png");
 	stageSmpBack = new ShadowUI(oneBuf, stageSmpBackTex);
-	stageSmpBack->mTransform.pos = { 3.5f, 0.0f, SMPBACK_POSZ };
+	stageSmpPos = { 3.5f, 0.0f, SMPBACK_POSZ };
+	stageSmpBack->mTransform.pos = stageSmpPos;
+	stageSmpBack->mTransform.pos.x += BEGIN_MOVEMENT_X;
 	stageSmpBack->mTransform.scale = { 8.0f, 6.0f, 1.0f };
 	stageSmpBack->mTransform.rotation.z = SMP_ROT;
 	stageSmpBack->MakeDotween();
-	dynamic_cast<ShadowUI*>(stageSmpBack)->SetShadow();
 
 	// 背景
 	backGround = new UI(oneBuf, NULL);
 	backGround->mTransform.pos.z = BG_POSZ;
-	backGround->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H , 1.0f};
+	backGround->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H , 1.0f };
 
 	// スタートUI
 	D3D_LoadTexture(L"asset/UI/B_Enter.png", &startTex);
-	startUI = new UI(oneBuf, startTex);
-	startUI->mTransform.pos = { -6.5f, -4.0f, UI_POSZ };
+	startUI = new ShadowUI(oneBuf, startTex);
+	startUI->mTransform.pos = { -6.5f, -4.0f, 0.5f };
 	startUI->mTransform.scale = { 2.4f, 0.8f, 1.0f };
+
+	D3D_LoadTexture(L"asset/UI/T_Stage.png", &stageTex);
+	stageText = new ShadowUI(oneBuf, stageTex);
+
+	// ステージテキスト
+	stageTextPos = { -6.0f, -0.4f, UI_POSZ + UI_OFFSETZ };
+	stageText->mTransform.pos = stageTextPos;
+	stageText->mTransform.pos.x -= BEGIN_MOVEMENT_X;
+	stageText->mTransform.scale = { 2.8f, 0.7f, 1.0f };
+	stageText->MakeDotween();
+
+	stageTextBack = new ShadowUI(oneBuf, TextureFactory::GetInstance()->Fetch(L"asset/UI/White.png"));
+	stageTextBack->mTransform.pos = stageText->mTransform.pos;
+	stageTextBack->mTransform.pos.z += UI_OFFSETZ;
+	stageTextBack->mTransform.scale = { 4.0f,0.7f, 1.0f };
+	stageTextBack->SetColor({ 245, 96, 149 });
+
 
 	// 更新
 	o_pointStage = c_pointStage;
@@ -89,13 +105,24 @@ StageSelect::StageSelect()
 
 void StageSelect::Update()
 {
-	// 入力
-	Input();
+	if (isBeginFin)
+	{
+		// 入力
+		Input();
+	}
 
 	// サンプルの移動処理
 	SmpMove();
 
 	stageSmpBack->Update();
+
+	stageText->Update();
+
+	// ステージテキストの背景の座標を更新
+	Vector3& pos = stageTextBack->mTransform.pos;
+	pos = stageText->mTransform.pos;
+	pos.z += UI_OFFSETZ;
+
 
 	for (auto a : stgButton)
 	{
@@ -117,6 +144,9 @@ void StageSelect::Draw()
 	backGround->Draw();
 
 	stageSmpBack->Draw();
+
+	stageTextBack->Draw();
+	stageText->Draw();
 
 	for (auto a : stgButton)
 	{
@@ -141,4 +171,31 @@ StageSelect::~StageSelect()
 
 	SAFE_RELEASE(startTex);
 	CLASS_DELETE(startUI);
+
+	CLASS_DELETE(stageText);
+	SAFE_RELEASE(stageTex);
+
+	CLASS_DELETE(stageTextBack);
+}
+
+void StageSelect::BeginMove()
+{
+	stageText->dotween->DoEaseOutBack(stageTextPos, BEGIN_MOVETIME);
+	stageText->dotween->OnComplete([&]()
+		{
+			isBeginFin = true;
+		});
+
+	stageSmpBack->dotween->DoEaseOutBack(stageSmpPos, BEGIN_MOVETIME);
+
+	// ボタンの移動
+	for (int i = 0; i < stgButton.size(); i++)
+	{
+		// 移動先の座標
+		Vector3 p = firstBtnPos;
+		p.x += i * BTN_OFFSETX * btnScale.x;
+
+		// 動かす
+		stgButton[i]->GetDotween()->DoEaseOutBack(p, BEGIN_MOVETIME);
+	}
 }
