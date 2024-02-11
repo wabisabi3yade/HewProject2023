@@ -34,7 +34,7 @@ void CObject::LateUpdate()
 
 void CObject::Draw()
 {
-	if (!isActive) return;
+	if (!isActive || IsInvisible) return;
 
 	// uvç¿ïWÇêÈåæ
 	FLOAT_XY uv = { 0,0 };
@@ -105,4 +105,9 @@ void CObject::Draw()
 void CObject::SetDir(Vector3 setdir)
 {
 	mDir = setdir;
+}
+
+void CObject::ChangeInvisible()
+{
+	IsInvisible = !IsInvisible;
 }

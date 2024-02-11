@@ -48,6 +48,8 @@ protected:
 	// アクティブ/非アクティブ切り替え変数
 	bool isActive = true;
 
+	bool IsInvisible = false;
+
 public:
 
 	Transform mTransform;
@@ -100,5 +102,7 @@ public:
 
 	void SetActive(bool _set) { isActive = _set; }
 	bool GetActive() const { return isActive; }
+
+	void ChangeInvisible();
 };
 

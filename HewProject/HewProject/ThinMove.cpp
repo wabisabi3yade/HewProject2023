@@ -75,6 +75,11 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				if (player->GetCalorie() <= 0)
+				{
+					player->GameOver();
+					return;
+				}
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
@@ -97,6 +102,11 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				if (player->GetCalorie() <= 0)
+				{
+					player->GameOver();
+					return;
+				}
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()

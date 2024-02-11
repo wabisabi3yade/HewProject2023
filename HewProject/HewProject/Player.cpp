@@ -196,6 +196,8 @@ void Player::Update()
 		}
 	}
 
+	if (calorie <= 0)
+		GameOver();
 }
 
 // •à‚¢‚½Žž‚ÌƒJƒƒŠ[Á”ï
