@@ -157,8 +157,9 @@ void StageScene::Update()
 	}
 	if (gInput->GetKeyTrigger(VK_ESCAPE))
 	{
-		player->ChangeTexture(Player::ANIM_TEX::BAUM);
-		player->GetPlayerAnim()->PlayBaum(player->GetDirection(), 1.0f);
+		//player->ChangeTexture(Player::ANIM_TEX::BAUM);
+		//player->GetPlayerAnim()->PlayBaum(player->GetDirection(), 1.0f);
+		player->ChangeInvisible();
 	}
 	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 	{
