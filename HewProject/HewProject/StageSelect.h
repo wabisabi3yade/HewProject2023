@@ -5,19 +5,26 @@
 #include "ButtonSelect.h"
 
 #define UI_POSZ (0.8f)
-#define BTN_OFFSETX (1.3f)	// ボタンごとの差分（X座標）
+#define BTN_OFFSETX (1.2f)	// ボタンごとの差分（X座標）
+#define BEGIN_MOVETIME (1.0f)   // 始めの移動時間
+#define BEGIN_MOVEMENT_X (7.5f) // 初めの移動量
 
 class StageSelect :
     public CScene
 {
 
 protected:
+    bool isBeginFin = false;
+
     bool isChangeNumTriger = false; // 数字が変わった瞬間
 
     short stageNum; // ステージの数
   
     short c_pointStage = 1;   // 選んでいるステージの数
     short o_pointStage;
+
+    Vector3 btnScale = { 1.5f, 1.5f, 1.0f };
+    Vector3 firstBtnPos = { -7.0f, -2.0f, UI_POSZ };
 
     D3DTEXTURE stageBtnTex; // ステージのボタンのテクスチャ
     D3DBUFFER stageBtnBuf;  // ステージのボタンのバッファ
@@ -30,6 +37,8 @@ protected:
 
     D3DTEXTURE stageSmpBackTex; // サンプルの背景のテクスチャ
     UI* stageSmpBack;   
+    Vector3 stageSmpPos;
+
     std::vector<D3DTEXTURE> stageSmpTex;    // ステージのサンプルテクスチャ
 
 
@@ -39,6 +48,12 @@ protected:
     D3DTEXTURE startTex;
     UI* startUI;
 
+    D3DTEXTURE stageTex;
+    UI* stageText;
+    Vector3 stageTextPos;
+    UI* stageTextBack;
+
+
     D3DTEXTURE WorldBack;   // ワールドの背景
     D3DTEXTURE WorldNum;    // ワールド〇
     D3DTEXTURE WorkdName;   // ワールド名
@@ -46,6 +61,8 @@ protected:
     virtual void Input();
 
     void SmpMove(); // サンプルの移動関数
+
+    virtual void BeginMove();   // 最初の動き
 
 public:
     StageSelect();

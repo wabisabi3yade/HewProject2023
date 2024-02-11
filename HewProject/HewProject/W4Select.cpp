@@ -5,7 +5,6 @@ W4Select::W4Select()
 	stageNum = 4;	// ステージの数
 
 	const Vector3 beginBtnPos = { -7.0f, 0.0f, UI_POSZ };
-	const Vector3 btnScale = { 1.5f, 1.5f, 1.0f };
 
 	StgButton* btnWork = nullptr;
 	for (int i = 0; i < stageNum; i++)
@@ -15,8 +14,8 @@ W4Select::W4Select()
 		btnWork->SetScale(btnScale);
 
 		// ボタンの座標を設定
-		Vector3 p = beginBtnPos;
-		p.x += i * (BTN_OFFSETX * btnScale.x);
+		Vector3 p = firstBtnPos;
+		p.x += -BEGIN_MOVEMENT_X + i * (BTN_OFFSETX * btnScale.x);
 		p.z -= i * UI_OFFSETZ;
 		btnWork->SetPosition(p);
 

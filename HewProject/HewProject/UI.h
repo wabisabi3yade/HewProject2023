@@ -3,7 +3,7 @@
 #include "Transform.h"
 #include "DotweenUI.h"
 
-#define UI_OFFSETZ (0.0001f)
+#define UI_OFFSETZ (0.001f)
 
 class UI
 {

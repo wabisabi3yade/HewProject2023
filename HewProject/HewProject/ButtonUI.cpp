@@ -62,6 +62,7 @@ ButtonUI::~ButtonUI()
 void ButtonUI::Update()
 {
 	button->Update();
+	
 	text->Update();
 }
 
@@ -124,4 +125,14 @@ void ButtonUI::BeginFunc()
 {
 	if (func == nullptr) return;
 	func();
+}
+
+void ButtonUI::MakeDotween()
+{
+	button->MakeDotween();
+}
+
+DoTweenUI* ButtonUI::GetDotween()
+{
+	return button->dotween;
 }

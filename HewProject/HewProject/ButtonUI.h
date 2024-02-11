@@ -51,5 +51,9 @@ public:
 	// İ’è‚µ‚½ŠÖ”‚ğÀs
 	void BeginFunc();
 
+	void MakeDotween();
+
+	DoTweenUI* GetDotween();
+
 };
 
