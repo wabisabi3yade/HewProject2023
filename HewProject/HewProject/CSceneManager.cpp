@@ -17,6 +17,7 @@
 #include "CGameOver.h"
 #include "CGameClear.h"
 #include "W1Select.h"
+#include "W2Select.h"
 #include "CMenu.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
@@ -172,6 +173,11 @@ void CSceneManager::SceneChange(int _scene)
 	case CScene::WORLD1_SELECT:
 		nowSceneName = CScene::WORLD1_SELECT;
 		pNowScene = new W1Select();
+		break;
+
+	case CScene::WORLD2_SELECT:
+		nowSceneName = CScene::WORLD2_SELECT;
+		pNowScene = new W2Select();
 		break;
 
 	case CScene::MENU:

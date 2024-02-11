@@ -1,9 +1,6 @@
 #include "UI.h"
-#include "TextureFactory.h"
 
 using namespace DirectX;
-
-#define SHADOW_ALPHA (0.5f)	// 影の濃さ
 
 UI::UI()
 {
@@ -46,21 +43,11 @@ void UI::Update()
 	{
 		dotween->Update();
 	}
-
-	// 影がないなら
-	if (shadow != nullptr)
-	{
-		shadow->mTransform.pos = mTransform.pos;
-		shadow->mTransform.pos.y += shadowOffsetY;
-	}
 }
 
 void UI::Draw()
 {
 	if (!isActive) return;  // 非表示なら処理終了
-
-	shadow->Draw();
-
 	// アニメーションするオブジェクトなら
 	if (mAnim != nullptr)
 	{
@@ -169,16 +156,4 @@ void UI::SetAlpha(float _alpha)
 	}
 
 	materialDiffuse.w = _alpha;
-}
-
-void UI::SetShadow(D3DBUFFER _oneBuffer, float _offsetY)
-{
-	// 影のテクスチャを取得
-	D3DTEXTURE shadowTex = TextureFactory::GetInstance()->Fetch(L"asset/UI/White.png");
-	shadow = new UI(_oneBuffer, shadowTex);
-	shadow->SetColor({});	// 黒にする
-	shadow->SetAlpha(SHADOW_ALPHA);
-
-	shadow->mTransform.pos = mTransform.pos;
-	shadow->mTransform.pos.y += _offsetY;
 }

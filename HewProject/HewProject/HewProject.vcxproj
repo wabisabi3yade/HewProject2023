@@ -236,6 +236,9 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="W1Select.h" />
+    <ClInclude Include="W2Select.h" />
+    <ClInclude Include="W3Select.h" />
+    <ClInclude Include="W4Select.h" />
     <ClInclude Include="WICTextureLoader.h" />
     <ClInclude Include="xa2.h" />
   </ItemGroup>
@@ -337,6 +340,9 @@
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="W1Select.cpp" />
+    <ClCompile Include="W2Select.cpp" />
+    <ClCompile Include="W3Select.cpp" />
+    <ClCompile Include="W4Select.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
     <ClCompile Include="xa2.cpp" />
   </ItemGroup>

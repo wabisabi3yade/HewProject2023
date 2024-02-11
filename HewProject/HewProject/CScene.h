@@ -25,6 +25,7 @@ public:
 		GAMEOVER,
 		GAMECLEAR,
 		WORLD1_SELECT,
+		WORLD2_SELECT,
 		MENU,
 
 		SCENE_NUM,	// ÉVÅ[ÉìÇÃêî
