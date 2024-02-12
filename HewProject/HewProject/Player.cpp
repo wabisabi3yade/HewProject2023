@@ -7,9 +7,9 @@
 #include "ThinMove.h"
 #include "MuscleMove.h"
 #include "TextureFactory.h"
+#include"CalorieGage_hori.h"
 
 #define START_CALORIE (10)	// スタート時のカロリー
-#define CAKE_CALORIE (15)	// ケーキ食べたあとのリスのカロリー
 #define CHILI_CALORIE (2)	// とうがらし食べた減るのリスのカロリー
 
 void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_tex)
@@ -54,6 +54,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	risingChangeTrriger = false;
 	risingMoveTrriger = false;
 	ChangeCannonTexture = false;
+
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -105,7 +106,7 @@ void Player::Init(GridTable* _pTable)
 	calorie = START_CALORIE;
 	/*SetTexture(normalTex[0]);*/
 
-
+	calorieGage->SetCalorie(calorie);
 
 	/*move->CheckCanMove();*/
 
@@ -217,6 +218,7 @@ void Player::Update()
 void Player::WalkCalorie()
 {
 	calorie--;
+	calorieGage->AddCalorie(-1);
 	if (calorie < 0) calorie = 0;
 }
 
@@ -224,12 +226,14 @@ void Player::WalkCalorie()
 void Player::EatCake()
 {
 	calorie = CAKE_CALORIE;
+	calorieGage->SetCalorie(CAKE_CALORIE);
 }
 
 // とうがらし
 void Player::EatChilli()
 {
 	calorie -= CHILI_CALORIE;
+	calorieGage->AddCalorie(-2);
 	if (calorie < 0) calorie = 0;
 }
 
@@ -270,10 +274,10 @@ void Player::ChangeState(STATE _set)
 		break;
 
 	case STATE::MUSCLE:
+		this->mTransform.scale.y *= 1.5f;
 		move = std::make_shared<MuscleMove>(this);
 		playerState = STATE::MUSCLE;
 		SetTexture(muscleTex[ANIM_TEX::WAIT]);
-		this->calorie = CAKE_CALORIE;
 		break;
 	}
 

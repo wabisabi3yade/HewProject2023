@@ -49,8 +49,9 @@ public:
 	/// </summary>
 	/// <param name="_gridX">グリッドX座標</param>
 	/// <param name="_gridY">グリッドY座標</param>
+	/// <param name="_playerState">プレイヤーの状態（プレイヤー時のみ引数に代入）</param>
 	/// <returns>ワールド座標</returns>
-	Vector3 GridToWorld(CGrid::GRID_XY _pos, CGridObject::BlockType _type);
+	Vector3 GridToWorld(CGrid::GRID_XY _pos, CGridObject::BlockType _type ,int _playerState = NULL);
 
 	Vector3 GetGridScale()const { return oneGridScale; }
 

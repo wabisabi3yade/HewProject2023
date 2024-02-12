@@ -7,6 +7,9 @@ class CWall :
 {
 private:
     DoTween *dotween;
+    bool isBreak;
+    bool isDecrease;
+    float time;
 public:
     CWall(D3DBUFFER vb, D3DTEXTURE tex);
     ~CWall();
