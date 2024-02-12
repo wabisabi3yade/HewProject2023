@@ -63,6 +63,7 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex, GridTable* _nowTable)
 	inPlayer = false;
 	IsUse = false;
 	mAnim = new CannonAnim();
+	dotween = std::make_unique<DoTween>(this);
 	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
 	{
 		Arrow[i] = new CArrow(vb, NULL);
@@ -110,6 +111,7 @@ void CCannon::Update()
 		//‚È‚ñ‚©‚ÌƒL[‚Å”­ŽË
 	}
 	mAnim->Update();
+	dotween->Update();
 	CGridObject::Update();
 }
 
@@ -231,4 +233,26 @@ void CCannon::PlayTurn(int _dir, float _animSpeedRate)
 void CCannon::PlayReturn(float _animSpeedRate)
 {
 	dynamic_cast<CannonAnim*>(mAnim)->PlayReturn(_animSpeedRate);
+}
+
+void CCannon::BlowOff(int _dir)
+{
+	switch (_dir)
+	{
+		//‰E‚É
+	case 0:
+	case 2:
+		dotween->DoMoveXY({ MAX_POS_X + mTransform.scale.x / 2, MAX_POS_Y + 2.0f }, BLOWOFF_TIME / 2);
+		dotween->Join(360.0f, BLOWOFF_TIME / 2, DoTween::FUNC::ROTATION);
+		break;
+
+		//¶‚É
+	case 1:
+	case 3:
+		dotween->DoMoveXY({ (MAX_POS_X * -1.0f) - mTransform.scale.x / 2,MAX_POS_Y + 2.0f }, BLOWOFF_TIME / 2);
+		dotween->Join(360.0f, BLOWOFF_TIME, DoTween::FUNC::ROTATION);
+		break;
+	default:
+		break;
+	}
 }

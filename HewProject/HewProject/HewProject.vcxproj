@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaumAnim.h" />
     <ClInclude Include="ButtonSelect.h" />
     <ClInclude Include="ButtonUI.h" />
     <ClInclude Include="CAnimation.h" />
@@ -243,6 +244,7 @@
     <ClInclude Include="xa2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaumAnim.cpp" />
     <ClCompile Include="ButtonSelect.cpp" />
     <ClCompile Include="ButtonUI.cpp" />
     <ClCompile Include="CAnimation.cpp" />

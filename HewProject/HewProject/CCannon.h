@@ -27,6 +27,8 @@ class CCannon :
     CArrow* Arrow[static_cast<int>(DIRECTION::NUM)];
 
 public:
+
+    std::unique_ptr<DoTween> dotween;
     CCannon(D3DBUFFER vb,D3DTEXTURE tex , GridTable* _nowTable);
     ~CCannon();
     void SetStageSize(CGrid::GRID_XY _set);
@@ -40,6 +42,7 @@ public:
     void CheckCanMove(const GridTable& _nowTable);
     void PlayTurn(int _dir, float _animSpeedRate = 1.0f);
     void PlayReturn(float _animSpeedRate = 1.0f);
+    void BlowOff(int _dir);
     bool* GetCanMove() { return &canMoveDir[0]; }
 };
 
