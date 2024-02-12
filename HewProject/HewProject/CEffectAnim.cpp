@@ -2,7 +2,7 @@
 
 CEffectAnim::CEffectAnim()
 {
-	
+	AnimEnd = false;
 }
 
 void CEffectAnim::Update()
@@ -19,8 +19,10 @@ void CEffectAnim::Update()
 	// 再生中なら
 	if (isPlaying)
 	{
+		AnimEnd = false;
 		// アニメーションのカウンターを進める
 		animCounter += animSpeed;
+
 
 		// -1が来たら最初に戻る（ループ再生）
 		if (animTable[animPattern][(int)animCounter] == -1)
@@ -30,6 +32,7 @@ void CEffectAnim::Update()
 			{
 				// 再生を止める
 				isPlaying = false;
+				AnimEnd = true;
 			}
 		}
 	}

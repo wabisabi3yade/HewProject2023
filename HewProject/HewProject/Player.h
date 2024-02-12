@@ -5,6 +5,8 @@
 #include "DoTween.h"
 #include "PlayerMove.h"
 #include"CPlayerAnim.h"
+#include<list>
+#include"CEffectManeger.h"
 
 #define MOVEROOT_MAX (20)	// 今まで取ってきた道を保存する最大数
 #define EAT_TIME (1.3f)	// 食べ物食べる時間
@@ -100,6 +102,8 @@ private:
 	// 引数①：テクスチャパス ② 度の状態の配列に入れるか
 	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
 	
+
+	std::list<CEffect*> effect;
 public:
 	bool fallMoveTrriger;
 	bool risingMoveTrriger;
@@ -154,11 +158,13 @@ public:
 	int GetNowFloor() { return nowFloor; }
 	void SetNowFloor(int _set);
 	void GameOver();
+	void PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _type, bool _isLoop);
 	bool GetFallTrriger() { return fallMoveTrriger; }
 	bool GetFallFloorChageTrriger() { return fallFloorChangeTrriger; }
 	bool GetRiseFloorChangeTrriger() { return risingChangeTrriger; }
 	bool GetRiseTrriger() { return risingMoveTrriger; }
 	bool GetCangeCannonTexture() { return ChangeCannonTexture; }
+	bool GetCannonFX()const { return move->GetCannonFX(); }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	void SetNextGridTable(GridTable* _set) { nextGridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }

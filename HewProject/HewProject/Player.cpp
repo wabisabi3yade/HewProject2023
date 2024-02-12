@@ -171,8 +171,6 @@ void Player::Update()
 				move->Step();
 				fallFloorChangeTrriger = false;
 			}
-
-
 		}
 		else if (move->GetIsRising() == true)
 		{
@@ -193,6 +191,21 @@ void Player::Update()
 				risingChangeTrriger = false;
 			}
 
+		}
+	}
+
+	if (effect.size() > 0)
+	{
+		for (auto it = effect.begin(); it != effect.end();)
+		{
+			(*it)->Update();
+			if ((*it)->GetEffectAnim()->GetAnimEnd())
+			{
+				CLASS_DELETE(*it);
+				it = effect.erase(it);
+				continue;
+			}
+			it++;
 		}
 	}
 
@@ -368,6 +381,13 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 void Player::Draw()
 {
 	CObject::Draw();
+	if (effect.size() > 0)
+	{
+		for (auto it = effect.begin(); it != effect.end(); it++)
+		{
+			(*it)->Draw();
+		}
+	}
 }
 
 void Player::Fall()
@@ -416,6 +436,11 @@ void Player::SetNowFloor(int _set)
 void Player::GameOver()
 {
 	IsgameOver = true;
+}
+
+void Player::PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _type, bool _isLoop)
+{
+	effect.push_back(EffectManeger::GetInstance()->Play(_pos, _scale, _type, _isLoop));
 }
 
 void Player::SetDirection(int _set)

@@ -4,6 +4,7 @@
 #include <vector>
 #include "GridTable.h"
 
+class CEffect;
 #define WALK_TIME (1.0f)	// 歩くときの移動時間
 
 class Player;
@@ -55,6 +56,7 @@ protected:
 
 	bool flagInit;
 
+	bool cannonFX;
 	bool inCannon;
 	bool isCannonMove;
 	bool isCannonMoveStart;
@@ -64,7 +66,6 @@ protected:
 	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
 	CGrid::GRID_XY nextCannonPos;
 	std::vector<int> cantMoveBlock;	// 移動できない床の種類を保持
-
 public:
 	PlayerMove(Player* _p);
 
@@ -155,6 +156,7 @@ public:
 	bool GetCannonMoveStartTrigger()const { return isCannonMoveStartTrigger; }
 	bool GetIncannon()const { return inCannon; }
 	bool GetIsFallBound()const { return isFallBound; }
+	bool GetCannonFX()const { return cannonFX; }
 	void SetCannonDir(bool* _set) { *cannonMoveDir = _set; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 };

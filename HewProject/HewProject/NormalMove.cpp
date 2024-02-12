@@ -288,6 +288,10 @@ void NormalMove::Move(DIRECTION _dir)
 		junpPos.y = Vec3JumpPos.y;
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		player->dotween->DelayedCall(JUMP_TIME / 2.0f,[&]()
+			{
+				cannonFX = true;
+			});
 
 		player->dotween->OnComplete([&]()
 			{

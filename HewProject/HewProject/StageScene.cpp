@@ -448,6 +448,11 @@ void StageScene::StageMove()
 		}
 	}
 
+	if (player->GetCannonFX() == true)
+	{
+
+	}
+
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{
 
@@ -621,20 +626,39 @@ void StageScene::InCanonInput()
 	//player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 	player->SetDirection(isSelectDir);
 	cannonMove = true;
+	Vector3 _pos = player->mTransform.pos;
+	Vector3 _Scale = player->mTransform.scale;
+	_pos.z = cannonObj->mTransform.pos.z;
+	_Scale.x = _Scale.x * CANNON_FIRE_SCALE;
+	_Scale.y = _Scale.y * CANNON_FIRE_SCALE;
 	// ‰E or ¶‚È‚ç@‘å–C“®‚©‚·
 	if (isSelectDir == 2 || isSelectDir == 1)
 	{
+		//‰E
+		if (isSelectDir == 2)
+		{
+			_pos.x = _pos.x +( 0.5f * stageScale);
+			_pos.y = _pos.y +( 0.4f * stageScale);
+			_pos.z = _pos.z + 0.0002f;
+		}
+		else//¶
+		{
+			_pos.x = _pos.x - (0.1f * stageScale);
+			_pos.y = _pos.y + (0.4f * stageScale);
+			_pos.z = _pos.z -0.15f ;
+		}
 		cannonObj->SetTexture(stageTextureCannon[0]);
 		dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
-		player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj]()
+		player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj,_pos,_Scale]()
 			{
 				cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
-
-				player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
+				player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos, _Scale]()
 					{
 						player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 						player->GetPlayerMove()->CannonMoveStart();
+						player->PlayEffect(_pos , _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 						cannonMove = false;
+						cannonObj->Fire(player->GetDirection());
 						cannonObj->PlayReturn();
 						player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
 							{
@@ -647,10 +671,24 @@ void StageScene::InCanonInput()
 	{
 		cannonObj->SetTexture(stageTextureCannon[1]);
 		cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
-		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
+		if (isSelectDir == 0)
+		{
+			_pos.x = _pos.x + (0.3f * stageScale);
+			_pos.y = _pos.y + (0.4f * stageScale);
+			_pos.z = _pos.z -0.15f;
+		}
+		else
+		{
+			_pos.x = _pos.x - (0.3f * stageScale);
+			_pos.y = _pos.y + (0.3f * stageScale);
+			_pos.z = _pos.z + 0.00001f;
+		}
+		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos]()
 			{
 				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 				player->GetPlayerMove()->CannonMoveStart();
+				player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
+				cannonObj->Fire(player->GetDirection());
 				cannonMove = false;
 				cannonObj->PlayReturn();
 			});

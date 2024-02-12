@@ -15,6 +15,9 @@ EffectManeger::EffectManeger()
 		L"asset/kawada/Red_Slash.png",
 		L"asset/kawada/bullets.png",
 		L"asset/kawada/Red_Slash.png",
+		L"asset/Effect/break.png",
+		L"asset/Effect/smoke.png",
+		L"asset/Effect/taihou.png",
 	};
 
 	// 画像をロードしてテクスチャの配列に入れる
@@ -40,11 +43,11 @@ EffectManeger::~EffectManeger()
 	}
 
 	// エフェクトを解放
-	for (auto itr = EffectList.begin(); itr != EffectList.end(); itr++)
-	{
-		CLASS_DELETE((*itr));
-	}
-	EffectList.clear();
+	//for (auto itr = EffectList.begin(); itr != EffectList.end(); itr++)
+	//{
+	//	CLASS_DELETE((*itr));
+	//}
+	//EffectList.clear();
 }
 // シーンマネージャーを取得
 // 初めて呼び出されたらインスタンスを生成
@@ -58,14 +61,14 @@ EffectManeger* EffectManeger::GetInstance()
 	return instance;
 }
 //------------------------------------------//
-void EffectManeger::Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLoop)
+CEffect* EffectManeger::Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLoop)
 {
 	// テクスチャのパスの種類数よりも多い　または　負の値　なら
 	if ((int)_type > effectTexBox.size() - 1 || (int)_type < 0)
 	{
 		MessageBoxA(NULL, "エフェクトマネージャーPlay関数で指定できないテクスチャ番号です", "エラー", MB_ICONERROR | MB_OK);
 
-		return;
+		return nullptr;
 	}
 
 	charObj = new CEffect(charBuffer, effectTexBox[_type]);
@@ -80,42 +83,44 @@ void EffectManeger::Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLo
 	charObj->GetmAnim()->animSpeed = 0.3f;
 
 	//EffectlistにcharObjを追加
-	EffectList.push_back(charObj);
+	//EffectList.push_back(charObj);
+	return charObj;
 }
 
 void EffectManeger::Draw()
 {
-	//listの最初の値を取得;	list最後の値じゃない場合続行;	値を1追加
-	for (auto itr = EffectList.begin(); itr != EffectList.end(); itr++)
-	{
-		//CEffectのDrawを実行
-		(*itr)->Draw();
-	}
+	////listの最初の値を取得;	list最後の値じゃない場合続行;	値を1追加
+	//for (auto itr = EffectList.begin(); itr != EffectList.end(); itr++)
+	//{
+	//	//CEffectのDrawを実行
+	//	(*itr)->Draw();
+	//}
 }
 
 //listの中身をupdateする
 void EffectManeger::Update()
 {
-	//listの最初の値を取得;	list最後の値じゃない場合続行;
-	for (auto itr = EffectList.begin(); itr != EffectList.end();)
-	{
-		//CEffectのUpdateを実行
-		(*itr)->Update();
+	////listの最初の値を取得;	list最後の値じゃない場合続行;
+	//for (auto itr = EffectList.begin(); itr != EffectList.end();)
+	//{
+	//	//CEffectのUpdateを実行
+	//	(*itr)->Update();
 
-		// 再生が終わったなら削除する
-		if (!(*itr)->GetIsPlaying())
-		{
-			delete *itr;
+	//	// 再生が終わったなら削除する
+	//	if (!(*itr)->GetIsPlaying())
+	//	{
 
-			// リストから削除する
-			itr = EffectList.erase(itr);
+	//		CLASS_DELETE(*itr);
+	//		// リストから削除する
+	//		itr = EffectList.erase(itr);
+	//	
 
-			continue;
-		}
+	//		continue;
+	//	}
 
-		// 次に進める
-		itr++;
-	}
+	//	// 次に進める
+	//	itr++;
+	//}
 }
 
 void EffectManeger::Delete()

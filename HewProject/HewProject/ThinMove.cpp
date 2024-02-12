@@ -431,7 +431,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-				WalkAfter();
+				//WalkAfter();
 				//MoveAfter();
 				player->SetGridPos(nextGridPos);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
