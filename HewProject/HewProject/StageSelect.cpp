@@ -111,7 +111,7 @@ StageSelect::StageSelect()
 	worldText->MakeDotween();
 
 	worldNum = new ShadowUI(numberBuf, numberTex);
-	worldNum->mTransform.scale = { 0.7f, 0.7f, 1.0f };
+	worldNum->mTransform.scale = { 0.8f, 0.8f, 1.0f };
 
 	// XV
 	o_pointStage = c_pointStage;
