@@ -26,10 +26,15 @@ Fade_TestScene::Fade_TestScene()
 
 
 	proteinUI = new ProteinUI(3, false);
-	proteinUI->SetPosition({ 0.0f,0.0f, 0.0f });
+	proteinUI->SetPosition({ 3.0f,4.0f, 0.0f });
 	proteinUI->SetScale({ 2.0f,2.0f});
+	proteinUI->SetActive(false);
 
-	proteinUI->GetDotween()->DoMove({ 2.0f, 2.0f,1.0f }, 1.0f);
+	proteinUI->GetDotween()->DoMove({ -5.0f, 2.0f,1.0f }, 1.0f);
+	proteinUI->GetDotween()->OnComplete([&]
+		{
+			proteinUI->SetActive(true);
+		});
 }
 
 Fade_TestScene::~Fade_TestScene()
