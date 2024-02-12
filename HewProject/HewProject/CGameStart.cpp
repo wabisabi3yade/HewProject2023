@@ -1,6 +1,7 @@
 #include "CGameStart.h"
 #include "UI.h"
 #include "TextureFactory.h"
+#include "ProteinUI.h"
 
 
 CGameStart::CGameStart()
@@ -22,6 +23,10 @@ CGameStart::CGameStart()
 	Text->mTransform.pos = { 8.0f,3.0f,0 };
 	Text->mTransform.scale = { 4.0f,1.0f,1.0f };
 
+	Protein = new ProteinUI(2, false);
+	Protein->SetPosition({ 8.0f,0,0 });
+	Protein->SetScale({ 2,2});
+
 	isProtein = false;
 }
 
@@ -29,6 +34,7 @@ CGameStart::~CGameStart()
 {
 	CLASS_DELETE(Bg);
 	CLASS_DELETE(Text);
+	CLASS_DELETE(Protein)
 
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(textBuffer);
@@ -41,12 +47,27 @@ void CGameStart::Update()
 	{
 		isProtein = true;
 
-		Text->dotween->DoMoveX(0, 0.5f);
-		Text->dotween->Join(0, 1.0f, DoTweenUI::FUNC::DELAY);
+		Text->dotween->DoMoveX(0, 0.4f);
+		Text->dotween->Join(0, 2.0f, DoTweenUI::FUNC::DELAY);
 		Text->dotween->Append({-10.0f,3.0f,0}, 0.5f, DoTweenUI::FUNC::EASE_INBACK);
 		Text->dotween->OnComplete([&]() {
 			Text->SetActive(false);
-			Bg->SetActive(false);
+			});
+
+		Protein->GetDotween()->DoMoveX(0, 0.8f);
+		Protein->GetDotween()->Append({ -10.0f,0,0 }, 0.8f, DoTweenUI::FUNC::DELAY);
+		Protein->GetDotween()->OnComplete([&]() {
+			Protein->AddProtein();
+			Protein->GetDotween()->DelayedCall(0.2f, [&]() {
+				Protein->AddProtein();
+				Protein->GetDotween()->DelayedCall(0.8f, [&]() {
+					Protein->GetDotween()->DoEaseInBack({ -10.0f,0,0 }, 0.5f);
+					Protein->GetDotween()->DelayedCall(0.8f, [&]() {
+						Bg->SetActive(false);
+						});
+					});
+				});
+			
 			});
 		
 	}
@@ -54,6 +75,8 @@ void CGameStart::Update()
 	Bg->Update();
 
 	Text->Update();
+
+	Protein->Update();
 }
 
 void CGameStart::LateUpdate()
@@ -65,4 +88,6 @@ void CGameStart::Draw()
 	Bg->Draw();
 	
 	Text->Draw();
+
+	Protein->Draw();
 }
