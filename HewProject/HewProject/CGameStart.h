@@ -19,6 +19,8 @@ public:
     ProteinUI* Protein;
 
     bool isProtein;
+    int nNumProtein;
+    float fProteinZ;
 
 public:
     CGameStart();
