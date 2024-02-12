@@ -4,11 +4,14 @@ W2Select::W2Select()
 {
 	stageNum = 4;	// ステージの数
 
+	Vector2 uvOffset = { 1.0f / 3, 1.0f / 4 };
+	worldNum->SetUV(uvOffset.x * 2, uvOffset.y * 0);
+
 	StgButton* btnWork = nullptr;
 	for (int i = 0; i < stageNum; i++)
 	{
 		// ボタン関連
-		btnWork = new StgButton(stageBtnBuf, stageBtnTex, numberBuf, numberTex);
+		btnWork = new StgButton(stageBtnBuf, stageBtnTex, numberBuf, btnNumTex);
 		btnWork->SetScale(btnScale);
 
 		// ボタンの座標を設定

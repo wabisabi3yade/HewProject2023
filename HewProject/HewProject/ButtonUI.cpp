@@ -1,4 +1,5 @@
 #include "ButtonUI.h"
+#include "ShadowUI.h"
 #define TXT_OFFSETY (0.2f)	// ボタンよりちょい上
 
 #define BTN_HORI_RATIO (4)	// ボタンの画像縦1に対して横の比率
@@ -40,7 +41,7 @@ ButtonUI::ButtonUI(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex, D3DBUFFER _te
 {
 	button = new UI(_buttonBuffer, _buttonTex);
 	button->MakeDotween();
-	text = new UI(_textBuffer, _textTex);
+	text = new ShadowUI(_textBuffer, _textTex);
 	text->MakeDotween();
 	
 	SetPosition(Vector3::zero);

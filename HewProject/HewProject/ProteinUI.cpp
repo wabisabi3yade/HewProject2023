@@ -4,10 +4,16 @@
 #define CIRCLE_OFFSETX (1.0f)	// 〇同士のX座標差分
 #define CIRCLE_OFFSETY (0.7f)	// 棒から〇のY座標差分
 #define PRO_SCALETIME (1.3f)	// 大きくなるまでの時間
-ProteinUI::ProteinUI(const int& _proteinNum)
+ProteinUI::ProteinUI(const int& _proteinNum, bool _isMarkActive)
 {
+	isMarkActive = _isMarkActive;
+
+	baseUI = new UI(NULL, NULL);
+	baseUI->MakeDotween();
+	baseUI->mTransform.pos = {};
+
 	// 全体の座標をここで設定
-	mTransform.pos = {};
+	mTransform.pos = baseUI->mTransform.pos;
 
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 	// このステージにあるプロテイン取得
@@ -30,12 +36,13 @@ ProteinUI::ProteinUI(const int& _proteinNum)
 		protein[i] = new UI(buffer, texWork);
 		protein[i]->mTransform.scale = proScale;
 		protein[i]->MakeDotween();
+		/*protein[i]->SetActive(false);*/
 	}
 
 	// 下の棒
 	texWork = texFactory->Fetch(L"asset/UI/Protein_Bar.png");
 	bar = new UI(buffer, texWork);
-	bar->mTransform.scale = { 3.0f, 0.05f, 1.0f };
+	bar->mTransform.scale = barScale;
 
 	SetPosition(mTransform.pos);
 }
@@ -53,6 +60,8 @@ ProteinUI::~ProteinUI()
 		CLASS_DELETE(protein[i]);
 	}
 	CLASS_DELETE(bar);
+
+	CLASS_DELETE(baseUI);
 }
 
 void ProteinUI::Update()
@@ -60,6 +69,14 @@ void ProteinUI::Update()
 	for (int i = 0; i < stageProMax; i++)
 	{
 		protein[i]->Update();
+	}
+
+	baseUI->Update();
+	mTransform.pos = baseUI->mTransform.pos;
+
+	if (mTransform.pos != o_pos)
+	{
+		SetPosition(mTransform.pos);
 	}
 }
 
@@ -82,7 +99,8 @@ void ProteinUI::SetProtein(const int& _getProtein)
 		proMark[roop]->SetActive(false);
 		// プロテインは表示
 		protein[roop]->SetActive(true);
-		protein[roop]->mTransform.scale = proScale;
+		protein[roop]->mTransform.scale.x = allScale.x * proScale.x;
+		protein[roop]->mTransform.scale.y = allScale.y * proScale.y;
 	}
 	// 取得していないUI反映
 	for (; roop < stageProMax; roop++)
@@ -113,17 +131,25 @@ void ProteinUI::AddProtein()
 	proMark[n]->SetActive(false);
 	//大きくする
 	protein[n]->mTransform.scale = { 0.0f, 0.0f, 1.0f };
-	protein[n]->dotween->DoEaseElasticScale(proScale, PRO_SCALETIME);
+
+	Vector3 t = proScale;
+	t.x *= allScale.x;
+	t.y *= allScale.y;
+	protein[n]->dotween->DoEaseElasticScale(t, PRO_SCALETIME);
 }
 
 void ProteinUI::Draw()
 {
-	bar->Draw();
-
-	for (int i = 0; i < stageProMax; i++)
+	if (isMarkActive)
 	{
-		proMark[i]->Draw();
+		bar->Draw();
+
+		for (int i = 0; i < stageProMax; i++)
+		{
+			proMark[i]->Draw();
+		}
 	}
+	
 
 	for (int i = 0; i < stageProMax; i++)
 	{
@@ -133,7 +159,8 @@ void ProteinUI::Draw()
 
 void ProteinUI::SetPosition(const Vector3& _pos)
 {
-	mTransform.pos = _pos;
+	baseUI->mTransform.pos = _pos;
+	mTransform.pos = baseUI->mTransform.pos;
 
 	bar->mTransform.pos = _pos;
 
@@ -144,23 +171,72 @@ void ProteinUI::SetPosition(const Vector3& _pos)
 		break;
 
 	case 2:
-		proMark[0]->mTransform.pos.x = _pos.x - CIRCLE_OFFSETX / 2;
-		proMark[1]->mTransform.pos.x = _pos.x + CIRCLE_OFFSETX / 2;
+		proOffset = CIRCLE_OFFSETX / 2;
+		proMark[0]->mTransform.pos.x = _pos.x - allScale.x * proOffset;
+		proMark[1]->mTransform.pos.x = _pos.x + allScale.x * proOffset;
 		break;
 
 	case 3:
-		proMark[0]->mTransform.pos.x = _pos.x - CIRCLE_OFFSETX;
+		proOffset = CIRCLE_OFFSETX;
+		proMark[0]->mTransform.pos.x = _pos.x - allScale.x * proOffset;
 		proMark[1]->mTransform.pos.x = _pos.x;
-		proMark[2]->mTransform.pos.x = _pos.x + CIRCLE_OFFSETX;
+		proMark[2]->mTransform.pos.x = _pos.x + allScale.x * proOffset;
 		break;
 	}
 
 	for (int i = 0; i < stageProMax; i++)
 	{
-		proMark[i]->mTransform.pos.y = _pos.y + CIRCLE_OFFSETY;
 		proMark[i]->mTransform.pos.z = _pos.z - i * UI_OFFSETZ;
 
 		protein[i]->mTransform.pos = proMark[i]->mTransform.pos;
 		protein[i]->mTransform.pos.z -=  2 * UI_OFFSETZ;
+	}
+}
+
+void ProteinUI::SetScale(const Vector2& _scale)
+{
+	allScale = _scale;
+
+	// 拡大
+	for (int i = 0; i < stageProMax; i++)
+	{
+		proMark[i]->mTransform.scale.x = proScale.x * allScale.x;
+		proMark[i]->mTransform.scale.y = proScale.y * allScale.y;
+
+		protein[i]->mTransform.scale.x = proScale.x * allScale.x;
+		protein[i]->mTransform.scale.y = proScale.y * allScale.y;
+	}
+
+	bar->mTransform.scale.x = barScale.x * allScale.x;
+	bar->mTransform.scale.y = barScale.y * allScale.y;
+
+	// 座標更新
+	const Vector3& p = mTransform.pos;
+	switch (stageProMax)
+	{
+	case 1:
+		proMark[0]->mTransform.pos.x = p.x;
+		break;
+
+	case 2:
+		proOffset = CIRCLE_OFFSETX / 2;
+		proMark[0]->mTransform.pos.x = p.x - allScale.x * proOffset;
+		proMark[1]->mTransform.pos.x = p.x + allScale.x * proOffset;
+		break;
+
+	case 3:
+		proOffset = CIRCLE_OFFSETX / 2;
+		proMark[0]->mTransform.pos.x = p.x - allScale.x * proOffset;
+		proMark[1]->mTransform.pos.x = p.x;
+		proMark[2]->mTransform.pos.x = p.x + allScale.x * proOffset;
+		break;
+	}
+
+	for (int i = 0; i < stageProMax; i++)
+	{
+		proMark[i]->mTransform.pos.z = p.z - i * UI_OFFSETZ;
+
+		protein[i]->mTransform.pos = proMark[i]->mTransform.pos;
+		protein[i]->mTransform.pos.z -= 2 * UI_OFFSETZ;
 	}
 }

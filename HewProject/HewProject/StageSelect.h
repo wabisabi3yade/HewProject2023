@@ -54,9 +54,15 @@ protected:
     UI* stageTextBack;
 
 
-    D3DTEXTURE WorldBack;   // ワールドの背景
-    D3DTEXTURE WorldNum;    // ワールド〇
-    D3DTEXTURE WorkdName;   // ワールド名
+    D3DTEXTURE worldTextTex;   // ワールドの背景
+    UI* worldText;  // World
+    Vector3 worldTextPos;
+
+    UI* worldNum;   // 数字
+
+    D3DTEXTURE WorldName;   // ワールド名
+
+    D3DTEXTURE btnNumTex;   // ボタン用テクスチャ
 
     virtual void Input();
 

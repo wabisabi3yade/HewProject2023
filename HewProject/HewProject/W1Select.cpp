@@ -66,10 +66,14 @@ W1Select::W1Select()
 	firstBtnPos = { -6.5f, -1.0f, UI_POSZ };
 	btnScale = { 1.4f, 1.3f, 1.0f };
 	StgButton* btnWork = nullptr;
+
+	Vector2 uvOffset = { 1.0f / 3, 1.0f / 4 };
+	worldNum->SetUV(uvOffset.x * 1, uvOffset.y * 0);
+
 	for (int i = 0; i < stageNum; i++)
 	{
 		// ボタン関連
-		btnWork = new StgButton(stageBtnBuf, stageBtnTex, numberBuf, numberTex);
+		btnWork = new StgButton(stageBtnBuf, stageBtnTex, numberBuf, btnNumTex);
 		btnWork->SetScale(btnScale);
 
 		// ボタンの座標を設定
@@ -94,8 +98,8 @@ W1Select::W1Select()
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 
 	stageTextPos.x = -6.5f;
-	stageTextPos.y = 0.4f;
-	stageText->mTransform.pos.y = 0.4f;
+	stageTextPos.y = 0.2f;
+	stageText->mTransform.pos.y = 0.2f;
 
 	stageText->mTransform.scale = stageText->mTransform.scale * 0.8f;
 	stageText->mTransform.scale.z = 1.0f;

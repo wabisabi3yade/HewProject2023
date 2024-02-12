@@ -4,13 +4,14 @@ W4Select::W4Select()
 {
 	stageNum = 4;	// ステージの数
 
-	const Vector3 beginBtnPos = { -7.0f, 0.0f, UI_POSZ };
+	Vector2 uvOffset = { 1.0f / 3, 1.0f / 4 };
+	worldNum->SetUV(uvOffset.x * 1, uvOffset.y * 1);
 
 	StgButton* btnWork = nullptr;
 	for (int i = 0; i < stageNum; i++)
 	{
 		// ボタン関連
-		btnWork = new StgButton(stageBtnBuf, stageBtnTex, numberBuf, numberTex);
+		btnWork = new StgButton(stageBtnBuf, stageBtnTex, numberBuf, btnNumTex);
 		btnWork->SetScale(btnScale);
 
 		// ボタンの座標を設定
