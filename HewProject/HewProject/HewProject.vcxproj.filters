@@ -337,6 +337,9 @@
     <Filter Include="ソース ファイル\Wakamura\Menu">
       <UniqueIdentifier>{a1be0cdb-474e-4b04-8dee-d39d95c29dd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\GameStart">
+      <UniqueIdentifier>{c3e91dc2-787d-4b26-853a-3060f6b24a9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -645,8 +648,14 @@
     <ClInclude Include="CMenu.h">
       <Filter>ソース ファイル\Wakamura\Menu</Filter>
     </ClInclude>
+
+    <ClInclude Include="CGameStart.h">
+      <Filter>ソース ファイル\Wakamura\GameStart</Filter>
+ </ClInclude>
+
     <ClInclude Include="BaumAnim.h">
       <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -956,8 +965,13 @@
     <ClCompile Include="CMenu.cpp">
       <Filter>ソース ファイル\Wakamura\Menu</Filter>
     </ClCompile>
+
+    <ClCompile Include="CGameStart.cpp">
+      <Filter>ソース ファイル\Wakamura\GameStart</Filter>
+</ClCompile>
     <ClCompile Include="BaumAnim.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,7 @@ public:
 		WORLD1_SELECT,
 		WORLD2_SELECT,
 		MENU,
+		GAMESTART,
 
 		SCENE_NUM,	// ƒV[ƒ“‚Ì”
 

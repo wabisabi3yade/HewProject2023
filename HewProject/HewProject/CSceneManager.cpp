@@ -19,6 +19,7 @@
 #include "W1Select.h"
 #include "W2Select.h"
 #include "CMenu.h"
+#include "CGameStart.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -183,6 +184,11 @@ void CSceneManager::SceneChange(int _scene)
 	case CScene::MENU:
 		nowSceneName = CScene::MENU;
 		pNowScene = new CMenu();
+		break;
+
+	case CScene::GAMESTART:
+		nowSceneName = CScene::GAMESTART;
+		pNowScene = new CGameStart();
 		break;
 
 		/*case CScene::HOSODA_SELECT:
