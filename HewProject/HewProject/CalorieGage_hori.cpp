@@ -288,8 +288,11 @@ void CalorieGage_hori::MarkAdd(const short& _oldNum, const short& _add)
 					
 					// Œ¸‚ç‚µ‚½Œã‚É‘‚â‚·‚ÆŠÔ·‚Å”ñ•\¦‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚Ì‚Å‘Îô
 					if (i <= calorieNum)
-					mark[i - 1]->SetActive(true);
-					
+					{
+						Vector3 target = mTransform.scale * markScale;
+						mark[i - 1]->mTransform.scale = target;
+						mark[i - 1]->SetActive(true);
+					}
 				});
 		}
 	}

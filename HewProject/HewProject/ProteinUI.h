@@ -61,6 +61,8 @@ public:
 
 	void SetScale(const Vector2& _pos);
 
+	void SetActive(bool _isActive);
+
 	DoTweenUI* GetDotween() { return baseUI->dotween; }
 };
 
