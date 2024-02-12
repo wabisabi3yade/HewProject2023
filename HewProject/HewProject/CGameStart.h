@@ -2,6 +2,7 @@
 #include "CScene.h"
 
 class UI;
+class ProteinUI;
 
 class CGameStart :
     public CScene
@@ -15,6 +16,7 @@ public:
 
     UI* Bg;
     UI* Text;
+    ProteinUI* Protein;
 
     bool isProtein;
 
