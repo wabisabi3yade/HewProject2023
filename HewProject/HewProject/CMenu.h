@@ -24,11 +24,17 @@ public:
     D3DBUFFER textBoxBuffer;
     D3DTEXTURE textBoxTexture;
 
+    D3DBUFFER LRBuffer;
+    D3DTEXTURE LRTexture;
+    D3DTEXTURE BTexture;
+
     UI* Bg;
     UI* Pause;
     ButtonSelect* selectControl;
     ButtonUI* Message[3];
     UI* Rule[1];
+    UI* LR_Button[2];
+    UI* B_Button;
 
     bool isHelp;
     bool isMenu;

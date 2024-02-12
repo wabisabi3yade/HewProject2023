@@ -20,7 +20,7 @@ CMenu::CMenu()
 
 	Rule[0] = new UI(bgBuffer, ruleTexture);
 	Rule[0]->mTransform.pos = { 0,0,0 };
-	Rule[0]->mTransform.scale = { 14.0f,8.0f,0 };
+	Rule[0]->mTransform.scale = { 13.0f,8.0f,1.0f };
 
 	D3D_CreateSquare({ 1,1 }, &pauseBuffer);
 	pauseTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/Pause.png");
@@ -63,6 +63,31 @@ CMenu::CMenu()
 		CScene::SetScene(SCENE_NAME::SELECT);
 		});
 
+	D3D_CreateSquare({ 2,1 }, &LRBuffer);
+	LRTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/B_LB_RB.png");
+	BTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/B_Return.png");
+
+	B_Button = new UI(textBuffer, BTexture);
+	B_Button->mTransform.pos = { -6.5f,-4.0f,-0.1f };
+	B_Button->mTransform.scale = { 2.4f,0.8f,1.0f };
+
+	for (int i = 0; i < 2; i++)
+	{
+		LR_Button[i] = new UI(LRBuffer, LRTexture);
+		LR_Button[i]->MakeDotween();
+		LR_Button[i]->mTransform.scale = { 1.0f,1.0f,1.0f };
+		Vector3 Big = LR_Button[i]->mTransform.scale * 1.15f;
+		Big.z = 1.0f;
+		Vector3 Small = LR_Button[i]->mTransform.scale * 1.0f;
+		LR_Button[i]->dotween->DoScale(Big, 1.0f);
+		LR_Button[i]->dotween->Append(Small, 1.0f,DoTweenUI::FUNC::SCALE);
+		LR_Button[i]->dotween->SetLoop(-1);
+	}
+
+	LR_Button[0]->mTransform.pos = { -7.2f,0,-0.1f };
+	LR_Button[1]->mTransform.pos = { 7.2f,0,-0.1f };
+	LR_Button[1]->SetUV(1.0f / 2.0f * 1.0f, 0);
+
 	// ボタン選択クラス作成
 	selectControl = new ButtonSelect();
 	selectControl->Regist(Message[0]);
@@ -85,6 +110,8 @@ CMenu::~CMenu()
 
 	CLASS_DELETE(Pause);
 
+	CLASS_DELETE(B_Button);
+
 	for (int i = 0; i < 3; i++)
 	{
 		CLASS_DELETE(Message[i]);
@@ -95,10 +122,16 @@ CMenu::~CMenu()
 		CLASS_DELETE(Rule[i]);
 	}
 
+	for (int i = 0; i < 2; i++)
+	{
+		CLASS_DELETE(LR_Button[i]);
+	}
+
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(pauseBuffer);
 	SAFE_RELEASE(textBoxBuffer);
-	SAFE_RELEASE(textBuffer)
+	SAFE_RELEASE(textBuffer);
+	SAFE_RELEASE(LRBuffer);
 
 }
 
@@ -180,6 +213,8 @@ void CMenu::Update()
 
 	Pause->Update();
 
+	B_Button->Update();
+
 	for (int i = 0; i < 3; i++)
 	{
 		Message[i]->Update();
@@ -188,6 +223,11 @@ void CMenu::Update()
 	for (int i = 0; i < 1; i++)
 	{
 		Rule[i]->Update();
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		LR_Button[i]->Update();
 	}
 }
 
@@ -221,8 +261,15 @@ void CMenu::Draw()
 				Rule[0]->Draw();
 			}
 			
+			for (int i = 0; i < 2; i++)
+			{
+				LR_Button[i]->Draw();
+			}
+
 		}
 		
+		B_Button->Draw();
+
 	}
 
 }
