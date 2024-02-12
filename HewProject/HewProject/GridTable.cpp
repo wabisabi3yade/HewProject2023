@@ -46,7 +46,7 @@ int GridTable::CheckMassType(CGrid::GRID_XY _gridPos)
 	return ret;
 }
 
-Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _type)
+Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _type,int _playerState)
 {
 	float disTimes = 0.0f;
 	Vector3 floorPos = Vector3::zero;
@@ -88,11 +88,11 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _typ
 		break;
 
 	case CGridObject::BlockType::START:
-		/*Player::STATE PlayerState = PLAYER->GetPlayerState();
-		if (PlayerState == Player::STATE::MUSCLE)
+		if (static_cast<Player::STATE>(_playerState) == Player::STATE::MUSCLE)
 		{
-			disTimes = 0.5f * 1.5f;
-		}*/
+			disTimes = 0.5f * 1.4f;
+			break;
+		}
 		disTimes = 0.5f;
 		break;
 	}

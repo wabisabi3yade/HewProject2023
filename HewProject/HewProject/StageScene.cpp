@@ -75,6 +75,7 @@ StageScene::~StageScene()
 
 	CLASS_DELETE(stage);
 
+
 	for (int i = 0; i < oneFStgObj.size(); i++)
 	{
 		CLASS_DELETE(oneFStgObj[i]);
@@ -96,6 +97,17 @@ StageScene::~StageScene()
 	CLASS_DELETE(oneFloor);
 	CLASS_DELETE(secondFloor);
 	CLASS_DELETE(thirdFloor);
+
+
+	//UI
+
+	//プロテイン
+	CLASS_DELETE(proteinUi);
+
+	CLASS_DELETE(floorUi);
+	CLASS_DELETE(calorieGage);
+	//CLASS_DELETE();
+
 }
 
 void StageScene::Update()
@@ -126,10 +138,7 @@ void StageScene::Update()
 			{
 				lockStageMap++;
 			}
-			if (lockStageMap == nowFloorNum)
-			{
-				//lockStageMap++;
-			}
+			floorUi->SetHighlight(lockStageMap);
 		}
 		else if (input->GetInputTrigger(InputType::R_BUTTON))
 		{
@@ -138,10 +147,7 @@ void StageScene::Update()
 			{
 				lockStageMap--;
 			}
-			if (lockStageMap == nowFloorNum)
-			{
-				//lockStageMap--;
-			}
+			floorUi->SetHighlight(lockStageMap);
 		}
 		else if (input->GetInputTrigger(InputType::CANCEL))
 		{
@@ -219,6 +225,15 @@ void StageScene::Update()
 	{
 		UndoTableUpdate();
 	}
+
+
+	//UI
+
+	//プロテイン
+	proteinUi->Update();
+
+	//カロリーゲージ
+	calorieGage->Update();
 }
 
 void StageScene::StageMove()
@@ -459,7 +474,9 @@ void StageScene::StageMove()
 		if (player->GetState() != Player::STATE::MUSCLE && nNumProtein <= 0)
 		{
 			player->ChangeState(Player::STATE::MUSCLE);
-			player->mTransform.scale.y *= 1.5f;
+			calorieGage->SetCalorie(CAKE_CALORIE);
+			player->SetCalorie(CAKE_CALORIE);
+			player->mTransform.pos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START,static_cast<int>(Player::STATE::MUSCLE));
 		}
 		// マッチョじゃないなら
 		if (player->GetState() == Player::STATE::MUSCLE) return;
@@ -675,15 +692,15 @@ void StageScene::InCanonInput()
 		{
 			_pos.x = _pos.x + (0.3f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = _pos.z -0.15f;
+			_pos.z = _pos.z - (INFRONT_PLUSZ + HORIZONLINE_PLUSZ / 2.0f);
 		}
 		else
 		{
 			_pos.x = _pos.x - (0.3f * stageScale);
 			_pos.y = _pos.y + (0.3f * stageScale);
-			_pos.z = _pos.z + 0.00001f;
+			_pos.z = _pos.z + HORIZONLINE_PLUSZ +0.00001f;
 		}
-		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos]()
+		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos,_Scale]()
 			{
 				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 				player->GetPlayerMove()->CannonMoveStart();
@@ -711,9 +728,11 @@ void StageScene::ItemDelete()
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
 		nNumProtein--;
+		proteinUi->AddProtein();
 	case CGridObject::BlockType::CAKE:
 	case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::CHILI:
+	case CGridObject::BlockType::CANNON:
 	{
 		// リストの中からプレイヤーの座標と同じもの　かつ　床じゃない物を探す
 		auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
@@ -910,6 +929,8 @@ void StageScene::Undo(float _stageScale)
 	FIELD_FLOOR beforeStage = floorUndo[nNumUndo];
 	// プレイヤーに必要な情報を更新する
 	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
+	player->SetCalorieGage(calorieGage);
+	calorieGage->SetCalorie(player->GetCalorie(), false);
 
 }
 
@@ -1018,6 +1039,7 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 	// 状態を変化させる
 	player->ChangeState(_state);
 
+	player->mTransform.pos = nowFloor->GridToWorld(player->GetGridPos(), player->GetBlookType(),static_cast<int>(player->GetState()));
 }
 
 void StageScene::Draw()
@@ -1034,6 +1056,17 @@ void StageScene::Draw()
 	else {
 		MapDraw();
 	}
+
+	//UI
+	
+	//プロテイン
+	proteinUi->Draw();
+
+	//階層
+	floorUi->Draw();
+
+	//カロリーゲージ
+	calorieGage->Draw();
 
 }
 
@@ -1202,22 +1235,39 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	startFloor = startfloor;
 
 	lockStageMap = startfloor;
+
+	//UI
+	
+	//プロテインUI作成　数が分かってから行う
+	proteinUi = new ProteinUI(nNumProtein);
+
+	proteinUi->SetPosition({ 6.0f, 4.0f, 0.0f });
+
+
+
+
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 
 	// ステージを作成する
 	CreateStage(*oneFloor, oneFStgObj);
 
 
-
+	int MaxFloor = 1;
 	// 2階と3階が使われているなら
 	if (secondFloor != nullptr)
 	{
 		CreateStage(*secondFloor, secondFStgObj);
+		MaxFloor = 2;
 		if (thirdFloor != nullptr)
 		{
 			CreateStage(*thirdFloor, thirdFStgObj);
+			MaxFloor = 3;
 		}
 	}
+
+	//階層UI作成
+	floorUi = new FloorUI(startfloor, MaxFloor);
+
 
 	GridTable* setTable = oneFloor;
 	for (int k = 0; k < MAX_LAYER; k++)
@@ -1265,6 +1315,14 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 		break;
 	}
 
+
+	//カロリーゲージ
+	calorieGage = new CalorieGage_hori();
+
+	player->SetCalorieGage(calorieGage);
+
+	calorieGage->SetPosition({ -3.5f,3.5f,0.0 });
+	calorieGage->SetScale({ 1.0f,1.0f,1.0f });
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
 
@@ -1280,7 +1338,6 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	floorUndo[0] = floorReset;
 
 	Z_Sort(*vStageObj);
-	//ChangeFloor(nowFloorNum);
 }
 
 void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList)
@@ -1323,13 +1380,11 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				break;
 
 			case CGridObject::BlockType::BAUMHORIZONTAL:
-				//objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_L);
-				objWork = new CBaum(stageBuffer, NULL);
+				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_L);
 				break;
 
 			case CGridObject::BlockType::BAUMVERTICAL:
-				//objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_R);
-				objWork = new CBaum(stageBuffer, NULL);
+				objWork = new CBaum(stageBuffer, stageTextureBaumkuchen_R);
 				break;
 
 			case CGridObject::BlockType::COIN:
@@ -1460,19 +1515,6 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 
 void StageScene::ChangeFloor(int _nextFloor)
 {
-	//for (int i = 0; i < stageSquare.y; i++)
-	//{
-	//	for (int j = 0; j < stageSquare.x; j++)
-	//	{
-	//		if (nowFloor->objectTable[i][j] == static_cast<short>(CGridObject::BlockType::START))
-	//		{
-	//			nowFloor->objectTable[i][j] = static_cast<short>(CGridObject::BlockType::NONE);
-	//		}
-	//	}
-	//}
-	//vStageObj->clear();
-	//vStageObj->shrink_to_fit();
-
 	auto removeItr = std::remove(vStageObj->begin(), vStageObj->end(), player);
 
 	vStageObj->erase(removeItr, vStageObj->end());
@@ -1524,6 +1566,7 @@ void StageScene::ChangeFloor(int _nextFloor)
 		break;
 	}
 	player->SetNowFloor(nowFloorNum);
+	floorUi->SetHighlight(nowFloorNum);
 
 	Z_Sort(*vStageObj);
 }

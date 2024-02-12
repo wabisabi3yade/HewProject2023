@@ -7,6 +7,10 @@
 #include<list>
 #include"CGridObject.h"
 #include "Player.h"
+#include"ProteinUI.h"
+#include"FloorUI.h"
+#include "CalorieGage_hori.h"
+
 
 #define MAX_LAYER (3)         // 階層の最大数
 #define UNDO_ARRAY_NUM (20)	// Undoの配列の要素数
@@ -114,6 +118,17 @@ private:
 	D3DTEXTURE shadowTexture;
 	D3DTEXTURE stageTextureCannon[2]; //0に左右 1に上下
 	D3DTEXTURE stageTextureArrow;
+
+	//UI関係
+
+	//プロテイン
+	ProteinUI* proteinUi;
+
+	//階層
+	FloorUI* floorUi;
+
+	//カロリーゲージ
+	CalorieGage_hori* calorieGage;
 
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数

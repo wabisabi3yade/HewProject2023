@@ -8,6 +8,8 @@
 #include<list>
 #include"CEffectManeger.h"
 
+#define CAKE_CALORIE (15)	// ケーキ食べたあとのリスのカロリー
+
 #define MOVEROOT_MAX (20)	// 今まで取ってきた道を保存する最大数
 #define EAT_TIME (1.3f)	// 食べ物食べる時間
 #define BREAK_TIME (1.4f) //壁を壊してから移動できるまでの時間
@@ -22,6 +24,8 @@ constexpr float RISING_TIME = 0.5f; //グミでの上昇時間
 constexpr float CANNONMOVE_TIME = 1.0f;		//大砲でのいどうじかん
 constexpr float CANNONBOUND_TIME = 1.0f;	//大砲で目的地でのバウンドする時間
 constexpr float CANNONBOUND_POS_Y = 3.0f;	//大砲で目的地でのバウンドする高さ
+
+class CalorieGage_hori;
 
 // プレイヤー（リス）のオブジェクトクラス
 class Player :
@@ -102,8 +106,13 @@ private:
 	// 引数①：テクスチャパス ② 度の状態の配列に入れるか
 	void TextureInput(const wchar_t* _texPath, STATE _set , ANIM_TEX _anim_tex);
 	
-
 	std::list<CEffect*> effect;
+
+	//UI
+
+	//カロリーゲージ
+	CalorieGage_hori* calorieGage;
+
 public:
 	bool fallMoveTrriger;
 	bool risingMoveTrriger;
@@ -171,5 +180,6 @@ public:
 	GridTable* GetNextGridTable()const { return nextGridTable; }
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
 	STATE GetState() const { return playerState; }
+	void SetCalorieGage(CalorieGage_hori* _calorie) { calorieGage = _calorie; }
 };
 
