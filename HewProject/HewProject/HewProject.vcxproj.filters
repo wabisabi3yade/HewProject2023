@@ -645,6 +645,9 @@
     <ClInclude Include="CMenu.h">
       <Filter>ソース ファイル\Wakamura\Menu</Filter>
     </ClInclude>
+    <ClInclude Include="BaumAnim.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -952,6 +955,9 @@
     </ClCompile>
     <ClCompile Include="CMenu.cpp">
       <Filter>ソース ファイル\Wakamura\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="BaumAnim.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -311,24 +311,36 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::CANNON:
 	{
-		WalkStart();
-		Vector2 junpPos = {};
-
-		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-		junpPos.x = Vec3JumpPos.x;
-		junpPos.y = Vec3JumpPos.y;
-		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+		player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
+		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
+		player->GetPlayerAnim()->PlayPunch(2.5f);
+		player->dotween->DoDelay(BREAK_TIME);
+		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
-		player->dotween->OnComplete([&]()
+		player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos]()
 			{
-				WalkAfter();
-				//MoveAfter();
-				player->SetGridPos(nextGridPos);
-				player->GetPlayerAnim()->StopWalk(player->GetDirection());
-				player->ChangeTexture(Player::ANIM_TEX::WAIT);
-				player->GetPlayerMove()->InCannon();
+				player->ChangeTexture(Player::ANIM_TEX::WALK);
+				player->GetPlayerAnim()->PlayWalk(player->GetDirection());
+				WalkStart();
+				if (_dir == DIRECTION::UP || _dir == DIRECTION::RIGHT)
+				{
+					player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
+					player->mTransform.pos.z += ISOME_BACKMOVE;
+				}
+				// 手前のマスに行くときは先にZ座標を手前に合わせる
+				else
+				{
+					player->mTransform.pos.z = forwardPos.z;
+				}
+				player->dotween->DelayedCall(WALK_TIME, [&]()
+					{
+						WalkAfter();
+						MoveAfter();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
 			});
+		break;
 	}
 	break;
 	default:
