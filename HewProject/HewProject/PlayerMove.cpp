@@ -2,6 +2,8 @@
 #include "PlayerMove.h"
 #include "CInput.h"
 #include "Player.h"
+#include "CEffect.h"
+#include"CEffectManeger.h"
 
 PlayerMove::PlayerMove(Player* _p)
 {
@@ -30,6 +32,7 @@ PlayerMove::PlayerMove(Player* _p)
 	isCannonMoveStartTrigger = false;
 	flagInit = false;
 	isFallBound = false;
+	cannonFX = false;
 }
 
 PlayerMove::~PlayerMove()
@@ -83,12 +86,12 @@ void PlayerMove::Input()
 	}
 	else if (gInput->GetKeyTrigger(VK_ESCAPE) || input->GetInputTrigger(InputType::DECIDE))
 	{
-		if (inCannon)
-		{
-			isCannonMove = true;
-			isCannonMoveStartTrigger = true;
-			inCannon = false;
-		}
+		//if (inCannon)
+		//{
+		//	isCannonMove = true;
+		//	isCannonMoveStartTrigger = true;
+		//	inCannon = false;
+		//}
 	}
 	else if (gInput->GetKeyTrigger(VK_SPACE) || input->GetInputTrigger(InputType::L_BUTTON))
 	{
@@ -107,6 +110,7 @@ void PlayerMove::FlagInit()
 	isMoveStartTrigger = false;
 	isWalking_old = isWalking_now;
 	isFallBound = false;
+	cannonFX = false;
 }
 
 void PlayerMove::WalkAfter()
@@ -515,6 +519,7 @@ void PlayerMove::CannonMoveStart()
 	isCannonMove = true;
 	isCannonMoveStartTrigger = true;
 	inCannon = false;
+	//effect.push_back(EffectManeger::GetInstance()->Play(player->mTransform.pos, { player->mTransform.scale.x * CANNON_FIRE_SCALE,player->mTransform.scale.y * CANNON_FIRE_SCALE,player->mTransform.scale.z + 0.001f }, EffectManeger::FX_TYPE::CANNON_FIRE, false));
 }
 
 void PlayerMove::CannonDirSelect(DIRECTION _dir)

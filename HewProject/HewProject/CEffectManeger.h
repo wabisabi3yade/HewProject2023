@@ -5,7 +5,9 @@
 #include"CEffect.h"
 class Vector3;
 
-//class CEffect;
+constexpr float CRACKSCALE = 1.5f;
+constexpr float CANNON_IN_SCALE = 1.5f;
+constexpr float CANNON_FIRE_SCALE = 1.5f;
 
 class EffectManeger //public CObject
 {
@@ -17,11 +19,14 @@ public:
 		EFFECT_UP = 0,
 		EFFECT_DOWN,
 		CHARE,
+		CRACK,
+		CANNON_IN,
+		CANNON_FIRE,
 		EFFECT_MAX,
 	}FX_TYPE;
 
 private:
-	std::list<CEffect*>EffectList;
+	//std::list<CEffect*>EffectList;
 
 	std::vector<D3DTEXTURE> effectTexBox;	// エフェクトのオブジェクトをまとめた配列
 
@@ -42,7 +47,7 @@ public:
 
 	static EffectManeger* GetInstance();
 
-	void Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLoop);
+	CEffect* Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLoop);
 
 	void Draw();
 

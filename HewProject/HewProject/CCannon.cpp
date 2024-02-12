@@ -2,6 +2,8 @@
 #include"direct3d.h"
 #include "CArrow.h"
 #include"CScene.h"
+#include"CEffectManeger.h"
+
 void CCannon::CheckCanMove()
 {
 	// 全ての方向をtrue
@@ -69,6 +71,7 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex, GridTable* _nowTable)
 		Arrow[i] = new CArrow(vb, NULL);
 		Arrow[i]->SetOwner(this, static_cast<CArrow::DIRECTION>(i));
 	}
+	effect = nullptr;
 }
 
 CCannon::~CCannon()
@@ -98,18 +101,11 @@ void CCannon::Update()
 			}
 
 		}
-		//発射方向選択
 
-		if (gInput->GetKeyTrigger(VK_TAB))
-		{
-			if (moveDir == static_cast<DIRECTION>(canMoveDir[static_cast<int>(moveDir)]))
-			{
-				Fire();
-			}
-
-		}
 		//なんかのキーで発射
 	}
+	if (effect != nullptr)
+		effect->Update();
 	mAnim->Update();
 	dotween->Update();
 	CGridObject::Update();
@@ -128,12 +124,45 @@ void CCannon::Draw()
 			}
 		}
 	}
+	//if (effect != nullptr)
+		//if(effect->mTransform.pos.z  > this->mTransform.pos.z)
+		//effect->Draw();
 	CGridObject::Draw();
+	//if (effect != nullptr)
+		//if(effect->mTransform.pos.z  < this->mTransform.pos.z)
+		//effect->Draw();
 }
 
-void CCannon::Fire()
+void CCannon::Fire(int _dir)
 {
-	this->inPlayer = false;
+	float x = 0, y = 0, z = 0;
+	switch (_dir)
+	{
+	case 0:
+		x += 1.0f;
+		y += 1.3f;
+		z -= 0.001f;
+		break;
+	case 1:
+		x -= 0.9f;
+		y += 1.4f;
+		z -= 0.001f;
+		break;
+	case 2:
+		x += 1.9f;
+		y += 1.7f;
+		z += 0.001f;
+		break;
+	case 3:
+		x -= 0.9f;
+		y += 1.0f;
+		z += 0.001f;
+		break;
+	default:
+		break;
+	}
+	//CLASS_DELETE(effect);
+	//effect = EffectManeger::GetInstance()->Play({ this->mTransform.pos.x + x,this->mTransform.pos.y + y,this->mTransform.pos.z + z }, { this->mTransform.scale.x * CANNON_FIRE_SCALE,this->mTransform.scale.y * CANNON_FIRE_SCALE ,this->mTransform.scale.z }, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 }
 
 void CCannon::InPlayer()

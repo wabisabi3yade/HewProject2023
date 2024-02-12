@@ -3,7 +3,8 @@
 #include"Player.h"
 #include"CannonAnim.h"
 class CArrow;
-
+class EffectManeger;
+class CEffect;
 class CCannon :
     public CGridObject
 {
@@ -26,6 +27,8 @@ class CCannon :
 
     CArrow* Arrow[static_cast<int>(DIRECTION::NUM)];
 
+    CEffect* effect;
+
 public:
 
     std::unique_ptr<DoTween> dotween;
@@ -35,7 +38,7 @@ public:
 
     void Update()override;
     void Draw()override;
-    void Fire();
+    void Fire(int _dir);
     void InPlayer();
     void SetArrow(D3DBUFFER vb, D3DTEXTURE _tex);
     void DirSelect(Player::DIRECTION _dir);
