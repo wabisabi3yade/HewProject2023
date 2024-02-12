@@ -166,6 +166,14 @@ CTitleScene::~CTitleScene()
 	{
 		CLASS_DELETE(Sweets[i]);
 	}
+
+	SAFE_RELEASE(titleBuffer);
+	SAFE_RELEASE(bgBuffer);
+	SAFE_RELEASE(sweetsBuffer);
+	SAFE_RELEASE(selectBuffer);
+	SAFE_RELEASE(buttonBuffer);
+	SAFE_RELEASE(textBuffer);
+	SAFE_RELEASE(playerBuffer);
 }
 
 void CTitleScene::Update()

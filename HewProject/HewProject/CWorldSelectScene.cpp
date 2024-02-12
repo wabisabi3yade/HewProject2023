@@ -47,6 +47,9 @@ CWorldSelectScene::~CWorldSelectScene()
 	{
 		CLASS_DELETE(stage[i]);
 	}
+
+	SAFE_RELEASE(playerBuffer);
+	SAFE_RELEASE(stageBuffer);
 }
 
 void CWorldSelectScene::Update()
