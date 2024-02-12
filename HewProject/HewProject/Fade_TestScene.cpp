@@ -25,8 +25,11 @@ Fade_TestScene::Fade_TestScene()
 	buttonUI->SetScale({ 8.0f, 8.0f, 1.0f });
 
 
-	proteinUI = new ProteinUI(2);
+	proteinUI = new ProteinUI(3, false);
 	proteinUI->SetPosition({ 0.0f,0.0f, 0.0f });
+	proteinUI->SetScale({ 2.0f,2.0f});
+
+	proteinUI->GetDotween()->DoMove({ 2.0f, 2.0f,1.0f }, 1.0f);
 }
 
 Fade_TestScene::~Fade_TestScene()
@@ -96,7 +99,7 @@ void Fade_TestScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_F5))
 	{
-		proteinUI->SetProtein(0);
+		proteinUI->SetProtein(1);
 	}
 	else if (gInput->GetKeyTrigger(VK_F6))
 	{

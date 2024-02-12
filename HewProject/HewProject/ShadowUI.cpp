@@ -34,6 +34,7 @@ void ShadowUI::Draw()
 	shadow->mTransform.pos.x += mTransform.scale.x * SHADOW_OFFSETX;
 	shadow->mTransform.pos.y -= mTransform.scale.y * SHADOW_OFFSETY;
 	shadow->mTransform.pos.z += SHADOW_OFFSETZ;
+	shadow->SetUV(uv.x, uv.y);
 
 	shadow->SetAlpha(materialDiffuse.w - (1.0f - SHADOW_ALPHA));
 

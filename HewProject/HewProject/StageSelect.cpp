@@ -12,6 +12,8 @@
 #define SMPBACK_BEGIN_OFFSETX (0.3f)	
 #define SMP_MOVETIME (0.3f)	// サンプルの移動時間
 
+#define WOLRLDNUM_OFFSETX (2.0f)	// 数字の差分値
+
 void StageSelect::Input()
 {
 	btnSelect->FlagUpdate();
@@ -55,7 +57,8 @@ StageSelect::StageSelect()
 	D3D_LoadTexture(L"asset/UI/StageSelect_Btn.png", &stageBtnTex);
 	// 数字
 	D3D_CreateSquare({ 3,4 }, &numberBuf);
-	D3D_LoadTexture(L"asset/UI/Calorie_Number.png", &numberTex);
+	btnNumTex = TextureFactory::GetInstance()->Fetch(L"asset/UI/Calorie_Number.png");
+	D3D_LoadTexture(L"asset/UI/Number.png", &numberTex);
 
 	btnSelect = new ButtonSelect();
 
@@ -86,7 +89,7 @@ StageSelect::StageSelect()
 	stageText = new ShadowUI(oneBuf, stageTex);
 
 	// ステージテキスト
-	stageTextPos = { -6.0f, -0.4f, UI_POSZ + UI_OFFSETZ };
+	stageTextPos = { -6.3f, -0.4f, UI_POSZ + UI_OFFSETZ };
 	stageText->mTransform.pos = stageTextPos;
 	stageText->mTransform.pos.x -= BEGIN_MOVEMENT_X;
 	stageText->mTransform.scale = { 2.8f, 0.7f, 1.0f };
@@ -98,6 +101,17 @@ StageSelect::StageSelect()
 	stageTextBack->mTransform.scale = { 4.0f,0.7f, 1.0f };
 	stageTextBack->SetColor({ 245, 96, 149 });
 
+	// World
+	D3D_LoadTexture(L"asset/UI/T_World.png", &worldTextTex);
+	worldText = new ShadowUI(oneBuf, worldTextTex);
+	worldTextPos = { -6.0f, 4.0f, UI_POSZ };
+	worldText->mTransform.pos = worldTextPos;
+	worldText->mTransform.pos.x = worldTextPos.x - BEGIN_MOVEMENT_X;
+	worldText->mTransform.scale = { 3.2f, 0.8f, 1.0f };
+	worldText->MakeDotween();
+
+	worldNum = new ShadowUI(numberBuf, numberTex);
+	worldNum->mTransform.scale = { 0.7f, 0.7f, 1.0f };
 
 	// 更新
 	o_pointStage = c_pointStage;
@@ -105,10 +119,25 @@ StageSelect::StageSelect()
 
 void StageSelect::Update()
 {
+	// 最初の移動時に使用する処理はここ
 	if (isBeginFin)
 	{
 		// 入力
 		Input();
+	}
+	else
+	{
+		stageText->Update();
+
+		// ステージテキストの背景の座標を更新
+		Vector3& pos = stageTextBack->mTransform.pos;
+		pos = stageText->mTransform.pos;
+		pos.z += UI_OFFSETZ;
+
+		worldText->Update();
+		worldNum->mTransform.pos = worldText->mTransform.pos;
+		worldNum->mTransform.pos.x += WOLRLDNUM_OFFSETX;
+
 	}
 
 	// サンプルの移動処理
@@ -116,12 +145,11 @@ void StageSelect::Update()
 
 	stageSmpBack->Update();
 
-	stageText->Update();
 
-	// ステージテキストの背景の座標を更新
-	Vector3& pos = stageTextBack->mTransform.pos;
-	pos = stageText->mTransform.pos;
-	pos.z += UI_OFFSETZ;
+
+
+
+
 
 
 	for (auto a : stgButton)
@@ -144,6 +172,9 @@ void StageSelect::Draw()
 	backGround->Draw();
 
 	stageSmpBack->Draw();
+
+	worldText->Draw();
+	worldNum->Draw();
 
 	stageTextBack->Draw();
 	stageText->Draw();
@@ -176,6 +207,11 @@ StageSelect::~StageSelect()
 	SAFE_RELEASE(stageTex);
 
 	CLASS_DELETE(stageTextBack);
+
+	CLASS_DELETE(worldText);
+	SAFE_RELEASE(worldTextTex)
+
+	CLASS_DELETE(worldNum);
 }
 
 void StageSelect::BeginMove()
@@ -187,6 +223,8 @@ void StageSelect::BeginMove()
 		});
 
 	stageSmpBack->dotween->DoEaseOutBack(stageSmpPos, BEGIN_MOVETIME);
+
+	worldText->dotween->DoEaseOutBack(worldTextPos, BEGIN_MOVETIME);
 
 	// ボタンの移動
 	for (int i = 0; i < stgButton.size(); i++)
