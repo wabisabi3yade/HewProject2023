@@ -3,9 +3,7 @@
 #include "CGridObject.h"
 #include "CShadow.h"
 
-constexpr float MAX_POS_X = 8.0f;
-constexpr float MAX_POS_Y = 4.5f;
-constexpr float BLOWOFF_TIME = 2.0f;
+
 
 class CItem :
 	public CGridObject

@@ -244,7 +244,7 @@ void StageScene::StageMove()
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CAKE)
 		{
 			CCake* cakeObj = dynamic_cast<CCake*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-			cakeObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&,cakeObj]()
+			cakeObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&, cakeObj]()
 				{
 					cakeObj->BlowOff(player->GetDirection());
 				});
@@ -254,9 +254,19 @@ void StageScene::StageMove()
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CHILI)
 		{
 			CChili* chiliObj = dynamic_cast<CChili*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-			chiliObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&,chiliObj]()
+			chiliObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&, chiliObj]()
 				{
 					chiliObj->BlowOff(player->GetDirection());
+				});
+		}
+
+		if (player->GetState() == Player::STATE::MUSCLE &&
+			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CANNON)
+		{
+			CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			cannonObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&, cannonObj]()
+				{
+					cannonObj->BlowOff(player->GetDirection());
 				});
 		}
 
