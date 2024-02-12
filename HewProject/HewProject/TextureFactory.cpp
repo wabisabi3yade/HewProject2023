@@ -48,6 +48,8 @@ void TextureFactory::Load()
 	{
 		L"asset/Background/Stage1.png",
 		L"asset/Background/Stage2.png",
+		L"asset/Background/Stage3.png",
+		L"asset/Background/StageEX.png",
 		L"asset/Background/WorldSelectBack.png",
 		
 		L"asset/Player/N_Walk.png",

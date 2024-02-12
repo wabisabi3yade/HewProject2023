@@ -89,6 +89,8 @@ CTitleScene::CTitleScene()
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bg_Stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage1.png");
 	bg_Stage2Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage2.png");
+	bg_Stage3Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/Stage3.png");
+	bg_StageEXTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/StageEX.png");
 
 	Bg = new UI(bgBuffer, bg_Stage1Texture);
 	Bg->mTransform.pos = { 0,0,0.5f };
@@ -102,7 +104,7 @@ CTitleScene::CTitleScene()
 
 	srand(time(NULL));
 	nRandom = rand() % 3;
-	nRandom_Bg = rand() % 2;
+	nRandom_Bg = rand() % 4;
 	
 	player[0] = new CTitlePlayer(playerBuffer, player_normalTexture);
 	player[0]->mTransform.scale = {2,2,1};
@@ -198,6 +200,12 @@ void CTitleScene::Update()
 			break;
 		case 1:
 			Bg->SetTexture(bg_Stage2Texture);
+			break;
+		case 2:
+			Bg->SetTexture(bg_Stage3Texture);
+			break;
+		case 3:
+			Bg->SetTexture(bg_StageEXTexture);
 			break;
 		default:
 			break;

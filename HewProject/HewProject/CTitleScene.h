@@ -23,6 +23,8 @@ public:
     D3DBUFFER bgBuffer;
     D3DTEXTURE bg_Stage1Texture;
     D3DTEXTURE bg_Stage2Texture;
+    D3DTEXTURE bg_Stage3Texture;
+    D3DTEXTURE bg_StageEXTexture;
 
     D3DBUFFER sweetsBuffer;
     D3DTEXTURE sweetsTexture;
