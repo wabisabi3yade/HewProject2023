@@ -360,13 +360,16 @@ void FatMove::Move(DIRECTION _dir)
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DelayedCall(JUMP_TIME / 1.5f, [&]()
+			{
+				cannonFX = true;
+				player->ChangeInvisible();
+			});
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * StageScale));
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
-				//WalkAfter();
-				//MoveAfter();
 				player->SetGridPos(nextGridPos);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -383,8 +386,6 @@ void FatMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-				WalkAfter();
-				MoveAfter();
 				if (player->GetCalorie() < 11)
 				{
 					Vector3 pos = player->mTransform.pos;
@@ -452,7 +453,6 @@ void FatMove::Step()
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 		//画面外まで移動するようにYをマクロで定義して使用する
-		WalkAfter();
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
@@ -552,7 +552,6 @@ void FatMove::Step()
 	break;
 
 	case CGridObject::BlockType::CANNON:
-		MoveAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->GetPlayerMove()->InCannon();
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);

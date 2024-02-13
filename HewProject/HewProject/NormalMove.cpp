@@ -504,8 +504,6 @@ void NormalMove::Step()
 
 	case CGridObject::BlockType::CANNON:
 
-		//WalkAfter();
-		//MoveAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		player->GetPlayerMove()->InCannon();
