@@ -29,8 +29,10 @@ public:
 		MENU,
 		GAMESTART,
 
-		SCENE_NUM,	// シーンの数
+		LOADING,	// ローディング
 
+		SCENE_NUM,	// シーンの数
+		NONE,	// なにもなし
 		SELECT,	// セレクトシーン
 		HOSODA_SELECT
 	};

@@ -52,5 +52,11 @@ public:
 	CScene::SCENE_NAME GetNowScene();
 	// 終了フラグ取得
 	bool GetGameExit()const { return isGameExit; }
+
+	// シーン変更している確認
+	void SceneChangeCheck();
+
+	// ロードシーンに行くか確認
+	void LoadSceneChangeCheck();
 };
 

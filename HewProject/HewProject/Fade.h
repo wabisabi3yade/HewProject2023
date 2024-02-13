@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include "direct3d.h"
+#include <functional>
+#include "CScene.h"
 
 #define FADE_BACK_NUM (2)	// フェード背景の数
 
@@ -20,8 +22,13 @@ public:
 		FADE_OUT,
 	};
 
-private:
+private: 
 	static Fade* instance;
+
+	bool isSceneChange = false;
+	bool isLoadChange = false;
+
+	int nextScene;	// 次のシーン
 
 	// アクティブ/非アクティブ切り替え変数
 	bool isActive;
@@ -38,11 +45,15 @@ private:
 	UI* nowLoading;	// テキスト
 	UI* character;	// キャラクター
 
+	std::function<void()> func = nullptr;
+
 	Fade();
 	~Fade();
 
 	D3DTEXTURE tex;
 	D3DBUFFER vb;
+
+	void SceneChange();
 
 public:
 	static Fade* GetInstance();
@@ -58,10 +69,13 @@ public:
 	/// <summary>
 	/// フェードインする関数
 	/// </summary>
-	/// 引数 フェードインした後にする状態
+	/// 引数① フェードインした後にする状態
 	/// FADE_OUT:すぐにフェードが開ける
 	/// LOADING:ローディングに入る
-	void FadeIn(const STATE& _nextState);
+	/// 
+	/// 引数②　フェード後のやること
+	void FadeIn(const STATE& _nextState, std::function<void()> _onFunc = nullptr, 
+		int _setScene = CScene::SCENE_NAME::NONE);
 
 	// ローディングのための初期化をする
 	void LoadingInit();
@@ -69,5 +83,16 @@ public:
 	void FadeOutInit();
 
 	void Draw();
+
+	// ロードシーンに遷移する
+	void ChangeLoadScene();
+
+	bool GetIsChange();
+
+	bool GetLoadChange();
+	
+	// 次のシーンに移行
+	int GetNextScene();
+
 };
 

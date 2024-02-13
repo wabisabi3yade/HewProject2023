@@ -5,6 +5,7 @@
 #include "FloorUI.h"
 #include "ButtonUI.h"
 #include "ProteinUI.h"
+#include "CSceneManager.h"
 
 Fade_TestScene::Fade_TestScene()
 {
@@ -54,7 +55,7 @@ void Fade_TestScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
-		fade->FadeIn(Fade::STATE::LOADING);
+		fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::WORLD1_SELECT);
 	}
 	else if (gInput->GetKeyTrigger(VK_SPACE))
 	{

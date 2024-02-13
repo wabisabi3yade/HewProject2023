@@ -45,6 +45,8 @@ ProteinUI::ProteinUI(const int& _proteinNum, bool _isMarkActive)
 	bar->mTransform.scale = barScale;
 
 	SetPosition(mTransform.pos);
+
+	SetProtein(0);
 }
 
 ProteinUI::~ProteinUI()
@@ -107,6 +109,7 @@ void ProteinUI::SetProtein(const int& _getProtein)
 	{
 		proMark[roop]->SetActive(true);
 
+		protein[roop]->mTransform.scale = { 0.0f, 0.0f, 1.0f };
 		protein[roop]->SetActive(false);
 	}
 }
@@ -202,9 +205,6 @@ void ProteinUI::SetScale(const Vector2& _scale)
 	{
 		proMark[i]->mTransform.scale.x = proScale.x * allScale.x;
 		proMark[i]->mTransform.scale.y = proScale.y * allScale.y;
-
-		protein[i]->mTransform.scale.x = proScale.x * allScale.x;
-		protein[i]->mTransform.scale.y = proScale.y * allScale.y;
 	}
 
 	bar->mTransform.scale.x = barScale.x * allScale.x;
