@@ -1,6 +1,8 @@
 #pragma once
 #include "CScene.h"
 
+#define MAXNUM_HELP 10
+
 class UI;
 class ButtonUI;
 class ButtonSelect;
@@ -31,8 +33,11 @@ public:
     UI* Bg;
     UI* Pause;
     ButtonSelect* selectControl;
+    ButtonSelect* helpControl;
+    ButtonSelect* help_2PageControl;
     ButtonUI* Message[3];
-    UI* Rule[1];
+    ButtonUI* helpMessage[MAXNUM_HELP];
+    UI* Rule[MAXNUM_HELP];
     UI* LR_Button[2];
     UI* B_Button;
 
@@ -40,6 +45,8 @@ public:
     bool isMenu;
     bool isOnce;
     bool isButton;
+    bool isExplanation;
+    bool isChangeExplanation;
     int nRule;
 
 public:

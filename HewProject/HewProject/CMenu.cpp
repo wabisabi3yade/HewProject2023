@@ -5,6 +5,8 @@
 #include "ButtonSelect.h"
 #include "ButtonUI.h"
 
+#define HELP_POSX (-3.0f)
+#define HELP_POSY (3.0f)
 
 CMenu::CMenu()
 {
@@ -18,9 +20,12 @@ CMenu::CMenu()
 	Bg->mTransform.pos = { 0,0,0.1f };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
-	Rule[0] = new UI(bgBuffer, ruleTexture);
-	Rule[0]->mTransform.pos = { 0,0,0 };
-	Rule[0]->mTransform.scale = { 13.0f,8.0f,1.0f };
+	for (int i = 0; i < MAXNUM_HELP; i++)
+	{
+		Rule[i] = new UI(bgBuffer, ruleTexture);
+		Rule[i]->mTransform.pos = { 0,0,0 };
+		Rule[i]->mTransform.scale = { 13.0f - i * 1.0f,8.0f,1.0f };
+	}
 
 	D3D_CreateSquare({ 1,1 }, &pauseBuffer);
 	pauseTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/Pause.png");
@@ -52,7 +57,7 @@ CMenu::CMenu()
 	Message[1]->SetHighlight(false);
 	Message[1]->SetFunc([&]() {
 		isHelp = true;
-		nRule = 0;
+		//nRule = 0;
 		});
 
 	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
@@ -88,16 +93,114 @@ CMenu::CMenu()
 	LR_Button[1]->mTransform.pos = { 7.2f,0,-0.1f };
 	LR_Button[1]->SetUV(1.0f / 2.0f * 1.0f, 0);
 
+	helpMessage[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[0]->SetPosition({ HELP_POSX,HELP_POSY,0 });
+	helpMessage[0]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[0]->SetHighlight(true);
+	helpMessage[0]->SetFunc([&]() {
+		nRule = 0;
+		isExplanation = true;
+		});
+
+	helpMessage[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_helpTexture);
+	helpMessage[1]->SetPosition({ HELP_POSX,HELP_POSY - 2.0f,0 });
+	helpMessage[1]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[1]->SetFunc([&]() {
+		nRule = 1;
+		isExplanation = true;
+		});
+
+	helpMessage[2] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
+	helpMessage[2]->SetPosition({ HELP_POSX,HELP_POSY - 4.0f,0 });
+	helpMessage[2]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[2]->SetFunc([&]() {
+		nRule = 2;
+		isExplanation = true;
+		});
+
+	helpMessage[3] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
+	helpMessage[3]->SetPosition({ HELP_POSX,HELP_POSY - 6.0f,0 });
+	helpMessage[3]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[3]->SetFunc([&]() {
+		nRule = 3;
+		isExplanation = true;
+		});
+
+	helpMessage[4] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[4]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY,0 });
+	helpMessage[4]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[4]->SetFunc([&]() {
+		nRule = 4;
+		isExplanation = true;
+		});
+
+	helpMessage[5] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[5]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 2.0f,0 });
+	helpMessage[5]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[5]->SetFunc([&]() {
+		nRule = 5;
+		isExplanation = true;
+		});
+
+	helpMessage[6] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[6]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 4.0f,0 });
+	helpMessage[6]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[6]->SetFunc([&]() {
+		nRule = 6;
+		isExplanation = true;
+		});
+
+	helpMessage[7] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[7]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 6.0f,0 });
+	helpMessage[7]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[7]->SetFunc([&]() {
+		nRule = 7;
+		isExplanation = true;
+		});
+
+	helpMessage[8] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[8]->SetPosition({ HELP_POSX,HELP_POSY ,0 });
+	helpMessage[8]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[8]->SetHighlight(true);
+	helpMessage[8]->SetFunc([&]() {
+		nRule = 8;
+		isExplanation = true;
+		});
+
+	helpMessage[9] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[9]->SetPosition({ HELP_POSX,HELP_POSY -2.0f,0 });
+	helpMessage[9]->SetScale({ 4.0f,4.0f,1.0f });
+	helpMessage[9]->SetFunc([&]() {
+		nRule = 9;
+		isExplanation = true;
+		});
+
 	// ボタン選択クラス作成
 	selectControl = new ButtonSelect();
 	selectControl->Regist(Message[0]);
 	selectControl->Regist(Message[1]);
 	selectControl->Regist(Message[2]);
 
+	helpControl = new ButtonSelect();
+	helpControl->Regist(helpMessage[0]);
+	helpControl->Regist(helpMessage[1]);
+	helpControl->Regist(helpMessage[2]);
+	helpControl->Regist(helpMessage[3]);
+	helpControl->Regist(helpMessage[4]);
+	helpControl->Regist(helpMessage[5]);
+	helpControl->Regist(helpMessage[6]);
+	helpControl->Regist(helpMessage[7]);
+
+	help_2PageControl = new ButtonSelect();
+	help_2PageControl->Regist(helpMessage[8]);
+	help_2PageControl->Regist(helpMessage[9]);
+
 	isHelp = false;
 	isMenu = false;
 	isOnce = false;
 	isButton = false;
+	isExplanation = false;
+	isChangeExplanation = false;
 
 	nRule = 0;
 }
@@ -108,6 +211,10 @@ CMenu::~CMenu()
 
 	CLASS_DELETE(selectControl);
 
+	CLASS_DELETE(helpControl);
+
+	CLASS_DELETE(help_2PageControl);
+
 	CLASS_DELETE(Pause);
 
 	CLASS_DELETE(B_Button);
@@ -117,7 +224,12 @@ CMenu::~CMenu()
 		CLASS_DELETE(Message[i]);
 	}
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < MAXNUM_HELP; i++)
+	{
+		CLASS_DELETE(helpMessage[i]);
+	}
+
+	for (int i = 0; i < MAXNUM_HELP; i++)
 	{
 		CLASS_DELETE(Rule[i]);
 	}
@@ -182,30 +294,88 @@ void CMenu::Update()
 			}
 		}
 		else {
-			if (input->GetInputTrigger(InputType::L_BUTTON))
+			
+			if (isExplanation == false)
 			{
-				nRule--;
-
-				if (nRule < 0)
+				helpControl->FlagUpdate();
+				if (input->GetMovement().y < 0)
 				{
-					nRule = 3;
+					helpControl->ButtonMove(1);
+				}
+
+				if (input->GetMovement().y > 0)
+				{
+					helpControl->ButtonMove(-1);
+				}
+
+				if (input->GetInputTrigger(InputType::DECIDE))
+				{
+					helpControl->PushButton();
+				}
+
+				if (input->GetInputTrigger(InputType::CANCEL))
+				{
+					isHelp = false;
+				}
+
+				if (isChangeExplanation == true)
+				{
+					help_2PageControl->FlagUpdate();
+					if (input->GetMovement().y < 0)
+					{
+						help_2PageControl->ButtonMove(1);
+					}
+
+					if (input->GetMovement().y > 0)
+					{
+						help_2PageControl->ButtonMove(-1);
+					}
+
+					if (input->GetInputTrigger(InputType::DECIDE))
+					{
+						help_2PageControl->PushButton();
+					}
+					
+					if (input->GetInputTrigger(InputType::L_BUTTON))
+					{
+						isChangeExplanation = false;
+					}
+				}
+				else {
+					if (input->GetInputTrigger(InputType::R_BUTTON))
+					{
+						isChangeExplanation = true;
+					}
+				}
+				
+			}
+			else {
+				if (input->GetInputTrigger(InputType::L_BUTTON))
+				{
+					nRule--;
+
+					if (nRule < 0)
+					{
+						nRule = MAXNUM_HELP - 1;
+					}
+				}
+
+				if (input->GetInputTrigger(InputType::R_BUTTON))
+				{
+					nRule++;
+
+					if (nRule > MAXNUM_HELP - 1)
+					{
+						nRule = 0;
+					}
+				}
+
+				if (input->GetInputTrigger(InputType::CANCEL))
+				{
+					isExplanation = false;
 				}
 			}
-
-			if (input->GetInputTrigger(InputType::R_BUTTON))
-			{
-				nRule++;
-
-				if (nRule > 3)
-				{
-					nRule = 0;
-				}
-			}
-
-			if (input->GetInputTrigger(InputType::CANCEL))
-			{
-				isHelp = false;
-			}
+			
 		}
 	}
 	
@@ -220,7 +390,12 @@ void CMenu::Update()
 		Message[i]->Update();
 	}
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < MAXNUM_HELP; i++)
+	{
+		helpMessage[i]->Update();
+	}
+
+	for (int i = 0; i < MAXNUM_HELP; i++)
 	{
 		Rule[i]->Update();
 	}
@@ -256,16 +431,77 @@ void CMenu::Draw()
 			
 		}
 		else {
-			if (nRule == 0)
+			if (isExplanation==false)
 			{
-				Rule[0]->Draw();
+				if (isChangeExplanation == false)
+				{
+					for (int i = 0; i < MAXNUM_HELP - 2; i++)
+					{
+						helpMessage[i]->Draw();
+					}
+
+					LR_Button[1]->Draw();
+
+				}
+				else {
+					for (int i = MAXNUM_HELP - 2; i < MAXNUM_HELP; i++)
+					{
+						helpMessage[i]->Draw();
+					}
+
+					LR_Button[0]->Draw();
+
+				}
+				
+			}
+			else {
+				if (nRule == 0)
+				{
+					Rule[0]->Draw();
+				}
+				else if (nRule == 1)
+				{
+					Rule[1]->Draw();
+				}
+				else if (nRule == 2)
+				{
+					Rule[2]->Draw();
+				}
+				else if (nRule == 3)
+				{
+					Rule[3]->Draw();
+				}
+				else if (nRule == 4)
+				{
+					Rule[4]->Draw();
+				}
+				else if (nRule == 5)
+				{
+					Rule[5]->Draw();
+				}
+				else if (nRule == 6)
+				{
+					Rule[6]->Draw();
+				}
+				else if (nRule == 7)
+				{
+					Rule[7]->Draw();
+				}
+				else if (nRule == 8)
+				{
+					Rule[8]->Draw();
+				}
+				else if (nRule == 9)
+				{
+					Rule[9]->Draw();
+				}
+
+				for (int i = 0; i < 2; i++)
+				{
+					LR_Button[i]->Draw();
+				}
 			}
 			
-			for (int i = 0; i < 2; i++)
-			{
-				LR_Button[i]->Draw();
-			}
-
 		}
 		
 		B_Button->Draw();
