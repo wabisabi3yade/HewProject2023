@@ -102,9 +102,25 @@ void PlayerMove::FlagInit()
 
 void PlayerMove::WalkAfter()
 {
-	if (CheckNextFloorType() != CGridObject::BlockType::CHOCOCRACK && !inCannon)
+	if (!inCannon)
 	{
-		player->WalkCalorie();
+		switch (player->GetState())
+		{
+		case Player::STATE::NORMAL:
+		case Player::STATE::THIN:
+			player->WalkCalorie();
+			break;
+		case Player::STATE::FAT:
+		case Player::STATE::MUSCLE:
+			if (CheckNextFloorType() != CGridObject::BlockType::CHOCO && CheckNextFloorType() != CGridObject::BlockType::CHOCOCRACK)
+			{
+				player->WalkCalorie();
+			}
+			break;
+		default:
+			break;
+		}
+
 	}
 	isWalking_now = false;
 	isWalking_old = true;
@@ -429,7 +445,13 @@ void PlayerMove::CannonMove2()
 		if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] == static_cast<int> (CGridObject::BlockType::CANNON))
 		{
 			isCannonMoveStart = true;
+			player->dotween->DelayedCall(CANNONBOUND_TIME / 1.5f, [&]()
+				{
+					cannonFX = true;
+					player->ChangeInvisible();
+				});
 			player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
+			
 			player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->GetPlayerMove()->SetNextGridPos(nextCannonPos);
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()

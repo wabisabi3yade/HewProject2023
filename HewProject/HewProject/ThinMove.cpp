@@ -433,13 +433,16 @@ void ThinMove::Move(DIRECTION _dir)
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DelayedCall(JUMP_TIME / 1.5f, [&]()
+			{
+				cannonFX = true;
+				player->ChangeInvisible();
+			});
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME,junpPos.y + (CANNON_IN_CURVE_POS_Y * StageScale));
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
-				//WalkAfter();
-				//MoveAfter();
 				player->SetGridPos(nextGridPos);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -597,9 +600,6 @@ void ThinMove::Step()
 
 	case CGridObject::BlockType::CANNON:
 
-
-		WalkAfter();
-		MoveAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		player->GetPlayerMove()->InCannon();

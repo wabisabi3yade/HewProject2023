@@ -412,11 +412,12 @@ void StageScene::StageMove()
 			break;
 		case CGridObject::BlockType::COIN:
 		{
-			CCoin* coinObj = dynamic_cast<CCoin*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
-			coinObj->BlowOff(player->GetDirection());
-			coinObj->dotween->OnComplete([&]()
+			CCoin* coinObj = dynamic_cast<CCoin*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), type));
+			coinObj->GetCoin();
+			CGrid::GRID_XY deletePos = player->GetPlayerMove()->GetNextGridPos();
+			coinObj->dotween->OnComplete([&,deletePos,coinObj]()
 				{
-					CannonItemDelete();
+					CannonItemDelete(deletePos,coinObj->GetBlookType());
 				});
 			break;
 		}
@@ -804,9 +805,10 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 	switch (type)
 	{
 		// プレイヤーの位置にこのアイテムがあれば
+	case CGridObject::BlockType::COIN:
+
 	case CGridObject::BlockType::PROTEIN:
 	case CGridObject::BlockType::CAKE:
-	case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::CHILI:
 	{
 		// リストの中からプレイヤーの座標と同じもの　かつ　床じゃない物を探す

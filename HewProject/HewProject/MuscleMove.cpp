@@ -179,7 +179,6 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				//画面外まで移動するようにYをマクロで定義して使用する
-				WalkAfter();
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR,static_cast<int>(player->GetState())));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
@@ -415,7 +414,6 @@ void MuscleMove::Step()
 			});
 		break;
 	case CGridObject::BlockType::CHOCO:
-
 	case CGridObject::BlockType::CHOCOCRACK:
 	{	
 		//画面外まで移動するようにYをマクロで定義して使用する

@@ -1,7 +1,9 @@
 #include "CCoin.h"
 #include"DoTween.h"
-constexpr float getScale = 0.1f;
-constexpr float getPosY = 0.3f;
+constexpr float GET_SCALE = 0.1f;
+constexpr float GET_POS_Y = 0.3f;
+constexpr float GET_MOVETIME = 1.5f;
+constexpr float GET_TIME = 2.0f;
 CCoin::CCoin(D3DBUFFER vb, D3DTEXTURE tex)
 	:CItem(vb, tex)
 {
@@ -27,6 +29,7 @@ void CCoin::Draw()
 
 void CCoin::GetCoin()
 {
-	//this->mTransform.scale /= this->;
-	//dotween->DoMoveY()
+	this->mTransform.scale.x = this->mTransform.scale.x * GET_SCALE;
+	this->mTransform.scale.y = this->mTransform.scale.y * GET_SCALE;
+	dotween->DoMoveY(this->mTransform.pos.y + GET_POS_Y * GET_SCALE,GET_MOVETIME);
 }
