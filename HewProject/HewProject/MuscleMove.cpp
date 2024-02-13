@@ -130,13 +130,22 @@ void MuscleMove::Move(DIRECTION _dir)
 			});
 		break;
 	case CGridObject::BlockType::WALL:
+	{
+
+
 		player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
 		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
 		player->GetPlayerAnim()->PlayPunch(2.5f);
+		Vector3 vec = player->mTransform.pos;
+		vec.z += 0.002f;
+		//player->dotween->DelayedCall(BREAK_TIME - 0.3f, [&, vec]()
+		//	{
+		//		player->PlayEffect(vec, player->mTransform.scale, EffectManeger::FX_TYPE::PANTI, false);
+		//	});
 		player->dotween->DoDelay(BREAK_TIME);
 		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-		player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos]()
+		player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos, vec]()
 			{
 				player->ChangeTexture(Player::ANIM_TEX::WALK);
 				player->GetPlayerAnim()->PlayWalk(player->GetDirection());
@@ -159,6 +168,7 @@ void MuscleMove::Move(DIRECTION _dir)
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
 			});
+	}
 		break;
 	case CGridObject::BlockType::CHOCO:
 	case CGridObject::BlockType::CHOCOCRACK:
@@ -218,7 +228,7 @@ void MuscleMove::Move(DIRECTION _dir)
 
 		Vector2 junpPos = {};
 
-		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(player->GetState())));
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(Player::STATE::MUSCLE)));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
@@ -226,16 +236,14 @@ void MuscleMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-				WalkAfter();
-				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR,static_cast<int>(player->GetState())));
+				////画面外まで移動するようにYをマクロで定義して使用する
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR, static_cast<int>(Player::STATE::MUSCLE)));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 				Vector2 fallPosXY;
 				fallPosXY.x = fallPos.x;
 				fallPosXY.y = fallPos.y;
 				player->Fall();
 				player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
-				//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 				switch (player->GetNowFloor())
 				{
 				case 1:
@@ -244,7 +252,7 @@ void MuscleMove::Move(DIRECTION _dir)
 				case 3:
 				{
 					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(player->GetState())));
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(Player::STATE::MUSCLE)));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
@@ -252,13 +260,12 @@ void MuscleMove::Move(DIRECTION _dir)
 						//player->Fall();
 						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+						player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
 							{
 								isFallBound = true;
 							});
-						//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
 					}
-					player->dotween->DelayedCall(FALLMOVE_TIME+FALL_TIME, [&]()
+					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 						{
 							player->fallMoveTrriger = true;
 						});
@@ -479,7 +486,7 @@ void MuscleMove::Step()
 		case 3:
 		{
 			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(player->GetState())));
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{

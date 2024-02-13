@@ -12,6 +12,6 @@ public:
     std::unique_ptr<DoTween> dotween;
     void Update() override;
     void Draw() override;
-    void BlowOff(int _dir);
+    void GetCoin();
 };
 

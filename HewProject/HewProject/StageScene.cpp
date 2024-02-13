@@ -151,8 +151,9 @@ void StageScene::Update()
 		}
 		else if (input->GetInputTrigger(InputType::CANCEL))
 		{
-			player->GetPlayerMove()->CameraEnd();
 			lockStageMap = nowFloorNum;
+			floorUi->SetHighlight(lockStageMap);
+			player->GetPlayerMove()->CameraEnd();
 		}
 		else if (input->GetInputTrigger(InputType::OPTION))
 		{
@@ -183,11 +184,12 @@ void StageScene::Update()
 			case Player::STATE::MUSCLE:
 			case Player::STATE::FAT:
 			{
-
 				chocoObj->CRACK();
 				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
 				hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+				hollObj->mTransform.scale.x = stageScale;
+				hollObj->mTransform.scale.y = stageScale;
 				hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
 				vStageObj->push_back(hollObj);
 			}
@@ -207,12 +209,22 @@ void StageScene::Update()
 					chocoObj->CRACK();
 					chocoObj->SetTexture(stageTextureChocolateClack);
 				}
+
 				break;
 			}
 			default:
 				break;
 			}
+
 		}
+		Vector3 pos = player->mTransform.pos;
+		Vector3 scale = player->mTransform.scale;
+		pos.z -= 0.0001;
+		pos.y -= 0.1f;
+		scale.x *= STAR_BOUND_SCALE;
+		scale.y *= STAR_BOUND_SCALE;
+
+		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::STAR_BOUND, false);
 	}
 	// 動いているときと動き終わった瞬間だけ
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
@@ -252,8 +264,12 @@ void StageScene::StageMove()
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::WALL)
 		{
+			//Vector3 vec = player->mTransform.pos;
+			//vec.z -= 0.002f;
+			//player->PlayEffect(vec, player->mTransform.scale, EffectManeger::FX_TYPE::PANTI, false);
 			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::WALL));
-			wallObj->Break();
+			wallObj->Break(player->GetDirection());
+
 		}
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CAKE)
@@ -373,9 +389,8 @@ void StageScene::StageMove()
 		{
 		case CGridObject::BlockType::WALL:
 		{
-
 			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), type));
-			wallObj->Break(0.0f);
+			wallObj->Break(-1,0.0f);
 			break;
 		}
 		case CGridObject::BlockType::CAKE:
@@ -465,7 +480,13 @@ void StageScene::StageMove()
 
 	if (player->GetCannonFX() == true)
 	{
-
+		Vector3 pos = player->mTransform.pos;
+		pos.y += 0.7f;
+		pos.z -= 0.0001f;
+		Vector3 scale = player->mTransform.scale;
+		scale.x *= CANNON_IN_SCALE;
+		scale.y *= CANNON_IN_SCALE;
+		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::CANNON_IN, false);
 	}
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
@@ -583,7 +604,7 @@ void StageScene::CastellaMoveOrder()
 	if ((nowFloor)->floorTable[targetGrid.y][targetGrid.x] == static_cast<int>(CGridObject::BlockType::HOLL))
 	{
 		Vector3 floorPos = (nowFloor)->GridToWorld(targetGrid, CGridObject::BlockType::FLOOR);
-		castella->Move(target, true, floorPos);
+		castella->Move(target, player->GetDirection(), floorPos);
 		castella->SetGridPos(targetGrid.x, targetGrid.y);
 
 		// オブジェクトテーブルからカステラを消して
@@ -674,6 +695,7 @@ void StageScene::InCanonInput()
 						player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 						player->GetPlayerMove()->CannonMoveStart();
 						player->PlayEffect(_pos , _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
+						player->ChangeInvisible();
 						cannonMove = false;
 						cannonObj->Fire(player->GetDirection());
 						cannonObj->PlayReturn();
@@ -705,6 +727,7 @@ void StageScene::InCanonInput()
 				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 				player->GetPlayerMove()->CannonMoveStart();
 				player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
+				player->ChangeInvisible();
 				cannonObj->Fire(player->GetDirection());
 				cannonMove = false;
 				cannonObj->PlayReturn();
@@ -811,19 +834,20 @@ void StageScene::Undo(float _stageScale)
 {
 	if (player->GetPlayerMove()->GetIsMoving()) return;
 
-	// 0より下に行くと
+	short o_nNumUndo = nNumUndo;
+
+	// 1より下に行くと
 	nNumUndo--;
 	if (nNumUndo < 0)
 	{
-		// まだ使われていないのなら
-		if (floorUndo[UNDO_ARRAY_NUM - 1].objectTable[0][0][0] == 0)
-		{
-			MessageBoxA(NULL, "これ以上戻れません", "Undo", MB_ICONERROR | MB_OK);
-			nNumUndo = 0;
-			return;	// 抜ける
-		}
-
-		nNumUndo = UNDO_ARRAY_NUM - 1;
+		nNumUndo = UNDO_ARRAY_NUM - 1;	// 下回ると
+	}
+	// まだ使われていないのなら
+	if (floorUndo[nNumUndo].objectTable[0][0][0] == 0)
+	{
+		MessageBoxA(NULL, "これ以上戻れません", "Undo", MB_ICONERROR | MB_OK);
+		nNumUndo = o_nNumUndo;	// 引く前の階数に戻す
+		return;	// 抜ける
 	}
 
 	// 更新するテーブル
@@ -902,6 +926,43 @@ void StageScene::Undo(float _stageScale)
 
 	}
 
+	// プロテインの数を求める
+	nNumProtein = 0;
+	for (int layer = 0; layer < MAX_LAYER; layer++)
+	{
+		// 各階層のオブジェクトテーブルをゲット
+		switch (layer)
+		{
+		case 0:
+			updateTable = oneFloor;
+			break;
+
+		case 1:
+			updateTable = secondFloor;
+			break;
+
+		case 2:
+			updateTable = thirdFloor;
+			break;
+		}
+
+		if (updateTable == nullptr) break;
+
+		// プロテインを見る
+		for (int ver = 0; ver < stageSquare.y; ver++)
+		{
+			for (int hori = 0; hori < stageSquare.x; hori++)
+			{
+				// プロテインの数を取得する
+				if (updateTable->objectTable[ver][hori] == static_cast<int>(CGridObject::BlockType::PROTEIN))
+					nNumProtein++;
+			}
+		}
+
+	}
+	// プロテインUIに設定する
+	proteinUi->SetProtein(nNumProtein, true);
+
 	// リスがいる階層を更新
 	nowFloorNum = o_floorNum;
 	// 更新する
@@ -932,6 +993,9 @@ void StageScene::Undo(float _stageScale)
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
 
+
+	// 未使用にする
+	floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
 }
 
 void StageScene::UndoTableUpdate()
@@ -1337,6 +1401,8 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	// 最初のUndoに入れておく
 	floorUndo[0] = floorReset;
 
+	player->GetPlayerMove()->SetStageScale(stageScale);
+
 	Z_Sort(*vStageObj);
 }
 
@@ -1376,6 +1442,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				break;
 
 			case CGridObject::BlockType::CASTELLA:
+			case CGridObject::BlockType::CASTELLA_FLOOR:
 				objWork = new CCastella(stageBuffer, stageTextureCastella);
 				break;
 
@@ -1408,13 +1475,13 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				// プレイヤーは触ることが多いのでメンバ変数として持っておく
 				player = dynamic_cast<Player*>(objWork);
 				break;
-
 			case CGridObject::BlockType::GALL:
 				objWork = new CGall(stageBuffer, stageTextureGallChest);
 				break;
 			case CGridObject::BlockType::CANNON:
 				objWork = new CCannon(playerBuffer, stageTextureCannon[1], nowFloor);
 				dynamic_cast<CCannon*>(objWork)->SetArrow(stageBuffer, stageTextureArrow);
+				break;
 			default:
 				break;
 

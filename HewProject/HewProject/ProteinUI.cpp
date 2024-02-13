@@ -82,8 +82,13 @@ void ProteinUI::Update()
 	}
 }
 
-void ProteinUI::SetProtein(const int& _getProtein)
+void ProteinUI::SetProtein(int _getProtein, bool _isDecade)
 {
+	if (_isDecade)
+	{
+		_getProtein = stageProMax - _getProtein;
+	}
+
 	if (_getProtein > stageProMax || _getProtein < 0)
 	{
 		MessageBoxA(NULL, "SetPriteinŠÖ”‚Ìˆø”‚ª”ÍˆÍŠO‚Å‚·", "ƒGƒ‰[", MB_ICONERROR | MB_OK);

@@ -5,10 +5,18 @@
 #include"CEffect.h"
 class Vector3;
 
+//‘å‚«‚³‚Ì”{—¦
+
 constexpr float CRACKSCALE = 1.5f;
 constexpr float CANNON_IN_SCALE = 1.5f;
 constexpr float CANNON_FIRE_SCALE = 1.5f;
+constexpr float PANTI_SCALE = 1.5f;
+constexpr float SMOKE_SCALE = 3.0f;
+constexpr float HEART_SCALE = 1.8f;
+constexpr float STAR_BOUND_SCALE = 1.5f;
+constexpr float STAR_CASTELLA_SCALE = 1.5f;
 
+//constexpr float
 class EffectManeger //public CObject
 {
 
@@ -22,6 +30,13 @@ public:
 		CRACK,
 		CANNON_IN,
 		CANNON_FIRE,
+		PANTI,
+		SMOKE_R,
+		SMOKE_G,
+		SMOKE_Y,
+		HEART,
+		STAR_BOUND,
+		STAR_CASTELLA,
 		EFFECT_MAX,
 	}FX_TYPE;
 

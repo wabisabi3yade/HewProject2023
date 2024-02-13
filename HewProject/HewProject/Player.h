@@ -24,6 +24,7 @@ constexpr float RISING_TIME = 0.5f; //グミでの上昇時間
 constexpr float CANNONMOVE_TIME = 1.0f;		//大砲でのいどうじかん
 constexpr float CANNONBOUND_TIME = 1.0f;	//大砲で目的地でのバウンドする時間
 constexpr float CANNONBOUND_POS_Y = 3.0f;	//大砲で目的地でのバウンドする高さ
+constexpr float CANNON_IN_CURVE_POS_Y = 1.0f;//大砲に入るときの最大地点
 
 class CalorieGage_hori;
 
