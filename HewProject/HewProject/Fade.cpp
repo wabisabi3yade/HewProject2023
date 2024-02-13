@@ -57,11 +57,9 @@ Fade::~Fade()
 	SAFE_RELEASE(vb);
 }
 
-void Fade::SceneChange(int _set)
+void Fade::SceneChange()
 {
 	isSceneChange = true;
-
-	nextScene = _set;
 }
 
 Fade* Fade::GetInstance()
@@ -134,7 +132,7 @@ void Fade::LoadingInit()
 
 void Fade::ChangeLoadScene()
 {
-	isSceneChange = true;
+	isLoadChange = true;
 }
 
 void Fade::LoadingUpdate()
@@ -164,11 +162,13 @@ void Fade::FadeOutInit()
 	state = STATE::FADE_OUT;
 
 	// ここで代入した関数を実行する
-	func();
-
+	if (func != nullptr)
+	{
+		func();
+	}
 	// シーンを変えるときに呼ぶ関数
-	
-
+	if(nextScene != CScene::SCENE_NAME::NONE)
+	SceneChange();
 
 	Vector3 v = Vector3::zero;
 	v.x = FADEOUT_POSX;
@@ -196,7 +196,8 @@ void Fade::FadeIn(const STATE& _nextState, std::function<void()> _onFunc, int _s
 	// ラムダ式を代入する
 	func = _onFunc;
 
-	ChangeLoadScene();
+	// 次のシーンを代入する
+	nextScene = _setScene;
 
 
 	// フェード全体を表示
@@ -250,11 +251,6 @@ void Fade::Draw()
 
 bool Fade::GetIsChange()
 {
-	return false;
-}
-
-bool Fade::GetLoadChange()
-{
 	if (isSceneChange)
 	{
 		isSceneChange = false;
@@ -262,6 +258,22 @@ bool Fade::GetLoadChange()
 	}
 
 	return false;
+}
+
+bool Fade::GetLoadChange()
+{
+	if (isLoadChange)
+	{
+		isLoadChange = false;
+		return true;
+	}
+
+	return false;
+}
+
+int Fade::GetNextScene()
+{
+	return nextScene;
 }
 
 

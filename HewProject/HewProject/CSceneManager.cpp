@@ -105,10 +105,11 @@ void CSceneManager::Act()
 
 	pNowScene->SceneChangeCheck();
 
-	// フェードがシーンチェンジさせてるかどうか確認
-	FadeSceneChangeCheck();
-	
 	pNowScene->ExitCheck();
+
+	SceneChangeCheck();
+	// フェードがシーンチェンジさせてるかどうか確認
+	LoadSceneChangeCheck();
 }
 
 
@@ -227,7 +228,15 @@ CScene::SCENE_NAME CSceneManager::GetNowScene()
 	return nowSceneName;
 }
 
-void CSceneManager::FadeSceneChangeCheck()
+void CSceneManager::SceneChangeCheck()
+{
+	if (!fade->GetIsChange()) return;
+
+	// ロードに移行
+	SceneChange(fade->GetNextScene());
+}
+
+void CSceneManager::LoadSceneChangeCheck()
 {
 	if (!fade->GetLoadChange()) return;
 

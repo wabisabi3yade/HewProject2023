@@ -26,6 +26,7 @@ private:
 	static Fade* instance;
 
 	bool isSceneChange = false;
+	bool isLoadChange = false;
 
 	int nextScene;	// 次のシーン
 
@@ -52,7 +53,7 @@ private:
 	D3DTEXTURE tex;
 	D3DBUFFER vb;
 
-	void SceneChange(int _set);
+	void SceneChange();
 
 public:
 	static Fade* GetInstance();
@@ -89,6 +90,9 @@ public:
 	bool GetIsChange();
 
 	bool GetLoadChange();
+	
+	// 次のシーンに移行
+	int GetNextScene();
 
 };
 

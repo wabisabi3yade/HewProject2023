@@ -53,6 +53,10 @@ public:
 	// 終了フラグ取得
 	bool GetGameExit()const { return isGameExit; }
 
-	void FadeSceneChangeCheck();
+	// シーン変更している確認
+	void SceneChangeCheck();
+
+	// ロードシーンに行くか確認
+	void LoadSceneChangeCheck();
 };
 

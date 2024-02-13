@@ -205,9 +205,6 @@ void ProteinUI::SetScale(const Vector2& _scale)
 	{
 		proMark[i]->mTransform.scale.x = proScale.x * allScale.x;
 		proMark[i]->mTransform.scale.y = proScale.y * allScale.y;
-
-		/*protein[i]->mTransform.scale.x = proScale.x * allScale.x;
-		protein[i]->mTransform.scale.y = proScale.y * allScale.y;*/
 	}
 
 	bar->mTransform.scale.x = barScale.x * allScale.x;

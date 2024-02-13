@@ -55,9 +55,7 @@ void Fade_TestScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
-		fade->FadeIn(Fade::STATE::LOADING, [&]() {
-			
-			});
+		fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::WORLD1_SELECT);
 	}
 	else if (gInput->GetKeyTrigger(VK_SPACE))
 	{
