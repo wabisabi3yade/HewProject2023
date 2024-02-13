@@ -17,7 +17,7 @@ CGameStart::CGameStart()
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
-	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Back.png");
+	textTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_GoalAt.png");
 
 	Text = new UI(textBuffer, textTexture);
 	Text->MakeDotween();
@@ -30,6 +30,8 @@ CGameStart::CGameStart()
 	Protein = new ProteinUI(nNumProtein, false);
 	Protein->SetPosition({ 11.0f,0,fProteinZ });
 	Protein->SetScale({ 2,2});
+	Protein->SetActive(false);
+
 
 	isProtein = false;
 }
@@ -65,11 +67,13 @@ void CGameStart::Update()
 				Protein->GetDotween()->DoEaseOutBack(0, 0.8f);
 				Protein->GetDotween()->Append({ -10.0f,0,0 }, 0.3f, DoTweenUI::FUNC::DELAY);
 				Protein->GetDotween()->OnComplete([&]() {
+					Protein->SetActive(true);
 					Protein->AddProtein();
 					Protein->GetDotween()->DelayedCall(0.9f, [&]() {
 						Protein->GetDotween()->DoEaseInBack({ -10.0f,0,0 }, 0.5f);
 						Protein->GetDotween()->OnComplete([&]() {
 							Bg->dotween->DoAlpha(0, 0.2f);
+							Protein->SetProtein(false);
 							});
 						});
 					});
@@ -79,6 +83,7 @@ void CGameStart::Update()
 				Protein->GetDotween()->DoEaseOutBack(0, 0.8f);
 				Protein->GetDotween()->Append({ -10.0f,0,0 }, 0.1f, DoTweenUI::FUNC::DELAY);
 				Protein->GetDotween()->OnComplete([&]() {
+					Protein->SetActive(true);
 					Protein->AddProtein();
 					Protein->GetDotween()->DelayedCall(0.1f, [&]() {
 						Protein->AddProtein();
@@ -86,6 +91,7 @@ void CGameStart::Update()
 							Protein->GetDotween()->DoEaseInBack({ -10.0f,0,0 }, 0.5f);
 							Protein->GetDotween()->OnComplete([&]() {
 								Bg->dotween->DoAlpha(0, 0.2f);
+								Protein->SetProtein(false);
 								});
 							});
 						});
@@ -97,6 +103,7 @@ void CGameStart::Update()
 				Protein->GetDotween()->DoEaseOutBack(0, 0.8f);
 				Protein->GetDotween()->Append({ -10.0f,0,0 }, 0.1f, DoTweenUI::FUNC::DELAY);
 				Protein->GetDotween()->OnComplete([&]() {
+					Protein->SetActive(true);
 					Protein->AddProtein();
 					Protein->GetDotween()->DelayedCall(0.1f, [&]() {
 						Protein->AddProtein();
@@ -106,6 +113,7 @@ void CGameStart::Update()
 								Protein->GetDotween()->DoEaseInBack({ -12.0f,0,0 }, 0.5f);
 								Protein->GetDotween()->OnComplete([&]() {
 									Bg->dotween->DoAlpha(0, 0.2f);
+									Protein->SetProtein(false);
 									});
 								});
 							});

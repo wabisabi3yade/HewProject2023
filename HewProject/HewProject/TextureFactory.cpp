@@ -51,6 +51,10 @@ void TextureFactory::Load()
 		L"asset/Background/Stage3.png",
 		L"asset/Background/StageEX.png",
 		L"asset/Background/WorldSelectBack.png",
+		L"asset/Background/World1_pic.png",
+		L"asset/Background/World2_pic.png",
+		L"asset/Background/World3_pic.png",
+		L"asset/Background/World4_pic.png",
 		
 		L"asset/Player/N_Walk.png",
 		L"asset/Player/F_Walk.png",
@@ -137,6 +141,7 @@ void TextureFactory::Load()
 		L"asset/Text/T_Restart.png",
 		L"asset/Text/T_Undo.png",
 		L"asset/Text/Pause.png",
+		L"asset/Text/T_GoalAt.png",
 	};
 
 	D3DTEXTURE texWork;

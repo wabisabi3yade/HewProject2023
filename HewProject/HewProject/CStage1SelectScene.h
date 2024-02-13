@@ -4,6 +4,7 @@
 class CObject;
 class CStageSelectPlayer;
 class UI;
+class ShadowUI;
 
 class CStage1SelectScene :
     public CScene
@@ -18,6 +19,10 @@ public:
     //ステージ
     D3DBUFFER stageBuffer;
     D3DTEXTURE stage1Texture;
+    D3DTEXTURE stage2Texture;
+    D3DTEXTURE stage3Texture;
+    D3DTEXTURE stage4Texture;
+    D3DTEXTURE shadowTexture;
 
     //テキスト
     D3DBUFFER textBuffer;
@@ -41,6 +46,7 @@ public:
     UI* Text[4];
     UI* Word[4];
     UI* Bg;
+    ShadowUI* Shadow[4];
 
     bool isPlayerMoving;
     bool isOnce;

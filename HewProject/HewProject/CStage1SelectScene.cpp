@@ -6,6 +6,7 @@
 #include "CStageSelectPlayer.h"
 #include "Collision.h"
 #include "UI.h"
+#include "ShadowUI.h"
 
 CStage1SelectScene::CStage1SelectScene()
 {
@@ -14,7 +15,11 @@ CStage1SelectScene::CStage1SelectScene()
 	player_waitTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Wait.png");
 
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
-	stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Stage/Castella.png");
+	stage1Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/World1_pic.png");
+	stage2Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/World2_pic.png");
+	stage3Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/World3_pic.png");
+	stage4Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/World4_pic.png");
+	shadowTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/FadeBlack.png");
 
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/WorldSelectBack.png");
@@ -31,10 +36,17 @@ CStage1SelectScene::CStage1SelectScene()
 	text_pinkTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");
 	text_purpleTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Purple.png");
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		stage[i] = new CGridObject(stageBuffer, stage1Texture);
+		Shadow[i] = new ShadowUI(stageBuffer, shadowTexture);
+		Shadow[i]->SetAlpha(0.3f);
 	}
+
+	stage[0] = new CGridObject(stageBuffer, stage1Texture);
+	stage[1] = new CGridObject(stageBuffer, stage3Texture);
+	stage[2] = new CGridObject(stageBuffer, stage2Texture);
+	stage[3] = new CGridObject(stageBuffer, stage4Texture);
+	stage[4] = new CGridObject(stageBuffer, stage1Texture);
 
 	player = new CStageSelectPlayer(playerBuffer, playerTexture);
 	player->mTransform.scale = { 2,2,1 };
@@ -86,16 +98,25 @@ CStage1SelectScene::CStage1SelectScene()
 	Word[3]->mTransform.scale = { 2.0f,2.0f,1 };
 
 	stage[0]->mTransform.pos = { -5,2,-0.1f };
-	stage[0]->mTransform.scale = { 2,2,1 };
+	stage[0]->mTransform.scale = { 3.95f,3.0f,1 };
 	stage[1]->mTransform.pos = { -5,-2,-0.1f };
-	stage[1]->mTransform.scale = { 2,2,1 };
+	stage[1]->mTransform.scale = { 3.95f,3.0f,1 };
 	stage[2]->mTransform.pos = { 5,2,-0.1f };
-	stage[2]->mTransform.scale = { 2,2,1};
+	stage[2]->mTransform.scale = { 3.95f,3.0f,1 };
 	stage[3]->mTransform.pos = { 5,-2,-0.1f };
-	stage[3]->mTransform.scale = { 2,2,1 };
+	stage[3]->mTransform.scale = { 3.95f,3.0f,1 };
 	stage[4]->mTransform.pos = { 0,-2,-0.1f };
-	stage[4]->mTransform.scale = { 2,2,1 };
+	stage[4]->mTransform.scale = { 3.95f,3.0f,1 };
 
+	Vector3 shadowPos[4];
+
+	for (int i = 0; i < 4; i++)
+	{
+		shadowPos[i] = stage[i]->mTransform.pos;
+		Shadow[i]->mTransform.pos = { shadowPos[i].x + 0.05f,shadowPos[i].y - 0.05f,0.4f};
+		Shadow[i]->mTransform.scale = { stage[i]->mTransform.scale};
+	}
+	
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->mTransform.pos = { 0,0,0.5f };
 	Bg->mTransform.scale = { 16,9,1 };
@@ -114,6 +135,11 @@ CStage1SelectScene::~CStage1SelectScene()
 	for (int i = 0; i < 4; i++)
 	{
 		CLASS_DELETE(Word[i]);
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		CLASS_DELETE(Shadow[i]);
 	}
 
 	for (int i = 0; i < 4; i++)
@@ -329,6 +355,11 @@ void CStage1SelectScene::Update()
 		Word[i]->Update();
 	}
 
+	for (int i = 0; i < 4; i++)
+	{
+		Shadow[i]->Update();
+	}
+
 	player->Update();
 
 	if (player->isWait == false)
@@ -353,6 +384,11 @@ void CStage1SelectScene::Draw()
 {
 	Bg->Draw();
 	
+	for (int i = 0; i < 4; i++)
+	{
+		Shadow[i]->Draw();
+	}
+
 	for (int i = 0; i < 5; i++)
 	{
 		stage[i]->Draw();
