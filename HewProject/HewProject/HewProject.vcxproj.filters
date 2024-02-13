@@ -340,6 +340,9 @@
     <Filter Include="ソース ファイル\Wakamura\GameStart">
       <UniqueIdentifier>{c3e91dc2-787d-4b26-853a-3060f6b24a9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Fade\LoadingScene">
+      <UniqueIdentifier>{83e81464-3203-4443-ba25-d63578a43801}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -655,7 +658,7 @@
       <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\Hashimoto\Fade\LoadingScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -972,7 +975,7 @@
       <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Hashimoto\Fade\LoadingScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
