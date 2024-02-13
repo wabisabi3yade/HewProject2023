@@ -52,5 +52,7 @@ public:
 	CScene::SCENE_NAME GetNowScene();
 	// I—¹ƒtƒ‰ƒOæ“¾
 	bool GetGameExit()const { return isGameExit; }
+
+	void FadeSceneChangeCheck();
 };
 

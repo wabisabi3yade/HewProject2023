@@ -2,6 +2,9 @@
 #include "FadeUI.h"
 #include "NowLoadingText.h"
 #include "TextureFactory.h"
+#include "CScene.h"
+
+
 
 #define FADESCALE_X (20.0f)
 #define FADESCALE_Y (9.0f)
@@ -52,6 +55,13 @@ Fade::~Fade()
 	CLASS_DELETE(nowLoading);
 
 	SAFE_RELEASE(vb);
+}
+
+void Fade::SceneChange(int _set)
+{
+	isSceneChange = true;
+
+	nextScene = _set;
 }
 
 Fade* Fade::GetInstance()
@@ -111,11 +121,20 @@ void Fade::FadeInUpdate()
 
 void Fade::LoadingInit()
 {
+	//シーンをロードシーンに行く
+	ChangeLoadScene();
+
 	state = STATE::LOADING;
 	loadingTime = 0.0f;
 
+
 	// テキストを作成する
 	nowLoading = new NowLoadingText();
+}
+
+void Fade::ChangeLoadScene()
+{
+	isSceneChange = true;
 }
 
 void Fade::LoadingUpdate()
@@ -144,6 +163,12 @@ void Fade::FadeOutInit()
 	// 状態を更新する
 	state = STATE::FADE_OUT;
 
+	// ここで代入した関数を実行する
+	func();
+
+	// シーンを変えるときに呼ぶ関数
+	
+
 
 	Vector3 v = Vector3::zero;
 	v.x = FADEOUT_POSX;
@@ -164,9 +189,15 @@ void Fade::FadeOutUpdate()
 {
 }
 
-void Fade::FadeIn(const STATE& _nextState)
+void Fade::FadeIn(const STATE& _nextState, std::function<void()> _onFunc, int _setScene)
 {
 	if (state != Fade::STATE::STAY) return;
+
+	// ラムダ式を代入する
+	func = _onFunc;
+
+	ChangeLoadScene();
+
 
 	// フェード全体を表示
 	isActive = true;
@@ -217,5 +248,20 @@ void Fade::Draw()
 	}
 }
 
+bool Fade::GetIsChange()
+{
+	return false;
+}
+
+bool Fade::GetLoadChange()
+{
+	if (isSceneChange)
+	{
+		isSceneChange = false;
+		return true;
+	}
+
+	return false;
+}
 
 

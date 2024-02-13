@@ -20,6 +20,7 @@
 #include "W2Select.h"
 #include "CMenu.h"
 #include "CGameStart.h"
+#include "LoadingScene.h"
 
 CSceneManager* CSceneManager::instance = nullptr;
 
@@ -103,9 +104,12 @@ void CSceneManager::Act()
 	D3D_UpdateScreen();
 
 	pNowScene->SceneChangeCheck();
+
+	// フェードがシーンチェンジさせてるかどうか確認
+	FadeSceneChangeCheck();
+	
 	pNowScene->ExitCheck();
 }
-
 
 
 void CSceneManager::SceneChange(int _scene)
@@ -191,6 +195,11 @@ void CSceneManager::SceneChange(int _scene)
 		pNowScene = new CGameStart();
 		break;
 
+	case CScene::SCENE_NAME::LOADING:
+		nowSceneName = CScene::LOADING;
+		pNowScene = new LoadingScene();
+		break;
+
 		/*case CScene::HOSODA_SELECT:
 			nowSceneName = CScene::HOSODA_SELECT;
 			pNowScene = new HosodaSelect();
@@ -216,6 +225,14 @@ void CSceneManager::Exit()
 CScene::SCENE_NAME CSceneManager::GetNowScene()
 {
 	return nowSceneName;
+}
+
+void CSceneManager::FadeSceneChangeCheck()
+{
+	if (!fade->GetLoadChange()) return;
+
+	// ロードに移行
+	SceneChange(CScene::SCENE_NAME::LOADING);
 }
 
 
