@@ -21,8 +21,8 @@ CGameStart::CGameStart()
 
 	Text = new UI(textBuffer, textTexture);
 	Text->MakeDotween();
-	Text->mTransform.pos = { 10.0f,3.0f,0 };
-	Text->mTransform.scale = { 4.0f,1.0f,1.0f };
+	Text->mTransform.pos = { 12.0f,2.0f,0 };
+	Text->mTransform.scale = { 6.0f,1.5f,1.0f };
 
 	nNumProtein = 3;
 	fProteinZ = 0.0f;
@@ -55,9 +55,9 @@ void CGameStart::Update()
 
 		Bg->dotween->DoAlpha(0.5f, 0.2f);
 		Bg->dotween->OnComplete([&]() {
-			Text->dotween->DoEaseOutBack({ 0,3.0f,0 }, 0.4f);
+			Text->dotween->DoEaseOutBack({ 0,2.0f,0 }, 0.4f);
 			Text->dotween->Join(0, 2.0f, DoTweenUI::FUNC::DELAY);
-			Text->dotween->Append({ -10.0f,3.0f,0 }, 0.3f, DoTweenUI::FUNC::EASE_INBACK);
+			Text->dotween->Append({ -10.0f,2.0f,0 }, 0.3f, DoTweenUI::FUNC::EASE_INBACK);
 			Text->dotween->OnComplete([&]() {
 				Text->SetActive(false);
 				});
