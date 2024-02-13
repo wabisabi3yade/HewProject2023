@@ -1,6 +1,10 @@
 #include "CWall.h"
 #include "DoTween.h"
 #include"Player.h"
+#include"CEffectManeger.h"
+
+constexpr float dis_X = 0.3f;
+constexpr float dis_Y = 0.3f;
 
 CWall::CWall(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb, tex)
@@ -35,23 +39,59 @@ void CWall::Update()
 	{
 		this->materialDiffuse.w -= 0.01f;
 	}
+	if (effect != nullptr)
+		effect->Update();
 }
 
 void CWall::Draw()
 {
+	if (effect != nullptr)
+	if(effect->mTransform.pos.z  > this->mTransform.pos.z)
+	effect->Draw();
 	CGridObject::Draw();
+	if (effect != nullptr)
+		if(effect->mTransform.pos.z  < this->mTransform.pos.z)
+		effect->Draw();
 }
 
-void CWall::Break(float _breakTime)
+void CWall::Break(int _dir, float _breakTime)
 {
-	dotween->DelayedCall(_breakTime / 3.0, [&]()
+	Vector3 pos = this->mTransform.pos;
+	Vector3 scale = this->mTransform.scale;
+	scale.x *= PANTI_SCALE;
+	scale.y *= PANTI_SCALE;
+	switch (_dir)
+	{
+	case 0:
+		pos.x -= dis_X * this->mTransform.scale.x;
+		pos.y += dis_Y * this->mTransform.scale.y;
+		pos.z += 0.0001f;
+		break;
+	case 1:
+		pos.x += dis_X * this->mTransform.scale.x;
+		pos.y += dis_Y * this->mTransform.scale.y;
+		pos.z += 0.0001f;
+		break;
+	case 2:
+		pos.x -= dis_X * this->mTransform.scale.x/3.0f;
+		pos.y += dis_Y * this->mTransform.scale.y;
+		pos.z -= 0.0001f;
+		break;
+	case 3:
+		pos.x += dis_X * this->mTransform.scale.x;
+		pos.y += dis_Y * this->mTransform.scale.y;
+		pos.z -= 0.0001f;
+		break;
+	default:
+		break;
+	}
+	dotween->DelayedCall(_breakTime / 2.0, [&,pos,scale]()
 		{
 			isBreak = true;
 			time = 0;
-		});
-	dotween->DelayedCall(_breakTime /2.0f, [&]()
-		{
 			isDecrease = true;
+			if(_dir!=-1)
+			effect = EffectManeger::GetInstance()->Play(pos,scale,EffectManeger::FX_TYPE::PANTI,false);
 		});
 	dotween->DelayedCall(_breakTime, [&]()
 		{

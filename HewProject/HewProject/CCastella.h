@@ -1,6 +1,7 @@
 #pragma once
 #include "CGridObject.h"
 #include "DoTween.h"
+class CEffect;
 
 #define CASTELLAWALK_TIME (2.0f)	// カステラを押すときの移動速度
 #define CASTELLAFALL_TIME (2.0f)	// カステラが落ちるまでの待機時間
@@ -9,7 +10,7 @@ class CCastella :
     public CGridObject
 {
     std::unique_ptr<DoTween> dotween;
-
+    CEffect* effect;
 public:
     CCastella(D3DBUFFER vb, D3DTEXTURE tex);
     ~CCastella();

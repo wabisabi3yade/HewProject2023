@@ -82,6 +82,13 @@ void ThinMove::Move(DIRECTION _dir)
 				}
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.001f;
+				pos.y += 1.5f;
+				scale.x *= HEART_SCALE;
+				scale.y *= HEART_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 				// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
@@ -426,7 +433,7 @@ void ThinMove::Move(DIRECTION _dir)
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
-		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME,junpPos.y + (CANNON_IN_CURVE_POS_Y * StageScale));
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()

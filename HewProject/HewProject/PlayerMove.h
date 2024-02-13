@@ -66,6 +66,9 @@ protected:
 	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
 	CGrid::GRID_XY nextCannonPos;
 	std::vector<int> cantMoveBlock;	// 移動できない床の種類を保持
+
+	float StageScale;
+
 public:
 	PlayerMove(Player* _p);
 
@@ -139,7 +142,7 @@ public:
 
 	bool GetMoveTrigger() { return isMovingTrigger; }
 	void SetMoveTrigger(bool _set) { isMovingTrigger = _set; }
-
+	void SetStageScale(float _set) { StageScale = _set; }
 
 	bool GetIsMoving()const { return isMoving; }
 	bool GetIsMoveStart()const { return isMoveStartTrigger; }

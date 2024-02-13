@@ -16,8 +16,16 @@ EffectManeger::EffectManeger()
 		L"asset/kawada/bullets.png",
 		L"asset/kawada/Red_Slash.png",
 		L"asset/Effect/break.png",
-		L"asset/Effect/smoke.png",
 		L"asset/Effect/taihou.png",
+		L"asset/Effect/smoke.png",
+		L"asset/Effect/panti.png",
+		L"asset/Effect/smoke_red.png",
+		L"asset/Effect/smoke_green.png",
+		L"asset/Effect/smoke_yellow.png",
+		L"asset/Effect/heart01.png",
+		L"asset/Effect/star02.png",
+		L"asset/Effect/star01.png",
+		//L"asset/Effect/"
 	};
 
 	// 画像をロードしてテクスチャの配列に入れる

@@ -77,12 +77,27 @@ void NormalMove::Move(DIRECTION _dir)
 				WalkAfter();
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.001f;
+				//pos.y += 1.5f;
+				scale.x *= HEART_SCALE;
+				scale.y *= HEART_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
+
 				// 食べ終わったら移動できるようにする
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
+						MoveAfter();
+						Vector3 pos = player->mTransform.pos;
+						Vector3 scale = player->mTransform.scale;
+						pos.z -= 0.001f;
+						pos.y += 1.5f;
+						scale.x *= SMOKE_SCALE;
+						scale.y *= SMOKE_SCALE;
+						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 						player->EatEnd();
 						player->EatCake();
-						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
@@ -107,6 +122,16 @@ void NormalMove::Move(DIRECTION _dir)
 						player->EatChilli();
 						player->EatEnd();
 						MoveAfter();
+						if (player->GetCalorie() < 6)
+						{
+							Vector3 pos = player->mTransform.pos;
+							Vector3 scale = player->mTransform.scale;
+							pos.z -= 0.001f;
+							pos.y += 1.5f;
+							scale.x *= SMOKE_SCALE;
+							scale.y *= SMOKE_SCALE;
+							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+						}
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
@@ -183,7 +208,8 @@ void NormalMove::Move(DIRECTION _dir)
 				}
 			});
 	}
-	break;	case CGridObject::BlockType::HOLL:
+	break;
+	case CGridObject::BlockType::HOLL:
 	{
 		WalkStart();
 		//ジャンプしてから落ちるように
@@ -286,11 +312,12 @@ void NormalMove::Move(DIRECTION _dir)
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
-		player->dotween->DelayedCall(JUMP_TIME / 2.0f,[&]()
+		player->dotween->DelayedCall(JUMP_TIME / 1.5f, [&]()
 			{
 				cannonFX = true;
+				player->ChangeInvisible();
 			});
-		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * StageScale));
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
@@ -308,7 +335,20 @@ void NormalMove::Move(DIRECTION _dir)
 
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+		player->dotween->OnComplete([&]() {
+			WalkAfter();
+			MoveAfter();
+			if (player->GetCalorie() < 6)
+			{
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.001f;
+				pos.y += 1.5f;
+				scale.x *= SMOKE_SCALE;
+				scale.y *= SMOKE_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+			}
+			});
 		break;
 	}
 }

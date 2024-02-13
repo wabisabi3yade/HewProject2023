@@ -51,7 +51,7 @@ public:
 
 	void Update();
 	// èuéûÇ…îΩâf
-	void SetProtein(const int& _getProtein);
+	void SetProtein(int _getProtein, bool _isDecade = false);
 
 	void AddProtein();
 

@@ -84,19 +84,6 @@ void PlayerMove::Input()
 			Move(DIRECTION::DOWN);
 
 	}
-	else if (gInput->GetKeyTrigger(VK_ESCAPE) || input->GetInputTrigger(InputType::DECIDE))
-	{
-		//if (inCannon)
-		//{
-		//	isCannonMove = true;
-		//	isCannonMoveStartTrigger = true;
-		//	inCannon = false;
-		//}
-	}
-	else if (gInput->GetKeyTrigger(VK_SPACE) || input->GetInputTrigger(InputType::L_BUTTON))
-	{
-		InCannon();
-	}
 	else if (input->GetInputTrigger(InputType::CAMERA))
 	{
 		isLookMap = true;

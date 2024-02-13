@@ -163,7 +163,7 @@ void Player::Update()
 				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //最終地点の反対 ＝ 画面の最上部地点
 				fallFloorChangeTrriger = true;
 			}
-			if (mTransform.pos == gridTable->GridToWorld(this->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START) && fallFloorChangeTrriger)
+			if (mTransform.pos == gridTable->GridToWorld(this->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(this->playerState)) && fallFloorChangeTrriger)
 			{
 				if (this->gridTable->CheckFloorType(move->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 				{
@@ -181,7 +181,7 @@ void Player::Update()
 				mTransform.pos.y = FALL_POS_Y - mTransform.scale.y / 2;
 				risingChangeTrriger = true;
 			}
-			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START) && risingChangeTrriger)
+			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START,static_cast<int>(this->playerState)) && risingChangeTrriger)
 			{
 				//move->Move(static_cast<PlayerMove::DIRECTION>(direction));
 				move->WalkAfter();
