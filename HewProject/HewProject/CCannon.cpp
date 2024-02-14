@@ -66,21 +66,13 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex, GridTable* _nowTable)
 	IsUse = false;
 	mAnim = new CannonAnim();
 	dotween = std::make_unique<DoTween>(this);
-	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
-	{
-		Arrow[i] = new CArrow(vb, NULL);
-		Arrow[i]->SetOwner(this, static_cast<CArrow::DIRECTION>(i));
-	}
-	effect = nullptr;
+	
 }
 
 CCannon::~CCannon()
 {
 	CLASS_DELETE(mAnim);
-	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
-	{
-		CLASS_DELETE(Arrow[i]);
-	}
+	
 }
 
 void CCannon::SetStageSize(CGrid::GRID_XY _set)
@@ -90,22 +82,6 @@ void CCannon::SetStageSize(CGrid::GRID_XY _set)
 
 void CCannon::Update()
 {
-	if (inPlayer)
-	{
-		//矢印を表示
-		for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
-		{
-			if (canMoveDir[i] == true)
-			{
-				Arrow[i]->Update();
-			}
-
-		}
-
-		//なんかのキーで発射
-	}
-	if (effect != nullptr)
-		effect->Update();
 	mAnim->Update();
 	dotween->Update();
 	CGridObject::Update();
@@ -113,70 +89,7 @@ void CCannon::Update()
 
 void CCannon::Draw()
 {
-	if (inPlayer)
-	{
-		//矢印を表示
-		for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
-		{
-			if (canMoveDir[i] == true)
-			{
-				Arrow[i]->Draw();
-			}
-		}
-	}
-	//if (effect != nullptr)
-		//if(effect->mTransform.pos.z  > this->mTransform.pos.z)
-		//effect->Draw();
 	CGridObject::Draw();
-	//if (effect != nullptr)
-		//if(effect->mTransform.pos.z  < this->mTransform.pos.z)
-		//effect->Draw();
-}
-
-void CCannon::Fire(int _dir)
-{
-	float x = 0, y = 0, z = 0;
-	switch (_dir)
-	{
-	case 0:
-		x += 1.0f;
-		y += 1.3f;
-		z -= 0.001f;
-		break;
-	case 1:
-		x -= 0.9f;
-		y += 1.4f;
-		z -= 0.001f;
-		break;
-	case 2:
-		x += 1.9f;
-		y += 1.7f;
-		z += 0.001f;
-		break;
-	case 3:
-		x -= 0.9f;
-		y += 1.0f;
-		z += 0.001f;
-		break;
-	default:
-		break;
-	}
-	//CLASS_DELETE(effect);
-	//effect = EffectManeger::GetInstance()->Play({ this->mTransform.pos.x + x,this->mTransform.pos.y + y,this->mTransform.pos.z + z }, { this->mTransform.scale.x * CANNON_FIRE_SCALE,this->mTransform.scale.y * CANNON_FIRE_SCALE ,this->mTransform.scale.z }, EffectManeger::FX_TYPE::CANNON_FIRE, false);
-}
-
-void CCannon::InPlayer()
-{
-	inPlayer = true;
-}
-
-void CCannon::SetArrow(D3DBUFFER vb, D3DTEXTURE _tex)
-{
-	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
-	{
-		Arrow[i] = new CArrow(vb, _tex);
-		Arrow[i]->SetOwner(this, static_cast<CArrow::DIRECTION>(i));
-	}
 }
 
 void CCannon::DirSelect(Player::DIRECTION _dir)

@@ -12,7 +12,7 @@ CChoco::CChoco(D3DBUFFER vb, D3DTEXTURE tex)
 
 CChoco::~CChoco()
 {
-
+	CLASS_DELETE(effect)
 }
 
 void CChoco::Update()

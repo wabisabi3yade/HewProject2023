@@ -24,11 +24,6 @@ class CCannon :
     bool IsUse;
 
     DIRECTION moveDir;
-
-    CArrow* Arrow[static_cast<int>(DIRECTION::NUM)];
-
-    CEffect* effect;
-
 public:
 
     std::unique_ptr<DoTween> dotween;
@@ -38,9 +33,6 @@ public:
 
     void Update()override;
     void Draw()override;
-    void Fire(int _dir);
-    void InPlayer();
-    void SetArrow(D3DBUFFER vb, D3DTEXTURE _tex);
     void DirSelect(Player::DIRECTION _dir);
     void CheckCanMove(const GridTable& _nowTable);
     void PlayTurn(int _dir, float _animSpeedRate = 1.0f);

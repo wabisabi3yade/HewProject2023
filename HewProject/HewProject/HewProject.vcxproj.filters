@@ -343,6 +343,24 @@
     <Filter Include="ソース ファイル\Kawada\KawadaScene">
       <UniqueIdentifier>{5ed2b1b0-ca68-4a60-bc1f-2f0f306d1ee5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage11">
+      <UniqueIdentifier>{c5f84d8d-e501-4bab-ac7e-24c835a2daff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage12">
+      <UniqueIdentifier>{78624a35-ce35-409a-9182-3196f14afef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage13">
+      <UniqueIdentifier>{48845095-e8a4-4353-a032-2b3fc5d9bd85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage14">
+      <UniqueIdentifier>{b5e1f029-7872-47dc-a8cf-cd1277d77745}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage15">
+      <UniqueIdentifier>{51bb17e3-26cc-49f3-822a-c1d72c984afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage16">
+      <UniqueIdentifier>{ffa762d4-f6da-40e8-b561-8701df738a6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -558,9 +576,6 @@
     <ClInclude Include="LoadCharacter.h">
       <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
     </ClInclude>
-    <ClInclude Include="Stage11.h">
-      <Filter>ソース ファイル\Stage\World1</Filter>
-    </ClInclude>
     <ClInclude Include="Stage21.h">
       <Filter>ソース ファイル\Stage\World2</Filter>
     </ClInclude>
@@ -659,6 +674,24 @@
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
       <Filter>ソース ファイル\Hashimoto\Fade\LoadingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage11.h">
+      <Filter>ソース ファイル\Stage\World1\Stage11</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage12.h">
+      <Filter>ソース ファイル\Stage\World1\Stage12</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage13.h">
+      <Filter>ソース ファイル\Stage\World1\Stage13</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage14.h">
+      <Filter>ソース ファイル\Stage\World1\Stage14</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage15.h">
+      <Filter>ソース ファイル\Stage\World1\Stage15</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage16.h">
+      <Filter>ソース ファイル\Stage\World1\Stage16</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -875,9 +908,6 @@
     <ClCompile Include="LoadCharacter.cpp">
       <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
     </ClCompile>
-    <ClCompile Include="Stage11.cpp">
-      <Filter>ソース ファイル\Stage\World1</Filter>
-    </ClCompile>
     <ClCompile Include="Stage21.cpp">
       <Filter>ソース ファイル\Stage\World2</Filter>
     </ClCompile>
@@ -976,6 +1006,24 @@
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
       <Filter>ソース ファイル\Hashimoto\Fade\LoadingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage11.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage11</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage12.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage12</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage13.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage13</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage14.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage14</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage15.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage15</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage16.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage16</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -33,7 +33,13 @@ void StageSelect::Input()
 		c_pointStage--;
 	}
 
-	if (input->GetInputTrigger(InputType::CANCEL))
+
+	if (input->GetInputTrigger(InputType::DECIDE))
+	{
+		btnSelect->PushButton();
+		isSceneMoving = true;
+	}
+	else if (input->GetInputTrigger(InputType::CANCEL))
 	{
 		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 		isSceneMoving = true;

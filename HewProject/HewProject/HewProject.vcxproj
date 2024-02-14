@@ -224,6 +224,11 @@
     <ClInclude Include="ShadowUI.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage11.h" />
+    <ClInclude Include="Stage12.h" />
+    <ClInclude Include="Stage13.h" />
+    <ClInclude Include="Stage14.h" />
+    <ClInclude Include="Stage15.h" />
+    <ClInclude Include="Stage16.h" />
     <ClInclude Include="Stage21.h" />
     <ClInclude Include="Stage31.h" />
     <ClInclude Include="StageEx1.h" />
@@ -332,6 +337,11 @@
     <ClCompile Include="ShadowUI.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage11.cpp" />
+    <ClCompile Include="Stage12.cpp" />
+    <ClCompile Include="Stage13.cpp" />
+    <ClCompile Include="Stage14.cpp" />
+    <ClCompile Include="Stage15.cpp" />
+    <ClCompile Include="Stage16.cpp" />
     <ClCompile Include="Stage21.cpp" />
     <ClCompile Include="Stage31.cpp" />
     <ClCompile Include="StageEx1.cpp" />
