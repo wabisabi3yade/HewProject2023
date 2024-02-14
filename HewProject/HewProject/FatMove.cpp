@@ -80,13 +80,13 @@ void FatMove::Move(DIRECTION _dir)
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z -= 0.001f;
-				pos.y += 1.5f;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= HEART_SCALE;
 				scale.y *= HEART_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 				// 食べ終わったら移動できるようにする
-				player->dotween->DelayedCall(EAT_TIME, [&]()
+				player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 					{
 						player->EatEnd();
 						player->EatCake();
@@ -118,8 +118,8 @@ void FatMove::Move(DIRECTION _dir)
 						{
 							Vector3 pos = player->mTransform.pos;
 							Vector3 scale = player->mTransform.scale;
-							pos.z -= 0.001f;
-							pos.y += 1.5f;
+							pos.z -= 0.000001f;
+							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
@@ -173,8 +173,8 @@ void FatMove::Move(DIRECTION _dir)
 							{
 								Vector3 pos = player->mTransform.pos;
 								Vector3 scale = player->mTransform.scale;
-								pos.z -= 0.001f;
-								pos.y += 1.5f;
+								pos.z -= 0.000001f;
+								pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 								scale.x *= SMOKE_SCALE;
 								scale.y *= SMOKE_SCALE;
 								player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
@@ -194,8 +194,8 @@ void FatMove::Move(DIRECTION _dir)
 					{
 						Vector3 pos = player->mTransform.pos;
 						Vector3 scale = player->mTransform.scale;
-						pos.z -= 0.001f;
-						pos.y += 1.5f;
+						pos.z -= 0.000001f;
+						pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 						scale.x *= SMOKE_SCALE;
 						scale.y *= SMOKE_SCALE;
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
@@ -215,12 +215,20 @@ void FatMove::Move(DIRECTION _dir)
 			{
 				//画面外まで移動するようにYをマクロで定義して使用する
 				WalkAfter();
+
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.00001f;
+				scale.x *= MARK_SCALE;
+				scale.y *= MARK_SCALE;
+				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
 					{
 						player->Fall();
 						player->ChangeTexture(Player::ANIM_TEX::WALK);
+						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
@@ -236,9 +244,10 @@ void FatMove::Move(DIRECTION _dir)
 					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
 						//バウンドする高さを計算　代入
+						//player->Fall();
 						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(FALL_TIME + WALK_TIME + FALLMOVE_TIME * 2, [&]()
+						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 							{
 								isFallBound = true;
 							});
@@ -365,7 +374,11 @@ void FatMove::Move(DIRECTION _dir)
 				cannonFX = true;
 				player->ChangeInvisible();
 			});
-		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * StageScale));
+		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
+		{
+			player->mTransform.pos.z = forwardPos.z - 0.20001f;
+		}
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
@@ -386,12 +399,14 @@ void FatMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
+				WalkAfter();
+				MoveAfter();
 				if (player->GetCalorie() < 11)
 				{
 					Vector3 pos = player->mTransform.pos;
 					Vector3 scale = player->mTransform.scale;
-					pos.z -= 0.001f;
-					pos.y += 1.5f;
+					pos.z -= 0.000001f;
+					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
@@ -406,26 +421,40 @@ void FatMove::Step()
 	switch (player->GetPlayerMove()->CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
-
-		//WalkStart();
-
+	{
+		WalkStart();
 		// 食べ終わったら移動できるようにする
+
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
-		// 食べ終わったら移動できるようにする
+
+		Vector3 pos = player->mTransform.pos;
+		Vector3 scale = player->mTransform.scale;
+		pos.z -= 0.000001f;
+		scale.x *= HEART_SCALE;
+		scale.y *= HEART_SCALE;
+		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
+
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
+				MoveAfter();
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+				scale.x *= SMOKE_SCALE;
+				scale.y *= SMOKE_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 				player->EatEnd();
 				player->EatCake();
-				MoveAfter();
-				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
-
 		break;
-
+	}
 	case CGridObject::BlockType::CHILI:
+
+		WalkAfter();
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -433,10 +462,20 @@ void FatMove::Step()
 				player->EatChilli();
 				player->EatEnd();
 				MoveAfter();
-				FallAfter();
+				if (player->GetCalorie() < 6)
+				{
+					Vector3 pos = player->mTransform.pos;
+					Vector3 scale = player->mTransform.scale;
+					pos.z -= 0.000001f;
+					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+					scale.x *= SMOKE_SCALE;
+					scale.y *= SMOKE_SCALE;
+					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+				}
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
+
 		break;
 
 	case CGridObject::BlockType::PROTEIN:
@@ -558,10 +597,21 @@ void FatMove::Step()
 		break;
 
 	default:	// 床
+		WalkAfter();
 		MoveAfter();
-		FallAfter();
+		if (player->GetCalorie() < 6)
+		{
+			Vector3 pos = player->mTransform.pos;
+			Vector3 scale = player->mTransform.scale;
+			pos.z -= 0.000001f;
+			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+			scale.x *= SMOKE_SCALE;
+			scale.y *= SMOKE_SCALE;
+			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+		}
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
+
 		break;
 	}
 }

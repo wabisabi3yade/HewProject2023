@@ -14,6 +14,8 @@ void BaumAnim::Update()
 {
 	int animTable[][32] = {
 
+		{0,-1},
+
 		{0,0,1,1,2,2,
 		 3,3,4,4,5,5,
 		 6,6,7,7,-2},
@@ -35,6 +37,7 @@ void BaumAnim::Update()
 		{
 			// çƒê∂Çé~ÇﬂÇÈ
 			isPlaying = false;
+			animPattern = 0;
 			animCounter = 0.0f;
 			//animPattern -= 1;
 			// ç≈èâÇÃÉRÉ}Ç…ñﬂÇµÇƒé~ÇﬂÇÈ
@@ -58,21 +61,5 @@ void BaumAnim::PlayAnim(int _dir, float _animRate)
 	isPlaying = true;
 	animCounter = 0;
 	animRate = _animRate;
-	switch (_dir)
-	{
-	case 0:
-		SetPattern(static_cast<int>(BaumAnim::PATTERN::BAUM_DOWN));
-		break;
-	case 1:
-		SetPattern(static_cast<int>(BaumAnim::PATTERN::BAUM_LEFT));
-		break;
-	case 2:
-		SetPattern(static_cast<int>(BaumAnim::PATTERN::BAUM_RIGHT));
-		break;
-	case 3:
-		SetPattern(static_cast<int>(BaumAnim::PATTERN::BAUM_UP));
-		break;
-	default:
-		break;
-	}
+	SetPattern(static_cast<int>(BaumAnim::PATTERN::BAUM));
 }

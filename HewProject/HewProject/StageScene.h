@@ -118,6 +118,7 @@ private:
 	D3DTEXTURE shadowTexture;
 	D3DTEXTURE stageTextureCannon[2]; //0Ç…ç∂âE 1Ç…è„â∫
 	D3DTEXTURE stageTextureArrow;
+	D3DTEXTURE stageTextureBaumAnim[4];
 
 	//UIä÷åW
 

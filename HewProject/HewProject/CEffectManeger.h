@@ -15,6 +15,10 @@ constexpr float SMOKE_SCALE = 3.0f;
 constexpr float HEART_SCALE = 1.8f;
 constexpr float STAR_BOUND_SCALE = 1.5f;
 constexpr float STAR_CASTELLA_SCALE = 1.5f;
+constexpr float AURA_SCALE = 1.5f;
+constexpr float BOX_SCALE = 1.5f;
+constexpr float KUMO_SCALE = 1.0f;
+constexpr float MARK_SCALE = 1.5f;
 
 //constexpr float
 class EffectManeger //public CObject
@@ -37,6 +41,10 @@ public:
 		HEART,
 		STAR_BOUND,
 		STAR_CASTELLA,
+		AURA,
+		BOX,
+		KUMO,
+		MARK,
 		EFFECT_MAX,
 	}FX_TYPE;
 

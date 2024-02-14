@@ -55,9 +55,6 @@
     <Filter Include="ソース ファイル\Shader">
       <UniqueIdentifier>{2511f23d-a609-45a1-9b4a-4f187f5858a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Kawada\KawadaScene">
-      <UniqueIdentifier>{5ed2b1b0-ca68-4a60-bc1f-2f0f306d1ee5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Mizuno">
       <UniqueIdentifier>{1c595654-7265-467c-8867-01eda9b4ba44}</UniqueIdentifier>
     </Filter>
@@ -342,6 +339,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Hashimoto\Fade\LoadingScene">
       <UniqueIdentifier>{83e81464-3203-4443-ba25-d63578a43801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\KawadaScene">
+      <UniqueIdentifier>{5ed2b1b0-ca68-4a60-bc1f-2f0f306d1ee5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

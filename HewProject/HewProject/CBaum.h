@@ -10,5 +10,15 @@ public:
 
     void Update();
     void Draw();
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_dir"> 
+    /// 移動方向 int
+    /// </param>
+    /// <param name="_vb">
+    /// アニメーション用のバッファー D3DBUFFER
+    /// </param>
+    void PlayAnim(int _dir, D3DBUFFER _vb);
 };
 

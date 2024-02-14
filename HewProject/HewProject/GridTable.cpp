@@ -67,18 +67,23 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _typ
 	break;
 	case CGridObject::BlockType::CHOCO:
 	case CGridObject::BlockType::CHOCOCRACK:
-		disTimes = 0.18f;
+		disTimes = 0.1f;
 		break;
-	case CGridObject::BlockType::WALL:
 	case CGridObject::BlockType::CASTELLA:
-	case CGridObject::BlockType::BAUMHORIZONTAL:
-	case CGridObject::BlockType::BAUMVERTICAL:
 	case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::GUMI:
 	case CGridObject::BlockType::CANNON:
-	case CGridObject::BlockType::GALL:
 		disTimes = 0.455f;
-
+		break;
+	case CGridObject::BlockType::BAUMHORIZONTAL:
+	case CGridObject::BlockType::BAUMVERTICAL:
+		disTimes = 0.555f;
+		break;
+	case CGridObject::BlockType::WALL:
+		disTimes = 0.415f;
+		break;
+	case CGridObject::BlockType::GALL:
+		disTimes = 0.53f;
 		break;
 
 	case CGridObject::BlockType::CAKE:

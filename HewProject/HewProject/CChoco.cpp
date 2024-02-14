@@ -39,7 +39,7 @@ void CChoco::CRACK()
 	{
 		effectMane = EffectManeger::GetInstance();
 		CLASS_DELETE(effect);
-		effect = effectMane->Play({ mTransform.pos.x,mTransform.pos.y,mTransform.pos.z - 0.0001f }, { this->mTransform.scale.x * CRACKSCALE,this->mTransform.scale.y * CRACKSCALE,this->mTransform.scale.z }, EffectManeger::FX_TYPE::CRACK, false);
+		effect = effectMane->Play({ mTransform.pos.x,mTransform.pos.y,mTransform.pos.z - 0.000001f }, { this->mTransform.scale.x * CRACKSCALE,this->mTransform.scale.y * CRACKSCALE,this->mTransform.scale.z }, EffectManeger::FX_TYPE::CRACK, false);
 		this->type = CGridObject::BlockType::CHOCOCRACK;
 		this->category = CGridObject::Category::FLOOR;
 	}

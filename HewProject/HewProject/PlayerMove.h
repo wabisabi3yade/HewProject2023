@@ -67,8 +67,6 @@ protected:
 	CGrid::GRID_XY nextCannonPos;
 	std::vector<int> cantMoveBlock;	// ˆÚ“®‚Å‚«‚È‚¢°‚Ìí—Ş‚ğ•Û
 
-	float StageScale;
-
 public:
 	PlayerMove(Player* _p);
 
@@ -142,7 +140,6 @@ public:
 
 	bool GetMoveTrigger() { return isMovingTrigger; }
 	void SetMoveTrigger(bool _set) { isMovingTrigger = _set; }
-	void SetStageScale(float _set) { StageScale = _set; }
 
 	bool GetIsMoving()const { return isMoving; }
 	bool GetIsMoveStart()const { return isMoveStartTrigger; }

@@ -74,10 +74,10 @@ void TextureFactory::Load()
 		L"asset/Player/N_EatChili.png",
 		L"asset/Player/F_EatChili.png",
 		L"asset/Player/T_EatChili.png",
-		L"asset/Player/T_ThorwRight.png",
-		L"asset/Player/T_ThrowLeft.png",
-		L"asset/Player/T_ThrowDown.png",
-		L"asset/Player/T_ThrowUp.png",
+		L"asset/Player/Baum_Right.png",
+		L"asset/Player/Baum_Left.png",
+		L"asset/Player/Baum_Down.png",
+		L"asset/Player/Baum_Up.png",
 		L"asset/Player/Player_CanonMove.png",
 
 		L"asset/Stage/floor_y.png",
@@ -94,7 +94,7 @@ void TextureFactory::Load()
 		L"asset/Stage/Castella.png",
 		L"asset/Stage/Canon_RightLeft.png",
 		L"asset/Stage/Canon_UpDown.png",
-		L"asset/Stage/2castella.png",
+		L"asset/Stage/Castella.png",
 		L"asset/Stage/GallChest.png",
 		L"asset/Stage/Gumi.png",
 

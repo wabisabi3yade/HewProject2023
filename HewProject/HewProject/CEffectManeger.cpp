@@ -25,7 +25,11 @@ EffectManeger::EffectManeger()
 		L"asset/Effect/heart01.png",
 		L"asset/Effect/star02.png",
 		L"asset/Effect/star01.png",
-		//L"asset/Effect/"
+		L"asset/Effect/aura.png",
+		L"asset/Effect/box.png",
+		L"asset/Effect/kumo.png",
+		L"asset/Effect/mark.png",
+		//L"asset/Effect/",
 	};
 
 	// 画像をロードしてテクスチャの配列に入れる
@@ -89,7 +93,11 @@ CEffect* EffectManeger::Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _
 	charObj->mTransform.pos = _pos;
 
 	charObj->GetmAnim()->animSpeed = 0.3f;
-
+	charObj->SetFxType(static_cast<int>(_type));
+	if (_type == FX_TYPE::AURA)
+	{
+		charObj->SetAlpha(0.5f);
+	}
 	//EffectlistにcharObjを追加
 	//EffectList.push_back(charObj);
 	return charObj;

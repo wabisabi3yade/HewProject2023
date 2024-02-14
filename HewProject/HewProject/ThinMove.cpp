@@ -84,17 +84,25 @@ void ThinMove::Move(DIRECTION _dir)
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z -= 0.001f;
-				pos.y += 1.5f;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= HEART_SCALE;
 				scale.y *= HEART_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
+				//煙用に
+				pos = player->mTransform.pos;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+				scale = player->mTransform.scale;
+				scale.x *= SMOKE_SCALE;
+				scale.y *= SMOKE_SCALE;
 				// 食べ終わったら移動できるようにする
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
 						player->EatEnd();
 						player->EatCake();
 						MoveAfter();
+						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
@@ -263,11 +271,11 @@ void ThinMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::BAUMHORIZONTAL:
 	case CGridObject::BlockType::BAUMVERTICAL:
 	{
-
+		CGrid::GRID_XY nextGridPosCopy = nextGridPos;
 		// バウムクーヘンの向こう側に移動する
 		// もう一個先に座標設定
-		nextGridPos.x += d.x;
-		nextGridPos.y += d.y;
+		nextGridPosCopy.x += d.x;
+		nextGridPosCopy.y += d.y;
 
 		CGrid::GRID_XY XY = { 0,0 };
 		for (int i = 0; i < 9; i++)
@@ -285,19 +293,16 @@ void ThinMove::Move(DIRECTION _dir)
 				break;
 			}
 		}
-		if (nextGridPos.x < 0 || nextGridPos.y < 0 || nextGridPos.x > XY.x || nextGridPos.y > XY.y)
+		if (nextGridPosCopy.x < 0 || nextGridPosCopy.y < 0 || nextGridPosCopy.x > XY.x || nextGridPosCopy.y > XY.y)
 		{
 			nextGridPos = player->GetGridPos();
 			MoveAfter();
 			return;
 		}
-		player->ChangeTexture(Player::ANIM_TEX::BAUM);
-
-		player->mTransform.pos = player->GetGridTable()->GridToWorld({ nextGridPos.x - d.x, nextGridPos.y - d.y }, CGridObject::BlockType::START);
-		player->mTransform.pos.z += 0.001f;
-		//WalkStart();
-
-		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
+		//player->ChangeTexture(Player::ANIM_TEX::BAUM);
+		WalkStart();
+		player->ChangeInvisible();
+		forwardPos = player->GetGridTable()->GridToWorld(nextGridPosCopy, CGridObject::BlockType::START);
 		forwardPosXY = { forwardPos.x, forwardPos.y };
 
 		player->dotween->DoDelay(3.0f);
@@ -306,17 +311,18 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		// 動き終わったら
-		player->dotween->OnComplete([&]()
+		player->dotween->OnComplete([&, nextGridPosCopy]()
 			{
 				WalkAfter();
-
+				player->ChangeInvisible();
 				// カステラ超えた先にブロックによって処理をする
-				switch (static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckMassType(nextGridPos)))
+				switch (static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckMassType(nextGridPosCopy)))
 				{
 				case CGridObject::BlockType::CAKE:
 					// 食べ終わったら移動できるようにする
 					player->dotween->DelayedCall(EAT_TIME, [&]()
 						{
+							nextGridPos = nextGridPosCopy;
 							player->EatCake();
 							MoveAfter();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -328,6 +334,7 @@ void ThinMove::Move(DIRECTION _dir)
 					// 食べ終わったら移動できるようにする
 					player->dotween->DelayedCall(EAT_TIME, [&]()
 						{
+							nextGridPos = nextGridPosCopy;
 							player->EatChilli();
 							MoveAfter();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -338,6 +345,7 @@ void ThinMove::Move(DIRECTION _dir)
 				case CGridObject::BlockType::PROTEIN:
 					player->dotween->DelayedCall(EAT_TIME, [&]()
 						{
+							nextGridPos = nextGridPosCopy;
 							MoveAfter();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
 							player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -345,19 +353,21 @@ void ThinMove::Move(DIRECTION _dir)
 					break;
 
 				case CGridObject::BlockType::COIN:
+					nextGridPos = nextGridPosCopy;
 					MoveAfter();
 					player->GetPlayerAnim()->StopWalk(player->GetDirection());
 					player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					break;
 
 				case CGridObject::BlockType::CHOCO:
+					nextGridPos = nextGridPosCopy;
 					MoveAfter();
 					player->GetPlayerAnim()->StopWalk(player->GetDirection());
 					player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					break;
 
 				case CGridObject::BlockType::CHOCOCRACK:
-
+					nextGridPos = nextGridPosCopy;
 					MoveAfter();
 					player->GetPlayerAnim()->StopWalk(player->GetDirection());
 					player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -416,6 +426,7 @@ void ThinMove::Move(DIRECTION _dir)
 					}
 				}
 				default:
+					nextGridPos = nextGridPosCopy;
 					MoveAfter();
 					break;
 				}
@@ -438,7 +449,11 @@ void ThinMove::Move(DIRECTION _dir)
 				cannonFX = true;
 				player->ChangeInvisible();
 			});
-		player->dotween->DoMoveCurve(junpPos, JUMP_TIME,junpPos.y + (CANNON_IN_CURVE_POS_Y * StageScale));
+		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
+		{
+			player->mTransform.pos.z = forwardPos.z - 0.20001f;
+		}
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME,junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
