@@ -8,6 +8,20 @@
 #include "UI.h"
 #include "ShadowUI.h"
 
+#define STAGE_SCALE_X (3.95f)
+#define STAGE_SCALE_Y (3.0f)
+
+#define TEXT_POS_X (18.0f)
+#define TEXT_POS_Y (2.5f)
+#define TEXT_POS_XX (-18.0f)
+#define TEXT_POS_YY (-2.5f)
+#define TEXT_POS_Z (-0.01f)
+#define TEXT_SCALE_X (9.0f)
+#define TEXT_SCALE_Y (3.0f)
+
+#define WORD_SCALE_X (4.0f)
+#define WORD_SCALE_Y (1.0f)
+
 CStage1SelectScene::CStage1SelectScene()
 {
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
@@ -55,90 +69,90 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Text[0] = new UI(textBuffer, text_world2Texture);
 	Text[0]->MakeDotween();
-	Text[0]->mTransform.pos = { -18.0f,-2.5f,-0.01f};
-	Text[0]->mTransform.scale = {9.0f,3.0f,1};
+	Text[0]->mTransform.pos = { TEXT_POS_XX,TEXT_POS_YY,TEXT_POS_Z};
+	Text[0]->mTransform.scale = {TEXT_SCALE_X,TEXT_SCALE_Y,1};
 	Text[0]->materialDiffuse = {1,1,1,1};
 
 	Text[1] = new UI(textBuffer, text_world1Texture);
 	Text[1]->MakeDotween();
-	Text[1]->mTransform.pos = { 18.0f,-2.5f,-0.01f };
-	Text[1]->mTransform.scale = { 9.0f,3.0f,1 };
+	Text[1]->mTransform.pos = { TEXT_POS_X,TEXT_POS_YY,TEXT_POS_Z };
+	Text[1]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
 	Text[1]->materialDiffuse = { 1,1,1,1 };
 
 	Text[2] = new UI(textBuffer, text_world3Texture);
 	Text[2]->MakeDotween();
-	Text[2]->mTransform.pos = { 18.0f,2.5f,-0.01f };
-	Text[2]->mTransform.scale = { 9.0f,3.0f,1 };
+	Text[2]->mTransform.pos = { TEXT_POS_X,TEXT_POS_Y,TEXT_POS_Z };
+	Text[2]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
 	Text[2]->materialDiffuse = { 1,1,1,1 };
 
 	Text[3] = new UI(textBuffer, text_world4Texture);
 	Text[3]->MakeDotween();
-	Text[3]->mTransform.pos = { -18.0f,2.5f,-0.01f };
-	Text[3]->mTransform.scale = { 9.0f,3.0f,1 };
+	Text[3]->mTransform.pos = { TEXT_POS_XX,TEXT_POS_Y,TEXT_POS_Z };
+	Text[3]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
 	Text[3]->materialDiffuse = { 1,1,1,1 };
 
 	Word[0] = new UI(wordBuffer, word_RightUpTexture);
 	Word[0]->MakeDotween();
 	Word[0]->mTransform.pos = {-20.0f,-3.0f,-0.1f};
-	Word[0]->mTransform.scale = {4.0f,1.0f,1};
+	Word[0]->mTransform.scale = {WORD_SCALE_X,WORD_SCALE_Y,1};
 
 	Word[1] = new UI(wordBuffer, word_RightDownTexture);
 	Word[1]->MakeDotween();
 	Word[1]->mTransform.pos = { -20.0f,2.0f,-0.1f };
-	Word[1]->mTransform.scale = { 4.0f,1.0f,1 };
+	Word[1]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[2] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[2]->MakeDotween();
 	Word[2]->mTransform.pos = { 18.0f,-3.0f,-0.1f };
-	Word[2]->mTransform.scale = { 4.0f,1.0f,1 };
+	Word[2]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[3] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[3]->MakeDotween();
 	Word[3]->mTransform.pos = { 18.0f,2.0f,-0.1f };
-	Word[3]->mTransform.scale = { 4.0f,1.0f,1 };
+	Word[3]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[4] = new UI(wordBuffer, word_RightUpTexture);
 	Word[4]->MakeDotween();
 	Word[4]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[4]->mTransform.pos = { -16.0f,-3.0f,-0.11f };
-	Word[4]->mTransform.scale = { 4.0f,1.0f,1 };
+	Word[4]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[5] = new UI(wordBuffer, word_RightDownTexture);
 	Word[5]->MakeDotween();
 	Word[5]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[5]->mTransform.pos = { -16.0f,2.0f,-0.11f };
-	Word[5]->mTransform.scale = { 4.0f,1.0f,1 };
+	Word[5]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[6] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[6]->MakeDotween();
 	Word[6]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[6]->mTransform.pos = { 20.0f,-3.0f,-0.11f };
-	Word[6]->mTransform.scale = { 4.0f,1.0f,1 };
+	Word[6]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[7] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[7]->MakeDotween();
 	Word[7]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[7]->mTransform.pos = { 20.0f,2.0f,-0.11f };
-	Word[7]->mTransform.scale = { 4.0f,1.0f,1 };
+	Word[7]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	stage[0]->mTransform.pos = { -4.0f,2.0f,-0.1f };
-	stage[0]->mTransform.scale = { 3.95f,3.0f,1 };
-	stage[0]->mTransform.rotation = { 0,0,5.0f };
+	stage[0]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
+	stage[0]->mTransform.rotation = { 0,0,-5.0f };
 
-	stage[1]->mTransform.pos = { -2.5f,-2.0f,-0.1f };
-	stage[1]->mTransform.scale = { 3.95f,3.0f,1 };
+	stage[1]->mTransform.pos = { -2.8f,-2.0f,-0.1f };
+	stage[1]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
 	stage[1]->mTransform.rotation = { 0,0,2.0f };
 
-	stage[2]->mTransform.pos = { 4.0f,2.0f,-0.1f };
-	stage[2]->mTransform.scale = { 3.95f,3.0f,1 };
-	stage[2]->mTransform.rotation = { 0,0,-5.0f };
+	stage[2]->mTransform.pos = { 4.0f,1.6f,-0.1f };
+	stage[2]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
+	stage[2]->mTransform.rotation = { 0,0,5.0f };
 
-	stage[3]->mTransform.pos = { 3.0f,-2.0f,-0.1f };
-	stage[3]->mTransform.scale = { 3.95f,3.0f,1 };
-	stage[3]->mTransform.rotation = { 0,0,-10.0f };
+	stage[3]->mTransform.pos = { 3.0f,-2.7f,-0.1f };
+	stage[3]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
+	stage[3]->mTransform.rotation = { 0,0,-7.0f };
 
 	stage[4]->mTransform.pos = { 0,-2,-0.1f };
-	stage[4]->mTransform.scale = { 3.95f,3.0f,1 };
+	stage[4]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
 
 	Vector3 shadowPos[4];
 
@@ -230,7 +244,6 @@ void CStage1SelectScene::Update()
 	
 	for (int i = 0; i < 5; i++)
 	{
-		CollsionRect(stage[i], player);
 
 		if (CollsionRect(stage[i], player) == true)
 		{
@@ -471,7 +484,7 @@ void CStage1SelectScene::Draw()
 		Shadow[i]->Draw();
 	}
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		stage[i]->Draw();
 	}
