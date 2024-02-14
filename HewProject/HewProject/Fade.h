@@ -2,7 +2,6 @@
 #include <iostream>
 #include "direct3d.h"
 #include <functional>
-#include "CScene.h"
 
 #define FADE_BACK_NUM (2)	// フェード背景の数
 
@@ -75,7 +74,7 @@ public:
 	/// 
 	/// 引数②　フェード後のやること
 	void FadeIn(const STATE& _nextState, std::function<void()> _onFunc = nullptr, 
-		int _setScene = CScene::SCENE_NAME::NONE);
+		int _setScene = -1);
 
 	// ローディングのための初期化をする
 	void LoadingInit();

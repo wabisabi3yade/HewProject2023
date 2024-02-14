@@ -3,6 +3,7 @@
 #include "CObject.h"
 #include "CInput.h"
 #include "direct3d.h"
+#include "Fade.h"
 
 class CSceneManager; //マネージャのプロトタイプ宣言
 
@@ -13,6 +14,8 @@ public:
 	// シーンの名前
 	enum SCENE_NAME
 	{
+		NONE  = -1,	// なにもなし
+
 		KAWADA,	// 河田シーン
 		TATEMIZO,	// 立溝シーン
 		MIZUNO,	// 水野シーン
@@ -33,7 +36,7 @@ public:
 		LOADING,	// ローディング
 
 		SCENE_NUM,	// シーンの数
-		NONE,	// なにもなし
+		
 		SELECT,	// セレクトシーン
 		HOSODA_SELECT
 	};

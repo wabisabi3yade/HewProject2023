@@ -17,6 +17,8 @@
 #define LOADING_BACKSPEED (0.007f)	// ローディング時に動く背景の速度 
 #define NOWLOADING_OFFSET_Z (0.1f)	// NowLoadingのテキストが背景からの差 
 
+#define FADEIN_DELAYTIME (0.5f)	// フェードイン呼ばれてフェードインするまでに待機時間
+
 Fade* Fade::instance = nullptr;
 
 using namespace DirectX;
@@ -205,6 +207,7 @@ void Fade::FadeIn(const STATE& _nextState, std::function<void()> _onFunc, int _s
 
 	// 現在、次のの状態を更新する
 	state = STATE::FADE_IN;
+
 	nextState = _nextState;
 
 	// 画面左端に配置する
@@ -216,7 +219,9 @@ void Fade::FadeIn(const STATE& _nextState, std::function<void()> _onFunc, int _s
 	// フェードが画面端に到達する瞬間の座標
 	Vector3 v = Vector3::zero;
 	v.z = FADE_BASE_POSZ;
-	backGround->dotween->DoEaseOutCubic(v, FADE_TIME);
+	
+	backGround->dotween->DoDelay(FADEIN_DELAYTIME);
+	backGround->dotween->Append(v, FADE_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC); 
 	backGround->dotween->OnComplete([&]()
 		{
 			switch (nextState)

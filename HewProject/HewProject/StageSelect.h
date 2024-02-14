@@ -20,6 +20,8 @@ protected:
 
     bool isChangeNumTriger = false; // 数字が変わった瞬間
 
+    bool isSceneMoving = false;   // シーン変わっている最中か
+
     short stageNum; // ステージの数
   
     short c_pointStage = 1;   // 選んでいるステージの数
