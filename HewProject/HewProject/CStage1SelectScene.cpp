@@ -8,19 +8,22 @@
 #include "UI.h"
 #include "ShadowUI.h"
 
-#define STAGE_SCALE_X (3.95f)
-#define STAGE_SCALE_Y (3.0f)
+#define STAGE_SCALE_X (4.27f)
+#define STAGE_SCALE_Y (3.2f)
 
 #define TEXT_POS_X (18.0f)
-#define TEXT_POS_Y (2.5f)
+#define TEXT_POS_Y (1.5f)
 #define TEXT_POS_XX (-18.0f)
-#define TEXT_POS_YY (-2.5f)
+#define TEXT_POS_YY (-1.5f)
 #define TEXT_POS_Z (-0.01f)
 #define TEXT_SCALE_X (9.0f)
 #define TEXT_SCALE_Y (3.0f)
 
 #define WORD_SCALE_X (4.0f)
 #define WORD_SCALE_Y (1.0f)
+
+#define TARGET_MOVETIME (0.7f)
+#define TARGETBACK_MOVETIME (0.5f)
 
 CStage1SelectScene::CStage1SelectScene()
 {
@@ -93,46 +96,46 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Word[0] = new UI(wordBuffer, word_RightUpTexture);
 	Word[0]->MakeDotween();
-	Word[0]->mTransform.pos = {-20.0f,-3.0f,-0.1f};
+	Word[0]->mTransform.pos = {-18.0f,-2.0f,-0.1f};
 	Word[0]->mTransform.scale = {WORD_SCALE_X,WORD_SCALE_Y,1};
 
 	Word[1] = new UI(wordBuffer, word_RightDownTexture);
 	Word[1]->MakeDotween();
-	Word[1]->mTransform.pos = { -20.0f,2.0f,-0.1f };
+	Word[1]->mTransform.pos = { -18.0f,1.0f,-0.1f };
 	Word[1]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[2] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[2]->MakeDotween();
-	Word[2]->mTransform.pos = { 18.0f,-3.0f,-0.1f };
+	Word[2]->mTransform.pos = { 16.0f,-2.0f,-0.1f };
 	Word[2]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[3] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[3]->MakeDotween();
-	Word[3]->mTransform.pos = { 18.0f,2.0f,-0.1f };
+	Word[3]->mTransform.pos = { 16.0f,1.0f,-0.1f };
 	Word[3]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[4] = new UI(wordBuffer, word_RightUpTexture);
 	Word[4]->MakeDotween();
 	Word[4]->SetUV(0, 1.0f / 2.0f * 1.0f);
-	Word[4]->mTransform.pos = { -16.0f,-3.0f,-0.11f };
+	Word[4]->mTransform.pos = { -16.0f,-2.0f,-0.11f };
 	Word[4]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[5] = new UI(wordBuffer, word_RightDownTexture);
 	Word[5]->MakeDotween();
 	Word[5]->SetUV(0, 1.0f / 2.0f * 1.0f);
-	Word[5]->mTransform.pos = { -16.0f,2.0f,-0.11f };
+	Word[5]->mTransform.pos = { -16.0f,1.0f,-0.11f };
 	Word[5]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[6] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[6]->MakeDotween();
 	Word[6]->SetUV(0, 1.0f / 2.0f * 1.0f);
-	Word[6]->mTransform.pos = { 20.0f,-3.0f,-0.11f };
+	Word[6]->mTransform.pos = { 18.0f,-2.0f,-0.11f };
 	Word[6]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[7] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[7]->MakeDotween();
 	Word[7]->SetUV(0, 1.0f / 2.0f * 1.0f);
-	Word[7]->mTransform.pos = { 20.0f,2.0f,-0.11f };
+	Word[7]->mTransform.pos = { 18.0f,1.0f,-0.11f };
 	Word[7]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	stage[0]->mTransform.pos = { -4.0f,2.0f,-0.1f };
@@ -259,14 +262,14 @@ void CStage1SelectScene::Update()
 				Vector3 target_word2 = Word[6]->mTransform.pos;
 				target_word2.x = 5.0f;
 
-				Text[1]->dotween->DoEaseOutBack(target, 1.0f);
-				Text[1]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Text[1]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
+				Text[1]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 				
-				Word[2]->dotween->DoEaseOutBack(target_word, 1.0f);
-				Word[2]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[2]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
+				Word[2]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 
-				Word[6]->dotween->DoEaseOutBack(target_word2, 1.0f);
-				Word[6]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[6]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
+				Word[6]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 
 				Text[1]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -277,18 +280,18 @@ void CStage1SelectScene::Update()
 				Vector3 target = Text[2]->mTransform.pos;
 				target.x = 3.0f;
 				Vector3 target_word = Word[3]->mTransform.pos;
-				target_word.x = 2.0f;
+				target_word.x = 2.5f;
 				Vector3 target_word2 = Word[7]->mTransform.pos;
 				target_word2.x = 5.5f;
 
-				Text[2]->dotween->DoEaseOutBack(target, 1.0f);
-				Text[2]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Text[2]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
+				Text[2]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 				
-				Word[3]->dotween->DoEaseOutBack(target_word, 1.0f);
-				Word[3]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[3]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
+				Word[3]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 				
-				Word[7]->dotween->DoEaseOutBack(target_word2, 1.0f);
-				Word[7]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[7]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
+				Word[7]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 
 				Text[2]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -304,14 +307,14 @@ void CStage1SelectScene::Update()
 				Vector3 target_word2 = Word[4]->mTransform.pos;
 				target_word2.x = -0.5f;
 
-				Text[0]->dotween->DoEaseOutBack(target, 1.0f);
-				Text[0]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Text[0]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
+				Text[0]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 				
-				Word[0]->dotween->DoEaseOutBack(target_word, 1.0f);
-				Word[0]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[0]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
+				Word[0]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 
-				Word[4]->dotween->DoEaseOutBack(target_word2, 1.0f);
-				Word[4]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[4]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
+				Word[4]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 
 				Text[0]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -322,18 +325,18 @@ void CStage1SelectScene::Update()
 				Vector3 target = Text[3]->mTransform.pos;
 				target.x = -3.0f;
 				Vector3 target_word = Word[1]->mTransform.pos;
-				target_word.x = -3.8f;
+				target_word.x = -3.7f;
 				Vector3 target_word2 = Word[5]->mTransform.pos;
-				target_word2.x = -1.0f;
+				target_word2.x = -1.2f;
 
-				Text[3]->dotween->DoEaseOutBack(target, 1.0f);
-				Text[3]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Text[3]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
+				Text[3]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 				
-				Word[1]->dotween->DoEaseOutBack(target_word, 1.0f);
-				Word[1]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[1]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
+				Word[1]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 
-				Word[5]->dotween->DoEaseOutBack(target_word2, 1.0f);
-				Word[5]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+				Word[5]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
+				Word[5]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
 
 				Text[3]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -381,15 +384,15 @@ void CStage1SelectScene::Update()
 		if (CollsionRect(stage[0], player) == false)
 		{
 			Vector3 target = Text[1]->mTransform.pos;
-			target.x = 18.0f;
+			target.x = 16.0f;
 			Vector3 target_word = Word[2]->mTransform.pos;
-			target_word.x = 18.0f;
+			target_word.x = 16.0f;
 			Vector3 target_word2 = Word[6]->mTransform.pos;
-			target_word2.x = 20.0f;
+			target_word2.x = 18.0f;
 
-			Text[1]->dotween->DoEaseOutBack(target, 1.0f);
-			Word[2]->dotween->DoEaseOutBack(target_word, 1.0f);
-			Word[6]->dotween->DoEaseOutBack(target_word2, 1.0f);
+			Text[1]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
+			Word[2]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
+			Word[6]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
 			isOnce = false;
 		}
 		
@@ -397,15 +400,15 @@ void CStage1SelectScene::Update()
 		if (CollsionRect(stage[1], player) == false)
 		{
 			Vector3 target = Text[2]->mTransform.pos;
-			target.x = 18.0f;
+			target.x = 16.0f;
 			Vector3 target_word = Word[3]->mTransform.pos;
-			target_word.x = 18.0f;
+			target_word.x = 16.0f;
 			Vector3 target_word2 = Word[7]->mTransform.pos;
-			target_word2.x = 20.0f;
+			target_word2.x = 18.0f;
 
-			Text[2]->dotween->DoEaseOutBack(target, 1.0f);
-			Word[3]->dotween->DoEaseOutBack(target_word, 1.0f);
-			Word[7]->dotween->DoEaseOutBack(target_word2, 1.0f);
+			Text[2]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
+			Word[3]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
+			Word[7]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
 			isOnce = false;
 		}
 
@@ -413,14 +416,14 @@ void CStage1SelectScene::Update()
 		if (CollsionRect(stage[2], player) == false)
 		{
 			Vector3 target = Text[0]->mTransform.pos;
-			target.x = -18.0f;
+			target.x = -15.0f;
 			Vector3 target_word = Word[0]->mTransform.pos;
 			target_word.x = -18.0f;
 			Vector3 target_word2 = Word[4]->mTransform.pos;
-			target_word2.x = -16.0f;
-			Text[0]->dotween->DoEaseOutBack(target, 1.0f);
-			Word[0]->dotween->DoEaseOutBack(target_word, 1.0f);
-			Word[4]->dotween->DoEaseOutBack(target_word2, 1.0f);
+			target_word2.x = -15.0f;
+			Text[0]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
+			Word[0]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
+			Word[4]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
 			isOnce = false;
 		}
 
@@ -428,14 +431,14 @@ void CStage1SelectScene::Update()
 		if (CollsionRect(stage[3], player) == false)
 		{
 			Vector3 target = Text[3]->mTransform.pos;
-			target.x = -18.0f;
+			target.x = -15.0f;
 			Vector3 target_word = Word[1]->mTransform.pos;
 			target_word.x = -18.0f;
 			Vector3 target_word2 = Word[5]->mTransform.pos;
-			target_word2.x = -16.0f;
-			Text[3]->dotween->DoEaseOutBack(target, 1.0f);
-			Word[1]->dotween->DoEaseOutBack(target_word, 1.0f);
-			Word[5]->dotween->DoEaseOutBack(target_word2, 1.0f);
+			target_word2.x = -15.0f;
+			Text[3]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
+			Word[1]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
+			Word[5]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
 			isOnce = false;
 		}
 	}
