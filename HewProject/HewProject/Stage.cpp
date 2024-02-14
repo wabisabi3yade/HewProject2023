@@ -4,10 +4,18 @@
 #include"Player.h"
 #include"CDirectWrite.h"
 
-Stage::Stage(const wchar_t* _csvPath)
+Stage::Stage(const wchar_t* _csvName)
 {
+
+	wchar_t work[256];
+
+	wcscpy_s(work, L"asset/StageCsv/"); // •¶Žš—ñƒRƒs[ŠÖ”
+	wcscat_s(work, _csvName); // •¶Žš—ñŒ‹‡ŠÖ”
+
+	csvPath = work;
+
 	stage = new StageScene(NULL, NULL);
-	stage->Init(_csvPath, 3);
+	stage->Init(csvPath);
 
 	if (isDirectWriteUse)
 	{
@@ -15,6 +23,20 @@ Stage::Stage(const wchar_t* _csvPath)
 		dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
 		gauge = new Ckcal_gauge();
 	}	
+}
+
+void Stage::Init()
+{
+	//stage = new StageScene(NULL, NULL);
+
+	//stage->Init(csvPath);
+
+	//if (isDirectWriteUse)
+	//{
+	//	dbgFloorTable = new DebugTable(stage->GetNowFloor(), true);
+	//	dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
+	//	gauge = new Ckcal_gauge();
+	//}
 }
 
 void Stage::Update()

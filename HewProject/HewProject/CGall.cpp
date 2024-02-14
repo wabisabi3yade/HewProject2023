@@ -12,6 +12,7 @@ CGall::CGall(D3DBUFFER vb, D3DTEXTURE tex)
 
 CGall::~CGall()
 {
+	CLASS_DELETE(effect);
 }
 
 void CGall::Update()

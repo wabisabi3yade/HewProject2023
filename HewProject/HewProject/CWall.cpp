@@ -17,6 +17,7 @@ CWall::CWall(D3DBUFFER vb, D3DTEXTURE tex)
 CWall::~CWall()
 {
 	CLASS_DELETE(dotween);
+	CLASS_DELETE(effect);
 }
 
 void CWall::Update()

@@ -28,6 +28,16 @@ void W1Select::Input()
 		btnSelect->ButtonMove(-UP_BTN_MOVEMENT);
 	}
 
+	if (input->GetInputTrigger(InputType::DECIDE))
+	{
+		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, [&]()
+			{
+				btnSelect->PushButton();
+			});
+
+		isSceneMoving = true;
+	}
+
 	if (input->GetInputTrigger(InputType::CANCEL))
 	{
 		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
@@ -105,11 +115,64 @@ W1Select::W1Select()
 
 		btnWork->SetNum(i + 1);	// 数字をセット
 
+		Fade* fade =  Fade::GetInstance();
+		// ボタン関数設定
+		switch (i)
+		{
+		case 0:
+			btnWork->SetFunc([&]()
+				{
+					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_1);
+				});
+			break;
+
+		case 1:
+			btnWork->SetFunc([&]()
+				{
+					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_2);
+				});
+			break;
+
+		case 2:
+			btnWork->SetFunc([&]()
+				{
+					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_3);
+				});
+			break;
+
+		case 3:
+			btnWork->SetFunc([&]()
+				{
+					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_4);
+				});
+			break;
+
+		case 4:
+			btnWork->SetFunc([&]()
+				{
+					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_5);
+				});
+			break;
+
+		case 5:
+			btnWork->SetFunc([&]()
+				{
+					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_6);
+				});
+			break;
+
+		default:
+			break;
+		}
+
 		// 配列に代入
 		stgButton.push_back(btnWork);
 		btnSelect->Regist(btnWork);
 
 		// テクスチャ関連
+
+
+
 	}
 
 	stgButton[c_pointStage - 1]->SetHighlight(true);

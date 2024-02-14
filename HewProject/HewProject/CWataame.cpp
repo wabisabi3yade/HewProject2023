@@ -10,6 +10,7 @@ CWataame::CWataame(D3DBUFFER vb, D3DTEXTURE tex)
 
 CWataame::~CWataame()
 {
+	CLASS_DELETE(effect);
 }
 
 void CWataame::Update()

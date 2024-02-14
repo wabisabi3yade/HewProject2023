@@ -8,23 +8,32 @@ class Ckcal_gauge;
 class Stage :
     public CScene
 {
-    // ステージのUIとか
-    StageScene* stage; // ステージ全体のオブジェクト
+   
 
     Ckcal_gauge* gauge; // カロリーゲージ
 
     DebugTable* dbgFloorTable; // テスト用
     DebugTable* dbgObjTable; // テスト用
+
+protected:
+    // ステージのUIとか
+    StageScene* stage; // ステージ全体のオブジェクト
+    // csvファイルの名前
+    const wchar_t* csvPath;
 public:
     /// <summary>
     /// ステージシーンのコンストラクタ
     /// </summary>
     /// <param name="_csvPath">CSVファイルのパス</param>
     Stage(const wchar_t* _csvPath);
-    void Update()override;
-    void LateUpdate()override;
-    void Draw()override;
 
-    ~Stage();
+
+    void Init();
+
+    virtual void Update();
+    virtual void LateUpdate();
+    virtual void Draw();
+
+    virtual ~Stage();
 };
 

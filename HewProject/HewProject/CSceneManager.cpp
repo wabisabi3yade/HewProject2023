@@ -24,6 +24,15 @@
 #include "CGameStart.h"
 #include "LoadingScene.h"
 
+// ステージのインクルード
+#include "Stage11.h"
+#include "Stage12.h"
+#include "Stage13.h"
+#include "Stage14.h"
+#include "Stage15.h"
+#include "Stage16.h"
+
+
 CSceneManager* CSceneManager::instance = nullptr;
 
 CSceneManager::CSceneManager()
@@ -68,9 +77,10 @@ CSceneManager* CSceneManager::GetInstance()
 
 void CSceneManager::Delete()
 {
+	
+	CLASS_DELETE(instance);
 	//サウンド解放処理
 	XA_Release();
-	CLASS_DELETE(instance);
 }
 
 void CSceneManager::Act()
@@ -121,6 +131,9 @@ void CSceneManager::SceneChange(int _scene)
 	CLASS_DELETE(pNowScene);
 	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
 
+	// 変える先のシーン名を保存
+	nowSceneName = static_cast<CScene::SCENE_NAME>(_scene);
+
 	switch (_scene)
 	{
 	case CScene::SELECT:
@@ -151,7 +164,7 @@ void CSceneManager::SceneChange(int _scene)
 
 	case CScene::HASHIMOTO:
 		nowSceneName = CScene::HASHIMOTO;
-		pNowScene = new Stage(L"asset/mizuno/Stage.csv");
+		pNowScene = new Stage(L"Test.csv");
 		break;
 	case CScene::STAGE1:
 		nowSceneName = CScene::STAGE1;
@@ -197,6 +210,15 @@ void CSceneManager::SceneChange(int _scene)
 		nowSceneName = CScene::WORLD4_SELECT;
 		pNowScene = new W4Select();
 		break;
+
+	case CScene::STAGE1_1:
+		pNowScene = new Stage11();
+		break;
+
+	case CScene::STAGE1_2:
+		/*pNowScene = new Stage12();
+		break;*/
+
 
 	case CScene::MENU:
 		nowSceneName = CScene::MENU;

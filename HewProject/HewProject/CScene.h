@@ -36,6 +36,32 @@ public:
 		LOADING,	// ローディング
 
 		SCENE_NUM,	// シーンの数
+
+		// 1ワールド
+		STAGE1_1,
+		STAGE1_2,
+		STAGE1_3,
+		STAGE1_4,
+		STAGE1_5,
+		STAGE1_6,
+
+		// 2ワールド
+		STAGE2_1,
+		STAGE2_2,
+		STAGE2_3,
+		STAGE2_4,
+
+		// 3ワールド
+		STAGE3_1,
+		STAGE3_2,
+		STAGE3_3,
+		STAGE3_4,
+
+		// 4ワールド
+		STAGE4_1,
+		STAGE4_2,
+		STAGE4_3,
+		STAGE4_4,
 		
 		SELECT,	// セレクトシーン
 		HOSODA_SELECT
