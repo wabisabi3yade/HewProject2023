@@ -288,7 +288,7 @@ void CMenu::Update()
 			{
 				selectControl->ButtonMove(1);
 			}
-			if (input->GetMovement().y > 0)
+			else if (input->GetMovement().y > 0)
 			{
 				selectControl->ButtonMove(-1);
 			}
@@ -297,22 +297,7 @@ void CMenu::Update()
 			
 			if (isExplanation == false)
 			{
-				helpControl->FlagUpdate();
-				if (input->GetMovement().y < 0)
-				{
-					helpControl->ButtonMove(1);
-				}
-
-				if (input->GetMovement().y > 0)
-				{
-					helpControl->ButtonMove(-1);
-				}
-
-				if (input->GetInputTrigger(InputType::DECIDE))
-				{
-					helpControl->PushButton();
-				}
-
+				
 				if (input->GetInputTrigger(InputType::CANCEL))
 				{
 					isHelp = false;
@@ -326,23 +311,50 @@ void CMenu::Update()
 						help_2PageControl->ButtonMove(1);
 					}
 
-					if (input->GetMovement().y > 0)
+					else if (input->GetMovement().y > 0)
 					{
 						help_2PageControl->ButtonMove(-1);
 					}
 
-					if (input->GetInputTrigger(InputType::DECIDE))
+					else if (input->GetInputTrigger(InputType::DECIDE))
 					{
 						help_2PageControl->PushButton();
 					}
 					
-					if (input->GetInputTrigger(InputType::L_BUTTON))
+					else if (input->GetInputTrigger(InputType::L_BUTTON))
 					{
 						isChangeExplanation = false;
 					}
 				}
 				else {
-					if (input->GetInputTrigger(InputType::R_BUTTON))
+					
+					helpControl->FlagUpdate();
+					if (input->GetMovement().y < 0)
+					{
+						helpControl->ButtonMove(1);
+					}
+
+					else if (input->GetMovement().y > 0)
+					{
+						helpControl->ButtonMove(-1);
+					}
+
+					else if (input->GetMovement().x < 0)
+					{
+						helpControl->ButtonMove(-4);
+					}
+
+					else if (input->GetMovement().x > 0)
+					{
+						helpControl->ButtonMove(4);
+					}
+
+					else if (input->GetInputTrigger(InputType::DECIDE))
+					{
+						helpControl->PushButton();
+					}
+
+					else if (input->GetInputTrigger(InputType::R_BUTTON))
 					{
 						isChangeExplanation = true;
 					}
@@ -359,8 +371,7 @@ void CMenu::Update()
 						nRule = MAXNUM_HELP - 1;
 					}
 				}
-
-				if (input->GetInputTrigger(InputType::R_BUTTON))
+				else if (input->GetInputTrigger(InputType::R_BUTTON))
 				{
 					nRule++;
 
@@ -369,8 +380,7 @@ void CMenu::Update()
 						nRule = 0;
 					}
 				}
-
-				if (input->GetInputTrigger(InputType::CANCEL))
+				else if (input->GetInputTrigger(InputType::CANCEL))
 				{
 					isExplanation = false;
 				}
