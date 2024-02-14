@@ -5,7 +5,7 @@ W4Select::W4Select()
 	stageNum = 4;	// ステージの数
 
 	Vector2 uvOffset = { 1.0f / 3, 1.0f / 4 };
-	worldNum->SetUV(uvOffset.x * 1, uvOffset.y * 1);
+	worldNum->SetUV(uvOffset.x * 0, uvOffset.y * 2);
 
 	StgButton* btnWork = nullptr;
 	for (int i = 0; i < stageNum; i++)
@@ -32,8 +32,11 @@ W4Select::W4Select()
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 
 	// 背景のテクスチャを設定
-	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &backTex);
+	D3D_LoadTexture(L"asset/Background/Stage4SelectBack.png", &backTex);
 	backGround->SetTexture(backTex);
+
+	// 最初の移動処理をするs
+	BeginMove();
 }
 
 void W4Select::Update()

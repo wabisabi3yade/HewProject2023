@@ -1,7 +1,7 @@
 #include "ShadowUI.h"
 #include "TextureFactory.h"
 
-#define SHADOW_OFFSETX (0.01f)	// 本体と影のY座標差分値
+#define SHADOW_OFFSETX (0.01f)	// 本体と影のX座標差分値
 #define SHADOW_OFFSETY (0.017f)	// 本体と影のY座標差分値
 #define SHADOW_OFFSETZ (0.0005f)	// 本体と影のY座標差分値
 
@@ -13,6 +13,8 @@ ShadowUI::ShadowUI(D3DBUFFER vb, D3DTEXTURE tex)
 	shadow = new UI(mVertexBuffer, mTexture);
 	// 色と透明度を設定
 	shadow->SetColor({ 0,0,0 });
+
+	shadowOffset = { SHADOW_OFFSETX, SHADOW_OFFSETY };
 }
 
 ShadowUI::~ShadowUI()
@@ -31,8 +33,8 @@ void ShadowUI::Draw()
 	shadow->mTransform = mTransform;
 
 	// 影のずれを表現
-	shadow->mTransform.pos.x += mTransform.scale.x * SHADOW_OFFSETX;
-	shadow->mTransform.pos.y -= mTransform.scale.y * SHADOW_OFFSETY;
+	shadow->mTransform.pos.x += mTransform.scale.x * shadowOffset.x;
+	shadow->mTransform.pos.y -= mTransform.scale.y * shadowOffset.y;
 	shadow->mTransform.pos.z += SHADOW_OFFSETZ;
 	shadow->SetUV(uv.x, uv.y);
 
@@ -41,4 +43,9 @@ void ShadowUI::Draw()
 	shadow->Draw();
 
 	UI::Draw();
+}
+
+void ShadowUI::SetShadowOffset(const Vector2& _offset)
+{
+	shadowOffset = _offset;
 }

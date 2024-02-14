@@ -14,6 +14,6 @@ public:
 
     void Draw() override;
 
-    void SetShadow();
+    void SetShadowOffset(const Vector2& _offset);
 };
 

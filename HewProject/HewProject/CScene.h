@@ -28,7 +28,8 @@ public:
 		WORLD2_SELECT,
 		MENU,
 		GAMESTART,
-
+		WORLD3_SELECT,
+		WORLD4_SELECT,
 		LOADING,	// ローディング
 
 		SCENE_NUM,	// シーンの数

@@ -32,8 +32,11 @@ W3Select::W3Select()
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 
 	// 背景のテクスチャを設定
-	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &backTex);
+	D3D_LoadTexture(L"asset/Background/Stage3SelectBack.png", &backTex);
 	backGround->SetTexture(backTex);
+
+	// 最初の移動処理をするs
+	BeginMove();
 }
 
 void W3Select::Update()

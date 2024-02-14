@@ -60,7 +60,8 @@ protected:
 
     UI* worldNum;   // 数字
 
-    D3DTEXTURE WorldName;   // ワールド名
+    D3DTEXTURE WorldNameTex;   // ワールド名
+    UI* WorldName;   // ワールド名
 
     D3DTEXTURE btnNumTex;   // ボタン用テクスチャ
 
