@@ -18,6 +18,8 @@
 #include "CGameClear.h"
 #include "W1Select.h"
 #include "W2Select.h"
+#include "W3Select.h"
+#include "W4Select.h"
 #include "CMenu.h"
 #include "CGameStart.h"
 #include "LoadingScene.h"
@@ -184,6 +186,16 @@ void CSceneManager::SceneChange(int _scene)
 	case CScene::WORLD2_SELECT:
 		nowSceneName = CScene::WORLD2_SELECT;
 		pNowScene = new W2Select();
+		break;
+
+	case CScene::WORLD3_SELECT:
+		nowSceneName = CScene::WORLD3_SELECT;
+		pNowScene = new W3Select();
+		break;
+
+	case CScene::WORLD4_SELECT:
+		nowSceneName = CScene::WORLD4_SELECT;
+		pNowScene = new W4Select();
 		break;
 
 	case CScene::MENU:

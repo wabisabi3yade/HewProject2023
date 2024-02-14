@@ -35,6 +35,11 @@ W2Select::W2Select()
 	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &backTex);
 	backGround->SetTexture(backTex);
 
+	//DirectX::XMFLOAT3 color = { 4, 113 , 247 };
+
+	//worldText->SetColor(color);
+	//worldNum->SetColor(color);
+
 	// Å‰‚ÌˆÚ“®ˆ—‚ğ‚·‚és
 	BeginMove();
 }

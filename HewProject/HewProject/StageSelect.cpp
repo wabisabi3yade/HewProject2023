@@ -14,6 +14,9 @@
 
 #define WOLRLDNUM_OFFSETX (2.0f)	// 数字の差分値
 
+#define WORLDNUM_SHADOWOFFSETX (0.03f)
+#define WORLDNUM_SHADOWOFFSETY (0.03f)
+
 void StageSelect::Input()
 {
 	btnSelect->FlagUpdate();
@@ -112,6 +115,7 @@ StageSelect::StageSelect()
 
 	worldNum = new ShadowUI(numberBuf, numberTex);
 	worldNum->mTransform.scale = { 0.8f, 0.8f, 1.0f };
+	dynamic_cast<ShadowUI*>(worldNum)->SetShadowOffset({ WORLDNUM_SHADOWOFFSETX, WORLDNUM_SHADOWOFFSETY });
 
 	// 更新
 	o_pointStage = c_pointStage;
@@ -119,12 +123,12 @@ StageSelect::StageSelect()
 
 void StageSelect::Update()
 {
-	// 最初の移動時に使用する処理はここ
 	if (isBeginFin)
 	{
 		// 入力
 		Input();
 	}
+	// 最初の移動時に使用する処理はここ
 	else
 	{
 		stageText->Update();
@@ -144,13 +148,6 @@ void StageSelect::Update()
 	SmpMove();
 
 	stageSmpBack->Update();
-
-
-
-
-
-
-
 
 	for (auto a : stgButton)
 	{
@@ -175,6 +172,7 @@ void StageSelect::Draw()
 
 	worldText->Draw();
 	worldNum->Draw();
+	
 
 	stageTextBack->Draw();
 	stageText->Draw();
