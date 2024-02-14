@@ -28,6 +28,12 @@ void W1Select::Input()
 		btnSelect->ButtonMove(-UP_BTN_MOVEMENT);
 	}
 
+	if (input->GetInputTrigger(InputType::CANCEL))
+	{
+		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
+		isSceneMoving = true;
+	}
+
 	// 選んでいるステージの数を取得
 	c_pointStage = btnSelect->GetPointButton() + 1;
 }

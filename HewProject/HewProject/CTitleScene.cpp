@@ -32,7 +32,7 @@ CTitleScene::CTitleScene()
 	select[0]->SetScale({ 4,4,1 });
 	select[0]->SetFunc([&]()
 		{
-			CScene::SetScene(SCENE_NAME::TITLE);
+			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 		});
 
 	select[1] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, text_endTexture);
