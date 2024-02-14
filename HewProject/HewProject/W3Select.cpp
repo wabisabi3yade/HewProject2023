@@ -35,6 +35,15 @@ W3Select::W3Select()
 	D3D_LoadTexture(L"asset/Background/Stage3SelectBack.png", &backTex);
 	backGround->SetTexture(backTex);
 
+	D3D_LoadTexture(L"asset/Text/World3Name.png", &worldNameTex);
+
+	worldNameOffsetX = 2.5f;
+	worldName[1]->mTransform.pos.x += worldNameOffsetX;
+	for (int i = 0; i < 2; i++)
+	{
+		worldName[i]->SetTexture(worldNameTex);
+	}
+
 	// Å‰‚ÌˆÚ“®ˆ—‚ğ‚·‚és
 	BeginMove();
 }

@@ -49,3 +49,19 @@ void ShadowUI::SetShadowOffset(const Vector2& _offset)
 {
 	shadowOffset = _offset;
 }
+
+void ShadowUI::SetBuffer(D3DBUFFER _vb)
+{
+	mVertexBuffer = _vb;
+	uv = {};
+
+	shadow->SetBuffer(_vb);
+	shadow->SetUV(0.0f, 0.0f);
+}
+
+void ShadowUI::SetTexture(D3DTEXTURE _tex)
+{
+	mTexture = _tex;
+
+	shadow->SetTexture(_tex);
+}

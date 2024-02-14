@@ -3,6 +3,7 @@
 class W4Select :
     public StageSelect
 {
+    D3DTEXTURE exTex;
 
 public:
     W4Select();

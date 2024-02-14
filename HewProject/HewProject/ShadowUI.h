@@ -15,5 +15,8 @@ public:
     void Draw() override;
 
     void SetShadowOffset(const Vector2& _offset);
+
+    void SetBuffer(D3DBUFFER _vb) override;
+    void SetTexture(D3DTEXTURE _tex) override;
 };
 
