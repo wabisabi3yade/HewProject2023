@@ -93,6 +93,8 @@ private:
 
 	bool PlayAura;
 
+	bool IsStop;
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 	GridTable* nextGridTable; //次の階層グリッドテーブルのポインタを設定
 
@@ -176,6 +178,7 @@ public:
 	bool GetRiseTrriger() { return risingMoveTrriger; }
 	bool GetCangeCannonTexture() { return ChangeCannonTexture; }
 	bool GetCannonFX()const { return move->GetCannonFX(); }
+	bool GetIsStop()const { return IsStop; }
 	void SetGridTable(GridTable* _set) { gridTable = _set; }
 	void SetNextGridTable(GridTable* _set) { nextGridTable = _set; }
 	GridTable* GetGridTable() const { return gridTable; }

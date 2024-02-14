@@ -10,7 +10,7 @@
 #include"ProteinUI.h"
 #include"FloorUI.h"
 #include "CalorieGage_hori.h"
-
+class CArrow;
 
 #define MAX_LAYER (3)         // 階層の最大数
 #define UNDO_ARRAY_NUM (20)	// Undoの配列の要素数
@@ -131,6 +131,8 @@ private:
 	//カロリーゲージ
 	CalorieGage_hori* calorieGage;
 
+	CArrow* Arrow[static_cast<int>(Player::DIRECTION::NUM)];
+
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
 
@@ -165,7 +167,7 @@ public:
 	void Draw();
 	void Z_Sort(std::vector<CGridObject*>& _sortList);
 	// ステージの初期化関数
-	void Init(const wchar_t* filePath, float _stageScale);
+	void Init(const wchar_t* filePath);
 
 	// ステージをグリッドテーブルから作る関数
 	void CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList);
