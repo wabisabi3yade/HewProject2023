@@ -97,10 +97,10 @@ void Player::Init(GridTable* _pTable)
 	// ’Êíó‘Ô‚©‚çŽn‚ß‚é
 	/*playerState = STATE::NORMAL;*/
 
-	ChangeState(STATE::NORMAL);
+	ChangeState(STATE::THIN);
 
 
-	calorie = START_CALORIE;
+	calorie = 5;
 	/*SetTexture(normalTex[0]);*/
 
 	calorieGage->SetCalorie(calorie);
