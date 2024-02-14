@@ -324,42 +324,89 @@ void StageScene::StageMove()
 					hollObj->ChangeInvisible();
 				});
 		}
+		// 左上
 		if (player->GetState() == Player::STATE::THIN &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::BAUMHORIZONTAL)
 		{
 			CBaum* baumObj = dynamic_cast<CBaum*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			Vector3 o_baumPos = baumObj->mTransform.pos;
 			baumObj->PlayAnim(player->GetDirection(), playerBuffer);
 			baumObj->SetTexture(stageTextureBaumAnim[player->GetDirection()]);
-			baumObj->mTransform.scale.x *= 1.99f;
-			baumObj->mTransform.scale.y *= 1.55f;
-			baumObj->mTransform.pos.x += 0.33f;
-			player->dotween->DelayedCall(WALK_TIME * 1.33f, [&, baumObj]()
+			baumObj->mTransform.scale.x *= 2.0f;
+			baumObj->mTransform.scale.y *= 1.5655f;
+			baumObj->mTransform.pos.x -= 0.0453f;
+			baumObj->mTransform.pos.y -= 0.0449f;
+			float offsetZ;
+			float adjustValue;	// バウムクーヘン通ってる間に変わるz値
+			if (player->GetDirection() == static_cast<int>(Player::DIRECTION::RIGHT))
+			{
+				offsetZ = 0.099991f;
+				adjustValue = 0.002f;	// バウムクーヘン通ってる間に変わるz値
+			}
+			else
+			{
+				offsetZ = -0.0002f;
+				adjustValue = -INFRONT_PLUSZ + 0.000001f;
+			}
+
+			baumObj->mTransform.pos.z -= offsetZ;
+			player->dotween->DelayedCall(BAUM_THROWMIDTIME, [&, baumObj, offsetZ, adjustValue]()
+				{
+					baumObj->mTransform.pos.z += offsetZ + adjustValue;
+				});
+
+			player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, baumObj, o_baumPos]()
 				{
 					baumObj->SetVertexBuffer(stageBuffer);
 					baumObj->SetTexture(stageTextureBaumkuchen_L);
 					baumObj->mTransform.scale.x = player->GetGridTable()->GetGridScale().x;
 					baumObj->mTransform.scale.y = player->GetGridTable()->GetGridScale().y;
-					baumObj->mTransform.pos.x -= 0.33f;
+					baumObj->mTransform.pos = o_baumPos;
+					player->ChangeInvisible();
 				});
 		}
 		else if (player->GetState() == Player::STATE::THIN &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::BAUMVERTICAL)
 		{
 			CBaum* baumObj = dynamic_cast<CBaum*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+
+			Vector3 o_baumPos = baumObj->mTransform.pos;
+
 			baumObj->PlayAnim(player->GetDirection(), playerBuffer);
 			baumObj->SetTexture(stageTextureBaumAnim[player->GetDirection()]);
 			baumObj->mTransform.scale.x *= 2.0f;
-			baumObj->mTransform.scale.y *= 1.5725f;
-			baumObj->mTransform.pos.x += 0.045f;
-			baumObj->mTransform.pos.y -= 0.0235f;
-			player->dotween->DelayedCall(WALK_TIME * 1.33f, [&, baumObj]()
+			baumObj->mTransform.scale.y *= 1.5655f;
+			baumObj->mTransform.pos.x += 0.0453f;
+			baumObj->mTransform.pos.y -= 0.0449f;
+
+			float offsetZ;
+			float adjustValue;	// バウムクーヘン通ってる間に変わるz値
+			if (player->GetDirection() == static_cast<int>(Player::DIRECTION::UP))
+			{
+				offsetZ = 0.099991f;
+				adjustValue = 0.002f;	// バウムクーヘン通ってる間に変わるz値
+			}
+			else
+			{
+				offsetZ = -0.0002f;
+				adjustValue = -INFRONT_PLUSZ + 0.000001f;
+			}
+
+			baumObj->mTransform.pos.z -= offsetZ;
+
+			player->dotween->DelayedCall(BAUM_THROWMIDTIME, [&, baumObj, offsetZ, adjustValue]()
+				{
+					baumObj->mTransform.pos.z += offsetZ + adjustValue;
+				});
+
+			player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, baumObj, o_baumPos]()
 				{
 					baumObj->SetVertexBuffer(stageBuffer);
 					baumObj->SetTexture(stageTextureBaumkuchen_R);
-					baumObj->mTransform.pos.x -= 0.045f;
-					baumObj->mTransform.pos.y += 0.0235f;
+					baumObj->mTransform.pos  = o_baumPos;
 					baumObj->mTransform.scale.x = player->GetGridTable()->GetGridScale().x;
 					baumObj->mTransform.scale.y = player->GetGridTable()->GetGridScale().y;
+					player->ChangeInvisible();
 				});
 		}
 	}

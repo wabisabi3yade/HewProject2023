@@ -1,5 +1,6 @@
 #include "ThinMove.h"
 #include "Player.h"
+#include "CBaum.h"
 
 ThinMove::ThinMove(Player* _p)
 	: PlayerMove(_p)
@@ -304,17 +305,39 @@ void ThinMove::Move(DIRECTION _dir)
 		player->ChangeInvisible();
 		forwardPos = player->GetGridTable()->GridToWorld(nextGridPosCopy, CGridObject::BlockType::START);
 		forwardPosXY = { forwardPos.x, forwardPos.y };
+		
+		// プレイヤーを移動させておく
+		player->mTransform.pos = forwardPos;
 
-		player->dotween->DoDelay(3.0f);
-		player->dotween->Append({ forwardPosXY.x,forwardPosXY.y }, WALK_TIME, DoTween::FUNC::MOVE_XY);
-		//player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		Vector2 baumAdjustPos = Vector2::zero;
+		// バウムクーヘン微調整座標
+		switch (_dir)
+		{
+		case DIRECTION::DOWN:
+			baumAdjustPos = { 0,0 };
+			break;
+
+		case DIRECTION::UP:
+			baumAdjustPos = { 0,0 };
+			break;
+
+		case DIRECTION::RIGHT:
+			baumAdjustPos = { 0,0 };
+			break;
+
+
+		case DIRECTION::LEFT:
+			baumAdjustPos = { -0.013f, 0.103f };
+			break;
+		}
+		player->mTransform.pos.x += baumAdjustPos.x * player->GetGridTable()->GetGridScale().x;
+		player->mTransform.pos.y += baumAdjustPos.y * player->GetGridTable()->GetGridScale().y;
 
 		// 動き終わったら
-		player->dotween->OnComplete([&, nextGridPosCopy]()
+		player->dotween->DelayedCall(BAUM_THROWENDTIME , [&, nextGridPosCopy]()
 			{
 				WalkAfter();
-				player->ChangeInvisible();
 				// カステラ超えた先にブロックによって処理をする
 				switch (static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckMassType(nextGridPosCopy)))
 				{
