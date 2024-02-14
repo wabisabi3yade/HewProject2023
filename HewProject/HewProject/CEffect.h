@@ -4,7 +4,7 @@
 class CEffect :
     public CObject
 {
-
+    int fxType;
 
 public:
     CEffect(D3DBUFFER vb, D3DTEXTURE tex);
@@ -18,5 +18,10 @@ public:
     bool GetIsPlaying()const { return mAnim->isPlaying; };
 
     CEffectAnim* GetEffectAnim()const { return dynamic_cast<CEffectAnim*>(mAnim); }
+
+    //effectType‚ðÝ’è‚·‚é
+    void SetFxType(int _set) { fxType = _set; }
+    int GetFxType()const { return fxType; }
+    void SetAlpha(float _set) { this->materialDiffuse.w = _set; }
 };
 

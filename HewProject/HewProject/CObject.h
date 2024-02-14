@@ -96,6 +96,8 @@ public:
 		mTransform.scale.x = _x, mTransform.scale.y = _y, mTransform.scale.z = _z;
 	}
 
+	void SetVertexBuffer(D3DBUFFER _vb) { mVertexBuffer = _vb; }
+
 	void SetMoveSpeed(float _moveSpeed) { mMoveSpeed = _moveSpeed; }
 
 	void SetLayer(ObjectLayer _layer) { mLayer = _layer; }

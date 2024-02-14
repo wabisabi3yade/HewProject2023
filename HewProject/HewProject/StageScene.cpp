@@ -47,7 +47,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	stageTextureWataame = texFactory->Fetch(L"asset/Stage/Wataame.png");
 
 	/*stageTextureCastella = texFactory->Fetch(L"asset/Stage/Castella.png");*/
-	stageTextureCastella = texFactory->Fetch(L"asset/Stage/2castella.png");
+	stageTextureCastella = texFactory->Fetch(L"asset/Stage/Castella.png");
 
 	stageTextureBaumkuchen_R = texFactory->Fetch(L"asset/Stage/Baumkuchen_R.png");
 	stageTextureBaumkuchen_L = texFactory->Fetch(L"asset/Stage/Baumkuchen_L.png");
@@ -64,6 +64,11 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	stageTextureArrow = texFactory->Fetch(L"asset/UI/Arrow.png");
 	stageTextureCannon[0] = texFactory->Fetch(L"asset/Stage/Canon_RightLeft.png");
 	stageTextureCannon[1] = texFactory->Fetch(L"asset/Stage/Canon_UpDown.png");
+
+	stageTextureBaumAnim[0] = texFactory->Fetch(L"asset/Player/Baum_Down.png");
+	stageTextureBaumAnim[1] = texFactory->Fetch(L"asset/Player/Baum_Left.png");
+	stageTextureBaumAnim[2] = texFactory->Fetch(L"asset/Player/Baum_Right.png");
+	stageTextureBaumAnim[3] = texFactory->Fetch(L"asset/Player/Baum_Up.png");
 
 }
 
@@ -219,7 +224,7 @@ void StageScene::Update()
 		}
 		Vector3 pos = player->mTransform.pos;
 		Vector3 scale = player->mTransform.scale;
-		pos.z -= 0.0001;
+		pos.z -= 0.0001f;
 		pos.y -= 0.1f;
 		scale.x *= STAR_BOUND_SCALE;
 		scale.y *= STAR_BOUND_SCALE;
@@ -305,31 +310,58 @@ void StageScene::StageMove()
 		{
 			CWataame* wataameObj = dynamic_cast<CWataame*>(GetStageObject(player->GetGridPos(), CGridObject::BlockType::WATAAME));
 			wataameObj->Melt();
-
-			//for (auto it = vStageObj.begin(); it != vStageObj.end();) {
-			//	// 条件一致した要素を削除する
-			//	if (*it == wataameObj) {
-			//		// 削除された要素の次を指すイテレータが返される。
-			//		it = vStageObj.erase(it);
-			//	}
-			//	// 要素削除をしない場合に、イテレータを進める
-			//	else {
-			//		++it;
-			//	}
-			//}
-
-
 			// ↓ここで穴のオブジェクトをnewしてvstageObjにpushbackする
-
 			CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 			hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
 			hollObj->SetBlookType(CGridObject::BlockType::HOLL);
 			hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+			hollObj->mTransform.pos.z = wataameObj->mTransform.pos.z + 0.0001f;
+			hollObj->SetTransformScale(stageScale, stageScale, wataameObj->mTransform.scale.z);
+			hollObj->ChangeInvisible();
 			vStageObj->push_back(hollObj);
-
+			hollObj->dotween->DelayedCall(MELT_TIME + WALK_TIME, [&, hollObj]()
+				{
+					hollObj->ChangeInvisible();
+				});
 		}
-
-
+		if (player->GetState() == Player::STATE::THIN &&
+			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::BAUMHORIZONTAL)
+		{
+			CBaum* baumObj = dynamic_cast<CBaum*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			baumObj->PlayAnim(player->GetDirection(), playerBuffer);
+			baumObj->SetTexture(stageTextureBaumAnim[player->GetDirection()]);
+			baumObj->mTransform.scale.x *= 1.99f;
+			baumObj->mTransform.scale.y *= 1.55f;
+			baumObj->mTransform.pos.x += 0.33f;
+			player->dotween->DelayedCall(WALK_TIME * 1.33f, [&, baumObj]()
+				{
+					baumObj->SetVertexBuffer(stageBuffer);
+					baumObj->SetTexture(stageTextureBaumkuchen_L);
+					baumObj->mTransform.scale.x = player->GetGridTable()->GetGridScale().x;
+					baumObj->mTransform.scale.y = player->GetGridTable()->GetGridScale().y;
+					baumObj->mTransform.pos.x -= 0.33f;
+				});
+		}
+		else if (player->GetState() == Player::STATE::THIN &&
+			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::BAUMVERTICAL)
+		{
+			CBaum* baumObj = dynamic_cast<CBaum*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			baumObj->PlayAnim(player->GetDirection(), playerBuffer);
+			baumObj->SetTexture(stageTextureBaumAnim[player->GetDirection()]);
+			baumObj->mTransform.scale.x *= 2.0f;
+			baumObj->mTransform.scale.y *= 1.5725f;
+			baumObj->mTransform.pos.x += 0.045f;
+			baumObj->mTransform.pos.y -= 0.0235f;
+			player->dotween->DelayedCall(WALK_TIME * 1.33f, [&, baumObj]()
+				{
+					baumObj->SetVertexBuffer(stageBuffer);
+					baumObj->SetTexture(stageTextureBaumkuchen_R);
+					baumObj->mTransform.pos.x -= 0.045f;
+					baumObj->mTransform.pos.y += 0.0235f;
+					baumObj->mTransform.scale.x = player->GetGridTable()->GetGridScale().x;
+					baumObj->mTransform.scale.y = player->GetGridTable()->GetGridScale().y;
+				});
+		}
 	}
 
 	// プレイヤーが動き終えると
@@ -350,7 +382,14 @@ void StageScene::StageMove()
 						hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
 						hollObj->SetBlookType(CGridObject::BlockType::HOLL);
 						hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+						hollObj->mTransform.pos.z = chocoObj->mTransform.pos.z + 0.0001f;
+						hollObj->SetTransformScale(stageScale, stageScale, chocoObj->mTransform.scale.z);
+						hollObj->ChangeInvisible();
 						vStageObj->push_back(hollObj);
+						hollObj->dotween->DelayedCall(MELT_TIME + WALK_TIME, [&, hollObj]()
+							{
+								hollObj->ChangeInvisible();
+							});
 						player->GetPlayerMove()->FallStart();
 					}
 					chocoObj->CRACK();
@@ -364,7 +403,14 @@ void StageScene::StageMove()
 				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
 				hollObj->SetBlookType(CGridObject::BlockType::HOLL);
 				hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+				hollObj->mTransform.pos.z = chocoObj->mTransform.pos.z + 0.0001f;
+				hollObj->SetTransformScale(stageScale, stageScale, chocoObj->mTransform.scale.z);
+				hollObj->ChangeInvisible();
 				vStageObj->push_back(hollObj);
+				hollObj->dotween->DelayedCall(MELT_TIME + WALK_TIME, [&, hollObj]()
+					{
+						hollObj->ChangeInvisible();
+					});
 				player->GetPlayerMove()->FallStart();
 			}
 		}
@@ -380,17 +426,13 @@ void StageScene::StageMove()
 
 	if (player->GetPlayerMove()->GetCannonMoveStartTrigger())
 	{
-		//player->dotween->DelayedCall(CANNONMOVE_TIME, [&]()
-		//	{
-		//		ItemDelete();
-		//	});
 		CGridObject::BlockType type = player->GetPlayerMove()->CheckNextObjectType();
 		switch (type)
 		{
 		case CGridObject::BlockType::WALL:
 		{
 			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), type));
-			wallObj->Break(-1,0.0f);
+			wallObj->Break(-1, 0.0f);
 			break;
 		}
 		case CGridObject::BlockType::CAKE:
@@ -415,21 +457,22 @@ void StageScene::StageMove()
 			CCoin* coinObj = dynamic_cast<CCoin*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), type));
 			coinObj->GetCoin();
 			CGrid::GRID_XY deletePos = player->GetPlayerMove()->GetNextGridPos();
-			coinObj->dotween->OnComplete([&,deletePos,coinObj]()
+			coinObj->dotween->OnComplete([&, deletePos, coinObj]()
 				{
-					CannonItemDelete(deletePos,coinObj->GetBlookType());
+					CannonItemDelete(deletePos, coinObj->GetBlookType());
 				});
 			break;
 		}
 		case CGridObject::BlockType::PROTEIN:
 		{
-			CProtein* proObj = dynamic_cast<CProtein*>(GetStageObject(player->GetGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNowMassType())));
+			CProtein* proObj = dynamic_cast<CProtein*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), type));
 			proObj->BlowOff(player->GetDirection());
-			CGrid::GRID_XY deletePos = player->GetGridPos();
+			CGrid::GRID_XY deletePos = player->GetPlayerMove()->GetNextGridPos();
 			//nowFloor->objectTable[proObj->GetGridPos().y][proObj->GetGridPos().x] =static_cast<short> (CGridObject::BlockType::NONE);
-			proObj->dotween->OnComplete([&, deletePos]()
+			proObj->dotween->OnComplete([&, deletePos, proObj]()
 				{
-					CannonItemDelete(deletePos);
+					CannonItemDelete(deletePos, proObj->GetBlookType());
+					player->GameOver();
 				});
 			break;
 		}
@@ -498,7 +541,7 @@ void StageScene::StageMove()
 			player->ChangeState(Player::STATE::MUSCLE);
 			calorieGage->SetCalorie(CAKE_CALORIE);
 			player->SetCalorie(CAKE_CALORIE);
-			player->mTransform.pos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START,static_cast<int>(Player::STATE::MUSCLE));
+			player->mTransform.pos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START, static_cast<int>(Player::STATE::MUSCLE));
 		}
 		// マッチョじゃないなら
 		if (player->GetState() == Player::STATE::MUSCLE) return;
@@ -676,26 +719,26 @@ void StageScene::InCanonInput()
 		//右
 		if (isSelectDir == 2)
 		{
-			_pos.x = _pos.x +( 0.5f * stageScale);
-			_pos.y = _pos.y +( 0.4f * stageScale);
-			_pos.z = _pos.z + 0.0002f;
+			_pos.x = _pos.x + (0.5f * stageScale);
+			_pos.y = _pos.y + (0.4f * stageScale);
+			_pos.z = _pos.z - 0.15f;
 		}
 		else//左
 		{
 			_pos.x = _pos.x - (0.1f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = _pos.z -0.15f ;
+			_pos.z = _pos.z - 0.15f;
 		}
 		cannonObj->SetTexture(stageTextureCannon[0]);
 		dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
-		player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj,_pos,_Scale]()
+		player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj, _pos, _Scale]()
 			{
 				cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
 				player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos, _Scale]()
 					{
 						player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 						player->GetPlayerMove()->CannonMoveStart();
-						player->PlayEffect(_pos , _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
+						player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 						player->ChangeInvisible();
 						cannonMove = false;
 						cannonObj->Fire(player->GetDirection());
@@ -715,15 +758,17 @@ void StageScene::InCanonInput()
 		{
 			_pos.x = _pos.x + (0.3f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = _pos.z - (INFRONT_PLUSZ + HORIZONLINE_PLUSZ / 2.0f);
+			//_pos.z = _pos.z - (INFRONT_PLUSZ + HORIZONLINE_PLUSZ / 2.0f);
+			_pos.z = _pos.z - 0.15f;
 		}
 		else
 		{
 			_pos.x = _pos.x - (0.3f * stageScale);
 			_pos.y = _pos.y + (0.3f * stageScale);
-			_pos.z = _pos.z + HORIZONLINE_PLUSZ +0.00001f;
+			//_pos.z = _pos.z - HORIZONLINE_PLUSZ + 0.00001f;
+			_pos.z = _pos.z - 0.15f;
 		}
-		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos,_Scale]()
+		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos, _Scale]()
 			{
 				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 				player->GetPlayerMove()->CannonMoveStart();
@@ -1105,7 +1150,7 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 	// 状態を変化させる
 	player->ChangeState(_state);
 
-	player->mTransform.pos = nowFloor->GridToWorld(player->GetGridPos(), player->GetBlookType(),static_cast<int>(player->GetState()));
+	player->mTransform.pos = nowFloor->GridToWorld(player->GetGridPos(), player->GetBlookType(), static_cast<int>(player->GetState()));
 }
 
 void StageScene::Draw()
@@ -1124,7 +1169,7 @@ void StageScene::Draw()
 	}
 
 	//UI
-	
+
 	//プロテイン
 	proteinUi->Draw();
 
@@ -1303,7 +1348,7 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	lockStageMap = startfloor;
 
 	//UI
-	
+
 	//プロテインUI作成　数が分かってから行う
 	proteinUi = new ProteinUI(nNumProtein);
 
@@ -1402,8 +1447,6 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 
 	// 最初のUndoに入れておく
 	floorUndo[0] = floorReset;
-
-	player->GetPlayerMove()->SetStageScale(stageScale);
 
 	Z_Sort(*vStageObj);
 }

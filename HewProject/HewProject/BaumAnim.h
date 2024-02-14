@@ -6,11 +6,8 @@ class BaumAnim :
 
     enum class PATTERN
     {
-        BAUM_DOWN,
-        BAUM_LEFT,
-        BAUM_RIGHT,
-        BAUM_UP,
-
+        DEFAULT,
+        BAUM,
     };
     float animRate;
     bool AnimEnd;

@@ -8,6 +8,7 @@ CEffect::CEffect(D3DBUFFER vb, D3DTEXTURE tex)
 	:CObject(vb, tex)
 {
 	mAnim = new CEffectAnim();
+	fxType = -1;
 }
 
 void CEffect::Update()

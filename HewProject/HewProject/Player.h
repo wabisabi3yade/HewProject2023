@@ -91,6 +91,8 @@ private:
 
 	bool isEat;
 
+	bool PlayAura;
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 	GridTable* nextGridTable; //次の階層グリッドテーブルのポインタを設定
 
@@ -100,7 +102,6 @@ private:
 	D3DTEXTURE thinTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE cannonTex;
-	D3DTEXTURE BaumTex[static_cast<int>(ANIM_TEX::NUM)];
 	//DIRECTIONと同じ向きのパンチの画像を格納
 	D3DTEXTURE punchTex[static_cast<int>(DIRECTION::NUM)];
 	// 画像を上に配列に入れる

@@ -4,7 +4,7 @@
 MuscleMove::MuscleMove(Player* _p)
 	:PlayerMove(_p)
 {
-	cantMoveBlock = { 0,5,6,7 };
+	cantMoveBlock = { 0,5,6,7 ,18};
 }
 
 MuscleMove::~MuscleMove()
@@ -179,9 +179,18 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR,static_cast<int>(player->GetState())));
+				WalkAfter();
+
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.00001f;
+				scale.x *= MARK_SCALE;
+				scale.y *= MARK_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
 					{
 						player->Fall();
 						player->ChangeTexture(Player::ANIM_TEX::WALK);
@@ -194,8 +203,8 @@ void MuscleMove::Move(DIRECTION _dir)
 				case 2:
 				case 3:
 				{
-					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(player->GetState())));
+					player->dotween->Append(Vector3::zero, FALLMOVE_TIME-0.95f, DoTween::FUNC::DELAY);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START,static_cast<int>(player->GetState())));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
@@ -203,7 +212,7 @@ void MuscleMove::Move(DIRECTION _dir)
 						//player->Fall();
 						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(FALL_TIME  + WALK_TIME+FALLMOVE_TIME * 2, [&]()
+						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 							{
 								isFallBound = true;
 							});

@@ -54,6 +54,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	risingChangeTrriger = false;
 	risingMoveTrriger = false;
 	ChangeCannonTexture = false;
+	PlayAura = false;
 
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
@@ -69,7 +70,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureInput(L"asset/Player/N_EatCake.png", STATE::NORMAL, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/F_EatCake.png", STATE::FAT, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/T_EatCake.png", STATE::THIN, ANIM_TEX::EAT_CAKE),
-	TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
+		TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
 
@@ -81,10 +82,6 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 
 	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 
-	BaumTex[0] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThrowDown.png");
-	BaumTex[1] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThrowLeft.png");
-	BaumTex[2] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThorwRight.png");
-	BaumTex[3] = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_ThrowUp.png");
 }
 
 void Player::Init(GridTable* _pTable)
@@ -181,7 +178,7 @@ void Player::Update()
 				mTransform.pos.y = FALL_POS_Y - mTransform.scale.y / 2;
 				risingChangeTrriger = true;
 			}
-			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START,static_cast<int>(this->playerState)) && risingChangeTrriger)
+			if (mTransform.pos == gridTable->GridToWorld(this->move->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(this->playerState)) && risingChangeTrriger)
 			{
 				//move->Move(static_cast<PlayerMove::DIRECTION>(direction));
 				move->WalkAfter();
@@ -200,6 +197,12 @@ void Player::Update()
 		for (auto it = effect.begin(); it != effect.end();)
 		{
 			(*it)->Update();
+			if ((*it)->GetFxType() == static_cast<int>(EffectManeger::FX_TYPE::AURA))
+			{
+				(*it)->mTransform.pos = this->mTransform.pos;
+				(*it)->mTransform.pos.z += 0.00001f;
+				(*it)->mTransform.pos.y -= 0.5f;
+			}
 			if ((*it)->GetEffectAnim()->GetAnimEnd())
 			{
 				CLASS_DELETE(*it);
@@ -278,6 +281,17 @@ void Player::ChangeState(STATE _set)
 		move = std::make_shared<MuscleMove>(this);
 		playerState = STATE::MUSCLE;
 		SetTexture(muscleTex[ANIM_TEX::WAIT]);
+		//if (!PlayAura)
+		//{
+		//	Vector3 pos = mTransform.pos;
+		//	//pos.z += 0.00001f;
+		//	//pos.y -= 1.5f;
+		//	Vector3 scale = mTransform.scale;
+		//	scale.x *= AURA_SCALE;
+		//	//scale.y *= AURA_SCALE;
+		//	this->PlayEffect(pos, scale, EffectManeger::FX_TYPE::AURA, true);
+		//	PlayAura = true;
+		//}
 		break;
 	}
 
@@ -339,28 +353,6 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		SetTexture(punchTex[static_cast<int>(direction)]);
 		return;
 	}
-	else if (_animTex == ANIM_TEX::BAUM)
-	{
-		switch (static_cast<int>(this->direction))
-		{
-		case 0:
-			SetTexture(BaumTex[0]);
-			break;
-		case 1:
-			break;
-			SetTexture(BaumTex[1]);
-			break;
-		case 2:
-			SetTexture(BaumTex[2]);
-			break;
-		case 3:
-			SetTexture(BaumTex[3]);
-			break;
-		default:
-			break;
-		}
-		return;
-	}
 	switch (playerState)
 	{
 	case Player::STATE::NORMAL:
@@ -384,12 +376,21 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 
 void Player::Draw()
 {
+	if (effect.size() > 0)
+	{
+		for (auto it = effect.begin(); it != effect.end(); it++)
+		{
+			if ((*it)->mTransform.pos.z > this->mTransform.pos.z)
+				(*it)->Draw();
+		}
+	}
 	CObject::Draw();
 	if (effect.size() > 0)
 	{
 		for (auto it = effect.begin(); it != effect.end(); it++)
 		{
-			(*it)->Draw();
+			if ((*it)->mTransform.pos.z < this->mTransform.pos.z)
+				(*it)->Draw();
 		}
 	}
 }

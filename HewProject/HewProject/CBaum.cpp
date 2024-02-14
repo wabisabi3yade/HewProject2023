@@ -1,11 +1,12 @@
 #include "CBaum.h"
-
+#include"BaumAnim.h"
 
 
 CBaum::CBaum(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
 	category = Category::OBJECT;
+	mAnim = new BaumAnim();
 }
 
 CBaum::~CBaum()
@@ -14,10 +15,18 @@ CBaum::~CBaum()
 
 void CBaum::Update()
 {
+	mAnim->Update();
 	CGridObject::Update();
 }
 
 void CBaum::Draw()
 {
 	CGridObject::Draw();
+}
+
+void CBaum::PlayAnim(int _dir, D3DBUFFER _vb)
+{
+	dynamic_cast<BaumAnim*>(mAnim)->PlayAnim(_dir);
+	
+	SetVertexBuffer(_vb);
 }

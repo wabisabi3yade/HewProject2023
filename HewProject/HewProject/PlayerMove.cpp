@@ -444,6 +444,10 @@ void PlayerMove::CannonMove2()
 		}
 		if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] == static_cast<int> (CGridObject::BlockType::CANNON))
 		{
+			if (moveDir != static_cast<int>(DIRECTION::UP) || moveDir != static_cast<int>(DIRECTION::RIGHT))
+			{
+				player->mTransform.pos.z = v3MovePos.z - 0.20001f;
+			}
 			isCannonMoveStart = true;
 			player->dotween->DelayedCall(CANNONBOUND_TIME / 1.5f, [&]()
 				{
@@ -452,7 +456,7 @@ void PlayerMove::CannonMove2()
 				});
 			player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
 			
-			player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+			player->dotween->Append(v3MovePos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->GetPlayerMove()->SetNextGridPos(nextCannonPos);
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
 				{
