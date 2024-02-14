@@ -41,8 +41,8 @@ public:
 	// ï\é¶ÅEîÒï\é¶êÿÇËë÷Ç¶ä÷êî
 	void SetActive(const bool& _setActive) { isActive = _setActive; }
 
-	void SetBuffer(const D3DBUFFER _vb) { mVertexBuffer = _vb; }
-	void SetTexture(const D3DTEXTURE _tex) { mTexture = _tex; }
+	virtual void SetBuffer(const D3DBUFFER _vb) { mVertexBuffer = _vb; uv = {}; }
+	virtual void SetTexture(const D3DTEXTURE _tex) { mTexture = _tex; }
 
 	void SetUV(const float& _setU, const float& _setV) { uv.x = _setU; uv.y = _setV; }
 

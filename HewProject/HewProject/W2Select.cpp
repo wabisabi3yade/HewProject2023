@@ -35,10 +35,14 @@ W2Select::W2Select()
 	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &backTex);
 	backGround->SetTexture(backTex);
 
-	//DirectX::XMFLOAT3 color = { 4, 113 , 247 };
+	D3D_LoadTexture(L"asset/Text/World2Name.png", &worldNameTex);
 
-	//worldText->SetColor(color);
-	//worldNum->SetColor(color);
+	worldNameOffsetX = 3.0f;
+	worldName[1]->mTransform.pos.x += worldNameOffsetX;
+	for (int i = 0; i < 2; i++)
+	{
+		worldName[i]->SetTexture(worldNameTex);
+	}
 
 	// Å‰‚ÌˆÚ“®ˆ—‚ğ‚·‚és
 	BeginMove();

@@ -42,6 +42,17 @@ void W1Select::BeginMove()
 
 	stageSmpBack->dotween->DoEaseOutBack(stageSmpPos, BEGIN_MOVETIME);
 
+	worldText->dotween->DoEaseOutBack(worldTextPos, BEGIN_MOVETIME);
+	worldNameOffsetX = 1.0f;
+	for (int i = 0; i < 2; i++)
+	{
+		Vector3 v = worldNamePos;
+		v.x += i * worldNameOffsetX;
+		v.y -= i * WORLDNAME_OFFSETY;
+		v.z -= i * UI_OFFSETZ;
+		worldName[i]->dotween->DoEaseOutBack(v, BEGIN_MOVETIME);
+	}
+
 	// ボタンの座標を設定
 	int halfNum = (float)stageNum / 2;
 	// ボタンの移動
@@ -110,7 +121,20 @@ W1Select::W1Select()
 	D3D_LoadTexture(L"asset/Background/Stage1SelectBack.png", &backTex);
 	backGround->SetTexture(backTex);
 
-	// 最初の移動処理をするs
+	// ワールド名に
+	D3D_LoadTexture(L"asset/Text/World1Name.png", &worldNameTex);
+	worldNameOffsetX = 1.0f;
+	worldNamePos.y += 0.2f;
+	worldName[1]->mTransform.pos.x += worldNameOffsetX;
+	for (int i = 0; i < 2; i++)
+	{
+		// 文字をずらす
+		worldName[i]->mTransform.pos.y = worldNamePos.y;
+		worldName[i]->mTransform.pos.y -= i * WORLDNAME_OFFSETY;
+		worldName[i]->SetTexture(worldNameTex);
+	}
+
+	// 最初の移動処理をする
 	BeginMove();
 }
 
@@ -127,6 +151,7 @@ void W1Select::Draw()
 W1Select::~W1Select()
 {
 	SAFE_RELEASE(backTex);
+	SAFE_RELEASE(worldNameTex);
 
 	for (auto a : stgButton)
 	{

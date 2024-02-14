@@ -1,5 +1,7 @@
 #include "W4Select.h"
 
+#define WORLDEX_OFFSETX (2.4f)	// EXの差分値(X軸)
+
 W4Select::W4Select()
 {
 	stageNum = 4;	// ステージの数
@@ -35,13 +37,70 @@ W4Select::W4Select()
 	D3D_LoadTexture(L"asset/Background/Stage4SelectBack.png", &backTex);
 	backGround->SetTexture(backTex);
 
+	D3D_LoadTexture(L"asset/Text/World4Name.png", &worldNameTex);
+
+	worldNameOffsetX = 1.0f;
+	worldName[1]->mTransform.pos.x += worldNameOffsetX;
+	for (int i = 0; i < 2; i++)
+	{
+		worldName[i]->SetTexture(worldNameTex);
+	}
+
+	D3D_LoadTexture(L"asset/Text/T_EX.png", &exTex);
+	
+	// 数字をEXに変える
+	worldNum->SetBuffer(oneBuf);
+	worldNum->SetTexture(exTex);
+	// 調整
+	worldNum->mTransform.pos.x += 2.0f;
+	worldNum->mTransform.scale.x *= 2.0f;
+
 	// 最初の移動処理をするs
 	BeginMove();
 }
 
 void W4Select::Update()
 {
-	StageSelect::Update();
+
+	if (isBeginFin)
+	{
+		// 入力
+		Input();
+	}
+	// 最初の移動時に使用する処理はここ
+	else
+	{
+		stageText->Update();
+
+		// ステージテキストの背景の座標を更新
+		Vector3& pos = stageTextBack->mTransform.pos;
+		pos = stageText->mTransform.pos;
+		pos.z += UI_OFFSETZ;
+
+		worldText->Update();
+		worldNum->mTransform.pos = worldText->mTransform.pos;
+		worldNum->mTransform.pos.x += WORLDEX_OFFSETX;
+
+		for (int i = 0; i < 2; i++)
+		{
+			worldName[i]->Update();
+
+		}
+
+	}
+
+	// サンプルの移動処理
+	SmpMove();
+
+	stageSmpBack->Update();
+
+	for (auto a : stgButton)
+	{
+		a->Update();
+	}
+
+	// 前のステージ番号を更新
+	o_pointStage = c_pointStage;
 }
 
 void W4Select::Draw()
@@ -52,6 +111,7 @@ void W4Select::Draw()
 W4Select::~W4Select()
 {
 	SAFE_RELEASE(backTex);
+	SAFE_RELEASE(exTex);
 
 	for (auto a : stgButton)
 	{

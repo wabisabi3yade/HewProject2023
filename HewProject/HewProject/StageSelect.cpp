@@ -117,6 +117,26 @@ StageSelect::StageSelect()
 	worldNum->mTransform.scale = { 0.8f, 0.8f, 1.0f };
 	dynamic_cast<ShadowUI*>(worldNum)->SetShadowOffset({ WORLDNUM_SHADOWOFFSETX, WORLDNUM_SHADOWOFFSETY });
 
+	worldNamePos = { -4.5f, 2.6f, UI_POSZ };
+	// ワールド名
+	D3D_CreateSquare({ 1,2 }, &worldNameBuffer);
+	for (int i = 0; i < 2; i++)
+	{
+		// テクスチャは各シーン
+		worldName[i] = new UI(worldNameBuffer, NULL);
+		worldName[i]->mTransform.pos = worldNamePos;
+		worldName[i]->mTransform.pos.x -= BEGIN_MOVEMENT_X;
+		// 文字をずらす
+		worldName[i]->mTransform.pos.y -= i * WORLDNAME_OFFSETY;
+		worldName[i]->mTransform.pos.z -= i * UI_OFFSETZ;
+
+		worldName[i]->mTransform.scale = { 6.5f, 1.625f, 1.0f };
+		worldName[i]->SetUV(0, i * 0.5f);
+
+		worldName[i]->MakeDotween();
+
+	}
+
 	// 更新
 	o_pointStage = c_pointStage;
 }
@@ -141,6 +161,12 @@ void StageSelect::Update()
 		worldText->Update();
 		worldNum->mTransform.pos = worldText->mTransform.pos;
 		worldNum->mTransform.pos.x += WOLRLDNUM_OFFSETX;
+
+		for (int i = 0; i < 2; i++)
+		{
+			worldName[i]->Update();
+
+		}
 
 	}
 
@@ -172,10 +198,15 @@ void StageSelect::Draw()
 
 	worldText->Draw();
 	worldNum->Draw();
-	
+
 
 	stageTextBack->Draw();
 	stageText->Draw();
+
+	for (int i = 0; i < 2; i++)
+	{
+		worldName[i]->Draw();
+	}
 
 	for (auto a : stgButton)
 	{
@@ -209,7 +240,16 @@ StageSelect::~StageSelect()
 	CLASS_DELETE(worldText);
 	SAFE_RELEASE(worldTextTex)
 
-	CLASS_DELETE(worldNum);
+		CLASS_DELETE(worldNum);
+
+	SAFE_RELEASE(backTex);
+
+	for (int i = 0; i < 2; i++)
+	{
+		CLASS_DELETE(worldName[i]);
+	}
+	SAFE_RELEASE(worldNameBuffer);
+	SAFE_RELEASE(worldNameTex);
 }
 
 void StageSelect::BeginMove()
@@ -223,6 +263,15 @@ void StageSelect::BeginMove()
 	stageSmpBack->dotween->DoEaseOutBack(stageSmpPos, BEGIN_MOVETIME);
 
 	worldText->dotween->DoEaseOutBack(worldTextPos, BEGIN_MOVETIME);
+
+	for (int i = 0; i < 2; i++)
+	{
+		Vector3 v = worldNamePos;
+		v.x += i * worldNameOffsetX;
+		v.y -= i * WORLDNAME_OFFSETY;
+		v.z -= i* UI_OFFSETZ;
+		worldName[i]->dotween->DoEaseOutBack(v, BEGIN_MOVETIME);
+	}
 
 	// ボタンの移動
 	for (int i = 0; i < stgButton.size(); i++)

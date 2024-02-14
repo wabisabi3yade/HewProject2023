@@ -9,6 +9,8 @@
 #define BEGIN_MOVETIME (1.0f)   // 始めの移動時間
 #define BEGIN_MOVEMENT_X (7.5f) // 初めの移動量
 
+#define WORLDNAME_OFFSETY (1.5f)	// y軸の差分値
+
 class StageSelect :
     public CScene
 {
@@ -60,8 +62,11 @@ protected:
 
     UI* worldNum;   // 数字
 
-    D3DTEXTURE WorldNameTex;   // ワールド名
-    UI* WorldName;   // ワールド名
+    D3DTEXTURE worldNameTex;   // ワールド名
+    D3DBUFFER worldNameBuffer;
+    UI* worldName[2];   // ワールド名
+    Vector3 worldNamePos;
+    float worldNameOffsetX;
 
     D3DTEXTURE btnNumTex;   // ボタン用テクスチャ
 
