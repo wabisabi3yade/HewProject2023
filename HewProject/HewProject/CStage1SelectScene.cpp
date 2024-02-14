@@ -259,24 +259,30 @@ void CStage1SelectScene::Update()
 
 	if (player->isChangeScene == true)
 	{
+
+		CScene::SCENE_NAME nextScene = CScene::SCENE_NAME::NONE;
 		switch (player->nNumSelectScene)
 		{
 		case 0:
-			CScene::SetScene(SCENE_NAME::STAGE1);
+			nextScene = SCENE_NAME::WORLD1_SELECT;
 			break;
 		case 1:
+			/*nextScene = SCENE_NAME::WORLD3_SELECT;*/
 			break;
 		case 2:
-			CScene::SetScene(SCENE_NAME::SELECT);
+			nextScene = SCENE_NAME::WORLD2_SELECT;
 			break;
 		case 3:
+			nextScene = SCENE_NAME::WORLD4_SELECT;
 			break;
 		case 4:
-			CScene::SetScene(SCENE_NAME::TITLE);
+			nextScene = SCENE_NAME::WORLD3_SELECT;
 			break;
 		default:
 			break;
 		}
+
+		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, nextScene);
 	}
 	
 	for (int i = 0; i < 5; i++)
