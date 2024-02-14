@@ -40,7 +40,7 @@ void NormalMove::Move(DIRECTION _dir)
 	}
 
 	// 移動先の座標
-	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START,static_cast<int>(player->GetState()));
+	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START, static_cast<int>(player->GetState()));
 	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
 
 	// 奥側に行くかどうか
@@ -91,7 +91,7 @@ void NormalMove::Move(DIRECTION _dir)
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
 				// 食べ終わったら移動できるようにする
-				player->dotween->DelayedCall(EAT_TIME, [&,pos,scale]()
+				player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 					{
 						MoveAfter();
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
@@ -183,35 +183,24 @@ void NormalMove::Move(DIRECTION _dir)
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
-				switch (player->GetNowFloor())
+
+				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 				{
-				case 1:
-				case 2:
-				case 3:
-				{
-					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
-					{
-						//バウンドする高さを計算　代入
-						//player->Fall();
-						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
-						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
-							{
-								isFallBound = true;
-							});
-					}
-					player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
+					//バウンドする高さを計算　代入
+					float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
+					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+					player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 						{
-							player->fallMoveTrriger = true;
+							isFallBound = true;
 						});
 				}
-				break;
-				default:
-					break;
-				}
+				player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
+					{
+						player->fallMoveTrriger = true;
+					});
 			});
 		break;
 	}
@@ -326,7 +315,7 @@ void NormalMove::Move(DIRECTION _dir)
 		// 手前のマスに行くときは先にZ座標を手前に合わせる
 		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
 		{
-			player->mTransform.pos.z = forwardPos.z-0.20001f;
+			player->mTransform.pos.z = forwardPos.z - 0.20001f;
 		}
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
 		player->dotween->Append(forwardPos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);

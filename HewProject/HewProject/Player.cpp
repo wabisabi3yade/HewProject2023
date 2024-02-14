@@ -97,10 +97,10 @@ void Player::Init(GridTable* _pTable)
 	// ’Êíó‘Ô‚©‚çŽn‚ß‚é
 	/*playerState = STATE::NORMAL;*/
 
-	ChangeState(STATE::THIN);
+	ChangeState(STATE::NORMAL);
 
 
-	calorie = 5;
+	calorie = START_CALORIE;
 	/*SetTexture(normalTex[0]);*/
 
 	calorieGage->SetCalorie(calorie);
@@ -213,7 +213,7 @@ void Player::Update()
 		}
 	}
 
-	if (calorie <= 0)
+	if (calorie <= 0 && !IsgameOver)
 		GameOver();
 }
 
