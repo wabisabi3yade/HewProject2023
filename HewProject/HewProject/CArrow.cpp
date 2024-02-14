@@ -33,16 +33,16 @@ void CArrow::SetOwner(CObject* _owner, DIRECTION _dir)
 	switch (_dir)
 	{
 	case CArrow::DOWN:
-		mTransform.pos.y -= ArrowDis;
+		mTransform.pos.y -= ArrowDis * mTransform.scale.y;
 		break;
 	case CArrow::LEFT:
-		mTransform.pos.x -= ArrowDis;
+		mTransform.pos.x -= ArrowDis * mTransform.scale.x;
 		break;
 	case CArrow::RIGHT:
-		mTransform.pos.x += ArrowDis;
+		mTransform.pos.x += ArrowDis * mTransform.scale.x;
 		break;
 	case CArrow::UP:
-		mTransform.pos.y += ArrowDis;
+		mTransform.pos.y += ArrowDis * mTransform.scale.y;
 		break;
 	default:
 		break;

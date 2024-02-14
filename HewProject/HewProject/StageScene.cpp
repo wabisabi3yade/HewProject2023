@@ -334,8 +334,8 @@ void StageScene::StageMove()
 			baumObj->SetTexture(stageTextureBaumAnim[player->GetDirection()]);
 			baumObj->mTransform.scale.x *= 2.0f;
 			baumObj->mTransform.scale.y *= 1.5655f;
-			baumObj->mTransform.pos.x -= 0.0453f;
-			baumObj->mTransform.pos.y -= 0.0449f;
+			baumObj->mTransform.pos.x -= 0.0151f * player->GetGridTable()->GetGridScale().x;
+			baumObj->mTransform.pos.y -= 0.01496f * player->GetGridTable()->GetGridScale().y;
 			float offsetZ;
 			float adjustValue;	// バウムクーヘン通ってる間に変わるz値
 			if (player->GetDirection() == static_cast<int>(Player::DIRECTION::RIGHT))
@@ -350,7 +350,7 @@ void StageScene::StageMove()
 			}
 
 			baumObj->mTransform.pos.z -= offsetZ;
-			player->dotween->DelayedCall(BAUM_THROWMIDTIME, [&, baumObj, offsetZ, adjustValue]()
+			player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, baumObj, offsetZ, adjustValue]()
 				{
 					baumObj->mTransform.pos.z += offsetZ + adjustValue;
 				});
@@ -376,8 +376,8 @@ void StageScene::StageMove()
 			baumObj->SetTexture(stageTextureBaumAnim[player->GetDirection()]);
 			baumObj->mTransform.scale.x *= 2.0f;
 			baumObj->mTransform.scale.y *= 1.5655f;
-			baumObj->mTransform.pos.x += 0.0453f;
-			baumObj->mTransform.pos.y -= 0.0449f;
+			baumObj->mTransform.pos.x += 0.0151f * player->GetGridTable()->GetGridScale().x;
+			baumObj->mTransform.pos.y -= 0.01496f * player->GetGridTable()->GetGridScale().y;
 
 			float offsetZ;
 			float adjustValue;	// バウムクーヘン通ってる間に変わるz値
@@ -394,7 +394,7 @@ void StageScene::StageMove()
 
 			baumObj->mTransform.pos.z -= offsetZ;
 
-			player->dotween->DelayedCall(BAUM_THROWMIDTIME, [&, baumObj, offsetZ, adjustValue]()
+			player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, baumObj, offsetZ, adjustValue]()
 				{
 					baumObj->mTransform.pos.z += offsetZ + adjustValue;
 				});
@@ -461,11 +461,15 @@ void StageScene::StageMove()
 				player->GetPlayerMove()->FallStart();
 			}
 		}
+		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CANNON)
+		{
+			CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
+		}
+
 		if (player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GUMI)
 		{
 			player->GetPlayerMove()->RiseStart();
 		}
-
 		// アイテムがあるならそれを画面から消す
 		ItemDelete();
 	}
