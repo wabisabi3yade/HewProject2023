@@ -18,7 +18,7 @@
 //#include "Player.h"
 #include "GridTable.h"
 #include "TextureFactory.h"
-
+#include"CArrow.h"
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
@@ -111,6 +111,11 @@ StageScene::~StageScene()
 
 	CLASS_DELETE(floorUi);
 	CLASS_DELETE(calorieGage);
+
+	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+	{
+		CLASS_DELETE(Arrow[i]);
+	}
 	//CLASS_DELETE();
 
 }
@@ -127,6 +132,12 @@ void StageScene::Update()
 	if (gInput->GetKeyTrigger(VK_BACK))
 	{
 		Undo(stageScale);
+	}
+
+	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+	{
+		Arrow[i]->Update();
+		Arrow[i]->mTransform.pos.z = -0.35f;
 	}
 
 	/// 
@@ -176,6 +187,17 @@ void StageScene::Update()
 	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 	{
 		InCanonInput();
+	}
+
+	if (player->GetCannonFX())
+	{
+		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+		bool* canmove = cannonObj->GetCanMove();
+		bool* p_canmove = player->GetCanMoveDir();
+			for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+			{
+				*p_canmove = *canmove;
+			}
 	}
 
 	if (player->GetPlayerMove()->GetIsFallBound())
@@ -350,7 +372,7 @@ void StageScene::StageMove()
 			}
 
 			baumObj->mTransform.pos.z -= offsetZ;
-			player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, baumObj, offsetZ, adjustValue]()
+			player->dotween->DelayedCall(BAUM_THROWMIDTIME, [&, baumObj, offsetZ, adjustValue]()
 				{
 					baumObj->mTransform.pos.z += offsetZ + adjustValue;
 				});
@@ -394,7 +416,7 @@ void StageScene::StageMove()
 
 			baumObj->mTransform.pos.z -= offsetZ;
 
-			player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, baumObj, offsetZ, adjustValue]()
+			player->dotween->DelayedCall(BAUM_THROWMIDTIME, [&, baumObj, offsetZ, adjustValue]()
 				{
 					baumObj->mTransform.pos.z += offsetZ + adjustValue;
 				});
@@ -403,7 +425,7 @@ void StageScene::StageMove()
 				{
 					baumObj->SetVertexBuffer(stageBuffer);
 					baumObj->SetTexture(stageTextureBaumkuchen_R);
-					baumObj->mTransform.pos  = o_baumPos;
+					baumObj->mTransform.pos = o_baumPos;
 					baumObj->mTransform.scale.x = player->GetGridTable()->GetGridScale().x;
 					baumObj->mTransform.scale.y = player->GetGridTable()->GetGridScale().y;
 					player->ChangeInvisible();
@@ -460,10 +482,6 @@ void StageScene::StageMove()
 					});
 				player->GetPlayerMove()->FallStart();
 			}
-		}
-		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CANNON)
-		{
-			CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
 		}
 
 		if (player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GUMI)
@@ -792,7 +810,6 @@ void StageScene::InCanonInput()
 						player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 						player->ChangeInvisible();
 						cannonMove = false;
-						cannonObj->Fire(player->GetDirection());
 						cannonObj->PlayReturn();
 						player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
 							{
@@ -825,7 +842,6 @@ void StageScene::InCanonInput()
 				player->GetPlayerMove()->CannonMoveStart();
 				player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 				player->ChangeInvisible();
-				cannonObj->Fire(player->GetDirection());
 				cannonMove = false;
 				cannonObj->PlayReturn();
 			});
@@ -1090,7 +1106,21 @@ void StageScene::Undo(float _stageScale)
 	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
-
+	
+	if (player->GetState() == Player::STATE::MUSCLE)
+	{
+		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+		{
+			Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
+		} 
+	}
+	else
+	{
+		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+		{
+			Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i));
+		}
+	}
 
 	// 未使用にする
 	floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
@@ -1230,6 +1260,16 @@ void StageScene::Draw()
 	//カロリーゲージ
 	calorieGage->Draw();
 
+	bool* IsArrowDraw = player->GetCanMoveDir();
+	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+	{
+		if (*IsArrowDraw == true && (player->GetIsStop() || player->GetPlayerMove()->GetIncannon()))
+		{
+			Arrow[i]->Draw();
+		}
+		IsArrowDraw++;
+	}
+
 }
 
 void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
@@ -1237,14 +1277,14 @@ void StageScene::Z_Sort(std::vector<CGridObject*>& _sortList)
 	std::sort(_sortList.begin(), _sortList.end(), [](CObject* a, CObject* b) {return (a->mTransform.pos.z > b->mTransform.pos.z); });
 }
 
-void StageScene::Init(const wchar_t* filePath, float _stageScale)
+void StageScene::Init(const wchar_t* filePath)
 {
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 
 
 	// ステージの大きさを設定する
-	stageScale = _stageScale;
+
 	nNumProtein = 0;
 
 	stage = new CLoadStage;
@@ -1254,19 +1294,42 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 
 	stageSquare = { StageData.numX,StageData.numY };
 
+	switch (StageData.numX)
+	{
+	case 3:
+		stageScale = 3.0f;
+		break;
+	case 4:
+		stageScale = 3.0f;
+		break;
+	case 5:
+		stageScale = 3.0f;
+		break;	
+	case 6:
+		stageScale = 3.0f;
+		break;
+	case 7:
+		stageScale = 3.0f;
+		break;
+	default:
+		MessageBoxA(NULL, "縦のマス数が範囲外です", "stageScene::Init関数", MB_OK | MB_ICONERROR);
+		stageScale = 1;
+		break;
+	}
+
 	//	ワールド座標
 	/*stagePos = stageMake->StagePos(StageData);*/
 
 	// ここでグリッドテーブルを作成する　/////////////
 	// 階層ごとのテーブルに入れていく ///////////////
-	oneFloor = new GridTable({ StageData.numX, StageData.numY }, _stageScale);
+	oneFloor = new GridTable({ StageData.numX, StageData.numY }, stageScale);
 	if (StageData.secondFloor.floorTable[0][0] != 0) //0が入っていれば作られてない　階層なし
 	{
-		secondFloor = new GridTable({ StageData.numX, StageData.numY }, _stageScale);
+		secondFloor = new GridTable({ StageData.numX, StageData.numY }, stageScale);
 		nMaxFloor = 2;
 		if (StageData.thirdFloor.floorTable[0][0] != 0)
 		{
-			thirdFloor = new GridTable({ StageData.numX,StageData.numY }, _stageScale);
+			thirdFloor = new GridTable({ StageData.numX,StageData.numY }, stageScale);
 			nMaxFloor = 3;
 		}
 	}
@@ -1482,7 +1545,11 @@ void StageScene::Init(const wchar_t* filePath, float _stageScale)
 	calorieGage = new CalorieGage_hori();
 
 	player->SetCalorieGage(calorieGage);
-
+	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+	{
+		Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
+		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i));
+	}
 	calorieGage->SetPosition({ -3.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 1.0f,1.0f,1.0f });
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
@@ -1576,7 +1643,6 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				break;
 			case CGridObject::BlockType::CANNON:
 				objWork = new CCannon(playerBuffer, stageTextureCannon[1], nowFloor);
-				dynamic_cast<CCannon*>(objWork)->SetArrow(stageBuffer, stageTextureArrow);
 				break;
 			default:
 				break;

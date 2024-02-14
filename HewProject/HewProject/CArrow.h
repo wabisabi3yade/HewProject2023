@@ -14,6 +14,8 @@ public:
         NUM,
     };
 
+    DIRECTION dir;
+
 private:
 
     CObject* Owner;
@@ -25,6 +27,7 @@ public:
     void Draw() override;
 
     void SetArrow(D3DTEXTURE _tex);
-    void SetOwner(CObject* _owner ,DIRECTION _dir);
+    void SetOwner(CObject* _owner ,DIRECTION _dir = NUM, float _scale = 0);
+
 };
 

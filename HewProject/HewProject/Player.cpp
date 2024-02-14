@@ -55,7 +55,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	risingMoveTrriger = false;
 	ChangeCannonTexture = false;
 	PlayAura = false;
-
+	IsStop = true;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -138,11 +138,13 @@ void Player::Update()
 		{
 			ChangeTexture(ANIM_TEX::WALK);
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
+			IsStop = false;
 		}
 		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false && isEat == false)
 		{
 			ChangeTexture(ANIM_TEX::WAIT);
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
+			IsStop = true;
 		}
 	}
 	else
@@ -416,6 +418,15 @@ void Player::EatEnd()
 Player::~Player()
 {
 	CLASS_DELETE(mAnim);
+	if (effect.size() > 0)
+	{
+		for (auto it = effect.begin(); it != effect.end();)
+		{
+			CLASS_DELETE(*it);
+			it = effect.erase(it);
+			it++;
+		}
+	}
 }
 
 bool Player::GetIsMoving() const
