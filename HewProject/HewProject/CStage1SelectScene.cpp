@@ -24,18 +24,18 @@ CStage1SelectScene::CStage1SelectScene()
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/WorldSelectBack.png");
 
-	D3D_CreateSquare({ 1,1 }, &wordBuffer);
-	word_RightUpTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Chili.png");
-	word_RightDownTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Cake.png");
-	word_LeftUpTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Coin.png");
-	word_LeftDownTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/Protein.png");
-
+	D3D_CreateSquare({ 1,2 }, &wordBuffer);
+	D3D_LoadTexture(L"asset/Text/World1Name.png", &word_LeftUpTexture);
+	D3D_LoadTexture(L"asset/Text/World2Name.png", &word_RightUpTexture);
+	D3D_LoadTexture(L"asset/Text/World3Name.png", &word_LeftDownTexture);
+	D3D_LoadTexture(L"asset/Text/World4Name.png", &word_RightDownTexture);
+	
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
-	text_blueTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Blue.png");
-	text_whiteTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_White.png");
-	text_pinkTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Pink.png");
-	text_purpleTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/textBox_Purple.png");
-
+	D3D_LoadTexture(L"asset/Background/Stage1SelectBack.png", &text_world1Texture);
+	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &text_world2Texture);
+	D3D_LoadTexture(L"asset/Background/Stage3SelectBack.png", &text_world3Texture);
+	D3D_LoadTexture(L"asset/Background/Stage4SelectBack.png", &text_world4Texture);
+	
 	for (int i = 0; i < 4; i++)
 	{
 		Shadow[i] = new ShadowUI(stageBuffer, shadowTexture);
@@ -53,58 +53,90 @@ CStage1SelectScene::CStage1SelectScene()
 	player->mTransform.pos = { 0,0,-0.11f };
 	player->SetTexture(player_waitTexture);
 
-	Text[0] = new UI(textBuffer, text_blueTexture);
+	Text[0] = new UI(textBuffer, text_world2Texture);
 	Text[0]->MakeDotween();
-	Text[0]->mTransform.pos = {10.0f,3.5f,-0.01f};
-	Text[0]->mTransform.scale = {3.0f,1.0f,1};
+	Text[0]->mTransform.pos = { -18.0f,-2.5f,-0.01f};
+	Text[0]->mTransform.scale = {9.0f,3.0f,1};
 	Text[0]->materialDiffuse = {1,1,1,1};
 
-	Text[1] = new UI(textBuffer, text_whiteTexture);
+	Text[1] = new UI(textBuffer, text_world1Texture);
 	Text[1]->MakeDotween();
-	Text[1]->mTransform.pos = { -10.0f,3.5f,-0.01f };
-	Text[1]->mTransform.scale = { 3.0f,1.0f,1 };
+	Text[1]->mTransform.pos = { 18.0f,-2.5f,-0.01f };
+	Text[1]->mTransform.scale = { 9.0f,3.0f,1 };
 	Text[1]->materialDiffuse = { 1,1,1,1 };
 
-	Text[2] = new UI(textBuffer, text_pinkTexture);
+	Text[2] = new UI(textBuffer, text_world3Texture);
 	Text[2]->MakeDotween();
-	Text[2]->mTransform.pos = { -10.0f,-3.5f,-0.01f };
-	Text[2]->mTransform.scale = { 3.0f,1.0f,1 };
+	Text[2]->mTransform.pos = { 18.0f,2.5f,-0.01f };
+	Text[2]->mTransform.scale = { 9.0f,3.0f,1 };
 	Text[2]->materialDiffuse = { 1,1,1,1 };
 
-	Text[3] = new UI(textBuffer, text_purpleTexture);
+	Text[3] = new UI(textBuffer, text_world4Texture);
 	Text[3]->MakeDotween();
-	Text[3]->mTransform.pos = { 10.0f,-3.5f,-0.01f };
-	Text[3]->mTransform.scale = { 3.0f,1.0f,1 };
+	Text[3]->mTransform.pos = { -18.0f,2.5f,-0.01f };
+	Text[3]->mTransform.scale = { 9.0f,3.0f,1 };
 	Text[3]->materialDiffuse = { 1,1,1,1 };
 
 	Word[0] = new UI(wordBuffer, word_RightUpTexture);
 	Word[0]->MakeDotween();
-	Word[0]->mTransform.pos = {10.0f,3.5,-0.1f};
-	Word[0]->mTransform.scale = {2.0f,2.0f,1};
+	Word[0]->mTransform.pos = {-20.0f,-3.0f,-0.1f};
+	Word[0]->mTransform.scale = {4.0f,1.0f,1};
 
 	Word[1] = new UI(wordBuffer, word_RightDownTexture);
 	Word[1]->MakeDotween();
-	Word[1]->mTransform.pos = { 10.0f,-3.5f,-0.1f };
-	Word[1]->mTransform.scale = { 2.0f,2.0f,1 };
+	Word[1]->mTransform.pos = { -20.0f,2.0f,-0.1f };
+	Word[1]->mTransform.scale = { 4.0f,1.0f,1 };
 
 	Word[2] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[2]->MakeDotween();
-	Word[2]->mTransform.pos = { -10.0f,3.5f,-0.1f };
-	Word[2]->mTransform.scale = { 2.0f,2.0f,1 };
+	Word[2]->mTransform.pos = { 18.0f,-3.0f,-0.1f };
+	Word[2]->mTransform.scale = { 4.0f,1.0f,1 };
 
 	Word[3] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[3]->MakeDotween();
-	Word[3]->mTransform.pos = { -10.0f,-3.5,-0.1f };
-	Word[3]->mTransform.scale = { 2.0f,2.0f,1 };
+	Word[3]->mTransform.pos = { 18.0f,2.0f,-0.1f };
+	Word[3]->mTransform.scale = { 4.0f,1.0f,1 };
 
-	stage[0]->mTransform.pos = { -5,2,-0.1f };
+	Word[4] = new UI(wordBuffer, word_RightUpTexture);
+	Word[4]->MakeDotween();
+	Word[4]->SetUV(0, 1.0f / 2.0f * 1.0f);
+	Word[4]->mTransform.pos = { -16.0f,-3.0f,-0.11f };
+	Word[4]->mTransform.scale = { 4.0f,1.0f,1 };
+
+	Word[5] = new UI(wordBuffer, word_RightDownTexture);
+	Word[5]->MakeDotween();
+	Word[5]->SetUV(0, 1.0f / 2.0f * 1.0f);
+	Word[5]->mTransform.pos = { -16.0f,2.0f,-0.11f };
+	Word[5]->mTransform.scale = { 4.0f,1.0f,1 };
+
+	Word[6] = new UI(wordBuffer, word_LeftUpTexture);
+	Word[6]->MakeDotween();
+	Word[6]->SetUV(0, 1.0f / 2.0f * 1.0f);
+	Word[6]->mTransform.pos = { 20.0f,-3.0f,-0.11f };
+	Word[6]->mTransform.scale = { 4.0f,1.0f,1 };
+
+	Word[7] = new UI(wordBuffer, word_LeftDownTexture);
+	Word[7]->MakeDotween();
+	Word[7]->SetUV(0, 1.0f / 2.0f * 1.0f);
+	Word[7]->mTransform.pos = { 20.0f,2.0f,-0.11f };
+	Word[7]->mTransform.scale = { 4.0f,1.0f,1 };
+
+	stage[0]->mTransform.pos = { -4.0f,2.0f,-0.1f };
 	stage[0]->mTransform.scale = { 3.95f,3.0f,1 };
-	stage[1]->mTransform.pos = { -5,-2,-0.1f };
+	stage[0]->mTransform.rotation = { 0,0,5.0f };
+
+	stage[1]->mTransform.pos = { -2.5f,-2.0f,-0.1f };
 	stage[1]->mTransform.scale = { 3.95f,3.0f,1 };
-	stage[2]->mTransform.pos = { 5,2,-0.1f };
+	stage[1]->mTransform.rotation = { 0,0,2.0f };
+
+	stage[2]->mTransform.pos = { 4.0f,2.0f,-0.1f };
 	stage[2]->mTransform.scale = { 3.95f,3.0f,1 };
-	stage[3]->mTransform.pos = { 5,-2,-0.1f };
+	stage[2]->mTransform.rotation = { 0,0,-5.0f };
+
+	stage[3]->mTransform.pos = { 3.0f,-2.0f,-0.1f };
 	stage[3]->mTransform.scale = { 3.95f,3.0f,1 };
+	stage[3]->mTransform.rotation = { 0,0,-10.0f };
+
 	stage[4]->mTransform.pos = { 0,-2,-0.1f };
 	stage[4]->mTransform.scale = { 3.95f,3.0f,1 };
 
@@ -114,7 +146,8 @@ CStage1SelectScene::CStage1SelectScene()
 	{
 		shadowPos[i] = stage[i]->mTransform.pos;
 		Shadow[i]->mTransform.pos = { shadowPos[i].x + 0.05f,shadowPos[i].y - 0.05f,0.4f};
-		Shadow[i]->mTransform.scale = { stage[i]->mTransform.scale};
+		Shadow[i]->mTransform.scale = { stage[i]->mTransform.scale };
+		Shadow[i]->mTransform.rotation = { stage[i]->mTransform.rotation };
 	}
 	
 	Bg = new UI(bgBuffer, bgTexture);
@@ -132,7 +165,7 @@ CStage1SelectScene::~CStage1SelectScene()
 
 	CLASS_DELETE(Bg);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		CLASS_DELETE(Word[i]);
 	}
@@ -157,6 +190,14 @@ CStage1SelectScene::~CStage1SelectScene()
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(wordBuffer);
 	SAFE_RELEASE(textBuffer);
+	SAFE_RELEASE(text_world1Texture);
+	SAFE_RELEASE(text_world2Texture);
+	SAFE_RELEASE(text_world3Texture);
+	SAFE_RELEASE(text_world4Texture);
+	SAFE_RELEASE(word_LeftDownTexture);
+	SAFE_RELEASE(word_LeftUpTexture);
+	SAFE_RELEASE(word_RightDownTexture);
+	SAFE_RELEASE(word_RightUpTexture);
 }
 
 void CStage1SelectScene::Update()
@@ -197,64 +238,89 @@ void CStage1SelectScene::Update()
 			{
 			case 0:
 			{
+				//ワールド１
 				Vector3 target = Text[1]->mTransform.pos;
-				target.x = -5.0f;
+				target.x = 3.0f;
 				Vector3 target_word = Word[2]->mTransform.pos;
-				target_word.x = -5.0f;
+				target_word.x = 2.0f;
+				Vector3 target_word2 = Word[6]->mTransform.pos;
+				target_word2.x = 5.0f;
 
-				Text[1]->dotween->DoEaseOutBack(target, 2.0f);
+				Text[1]->dotween->DoEaseOutBack(target, 1.0f);
 				Text[1]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 				
-				Word[2]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[2]->dotween->DoEaseOutBack(target_word, 1.0f);
 				Word[2]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+
+				Word[6]->dotween->DoEaseOutBack(target_word2, 1.0f);
+				Word[6]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 
 				Text[1]->dotween->OnComplete([&]() {isOnce = true; });
 			}
 				break;
 			case 1:
 			{
+				//ワールド3
 				Vector3 target = Text[2]->mTransform.pos;
-				target.x = -5.0f;
+				target.x = 3.0f;
 				Vector3 target_word = Word[3]->mTransform.pos;
-				target_word.x = -5.0f;
+				target_word.x = 2.0f;
+				Vector3 target_word2 = Word[7]->mTransform.pos;
+				target_word2.x = 5.5f;
 
-				Text[2]->dotween->DoEaseOutBack(target, 2.0f);
+				Text[2]->dotween->DoEaseOutBack(target, 1.0f);
 				Text[2]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 				
-				Word[3]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[3]->dotween->DoEaseOutBack(target_word, 1.0f);
 				Word[3]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 				
+				Word[7]->dotween->DoEaseOutBack(target_word2, 1.0f);
+				Word[7]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+
 				Text[2]->dotween->OnComplete([&]() {isOnce = true; });
 			}
 				break;
 			case 2:
 			{
+				//ワールド２
 				Vector3 target = Text[0]->mTransform.pos;
-				target.x = 5.0f;
+				target.x = -3.0f;
 				Vector3 target_word = Word[0]->mTransform.pos;
-				target_word.x = 5.0f;
+				target_word.x = -3.3f;
 
-				Text[0]->dotween->DoEaseOutBack(target, 2.0f);
+				Vector3 target_word2 = Word[4]->mTransform.pos;
+				target_word2.x = -0.5f;
+
+				Text[0]->dotween->DoEaseOutBack(target, 1.0f);
 				Text[0]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 				
-				Word[0]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[0]->dotween->DoEaseOutBack(target_word, 1.0f);
 				Word[0]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+
+				Word[4]->dotween->DoEaseOutBack(target_word2, 1.0f);
+				Word[4]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 
 				Text[0]->dotween->OnComplete([&]() {isOnce = true; });
 			}
 				break;
 			case 3:
 			{
+				//ワールド４
 				Vector3 target = Text[3]->mTransform.pos;
-				target.x = 5.0f;
+				target.x = -3.0f;
 				Vector3 target_word = Word[1]->mTransform.pos;
-				target_word.x = 5.0f;
+				target_word.x = -3.8f;
+				Vector3 target_word2 = Word[5]->mTransform.pos;
+				target_word2.x = -1.0f;
 
-				Text[3]->dotween->DoEaseOutBack(target, 2.0f);
+				Text[3]->dotween->DoEaseOutBack(target, 1.0f);
 				Text[3]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 				
-				Word[1]->dotween->DoEaseOutBack(target_word, 2.0f);
+				Word[1]->dotween->DoEaseOutBack(target_word, 1.0f);
 				Word[1]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
+
+				Word[5]->dotween->DoEaseOutBack(target_word2, 1.0f);
+				Word[5]->dotween->Append(Vector3::zero, 1.0f, DoTweenUI::FUNC::NONE);
 
 				Text[3]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -298,49 +364,65 @@ void CStage1SelectScene::Update()
 
 	if (isOnce == true)
 	{
+		//ワールド１
 		if (CollsionRect(stage[0], player) == false)
 		{
 			Vector3 target = Text[1]->mTransform.pos;
-			target.x = -10.0f;
+			target.x = 18.0f;
 			Vector3 target_word = Word[2]->mTransform.pos;
-			target_word.x = -10.0f;
+			target_word.x = 18.0f;
+			Vector3 target_word2 = Word[6]->mTransform.pos;
+			target_word2.x = 20.0f;
 
-			Text[1]->dotween->DoEaseOutBack(target, 2.0f);
-			Word[2]->dotween->DoEaseOutBack(target_word, 2.0f);
+			Text[1]->dotween->DoEaseOutBack(target, 1.0f);
+			Word[2]->dotween->DoEaseOutBack(target_word, 1.0f);
+			Word[6]->dotween->DoEaseOutBack(target_word2, 1.0f);
 			isOnce = false;
 		}
 		
+		//ワールド3
 		if (CollsionRect(stage[1], player) == false)
 		{
 			Vector3 target = Text[2]->mTransform.pos;
-			target.x = -10.0f;
+			target.x = 18.0f;
 			Vector3 target_word = Word[3]->mTransform.pos;
-			target_word.x = -10.0f;
+			target_word.x = 18.0f;
+			Vector3 target_word2 = Word[7]->mTransform.pos;
+			target_word2.x = 20.0f;
 
-			Text[2]->dotween->DoEaseOutBack(target, 2.0f);
-			Word[3]->dotween->DoEaseOutBack(target_word, 2.0f);
+			Text[2]->dotween->DoEaseOutBack(target, 1.0f);
+			Word[3]->dotween->DoEaseOutBack(target_word, 1.0f);
+			Word[7]->dotween->DoEaseOutBack(target_word2, 1.0f);
 			isOnce = false;
 		}
 
+		//ワールド２
 		if (CollsionRect(stage[2], player) == false)
 		{
 			Vector3 target = Text[0]->mTransform.pos;
-			target.x = 10.0f;
+			target.x = -18.0f;
 			Vector3 target_word = Word[0]->mTransform.pos;
-			target_word.x = 10.0f;
-			Text[0]->dotween->DoEaseOutBack(target, 2.0f);
-			Word[0]->dotween->DoEaseOutBack(target_word, 2.0f);
+			target_word.x = -18.0f;
+			Vector3 target_word2 = Word[4]->mTransform.pos;
+			target_word2.x = -16.0f;
+			Text[0]->dotween->DoEaseOutBack(target, 1.0f);
+			Word[0]->dotween->DoEaseOutBack(target_word, 1.0f);
+			Word[4]->dotween->DoEaseOutBack(target_word2, 1.0f);
 			isOnce = false;
 		}
 
+		//ワールド４
 		if (CollsionRect(stage[3], player) == false)
 		{
 			Vector3 target = Text[3]->mTransform.pos;
-			target.x = 10.0f;
+			target.x = -18.0f;
 			Vector3 target_word = Word[1]->mTransform.pos;
-			target_word.x = 10.0f;
-			Text[3]->dotween->DoEaseOutBack(target, 2.0f);
-			Word[1]->dotween->DoEaseOutBack(target_word, 2.0f);
+			target_word.x = -18.0f;
+			Vector3 target_word2 = Word[5]->mTransform.pos;
+			target_word2.x = -16.0f;
+			Text[3]->dotween->DoEaseOutBack(target, 1.0f);
+			Word[1]->dotween->DoEaseOutBack(target_word, 1.0f);
+			Word[5]->dotween->DoEaseOutBack(target_word2, 1.0f);
 			isOnce = false;
 		}
 	}
@@ -350,7 +432,7 @@ void CStage1SelectScene::Update()
 		Text[i]->Update();
 	}
 	
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		Word[i]->Update();
 	}
@@ -401,7 +483,7 @@ void CStage1SelectScene::Draw()
 		Text[i]->Draw();
 	}
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		Word[i]->Draw();
 	}

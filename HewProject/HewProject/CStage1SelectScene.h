@@ -26,10 +26,10 @@ public:
 
     //テキスト
     D3DBUFFER textBuffer;
-    D3DTEXTURE text_blueTexture;
-    D3DTEXTURE text_whiteTexture;
-    D3DTEXTURE text_pinkTexture;
-    D3DTEXTURE text_purpleTexture;
+    D3DTEXTURE text_world1Texture;
+    D3DTEXTURE text_world2Texture;
+    D3DTEXTURE text_world3Texture;
+    D3DTEXTURE text_world4Texture;
 
     //文字
     D3DBUFFER wordBuffer;
@@ -44,7 +44,7 @@ public:
     CStageSelectPlayer* player;
     CObject* stage[5];
     UI* Text[4];
-    UI* Word[4];
+    UI* Word[8];
     UI* Bg;
     ShadowUI* Shadow[4];
 
