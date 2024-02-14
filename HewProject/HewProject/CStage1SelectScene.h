@@ -37,6 +37,7 @@ public:
     D3DTEXTURE word_RightDownTexture;
     D3DTEXTURE word_LeftUpTexture;
     D3DTEXTURE word_LeftDownTexture;
+    D3DTEXTURE worldTexture;
 
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
@@ -46,6 +47,7 @@ public:
     UI* Text[4];
     UI* Word[8];
     UI* Bg;
+    UI* World[4];
     ShadowUI* Shadow[4];
 
     bool isPlayerMoving;
