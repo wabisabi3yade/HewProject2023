@@ -35,6 +35,7 @@ public:
 		CANNON_IN,
 		CANNON_FIRE,
 		PANTI,
+		PANTI_L,
 		SMOKE_R,
 		SMOKE_G,
 		SMOKE_Y,
@@ -45,6 +46,7 @@ public:
 		BOX,
 		KUMO,
 		MARK,
+		CLEAR,
 		EFFECT_MAX,
 	}FX_TYPE;
 

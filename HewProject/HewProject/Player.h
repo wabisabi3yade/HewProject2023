@@ -18,13 +18,14 @@
 #define FALL_POS_Y (-4.5f) //落ちる最終座標
 #define JUMP_TIME (1.5f) //ジャンプの移動時間
 #define BOUND_TIME (1.0f) //ジャンプ後のバウンドする時間
+constexpr float BOUND_CURVE_POS_Y = 1.3f;	//バウンドするときの高さ
 constexpr float RISING_TIME = 0.5f; //グミでの上昇時間
 #define THIN_CALOMAX (5)	// ガリ状態時での最大カロリー数 
 #define NORMAL_CALOMAX (10)	// 普通状態時での最大カロリー数 
 constexpr float CANNONMOVE_TIME = 1.0f;		//大砲でのいどうじかん
 constexpr float CANNONBOUND_TIME = 1.0f;	//大砲で目的地でのバウンドする時間
 constexpr float CANNONBOUND_POS_Y = 3.0f;	//大砲で目的地でのバウンドする高さ
-constexpr float CANNON_IN_CURVE_POS_Y = 1.0f;//大砲に入るときの最大地点
+constexpr float CANNON_IN_CURVE_POS_Y = 2.0f;//大砲に入るときの最大地点
 
 class CalorieGage_hori;
 

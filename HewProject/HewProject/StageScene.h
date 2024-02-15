@@ -100,6 +100,7 @@ private:
 	// バッファ	
 	D3DBUFFER stageBuffer;	// ステージのオブジェクト
 	D3DBUFFER playerBuffer;	// プレイヤー
+	D3DBUFFER clearBuffer;	// クリア
 
 	// テクスチャ
 	D3DTEXTURE stageTextureFloor;

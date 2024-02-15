@@ -86,12 +86,14 @@ void CWall::Break(int _dir, float _breakTime)
 	default:
 		break;
 	}
-	dotween->DelayedCall(_breakTime / 2.0, [&,pos,scale]()
+	dotween->DelayedCall(_breakTime / 2.0, [&,pos,scale,_dir]()
 		{
 			isBreak = true;
 			time = 0;
 			isDecrease = true;
-			if(_dir!=-1)
+			if( _dir == 1 || _dir == 2)
+			effect = EffectManeger::GetInstance()->Play(pos,scale,EffectManeger::FX_TYPE::PANTI_L,false);
+			else if(_dir == 0 || _dir == 3 )
 			effect = EffectManeger::GetInstance()->Play(pos,scale,EffectManeger::FX_TYPE::PANTI,false);
 		});
 	dotween->DelayedCall(_breakTime, [&]()

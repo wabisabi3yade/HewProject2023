@@ -19,6 +19,7 @@ EffectManeger::EffectManeger()
 		L"asset/Effect/taihou.png",
 		L"asset/Effect/smoke.png",
 		L"asset/Effect/panti.png",
+		L"asset/Effect/panti_L.png",
 		L"asset/Effect/smoke_red.png",
 		L"asset/Effect/smoke_green.png",
 		L"asset/Effect/smoke_yellow.png",
@@ -29,6 +30,7 @@ EffectManeger::EffectManeger()
 		L"asset/Effect/box.png",
 		L"asset/Effect/kumo.png",
 		L"asset/Effect/mark.png",
+		L"asset/Effect/clear.png",
 		//L"asset/Effect/",
 	};
 

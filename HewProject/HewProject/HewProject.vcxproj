@@ -181,6 +181,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CTitlePlayer.h" />
     <ClInclude Include="FloorUI.h" />
+    <ClInclude Include="GallAnim.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CPlayerAnim.h" />
@@ -302,6 +303,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CTitlePlayer.cpp" />
     <ClCompile Include="FloorUI.cpp" />
+    <ClCompile Include="GallAnim.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CPlayerAnim.cpp" />
