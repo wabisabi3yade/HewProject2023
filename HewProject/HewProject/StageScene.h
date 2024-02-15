@@ -67,6 +67,7 @@ private:
 	// ステージの大きさ
 	float stageScale = 0.0f;
 
+	//メニュー画面
 	CMenu* Menu;
 
 	//開始フロア

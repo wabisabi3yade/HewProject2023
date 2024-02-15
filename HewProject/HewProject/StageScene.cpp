@@ -103,6 +103,7 @@ StageScene::~StageScene()
 	CLASS_DELETE(secondFloor);
 	CLASS_DELETE(thirdFloor);
 
+	CLASS_DELETE(Menu);
 
 	//UI
 
