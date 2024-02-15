@@ -1,5 +1,6 @@
 #include "W1Select.h"
 #include "InputManager.h"
+#include "CSceneManager.h"
 
 #define B_OFFSETX (1.4f)	// ボタンごとの差分（X座標）
 #define B_OFFSETY (1.3f)	
@@ -32,12 +33,20 @@ void W1Select::Input()
 	// 選んでいるステージの数を取得
 	c_pointStage = btnSelect->GetPointButton() + 1;
 
+	// 移動したので
+	if (c_pointStage != o_pointStage)
+	{
+		XA_Play(SOUND_LABEL::S_MOVEBUTTON);
+	}
+
 	if (input->GetInputTrigger(InputType::DECIDE))
 	{
 		// 取得
 		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
 
 		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
+
+		XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
 
 		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, next);
 

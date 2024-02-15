@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "TextureFactory.h"
 #include "ShadowUI.h"
+#include "CSceneManager.h"
 
 #define BG_POSZ (1.1f)	// ”wŒi
 #define SMPBACK_POSZ (1.0f)	
@@ -38,20 +39,36 @@ void StageSelect::Input()
 	// ‘I‚ñ‚Å‚¢‚éƒXƒe[ƒW‚Ì”‚ðŽæ“¾
 	c_pointStage = btnSelect->GetPointButton() + 1;
 
+	// ˆÚ“®‚µ‚½‚Ì‚Å
+	if (c_pointStage != o_pointStage)
+	{
+		XA_Play(SOUND_LABEL::S_MOVEBUTTON);
+	}
+
 	if (input->GetInputTrigger(InputType::DECIDE))
 	{
 		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
+
+		XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
+
 		// Žæ“¾
 		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
 
-		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, next);
-		isSceneMoving = true;
+		if (Fade::GetInstance()->GetState() == Fade::STATE::STAY)
+		{
+			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, next);
+			isSceneMoving = true;
+		}
+		
 	}
 	else if (input->GetInputTrigger(InputType::CANCEL))
 	{
-		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
-		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
-		isSceneMoving = true;
+		if (Fade::GetInstance()->GetState() == Fade::STATE::STAY)
+		{
+			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
+			isSceneMoving = true;
+		}
+		
 	}
 
 	
@@ -75,6 +92,8 @@ void StageSelect::SmpMove()
 
 StageSelect::StageSelect()
 {
+	pSceneManager->SetPlayBgm(SOUND_LABEL::B_STAGESELECT);
+
 	// ƒ{ƒ^ƒ“”wŒi
 	D3D_CreateSquare({ 2,1 }, &stageBtnBuf);
 	D3D_LoadTexture(L"asset/UI/StageSelect_Btn.png", &stageBtnTex);

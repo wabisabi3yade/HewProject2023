@@ -11,6 +11,8 @@ class CStage1SelectScene :
 {
 public:
 
+    bool isSceneChanging;   // シーン変わる
+
     //プレイヤー
     D3DBUFFER playerBuffer;
     D3DTEXTURE playerTexture;

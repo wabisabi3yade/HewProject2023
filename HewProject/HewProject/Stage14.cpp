@@ -1,5 +1,5 @@
 #include "Stage14.h"
-
+#include "CSceneManager.h"
 Stage14::Stage14()
 	: Stage(L"Stage1-4.csv")
 {

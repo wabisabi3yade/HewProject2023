@@ -70,6 +70,8 @@ CSceneManager::CSceneManager()
 
 CSceneManager::~CSceneManager()
 {
+	SetPlayBgm(SOUND_LABEL::NONE);
+
 	CLASS_DELETE(pNowScene);
 
 	EffectManeger::Delete();
@@ -143,8 +145,6 @@ void CSceneManager::SceneChange(int _scene)
 {
 	// 最初に解放する
 	CLASS_DELETE(pNowScene);
-	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
-
 	// 変える先のシーン名を保存
 	nowSceneName = static_cast<CScene::SCENE_NAME>(_scene);
 
@@ -171,7 +171,7 @@ void CSceneManager::SceneChange(int _scene)
 		break;
 
 	case CScene::WAKAMURA:
-		XA_Play(SOUND_LABEL_BGMSWEETSFACTORY);
+		
 		nowSceneName = CScene::WAKAMURA;
 		pNowScene = new CWorldSelectScene();
 		break;
@@ -323,7 +323,7 @@ void CSceneManager::SceneChangeStage(const wchar_t* _path)
 {
 	// 最初に解放する
 	CLASS_DELETE(pNowScene);
-	XA_Stop(SOUND_LABEL_BGMSWEETSFACTORY);
+	
 
 	pNowScene = new Stage(_path);
 }
@@ -353,6 +353,27 @@ void CSceneManager::LoadSceneChangeCheck()
 
 	// ロードに移行
 	SceneChange(CScene::SCENE_NAME::LOADING);
+}
+
+void CSceneManager::SetPlayBgm(int _setBgm)
+{
+	// 同じ曲なら
+	if (playingBgm == _setBgm) return;
+
+	// 何も設定していないときは
+	if (playingBgm != SOUND_LABEL::NONE)
+	{
+		XA_Stop(static_cast<SOUND_LABEL>(playingBgm));
+		playingBgm = SOUND_LABEL::NONE;
+	}
+
+	// 何も設定しないなら
+	if (_setBgm != SOUND_LABEL::NONE)
+	{
+		XA_Play(static_cast<SOUND_LABEL>(_setBgm));
+		playingBgm = _setBgm;
+	}
+	
 }
 
 
