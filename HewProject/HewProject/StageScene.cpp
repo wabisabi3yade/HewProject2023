@@ -103,6 +103,7 @@ StageScene::~StageScene()
 	CLASS_DELETE(secondFloor);
 	CLASS_DELETE(thirdFloor);
 
+	//メニュー
 	CLASS_DELETE(Menu);
 
 	//UI
@@ -124,18 +125,24 @@ StageScene::~StageScene()
 void StageScene::Update()
 {
 	//メニュー画面
-	Menu->Update();
-
+	if (player->GetIsMoving() == false)
+	{
+		Menu->Update();
+	}
+	
 	if (Menu->GetisMenu() == true)
 	{
 		player->GetPlayerMove()->SetIsMenu(true);
+		player->GetmAnim()->animSpeed = 0;
 	}
 	else {
+		
 		player->GetPlayerMove()->SetIsMenu(false);
 		for (auto i : *vStageObj)
 		{
 			i->Update();
 		}
+		player->GetmAnim()->animSpeed = 0.1f;
 	}
 
 	StageMove();
@@ -1309,19 +1316,19 @@ void StageScene::Init(const wchar_t* filePath)
 	switch (StageData.numX)
 	{
 	case 3:
-		stageScale = 3.0f;
+		stageScale = 2.7f;
 		break;
 	case 4:
-		stageScale = 3.0f;
+		stageScale = 2.5f;
 		break;
 	case 5:
-		stageScale = 3.0f;
+		stageScale = 2.3f;
 		break;
 	case 6:
-		stageScale = 3.0f;
+		stageScale = 2.1f;
 		break;
 	case 7:
-		stageScale = 3.0f;
+		stageScale = 1.9f;
 		break;
 	default:
 		stageScale = 1;
