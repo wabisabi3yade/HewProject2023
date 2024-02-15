@@ -756,6 +756,9 @@
     <ClInclude Include="StageEx4.h">
       <Filter>ソース ファイル\Stage\WorldEx\StageEx4</Filter>
     </ClInclude>
+    <ClInclude Include="GallAnim.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -1114,6 +1117,9 @@
     </ClCompile>
     <ClCompile Include="StageSelect.cpp">
       <Filter>ソース ファイル\Hashimoto\StageSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="GallAnim.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

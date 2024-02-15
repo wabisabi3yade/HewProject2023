@@ -19,6 +19,7 @@
 #include "GridTable.h"
 #include "TextureFactory.h"
 #include"CArrow.h"
+#include"CCamera.h"
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
@@ -129,14 +130,14 @@ void StageScene::Update()
 	{
 		Menu->Update();
 	}
-	
+
 	if (Menu->GetisMenu() == true)
 	{
 		player->GetPlayerMove()->SetIsMenu(true);
 		player->GetmAnim()->animSpeed = 0;
 	}
 	else {
-		
+
 		player->GetPlayerMove()->SetIsMenu(false);
 		for (auto i : *vStageObj)
 		{
@@ -147,7 +148,7 @@ void StageScene::Update()
 
 	StageMove();
 
-	
+
 
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
@@ -274,7 +275,7 @@ void StageScene::Update()
 		UndoTableUpdate();
 	}
 
-	
+
 	//UI
 
 	//プロテイン
@@ -447,6 +448,17 @@ void StageScene::StageMove()
 					player->ChangeInvisible();
 				});
 		}
+		if (player->GetState() == Player::STATE::MUSCLE &&
+			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GALL)
+		{
+			CGall* gallObj = dynamic_cast<CGall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			player->dotween->DelayedCall(BREAK_TIME /2.0f, [&,gallObj]()
+				{
+					//CCamera::GetInstance()->Zoom(0.2f,stageScale);
+					gallObj->Open(clearBuffer);
+				});
+		}
+
 	}
 
 	// プレイヤーが動き終えると
@@ -609,8 +621,8 @@ void StageScene::StageMove()
 
 	if (player->GetCannonFX() == true)
 	{
-		Vector3 pos = player->mTransform.pos;
-		pos.y += 0.7f;
+		Vector3 pos = player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START);
+		pos.y += stageScale / 2.0f;
 		pos.z -= 0.0001f;
 		Vector3 scale = player->mTransform.scale;
 		scale.x *= CANNON_IN_SCALE;
@@ -825,7 +837,7 @@ void StageScene::InCanonInput()
 			_pos.z = _pos.z - 0.15f;
 		}
 		cannonObj->SetTexture(stageTextureCannon[0]);
-		dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir);
+		dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir, 2.0f);
 		player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj, _pos, _Scale]()
 			{
 				cannonObj->DirSelect(static_cast<Player::DIRECTION>(isSelectDir));
@@ -839,7 +851,7 @@ void StageScene::InCanonInput()
 						cannonObj->PlayReturn();
 						player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir]()
 							{
-								dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(0);
+								dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(0, 2.0f);
 							});
 					});
 			});
@@ -869,7 +881,7 @@ void StageScene::InCanonInput()
 				player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 				player->ChangeInvisible();
 				cannonMove = false;
-				cannonObj->PlayReturn();
+				cannonObj->PlayReturn(2.0f);
 			});
 	}
 
@@ -972,7 +984,7 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 
 void StageScene::Undo(float _stageScale)
 {
-	if (player->GetPlayerMove()->GetIsMoving()) return;	
+	if (player->GetPlayerMove()->GetIsMoving()) return;
 	short o_nNumUndo = nNumUndo;
 
 	// 1より下に行く
@@ -1264,7 +1276,7 @@ void StageScene::Draw()
 		MapDraw();
 	}
 
-	
+
 
 	//UI
 
@@ -1300,7 +1312,7 @@ void StageScene::Init(const wchar_t* filePath)
 {
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
-
+	D3D_CreateSquare({ 6,7 }, &clearBuffer);
 
 	// ステージの大きさを設定する
 
@@ -1565,8 +1577,9 @@ void StageScene::Init(const wchar_t* filePath)
 	calorieGage = new CalorieGage_hori();
 
 	player->SetCalorieGage(calorieGage);
-	//Vector3 arrowUpScale(stageScale * 1.4f, stageScale * 1.4f, stageScale);
-	//Vector3 arrowDownScale(stageScale * 1.0f, stageScale * 1.0f, stageScale);
+
+	player->SetNowFloor(startfloor);
+
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
 		Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
@@ -1577,8 +1590,6 @@ void StageScene::Init(const wchar_t* filePath)
 	calorieGage->SetScale({ 1.0f,1.0f,1.0f });
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
-
-	player->SetNowFloor(startfloor);
 
 	floorReset.playerUndo = player->GetGridPos();
 	floorReset.stateUndo = player->GetState();
@@ -1661,7 +1672,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				player = dynamic_cast<Player*>(objWork);
 				break;
 			case CGridObject::BlockType::GALL:
-				objWork = new CGall(stageBuffer, stageTextureGallChest);
+				objWork = new CGall(playerBuffer, stageTextureGallChest);
 				break;
 			case CGridObject::BlockType::CANNON:
 				objWork = new CCannon(playerBuffer, stageTextureCannon[1], nowFloor);

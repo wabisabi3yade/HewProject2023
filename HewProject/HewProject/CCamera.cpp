@@ -37,6 +37,11 @@ void CCamera::Zoom()
 	}
 }
 
+void CCamera::Zoom(float _targetScale, float _stageScale)
+{
+	scaleScreen = _targetScale * _stageScale;
+}
+
 void CCamera::Reduction()
 {
 	if (gInput->GetKeyTrigger(VK_BACK))
