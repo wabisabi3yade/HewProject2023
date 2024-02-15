@@ -29,6 +29,7 @@
 #define WORLD_POS_YY (-1.0f)
 
 #define FOUR (4)
+#define MOVETIME (0.1f)
 
 CStage1SelectScene::CStage1SelectScene()
 {
@@ -75,12 +76,12 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Num[1]->mTransform.pos = { TEXT_POS_X + 2.3f,WORLD_POS_YY,-0.11f };
 	Num[1]->SetColor({ 246,232,120 });
-	Num[1]->SetUV(1.0f / 3.0f * 1.0f, 1.0f / 4.0f * 1.0f);
+	Num[1]->SetUV(1.0f / 3.0f * 1.0f, 0);
 	Num[1]->mTransform.scale = { 1,1,1 };
 
 	Num[2]->mTransform.pos = { TEXT_POS_X + 2.3f,WORLD_POS_Y,-0.11f };
 	Num[2]->SetColor({ 231,166,203 });
-	Num[2]->SetUV(1.0f / 3.0f , 1.0f / 4.0f);
+	Num[2]->SetUV(0 , 1.0f / 4.0f * 1.0f);
 	Num[2]->mTransform.scale = { 1,1,1 };
 
 	Num[3]->mTransform.pos = { TEXT_POS_XX + 2.3f,WORLD_POS_Y,-0.11f };
@@ -334,31 +335,31 @@ void CStage1SelectScene::Update()
 			{
 				//ワールド１
 				Vector3 target = Text[1]->mTransform.pos;
-				target.x = 3.0f;
+				target.x = 2.0f;
 				Vector3 target_word = Word[2]->mTransform.pos;
-				target_word.x = 2.0f;
+				target_word.x = 1.0f;
 				Vector3 target_word2 = Word[6]->mTransform.pos;
-				target_word2.x = 5.0f;
+				target_word2.x = 4.0f;
 				Vector3 target_world = World[1]->mTransform.pos;
-				target_world.x = 2.5f;
+				target_world.x = 1.5f;
 
 				Vector3 target_num = Num[1]->mTransform.pos;
-				target_num.x = 4.8f;
+				target_num.x = 3.8f;
 
 				Text[1]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
-				Text[1]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Text[1]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 				
 				World[1]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
-				World[1]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				World[1]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Num[1]->dotween->DoEaseOutBack(target_num, TARGET_MOVETIME);
-				Num[1]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Num[1]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Word[2]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
-				Word[2]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[2]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Word[6]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
-				Word[6]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[6]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Text[1]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -367,30 +368,30 @@ void CStage1SelectScene::Update()
 			{
 				//ワールド3
 				Vector3 target = Text[2]->mTransform.pos;
-				target.x = 3.0f;
+				target.x = 2.5f;
 				Vector3 target_word = Word[3]->mTransform.pos;
-				target_word.x = 2.5f;
+				target_word.x = 2.0f;
 				Vector3 target_word2 = Word[7]->mTransform.pos;
-				target_word2.x = 5.5f;
+				target_word2.x = 5.0f;
 				Vector3 target_world = World[2]->mTransform.pos;
-				target_world.x = 2.7f;
+				target_world.x = 2.2f;
 				Vector3 target_num = Num[2]->mTransform.pos;
-				target_num.x = 4.9f;
+				target_num.x = 4.5f;
 
 				Text[2]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
-				Text[2]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Text[2]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 				
 				World[2]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
-				World[2]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				World[2]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Num[2]->dotween->DoEaseOutBack(target_num, TARGET_MOVETIME);
-				Num[2]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Num[2]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Word[3]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
-				Word[3]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 				
 				Word[7]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
-				Word[7]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[7]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Text[2]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -399,33 +400,33 @@ void CStage1SelectScene::Update()
 			{
 				//ワールド２
 				Vector3 target = Text[0]->mTransform.pos;
-				target.x = -3.0f;
+				target.x = -2.0f;
 				Vector3 target_word = Word[0]->mTransform.pos;
-				target_word.x = -3.3f;
+				target_word.x = -2.3f;
 
 				Vector3 target_word2 = Word[4]->mTransform.pos;
-				target_word2.x = -0.5f;
+				target_word2.x = 0.5f;
 
 				Vector3 target_world = World[0]->mTransform.pos;
-				target_world.x = -3.2f;
+				target_world.x = -2.2f;
 
 				Vector3 target_num = Num[0]->mTransform.pos;
-				target_num.x = -0.9f;
+				target_num.x = 0.1f;
 
 				Text[0]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
-				Text[0]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Text[0]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 				
 				World[0]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
-				World[0]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				World[0]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Num[0]->dotween->DoEaseOutBack(target_num, TARGET_MOVETIME);
-				Num[0]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Num[0]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Word[0]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
-				Word[0]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[0]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Word[4]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
-				Word[4]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[4]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Text[0]->dotween->OnComplete([&]() {isOnce = true; });
 			}
@@ -434,30 +435,30 @@ void CStage1SelectScene::Update()
 			{
 				//ワールド４
 				Vector3 target = Text[3]->mTransform.pos;
-				target.x = -3.0f;
+				target.x = -2.0f;
 				Vector3 target_word = Word[1]->mTransform.pos;
-				target_word.x = -3.7f;
+				target_word.x = -2.7f;
 				Vector3 target_word2 = Word[5]->mTransform.pos;
-				target_word2.x = -1.1f;
+				target_word2.x = -0.1f;
 				Vector3 target_world = World[3]->mTransform.pos;
-				target_world.x = -3.2f;
+				target_world.x = -2.2f;
 				Vector3 target_num = Num[3]->mTransform.pos;
-				target_num.x = -0.9f;
+				target_num.x = 0.1f;
 
 				Text[3]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
-				Text[3]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Text[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 				
 				World[3]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
-				World[3]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				World[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Num[3]->dotween->DoEaseOutBack(target_num, TARGET_MOVETIME);
-				Num[3]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Num[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Word[1]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
-				Word[1]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[1]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Word[5]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
-				Word[5]->dotween->Append(Vector3::zero, 0.1f, DoTweenUI::FUNC::NONE);
+				Word[5]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Text[3]->dotween->OnComplete([&]() {isOnce = true; });
 			}
