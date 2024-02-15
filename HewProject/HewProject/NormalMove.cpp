@@ -227,37 +227,27 @@ void NormalMove::Move(DIRECTION _dir)
 				fallPosXY.y = fallPos.y;
 				player->Fall();
 				player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
-				switch (player->GetNowFloor())
+
+				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 				{
-				case 1:
-					break;
-				case 2:
-				case 3:
-				{
-					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
-					{
-						//バウンドする高さを計算　代入
-						//player->Fall();
-						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
-						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
-							{
-								isFallBound = true;
-							});
-					}
-					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+					//バウンドする高さを計算　代入
+					//player->Fall();
+					float BoundPosY = floorFallPos.y + (3.0f * static_cast<float>(nextGridPos.y / player->GetGridTable()->GetGridScale().y));
+					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+					player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
 						{
-							player->fallMoveTrriger = true;
+							isFallBound = true;
 						});
 				}
-				break;
-				default:
-					break;
-				}
-			});
+				player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+					{
+						player->fallMoveTrriger = true;
+					});
+			
+		});
 	}
 	break;
 
@@ -347,7 +337,7 @@ void NormalMove::Move(DIRECTION _dir)
 			}
 			});
 		break;
-	}
+}
 }
 
 
@@ -470,7 +460,7 @@ void NormalMove::Step()
 	{
 		//WalkStart();
 		//ジャンプしてから落ちるように
-		
+
 		//画面外まで移動するようにYをマクロで定義して使用する
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
@@ -525,7 +515,7 @@ void NormalMove::Step()
 		FallAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
-		
+
 		//MoveAfter();
 		// ↑にジャンプする
 
