@@ -592,6 +592,7 @@ void FatMove::Step()
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->GetPlayerMove()->InCannon();
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
+		player->SetGridPos(nextGridPos);
 		break;
 
 	default:	// è∞

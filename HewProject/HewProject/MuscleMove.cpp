@@ -518,6 +518,7 @@ void MuscleMove::Step()
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		player->GetPlayerMove()->InCannon();
+		player->SetGridPos(nextGridPos);
 		break;
 
 	default:	// è∞
