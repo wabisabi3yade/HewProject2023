@@ -28,6 +28,7 @@ PlayerMove::PlayerMove(Player* _p)
 	isCannonMoveStart = false;
 	inCannon = false;
 	isLookMap = false;
+	isMenu = false;
 	nextCannonType = CGridObject::BlockType::NONE;
 	isCannonMoveStartTrigger = false;
 	flagInit = false;
@@ -43,7 +44,7 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Input()
 {
 	// 移動しているときは処理しない
-	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon) return;
+	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon || isMenu) return;
 
 	InputManager* input = InputManager::GetInstance();
 
