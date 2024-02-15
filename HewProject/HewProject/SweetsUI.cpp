@@ -71,3 +71,8 @@ void SweetsUI::SetRotateZ(const float rotatez)
 {
 	Sweets->mTransform.rotation.z += rotatez;
 }
+
+void SweetsUI::SetTexture(const D3DTEXTURE _tex)
+{
+	Sweets->SetTexture(_tex);
+}
