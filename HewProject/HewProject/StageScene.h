@@ -10,6 +10,7 @@
 #include"ProteinUI.h"
 #include"FloorUI.h"
 #include "CalorieGage_hori.h"
+#include "CMenu.h"
 class CArrow;
 
 #define MAX_LAYER (3)         // 階層の最大数
@@ -65,6 +66,8 @@ private:
 	CGrid::GRID_XY stageSquare;
 	// ステージの大きさ
 	float stageScale = 0.0f;
+
+	CMenu* Menu;
 
 	//開始フロア
 	int startFloor;

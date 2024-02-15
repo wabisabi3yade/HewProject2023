@@ -54,6 +54,8 @@ protected:
 
 	bool isFallBound;
 
+	bool isMenu;   //ƒƒjƒ…[‰æ–Ê‚ğŠJ‚¢‚Ä‚¢‚é
+
 	bool flagInit;
 
 	bool cannonFX;
@@ -158,6 +160,7 @@ public:
 	bool GetIsFallBound()const { return isFallBound; }
 	bool GetCannonFX()const { return cannonFX; }
 	void SetCannonDir(bool* _set) { *cannonMoveDir = _set; }
+	void SetIsMenu(bool _set) { isMenu = _set; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 };
 

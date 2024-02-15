@@ -122,9 +122,19 @@ StageScene::~StageScene()
 
 void StageScene::Update()
 {
-	for (auto i : *vStageObj)
+	//メニュー画面
+	Menu->Update();
+
+	if (Menu->GetisMenu() == true)
 	{
-		i->Update();
+		player->GetPlayerMove()->SetIsMenu(true);
+	}
+	else {
+		player->GetPlayerMove()->SetIsMenu(false);
+		for (auto i : *vStageObj)
+		{
+			i->Update();
+		}
 	}
 
 	StageMove();
@@ -256,7 +266,7 @@ void StageScene::Update()
 		UndoTableUpdate();
 	}
 
-
+	
 	//UI
 
 	//プロテイン
@@ -1239,6 +1249,8 @@ void StageScene::Draw()
 		MapDraw();
 	}
 
+	
+
 	//UI
 
 	//プロテイン
@@ -1259,6 +1271,8 @@ void StageScene::Draw()
 		}
 		IsArrowDraw++;
 	}
+
+	Menu->Draw();
 
 }
 
@@ -1454,6 +1468,8 @@ void StageScene::Init(const wchar_t* filePath)
 
 	//プロテインUI作成　数が分かってから行う
 	proteinUi = new ProteinUI(nNumProtein);
+
+	Menu = new CMenu();
 
 	proteinUi->SetPosition({ 6.0f, 4.0f, 0.0f });
 

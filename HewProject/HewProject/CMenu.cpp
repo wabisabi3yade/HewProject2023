@@ -8,6 +8,9 @@
 #define HELP_POSX (-3.0f)
 #define HELP_POSY (3.0f)
 
+#define BG_POS_Z (-0.11f)
+#define UI_POS_Z (-0.12f)
+
 CMenu::CMenu()
 {
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
@@ -17,13 +20,13 @@ CMenu::CMenu()
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->SetColor({ 0,0,0 });
 	Bg->SetAlpha(0.5f);
-	Bg->mTransform.pos = { 0,0,0.1f };
+	Bg->mTransform.pos = { 0,0,BG_POS_Z };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
 	for (int i = 0; i < MAXNUM_HELP; i++)
 	{
 		Rule[i] = new UI(bgBuffer, ruleTexture);
-		Rule[i]->mTransform.pos = { 0,0,0 };
+		Rule[i]->mTransform.pos = { 0,0,UI_POS_Z };
 		Rule[i]->mTransform.scale = { 13.0f - i * 1.0f,8.0f,1.0f };
 	}
 
@@ -32,7 +35,7 @@ CMenu::CMenu()
 
 	Pause = new UI(pauseBuffer, pauseTexture);
 	Pause->MakeDotween();
-	Pause->mTransform.pos = { 0,3.0f,0 };
+	Pause->mTransform.pos = { 0,3.0f,UI_POS_Z };
 	Pause->mTransform.scale = { 0.0f,0.0f,1 };
 
 	D3D_CreateSquare({ 1,2 }, &textBoxBuffer);
@@ -44,7 +47,7 @@ CMenu::CMenu()
 	text_escapeTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Back.png");
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
-	Message[0]->SetPosition({ 0,1.0f,0 });
+	Message[0]->SetPosition({ 0,1.0f,UI_POS_Z });
 	Message[0]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[0]->SetHighlight(true);
 	Message[0]->SetFunc([&]() {
@@ -52,7 +55,7 @@ CMenu::CMenu()
 		});
 
 	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_helpTexture);
-	Message[1]->SetPosition({ 0,-1.0f,0 });
+	Message[1]->SetPosition({ 0,-1.0f,UI_POS_Z });
 	Message[1]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[1]->SetHighlight(false);
 	Message[1]->SetFunc([&]() {
@@ -61,7 +64,7 @@ CMenu::CMenu()
 		});
 
 	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	Message[2]->SetPosition({ 0,-3.0f,0 });
+	Message[2]->SetPosition({ 0,-3.0f,UI_POS_Z });
 	Message[2]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[2]->SetHighlight(false);
 	Message[2]->SetFunc([&]() {
@@ -73,7 +76,7 @@ CMenu::CMenu()
 	BTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/B_Return.png");
 
 	B_Button = new UI(textBuffer, BTexture);
-	B_Button->mTransform.pos = { -6.5f,-4.0f,-0.1f };
+	B_Button->mTransform.pos = { -6.5f,-4.0f,UI_POS_Z };
 	B_Button->mTransform.scale = { 2.4f,0.8f,1.0f };
 
 	for (int i = 0; i < 2; i++)
@@ -89,12 +92,12 @@ CMenu::CMenu()
 		LR_Button[i]->dotween->SetLoop(-1);
 	}
 
-	LR_Button[0]->mTransform.pos = { -7.2f,0,-0.1f };
-	LR_Button[1]->mTransform.pos = { 7.2f,0,-0.1f };
+	LR_Button[0]->mTransform.pos = { -7.2f,0,UI_POS_Z };
+	LR_Button[1]->mTransform.pos = { 7.2f,0,UI_POS_Z };
 	LR_Button[1]->SetUV(1.0f / 2.0f * 1.0f, 0);
 
 	helpMessage[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[0]->SetPosition({ HELP_POSX,HELP_POSY,0 });
+	helpMessage[0]->SetPosition({ HELP_POSX,HELP_POSY,UI_POS_Z });
 	helpMessage[0]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[0]->SetHighlight(true);
 	helpMessage[0]->SetFunc([&]() {
@@ -103,7 +106,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_helpTexture);
-	helpMessage[1]->SetPosition({ HELP_POSX,HELP_POSY - 2.0f,0 });
+	helpMessage[1]->SetPosition({ HELP_POSX,HELP_POSY - 2.0f,UI_POS_Z });
 	helpMessage[1]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[1]->SetFunc([&]() {
 		nRule = 1;
@@ -111,7 +114,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[2] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
-	helpMessage[2]->SetPosition({ HELP_POSX,HELP_POSY - 4.0f,0 });
+	helpMessage[2]->SetPosition({ HELP_POSX,HELP_POSY - 4.0f,UI_POS_Z });
 	helpMessage[2]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[2]->SetFunc([&]() {
 		nRule = 2;
@@ -119,7 +122,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[3] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
-	helpMessage[3]->SetPosition({ HELP_POSX,HELP_POSY - 6.0f,0 });
+	helpMessage[3]->SetPosition({ HELP_POSX,HELP_POSY - 6.0f,UI_POS_Z });
 	helpMessage[3]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[3]->SetFunc([&]() {
 		nRule = 3;
@@ -127,7 +130,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[4] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[4]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY,0 });
+	helpMessage[4]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY,UI_POS_Z });
 	helpMessage[4]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[4]->SetFunc([&]() {
 		nRule = 4;
@@ -135,7 +138,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[5] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[5]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 2.0f,0 });
+	helpMessage[5]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 2.0f,UI_POS_Z });
 	helpMessage[5]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[5]->SetFunc([&]() {
 		nRule = 5;
@@ -143,7 +146,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[6] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[6]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 4.0f,0 });
+	helpMessage[6]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 4.0f,UI_POS_Z });
 	helpMessage[6]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[6]->SetFunc([&]() {
 		nRule = 6;
@@ -151,7 +154,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[7] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[7]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 6.0f,0 });
+	helpMessage[7]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 6.0f,UI_POS_Z });
 	helpMessage[7]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[7]->SetFunc([&]() {
 		nRule = 7;
@@ -159,7 +162,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[8] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[8]->SetPosition({ HELP_POSX,HELP_POSY ,0 });
+	helpMessage[8]->SetPosition({ HELP_POSX,HELP_POSY ,UI_POS_Z });
 	helpMessage[8]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[8]->SetHighlight(true);
 	helpMessage[8]->SetFunc([&]() {
@@ -168,7 +171,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[9] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[9]->SetPosition({ HELP_POSX,HELP_POSY -2.0f,0 });
+	helpMessage[9]->SetPosition({ HELP_POSX,HELP_POSY -2.0f,UI_POS_Z });
 	helpMessage[9]->SetScale({ 4.0f,4.0f,1.0f });
 	helpMessage[9]->SetFunc([&]() {
 		nRule = 9;
@@ -362,28 +365,59 @@ void CMenu::Update()
 				
 			}
 			else {
-				if (input->GetInputTrigger(InputType::L_BUTTON))
+				
+				if (isChangeExplanation == false)
 				{
-					nRule--;
-
-					if (nRule < 0)
+					if (input->GetInputTrigger(InputType::L_BUTTON))
 					{
-						nRule = MAXNUM_HELP - 1;
+						nRule--;
+						helpControl->ButtonMove(-1);
+						if (nRule < 0)
+						{
+							nRule = MAXNUM_HELP - 3;
+						}
+					}
+					else if (input->GetInputTrigger(InputType::R_BUTTON))
+					{
+						nRule++;
+						helpControl->ButtonMove(1);
+
+						if (nRule > MAXNUM_HELP - 3)
+						{
+							nRule = 0;
+						}
+					}
+					else if (input->GetInputTrigger(InputType::CANCEL))
+					{
+						isExplanation = false;
 					}
 				}
-				else if (input->GetInputTrigger(InputType::R_BUTTON))
-				{
-					nRule++;
-
-					if (nRule > MAXNUM_HELP - 1)
+				else {
+					if (input->GetInputTrigger(InputType::L_BUTTON))
 					{
-						nRule = 0;
+						nRule--;
+						help_2PageControl->ButtonMove(-1);
+
+						if (nRule < 8)
+						{
+							nRule = MAXNUM_HELP - 1;
+						}
+					}
+					else if (input->GetInputTrigger(InputType::R_BUTTON))
+					{
+						nRule++;
+						help_2PageControl->ButtonMove(1);
+						if (nRule > MAXNUM_HELP - 1)
+						{
+							nRule = 8;
+						}
+					}
+					else if (input->GetInputTrigger(InputType::CANCEL))
+					{
+						isExplanation = false;
 					}
 				}
-				else if (input->GetInputTrigger(InputType::CANCEL))
-				{
-					isExplanation = false;
-				}
+				
 			}
 			
 		}
@@ -518,4 +552,9 @@ void CMenu::Draw()
 
 	}
 
+}
+
+bool CMenu::GetisMenu()
+{
+	return isMenu;
 }

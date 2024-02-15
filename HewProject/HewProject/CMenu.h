@@ -59,5 +59,7 @@ public:
     void LateUpdate() override;
 
     void Draw() override;
+
+    bool GetisMenu();
 };
 
