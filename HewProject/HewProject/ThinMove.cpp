@@ -98,7 +98,7 @@ void ThinMove::Move(DIRECTION _dir)
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
 				// 食べ終わったら移動できるようにする
-				player->dotween->DelayedCall(EAT_TIME, [&,pos,scale]()
+				player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 					{
 						player->EatEnd();
 						player->EatCake();
@@ -245,7 +245,7 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
 		//MoveAfter();
-		//WalkAfter();
+		
 		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
 		player->dotween->OnComplete([&, Vec3JumpPos]()
 			{
@@ -366,7 +366,7 @@ void ThinMove::Move(DIRECTION _dir)
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
 					// 食べ終わったら移動できるようにする
-					player->dotween->DelayedCall(EAT_TIME, [&,pos,scale]()
+					player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 						{
 							player->EatEnd();
 							player->EatCake();
@@ -397,9 +397,10 @@ void ThinMove::Move(DIRECTION _dir)
 						});
 					break;
 				case CGridObject::BlockType::PROTEIN:
+					WalkAfter();
+					nextGridPos = nextGridPosCopy;
 					player->dotween->DelayedCall(EAT_TIME, [&]()
 						{
-							nextGridPos = nextGridPosCopy;
 							MoveAfter();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
 							player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -463,7 +464,7 @@ void ThinMove::Move(DIRECTION _dir)
 						{
 							player->fallMoveTrriger = true;
 						});
-				break;
+					break;
 				}
 				default:
 					WalkAfter();
@@ -579,8 +580,8 @@ void ThinMove::Step()
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 
-		WalkStart();
-		WalkAfter();
+		//WalkStart();
+
 		//画面外まで移動するようにYをマクロで定義して使用する			
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
@@ -600,7 +601,7 @@ void ThinMove::Step()
 		WalkStart();
 		//ジャンプしてから落ちるように
 
-		//WalkAfter();
+		
 		//画面外まで移動するようにYをマクロで定義して使用する
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;

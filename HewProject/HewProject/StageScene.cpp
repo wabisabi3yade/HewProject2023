@@ -189,16 +189,7 @@ void StageScene::Update()
 		InCanonInput();
 	}
 
-	if (player->GetCannonFX())
-	{
-		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-		bool* canmove = cannonObj->GetCanMove();
-		bool* p_canmove = player->GetCanMoveDir();
-			for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
-			{
-				*p_canmove = *canmove;
-			}
-	}
+
 
 	if (player->GetPlayerMove()->GetIsFallBound())
 	{
@@ -600,6 +591,15 @@ void StageScene::StageMove()
 		scale.x *= CANNON_IN_SCALE;
 		scale.y *= CANNON_IN_SCALE;
 		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::CANNON_IN, false);
+		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+		bool* canmove = cannonObj->GetCanMove();
+		bool* p_canmove = player->GetCanMoveDir();
+		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+		{
+			*p_canmove = *canmove;
+			p_canmove++;
+			canmove++;
+		}
 	}
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
@@ -1106,20 +1106,10 @@ void StageScene::Undo(float _stageScale)
 	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
-	
-	if (player->GetState() == Player::STATE::MUSCLE)
+
+	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
-		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
-		{
-			Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
-		} 
-	}
-	else
-	{
-		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
-		{
-			Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i));
-		}
+		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
 	}
 
 	// –¢Žg—p‚É‚·‚é
@@ -1263,7 +1253,7 @@ void StageScene::Draw()
 	bool* IsArrowDraw = player->GetCanMoveDir();
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
-		if (*IsArrowDraw == true && (player->GetIsStop() || player->GetPlayerMove()->GetIncannon()))
+		if (*IsArrowDraw == true && (!player->GetIsMoving() || player->GetPlayerMove()->GetIncannon()))
 		{
 			Arrow[i]->Draw();
 		}
@@ -1304,7 +1294,7 @@ void StageScene::Init(const wchar_t* filePath)
 		break;
 	case 5:
 		stageScale = 3.0f;
-		break;	
+		break;
 	case 6:
 		stageScale = 3.0f;
 		break;
@@ -1545,10 +1535,13 @@ void StageScene::Init(const wchar_t* filePath)
 	calorieGage = new CalorieGage_hori();
 
 	player->SetCalorieGage(calorieGage);
+	//Vector3 arrowUpScale(stageScale * 1.4f, stageScale * 1.4f, stageScale);
+	//Vector3 arrowDownScale(stageScale * 1.0f, stageScale * 1.0f, stageScale);
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
 		Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
-		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i));
+		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
+		Arrow[i]->ScaleLoop();
 	}
 	calorieGage->SetPosition({ -3.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 1.0f,1.0f,1.0f });
@@ -1605,7 +1598,6 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				break;
 
 			case CGridObject::BlockType::CASTELLA:
-			case CGridObject::BlockType::CASTELLA_FLOOR:
 				objWork = new CCastella(stageBuffer, stageTextureCastella);
 				break;
 
@@ -1709,7 +1701,9 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 			case CGridObject::BlockType::CHOCOCRACK:
 				floorWork = new CChoco(stageBuffer, stageTextureChocolateClack);
 				break;
-
+			case CGridObject::BlockType::CASTELLA_FLOOR:
+				floorWork = new CCastella(stageBuffer, stageTextureCastella);
+				break;
 			default:
 				break;
 			}

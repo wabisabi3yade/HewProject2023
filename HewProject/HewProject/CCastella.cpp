@@ -46,7 +46,7 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 		dotween->Append(_fallPos, CASTELLAFALL_TIME, DoTween::FUNC::MOVE_XY);
 		Vector3 pos = _pos;
 		Vector3 scale = this->mTransform.scale;
-		pos.z -= 0.00001f;
+		pos.z += 0.000001f;
 		scale.x *= STAR_CASTELLA_SCALE;
 		scale.y *= STAR_CASTELLA_SCALE;
 		pos.y += 0.1f * this->mTransform.scale.y;
