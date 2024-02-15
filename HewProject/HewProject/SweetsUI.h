@@ -37,5 +37,8 @@ public:
 
 	//Z回転用
 	void SetRotateZ(const float rotatez);
+
+	//テクスチャをセット
+	void SetTexture(const D3DTEXTURE _tex);
 };
 

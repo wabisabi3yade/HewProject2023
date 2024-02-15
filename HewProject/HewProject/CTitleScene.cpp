@@ -14,6 +14,8 @@
 #define MAX 8
 
 #define BEGIN_POSZ (0.32f)	// ケーキ一番奥の座標
+#define SWEETS_SCALE (2.0f)
+#define BAUM_SCALE (1.5f)
 
 CTitleScene::CTitleScene()
 {
@@ -54,6 +56,8 @@ CTitleScene::CTitleScene()
 
 	D3D_CreateSquare({ 1,1 }, &sweetsBuffer);
 	sweetsTexture = TextureFactory::GetInstance()->Fetch(L"asset/Item/FallCake.png");
+	D3D_LoadTexture(L"asset/Stage/Baumkuchen_L.png" ,&baumTexture);
+	D3D_LoadTexture(L"asset/Item/Protein.png", &proteinTexture);
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -63,16 +67,16 @@ CTitleScene::CTitleScene()
 	{
 		if (i < 5)
 		{
-			Sweets[i] = new SweetsUI(sweetsBuffer, sweetsTexture);
+			Sweets[i] = new SweetsUI(sweetsBuffer, baumTexture);
 			Sweets[i]->SetPosition({ distr(eng),6.0f + i * 2.0f,BEGIN_POSZ - i * 0.001f });
-			Sweets[i]->SetScale({ 2.0f,2.0f,1.0f });
+			Sweets[i]->SetScale({ 1.0f,1.0f,1.0f });
 			Sweets[i]->SetRotation({ 0,0,45.0f + i * 30.0f });
 		}
 		else
 		{
-			Sweets[i] = new SweetsUI(sweetsBuffer, sweetsTexture);
+			Sweets[i] = new SweetsUI(sweetsBuffer, proteinTexture);
 			Sweets[i]->SetPosition({ distr(eng),7.3f + i * 2.0f,BEGIN_POSZ - i * 0.001f });
-			Sweets[i]->SetScale({ 2.0f, 2.0f, 1.0f });
+			Sweets[i]->SetScale({ 1.0f, 1.0f, 1.0f });
 			Sweets[i]->SetRotation({ 0,0,45.0f + i * 30.0f });
 		}
 		
@@ -177,6 +181,8 @@ CTitleScene::~CTitleScene()
 	SAFE_RELEASE(buttonBuffer);
 	SAFE_RELEASE(textBuffer);
 	SAFE_RELEASE(playerBuffer);
+	SAFE_RELEASE(baumTexture);
+	SAFE_RELEASE(proteinTexture);
 }
 
 void CTitleScene::Update()
@@ -221,6 +227,11 @@ void CTitleScene::Update()
 		Title->dotween->OnComplete([&]()
 			{
 				isNoMoving = true;
+				for (int i = 0; i < MAXNUM_CAKE; i++)
+				{
+					RandomSweets(i);
+				}
+				
 			});
 
 	}
@@ -255,6 +266,8 @@ void CTitleScene::Update()
 				std::default_random_engine eng(rd());
 				std::uniform_real_distribution<float> distr_min(MIN, BETWEEN);
 				std::uniform_real_distribution<float> distr_max(BETWEEN,MAX);
+
+				RandomSweets(i);
 
 				if (i % 2 == 0)
 				{
@@ -359,4 +372,27 @@ void CTitleScene::Draw()
 	
 	Title->Draw();
 
+}
+
+void CTitleScene::RandomSweets(int _num)
+{
+	nRandom = rand() % 3;
+
+	switch (nRandom)
+	{
+	case 0:
+		Sweets[_num]->SetTexture(sweetsTexture);
+		Sweets[_num]->SetScale({ SWEETS_SCALE,SWEETS_SCALE,1.0f });
+		break;
+	case 1:
+		Sweets[_num]->SetTexture(baumTexture);
+		Sweets[_num]->SetScale({ BAUM_SCALE,BAUM_SCALE,1.0f });
+		break;
+	case 2:
+		Sweets[_num]->SetTexture(proteinTexture);
+		Sweets[_num]->SetScale({ SWEETS_SCALE,SWEETS_SCALE,1.0f });
+		break;
+	default:
+		break;
+	}
 }

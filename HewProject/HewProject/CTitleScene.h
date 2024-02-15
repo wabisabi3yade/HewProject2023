@@ -28,6 +28,8 @@ public:
 
     D3DBUFFER sweetsBuffer;
     D3DTEXTURE sweetsTexture;
+    D3DTEXTURE baumTexture;
+    D3DTEXTURE proteinTexture;
 
     D3DBUFFER selectBuffer;
     D3DTEXTURE selectTexture;
@@ -67,5 +69,8 @@ public:
     void LateUpdate() override;
 
     void Draw() override;
+
+private:
+    void RandomSweets(int _num);
 };
 
