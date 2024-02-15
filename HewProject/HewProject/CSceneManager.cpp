@@ -31,6 +31,20 @@
 #include "Stage14.h"
 #include "Stage15.h"
 #include "Stage16.h"
+#include "Stage21.h"
+#include "Stage22.h"
+#include "Stage23.h"
+#include "Stage24.h"
+#include "Stage31.h"
+#include "Stage32.h"
+#include "Stage33.h"
+#include "Stage34.h"
+#include "StageEx1.h"
+#include "StageEx2.h"
+#include "StageEx3.h"
+#include "StageEx4.h"
+
+
 
 
 CSceneManager* CSceneManager::instance = nullptr;
@@ -216,9 +230,72 @@ void CSceneManager::SceneChange(int _scene)
 		break;
 
 	case CScene::STAGE1_2:
-		/*pNowScene = new Stage12();
-		break;*/
+		pNowScene = new Stage12();
+		break;
 
+	case CScene::STAGE1_3:
+		pNowScene = new Stage13();
+		break;
+
+	case CScene::STAGE1_4:
+		pNowScene = new Stage14();
+		break;
+
+	case CScene::STAGE1_5:
+		pNowScene = new Stage15();
+		break;
+
+	case CScene::STAGE1_6:
+		pNowScene = new Stage16();
+		break;
+
+	case CScene::STAGE2_1:
+		pNowScene = new Stage21();
+		break;
+
+	case CScene::STAGE2_2:
+		pNowScene = new Stage22();
+		break;
+
+	case CScene::STAGE2_3:
+		pNowScene = new Stage23();
+		break;
+
+	case CScene::STAGE2_4:
+		pNowScene = new Stage24();
+		break;
+
+	case CScene::STAGE3_1:
+		pNowScene = new Stage31();
+		break;
+
+	case CScene::STAGE3_2:
+		pNowScene = new Stage32();
+		break;
+
+	case CScene::STAGE3_3:
+		pNowScene = new Stage33();
+		break;
+
+	case CScene::STAGE3_4:
+		pNowScene = new Stage34();
+		break;
+
+	case CScene::STAGE4_1:
+		pNowScene = new StageEx1();
+		break;
+
+	case CScene::STAGE4_2:
+		pNowScene = new StageEx2();
+		break;
+
+	case CScene::STAGE4_3:
+		pNowScene = new StageEx3();
+		break;
+
+	case CScene::STAGE4_4:
+		pNowScene = new StageEx4();
+		break;
 
 	case CScene::MENU:
 		nowSceneName = CScene::MENU;

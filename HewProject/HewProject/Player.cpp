@@ -9,8 +9,8 @@
 #include "TextureFactory.h"
 #include"CalorieGage_hori.h"
 
-#define START_CALORIE (10)	// ƒXƒ^[ƒg‚ÌƒJƒƒŠ[
-#define CHILI_CALORIE (2)	// ‚Æ‚¤‚ª‚ç‚µH‚×‚½Œ¸‚é‚ÌƒŠƒX‚ÌƒJƒƒŠ[
+#define START_CALORIE (10)	// ã‚¹ã‚¿ãƒ¼ãƒˆæ™‚ã®ã‚«ãƒ­ãƒªãƒ¼
+#define CHILI_CALORIE (2)	// ã¨ã†ãŒã‚‰ã—é£Ÿã¹ãŸæ¸›ã‚‹ã®ãƒªã‚¹ã®ã‚«ãƒ­ãƒªãƒ¼
 
 void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_tex)
 {
@@ -35,9 +35,9 @@ void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_te
 		Arry = muscleTex;
 		break;
 	}
-	// ƒeƒNƒXƒ`ƒƒ‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚©‚çw’è‚µ‚½ƒeƒNƒXƒ`ƒƒ‚ğæ“¾‚·‚é
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‹ã‚‰æŒ‡å®šã—ãŸãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å–å¾—ã™ã‚‹
 	D3DTEXTURE texWork = TextureFactory::GetInstance()->Fetch(_texPath);
-	// ”z—ñ‚Ìw’è‚µ‚½‚Æ‚±‚ë‚ÉƒeƒNƒXƒ`ƒƒî•ñ‚ğŠi”[‚·‚é
+	// é…åˆ—ã®æŒ‡å®šã—ãŸã¨ã“ã‚ã«ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±ã‚’æ ¼ç´ã™ã‚‹
 	Arry[static_cast<int>(_anim_tex)] = texWork;
 }
 
@@ -57,7 +57,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	PlayAura = false;
 	IsStop = true;
 
-	// ƒvƒŒƒCƒ„[‚ªˆµ‚¤ƒeƒNƒXƒ`ƒƒ‚ğ‚±‚±‚Åƒ[ƒh‚µ‚ÄAŠeó‘Ô‚Ì”z—ñ‚É“ü‚ê‚Ä‚¢‚­
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ‰±ã†ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã“ã“ã§ãƒ­ãƒ¼ãƒ‰ã—ã¦ã€å„çŠ¶æ…‹ã®é…åˆ—ã«å…¥ã‚Œã¦ã„ã
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
 	TextureInput(L"asset/Player/N_Wait.png", STATE::NORMAL, ANIM_TEX::WAIT);
 	TextureInput(L"asset/Player/F_Walk.png", STATE::FAT, ANIM_TEX::WALK);
@@ -86,15 +86,15 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 
 void Player::Init(GridTable* _pTable)
 {
-	// Œ»İ‚¢‚éƒOƒŠƒbƒhƒe[ƒuƒ‹İ’è
+	// ç¾åœ¨ã„ã‚‹ã‚°ãƒªãƒƒãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«è¨­å®š
 	SetGridTable(_pTable);
-	// •ûŒü‚ğİ’è‚·‚é
+	// æ–¹å‘ã‚’è¨­å®šã™ã‚‹
 	direction = DIRECTION::EVERY;
 
-	// Å‰‚Í•’Êó‘Ô‚©‚çn‚ß‚é
+	// æœ€åˆã¯æ™®é€šçŠ¶æ…‹ã‹ã‚‰å§‹ã‚ã‚‹
 	move = std::make_shared<NormalMove>(this);
 
-	// ’Êíó‘Ô‚©‚çn‚ß‚é
+	// é€šå¸¸çŠ¶æ…‹ã‹ã‚‰å§‹ã‚ã‚‹
 	/*playerState = STATE::NORMAL;*/
 
 	ChangeState(STATE::NORMAL);
@@ -107,17 +107,17 @@ void Player::Init(GridTable* _pTable)
 
 	/*move->CheckCanMove();*/
 
-	//ƒvƒŒƒCƒ„[‚ÌÀ•W‚ğƒOƒŠƒbƒhƒe[ƒuƒ‹‚ÆƒOƒŠƒbƒhÀ•W‚©‚ç‹‚ß‚é
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã‚’ã‚°ãƒªãƒƒãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«ã¨ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‹ã‚‰æ±‚ã‚ã‚‹
 	mTransform.pos = GetGridTable()->GridToWorld(Grid->gridPos, CGridObject::BlockType::START);
 
 }
 
 void Player::Update()
 {
-	// ƒtƒ‰ƒO‚Ì‰Šú‰»
+	// ãƒ•ãƒ©ã‚°ã®åˆæœŸåŒ–
 	move->FlagInit();
 
-	// «FlagInit‚ÌŒã
+	// â†“FlagInitã®å¾Œ
 	move->Input();
 	fallMoveTrriger = false;
 	risingMoveTrriger = false;
@@ -151,7 +151,7 @@ void Player::Update()
 	{
 		if (move->GetIsFalling() == true)
 		{
-			// —‚¿‚éˆ— 
+			// è½ã¡ã‚‹å‡¦ç† 
 			if (fallMoveTrriger == true)
 			{
 				if (this->GetNowFloor() == 1)
@@ -159,7 +159,7 @@ void Player::Update()
 					this->GameOver();
 					return;
 				}
-				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //ÅI’n“_‚Ì”½‘Î  ‰æ–Ê‚ÌÅã•”’n“_
+				mTransform.pos.y = (FALL_POS_Y * -1.0f) + mTransform.scale.y / 2;  //æœ€çµ‚åœ°ç‚¹ã®åå¯¾ ï¼ ç”»é¢ã®æœ€ä¸Šéƒ¨åœ°ç‚¹
 				fallFloorChangeTrriger = true;
 			}
 			if (mTransform.pos == gridTable->GridToWorld(this->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(this->playerState)) && fallFloorChangeTrriger)
@@ -174,7 +174,7 @@ void Player::Update()
 		}
 		else if (move->GetIsRising() == true)
 		{
-			//ã‚éˆ—
+			//ä¸Šã‚‹å‡¦ç†
 			if (risingMoveTrriger == true)
 			{
 				mTransform.pos.y = FALL_POS_Y - mTransform.scale.y / 2;
@@ -194,32 +194,30 @@ void Player::Update()
 		}
 	}
 
-	if (effect.size() > 0)
+	for (auto it = effect.begin(); it != effect.end();)
 	{
-		for (auto it = effect.begin(); it != effect.end();)
+		(*it)->Update();
+		if ((*it)->GetFxType() == static_cast<int>(EffectManeger::FX_TYPE::AURA))
 		{
-			(*it)->Update();
-			if ((*it)->GetFxType() == static_cast<int>(EffectManeger::FX_TYPE::AURA))
-			{
-				(*it)->mTransform.pos = this->mTransform.pos;
-				(*it)->mTransform.pos.z += 0.00001f;
-				(*it)->mTransform.pos.y -= 0.5f;
-			}
-			if ((*it)->GetEffectAnim()->GetAnimEnd())
-			{
-				CLASS_DELETE(*it);
-				it = effect.erase(it);
-				continue;
-			}
-			it++;
+			(*it)->mTransform.pos = this->mTransform.pos;
+			(*it)->mTransform.pos.z += 0.00001f;
+			(*it)->mTransform.pos.y -= 0.5f;
 		}
+		if ((*it)->GetEffectAnim()->GetAnimEnd())
+		{
+			CLASS_DELETE(*it);
+			it = effect.erase(it);
+			continue;
+		}
+		it++;
 	}
+
 
 	if (calorie <= 0 && !IsgameOver)
 		GameOver();
 }
 
-// •à‚¢‚½‚ÌƒJƒƒŠ[Á”ï
+// æ­©ã„ãŸæ™‚ã®ã‚«ãƒ­ãƒªãƒ¼æ¶ˆè²»
 void Player::WalkCalorie()
 {
 	calorie--;
@@ -227,14 +225,14 @@ void Player::WalkCalorie()
 	if (calorie < 0) calorie = 0;
 }
 
-// ƒP[ƒLH‚×‚½ˆ—
+// ã‚±ãƒ¼ã‚­é£Ÿã¹ãŸå‡¦ç†
 void Player::EatCake()
 {
 	calorie = CAKE_CALORIE;
 	calorieGage->SetCalorie(CAKE_CALORIE);
 }
 
-// ‚Æ‚¤‚ª‚ç‚µ
+// ã¨ã†ãŒã‚‰ã—
 void Player::EatChilli()
 {
 	calorie -= CHILI_CALORIE;
@@ -242,7 +240,7 @@ void Player::EatChilli()
 	if (calorie < 0) calorie = 0;
 }
 
-// ó‘Ô‚ğ•Ï‚¦‚é‚Æ‚«‚ÉŒÄ‚Ño‚·ˆ—
+// çŠ¶æ…‹ã‚’å¤‰ãˆã‚‹ã¨ãã«å‘¼ã³å‡ºã™å‡¦ç†
 void Player::ChangeState(STATE _set)
 {
 	bool o_isMoveTrigger = false;
@@ -253,14 +251,14 @@ void Player::ChangeState(STATE _set)
 
 	}
 
-	// ˆÚ“®ƒNƒ‰ƒX‚ğ‰ğ•ú‚·‚é
+	// ç§»å‹•ã‚¯ãƒ©ã‚¹ã‚’è§£æ”¾ã™ã‚‹
 	move.reset();
 
-	// Šeó‘Ô‚ÌˆÚ“®ƒNƒ‰ƒX‚ğæ“¾‚·‚é
+	// å„çŠ¶æ…‹ã®ç§»å‹•ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹
 	switch (_set)
 	{
 	case STATE::NORMAL:
-		// ’Êíó‘Ô‚Ì“®‚«ƒNƒ‰ƒX‚ğmove‚ÉŠm•Û‚·‚é
+		// é€šå¸¸çŠ¶æ…‹ã®å‹•ãã‚¯ãƒ©ã‚¹ã‚’moveã«ç¢ºä¿ã™ã‚‹
 		move = std::make_shared<NormalMove>(this);
 		playerState = STATE::NORMAL;
 		SetTexture(normalTex[ANIM_TEX::WAIT]);
@@ -301,7 +299,7 @@ void Player::ChangeState(STATE _set)
 
 	dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(direction));
 
-	// ˆÚ“®‚Å‚«‚é•ûŒü‚ğXV
+	// ç§»å‹•ã§ãã‚‹æ–¹å‘ã‚’æ›´æ–°
 	move->CheckCanMove();
 }
 
@@ -414,16 +412,18 @@ void Player::EatEnd()
 	isEat = false;
 }
 
-// ƒeƒNƒXƒ`ƒƒ‚Í‰ğ•ú‚µ‚È‚¢
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯è§£æ”¾ã—ãªã„
 Player::~Player()
 {
 	CLASS_DELETE(mAnim);
+
 
 	for (auto it : effect)
 	{
 		CLASS_DELETE(it);
 		it++;
 	}
+
 	effect.clear();
 }
 

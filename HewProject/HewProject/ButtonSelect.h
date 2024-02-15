@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
-
-class ButtonUI;
+#include "ButtonUI.h"
 
 class ButtonSelect
 {
@@ -40,5 +39,8 @@ public:
 	bool GetActive()const { return isActive; }
 
 	int GetPointButton()const { return pointButtonID; }
+
+	// 今指しているボタンにセットされた名前を返す
+	int GetPointSceneName() { return buttonRegister[pointButtonID]->GetSceneName(); }
 };
 

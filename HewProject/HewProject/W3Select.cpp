@@ -21,10 +21,34 @@ W3Select::W3Select()
 		btnWork->SetPosition(p);
 
 		btnWork->SetNum(i + 1);	// 数字をセット
+		// ボタンシーン名設定
+
+		switch (i)
+		{
+		case 0:
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE3_1);
+			break;
+
+		case 1:
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE3_2);
+			break;
+
+		case 2:
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE3_3);
+			break;
+
+		case 3:
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE3_4);
+			break;
+
+		default:
+			break;
+		}
 
 		// 配列に代入
 		stgButton.push_back(btnWork);
 		btnSelect->Regist(btnWork);
+
 
 		// テクスチャ関連
 	}

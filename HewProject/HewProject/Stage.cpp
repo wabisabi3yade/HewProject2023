@@ -1,6 +1,5 @@
 #include "Stage.h"
 #include "CSceneManager.h"
-#include "Ckcal_gauge.h"
 #include"Player.h"
 #include"CDirectWrite.h"
 
@@ -21,8 +20,7 @@ Stage::Stage(const wchar_t* _csvName)
 	{
 		dbgFloorTable = new DebugTable(stage->GetNowFloor(), true);
 		dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
-		gauge = new Ckcal_gauge();
-	}	
+	}
 }
 
 void Stage::Init()
@@ -48,8 +46,12 @@ void Stage::Update()
 	{
 		dbgFloorTable->SetTable(stage->GetNowFloor());
 		dbgObjTable->SetTable(stage->GetNowFloor());
-		gauge->SetKcal(stage->GetPlayer()->GetCalorie());
 
+	}
+
+	if (gInput->GetKeyTrigger(VK_CONTROL))
+	{
+		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 	}
 }
 
@@ -64,7 +66,6 @@ void Stage::Draw()
 	{
 		dbgFloorTable->Draw();
 		dbgObjTable->Draw();
-		gauge->Draw();
 
 		std::string canMoveDirCheck;
 		bool* canmove = stage->GetPlayer()->GetCanMoveDir();
@@ -110,7 +111,6 @@ void Stage::Draw()
 Stage::~Stage()
 {
 	CLASS_DELETE(stage);
-	CLASS_DELETE(gauge);
 	CLASS_DELETE(dbgFloorTable);
 	CLASS_DELETE(dbgObjTable);
 }

@@ -361,6 +361,42 @@
     <Filter Include="ソース ファイル\Stage\World1\Stage16">
       <UniqueIdentifier>{ffa762d4-f6da-40e8-b561-8701df738a6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage21">
+      <UniqueIdentifier>{78f837be-af87-46bd-89b2-437ce2c41978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage22">
+      <UniqueIdentifier>{8f03f745-64c3-4d28-916f-e2913f72a4c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage23">
+      <UniqueIdentifier>{5a1b5f87-3a22-4df9-b288-38c3e317ba89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage24">
+      <UniqueIdentifier>{35eec60f-2ee6-4380-8da8-ab4821f92b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage31">
+      <UniqueIdentifier>{24e04474-95c7-4319-b60e-00d858685bc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage32">
+      <UniqueIdentifier>{1464b13b-e3dd-4c5c-b2d6-e827ec444ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage33">
+      <UniqueIdentifier>{e4171df3-f1f7-4516-bed5-ad4101b4df0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage34">
+      <UniqueIdentifier>{350df544-9720-41ab-9c8a-2b168b1c3969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx1">
+      <UniqueIdentifier>{4da45ff9-1bd5-42c8-958a-df7b43fd3e51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx2">
+      <UniqueIdentifier>{3753196b-c9bf-406d-b4cd-3d0f2f67f1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx3">
+      <UniqueIdentifier>{71968410-aabf-424d-91a5-d9960973799d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx4">
+      <UniqueIdentifier>{b3176087-d2fc-401e-b22c-f1ddc03e71a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -576,15 +612,6 @@
     <ClInclude Include="LoadCharacter.h">
       <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
     </ClInclude>
-    <ClInclude Include="Stage21.h">
-      <Filter>ソース ファイル\Stage\World2</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage31.h">
-      <Filter>ソース ファイル\Stage\World3</Filter>
-    </ClInclude>
-    <ClInclude Include="StageEx1.h">
-      <Filter>ソース ファイル\Stage\WorldEx</Filter>
-    </ClInclude>
     <ClInclude Include="CTitleScene.h">
       <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
     </ClInclude>
@@ -692,6 +719,42 @@
     </ClInclude>
     <ClInclude Include="Stage16.h">
       <Filter>ソース ファイル\Stage\World1\Stage16</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage21.h">
+      <Filter>ソース ファイル\Stage\World2\Stage21</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage22.h">
+      <Filter>ソース ファイル\Stage\World2\Stage22</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage23.h">
+      <Filter>ソース ファイル\Stage\World2\Stage23</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage24.h">
+      <Filter>ソース ファイル\Stage\World2\Stage24</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage31.h">
+      <Filter>ソース ファイル\Stage\World3\Stage31</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage32.h">
+      <Filter>ソース ファイル\Stage\World3\Stage32</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage33.h">
+      <Filter>ソース ファイル\Stage\World3\Stage33</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage34.h">
+      <Filter>ソース ファイル\Stage\World3\Stage34</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx1.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx1</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx2.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx2</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx3.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx3</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx4.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx4</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -908,15 +971,6 @@
     <ClCompile Include="LoadCharacter.cpp">
       <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
     </ClCompile>
-    <ClCompile Include="Stage21.cpp">
-      <Filter>ソース ファイル\Stage\World2</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage31.cpp">
-      <Filter>ソース ファイル\Stage\World3</Filter>
-    </ClCompile>
-    <ClCompile Include="StageEx1.cpp">
-      <Filter>ソース ファイル\Stage\WorldEx</Filter>
-    </ClCompile>
     <ClCompile Include="CTitleScene.cpp">
       <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
     </ClCompile>
@@ -974,9 +1028,6 @@
     <ClCompile Include="CGameClear.cpp">
       <Filter>ソース ファイル\Wakamura\CGameClear</Filter>
     </ClCompile>
-    <ClCompile Include="StageSelect.cpp">
-      <Filter>ソース ファイル\Hashimoto\StageSelect</Filter>
-    </ClCompile>
     <ClCompile Include="StgButton.cpp">
       <Filter>ソース ファイル\Hashimoto\StageSelect\StageButtton</Filter>
     </ClCompile>
@@ -1024,6 +1075,45 @@
     </ClCompile>
     <ClCompile Include="Stage16.cpp">
       <Filter>ソース ファイル\Stage\World1\Stage16</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage21.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage21</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage22.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage22</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage23.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage23</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage24.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage24</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage31.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage31</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage32.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage32</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage33.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage33</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage34.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage34</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx1.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx1</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx2.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx2</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx3.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx3</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx4.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx4</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelect.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

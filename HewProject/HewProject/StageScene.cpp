@@ -19,7 +19,7 @@
 #include "GridTable.h"
 #include "TextureFactory.h"
 #include"CArrow.h"
-#define PLAYER dynamic_cast<Player*>(player)	// ‚í‚´‚í‚´‘‚­‚Ì‚ß‚ñ‚Ç‚­‚³‚¢
+#define PLAYER dynamic_cast<Player*>(player)	// ã‚ã–ã‚ã–æ›¸ãã®ã‚ã‚“ã©ãã•ã„
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	: CObject(vb, tex)
@@ -32,10 +32,10 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 
 	FloorOnlyMap = false;
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 
-	// ŠeƒIƒuƒWƒFƒNƒg‚ÌƒeƒNƒXƒ`ƒƒ‚ğæ“¾‚·‚é
+	// å„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å–å¾—ã™ã‚‹
 	stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
 	stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
 	/*stageTextureFloor = texFactory->Fetch(L"asset/Stage/2floor_y.png");
@@ -72,7 +72,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 
 }
 
-// ƒeƒNƒXƒ`ƒƒ‚Í‰ğ•ú‚µ‚È‚¢
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯è§£æ”¾ã—ãªã„
 StageScene::~StageScene()
 {
 	SAFE_RELEASE(stageBuffer);
@@ -106,7 +106,7 @@ StageScene::~StageScene()
 
 	//UI
 
-	//ƒvƒƒeƒCƒ“
+	//ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³
 	CLASS_DELETE(proteinUi);
 
 	CLASS_DELETE(floorUi);
@@ -129,10 +129,7 @@ void StageScene::Update()
 
 	StageMove();
 
-	if (gInput->GetKeyTrigger(VK_BACK))
-	{
-		Undo(stageScale);
-	}
+	
 
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
@@ -141,7 +138,7 @@ void StageScene::Update()
 	}
 
 	/// 
-	/// ŠK‘w•ÏX‚µ‚Ä‚¢‚é
+	/// éšå±¤å¤‰æ›´ã—ã¦ã„ã‚‹
 	/// 
 
 	if (player->GetPlayerMove()->GetisLoolMap() == true)
@@ -188,8 +185,6 @@ void StageScene::Update()
 	{
 		InCanonInput();
 	}
-
-
 
 	if (player->GetPlayerMove()->GetIsFallBound())
 	{
@@ -244,11 +239,16 @@ void StageScene::Update()
 
 		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::STAR_BOUND, false);
 	}
-	// “®‚¢‚Ä‚¢‚é‚Æ‚«‚Æ“®‚«I‚í‚Á‚½uŠÔ‚¾‚¯
+	// å‹•ã„ã¦ã„ã‚‹ã¨ãã¨å‹•ãçµ‚ã‚ã£ãŸç¬é–“ã ã‘
 	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
 	{
-		// ƒOƒŠƒbƒhƒe[ƒuƒ‹‚ğXV‚·‚é
+		// ã‚°ãƒªãƒƒãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’æ›´æ–°ã™ã‚‹
 		TableUpdate();
+	}
+
+	if (gInput->GetKeyTrigger(VK_BACK))
+	{
+		Undo(stageScale);
 	}
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
@@ -259,26 +259,26 @@ void StageScene::Update()
 
 	//UI
 
-	//ƒvƒƒeƒCƒ“
+	//ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³
 	proteinUi->Update();
 
-	//ƒJƒƒŠ[ƒQ[ƒW
+	//ã‚«ãƒ­ãƒªãƒ¼ã‚²ãƒ¼ã‚¸
 	calorieGage->Update();
 }
 
 void StageScene::StageMove()
 {
-	// «ƒvƒŒƒCƒ„[‚Ì“®‚«‚É‚ ‚í‚¹‚ÄƒXƒe[ƒW“à‚Ì•¨‚ğ“®‚©‚·
+	// â†“ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‹•ãã«ã‚ã‚ã›ã¦ã‚¹ãƒ†ãƒ¼ã‚¸å†…ã®ç‰©ã‚’å‹•ã‹ã™
 	if (player->GetPlayerMove()->GetIsMoveStart())
 	{
-		// ƒvƒŒƒCƒ„[‚ª‘¾‚Á‚Ä‚é@‚©‚Â@ˆÚ“®‚µ‚½æ‚ªƒJƒXƒeƒ‰‚È‚ç
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå¤ªã£ã¦ã‚‹ã€€ã‹ã¤ã€€ç§»å‹•ã—ãŸå…ˆãŒã‚«ã‚¹ãƒ†ãƒ©ãªã‚‰
 		if (player->GetState() == Player::STATE::FAT &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CASTELLA)
 		{
-			// ƒJƒXƒeƒ‰‚ÉˆÚ“®‚µ‚ë‚Æ–½—ß‚·‚é
+			// ã‚«ã‚¹ãƒ†ãƒ©ã«ç§»å‹•ã—ã‚ã¨å‘½ä»¤ã™ã‚‹
 			CastellaMoveOrder();
 		}
-		// ƒvƒŒƒCƒ„[‚ªƒ}ƒbƒ`ƒ‡@‚©‚Â@ˆÚ“®æ‚ª•Ç‚È‚ç
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒãƒãƒƒãƒãƒ§ã€€ã‹ã¤ã€€ç§»å‹•å…ˆãŒå£ãªã‚‰
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::WALL)
 		{
@@ -323,7 +323,7 @@ void StageScene::StageMove()
 		{
 			CWataame* wataameObj = dynamic_cast<CWataame*>(GetStageObject(player->GetGridPos(), CGridObject::BlockType::WATAAME));
 			wataameObj->Melt();
-			// «‚±‚±‚ÅŒŠ‚ÌƒIƒuƒWƒFƒNƒg‚ğnew‚µ‚ÄvstageObj‚Épushback‚·‚é
+			// â†“ã“ã“ã§ç©´ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’newã—ã¦vstageObjã«pushbackã™ã‚‹
 			CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 			hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
 			hollObj->SetBlookType(CGridObject::BlockType::HOLL);
@@ -337,7 +337,7 @@ void StageScene::StageMove()
 					hollObj->ChangeInvisible();
 				});
 		}
-		// ¶ã
+		// å·¦ä¸Š
 		if (player->GetState() == Player::STATE::THIN &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::BAUMHORIZONTAL)
 		{
@@ -350,11 +350,11 @@ void StageScene::StageMove()
 			baumObj->mTransform.pos.x -= 0.0151f * player->GetGridTable()->GetGridScale().x;
 			baumObj->mTransform.pos.y -= 0.01496f * player->GetGridTable()->GetGridScale().y;
 			float offsetZ;
-			float adjustValue;	// ƒoƒEƒ€ƒN[ƒwƒ“’Ê‚Á‚Ä‚éŠÔ‚É•Ï‚í‚éz’l
+			float adjustValue;	// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³é€šã£ã¦ã‚‹é–“ã«å¤‰ã‚ã‚‹zå€¤
 			if (player->GetDirection() == static_cast<int>(Player::DIRECTION::RIGHT))
 			{
 				offsetZ = 0.099991f;
-				adjustValue = 0.002f;	// ƒoƒEƒ€ƒN[ƒwƒ“’Ê‚Á‚Ä‚éŠÔ‚É•Ï‚í‚éz’l
+				adjustValue = 0.002f;	// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³é€šã£ã¦ã‚‹é–“ã«å¤‰ã‚ã‚‹zå€¤
 			}
 			else
 			{
@@ -393,11 +393,11 @@ void StageScene::StageMove()
 			baumObj->mTransform.pos.y -= 0.01496f * player->GetGridTable()->GetGridScale().y;
 
 			float offsetZ;
-			float adjustValue;	// ƒoƒEƒ€ƒN[ƒwƒ“’Ê‚Á‚Ä‚éŠÔ‚É•Ï‚í‚éz’l
+			float adjustValue;	// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³é€šã£ã¦ã‚‹é–“ã«å¤‰ã‚ã‚‹zå€¤
 			if (player->GetDirection() == static_cast<int>(Player::DIRECTION::UP))
 			{
 				offsetZ = 0.099991f;
-				adjustValue = 0.002f;	// ƒoƒEƒ€ƒN[ƒwƒ“’Ê‚Á‚Ä‚éŠÔ‚É•Ï‚í‚éz’l
+				adjustValue = 0.002f;	// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³é€šã£ã¦ã‚‹é–“ã«å¤‰ã‚ã‚‹zå€¤
 			}
 			else
 			{
@@ -424,7 +424,7 @@ void StageScene::StageMove()
 		}
 	}
 
-	// ƒvƒŒƒCƒ„[‚ª“®‚«I‚¦‚é‚Æ
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå‹•ãçµ‚ãˆã‚‹ã¨
 	if (player->GetPlayerMove()->GetIsWalkEnd())
 	{
 		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
@@ -479,7 +479,7 @@ void StageScene::StageMove()
 		{
 			player->GetPlayerMove()->RiseStart();
 		}
-		// ƒAƒCƒeƒ€‚ª‚ ‚é‚È‚ç‚»‚ê‚ğ‰æ–Ê‚©‚çÁ‚·
+		// ã‚¢ã‚¤ãƒ†ãƒ ãŒã‚ã‚‹ãªã‚‰ãã‚Œã‚’ç”»é¢ã‹ã‚‰æ¶ˆã™
 		ItemDelete();
 	}
 
@@ -591,6 +591,7 @@ void StageScene::StageMove()
 		scale.x *= CANNON_IN_SCALE;
 		scale.y *= CANNON_IN_SCALE;
 		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::CANNON_IN, false);
+
 		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
 		bool* canmove = cannonObj->GetCanMove();
 		bool* p_canmove = player->GetCanMoveDir();
@@ -612,9 +613,9 @@ void StageScene::StageMove()
 			player->SetCalorie(CAKE_CALORIE);
 			player->mTransform.pos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START, static_cast<int>(Player::STATE::MUSCLE));
 		}
-		// ƒ}ƒbƒ`ƒ‡‚¶‚á‚È‚¢‚È‚ç
+		// ãƒãƒƒãƒãƒ§ã˜ã‚ƒãªã„ãªã‚‰
 		if (player->GetState() == Player::STATE::MUSCLE) return;
-		// “®‚«I‚¦‚½‚ ‚Æ‚ÉƒJƒƒŠ[‚ªó‘Ô•Ï‚í‚é‚æ‚¤‚È‚çó‘Ô‚ğ•Ï‰»‚³‚¹‚é
+		// å‹•ãçµ‚ãˆãŸã‚ã¨ã«ã‚«ãƒ­ãƒªãƒ¼ãŒçŠ¶æ…‹å¤‰ã‚ã‚‹ã‚ˆã†ãªã‚‰çŠ¶æ…‹ã‚’å¤‰åŒ–ã•ã›ã‚‹
 		Player::STATE nextState = Player::STATE::FAT;
 		if (player->GetCalorie() <= THIN_CALOMAX)
 		{
@@ -634,15 +635,15 @@ void StageScene::StageMove()
 
 void StageScene::TableUpdate()
 {
-	// ˆê’U‘S‚Ä”’†‚É‚·‚é
+	// ä¸€æ—¦å…¨ã¦ç™½ç´™ã«ã™ã‚‹
 	for (int i = 0; i < MAX_GRIDNUM; i++)
 	{
-		// ‚»‚Ìs‚ÌÅ‰‚ªg‚í‚ê‚Ä‚¢‚È‚¢‚È‚çI‚í‚é
+		// ãã®è¡Œã®æœ€åˆãŒä½¿ã‚ã‚Œã¦ã„ãªã„ãªã‚‰çµ‚ã‚ã‚‹
 		if ((nowFloor)->floorTable[i][0] == 0) break;
 
 		for (int j = 0; j < MAX_GRIDNUM; j++)
 		{
-			// —ñ‚ªg‚í‚ê‚Ä‚¢‚È‚¢‚È‚ç
+			// åˆ—ãŒä½¿ã‚ã‚Œã¦ã„ãªã„ãªã‚‰
 			if ((nowFloor)->floorTable[i][j] == 0) break;
 
 			(nowFloor)->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
@@ -650,15 +651,15 @@ void StageScene::TableUpdate()
 		}
 	}
 
-	// ”z—ñ‘S‚ÄŒ©‚é
+	// é…åˆ—å…¨ã¦è¦‹ã‚‹
 	for (auto itr = vStageObj->begin(); itr != vStageObj->end(); itr++)
 	{
-		// ‚»‚ÌƒIƒuƒWƒFƒNƒg‚ª‰æ–Ê‚É‚È‚¢‚È‚çŸ‚És‚­
+		// ãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç”»é¢ã«ãªã„ãªã‚‰æ¬¡ã«è¡Œã
 		if (!(*itr)->GetActive()) continue;
 
-		// ƒOƒŠƒbƒhÀ•Wæ‚Á‚Ä
+		// ã‚°ãƒªãƒƒãƒ‰åº§æ¨™å–ã£ã¦
 		CGrid::GRID_XY g = (*itr)->GetGridPos();
-		// ¡‚ÌŠK‘w‚Ìƒe[ƒuƒ‹‚ÉXV‚·‚é
+		// ä»Šã®éšå±¤ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«æ›´æ–°ã™ã‚‹
 		if ((*itr)->GetCategory() == CGridObject::Category::FLOOR)
 		{
 			(nowFloor)->floorTable[g.y][g.x] = static_cast<int>((*itr)->GetBlookType());
@@ -673,7 +674,7 @@ void StageScene::TableUpdate()
 
 void StageScene::CastellaMoveOrder()
 {
-	// À•W‚ğ‹‚ß‚é ////////////////////////////////////////////////////
+	// åº§æ¨™ã‚’æ±‚ã‚ã‚‹ ////////////////////////////////////////////////////
 	CGrid::GRID_XY d = {};
 	switch (static_cast<Player::DIRECTION>(player->GetDirection()))
 	{
@@ -696,14 +697,14 @@ void StageScene::CastellaMoveOrder()
 
 	CGrid::GRID_XY next = player->GetPlayerMove()->GetNextGridPos();
 
-	// “®‚©‚·æ‚Ìƒ[ƒ‹ƒhÀ•W‚ğ‹‚ß‚é
+	// å‹•ã‹ã™å…ˆã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	CGrid::GRID_XY targetGrid = { next.x + d.x, next.y + d.y };
 
 	Vector3 target = (nowFloor)->GridToWorld(targetGrid, CGridObject::BlockType::CASTELLA);
 
 	/////////////////////////////////////////////////////////////////////
 
-	// ƒŠƒXƒg‚Ì’†‚©‚çƒvƒŒƒCƒ„[‚ÌˆÚ‘—æÀ•W‚Æ“¯‚¶‚à‚Ì@‚©‚Â@ƒJƒXƒeƒ‰‚ğ’T‚·
+	// ãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»é€å…ˆåº§æ¨™ã¨åŒã˜ã‚‚ã®ã€€ã‹ã¤ã€€ã‚«ã‚¹ãƒ†ãƒ©ã‚’æ¢ã™
 	auto itr = std::find_if(vStageObj->begin(), vStageObj->end(),
 		[&](CGridObject* _obj)
 		{
@@ -713,21 +714,21 @@ void StageScene::CastellaMoveOrder()
 
 	CCastella* castella = static_cast<CCastella*>((*itr));
 
-	// “®‚©‚µ‚½æ‚ªŒŠ‚È‚ç
+	// å‹•ã‹ã—ãŸå…ˆãŒç©´ãªã‚‰
 	if ((nowFloor)->floorTable[targetGrid.y][targetGrid.x] == static_cast<int>(CGridObject::BlockType::HOLL))
 	{
 		Vector3 floorPos = (nowFloor)->GridToWorld(targetGrid, CGridObject::BlockType::FLOOR);
 		castella->Move(target, player->GetDirection(), floorPos);
 		castella->SetGridPos(targetGrid.x, targetGrid.y);
 
-		// ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚©‚çƒJƒXƒeƒ‰‚ğÁ‚µ‚Ä
+		// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ã‚«ã‚¹ãƒ†ãƒ©ã‚’æ¶ˆã—ã¦
 		(nowFloor)->objectTable[targetGrid.y][targetGrid.x] = static_cast<int>(CGridObject::BlockType::NONE);
 
-		//	ƒJƒXƒeƒ‰‚ğ°‚É‚·‚é
+		//	ã‚«ã‚¹ãƒ†ãƒ©ã‚’åºŠã«ã™ã‚‹
 		castella->SetCategory(CGridObject::Category::FLOOR);
 		castella->SetBlookType(CGridObject::BlockType::CASTELLA_FLOOR);
 
-		// ŒŠ‚ğ‰æ–Ê‚©‚çÁ‚·
+		// ç©´ã‚’ç”»é¢ã‹ã‚‰æ¶ˆã™
 		GetStageFloor(targetGrid, CGridObject::BlockType::HOLL)->SetActive(false);
 	}
 	else
@@ -765,12 +766,12 @@ void StageScene::InCanonInput()
 	CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetGridPos(), CGridObject::BlockType::CANNON));
 	bool* canMoveDir = cannonObj->GetCanMove();
 
-	// “ü—Í‚µ‚½‘å–C‚Ì•ûŒü‚Å”­Ë‚Å‚«‚é‚©Œ©‚é
+	// å…¥åŠ›ã—ãŸå¤§ç ²ã®æ–¹å‘ã§ç™ºå°„ã§ãã‚‹ã‹è¦‹ã‚‹
 	for (int i = 0; i < isSelectDir; i++)
 	{
 		canMoveDir++;
 	}
-	// ”­Ëo—ˆ‚È‚¢•ûŒü‚È‚ç@“ü—Í‚³‚ê‚Ä‚¢‚È‚¢‚È‚ç@I—¹‚·‚é
+	// ç™ºå°„å‡ºæ¥ãªã„æ–¹å‘ãªã‚‰ã€€å…¥åŠ›ã•ã‚Œã¦ã„ãªã„ãªã‚‰ã€€çµ‚äº†ã™ã‚‹
 	if (!*canMoveDir || isSelectDir == -1) return;
 
 
@@ -782,17 +783,17 @@ void StageScene::InCanonInput()
 	_pos.z = cannonObj->mTransform.pos.z;
 	_Scale.x = _Scale.x * CANNON_FIRE_SCALE;
 	_Scale.y = _Scale.y * CANNON_FIRE_SCALE;
-	// ‰E or ¶‚È‚ç@‘å–C“®‚©‚·
+	// å³ or å·¦ãªã‚‰ã€€å¤§ç ²å‹•ã‹ã™
 	if (isSelectDir == 2 || isSelectDir == 1)
 	{
-		//‰E
+		//å³
 		if (isSelectDir == 2)
 		{
 			_pos.x = _pos.x + (0.5f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
 			_pos.z = _pos.z - 0.15f;
 		}
-		else//¶
+		else//å·¦
 		{
 			_pos.x = _pos.x - (0.1f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
@@ -856,12 +857,12 @@ void StageScene::ItemDelete()
 {
 	CGrid::GRID_XY next = player->GetPlayerMove()->GetNextGridPos();
 
-	CGridObject* deleteObj;	// ‰æ–Ê‚©‚çÁ‚·—\’è‚Ìƒ|ƒCƒ“ƒ^‚ª‚Í‚¢‚é
+	CGridObject* deleteObj;	// ç”»é¢ã‹ã‚‰æ¶ˆã™äºˆå®šã®ãƒã‚¤ãƒ³ã‚¿ãŒã¯ã„ã‚‹
 
 	switch (static_cast<CGridObject::BlockType>
 		((nowFloor)->objectTable[next.y][next.x]))
 	{
-		// ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚É‚±‚ÌƒAƒCƒeƒ€‚ª‚ ‚ê‚Î
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã«ã“ã®ã‚¢ã‚¤ãƒ†ãƒ ãŒã‚ã‚Œã°
 	case CGridObject::BlockType::PROTEIN:
 		nNumProtein--;
 		proteinUi->AddProtein();
@@ -870,7 +871,7 @@ void StageScene::ItemDelete()
 	case CGridObject::BlockType::CHILI:
 	case CGridObject::BlockType::CANNON:
 	{
-		// ƒŠƒXƒg‚Ì’†‚©‚çƒvƒŒƒCƒ„[‚ÌÀ•W‚Æ“¯‚¶‚à‚Ì@‚©‚Â@°‚¶‚á‚È‚¢•¨‚ğ’T‚·
+		// ãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã¨åŒã˜ã‚‚ã®ã€€ã‹ã¤ã€€åºŠã˜ã‚ƒãªã„ç‰©ã‚’æ¢ã™
 		auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
 			{
 				return (_obj->GetGridPos().x == next.x &&
@@ -880,7 +881,7 @@ void StageScene::ItemDelete()
 
 		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]));
 
-		// ‰æ–Ê‚©‚çÁ‚·
+		// ç”»é¢ã‹ã‚‰æ¶ˆã™
 		deleteObj->SetActive(false);
 	}
 
@@ -904,7 +905,7 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 	}
 
 
-	CGridObject* deleteObj;	// ‰æ–Ê‚©‚çÁ‚·—\’è‚Ìƒ|ƒCƒ“ƒ^‚ª‚Í‚¢‚é
+	CGridObject* deleteObj;	// ç”»é¢ã‹ã‚‰æ¶ˆã™äºˆå®šã®ãƒã‚¤ãƒ³ã‚¿ãŒã¯ã„ã‚‹
 	CGridObject::BlockType type;
 	if (_type == CGridObject::BlockType::NONE)
 	{
@@ -916,14 +917,14 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 	}
 	switch (type)
 	{
-		// ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚É‚±‚ÌƒAƒCƒeƒ€‚ª‚ ‚ê‚Î
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã«ã“ã®ã‚¢ã‚¤ãƒ†ãƒ ãŒã‚ã‚Œã°
 	case CGridObject::BlockType::COIN:
 
 	case CGridObject::BlockType::PROTEIN:
 	case CGridObject::BlockType::CAKE:
 	case CGridObject::BlockType::CHILI:
 	{
-		// ƒŠƒXƒg‚Ì’†‚©‚çƒvƒŒƒCƒ„[‚ÌÀ•W‚Æ“¯‚¶‚à‚Ì@‚©‚Â@°‚¶‚á‚È‚¢•¨‚ğ’T‚·
+		// ãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã¨åŒã˜ã‚‚ã®ã€€ã‹ã¤ã€€åºŠã˜ã‚ƒãªã„ç‰©ã‚’æ¢ã™
 		auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
 			{
 				return (_obj->GetGridPos().x == next.x &&
@@ -933,7 +934,7 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 
 		deleteObj = GetStageObject(next, type);
 
-		// ‰æ–Ê‚©‚çÁ‚·
+		// ç”»é¢ã‹ã‚‰æ¶ˆã™
 		deleteObj->SetActive(false);
 	}
 
@@ -946,57 +947,56 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 
 void StageScene::Undo(float _stageScale)
 {
-	if (player->GetPlayerMove()->GetIsMoving()) return;
-
+	if (player->GetPlayerMove()->GetIsMoving()) return;	
 	short o_nNumUndo = nNumUndo;
 
-	// 1‚æ‚è‰º‚És‚­‚Æ
+	// 1ã‚ˆã‚Šä¸‹ã«è¡Œã
 	nNumUndo--;
 	if (nNumUndo < 0)
 	{
-		nNumUndo = UNDO_ARRAY_NUM - 1;	// ‰º‰ñ‚é‚Æ
+		nNumUndo = UNDO_ARRAY_NUM - 1;	// ä¸‹å›ã‚‹ã¨
 	}
-	// ‚Ü‚¾g‚í‚ê‚Ä‚¢‚È‚¢‚Ì‚È‚ç
+	// ã¾ã ä½¿ã‚ã‚Œã¦ã„ãªã„ã®ãªã‚‰
 	if (floorUndo[nNumUndo].objectTable[0][0][0] == 0)
 	{
-		MessageBoxA(NULL, "‚±‚êˆÈã–ß‚ê‚Ü‚¹‚ñ", "Undo", MB_ICONERROR | MB_OK);
-		nNumUndo = o_nNumUndo;	// ˆø‚­‘O‚ÌŠK”‚É–ß‚·
-		return;	// ”²‚¯‚é
+		MessageBoxA(NULL, "ã“ã‚Œä»¥ä¸Šæˆ»ã‚Œã¾ã›ã‚“", "Undo", MB_ICONERROR | MB_OK);
+		nNumUndo = o_nNumUndo;	// å¼•ãå‰ã®éšæ•°ã«æˆ»ã™
+		return;	// æŠœã‘ã‚‹
 	}
 
-	// XV‚·‚éƒe[ƒuƒ‹
+	// æ›´æ–°ã™ã‚‹ãƒ†ãƒ¼ãƒ–ãƒ«
 	GridTable* updateTable = nowFloor;
-	// XV‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg
+	// æ›´æ–°ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ
 	std::vector<CGridObject*>* updateObjList = vStageObj;
-	// ‘O‚É‚¢‚½ŠK”‚ÌƒOƒŠƒbƒhƒe[ƒuƒ‹‚ğXV‚·‚é
+	// å‰ã«ã„ãŸéšæ•°ã®ã‚°ãƒªãƒƒãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’æ›´æ–°ã™ã‚‹
 	const short& o_floorNum = floorUndo[nNumUndo].old_Floor;
 
-	// ŠK‘w‚ğˆÚ“®‚µ‚Ä‚¢‚È‚¢‚È‚ç
+	// éšå±¤ã‚’ç§»å‹•ã—ã¦ã„ãªã„ãªã‚‰
 	if (nowFloorNum == o_floorNum)
 	{
-		// ‚P‚Â‚¸‚Â“ü‚ê‚Ä‚¢‚­
+		// ï¼‘ã¤ãšã¤å…¥ã‚Œã¦ã„ã
 		for (int i = 0; i < stageSquare.y; i++)
 		{
 			for (int j = 0; j < stageSquare.x; j++)
 			{
-				// î•ñ‚ğ“ü‚ê‚é
+				// æƒ…å ±ã‚’å…¥ã‚Œã‚‹
 				updateTable->objectTable[i][j] =
 					floorUndo[nNumUndo].objectTable[o_floorNum - 1][i][j];
 
-				// î•ñ‚ğ“ü‚ê‚é
+				// æƒ…å ±ã‚’å…¥ã‚Œã‚‹
 				updateTable->floorTable[i][j] =
 					floorUndo[nNumUndo].floorTable[o_floorNum - 1][i][j];
 			}
 		}
-		// “ü‚ê‚½ŠK‘w‚ÌƒIƒuƒWƒFƒNƒg‚ğì‚é
+		// å…¥ã‚ŒãŸéšå±¤ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œã‚‹
 		CreateStage(*updateTable, *updateObjList);
 	}
-	// ˆÚ“®‚µ‚Ä‚¢‚é‚È‚ç
+	// ç§»å‹•ã—ã¦ã„ã‚‹ãªã‚‰
 	else
 	{
 		for (int loop = 0; loop < MAX_LAYER; loop++)
 		{
-			// ‘S‚Ä‚ÌŠK‘w‚ğXV‚·‚é
+			// å…¨ã¦ã®éšå±¤ã‚’æ›´æ–°ã™ã‚‹
 			switch (loop)
 			{
 			case 0:
@@ -1012,39 +1012,39 @@ void StageScene::Undo(float _stageScale)
 				updateObjList = &thirdFStgObj;
 				break;
 
-			default:	// ƒGƒ‰[
-				MessageBoxA(NULL, "UndoŠÖ”‚Åold_Floor‚ª1`3ŠK‚Ì”ÍˆÍ‚Å‚ ‚è‚Ü‚¹‚ñ", "ƒGƒ‰[", MB_ICONERROR | MB_OK);
+			default:	// ã‚¨ãƒ©ãƒ¼
+				MessageBoxA(NULL, "Undoé–¢æ•°ã§old_FloorãŒ1ï½3éšã®ç¯„å›²ã§ã‚ã‚Šã¾ã›ã‚“", "ã‚¨ãƒ©ãƒ¼", MB_ICONERROR | MB_OK);
 				break;
 			}
 
-			// ŠK‘w‚ª‚±‚êˆÈã‚È‚¢‚È‚çI‚í‚é
+			// éšå±¤ãŒã“ã‚Œä»¥ä¸Šãªã„ãªã‚‰çµ‚ã‚ã‚‹
 			if (updateTable == nullptr) break;
 
-			// ‚P‚Â‚¸‚Â“ü‚ê‚Ä‚¢‚­
+			// ï¼‘ã¤ãšã¤å…¥ã‚Œã¦ã„ã
 			for (int i = 0; i < stageSquare.y; i++)
 			{
 				for (int j = 0; j < stageSquare.x; j++)
 				{
-					// î•ñ‚ğ“ü‚ê‚é
+					// æƒ…å ±ã‚’å…¥ã‚Œã‚‹
 					updateTable->objectTable[i][j] =
 						floorUndo[nNumUndo].objectTable[loop][i][j];
-					// î•ñ‚ğ“ü‚ê‚é
+					// æƒ…å ±ã‚’å…¥ã‚Œã‚‹
 					updateTable->floorTable[i][j] =
 						floorUndo[nNumUndo].floorTable[loop][i][j];
 				}
 			}
-			// “ü‚ê‚½ŠK‘w‚ÌƒIƒuƒWƒFƒNƒg‚ğì‚é
+			// å…¥ã‚ŒãŸéšå±¤ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œã‚‹
 			CreateStage(*updateTable, *updateObjList);
 		}
 
 
 	}
 
-	// ƒvƒƒeƒCƒ“‚Ì”‚ğ‹‚ß‚é
+	// ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³ã®æ•°ã‚’æ±‚ã‚ã‚‹
 	nNumProtein = 0;
 	for (int layer = 0; layer < MAX_LAYER; layer++)
 	{
-		// ŠeŠK‘w‚ÌƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚ğƒQƒbƒg
+		// å„éšå±¤ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ã‚²ãƒƒãƒˆ
 		switch (layer)
 		{
 		case 0:
@@ -1062,24 +1062,24 @@ void StageScene::Undo(float _stageScale)
 
 		if (updateTable == nullptr) break;
 
-		// ƒvƒƒeƒCƒ“‚ğŒ©‚é
+		// ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³ã‚’è¦‹ã‚‹
 		for (int ver = 0; ver < stageSquare.y; ver++)
 		{
 			for (int hori = 0; hori < stageSquare.x; hori++)
 			{
-				// ƒvƒƒeƒCƒ“‚Ì”‚ğæ“¾‚·‚é
+				// ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³ã®æ•°ã‚’å–å¾—ã™ã‚‹
 				if (updateTable->objectTable[ver][hori] == static_cast<int>(CGridObject::BlockType::PROTEIN))
 					nNumProtein++;
 			}
 		}
 
 	}
-	// ƒvƒƒeƒCƒ“UI‚Éİ’è‚·‚é
+	// ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³UIã«è¨­å®šã™ã‚‹
 	proteinUi->SetProtein(nNumProtein, true);
 
-	// ƒŠƒX‚ª‚¢‚éŠK‘w‚ğXV
+	// ãƒªã‚¹ãŒã„ã‚‹éšå±¤ã‚’æ›´æ–°
 	nowFloorNum = o_floorNum;
-	// XV‚·‚é
+	// æ›´æ–°ã™ã‚‹
 	switch (floorUndo[nNumUndo].old_Floor)
 	{
 	case 1:
@@ -1102,7 +1102,7 @@ void StageScene::Undo(float _stageScale)
 
 
 	FIELD_FLOOR beforeStage = floorUndo[nNumUndo];
-	// ƒvƒŒƒCƒ„[‚É•K—v‚Èî•ñ‚ğXV‚·‚é
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å¿…è¦ãªæƒ…å ±ã‚’æ›´æ–°ã™ã‚‹
 	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
@@ -1112,7 +1112,7 @@ void StageScene::Undo(float _stageScale)
 		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
 	}
 
-	// –¢g—p‚É‚·‚é
+	// æœªä½¿ç”¨ã«ã™ã‚‹
 	floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
 }
 
@@ -1142,10 +1142,10 @@ void StageScene::UndoTableUpdate()
 			setTable = thirdFloor;
 			break;
 		}
-		// ‚±‚êˆÈãŠK‘w‚ª‚È‚¢‚È‚çI‚í‚é
+		// ã“ã‚Œä»¥ä¸Šéšå±¤ãŒãªã„ãªã‚‰çµ‚ã‚ã‚‹
 		if (setTable == nullptr) break;
 
-		// ¡‚¢‚éŠK‘w‚¾‚¯XV
+		// ä»Šã„ã‚‹éšå±¤ã ã‘æ›´æ–°
 		for (int i = 0; i < stageSquare.y; i++)
 		{
 			for (int j = 0; j < stageSquare.x; j++)
@@ -1185,7 +1185,7 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 	}
 	player->SetNextGridTable(setNextTable);
 
-	// •ûŒü‚ğİ’è
+	// æ–¹å‘ã‚’è¨­å®š
 	player->SetDirection(_dir);
 
 
@@ -1210,15 +1210,15 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 		break;
 	}
 
-	// ƒJƒƒŠ[‚ğİ’è
+	// ã‚«ãƒ­ãƒªãƒ¼ã‚’è¨­å®š
 	player->SetCalorie(_calorie);
 
 
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‰æ‘œ‚à”½‰f‚³‚¹‚é
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç”»åƒã‚‚åæ˜ ã•ã›ã‚‹
 	player->GetmAnim()->SetPattern(static_cast<int>(animPattern));
 
-	// ó‘Ô‚ğ•Ï‰»‚³‚¹‚é
+	// çŠ¶æ…‹ã‚’å¤‰åŒ–ã•ã›ã‚‹
 	player->ChangeState(_state);
 
 	player->mTransform.pos = nowFloor->GridToWorld(player->GetGridPos(), player->GetBlookType(), static_cast<int>(player->GetState()));
@@ -1241,13 +1241,13 @@ void StageScene::Draw()
 
 	//UI
 
-	//ƒvƒƒeƒCƒ“
+	//ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³
 	proteinUi->Draw();
 
-	//ŠK‘w
+	//éšå±¤
 	floorUi->Draw();
 
-	//ƒJƒƒŠ[ƒQ[ƒW
+	//ã‚«ãƒ­ãƒªãƒ¼ã‚²ãƒ¼ã‚¸
 	calorieGage->Draw();
 
 	bool* IsArrowDraw = player->GetCanMoveDir();
@@ -1273,7 +1273,7 @@ void StageScene::Init(const wchar_t* filePath)
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 
 
-	// ƒXƒe[ƒW‚Ì‘å‚«‚³‚ğİ’è‚·‚é
+	// ã‚¹ãƒ†ãƒ¼ã‚¸ã®å¤§ãã•ã‚’è¨­å®šã™ã‚‹
 
 	nNumProtein = 0;
 
@@ -1302,18 +1302,18 @@ void StageScene::Init(const wchar_t* filePath)
 		stageScale = 3.0f;
 		break;
 	default:
-		MessageBoxA(NULL, "c‚Ìƒ}ƒX”‚ª”ÍˆÍŠO‚Å‚·", "stageScene::InitŠÖ”", MB_OK | MB_ICONERROR);
+		MessageBoxA(NULL, "ç¸¦ã®ãƒã‚¹æ•°ãŒç¯„å›²å¤–ã§ã™", "stageScene::Inité–¢æ•°", MB_OK | MB_ICONERROR);
 		stageScale = 1;
 		break;
 	}
 
-	//	ƒ[ƒ‹ƒhÀ•W
+	//	ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™
 	/*stagePos = stageMake->StagePos(StageData);*/
 
-	// ‚±‚±‚ÅƒOƒŠƒbƒhƒe[ƒuƒ‹‚ğì¬‚·‚é@/////////////
-	// ŠK‘w‚²‚Æ‚Ìƒe[ƒuƒ‹‚É“ü‚ê‚Ä‚¢‚­ ///////////////
+	// ã“ã“ã§ã‚°ãƒªãƒƒãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹ã€€/////////////
+	// éšå±¤ã”ã¨ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã¦ã„ã ///////////////
 	oneFloor = new GridTable({ StageData.numX, StageData.numY }, stageScale);
-	if (StageData.secondFloor.floorTable[0][0] != 0) //0‚ª“ü‚Á‚Ä‚¢‚ê‚Îì‚ç‚ê‚Ä‚È‚¢@ŠK‘w‚È‚µ
+	if (StageData.secondFloor.floorTable[0][0] != 0) //0ãŒå…¥ã£ã¦ã„ã‚Œã°ä½œã‚‰ã‚Œã¦ãªã„ã€€éšå±¤ãªã—
 	{
 		secondFloor = new GridTable({ StageData.numX, StageData.numY }, stageScale);
 		nMaxFloor = 2;
@@ -1330,34 +1330,34 @@ void StageScene::Init(const wchar_t* filePath)
 		nMaxFloor = 1;
 	}
 
-	//ŠJn‚·‚éŠK‘w
+	//é–‹å§‹ã™ã‚‹éšå±¤
 	int startfloor = 0;
 
-	// ƒ[ƒh‚µ‚½ƒf[ƒ^‚©‚çƒOƒŠƒbƒhƒe[ƒuƒ‹‚É“ü‚ê‚é
+	// ãƒ­ãƒ¼ãƒ‰ã—ãŸãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ã‚°ãƒªãƒƒãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã‚‹
 	for (int i = 0; i < StageData.numY; i++)
 	{
 		for (int j = 0; j < StageData.numX; j++)
 		{
-			// ƒIƒuƒWƒFƒNƒg‚ÌƒJƒeƒSƒŠ‚ğæ“¾‚·‚é
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚«ãƒ†ã‚´ãƒªã‚’å–å¾—ã™ã‚‹
 			CGridObject::BlockType bType = static_cast<CGridObject::BlockType>(StageData.oneFloor.floorTable[i][j]);
 			CGridObject::Category bCate = static_cast<CGridObject::Category>(CGridObject::TypeToCategory(bType));
 
-			// °‚¾‚Á‚½‚ç
+			// åºŠã ã£ãŸã‚‰
 			if (bCate == CGridObject::Category::FLOOR)
 			{
-				// °ƒe[ƒuƒ‹‚É“ü‚ê‚Ä
+				// åºŠãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã¦
 				oneFloor->floorTable[i][j] = StageData.oneFloor.floorTable[i][j];
-				// ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É‚Í‰½‚à’u‚©‚È‚¢(99‚ğ“ü‚ê‚Ä‚é)
+				// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«ã¯ä½•ã‚‚ç½®ã‹ãªã„(99ã‚’å…¥ã‚Œã¦ã‚‹)
 				oneFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
 			}
-			// ƒIƒuƒWƒFƒNƒgEƒAƒCƒeƒ€‚È‚ç
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ»ã‚¢ã‚¤ãƒ†ãƒ ãªã‚‰
 			else
 			{
-				//	ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É“ü‚ê‚Ä
+				//	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã¦
 				oneFloor->objectTable[i][j] = StageData.oneFloor.floorTable[i][j];
-				// °ƒe[ƒuƒ‹‚É‚Í’Êí°‚ğ“ü‚ê‚é
+				// åºŠãƒ†ãƒ¼ãƒ–ãƒ«ã«ã¯é€šå¸¸åºŠã‚’å…¥ã‚Œã‚‹
 				oneFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
-				//“Ç‚İ‚ñ‚¾”š‚²‚Æ‚Éˆ—‚·‚éƒ‚ƒm
+				//èª­ã¿è¾¼ã‚“ã æ•°å­—ã”ã¨ã«å‡¦ç†ã™ã‚‹ãƒ¢ãƒ
 				switch (static_cast<CGridObject::BlockType>(StageData.oneFloor.floorTable[i][j]))
 				{
 				case CGridObject::BlockType::START:
@@ -1372,26 +1372,26 @@ void StageScene::Init(const wchar_t* filePath)
 				}
 			}
 
-			//‚QŠK‚ª‚ ‚ê‚Îƒe[ƒuƒ‹ì¬
+			//ï¼’éšãŒã‚ã‚Œã°ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆ
 			if (secondFloor != nullptr)
 			{
 				CGridObject::BlockType bType = static_cast<CGridObject::BlockType>(StageData.secondFloor.floorTable[i][j]);
 				CGridObject::Category bCate = static_cast<CGridObject::Category>(CGridObject::TypeToCategory(bType));
 
-				// °‚¾‚Á‚½‚ç
+				// åºŠã ã£ãŸã‚‰
 				if (bCate == CGridObject::Category::FLOOR)
 				{
-					// °ƒe[ƒuƒ‹‚É“ü‚ê‚Ä
+					// åºŠãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã¦
 					secondFloor->floorTable[i][j] = StageData.secondFloor.floorTable[i][j];
-					// ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É‚Í‰½‚à’u‚©‚È‚¢(99‚ğ“ü‚ê‚Ä‚é)
+					// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«ã¯ä½•ã‚‚ç½®ã‹ãªã„(99ã‚’å…¥ã‚Œã¦ã‚‹)
 					secondFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
 				}
-				// ƒIƒuƒWƒFƒNƒgEƒAƒCƒeƒ€‚È‚ç
+				// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ»ã‚¢ã‚¤ãƒ†ãƒ ãªã‚‰
 				else
 				{
-					//	ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É“ü‚ê‚Ä
+					//	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã¦
 					secondFloor->objectTable[i][j] = StageData.secondFloor.floorTable[i][j];
-					// °ƒe[ƒuƒ‹‚É‚Í’Êí°‚ğ“ü‚ê‚é
+					// åºŠãƒ†ãƒ¼ãƒ–ãƒ«ã«ã¯é€šå¸¸åºŠã‚’å…¥ã‚Œã‚‹
 					secondFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
 					switch (static_cast<CGridObject::BlockType>(StageData.secondFloor.floorTable[i][j]))
 					{
@@ -1407,26 +1407,26 @@ void StageScene::Init(const wchar_t* filePath)
 					}
 				}
 
-				//‚RŠK‚ª‚ ‚ê‚Îƒe[ƒuƒ‹‚ğì¬‚·‚é
+				//ï¼“éšãŒã‚ã‚Œã°ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹
 				if (thirdFloor != nullptr)
 				{
 					CGridObject::BlockType bType = static_cast<CGridObject::BlockType>(StageData.thirdFloor.floorTable[i][j]);
 					CGridObject::Category bCate = static_cast<CGridObject::Category>(CGridObject::TypeToCategory(bType));
 
-					// °‚¾‚Á‚½‚ç
+					// åºŠã ã£ãŸã‚‰
 					if (bCate == CGridObject::Category::FLOOR)
 					{
-						// °ƒe[ƒuƒ‹‚É“ü‚ê‚Ä
+						// åºŠãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã¦
 						thirdFloor->floorTable[i][j] = StageData.thirdFloor.floorTable[i][j];
-						// ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É‚Í‰½‚à’u‚©‚È‚¢(99‚ğ“ü‚ê‚Ä‚é)
+						// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«ã¯ä½•ã‚‚ç½®ã‹ãªã„(99ã‚’å…¥ã‚Œã¦ã‚‹)
 						thirdFloor->objectTable[i][j] = static_cast<int>(CGridObject::BlockType::NONE);
 					}
-					// ƒIƒuƒWƒFƒNƒgEƒAƒCƒeƒ€‚È‚ç
+					// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ»ã‚¢ã‚¤ãƒ†ãƒ ãªã‚‰
 					else
 					{
-						//	ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É“ü‚ê‚Ä
+						//	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«å…¥ã‚Œã¦
 						thirdFloor->objectTable[i][j] = StageData.thirdFloor.floorTable[i][j];
-						// °ƒe[ƒuƒ‹‚É‚Í’Êí°‚ğ“ü‚ê‚é
+						// åºŠãƒ†ãƒ¼ãƒ–ãƒ«ã«ã¯é€šå¸¸åºŠã‚’å…¥ã‚Œã‚‹
 						thirdFloor->floorTable[i][j] = static_cast<int>(CGridObject::BlockType::FLOOR);
 						switch (static_cast<CGridObject::BlockType>(StageData.thirdFloor.floorTable[i][j]))
 						{
@@ -1446,14 +1446,14 @@ void StageScene::Init(const wchar_t* filePath)
 		}
 	}
 
-	nowFloorNum = startfloor;	// 1ŠK‚©‚ç
+	nowFloorNum = startfloor;	// 1éšã‹ã‚‰
 	startFloor = startfloor;
 
 	lockStageMap = startfloor;
 
 	//UI
 
-	//ƒvƒƒeƒCƒ“UIì¬@”‚ª•ª‚©‚Á‚Ä‚©‚çs‚¤
+	//ãƒ—ãƒ­ãƒ†ã‚¤ãƒ³UIä½œæˆã€€æ•°ãŒåˆ†ã‹ã£ã¦ã‹ã‚‰è¡Œã†
 	proteinUi = new ProteinUI(nNumProtein);
 
 	proteinUi->SetPosition({ 6.0f, 4.0f, 0.0f });
@@ -1461,14 +1461,14 @@ void StageScene::Init(const wchar_t* filePath)
 
 
 
-	//‚±‚±‚ÅƒOƒŠƒbƒhƒe[ƒuƒ‹‚ğì¬‚·‚é /////////////////////////////////////////
+	//ã“ã“ã§ã‚°ãƒªãƒƒãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆã™ã‚‹ /////////////////////////////////////////
 
-	// ƒXƒe[ƒW‚ğì¬‚·‚é
+	// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’ä½œæˆã™ã‚‹
 	CreateStage(*oneFloor, oneFStgObj);
 
 
 	int MaxFloor = 1;
-	// 2ŠK‚Æ3ŠK‚ªg‚í‚ê‚Ä‚¢‚é‚È‚ç
+	// 2éšã¨3éšãŒä½¿ã‚ã‚Œã¦ã„ã‚‹ãªã‚‰
 	if (secondFloor != nullptr)
 	{
 		CreateStage(*secondFloor, secondFStgObj);
@@ -1480,7 +1480,7 @@ void StageScene::Init(const wchar_t* filePath)
 		}
 	}
 
-	//ŠK‘wUIì¬
+	//éšå±¤UIä½œæˆ
 	floorUi = new FloorUI(startfloor, MaxFloor);
 
 
@@ -1496,7 +1496,7 @@ void StageScene::Init(const wchar_t* filePath)
 			setTable = thirdFloor;
 		}
 
-		// ŠK‘w‚±‚êˆÈã‚È‚¢‚È‚ç
+		// éšå±¤ã“ã‚Œä»¥ä¸Šãªã„ãªã‚‰
 		if (setTable == nullptr) break;
 
 		for (int i = 0; i < StageData.numY; i++)
@@ -1531,7 +1531,7 @@ void StageScene::Init(const wchar_t* filePath)
 	}
 
 
-	//ƒJƒƒŠ[ƒQ[ƒW
+	//ã‚«ãƒ­ãƒªãƒ¼ã‚²ãƒ¼ã‚¸
 	calorieGage = new CalorieGage_hori();
 
 	player->SetCalorieGage(calorieGage);
@@ -1545,7 +1545,7 @@ void StageScene::Init(const wchar_t* filePath)
 	}
 	calorieGage->SetPosition({ -3.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 1.0f,1.0f,1.0f });
-	// ƒvƒŒƒCƒ„[‚Ì‰Šú‰»‚ğs‚¤i‚±‚±‚ÅÅ‰‚É‚Ç‚Ì•ûŒü‚Éi‚Ş‚©‚ğŒˆ‚ß‚Ä‚¢‚éj
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸåŒ–ã‚’è¡Œã†ï¼ˆã“ã“ã§æœ€åˆã«ã©ã®æ–¹å‘ã«é€²ã‚€ã‹ã‚’æ±ºã‚ã¦ã„ã‚‹ï¼‰
 	player->Init(nowFloor);
 
 	player->SetNowFloor(startfloor);
@@ -1556,7 +1556,7 @@ void StageScene::Init(const wchar_t* filePath)
 	floorReset.calorieUndo = player->GetCalorie();
 	floorReset.old_Floor = nowFloorNum;
 
-	// Å‰‚ÌUndo‚É“ü‚ê‚Ä‚¨‚­
+	// æœ€åˆã®Undoã«å…¥ã‚Œã¦ãŠã
 	floorUndo[0] = floorReset;
 
 	Z_Sort(*vStageObj);
@@ -1565,27 +1565,27 @@ void StageScene::Init(const wchar_t* filePath)
 void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObject*>& _settingList)
 {
 
-	// ‰ğ•ú‚·‚é
+	// è§£æ”¾ã™ã‚‹
 	for (int i = 0; i < _settingList.size(); i++)
 	{
 		CLASS_DELETE(_settingList[i]);
 	}
 	_settingList.clear();
 
-	// ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«
 	for (int i = 0; i < MAX_GRIDNUM; i++)
 	{
-		// ¶’[‚ª0‚È‚çI‚í‚é@¨@
+		// å·¦ç«¯ãŒ0ãªã‚‰çµ‚ã‚ã‚‹ã€€â†’ã€€
 		if (_gridTable.objectTable[i][0] == 0) break;
 
-		// ˆê‚Â‚Ã‚ÂŒ©‚Ä‚¢‚­
+		// ä¸€ã¤ã¥ã¤è¦‹ã¦ã„ã
 		for (int j = 0; j < MAX_GRIDNUM; j++)
 		{
-			// ‚»‚Ìs‚Å‰‚ß‚Ä0‚ªo‚½‚È‚ç@¨@ƒXƒe[ƒW‚Åg‚Á‚Ä‚¢‚È‚¢‚Æ‚±‚ë‚È‚ç
-			if (_gridTable.objectTable[i][0] == 0) break;
+			// ãã®è¡Œã§åˆã‚ã¦0ãŒå‡ºãŸãªã‚‰ã€€â†’ã€€ã‚¹ãƒ†ãƒ¼ã‚¸ã§ä½¿ã£ã¦ã„ãªã„ã¨ã“ã‚ãªã‚‰
+			if (_gridTable.objectTable[i][j] == 0) break;
 
-			// ƒIƒuƒWƒFƒNƒg ////////////////////////////////////
-			// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ////////////////////////////////////
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹
 			CGridObject* objWork = nullptr;
 			switch (static_cast<CGridObject::BlockType>(_gridTable.objectTable[i][j]))
 			{
@@ -1627,7 +1627,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 
 			case CGridObject::BlockType::START:
 				objWork = new Player(playerBuffer, NULL);
-				// ƒvƒŒƒCƒ„[‚ÍG‚é‚±‚Æ‚ª‘½‚¢‚Ì‚Åƒƒ“ƒo•Ï”‚Æ‚µ‚Ä‚Á‚Ä‚¨‚­
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯è§¦ã‚‹ã“ã¨ãŒå¤šã„ã®ã§ãƒ¡ãƒ³ãƒå¤‰æ•°ã¨ã—ã¦æŒã£ã¦ãŠã
 				player = dynamic_cast<Player*>(objWork);
 				break;
 			case CGridObject::BlockType::GALL:
@@ -1641,25 +1641,25 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 
 			}
 
-			if (objWork != nullptr)	// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ä‚¢‚é‚È‚ç
+			if (objWork != nullptr)	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¦ã„ã‚‹ãªã‚‰
 			{
-				// ƒOƒŠƒbƒhÀ•W‚ğ‚½‚¹‚é
+				// ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’æŒãŸã›ã‚‹
 				objWork->SetGridPos(j, i);
 
-				// À•W‚ğİ’è
+				// åº§æ¨™ã‚’è¨­å®š
 				CGridObject::BlockType b =
 					static_cast<CGridObject::BlockType>(_gridTable.objectTable[i][j]);
 
-				// ƒXƒe[ƒW‘S‘Ì‚Ì‘å‚«‚³‚ğİ’è
+				// ã‚¹ãƒ†ãƒ¼ã‚¸å…¨ä½“ã®å¤§ãã•ã‚’è¨­å®š
 				objWork->mTransform.scale = { stageScale, stageScale, 1 };
-				// ƒIƒuƒWƒFƒNƒg‚É‚»‚Ìí—Ş‚ğ‚à‚½‚¹‚é
+				// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãã®ç¨®é¡ã‚’ã‚‚ãŸã›ã‚‹
 				objWork->SetBlookType(b);
-				// ƒIƒuƒWƒFƒNƒg‚ÉƒJƒeƒSƒŠ[‚ğ‚à‚½‚¹‚é
+				// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚«ãƒ†ã‚´ãƒªãƒ¼ã‚’ã‚‚ãŸã›ã‚‹
 				objWork->SetCategory(CGridObject::TypeToCategory(b));
 
 				objWork->mTransform.pos = oneFloor->GridToWorld({ j, i },
 					b);
-				// ƒAƒCƒeƒ€‚È‚ç‚±‚±‚Å‰e‚Ìİ’è‚·‚é
+				// ã‚¢ã‚¤ãƒ†ãƒ ãªã‚‰ã“ã“ã§å½±ã®è¨­å®šã™ã‚‹
 				if (objWork->GetCategory() == CGridObject::Category::ITEM)
 				{
 					dynamic_cast<CItem*>(objWork)->InitItem(shadowTexture);
@@ -1670,11 +1670,11 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				}
 				_settingList.push_back(objWork);
 			}
-			// ƒIƒuƒWƒFƒNƒg /////////////////////////////////////
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ /////////////////////////////////////
 
-			// ° ///////////////////////////////////////////////
+			// åºŠ ///////////////////////////////////////////////
 			CGridObject* floorWork = nullptr;
-			// °‚ğ¶¬‚·‚é
+			// åºŠã‚’ç”Ÿæˆã™ã‚‹
 			switch (static_cast<CGridObject::BlockType>(_gridTable.floorTable[i][j]))
 			{
 			case CGridObject::BlockType::FLOOR:
@@ -1707,27 +1707,27 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 			default:
 				break;
 			}
-			// ° //////////////////////////////////////////////////////////////////////
+			// åºŠ //////////////////////////////////////////////////////////////////////
 
 			if (floorWork != nullptr)
 			{
-				// ƒOƒŠƒbƒhÀ•W‚ğ‚½‚¹‚é
+				// ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’æŒãŸã›ã‚‹
 				floorWork->SetGridPos(j, i);
 
-				// À•W‚ğİ’è
+				// åº§æ¨™ã‚’è¨­å®š
 				CGridObject::BlockType b =
 					static_cast<CGridObject::BlockType>(_gridTable.floorTable[i][j]);
 
-				// ƒXƒe[ƒW‘S‘Ì‚Ì‘å‚«‚³‚ğİ’è
+				// ã‚¹ãƒ†ãƒ¼ã‚¸å…¨ä½“ã®å¤§ãã•ã‚’è¨­å®š
 				floorWork->mTransform.scale = { stageScale, stageScale, 1 };
-				// ƒIƒuƒWƒFƒNƒg‚É‚»‚Ìí—Ş‚ğ‚à‚½‚¹‚é
+				// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãã®ç¨®é¡ã‚’ã‚‚ãŸã›ã‚‹
 				floorWork->SetBlookType(b);
-				// °ƒJƒeƒSƒŠ‚Éİ’è‚·‚é
+				// åºŠã‚«ãƒ†ã‚´ãƒªã«è¨­å®šã™ã‚‹
 				floorWork->SetCategory(CGridObject::Category::FLOOR);
 
 				floorWork->mTransform.pos = oneFloor->GridToWorld({ j, i },
 					b);
-				// ”z—ñ‚É“ü‚ê‚Ä‚¢‚­
+				// é…åˆ—ã«å…¥ã‚Œã¦ã„ã
 				_settingList.push_back(floorWork);
 			}
 
@@ -1743,7 +1743,7 @@ void StageScene::ChangeFloor(int _nextFloor)
 	vStageObj->erase(removeItr, vStageObj->end());
 
 
-	// ˆÚ“®‘O‚ÌŠK‘w‚Ìƒe[ƒuƒ‹‚ÌƒvƒŒƒCƒ„[‚ğNONE‚É‚·‚é
+	// ç§»å‹•å‰ã®éšå±¤ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’NONEã«ã™ã‚‹
 	for (int i = 0; i < stageSquare.y; i++)
 	{
 		for (int j = 0; j < stageSquare.x; j++)
@@ -1858,7 +1858,7 @@ void StageScene::MapDraw()
 
 CGridObject* StageScene::GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType)
 {
-	// ƒŠƒXƒg‚Ì’†‚©‚çw’è‚µ‚½À•W@ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É‚ ‚é‚à‚Ì
+	// ãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰æŒ‡å®šã—ãŸåº§æ¨™ã€€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚ã‚‹ã‚‚ã®
 	auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
 		{
 			return (_obj->GetGridPos().x == _gridPos.x &&
@@ -1871,7 +1871,7 @@ CGridObject* StageScene::GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::Bl
 
 CGridObject* StageScene::GetStageFloor(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType)
 {
-	// ƒŠƒXƒg‚Ì’†‚©‚çw’è‚µ‚½À•W@ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚É‚ ‚é‚à‚Ì
+	// ãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰æŒ‡å®šã—ãŸåº§æ¨™ã€€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«ã‚ã‚‹ã‚‚ã®
 	auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
 		{
 			return (_obj->GetGridPos().x == _gridPos.x &&

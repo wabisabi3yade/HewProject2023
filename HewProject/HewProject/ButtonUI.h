@@ -14,6 +14,10 @@ protected:
 	// ボタンを押されたときの関数を
 	std::function<void()> func = nullptr;
 
+	// シーン遷移さきのシーン名を保持して、
+	// 呼ばれたらそれを返す変数
+	int nextSceneName = -1;
+
 	// 灰色状態のときの大きさ
 	Vector3 grayState_scale = Vector3::one;
 
@@ -47,6 +51,11 @@ public:
 
 	// ボタンを押されたときに行う処理を設定
 	void SetFunc(std::function<void()> _setFunction);
+
+	// ボタンを押されたときに行う処理を設定
+	void SetSceneName(int _setName);
+	// ボタンを押されたときに行う処理を設定
+	int GetSceneName()const;
 
 	// 設定した関数を実行
 	void BeginFunc();

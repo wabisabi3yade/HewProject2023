@@ -32,11 +32,22 @@ void StageSelect::Input()
 		btnSelect->ButtonMove(-1);
 		c_pointStage--;
 	}
-
+	// 選んでいるステージの数を取得
+	c_pointStage = btnSelect->GetPointButton() + 1;
 
 	if (input->GetInputTrigger(InputType::DECIDE))
 	{
-		btnSelect->PushButton();
+		// 取得
+		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
+
+		if (next == SCENE_NAME::NONE)
+		{
+			MessageBoxA(NULL, "ボタンにシーン名を設定していません", "StageSelect::Input", MB_ICONERROR | MB_OK);
+			return;
+		}
+		
+
+		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, next);
 		isSceneMoving = true;
 	}
 	else if (input->GetInputTrigger(InputType::CANCEL))
@@ -45,8 +56,7 @@ void StageSelect::Input()
 		isSceneMoving = true;
 	}
 
-	// 選んでいるステージの数を取得
-	c_pointStage = btnSelect->GetPointButton() + 1;
+	
 }
 
 void StageSelect::SmpMove()
