@@ -15,7 +15,6 @@ CBaum::~CBaum()
 
 void CBaum::Update()
 {
-	mAnim->Update();
 	CGridObject::Update();
 }
 
@@ -26,7 +25,7 @@ void CBaum::Draw()
 
 void CBaum::PlayAnim(int _dir, D3DBUFFER _vb)
 {
-	dynamic_cast<BaumAnim*>(mAnim)->PlayAnim(_dir);
+	dynamic_cast<BaumAnim*>(mAnim)->PlayAnim(_dir,2.0f);
 	
 	SetVertexBuffer(_vb);
 }
