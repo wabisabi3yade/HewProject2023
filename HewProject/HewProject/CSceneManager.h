@@ -4,6 +4,7 @@
 #include "TextureFactory.h"
 #include "InputManager.h"
 #include "Fade.h"
+#include "xa2.h"
 
 //static EffectManeger* EffectMane;
 
@@ -20,6 +21,8 @@ private:
 	TextureFactory* textureFactory;
 	InputManager* inputManager = nullptr;
 	Fade* fade;
+
+	int playingBgm = -1;
 	
 	CSceneManager();
 
@@ -58,5 +61,8 @@ public:
 
 	// ロードシーンに行くか確認
 	void LoadSceneChangeCheck();
+
+	// BGMを変更する
+	void SetPlayBgm(int _setBgm);
 };
 

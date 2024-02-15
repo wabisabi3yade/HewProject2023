@@ -63,7 +63,7 @@ void CWorldSelectPlayer::Update()
 			{
 				if (isOnPlayer == true)
 				{
-					XA_Play(SOUND_LABEL_SE000);
+					
 					isMoving = true;
 					isNoPush = true;
 				}
@@ -99,7 +99,6 @@ void CWorldSelectPlayer::Update()
 			{
 				if (nNumSelectScene < 4)
 				{
-					XA_Play(SOUND_LABEL_SE000);
 					isMoving = true;
 					isNoPush = true;
 					Vector2 playerXY;

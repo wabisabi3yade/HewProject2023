@@ -33,6 +33,8 @@
 
 CStage1SelectScene::CStage1SelectScene()
 {
+	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLDSELECT);
+
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Walk.png");
 	player_waitTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/N_Wait.png");
@@ -52,7 +54,7 @@ CStage1SelectScene::CStage1SelectScene()
 	D3D_LoadTexture(L"asset/Text/World2Name.png", &word_RightUpTexture);
 	D3D_LoadTexture(L"asset/Text/World3Name.png", &word_LeftDownTexture);
 	D3D_LoadTexture(L"asset/Text/World4Name.png", &word_RightDownTexture);
-	
+
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
 	D3D_LoadTexture(L"asset/Background/Stage1SelectBack.png", &text_world1Texture);
 	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &text_world2Texture);
@@ -71,7 +73,7 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Num[0]->mTransform.pos = { TEXT_POS_XX + 2.3f,WORLD_POS_YY,-0.11f };
 	Num[0]->SetColor({ 4,111,243 });
-	Num[0]->SetUV(1.0f / 3.0f * 2.0f,0);
+	Num[0]->SetUV(1.0f / 3.0f * 2.0f, 0);
 	Num[0]->mTransform.scale = { 1,1,1 };
 
 	Num[1]->mTransform.pos = { TEXT_POS_X + 2.3f,WORLD_POS_YY,-0.11f };
@@ -81,7 +83,7 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Num[2]->mTransform.pos = { TEXT_POS_X + 2.3f,WORLD_POS_Y,-0.11f };
 	Num[2]->SetColor({ 231,166,203 });
-	Num[2]->SetUV(0 , 1.0f / 4.0f * 1.0f);
+	Num[2]->SetUV(0, 1.0f / 4.0f * 1.0f);
 	Num[2]->mTransform.scale = { 1,1,1 };
 
 	Num[3]->mTransform.pos = { TEXT_POS_XX + 2.3f,WORLD_POS_Y,-0.11f };
@@ -108,9 +110,9 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Text[0] = new UI(textBuffer, text_world2Texture);
 	Text[0]->MakeDotween();
-	Text[0]->mTransform.pos = { TEXT_POS_XX,TEXT_POS_YY,TEXT_POS_Z};
-	Text[0]->mTransform.scale = {TEXT_SCALE_X,TEXT_SCALE_Y,1};
-	Text[0]->materialDiffuse = {1,1,1,1};
+	Text[0]->mTransform.pos = { TEXT_POS_XX,TEXT_POS_YY,TEXT_POS_Z };
+	Text[0]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
+	Text[0]->materialDiffuse = { 1,1,1,1 };
 
 	World[0] = new UI(textBuffer, worldTexture);
 	World[0]->MakeDotween();
@@ -156,8 +158,8 @@ CStage1SelectScene::CStage1SelectScene()
 
 	Word[0] = new UI(wordBuffer, word_RightUpTexture);
 	Word[0]->MakeDotween();
-	Word[0]->mTransform.pos = { TEXT_POS_XX,-2.0f,-0.1f};
-	Word[0]->mTransform.scale = {WORD_SCALE_X,WORD_SCALE_Y,1};
+	Word[0]->mTransform.pos = { TEXT_POS_XX,-2.0f,-0.1f };
+	Word[0]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
 
 	Word[1] = new UI(wordBuffer, word_RightDownTexture);
 	Word[1]->MakeDotween();
@@ -222,11 +224,11 @@ CStage1SelectScene::CStage1SelectScene()
 	for (int i = 0; i < FOUR; i++)
 	{
 		shadowPos[i] = stage[i]->mTransform.pos;
-		Shadow[i]->mTransform.pos = { shadowPos[i].x + 0.05f,shadowPos[i].y - 0.05f,0.4f};
+		Shadow[i]->mTransform.pos = { shadowPos[i].x + 0.05f,shadowPos[i].y - 0.05f,0.4f };
 		Shadow[i]->mTransform.scale = { stage[i]->mTransform.scale };
 		Shadow[i]->mTransform.rotation = { stage[i]->mTransform.rotation };
 	}
-	
+
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->mTransform.pos = { 0,0,0.5f };
 	Bg->mTransform.scale = { 16,9,1 };
@@ -296,7 +298,7 @@ void CStage1SelectScene::Update()
 
 	Bg->Update();
 
-	if (player->isChangeScene == true)
+	if (player->isChangeScene == true && !isSceneChange)
 	{
 
 		CScene::SCENE_NAME nextScene = CScene::SCENE_NAME::NONE;
@@ -321,9 +323,15 @@ void CStage1SelectScene::Update()
 			break;
 		}
 
-		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, nextScene);
+		if (Fade::GetInstance()->GetState() == Fade::STATE::STAY)
+		{
+			XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
+			Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, nextScene);
+			isSceneChanging = true;
+		}
 	}
-	
+	player->isChangeScene = false;
+
 	for (int i = 0; i < 5; i++)
 	{
 
@@ -348,7 +356,7 @@ void CStage1SelectScene::Update()
 
 				Text[1]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 				Text[1]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
-				
+
 				World[1]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
 				World[1]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
@@ -363,7 +371,7 @@ void CStage1SelectScene::Update()
 
 				Text[1]->dotween->OnComplete([&]() {isOnce = true; });
 			}
-				break;
+			break;
 			case 1:
 			{
 				//ワールド3
@@ -380,7 +388,7 @@ void CStage1SelectScene::Update()
 
 				Text[2]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 				Text[2]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
-				
+
 				World[2]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
 				World[2]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
@@ -389,13 +397,13 @@ void CStage1SelectScene::Update()
 
 				Word[3]->dotween->DoEaseOutBack(target_word, TARGET_MOVETIME);
 				Word[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
-				
+
 				Word[7]->dotween->DoEaseOutBack(target_word2, TARGET_MOVETIME);
 				Word[7]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
 				Text[2]->dotween->OnComplete([&]() {isOnce = true; });
 			}
-				break;
+			break;
 			case 2:
 			{
 				//ワールド２
@@ -415,7 +423,7 @@ void CStage1SelectScene::Update()
 
 				Text[0]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 				Text[0]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
-				
+
 				World[0]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
 				World[0]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
@@ -430,7 +438,7 @@ void CStage1SelectScene::Update()
 
 				Text[0]->dotween->OnComplete([&]() {isOnce = true; });
 			}
-				break;
+			break;
 			case 3:
 			{
 				//ワールド４
@@ -447,7 +455,7 @@ void CStage1SelectScene::Update()
 
 				Text[3]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 				Text[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
-				
+
 				World[3]->dotween->DoEaseOutBack(target_world, TARGET_MOVETIME);
 				World[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 
@@ -462,13 +470,13 @@ void CStage1SelectScene::Update()
 
 				Text[3]->dotween->OnComplete([&]() {isOnce = true; });
 			}
-				break;
+			break;
 			case 4:
 				break;
 			default:
 				break;
 			}
-			
+
 			if (input->GetInputTrigger(InputType::DECIDE))
 			{
 				switch (i)
@@ -523,7 +531,7 @@ void CStage1SelectScene::Update()
 			Word[6]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
 			isOnce = false;
 		}
-		
+
 		//ワールド3
 		if (CollsionRect(stage[1], player) == false)
 		{
@@ -593,7 +601,7 @@ void CStage1SelectScene::Update()
 	{
 		Text[i]->Update();
 	}
-	
+
 	for (int i = 0; i < FOUR; i++)
 	{
 		Num[i]->Update();
@@ -637,7 +645,7 @@ void CStage1SelectScene::LateUpdate()
 void CStage1SelectScene::Draw()
 {
 	Bg->Draw();
-	
+
 	for (int i = 0; i < FOUR; i++)
 	{
 		Shadow[i]->Draw();
