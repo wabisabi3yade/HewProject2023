@@ -82,7 +82,7 @@ void CCannon::SetStageSize(CGrid::GRID_XY _set)
 
 void CCannon::Update()
 {
-	mAnim->Update();
+	//mAnim->Update();
 	dotween->Update();
 	CGridObject::Update();
 }
@@ -103,16 +103,16 @@ void CCannon::DirSelect(Player::DIRECTION _dir)
 	switch (_dir)
 	{
 	case Player::DIRECTION::DOWN:
-		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::DOWN));
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::DOWN), 2.0f);
 		break;
 	case Player::DIRECTION::LEFT:
-		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::LEFT));
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::LEFT), 2.0f);
 		break;
 	case Player::DIRECTION::RIGHT:
-		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::RIGHT));
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::RIGHT), 2.0f);
 		break;
 	case Player::DIRECTION::UP:
-		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::UP));
+		dynamic_cast<CannonAnim*>(mAnim)->PlayStart(static_cast<int>(DIRECTION::UP), 2.0f);
 		break;
 	default:
 		break;
@@ -169,12 +169,12 @@ void CCannon::CheckCanMove(const GridTable& _nowTable)
 
 void CCannon::PlayTurn(int _dir, float _animSpeedRate)
 {
-	dynamic_cast<CannonAnim*>(mAnim)->PlayTurn(_dir);
+	dynamic_cast<CannonAnim*>(mAnim)->PlayTurn(_dir,3.0f);
 }
 
 void CCannon::PlayReturn(float _animSpeedRate)
 {
-	dynamic_cast<CannonAnim*>(mAnim)->PlayReturn(_animSpeedRate);
+	dynamic_cast<CannonAnim*>(mAnim)->PlayReturn(_animSpeedRate * 3.0f);
 }
 
 void CCannon::BlowOff(int _dir)

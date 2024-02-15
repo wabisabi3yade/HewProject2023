@@ -234,8 +234,7 @@ void NormalMove::Move(DIRECTION _dir)
 				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 				{
 					//バウンドする高さを計算　代入
-					//player->Fall();
-					float BoundPosY = floorFallPos.y + (3.0f * static_cast<float>(nextGridPos.y / player->GetGridTable()->GetGridScale().y));
+					float BoundPosY = floorFallPos.y +  0.3f + 1.3f * nextGridPos.y;
 					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 					player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
 						{
@@ -299,12 +298,15 @@ void NormalMove::Move(DIRECTION _dir)
 				cannonFX = true;
 				player->ChangeInvisible();
 			});
+		//大砲に入るとき左下に最高地点が高いのを制御する
+		float CurvePosControlVal = 1.0f;
 		// 手前のマスに行くときは先にZ座標を手前に合わせる
 		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
 		{
 			player->mTransform.pos.z = forwardPos.z - 0.20001f;
+			CurvePosControlVal = 0.7f;
 		}
-		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * CurvePosControlVal * player->GetGridTable()->GetGridScale().y));
 		player->dotween->Append(forwardPos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()

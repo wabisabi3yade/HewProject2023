@@ -371,10 +371,13 @@ void FatMove::Move(DIRECTION _dir)
 				cannonFX = true;
 				player->ChangeInvisible();
 			});
+		//大砲に入るとき左下に最高地点が高いのを制御する
+		float CurvePosControlVal = 1.0f;
 		// 手前のマスに行くときは先にZ座標を手前に合わせる
 		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
 		{
 			player->mTransform.pos.z = forwardPos.z - 0.20001f;
+			CurvePosControlVal = 0.7f;
 		}
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
 		player->dotween->Append(forwardPos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
