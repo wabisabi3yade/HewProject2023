@@ -28,12 +28,21 @@ void W1Select::Input()
 		btnSelect->ButtonMove(-UP_BTN_MOVEMENT);
 	}
 
+	// 選んでいるステージの数を取得
+	c_pointStage = btnSelect->GetPointButton() + 1;
+
 	if (input->GetInputTrigger(InputType::DECIDE))
 	{
-		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, [&]()
-			{
-				btnSelect->PushButton();
-			});
+		// 取得
+		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
+
+		if (next == SCENE_NAME::NONE)
+		{
+			MessageBoxA(NULL, "ボタンにシーン名を設定していません", "StageSelect::Input", MB_ICONERROR | MB_OK);
+			return;
+		}
+
+		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, next);
 
 		isSceneMoving = true;
 	}
@@ -43,9 +52,6 @@ void W1Select::Input()
 		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 		isSceneMoving = true;
 	}
-
-	// 選んでいるステージの数を取得
-	c_pointStage = btnSelect->GetPointButton() + 1;
 }
 
 void W1Select::BeginMove()
@@ -115,50 +121,31 @@ W1Select::W1Select()
 
 		btnWork->SetNum(i + 1);	// 数字をセット
 
-		Fade* fade =  Fade::GetInstance();
-		// ボタン関数設定
+		// ボタンシーン名設定
 		switch (i)
 		{
 		case 0:
-			btnWork->SetFunc([&]()
-				{
-					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_1);
-				});
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE1_1);
 			break;
 
 		case 1:
-			btnWork->SetFunc([&]()
-				{
-					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_2);
-				});
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE1_2);
 			break;
 
 		case 2:
-			btnWork->SetFunc([&]()
-				{
-					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_3);
-				});
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE1_3);
 			break;
 
 		case 3:
-			btnWork->SetFunc([&]()
-				{
-					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_4);
-				});
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE1_4);
 			break;
 
 		case 4:
-			btnWork->SetFunc([&]()
-				{
-					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_5);
-				});
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE1_5);
 			break;
 
 		case 5:
-			btnWork->SetFunc([&]()
-				{
-					fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::STAGE1_6);
-				});
+			btnWork->SetSceneName(CScene::SCENE_NAME::STAGE1_6);
 			break;
 
 		default:

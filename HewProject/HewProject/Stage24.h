@@ -1,10 +1,11 @@
 #pragma once
 #include "Stage.h"
-class Stage21 :
+class Stage24 :
     public Stage
 {
+
 public:
-    Stage21();
-    ~Stage21();
+    Stage24();
+    ~Stage24();
 };
 

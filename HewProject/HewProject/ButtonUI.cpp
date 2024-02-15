@@ -122,6 +122,16 @@ void ButtonUI::SetFunc(std::function<void()> _setFunction)
 	func = _setFunction;
 }
 
+void ButtonUI::SetSceneName(int _setName)
+{
+	nextSceneName = _setName;
+}
+
+int ButtonUI::GetSceneName() const
+{
+	return nextSceneName;
+}
+
 void ButtonUI::BeginFunc()
 {
 	if (func == nullptr) return;

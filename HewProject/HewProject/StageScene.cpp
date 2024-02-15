@@ -129,10 +129,7 @@ void StageScene::Update()
 
 	StageMove();
 
-	if (gInput->GetKeyTrigger(VK_BACK))
-	{
-		Undo(stageScale);
-	}
+	
 
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
@@ -187,17 +184,6 @@ void StageScene::Update()
 	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 	{
 		InCanonInput();
-	}
-
-	if (player->GetCannonFX())
-	{
-		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-		bool* canmove = cannonObj->GetCanMove();
-		bool* p_canmove = player->GetCanMoveDir();
-			for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
-			{
-				*p_canmove = *canmove;
-			}
 	}
 
 	if (player->GetPlayerMove()->GetIsFallBound())
@@ -258,6 +244,11 @@ void StageScene::Update()
 	{
 		// グリッドテーブルを更新する
 		TableUpdate();
+	}
+
+	if (gInput->GetKeyTrigger(VK_BACK))
+	{
+		Undo(stageScale);
 	}
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
@@ -600,6 +591,16 @@ void StageScene::StageMove()
 		scale.x *= CANNON_IN_SCALE;
 		scale.y *= CANNON_IN_SCALE;
 		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::CANNON_IN, false);
+
+		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+		bool* canmove = cannonObj->GetCanMove();
+		bool* p_canmove = player->GetCanMoveDir();
+		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+		{
+			*p_canmove = *canmove;
+			p_canmove++;
+			canmove++;
+		}
 	}
 
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
@@ -946,11 +947,10 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 
 void StageScene::Undo(float _stageScale)
 {
-	if (player->GetPlayerMove()->GetIsMoving()) return;
-
+	if (player->GetPlayerMove()->GetIsMoving()) return;	
 	short o_nNumUndo = nNumUndo;
 
-	// 1より下に行くと
+	// 1より下に行く
 	nNumUndo--;
 	if (nNumUndo < 0)
 	{
@@ -1589,7 +1589,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 		for (int j = 0; j < MAX_GRIDNUM; j++)
 		{
 			// その行で初めて0が出たなら　→　ステージで使っていないところなら
-			if (_gridTable.objectTable[i][0] == 0) break;
+			if (_gridTable.objectTable[i][j] == 0) break;
 
 			// オブジェクト ////////////////////////////////////
 			// オブジェクトを生成する

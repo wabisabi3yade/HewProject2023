@@ -3,15 +3,9 @@
 #include "StageScene.h"
 #include "DebugTable.h"
 #include<iostream>
-class Ckcal_gauge;
-
 class Stage :
     public CScene
 {
-   
-
-    Ckcal_gauge* gauge; // カロリーゲージ
-
     DebugTable* dbgFloorTable; // テスト用
     DebugTable* dbgObjTable; // テスト用
 

@@ -267,7 +267,7 @@ void CStage1SelectScene::Update()
 			nextScene = SCENE_NAME::WORLD1_SELECT;
 			break;
 		case 1:
-			/*nextScene = SCENE_NAME::WORLD3_SELECT;*/
+			nextScene = SCENE_NAME::WORLD3_SELECT;
 			break;
 		case 2:
 			nextScene = SCENE_NAME::WORLD2_SELECT;

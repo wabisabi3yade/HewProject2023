@@ -194,26 +194,24 @@ void Player::Update()
 		}
 	}
 
-	if (effect.size() > 0)
+	for (auto it = effect.begin(); it != effect.end();)
 	{
-		for (auto it = effect.begin(); it != effect.end();)
+		(*it)->Update();
+		if ((*it)->GetFxType() == static_cast<int>(EffectManeger::FX_TYPE::AURA))
 		{
-			(*it)->Update();
-			if ((*it)->GetFxType() == static_cast<int>(EffectManeger::FX_TYPE::AURA))
-			{
-				(*it)->mTransform.pos = this->mTransform.pos;
-				(*it)->mTransform.pos.z += 0.00001f;
-				(*it)->mTransform.pos.y -= 0.5f;
-			}
-			if ((*it)->GetEffectAnim()->GetAnimEnd())
-			{
-				CLASS_DELETE(*it);
-				it = effect.erase(it);
-				continue;
-			}
-			it++;
+			(*it)->mTransform.pos = this->mTransform.pos;
+			(*it)->mTransform.pos.z += 0.00001f;
+			(*it)->mTransform.pos.y -= 0.5f;
 		}
+		if ((*it)->GetEffectAnim()->GetAnimEnd())
+		{
+			CLASS_DELETE(*it);
+			it = effect.erase(it);
+			continue;
+		}
+		it++;
 	}
+
 
 	if (calorie <= 0 && !IsgameOver)
 		GameOver();
@@ -418,15 +416,13 @@ void Player::EatEnd()
 Player::~Player()
 {
 	CLASS_DELETE(mAnim);
-	if (effect.size() > 0)
+
+	for (auto a : effect)
 	{
-		for (auto it = effect.begin(); it != effect.end();)
-		{
-			CLASS_DELETE(*it);
-			it = effect.erase(it);
-			it++;
-		}
+		CLASS_DELETE(a);
 	}
+
+	effect.clear();
 }
 
 bool Player::GetIsMoving() const

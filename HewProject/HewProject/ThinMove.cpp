@@ -579,19 +579,20 @@ void ThinMove::Step()
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 
-		WalkStart();
+		/*WalkStart();*/
 		WalkAfter();
-		//画面外まで移動するようにYをマクロで定義して使用する			
-		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
-		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-			{
-				player->Fall();
-			});
-		player->dotween->DoDelay(FALL_TIME);
-		player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+		MoveAfter();
+		////画面外まで移動するようにYをマクロで定義して使用する			
+		//Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+		//fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+		//player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+		//	{
+		//		player->Fall();
+		//	});
+		//player->dotween->DoDelay(FALL_TIME);
+		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+		//break;
 		break;
-
 	}
 	case CGridObject::BlockType::HOLL:
 	{

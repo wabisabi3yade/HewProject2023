@@ -106,10 +106,18 @@ void PlayerMove::WalkAfter()
 	{
 		switch (player->GetState())
 		{
-		case Player::STATE::NORMAL:
+		
 		case Player::STATE::THIN:
 			player->WalkCalorie();
 			break;
+
+		case Player::STATE::NORMAL:
+			if (CheckNextFloorType() != CGridObject::BlockType::CHOCOCRACK)
+			{
+				player->WalkCalorie();
+			}
+			break;
+
 		case Player::STATE::FAT:
 		case Player::STATE::MUSCLE:
 			if (CheckNextFloorType() != CGridObject::BlockType::CHOCO && CheckNextFloorType() != CGridObject::BlockType::CHOCOCRACK)
