@@ -80,6 +80,14 @@ void TextureFactory::Load()
 		L"asset/Player/Baum_Up.png",
 		L"asset/Player/Player_CanonMove.png",
 
+		L"asset/Player/F_Aseri.png",
+		L"asset/Player/F_Drink.png",
+		L"asset/Player/M_Aseri.png",
+		L"asset/Player/N_Aseri.png",
+		L"asset/Player/N_Drink.png",
+		L"asset/Player/T_Aseri.png",
+		L"asset/Player/T_Drink.png",
+
 		L"asset/Stage/floor_y.png",
 		L"asset/Stage/floor_g.png",
 		L"asset/Stage/2floor_y.png",
