@@ -8,6 +8,7 @@
 
 void W1Select::Input()
 {
+	if (isSceneMoving) return;
 	btnSelect->FlagUpdate();
 
 	InputManager* input = InputManager::GetInstance();
@@ -36,11 +37,7 @@ void W1Select::Input()
 		// 取得
 		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
 
-		if (next == SCENE_NAME::NONE)
-		{
-			MessageBoxA(NULL, "ボタンにシーン名を設定していません", "StageSelect::Input", MB_ICONERROR | MB_OK);
-			return;
-		}
+		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
 
 		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, next);
 
@@ -49,6 +46,7 @@ void W1Select::Input()
 
 	if (input->GetInputTrigger(InputType::CANCEL))
 	{
+		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
 		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 		isSceneMoving = true;
 	}

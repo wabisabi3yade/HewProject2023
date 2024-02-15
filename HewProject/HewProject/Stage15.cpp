@@ -3,6 +3,7 @@
 Stage15::Stage15()
 	: Stage(L"Stage1-5.csv")
 {
+	back->SetTexture(backTex[0]);
 }
 
 Stage15::~Stage15()

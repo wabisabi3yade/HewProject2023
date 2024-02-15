@@ -13,7 +13,7 @@ class Fade
 {
 public:
 	// DoTweenの状態
-	enum class STATE
+	enum STATE
 	{
 		STAY,	// 何もしていない状態
 		FADE_IN,	// フェードが入ってくる
@@ -92,6 +92,8 @@ public:
 	
 	// 次のシーンに移行
 	int GetNextScene();
+
+	int GetState()const { return state; }
 
 };
 

@@ -32,6 +32,7 @@ CTitleScene::CTitleScene()
 	select[0]->SetScale({ 4,4,1 });
 	select[0]->SetFunc([&]()
 		{
+			if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 		});
 

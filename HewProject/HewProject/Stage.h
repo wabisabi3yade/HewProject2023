@@ -14,6 +14,12 @@ protected:
     StageScene* stage; // ステージ全体のオブジェクト
     // csvファイルの名前
     const wchar_t* csvPath;
+
+    D3DTEXTURE backTex[4];
+
+    D3DBUFFER backBuffer;
+
+    CObject* back;
 public:
     /// <summary>
     /// ステージシーンのコンストラクタ
