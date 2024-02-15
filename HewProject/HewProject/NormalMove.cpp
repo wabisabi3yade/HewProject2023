@@ -300,10 +300,7 @@ void NormalMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CANNON:
 	{
 		WalkStart();
-
-
 		Vector2 junpPos = {};
-
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
@@ -473,7 +470,7 @@ void NormalMove::Step()
 	{
 		//WalkStart();
 		//ジャンプしてから落ちるように
-		//WalkAfter();
+		
 		//画面外まで移動するようにYをマクロで定義して使用する
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
@@ -528,7 +525,7 @@ void NormalMove::Step()
 		FallAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
-		//WalkAfter();
+		
 		//MoveAfter();
 		// ↑にジャンプする
 

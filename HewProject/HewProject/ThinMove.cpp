@@ -5,20 +5,20 @@
 ThinMove::ThinMove(Player* _p)
 	: PlayerMove(_p)
 {
-	// ˆÚ“®•s‰Â”\‚È°‚Ìí—Ş‚ğŒˆ‚ß‚é
+	// ç§»å‹•ä¸å¯èƒ½ãªåºŠã®ç¨®é¡ã‚’æ±ºã‚ã‚‹
 	cantMoveBlock = { 0, 2, 5, 16 };
 }
 
 void ThinMove::Move(DIRECTION _dir)
 {
-	// ˆÚ“®ƒtƒ‰ƒO‚ğtrue
+	// ç§»å‹•ãƒ•ãƒ©ã‚°ã‚’true
 	isMoving = true;
 	isMoveStartTrigger = true;
 
-	// •ûŒü‚ğİ’è‚·‚é
+	// æ–¹å‘ã‚’è¨­å®šã™ã‚‹
 	player->SetDirection(static_cast<int>(_dir));
 
-	//	ˆÚ“®æ‚ÌƒOƒŠƒbƒhÀ•W
+	//	ç§»å‹•å…ˆã®ã‚°ãƒªãƒƒãƒ‰åº§æ¨™
 	nextGridPos = player->GetGridPos();
 	CGrid::GRID_XY d = {};
 	switch (_dir)
@@ -43,36 +43,36 @@ void ThinMove::Move(DIRECTION _dir)
 	nextGridPos.x += d.x;
 	nextGridPos.y += d.y;
 
-	//	‚±‚±‚©‚çˆÚ“®‚·‚éæ‚Ìí—Ş‚É‚æ‚Á‚Ä‚·‚é‚±‚Æ‚ğ•Ï‚¦‚é //////////////////////////
-	// ƒLƒƒƒ‰ƒNƒ^[‚ğˆÚ“®æ‚ÌÀ•W
+	//	ã“ã“ã‹ã‚‰ç§»å‹•ã™ã‚‹å…ˆã®ç¨®é¡ã«ã‚ˆã£ã¦ã™ã‚‹ã“ã¨ã‚’å¤‰ãˆã‚‹ //////////////////////////
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’ç§»å‹•å…ˆã®åº§æ¨™
 	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
 
-	// ‰œ‘¤‚És‚­‚Æ‚«‚Ìs“®‚Ì‡”Ô
-	// ‡@ ISOME_BACKMOVE‘«‚·@i“¯‚¶‰¡—ñ‚Ìª‚É‚ ‚éƒIƒuƒWƒFƒNƒg‚æ‚è‰œ‚ÉˆÚ“®‚·‚é‚Ì‚ÅƒIƒuƒWƒFƒNƒg‚æ‚è‰œ‚É‚·‚éj
-	// ‡AˆÚ“®æ‚É“’…‚·‚é‚Æ‚»‚Ì°‚É‡‚í‚¹‚½ZÀ•W‚É‡‚í‚¹‚é
+	// å¥¥å´ã«è¡Œãã¨ãã®è¡Œå‹•ã®é †ç•ª
+	// â‘  ISOME_BACKMOVEè¶³ã™ã€€ï¼ˆåŒã˜æ¨ªåˆ—ã®â†‘ã«ã‚ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚ˆã‚Šå¥¥ã«ç§»å‹•ã™ã‚‹ã®ã§ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚ˆã‚Šå¥¥ã«ã™ã‚‹ï¼‰
+	// â‘¡ç§»å‹•å…ˆã«åˆ°ç€ã™ã‚‹ã¨ãã®åºŠã«åˆã‚ã›ãŸZåº§æ¨™ã«åˆã‚ã›ã‚‹
 	if (_dir == DIRECTION::UP || _dir == DIRECTION::RIGHT)
 	{
 		player->mTransform.pos.z += ISOME_BACKMOVE;
 	}
-	// è‘O‚Ìƒ}ƒX‚És‚­‚Æ‚«‚Íæ‚ÉZÀ•W‚ğè‘O‚É‡‚í‚¹‚é
+	// æ‰‹å‰ã®ãƒã‚¹ã«è¡Œãã¨ãã¯å…ˆã«Zåº§æ¨™ã‚’æ‰‹å‰ã«åˆã‚ã›ã‚‹
 	else
 	{
 		player->mTransform.pos.z = forwardPos.z;
 	}
 
-	// i‚ñ‚¾æ‚ÌƒuƒƒbƒN‚É‚æ‚Á‚Ä‘Î‰‚·‚éƒAƒNƒVƒ‡ƒ“‚ğİ’è‚·‚é
+	// é€²ã‚“ã å…ˆã®ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚ˆã£ã¦å¯¾å¿œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹
 	switch (CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
 
 		WalkStart();
 
-		// ˆÚ“®‚·‚é
+		// ç§»å‹•ã™ã‚‹
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-		// ˆÚ“®‚µI‚¦‚½‚çƒP[ƒL‚ğH‚×‚é
+		// ç§»å‹•ã—çµ‚ãˆãŸã‚‰ã‚±ãƒ¼ã‚­ã‚’é£Ÿã¹ã‚‹
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
@@ -90,15 +90,15 @@ void ThinMove::Move(DIRECTION _dir)
 				scale.x *= HEART_SCALE;
 				scale.y *= HEART_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
-				//‰Œ—p‚É
+				//ç…™ç”¨ã«
 				pos = player->mTransform.pos;
 				pos.z -= 0.000001f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale = player->mTransform.scale;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
-				// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
-				player->dotween->DelayedCall(EAT_TIME, [&,pos,scale]()
+				// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
+				player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 					{
 						player->EatEnd();
 						player->EatCake();
@@ -173,7 +173,7 @@ void ThinMove::Move(DIRECTION _dir)
 		break;
 
 	case CGridObject::BlockType::HOLL:
-		// «‚É‚¨‚¿‚é‚Æ‚«‚ÌƒWƒƒƒ“ƒv
+		// â†“ã«ãŠã¡ã‚‹ã¨ãã®ã‚¸ãƒ£ãƒ³ãƒ—
 
 		WalkStart();
 		{
@@ -188,7 +188,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 			player->dotween->OnComplete([&]()
 				{
-					//‰æ–ÊŠO‚Ü‚ÅˆÚ“®‚·‚é‚æ‚¤‚ÉY‚ğƒ}ƒNƒ‚Å’è‹`‚µ‚Äg—p‚·‚é
+					//ç”»é¢å¤–ã¾ã§ç§»å‹•ã™ã‚‹ã‚ˆã†ã«Yã‚’ãƒã‚¯ãƒ­ã§å®šç¾©ã—ã¦ä½¿ç”¨ã™ã‚‹
 					Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 					fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 					Vector2 fallPosXY;
@@ -209,7 +209,7 @@ void ThinMove::Move(DIRECTION _dir)
 						player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 						if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 						{
-							//ƒoƒEƒ“ƒh‚·‚é‚‚³‚ğŒvZ@‘ã“ü
+							//ãƒã‚¦ãƒ³ãƒ‰ã™ã‚‹é«˜ã•ã‚’è¨ˆç®—ã€€ä»£å…¥
 							//player->Fall();
 							float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 							player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
@@ -245,7 +245,7 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
 		//MoveAfter();
-		//WalkAfter();
+		
 		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
 		player->dotween->OnComplete([&, Vec3JumpPos]()
 			{
@@ -263,7 +263,7 @@ void ThinMove::Move(DIRECTION _dir)
 					});
 			});
 
-		// ª‚ÉƒWƒƒƒ“ƒv‚·‚é
+		// â†‘ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹
 
 	}
 	break;
@@ -272,8 +272,8 @@ void ThinMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::BAUMVERTICAL:
 	{
 		CGrid::GRID_XY nextGridPosCopy = nextGridPos;
-		// ƒoƒEƒ€ƒN[ƒwƒ“‚ÌŒü‚±‚¤‘¤‚ÉˆÚ“®‚·‚é
-		// ‚à‚¤ˆêŒÂæ‚ÉÀ•Wİ’è
+		// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³ã®å‘ã“ã†å´ã«ç§»å‹•ã™ã‚‹
+		// ã‚‚ã†ä¸€å€‹å…ˆã«åº§æ¨™è¨­å®š
 		nextGridPosCopy.x += d.x;
 		nextGridPosCopy.y += d.y;
 
@@ -305,12 +305,12 @@ void ThinMove::Move(DIRECTION _dir)
 		forwardPos = player->GetGridTable()->GridToWorld(nextGridPosCopy, CGridObject::BlockType::START);
 		forwardPosXY = { forwardPos.x, forwardPos.y };
 
-		// ƒvƒŒƒCƒ„[‚ğˆÚ“®‚³‚¹‚Ä‚¨‚­
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç§»å‹•ã•ã›ã¦ãŠã
 		player->mTransform.pos = forwardPos;
 
 
 		Vector2 baumAdjustPos = Vector2::zero;
-		// ƒoƒEƒ€ƒN[ƒwƒ“”÷’²®À•W
+		// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³å¾®èª¿æ•´åº§æ¨™
 		switch (_dir)
 		{
 		case DIRECTION::DOWN:
@@ -333,17 +333,17 @@ void ThinMove::Move(DIRECTION _dir)
 		player->mTransform.pos.x += baumAdjustPos.x * player->GetGridTable()->GetGridScale().x;
 		player->mTransform.pos.y += baumAdjustPos.y * player->GetGridTable()->GetGridScale().y;
 
-		// “®‚«I‚í‚Á‚½‚ç
+		// å‹•ãçµ‚ã‚ã£ãŸã‚‰
 		player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, nextGridPosCopy]()
 			{
 				nextGridPos = nextGridPosCopy;
-				// ƒJƒXƒeƒ‰’´‚¦‚½æ‚ÉƒuƒƒbƒN‚É‚æ‚Á‚Äˆ—‚ğ‚·‚é
+				// ã‚«ã‚¹ãƒ†ãƒ©è¶…ãˆãŸå…ˆã«ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚ˆã£ã¦å‡¦ç†ã‚’ã™ã‚‹
 				switch (static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckMassType(nextGridPosCopy)))
 				{
 				case CGridObject::BlockType::CAKE:
 				{
 					WalkAfter();
-					// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
+					// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 					if (player->GetCalorie() <= 0)
 					{
 						player->GameOver();
@@ -358,15 +358,15 @@ void ThinMove::Move(DIRECTION _dir)
 					scale.x *= HEART_SCALE;
 					scale.y *= HEART_SCALE;
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
-					//‰Œ—p‚É
+					//ç…™ç”¨ã«
 					pos = player->mTransform.pos;
 					pos.z -= 0.000001f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale = player->mTransform.scale;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
-					// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
-					player->dotween->DelayedCall(EAT_TIME, [&,pos,scale]()
+					// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
+					player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 						{
 							player->EatEnd();
 							player->EatCake();
@@ -379,7 +379,7 @@ void ThinMove::Move(DIRECTION _dir)
 				}
 				case CGridObject::BlockType::CHILI:
 					WalkAfter();
-					// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
+					// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 					if (player->GetCalorie() <= 0)
 					{
 						player->GameOver();
@@ -397,9 +397,10 @@ void ThinMove::Move(DIRECTION _dir)
 						});
 					break;
 				case CGridObject::BlockType::PROTEIN:
+					WalkAfter();
+					nextGridPos = nextGridPosCopy;
 					player->dotween->DelayedCall(EAT_TIME, [&]()
 						{
-							nextGridPos = nextGridPosCopy;
 							MoveAfter();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
 							player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -451,7 +452,7 @@ void ThinMove::Move(DIRECTION _dir)
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
-						//ƒoƒEƒ“ƒh‚·‚é‚‚³‚ğŒvZ@‘ã“ü
+						//ãƒã‚¦ãƒ³ãƒ‰ã™ã‚‹é«˜ã•ã‚’è¨ˆç®—ã€€ä»£å…¥
 						float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
@@ -463,7 +464,7 @@ void ThinMove::Move(DIRECTION _dir)
 						{
 							player->fallMoveTrriger = true;
 						});
-				break;
+					break;
 				}
 				default:
 					WalkAfter();
@@ -533,7 +534,7 @@ void ThinMove::Step()
 
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
-		// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
+		// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
 				player->EatEnd();
@@ -579,19 +580,19 @@ void ThinMove::Step()
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 
-		/*WalkStart();*/
-		WalkAfter();
-		MoveAfter();
-		////‰æ–ÊŠO‚Ü‚ÅˆÚ“®‚·‚é‚æ‚¤‚ÉY‚ğƒ}ƒNƒ‚Å’è‹`‚µ‚Äg—p‚·‚é			
-		//Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
-		//fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-		//player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-		//	{
-		//		player->Fall();
-		//	});
-		//player->dotween->DoDelay(FALL_TIME);
-		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
-		//break;
+
+		//WalkStart();
+
+		//ç”»é¢å¤–ã¾ã§ç§»å‹•ã™ã‚‹ã‚ˆã†ã«Yã‚’ãƒã‚¯ãƒ­ã§å®šç¾©ã—ã¦ä½¿ç”¨ã™ã‚‹			
+		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+			{
+				player->Fall();
+			});
+		player->dotween->DoDelay(FALL_TIME);
+		player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+
 		break;
 	}
 	case CGridObject::BlockType::HOLL:
@@ -599,10 +600,10 @@ void ThinMove::Step()
 
 
 		WalkStart();
-		//ƒWƒƒƒ“ƒv‚µ‚Ä‚©‚ç—‚¿‚é‚æ‚¤‚É
+		//ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¦ã‹ã‚‰è½ã¡ã‚‹ã‚ˆã†ã«
 
-		//WalkAfter();
-		//‰æ–ÊŠO‚Ü‚ÅˆÚ“®‚·‚é‚æ‚¤‚ÉY‚ğƒ}ƒNƒ‚Å’è‹`‚µ‚Äg—p‚·‚é
+		
+		//ç”»é¢å¤–ã¾ã§ç§»å‹•ã™ã‚‹ã‚ˆã†ã«Yã‚’ãƒã‚¯ãƒ­ã§å®šç¾©ã—ã¦ä½¿ç”¨ã™ã‚‹
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 		Vector2 fallPosXY;
@@ -623,7 +624,7 @@ void ThinMove::Step()
 			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
-				//ƒoƒEƒ“ƒh‚·‚é‚‚³‚ğŒvZ@‘ã“ü
+				//ãƒã‚¦ãƒ³ãƒ‰ã™ã‚‹é«˜ã•ã‚’è¨ˆç®—ã€€ä»£å…¥
 				//player->Fall();
 				float BoundPosY = floorFallPos.y + player->mTransform.scale.y / 2;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
@@ -651,7 +652,7 @@ void ThinMove::Step()
 		FallAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
-		// ª‚ÉƒWƒƒƒ“ƒv‚·‚é
+		// â†‘ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹
 	}
 	break;
 
@@ -663,7 +664,7 @@ void ThinMove::Step()
 
 		break;
 
-	default:	// °
+	default:	// åºŠ
 		MoveAfter();
 		FallAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -674,13 +675,13 @@ void ThinMove::Step()
 
 void ThinMove::CheckCanMove()
 {
-	// ‘S‚Ä‚Ì•ûŒü‚ğtrue
+	// å…¨ã¦ã®æ–¹å‘ã‚’true
 	for (int i = 0; i < 4; i++)
 	{
 		canMoveDir[i] = true;
 	}
 
-	// Œã‚ë‚Ì•ûŒü‚És‚¯‚È‚¢‚æ‚¤‚É‚·‚é
+	// å¾Œã‚ã®æ–¹å‘ã«è¡Œã‘ãªã„ã‚ˆã†ã«ã™ã‚‹
 	switch (static_cast<Player::DIRECTION>(player->GetDirection()))
 	{
 	case Player::DIRECTION::UP:
@@ -701,14 +702,14 @@ void ThinMove::CheckCanMove()
 	}
 
 
-	//«i˜Hæ‚Ì°‚Ìî•ñ‚ÅˆÚ“®‚Å‚«‚é‚©”»’f‚·‚é //////////////////////////
-	// 4•ûŒüŒ©‚é
+	//â†“é€²è·¯å…ˆã®åºŠã®æƒ…å ±ã§ç§»å‹•ã§ãã‚‹ã‹åˆ¤æ–­ã™ã‚‹ //////////////////////////
+	// 4æ–¹å‘è¦‹ã‚‹
 	for (int dirRoop = 0; dirRoop < static_cast<int>(Player::DIRECTION::NUM); dirRoop++)
 	{
-		// Œã‚ëˆÈŠO‚ğŒ©‚é‚¾‚¯‚Å‘åä•v‚È‚Ì‚Å
+		// å¾Œã‚ä»¥å¤–ã‚’è¦‹ã‚‹ã ã‘ã§å¤§ä¸ˆå¤«ãªã®ã§
 		if (!canMoveDir[dirRoop]) continue;
 
-		// •ûŒü
+		// æ–¹å‘
 		CGrid::GRID_XY d = {};
 
 		switch (static_cast<DIRECTION>(dirRoop))
@@ -729,12 +730,12 @@ void ThinMove::CheckCanMove()
 			d.x = -1;
 			break;
 		}
-		// ƒvƒŒƒCƒ„[‚Ìisæ‚ÌƒOƒŠƒbƒhÀ•W‚ğæ“¾
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€²è¡Œå…ˆã®ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’å–å¾—
 		CGrid::GRID_XY forwordPos = player->GetGridPos();
 		forwordPos.x += d.x;
 		forwordPos.y += d.y;
 
-		// ˆÚ“®æ‚ªƒ}ƒbƒvŠO‚È‚çˆÚ“®‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
+		// ç§»å‹•å…ˆãŒãƒãƒƒãƒ—å¤–ãªã‚‰ç§»å‹•ã§ããªã„ã‚ˆã†ã«ã™ã‚‹
 		if (forwordPos.x < 0 || forwordPos.y < 0
 			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
 		{
@@ -742,10 +743,10 @@ void ThinMove::CheckCanMove()
 			continue;
 		}
 
-		// ‚»‚Ì•ûŒü‚ÉˆÚ“®•s‰Â‚ÌƒuƒƒbƒN‚È‚ç
+		// ãã®æ–¹å‘ã«ç§»å‹•ä¸å¯ã®ãƒ–ãƒ­ãƒƒã‚¯ãªã‚‰
 		for (int j = 0; j < cantMoveBlock.size(); j++)
 		{
-			// i˜Hæ‚ªˆÚ“®‚Å‚«‚È‚¢‚È‚ç
+			// é€²è·¯å…ˆãŒç§»å‹•ã§ããªã„ãªã‚‰
 			if (player->GetGridTable()->objectTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j] ||
 				player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j])
 			{
@@ -753,10 +754,10 @@ void ThinMove::CheckCanMove()
 				break;
 			}
 		}
-		if (!canMoveDir[dirRoop]) continue;	// ‚±‚±‚Ü‚Å‚Å’Ê‚ê‚È‚¢‚±‚Æ‚ªŒˆ‚Ü‚Á‚Ä‚¢‚½‚çŸ‚Ì•ûŒü‚ğŠm”F
+		if (!canMoveDir[dirRoop]) continue;	// ã“ã“ã¾ã§ã§é€šã‚Œãªã„ã“ã¨ãŒæ±ºã¾ã£ã¦ã„ãŸã‚‰æ¬¡ã®æ–¹å‘ã‚’ç¢ºèª
 
-		// ƒoƒEƒ€ƒN[ƒwƒ“‚Ì•ûŒü‚Ås‚¯‚é‚©Šm”F‚·‚é
-		// ˆÚ“®æ‚ª‰¡Œü‚«ƒoƒEƒ€@‚©‚Â@ˆÚ“®•ûŒü‚ªc‚È‚ç
+		// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³ã®æ–¹å‘ã§è¡Œã‘ã‚‹ã‹ç¢ºèªã™ã‚‹
+		// ç§»å‹•å…ˆãŒæ¨ªå‘ããƒã‚¦ãƒ ã€€ã‹ã¤ã€€ç§»å‹•æ–¹å‘ãŒç¸¦ãªã‚‰
 		if (player->GetGridTable()->CheckObjectType(forwordPos) ==
 			static_cast<int>(CGridObject::BlockType::BAUMHORIZONTAL) &&
 			d.y != 0)
@@ -764,7 +765,7 @@ void ThinMove::CheckCanMove()
 			canMoveDir[dirRoop] = false;
 			continue;
 		}
-		// ˆÚ“®æ‚ªcŒü‚«ƒoƒEƒ€@‚©‚Â@ˆÚ“®•ûŒü‚ª‰¡‚È‚ç
+		// ç§»å‹•å…ˆãŒç¸¦å‘ããƒã‚¦ãƒ ã€€ã‹ã¤ã€€ç§»å‹•æ–¹å‘ãŒæ¨ªãªã‚‰
 		else if (player->GetGridTable()->CheckObjectType(forwordPos) ==
 			static_cast<int>(CGridObject::BlockType::BAUMVERTICAL) &&
 			d.x != 0)

@@ -336,7 +336,7 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
 		//MoveAfter();
-		//WalkAfter();
+		
 		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
 		player->dotween->OnComplete([&, Vec3JumpPos]()
 			{
@@ -362,10 +362,7 @@ void FatMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CANNON:
 	{
 		WalkStart();
-
-
 		Vector2 junpPos = {};
-
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
@@ -374,12 +371,13 @@ void FatMove::Move(DIRECTION _dir)
 				cannonFX = true;
 				player->ChangeInvisible();
 			});
+		// 手前のマスに行くときは先にZ座標を手前に合わせる
 		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
 		{
 			player->mTransform.pos.z = forwardPos.z - 0.20001f;
 		}
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		player->dotween->Append(forwardPos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
@@ -388,8 +386,8 @@ void FatMove::Move(DIRECTION _dir)
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 				player->GetPlayerMove()->InCannon();
 			});
+		break;
 	}
-	break;
 	default:
 
 		WalkStart();
@@ -454,7 +452,7 @@ void FatMove::Step()
 	}
 	case CGridObject::BlockType::CHILI:
 
-		WalkAfter();
+		
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -597,8 +595,8 @@ void FatMove::Step()
 		break;
 
 	default:	// 床
-		WalkAfter();
 		MoveAfter();
+		FallAfter();
 		if (player->GetCalorie() < 6)
 		{
 			Vector3 pos = player->mTransform.pos;

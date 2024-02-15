@@ -9,7 +9,7 @@ PlayerMove::PlayerMove(Player* _p)
 {
 	player = _p;
 
-	// «‰Šú‰»
+	// â†“åˆæœŸåŒ–
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
 		canMoveDir[i] = false;
@@ -42,21 +42,21 @@ PlayerMove::~PlayerMove()
 
 void PlayerMove::Input()
 {
-	// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ‚«‚Íˆ—‚µ‚È‚¢
+	// ç§»å‹•ã—ã¦ã„ã‚‹ã¨ãã¯å‡¦ç†ã—ãªã„
 	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon) return;
 
 	InputManager* input = InputManager::GetInstance();
 
 	Vector2 PadStick = input->GetMovement();
 
-	// “ü—Í‚³‚ê‚é‚Æ
+	// å…¥åŠ›ã•ã‚Œã‚‹ã¨
 	if (gInput->GetKeyTrigger(VK_RIGHT) || (PadStick.x > 0.0f && PadStick.y > 0.0f))
 	{
-		// ‚»‚Ì•ûŒü‚ÉˆÚ“®‚Å‚«‚é‚È‚ç
+		// ãã®æ–¹å‘ã«ç§»å‹•ã§ãã‚‹ãªã‚‰
 		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)]) return;
 		player->SetDirection(static_cast<int>(DIRECTION::RIGHT));
 		if (inCannon == false && isCannonMove == false)
-			// ˆÚ“®‚·‚é
+			// ç§»å‹•ã™ã‚‹
 			Move(DIRECTION::RIGHT);
 
 	}
@@ -106,7 +106,7 @@ void PlayerMove::WalkAfter()
 	{
 		switch (player->GetState())
 		{
-		
+
 		case Player::STATE::THIN:
 			player->WalkCalorie();
 			break;
@@ -132,19 +132,19 @@ void PlayerMove::WalkAfter()
 	}
 	isWalking_now = false;
 	isWalking_old = true;
-	// ˆÚ“®‚µI‚¦‚½ƒtƒ‰ƒO‚ğtrue
+	// ç§»å‹•ã—çµ‚ãˆãŸãƒ•ãƒ©ã‚°ã‚’true
 	isWalkEnd = true;
 }
 
 CGridObject::BlockType PlayerMove::CheckNextMassType()
 {
-	// æ‚ÉƒIƒuƒWƒFƒNƒg‚ÌŒ^‚ğŒ©‚é
+	// å…ˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‹ã‚’è¦‹ã‚‹
 	CGridObject::BlockType type = CheckNextObjectType();
 
-	// ‰½‚à‚È‚©‚Á‚½‚ç
+	// ä½•ã‚‚ãªã‹ã£ãŸã‚‰
 	if (type == CGridObject::BlockType::NONE || type == CGridObject::BlockType::START)
 	{
-		// °‚Ìƒe[ƒuƒ‹‚ğŠm”F
+		// åºŠã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç¢ºèª
 		type = CheckNextFloorType();
 	}
 	return type;
@@ -189,13 +189,13 @@ CGridObject::BlockType PlayerMove::CheckNowObjectType()
 
 CGridObject::BlockType PlayerMove::CheckNowMassType()
 {
-	// æ‚ÉƒIƒuƒWƒFƒNƒg‚ÌŒ^‚ğŒ©‚é
+	// å…ˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‹ã‚’è¦‹ã‚‹
 	CGridObject::BlockType type = CheckNowObjectType();
 
-	// ‰½‚à‚È‚©‚Á‚½‚ç
+	// ä½•ã‚‚ãªã‹ã£ãŸã‚‰
 	if (type == CGridObject::BlockType::NONE || type == CGridObject::BlockType::START)
 	{
-		// °‚Ìƒe[ƒuƒ‹‚ğŠm”F
+		// åºŠã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç¢ºèª
 		type = CheckNowFloorType();
 	}
 	return type;
@@ -317,16 +317,16 @@ void PlayerMove::CannonMove1()
 
 	WalkStart();
 	Vector3 v3MovePos = player->GetGridTable()->GridToWorld(movePos, CGridObject::BlockType::START);
-	//ˆÚ“®—Ê‚É‰‚¶‚Ä‘¬“x‚ğ•Ï‚¦‚é
+	//ç§»å‹•é‡ã«å¿œã˜ã¦é€Ÿåº¦ã‚’å¤‰ãˆã‚‹
 	player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME / ((movePos.x - player->GetGridPos().x) + (movePos.y + player->GetGridPos().y)));
 	player->dotween->OnComplete([&, movePos, v3MovePos]()
 		{
 			player->dotween->DoMoveCurve({ player->mTransform.pos.x,player->mTransform.pos.y }, CANNONBOUND_TIME, player->mTransform.pos.y + CANNONBOUND_POS_Y);
-			//‚š‚ğ•ÏX‚·‚é
+			//ï½šã‚’å¤‰æ›´ã™ã‚‹
 			player->dotween->Append(v3MovePos, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->dotween->DelayedCall(CANNONBOUND_TIME, [&, movePos]()
 				{
-					//WalkAfter();
+					
 					player->SetGridPos(movePos);
 					player->GetPlayerMove()->SetNextGridPos(movePos);
 					MoveAfter();
@@ -434,7 +434,7 @@ void PlayerMove::CannonMove2()
 		)
 	{
 		Vector3 v3MovePos = player->GetGridTable()->GridToWorld(nextCannonPos, CGridObject::BlockType::START);
-		//WalkAfter();
+		
 		//player->ChangeTexture(Player::ANIM_TEX::CANNON);
 		if (flagInit == false)
 		{
@@ -445,7 +445,7 @@ void PlayerMove::CannonMove2()
 		{
 			player->mTransform.pos.z += ISOME_BACKMOVE;
 		}
-		// è‘O‚Ìƒ}ƒX‚És‚­‚Æ‚«‚Íæ‚ÉZÀ•W‚ğè‘O‚É‡‚í‚¹‚é
+		// æ‰‹å‰ã®ãƒã‚¹ã«è¡Œãã¨ãã¯å…ˆã«Zåº§æ¨™ã‚’æ‰‹å‰ã«åˆã‚ã›ã‚‹
 		else
 		{
 			player->mTransform.pos.z = v3MovePos.z;
@@ -475,7 +475,7 @@ void PlayerMove::CannonMove2()
 					inCannon = false;
 
 					//player->GetPlayerMove()->SetNextGridPos(player->GetPlayerMove()->GetNextGridPos());
-					//WalkAfter();
+					
 					//MoveAfter();
 					player->GetPlayerMove()->Step();
 					isCannonMoveEnd = true;
@@ -528,8 +528,8 @@ void PlayerMove::CannonMove2()
 
 			});
 	}
-	//ˆÚ“®‰Â”\‚Å‹ƒ‚¯‚ê‚ÎƒoƒEƒ“ƒh‚ğÀs‚·‚é
-	//‘å–CˆÚ“®ƒtƒ‰ƒO‚ğÁ‚·
+	//ç§»å‹•å¯èƒ½ã§æ³£ã‘ã‚Œã°ãƒã‚¦ãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹
+	//å¤§ç ²ç§»å‹•ãƒ•ãƒ©ã‚°ã‚’æ¶ˆã™
 
 //}
 
@@ -555,13 +555,13 @@ void PlayerMove::CannonDirSelect(DIRECTION _dir)
 
 void PlayerMove::CheckCanMove()
 {
-	// ‘S‚Ä‚Ì•ûŒü‚ğtrue
+	// å…¨ã¦ã®æ–¹å‘ã‚’true
 	for (int i = 0; i < 4; i++)
 	{
 		canMoveDir[i] = true;
 	}
 
-	// Œã‚ë‚Ì•ûŒü‚És‚¯‚È‚¢‚æ‚¤‚É‚·‚é
+	// å¾Œã‚ã®æ–¹å‘ã«è¡Œã‘ãªã„ã‚ˆã†ã«ã™ã‚‹
 	switch (static_cast<Player::DIRECTION>(player->GetDirection()))
 	{
 	case Player::DIRECTION::UP:
@@ -582,14 +582,14 @@ void PlayerMove::CheckCanMove()
 	}
 
 
-	//«i˜Hæ‚Ì°‚Ìî•ñ‚ÅˆÚ“®‚Å‚«‚é‚©”»’f‚·‚é //////////////////////////
-	// 4•ûŒüŒ©‚é
+	//â†“é€²è·¯å…ˆã®åºŠã®æƒ…å ±ã§ç§»å‹•ã§ãã‚‹ã‹åˆ¤æ–­ã™ã‚‹ //////////////////////////
+	// 4æ–¹å‘è¦‹ã‚‹
 	for (int dirRoop = 0; dirRoop < static_cast<int>(Player::DIRECTION::NUM); dirRoop++)
 	{
-		// Œã‚ëˆÈŠO‚ğŒ©‚é‚¾‚¯‚Å‘åä•v‚È‚Ì‚Å
+		// å¾Œã‚ä»¥å¤–ã‚’è¦‹ã‚‹ã ã‘ã§å¤§ä¸ˆå¤«ãªã®ã§
 		if (!canMoveDir[dirRoop]) continue;
 
-		// •ûŒü
+		// æ–¹å‘
 		CGrid::GRID_XY d = {};
 
 		switch (static_cast<DIRECTION>(dirRoop))
@@ -612,12 +612,12 @@ void PlayerMove::CheckCanMove()
 		}
 
 
-		// ƒvƒŒƒCƒ„[‚Ìisæ‚ÌƒOƒŠƒbƒhÀ•W‚ğæ“¾
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€²è¡Œå…ˆã®ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’å–å¾—
 		CGrid::GRID_XY forwordPos = player->GetGridPos();
 		forwordPos.x += d.x;
 		forwordPos.y += d.y;
 
-		// ˆÚ“®æ‚ªƒ}ƒbƒvŠO‚È‚çˆÚ“®‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
+		// ç§»å‹•å…ˆãŒãƒãƒƒãƒ—å¤–ãªã‚‰ç§»å‹•ã§ããªã„ã‚ˆã†ã«ã™ã‚‹
 		if (forwordPos.x < 0 || forwordPos.y < 0
 			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
 		{
@@ -634,7 +634,7 @@ void PlayerMove::CheckCanMove()
 
 		for (int j = 0; j < cantMoveBlock.size(); j++)
 		{
-			// i˜Hæ‚ªˆÚ“®‚Å‚«‚È‚¢‚È‚ç
+			// é€²è·¯å…ˆãŒç§»å‹•ã§ããªã„ãªã‚‰
 			if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j] ||
 				player->GetGridTable()->objectTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j])
 			{
@@ -643,19 +643,19 @@ void PlayerMove::CheckCanMove()
 			}
 		}
 	}
-	//ªi˜Hæ‚Ì°‚Ìî•ñ‚ÅˆÚ“®‚Å‚«‚é‚©”»’f‚·‚é //////////////////////////
+	//â†‘é€²è·¯å…ˆã®åºŠã®æƒ…å ±ã§ç§»å‹•ã§ãã‚‹ã‹åˆ¤æ–­ã™ã‚‹ //////////////////////////
 }
 
 void PlayerMove::MoveAfter()
 {
-	// ˆÚ“®ƒtƒ‰ƒO‚ğ–ß‚·
+	// ç§»å‹•ãƒ•ãƒ©ã‚°ã‚’æˆ»ã™
 	isMoving = false;
 	isMovingTrigger = true;
 
-	// «‚±‚±‚ÅƒOƒŠƒbƒhÀ•W‚ğƒZƒbƒg‚µ‚Ä‚¢‚é
+	// â†“ã“ã“ã§ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’ã‚»ãƒƒãƒˆã—ã¦ã„ã‚‹
 	player->SetGridPos(nextGridPos.x, nextGridPos.y);
 
-	// ˆÚ“®‚Å‚«‚é•ûŒü‚ğŒˆ’è‚·‚é
+	// ç§»å‹•ã§ãã‚‹æ–¹å‘ã‚’æ±ºå®šã™ã‚‹
 	CheckCanMove();
 
 }
