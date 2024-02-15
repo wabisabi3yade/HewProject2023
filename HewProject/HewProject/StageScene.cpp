@@ -114,7 +114,7 @@ StageScene::~StageScene()
 
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
-		//CLASS_DELETE(Arrow[i]);
+		CLASS_DELETE(Arrow[i]);
 	}
 	//CLASS_DELETE();
 
@@ -264,6 +264,13 @@ void StageScene::Update()
 
 	//カロリーゲージ
 	calorieGage->Update();
+
+	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+	{
+		Arrow[i]->Update();
+		Arrow[i]->mTransform.pos.z = -0.35f;
+	}
+
 }
 
 void StageScene::StageMove()
@@ -1109,7 +1116,7 @@ void StageScene::Undo(float _stageScale)
 
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
-		//Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
+		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
 	}
 
 	// 未使用にする
@@ -1255,7 +1262,7 @@ void StageScene::Draw()
 	{
 		if (*IsArrowDraw == true && (!player->GetIsMoving() || player->GetPlayerMove()->GetIncannon()))
 		{
-			//Arrow[i]->Draw();
+			Arrow[i]->Draw();
 		}
 		IsArrowDraw++;
 	}
@@ -1538,9 +1545,9 @@ void StageScene::Init(const wchar_t* filePath)
 	//Vector3 arrowDownScale(stageScale * 1.0f, stageScale * 1.0f, stageScale);
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
-		//Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
-		//Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
-		//Arrow[i]->ScaleLoop();
+		Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
+		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
+		Arrow[i]->ScaleLoop();
 	}
 	calorieGage->SetPosition({ -3.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 1.0f,1.0f,1.0f });

@@ -131,7 +131,7 @@ private:
 	//カロリーゲージ
 	CalorieGage_hori* calorieGage;
 
-	//CArrow* Arrow[static_cast<int>(Player::DIRECTION::NUM)];
+	CArrow* Arrow[static_cast<int>(Player::DIRECTION::NUM)];
 
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
