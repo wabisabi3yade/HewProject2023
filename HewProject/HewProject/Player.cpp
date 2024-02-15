@@ -418,15 +418,13 @@ void Player::EatEnd()
 Player::~Player()
 {
 	CLASS_DELETE(mAnim);
-	if (effect.size() > 0)
+
+	for (auto it : effect)
 	{
-		for (auto it = effect.begin(); it != effect.end();)
-		{
-			CLASS_DELETE(*it);
-			it = effect.erase(it);
-			it++;
-		}
+		CLASS_DELETE(it);
+		it++;
 	}
+	effect.clear();
 }
 
 bool Player::GetIsMoving() const

@@ -107,6 +107,8 @@ void PlayerMove::WalkAfter()
 		switch (player->GetState())
 		{
 		case Player::STATE::NORMAL:
+			if (CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
+				break;
 		case Player::STATE::THIN:
 			player->WalkCalorie();
 			break;
@@ -318,7 +320,7 @@ void PlayerMove::CannonMove1()
 			player->dotween->Append(v3MovePos, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->dotween->DelayedCall(CANNONBOUND_TIME, [&, movePos]()
 				{
-					//WalkAfter();
+					
 					player->SetGridPos(movePos);
 					player->GetPlayerMove()->SetNextGridPos(movePos);
 					MoveAfter();
@@ -426,7 +428,7 @@ void PlayerMove::CannonMove2()
 		)
 	{
 		Vector3 v3MovePos = player->GetGridTable()->GridToWorld(nextCannonPos, CGridObject::BlockType::START);
-		//WalkAfter();
+		
 		//player->ChangeTexture(Player::ANIM_TEX::CANNON);
 		if (flagInit == false)
 		{
@@ -467,7 +469,7 @@ void PlayerMove::CannonMove2()
 					inCannon = false;
 
 					//player->GetPlayerMove()->SetNextGridPos(player->GetPlayerMove()->GetNextGridPos());
-					//WalkAfter();
+					
 					//MoveAfter();
 					player->GetPlayerMove()->Step();
 					isCannonMoveEnd = true;
