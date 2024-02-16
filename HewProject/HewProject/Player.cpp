@@ -153,7 +153,6 @@ void Player::Update()
 				ChangeTexture(ANIM_TEX::PUSH_CASTELLA);
 				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction), 0.7f);
 			}
-
 			IsStop = false;
 		}
 		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false && isEat == false)
