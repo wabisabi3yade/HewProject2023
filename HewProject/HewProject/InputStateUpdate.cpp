@@ -46,6 +46,11 @@ InputStateUpdate::InputStateUpdate()
 			controllerWork = XINPUT_GAMEPAD_RIGHT_SHOULDER;
 			break;
 
+		case InputType::Undo:
+			keyWork = VK_DELETE;
+			controllerWork = XINPUT_GAMEPAD_X;
+			break;
+
 		default:
 			MessageBoxA(NULL, "対応できていないボタンタイプがあります", "エラー", MB_ICONERROR | MB_OK);
 			break;
