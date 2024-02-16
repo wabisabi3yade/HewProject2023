@@ -397,6 +397,9 @@
     <Filter Include="ソース ファイル\Stage\WorldEx\StageEx4">
       <UniqueIdentifier>{b3176087-d2fc-401e-b22c-f1ddc03e71a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\WorldSelectPic">
+      <UniqueIdentifier>{e16f4f24-ded5-4a02-957b-b2ed2a06a7e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -759,6 +762,9 @@
     <ClInclude Include="GallAnim.h">
       <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
     </ClInclude>
+    <ClInclude Include="WorldSelectPic.h">
+      <Filter>ソース ファイル\Wakamura\WorldSelectPic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -1120,6 +1126,9 @@
     </ClCompile>
     <ClCompile Include="GallAnim.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldSelectPic.cpp">
+      <Filter>ソース ファイル\Wakamura\WorldSelectPic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

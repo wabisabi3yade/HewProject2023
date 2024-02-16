@@ -1,7 +1,7 @@
 #pragma once
 #include "CScene.h"
 
-class CObject;
+class WorldSelectPic;
 class CStageSelectPlayer;
 class UI;
 class ShadowUI;
@@ -12,6 +12,9 @@ class CStage1SelectScene :
 public:
 
     bool isSceneChanging;   // シーン変わる
+
+    bool c_isHitStage[5]; // それぞれ当たってるか判定する
+    bool o_isHitStage[5];  // 前フレームで当たってるか
 
     //プレイヤー
     D3DBUFFER playerBuffer;
@@ -49,7 +52,7 @@ public:
     D3DTEXTURE bgTexture;
 
     CStageSelectPlayer* player;
-    CObject* stage[5];
+    WorldSelectPic* stage[5];
     UI* Text[4];
     UI* Word[8];
     UI* Bg;
@@ -60,6 +63,7 @@ public:
     bool isPlayerMoving;
     bool isOnce;
     bool isUpDown;
+    bool isBigSmall;
 
 public:
     CStage1SelectScene();
