@@ -59,7 +59,7 @@ void StageSelect::Input()
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, next);
 			isSceneMoving = true;
 		}
-		
+
 	}
 	else if (input->GetInputTrigger(InputType::CANCEL))
 	{
@@ -68,10 +68,10 @@ void StageSelect::Input()
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 			isSceneMoving = true;
 		}
-		
+
 	}
 
-	
+
 }
 
 void StageSelect::SmpMove()
@@ -117,9 +117,17 @@ StageSelect::StageSelect()
 	stageSmpBack->MakeDotween();
 
 	// 背景
-	backGround = new UI(oneBuf, NULL);
-	backGround->mTransform.pos.z = BG_POSZ;
-	backGround->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H , 1.0f };
+	backGround[0] = new UI(oneBuf, NULL);
+	backGround[0]->MakeDotween();
+	backGround[0]->mTransform.pos = { 0,0,1.0f };
+	backGround[0]->mTransform.pos.z = BG_POSZ;
+	backGround[0]->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H , 1.0f };
+
+	backGround[1] = new UI(oneBuf, NULL);
+	backGround[1]->MakeDotween();
+	backGround[1]->mTransform.pos = { backGround[0]->mTransform.pos.x + SCREEN_RATIO_W - 0.2f ,backGround[0]->mTransform.pos.y,  BG_POSZ };
+	//backGround[1]->mTransform.pos.z = BG_POSZ;
+	backGround[1]->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H , 0.9f };
 
 	// スタートUI
 	D3D_LoadTexture(L"asset/UI/B_Enter.png", &startTex);
@@ -185,7 +193,7 @@ void StageSelect::Update()
 	if (isBeginFin)
 	{
 		// 入力
-  		Input();
+		Input();
 	}
 	// 最初の移動時に使用する処理はここ
 	else
@@ -209,6 +217,31 @@ void StageSelect::Update()
 
 	}
 
+	for (int i = 0; i < 2; i++)
+	{
+		backGround[i]->mTransform.pos.x -= 0.05f;
+		if (backGround[i]->mTransform.pos.x < -15.99f)
+		{
+			backGround[i]->mTransform.pos.x = 16.0f;
+		}
+
+	}
+
+	/*if (isMove == false)
+	{
+		isMove = true;
+		for (int i = 0; i < 2; i++)
+		{
+			backGround[i]->dotween->DoMoveX(-24.0f, 5.0f);
+			backGround[i]->dotween->OnComplete([&]() {
+				backGround[i]->mTransform.pos = { 24.0f,backGround[i]->mTransform.pos.y,BG_POSZ };
+				isMove = false;
+				});
+
+		}
+	}*/
+
+
 	// サンプルの移動処理
 	SmpMove();
 
@@ -231,7 +264,8 @@ void StageSelect::Draw()
 {
 	// 背景　→　写真背景　→　写真　→　プレイヤー　→　UI
 
-	backGround->Draw();
+	backGround[0]->Draw();
+	backGround[1]->Draw();
 
 	stageSmpBack->Draw();
 
@@ -265,7 +299,8 @@ StageSelect::~StageSelect()
 
 	SAFE_RELEASE(oneBuf);
 	CLASS_DELETE(stageSmpBack);
-	CLASS_DELETE(backGround);
+	CLASS_DELETE(backGround[0]);
+	CLASS_DELETE(backGround[1]);
 	CLASS_DELETE(btnSelect);
 
 	SAFE_RELEASE(startTex);
@@ -308,7 +343,7 @@ void StageSelect::BeginMove()
 		Vector3 v = worldNamePos;
 		v.x += i * worldNameOffsetX;
 		v.y -= i * WORLDNAME_OFFSETY;
-		v.z -= i* UI_OFFSETZ;
+		v.z -= i * UI_OFFSETZ;
 		worldName[i]->dotween->DoEaseOutBack(v, BEGIN_MOVETIME);
 	}
 

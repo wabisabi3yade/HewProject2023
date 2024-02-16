@@ -57,7 +57,8 @@ W3Select::W3Select()
 
 	// ”wŒi‚ÌƒeƒNƒXƒ`ƒƒ‚ðÝ’è
 	D3D_LoadTexture(L"asset/Background/Stage3SelectBack.png", &backTex);
-	backGround->SetTexture(backTex);
+	backGround[0]->SetTexture(backTex);
+	backGround[1]->SetTexture(backTex);
 
 	D3D_LoadTexture(L"asset/Text/World3Name.png", &worldNameTex);
 
