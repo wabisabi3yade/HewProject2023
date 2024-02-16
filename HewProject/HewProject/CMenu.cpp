@@ -76,7 +76,7 @@ CMenu::CMenu()
 	BTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/B_Return.png");
 
 	B_Button = new UI(textBuffer, BTexture);
-	B_Button->mTransform.pos = { -6.5f,-4.0f,UI_POS_Z };
+	B_Button->mTransform.pos = { -6.5f,-4.0f,UI_POS_Z-0.01f };
 	B_Button->mTransform.scale = { 2.4f,0.8f,1.0f };
 
 	for (int i = 0; i < 2; i++)
