@@ -11,6 +11,7 @@ namespace InputType
 		CAMERA,	// マップ中でカメラモードに切り替える
 		L_BUTTON,	// Lボタン
 		R_BUTTON,	// Rボタン
+		Undo,	// やり直し
 		NUM
 	};
 }
