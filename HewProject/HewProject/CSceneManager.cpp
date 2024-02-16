@@ -81,6 +81,26 @@ CSceneManager::~CSceneManager()
 	InputManager::Delete();
 }
 
+void CSceneManager::OnEscape()
+{
+	if (gInput->GetKeyTrigger(VK_ESCAPE))
+	{
+		int id;
+
+		id = MessageBoxA(NULL, "ゲームを終了しますか？",
+			"チェック", MB_OKCANCEL | MB_ICONQUESTION);
+
+		switch (id)
+		{
+		case IDOK:
+			Exit();
+			break;
+		case IDCANCEL:
+			break;
+		}
+	}
+}
+
 CSceneManager* CSceneManager::GetInstance()
 {
 	if (instance == nullptr)
@@ -93,7 +113,7 @@ CSceneManager* CSceneManager::GetInstance()
 
 void CSceneManager::Delete()
 {
-	
+
 	CLASS_DELETE(instance);
 	//サウンド解放処理
 	XA_Release();
@@ -105,6 +125,9 @@ void CSceneManager::Act()
 
 	// 入力の状態更新
 	inputManager->Update();
+
+	// Escapeキー入力されているか
+	OnEscape();
 
 	// 通常の処理
 	pNowScene->Update();
@@ -171,7 +194,7 @@ void CSceneManager::SceneChange(int _scene)
 		break;
 
 	case CScene::WAKAMURA:
-		
+
 		nowSceneName = CScene::WAKAMURA;
 		pNowScene = new CWorldSelectScene();
 		break;
@@ -323,7 +346,7 @@ void CSceneManager::SceneChangeStage(const wchar_t* _path)
 {
 	// 最初に解放する
 	CLASS_DELETE(pNowScene);
-	
+
 
 	pNowScene = new Stage(_path);
 }
@@ -373,7 +396,7 @@ void CSceneManager::SetPlayBgm(int _setBgm)
 		XA_Play(static_cast<SOUND_LABEL>(_setBgm));
 		playingBgm = _setBgm;
 	}
-	
+
 }
 
 
