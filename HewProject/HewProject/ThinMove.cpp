@@ -690,6 +690,13 @@ void ThinMove::CheckCanMove()
 			continue;
 		}
 
+		if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::HOLL) &&
+			player->GetNowFloor() == 1)
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
 		// その方向に移動不可のブロックなら
 		for (int j = 0; j < cantMoveBlock.size(); j++)
 		{
