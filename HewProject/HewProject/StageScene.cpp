@@ -196,14 +196,6 @@ void StageScene::Update()
 			{
 				FloorOnlyMap = !FloorOnlyMap;
 			}
-
-
-		}
-		if (gInput->GetKeyTrigger(VK_ESCAPE))
-		{
-			//player->ChangeTexture(Player::ANIM_TEX::BAUM);
-			//player->GetPlayerAnim()->PlayBaum(player->GetDirection(), 1.0f);
-			player->ChangeInvisible();
 		}
 		if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 		{
@@ -291,12 +283,7 @@ void StageScene::Update()
 			Arrow[i]->Update();
 			Arrow[i]->mTransform.pos.z = -0.35f;
 		}
-
-
 	}
-
-
-
 }
 
 void StageScene::StageMove()
@@ -458,25 +445,56 @@ void StageScene::StageMove()
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GALL)
 		{
-			CGall* gallObj = dynamic_cast<CGall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-			player->dotween->DelayedCall(BREAK_TIME / 3.0f, [&]()
+			CGall* gallObj = dynamic_cast<CGall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(),
+				static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			player->dotween->DelayedCall(BREAK_TIME / 9.0f, [&]()
 				{
-					//player->GetPlayerAnim()->animSpeed = 0.0f;
-					player->GetPlayerAnim()->SetAnimSpeedRate(0.1f);
+					player->GetPlayerAnim()->SetAnimSpeedRate(0.2f);
+					player->GetPlayerAnim()->animSpeed = 0.1f;
 				});
-			player->dotween->DelayedCall(BREAK_TIME / 2.7f, [&]()
-				{
-					player->GetPlayerAnim()->SetAnimSpeedRate(3.5f);
-				});
-			player->dotween->DelayedCall(BREAK_TIME / 2.0f, [&, gallObj]()
+			player->dotween->DelayedCall(BREAK_TIME / 5.5f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
-					//pos.y += 0.8f;
-					CCamera::GetInstance()->Zoom(0.2f, stageScale, { pos.x,pos.y, 0 });
-					//gallObj->Open(clearBuffer);
+					CCamera::GetInstance()->Zoom(0.29f, stageScale, { pos.x,pos.y, 0 });
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 1.4f, [&, gallObj]()
+				{
+					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
+					CCamera::GetInstance()->Zoom(0.27f, stageScale, { pos.x,pos.y, 0 });
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 0.8f, [&, gallObj]()
+				{
+					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
+					CCamera::GetInstance()->Zoom(0.25f, stageScale, { pos.x,pos.y, 0 });
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 0.75f, [&, gallObj]()
+				{
+					player->GetPlayerAnim()->SetAnimSpeedRate(0.0f);
+					player->GetPlayerAnim()->animSpeed = 0.0f;
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 0.5f, [&]()
+				{
+					player->GetPlayerAnim()->SetAnimSpeedRate(1.5f);
+					player->GetPlayerAnim()->animSpeed = 0.1f;
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 0.46f, [&, gallObj]()
+				{
+					player->GetPlayerAnim()->SetAnimSpeedRate(0.0f);
+					player->GetPlayerAnim()->animSpeed = 0.0f;
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 0.4f, [&]()
+				{
+					player->GetPlayerAnim()->SetAnimSpeedRate(1.0f);
+					player->GetPlayerAnim()->animSpeed = 0.1f;
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 0.395f, [&, gallObj]()
+				{
+					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
+					CCamera::GetInstance()->Zoom(0.23f, stageScale, { pos.x,pos.y, 0 });
+					//CCamera::GetInstance()->Vibration(0.5f, stageScale);
+					gallObj->Open(clearBuffer,2.0f, stageScale * 0.7f);
 				});
 		}
-
 	}
 
 	// プレイヤーが動き終えると
@@ -485,14 +503,14 @@ void StageScene::StageMove()
 		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
 			player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
 		{
-			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
+			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(),
+				static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
 			if (player->GetState() != Player::STATE::THIN)
 			{
 				if (!player->GetPlayerMove()->GetIsFalling())
 				{
 					if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
 					{
-
 						CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 						hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
 						hollObj->SetBlookType(CGridObject::BlockType::HOLL);
@@ -603,7 +621,6 @@ void StageScene::StageMove()
 						{
 							CannonItemDelete(deletePos, chiliObj->GetBlookType());
 						});
-
 				});
 			break;
 		}
@@ -636,7 +653,6 @@ void StageScene::StageMove()
 			floor->FloorBound();
 		}
 	}
-
 	if (player->GetCannonFX() == true)
 	{
 		Vector3 pos = player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START);
@@ -683,9 +699,7 @@ void StageScene::StageMove()
 
 		if (player->GetState() != nextState)
 			player->ChangeState(nextState);
-
 	}
-
 }
 
 void StageScene::TableUpdate()

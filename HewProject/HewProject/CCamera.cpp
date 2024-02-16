@@ -1,9 +1,8 @@
 #include "CCamera.h"
 #include "CScene.h"
 float CCamera::scaleScreen = 1.0f;	// ‰æ‘œ‚Ì‘å‚«‚³i’l‚ª¬‚³‚­‚È‚é‚Ù‚Ç‰æ‘œ‚Í‘å‚«‚­‚È‚éj
-
+#include"DoTween.h"
 using namespace DirectX;
-
 CCamera* CCamera::instance = nullptr;
 
 CCamera::CCamera()
@@ -23,6 +22,7 @@ CCamera* CCamera::GetInstance()
 
 void CCamera::Update()
 {
+	dotween->Update();
 }
 
 void CCamera::Zoom()
@@ -37,7 +37,7 @@ void CCamera::Zoom()
 	}
 }
 
-void CCamera::Zoom(float _targetScale, float _stageScale , Vector3 _targetPos)
+void CCamera::Zoom(float _targetScale, float _stageScale, Vector3 _targetPos)
 {
 	mTransform.scale.x = _targetScale * _stageScale;
 	mTransform.scale.y = _targetScale * _stageScale;

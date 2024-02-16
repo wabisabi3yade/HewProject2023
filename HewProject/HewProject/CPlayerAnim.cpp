@@ -73,7 +73,10 @@ void CPlayerAnim::Update()
 		{ 0,0,1,1,2,2,
 		3,3,4,4,5,5,
 		6,6,7,7,-1},
-
+		//
+		{0,0,1,2,
+		3,4,5,
+		6,7,-2},
 	};
 
 
@@ -89,13 +92,13 @@ void CPlayerAnim::Update()
 			animCounter = 0.0f;
 		}
 		// -2‚ª—ˆ‚½‚ç’â~‚³‚¹‚éˆ—
-		//else if (animTable[animPattern][(int)animCounter] == -2)
-		//{
-		//	// Ä¶‚ğ~‚ß‚é
-		//	isPlaying = false;
-		//	// Å‰‚ÌƒRƒ}‚É–ß‚µ‚Ä~‚ß‚é
-		//	animCounter = 0.0f;
-		//}
+		else if (animTable[animPattern][(int)animCounter] == -2)
+		{
+			// Ä¶‚ğ~‚ß‚é
+			animCounter -= 1.0f;
+			// Å‰‚ÌƒRƒ}‚É–ß‚µ‚Ä~‚ß‚é
+			isPlaying = false;
+		}
 	}
 
 	// •\¦‚³‚¹‚éƒRƒ}ID‚ğæ“¾
@@ -250,12 +253,15 @@ void CPlayerAnim::PlayEat(int _dir, float _animSpeedRate)
 	}
 }
 
-void CPlayerAnim::PlayPunch(float _animSpeedRate)
+void CPlayerAnim::PlayPunch(float _animSpeedRate, bool _isGall)
 {
 	isPlaying = true;
 	animCounter = 0;
 	AnimSpeedRate = _animSpeedRate;
+	if(!_isGall)
 	SetPattern(static_cast<int>(PATTERN::PUNCH));
+	else
+	SetPattern(static_cast<int>(PATTERN::GALL_PUNCH));
 }
 
 void CPlayerAnim::PlayBaum(int _dir, float _animSpeedRate)

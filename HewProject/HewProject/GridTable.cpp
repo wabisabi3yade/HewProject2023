@@ -2,7 +2,7 @@
 #include "Vector3.h"
 #include "Player.h"
 
-#define OFFSET_Z (0.0f)	// [0,0]ÇÃè∞ÇÃzç¿ïW
+#define OFFSET_Z (0.48f)	// [0,0]ÇÃè∞ÇÃzç¿ïW
 
 
 GridTable::GridTable(CGrid::GRID_XY _max, float _scale)
