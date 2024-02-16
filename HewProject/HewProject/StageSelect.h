@@ -22,6 +22,8 @@ protected:
 
     bool isSceneMoving = false;   // シーン変わっている最中か
 
+    bool isMove = false;
+
     short stageNum; // ステージの数
   
     short c_pointStage = 1;   // 選んでいるステージの数
@@ -47,7 +49,7 @@ protected:
 
 
     D3DTEXTURE backTex;    // 背景
-    UI* backGround = nullptr;
+    UI* backGround[2];
 
     D3DTEXTURE startTex;
     UI* startUI;
@@ -78,7 +80,7 @@ protected:
 
     virtual void BeginMove();   // 最初の動き
 
-public:
+public: 
     StageSelect();
 
     virtual void Update();

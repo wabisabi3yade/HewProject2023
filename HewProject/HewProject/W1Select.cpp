@@ -182,7 +182,8 @@ W1Select::W1Select()
 
 	// 背景のテクスチャを設定
 	D3D_LoadTexture(L"asset/Background/Stage1SelectBack.png", &backTex);
-	backGround->SetTexture(backTex);
+	backGround[0]->SetTexture(backTex);
+	backGround[1]->SetTexture(backTex);
 
 	// ワールド名に
 	D3D_LoadTexture(L"asset/Text/World1Name.png", &worldNameTex);
