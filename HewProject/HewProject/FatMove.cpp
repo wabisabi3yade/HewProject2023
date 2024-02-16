@@ -307,7 +307,6 @@ void FatMove::Move(DIRECTION _dir)
 
 		Vector2 junpPos = {};
 
-
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y + 0.3f;

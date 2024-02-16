@@ -331,8 +331,8 @@ void MuscleMove::Move(DIRECTION _dir)
 	{
 		player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
 		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
-		player->GetPlayerAnim()->PlayPunch(2.5f);
-		player->dotween->DelayedCall(BREAK_TIME, [&]()
+		player->GetPlayerAnim()->PlayPunch(2.0f,true);
+		player->dotween->DelayedCall(BREAK_TIME /0.2f , [&]()
 			{
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);

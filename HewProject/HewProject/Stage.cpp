@@ -3,7 +3,7 @@
 #include"Player.h"
 #include"CDirectWrite.h"
 #include "TextureFactory.h"
-
+#include"CCamera.h"
 #define BACK_POSZ (1.0f)	
 
 Stage::Stage(const wchar_t* _csvName)
@@ -132,4 +132,5 @@ Stage::~Stage()
 	CLASS_DELETE(stage);
 	CLASS_DELETE(dbgFloorTable);
 	CLASS_DELETE(dbgObjTable);
+	CCamera::GetInstance()->Init();
 }
