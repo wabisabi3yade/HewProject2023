@@ -79,7 +79,7 @@ void TextureFactory::Load()
 		L"asset/Player/Baum_Down.png",
 		L"asset/Player/Baum_Up.png",
 		L"asset/Player/Player_CanonMove.png",
-
+		L"asset/Player/F_PushWalk.png",
 		L"asset/Player/F_Aseri.png",
 		L"asset/Player/F_Drink.png",
 		L"asset/Player/M_Aseri.png",

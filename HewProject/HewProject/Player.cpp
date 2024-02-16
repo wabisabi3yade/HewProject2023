@@ -56,6 +56,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	ChangeCannonTexture = false;
 	PlayAura = false;
 	IsStop = true;
+	isCasetellaPush = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -73,12 +74,17 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 		TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
-
+	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
+	
 
 	punchTex[0] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Down.png");
 	punchTex[1] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Left.png");
 	punchTex[2] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Right.png");
 	punchTex[3] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Up.png");
+
+	castellaPushTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/F_PushWalk.png");
+
+
 
 	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 
@@ -116,11 +122,13 @@ void Player::Update()
 {
 	// フラグの初期化
 	move->FlagInit();
+	isCasetellaPush = false;
 
 	// ↓FlagInitの後
 	move->Input();
 	fallMoveTrriger = false;
 	risingMoveTrriger = false;
+	
 
 	dotween->Update();
 
@@ -138,6 +146,14 @@ void Player::Update()
 		{
 			ChangeTexture(ANIM_TEX::WALK);
 			dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction));
+
+			if (isCasetellaPush)
+			{
+				isCasetellaPush = false;
+				ChangeTexture(ANIM_TEX::PUSH_CASTELLA);
+				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction), 0.7f);
+			}
+
 			IsStop = false;
 		}
 		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false && isEat == false)
@@ -310,7 +326,7 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		SetTexture(cannonTex);
 		return;
 	}
-	if (_animTex == ANIM_TEX::EAT_CAKE)
+	else if (_animTex == ANIM_TEX::EAT_CAKE)
 	{
 		switch (playerState)
 		{
@@ -329,7 +345,7 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		isEat = true;
 		return;
 	}
-	if (_animTex == ANIM_TEX::EAT_CHILI)
+	else if (_animTex == ANIM_TEX::EAT_CHILI)
 	{
 		switch (playerState)
 		{
@@ -348,9 +364,15 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		isEat = true;
 		return;
 	}
-	if (_animTex == ANIM_TEX::PUNCH)
+	else if (_animTex == ANIM_TEX::PUNCH)
 	{
 		SetTexture(punchTex[static_cast<int>(direction)]);
+		return;
+	}
+
+	else if (_animTex == ANIM_TEX::PUSH_CASTELLA)
+	{
+		SetTexture(castellaPushTex);
 		return;
 	}
 	switch (playerState)

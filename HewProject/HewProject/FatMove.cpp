@@ -149,8 +149,10 @@ void FatMove::Move(DIRECTION _dir)
 		break;
 
 	case CGridObject::BlockType::CASTELLA:
-
+		
 		WalkStart();
+
+		player->SetIsCastellaPush(true);
 
 		// カステラが落ちると移動できるようにする
 		player->dotween->DoMoveXY(forwardPosXY, CASTELLAWALK_TIME);
@@ -651,6 +653,13 @@ void FatMove::CheckCanMove()
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
 			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
+		if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::HOLL) &&
+			player->GetNowFloor() == 1)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;

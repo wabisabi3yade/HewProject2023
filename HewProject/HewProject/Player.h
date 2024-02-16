@@ -65,6 +65,7 @@ public:
 		CANNON,
 		BAUM,
 		PUNCH,
+		PUSH_CASTELLA,
 	};
 
 private:
@@ -96,6 +97,8 @@ private:
 
 	bool IsStop;
 
+	bool isCasetellaPush;
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 	GridTable* nextGridTable; //次の階層グリッドテーブルのポインタを設定
 
@@ -104,6 +107,7 @@ private:
 	D3DTEXTURE fatTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE thinTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
+	D3DTEXTURE castellaPushTex;
 	D3DTEXTURE cannonTex;
 	//DIRECTIONと同じ向きのパンチの画像を格納
 	D3DTEXTURE punchTex[static_cast<int>(DIRECTION::NUM)];
@@ -187,5 +191,7 @@ public:
 	bool* GetCanMoveDir() { return move->GetCanMoveDir(); }
 	STATE GetState() const { return playerState; }
 	void SetCalorieGage(CalorieGage_hori* _calorie) { calorieGage = _calorie; }
+	
+	void SetIsCastellaPush(bool _set) { isCasetellaPush = _set; }
 };
 

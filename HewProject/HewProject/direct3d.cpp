@@ -268,7 +268,7 @@ HRESULT D3D_Create(HWND hwnd)
 void D3D_Release()
 {	
 	//// 最後にフルスクリーンを解放
-	//m_pSwapChain->SetFullscreenState(FALSE, NULL);
+	m_pSwapChain->SetFullscreenState(FALSE, NULL);
 
 	if (m_pImmediateContext) {
 		m_pImmediateContext->ClearState();
