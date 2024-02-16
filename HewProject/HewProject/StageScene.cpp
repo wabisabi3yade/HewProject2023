@@ -262,7 +262,7 @@ void StageScene::Update()
 			TableUpdate();
 		}
 
-		
+
 
 		if (player->GetPlayerMove()->GetIsMoveTrigger())
 		{
@@ -455,17 +455,17 @@ void StageScene::StageMove()
 			player->dotween->DelayedCall(BREAK_TIME / 5.5f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
-					CCamera::GetInstance()->Zoom(0.29f, stageScale, { pos.x,pos.y, 0 });
+					CCamera::GetInstance()->Zoom(0.35f, stageScale, { pos.x,pos.y / 2, 0 });
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 1.4f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
-					CCamera::GetInstance()->Zoom(0.27f, stageScale, { pos.x,pos.y, 0 });
+					CCamera::GetInstance()->Zoom(0.31f, stageScale, { pos.x,pos.y / 2, 0 });
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 0.8f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
-					CCamera::GetInstance()->Zoom(0.25f, stageScale, { pos.x,pos.y, 0 });
+					CCamera::GetInstance()->Zoom(0.29f, stageScale, { pos.x,pos.y / 2, 0 });
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 0.75f, [&, gallObj]()
 				{
@@ -486,13 +486,28 @@ void StageScene::StageMove()
 				{
 					player->GetPlayerAnim()->SetAnimSpeedRate(1.0f);
 					player->GetPlayerAnim()->animSpeed = 0.1f;
+					float pos = 1.0f;
+					pos *= stageScale * 0.23f;
+					CCamera::GetInstance()->SetPos({ pos,0.0f });
+					player->dotween->DelayedCall(0.1f, [&, pos]()
+						{
+							CCamera::GetInstance()->SetPos({ pos * -1.0f,0.0f });
+							player->dotween->DelayedCall(0.1f, [&, pos]()
+								{
+									CCamera::GetInstance()->SetPos({ pos,0.0f });
+									player->dotween->DelayedCall(0.1f, [&, pos]()
+										{
+											CCamera::GetInstance()->SetPos({ pos * -1.0f,0.0f });
+
+										});
+								});
+						});
 				});
-			player->dotween->DelayedCall(BREAK_TIME / 0.395f, [&, gallObj]()
+			player->dotween->DelayedCall(BREAK_TIME / 0.365f, [&, gallObj]()
 				{
-					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
-					CCamera::GetInstance()->Zoom(0.23f, stageScale, { pos.x,pos.y, 0 });
-					//CCamera::GetInstance()->Vibration(0.5f, stageScale);
-					gallObj->Open(clearBuffer,2.0f, stageScale * 0.7f);
+					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y / 2 };
+					CCamera::GetInstance()->Zoom(0.26f, stageScale, { pos.x,pos.y, 0 });
+					gallObj->Open(clearBuffer, 2.0f, stageScale * 0.4f);
 				});
 		}
 	}
@@ -1324,9 +1339,12 @@ void StageScene::Draw()
 	bool* IsArrowDraw = player->GetCanMoveDir();
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
-		if (*IsArrowDraw == true && (!player->GetIsMoving() || player->GetPlayerMove()->GetIncannon()))
+		if (!player->GetPlayerMove()->GetisLoolMap())
 		{
-			Arrow[i]->Draw();
+			if (*IsArrowDraw == true && (!player->GetIsMoving() || player->GetPlayerMove()->GetIncannon()))
+			{
+				Arrow[i]->Draw();
+			}
 		}
 		IsArrowDraw++;
 	}

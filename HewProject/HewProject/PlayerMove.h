@@ -56,6 +56,8 @@ protected:
 
 	bool isMenu;   //ƒƒjƒ…[‰æ–Ê‚ğŠJ‚¢‚Ä‚¢‚é
 
+	bool IsMissMove;
+
 	bool flagInit;
 
 	bool cannonFX;

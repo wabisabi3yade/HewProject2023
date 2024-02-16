@@ -4,7 +4,6 @@
 
 #include "direct3d.h"
 #include<iostream>
-class DoTween;
 
 // ゲームのカメラのクラス
 // カメラはプレイヤーを追従していく
@@ -16,8 +15,6 @@ class CCamera
 	~CCamera();
 
 	static CCamera* instance;
-
-	std::unique_ptr<DoTween> dotween;
 
 public:
 	static float scaleScreen;	// 画像の大きさ（値が小さくなるほど画像は大きくなる）

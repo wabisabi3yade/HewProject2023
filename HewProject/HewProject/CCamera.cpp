@@ -22,7 +22,6 @@ CCamera* CCamera::GetInstance()
 
 void CCamera::Update()
 {
-	dotween->Update();
 }
 
 void CCamera::Zoom()

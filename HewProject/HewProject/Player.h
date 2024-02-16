@@ -99,6 +99,7 @@ private:
 
 	bool isCasetellaPush;
 
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 	GridTable* nextGridTable; //次の階層グリッドテーブルのポインタを設定
 
