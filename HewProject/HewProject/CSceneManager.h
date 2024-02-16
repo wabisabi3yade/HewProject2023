@@ -31,6 +31,8 @@ private:
 	// シーンマネージャーに実体（インスタンス）
 	static CSceneManager* instance;
 
+	void OnEscape();
+
 public:
 	// シーンマネージャーを取得
 	// 初めて呼び出されたらインスタンスを生成
