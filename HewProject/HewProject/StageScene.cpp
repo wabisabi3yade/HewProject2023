@@ -136,7 +136,12 @@ void StageScene::Update()
 		player->GetPlayerMove()->SetIsMenu(true);
 		player->GetmAnim()->animSpeed = 0;
 	}
-	else {
+	else
+	{
+		if (InputManager::GetInstance()->GetInputTrigger(InputType::CANCEL))
+		{
+			Undo(stageScale);
+		}
 
 		player->GetPlayerMove()->SetIsMenu(false);
 		for (auto i : *vStageObj)
@@ -144,151 +149,153 @@ void StageScene::Update()
 			i->Update();
 		}
 		player->GetmAnim()->animSpeed = 0.1f;
-	}
-
-	StageMove();
 
 
+		StageMove();
 
-	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
-	{
-		//Arrow[i]->Update();
-		//Arrow[i]->mTransform.pos.z = -0.35f;
-	}
 
-	/// 
-	/// 階層変更している
-	/// 
 
-	if (player->GetPlayerMove()->GetisLoolMap() == true)
-	{
-		InputManager* input = InputManager::GetInstance();
-
-		if (input->GetInputTrigger(InputType::L_BUTTON))
+		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 		{
-			if (lockStageMap != nMaxFloor)
+			//Arrow[i]->Update();
+			//Arrow[i]->mTransform.pos.z = -0.35f;
+		}
+
+		/// 
+		/// 階層変更している
+		/// 
+
+		if (player->GetPlayerMove()->GetisLoolMap() == true)
+		{
+			InputManager* input = InputManager::GetInstance();
+
+			if (input->GetInputTrigger(InputType::L_BUTTON))
 			{
-				lockStageMap++;
+				if (lockStageMap != nMaxFloor)
+				{
+					lockStageMap++;
+				}
+				floorUi->SetHighlight(lockStageMap);
 			}
-			floorUi->SetHighlight(lockStageMap);
-		}
-		else if (input->GetInputTrigger(InputType::R_BUTTON))
-		{
-
-			if (lockStageMap != 1)
+			else if (input->GetInputTrigger(InputType::R_BUTTON))
 			{
-				lockStageMap--;
+
+				if (lockStageMap != 1)
+				{
+					lockStageMap--;
+				}
+				floorUi->SetHighlight(lockStageMap);
 			}
-			floorUi->SetHighlight(lockStageMap);
-		}
-		else if (input->GetInputTrigger(InputType::CANCEL))
-		{
-			lockStageMap = nowFloorNum;
-			floorUi->SetHighlight(lockStageMap);
-			player->GetPlayerMove()->CameraEnd();
-		}
-		else if (input->GetInputTrigger(InputType::OPTION))
-		{
-			FloorOnlyMap = !FloorOnlyMap;
-		}
-
-
-	}
-	if (gInput->GetKeyTrigger(VK_ESCAPE))
-	{
-		//player->ChangeTexture(Player::ANIM_TEX::BAUM);
-		//player->GetPlayerAnim()->PlayBaum(player->GetDirection(), 1.0f);
-		player->ChangeInvisible();
-	}
-	if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
-	{
-		InCanonInput();
-	}
-
-	if (player->GetPlayerMove()->GetIsFallBound())
-	{
-		if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
-			player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
-		{
-			CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
-			switch (player->GetState())
+			else if (input->GetInputTrigger(InputType::CANCEL))
 			{
-			case Player::STATE::MUSCLE:
-			case Player::STATE::FAT:
-			{
-				chocoObj->CRACK();
-				CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
-				hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
-				hollObj->SetBlookType(CGridObject::BlockType::HOLL);
-				hollObj->mTransform.scale.x = stageScale;
-				hollObj->mTransform.scale.y = stageScale;
-				hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
-				vStageObj->push_back(hollObj);
+				lockStageMap = nowFloorNum;
+				floorUi->SetHighlight(lockStageMap);
+				player->GetPlayerMove()->CameraEnd();
 			}
-			case Player::STATE::NORMAL:
+			else if (input->GetInputTrigger(InputType::OPTION))
 			{
-				if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
+				FloorOnlyMap = !FloorOnlyMap;
+			}
+
+
+		}
+		if (gInput->GetKeyTrigger(VK_ESCAPE))
+		{
+			//player->ChangeTexture(Player::ANIM_TEX::BAUM);
+			//player->GetPlayerAnim()->PlayBaum(player->GetDirection(), 1.0f);
+			player->ChangeInvisible();
+		}
+		if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
+		{
+			InCanonInput();
+		}
+
+		if (player->GetPlayerMove()->GetIsFallBound())
+		{
+			if (player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCO ||
+				player->GetPlayerMove()->CheckNextFloorType() == CGridObject::BlockType::CHOCOCRACK)
+			{
+				CChoco* chocoObj = dynamic_cast<CChoco*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextFloorType())));
+				switch (player->GetState())
+				{
+				case Player::STATE::MUSCLE:
+				case Player::STATE::FAT:
 				{
 					chocoObj->CRACK();
 					CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 					hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
 					hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+					hollObj->mTransform.scale.x = stageScale;
+					hollObj->mTransform.scale.y = stageScale;
 					hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
 					vStageObj->push_back(hollObj);
 				}
-				else
+				case Player::STATE::NORMAL:
 				{
-					chocoObj->CRACK();
-					chocoObj->SetTexture(stageTextureChocolateClack);
+					if (chocoObj->GetBlookType() == CGridObject::BlockType::CHOCOCRACK)
+					{
+						chocoObj->CRACK();
+						CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
+						hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetPlayerMove()->GetNextGridPos()));
+						hollObj->SetBlookType(CGridObject::BlockType::HOLL);
+						hollObj->mTransform.pos = (nowFloor)->GridToWorld(hollObj->GetGridPos(), static_cast<CGridObject::BlockType>(hollObj->GetBlookType()));
+						vStageObj->push_back(hollObj);
+					}
+					else
+					{
+						chocoObj->CRACK();
+						chocoObj->SetTexture(stageTextureChocolateClack);
+					}
+
+					break;
+				}
+				default:
+					break;
 				}
 
-				break;
 			}
-			default:
-				break;
-			}
+			Vector3 pos = player->mTransform.pos;
+			Vector3 scale = player->mTransform.scale;
+			pos.z -= 0.0001f;
+			pos.y -= 0.1f;
+			scale.x *= STAR_BOUND_SCALE;
+			scale.y *= STAR_BOUND_SCALE;
 
+			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::STAR_BOUND, false);
 		}
-		Vector3 pos = player->mTransform.pos;
-		Vector3 scale = player->mTransform.scale;
-		pos.z -= 0.0001f;
-		pos.y -= 0.1f;
-		scale.x *= STAR_BOUND_SCALE;
-		scale.y *= STAR_BOUND_SCALE;
+		// 動いているときと動き終わった瞬間だけ
+		if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
+		{
+			// グリッドテーブルを更新する
+			TableUpdate();
+		}
 
-		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::STAR_BOUND, false);
+		
+
+		if (player->GetPlayerMove()->GetIsMoveTrigger())
+		{
+			UndoTableUpdate();
+		}
+
+
+		//UI
+
+		//プロテイン
+		proteinUi->Update();
+
+		//カロリーゲージ
+		calorieGage->Update();
+
+		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+		{
+			Arrow[i]->Update();
+			Arrow[i]->mTransform.pos.z = -0.35f;
+		}
+
+
 	}
-	// 動いているときと動き終わった瞬間だけ
-	if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
-	{
-		// グリッドテーブルを更新する
-		TableUpdate();
-	}
-
-	if (gInput->GetKeyTrigger(VK_BACK))
-	{
-		Undo(stageScale);
-	}
-
-	if (player->GetPlayerMove()->GetIsMoveTrigger())
-	{
-		UndoTableUpdate();
-	}
 
 
-	//UI
-
-	//プロテイン
-	proteinUi->Update();
-
-	//カロリーゲージ
-	calorieGage->Update();
-
-	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
-	{
-		Arrow[i]->Update();
-		Arrow[i]->mTransform.pos.z = -0.35f;
-	}
 
 }
 
@@ -461,11 +468,11 @@ void StageScene::StageMove()
 				{
 					player->GetPlayerAnim()->SetAnimSpeedRate(3.5f);
 				});
-			player->dotween->DelayedCall(BREAK_TIME /2.0f, [&,gallObj]()
+			player->dotween->DelayedCall(BREAK_TIME / 2.0f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
 					//pos.y += 0.8f;
-					CCamera::GetInstance()->Zoom(0.2f, stageScale, { pos.x,pos.y, 0});
+					CCamera::GetInstance()->Zoom(0.2f, stageScale, { pos.x,pos.y, 0 });
 					//gallObj->Open(clearBuffer);
 				});
 		}
