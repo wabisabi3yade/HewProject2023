@@ -23,6 +23,10 @@ public:
 		ROTATION,
 		MOVECURVE,
 		EASE_OUTCUBIC,
+		EASE_OUTCUBIC_SCALE,
+		EASE_OUTBACK_SCALE,
+		EASE_INBACK_SCALE,
+		EASE_ELASTIC_SCALE,
 		DELAY
 	};
 
@@ -203,7 +207,10 @@ public:
 	void DoMoveCurve(Vector2 _targetPosXY, float _moveTime ,float _curvePos = 1.0f);
 
 	void DoEaseOutCubic(const Vector3& _targetAngle, const float& _moveTime);
-
+	void DoEaseOutCubicScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseOutBackScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseInBackScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseElasticScale(const Vector3& _targetAngle, const float& _moveTime);
 	// Ç±ÇÍà»ç~ÇÃèàóùÇíxÇÁÇπÇÈ
 	void AppendDelay(float _delayTime);
 
