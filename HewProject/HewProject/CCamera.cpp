@@ -37,9 +37,11 @@ void CCamera::Zoom()
 	}
 }
 
-void CCamera::Zoom(float _targetScale, float _stageScale)
+void CCamera::Zoom(float _targetScale, float _stageScale , Vector3 _targetPos)
 {
-	scaleScreen = _targetScale * _stageScale;
+	mTransform.scale.x = _targetScale * _stageScale;
+	mTransform.scale.y = _targetScale * _stageScale;
+	mTransform.pos = _targetPos;
 }
 
 void CCamera::Reduction()
@@ -63,6 +65,7 @@ void CCamera::Init()
 {
 	mTransform.pos = { 0, 0, 0 };
 	mTransform.rotation.z = 0.0f;
+	mTransform.scale = { 1.0f,1.0f,1.0f };
 }
 
 

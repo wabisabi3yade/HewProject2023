@@ -452,10 +452,21 @@ void StageScene::StageMove()
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GALL)
 		{
 			CGall* gallObj = dynamic_cast<CGall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			player->dotween->DelayedCall(BREAK_TIME / 3.0f, [&]()
+				{
+					//player->GetPlayerAnim()->animSpeed = 0.0f;
+					player->GetPlayerAnim()->SetAnimSpeedRate(0.1f);
+				});
+			player->dotween->DelayedCall(BREAK_TIME / 2.7f, [&]()
+				{
+					player->GetPlayerAnim()->SetAnimSpeedRate(3.5f);
+				});
 			player->dotween->DelayedCall(BREAK_TIME /2.0f, [&,gallObj]()
 				{
-					//CCamera::GetInstance()->Zoom(0.2f,stageScale);
-					gallObj->Open(clearBuffer);
+					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
+					//pos.y += 0.8f;
+					CCamera::GetInstance()->Zoom(0.2f, stageScale, { pos.x,pos.y, 0});
+					//gallObj->Open(clearBuffer);
 				});
 		}
 

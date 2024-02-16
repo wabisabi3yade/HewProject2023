@@ -48,7 +48,7 @@ public:
 	//Šg‘å
 	void Zoom();
 	// ‰æ‘œ‚Ì‘å‚«‚³i’l‚ª¬‚³‚­‚È‚é‚Ù‚Ç‰æ‘œ‚Í‘å‚«‚­‚È‚éj
-	void Zoom(float _targetScale,float _stageScale);
+	void Zoom(float _targetScale,float _stageScale, Vector3 _targetPos);
 
 	//k¬
 	void Reduction();
