@@ -403,6 +403,9 @@
     <Filter Include="ソース ファイル\Wakamura\GameClearPlayer">
       <UniqueIdentifier>{c482fedc-59c8-4fba-b11b-ffff283637c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\CoinUI">
+      <UniqueIdentifier>{7ed1ee9a-ad34-4a61-9627-34299007f8c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -771,6 +774,9 @@
     <ClInclude Include="CGameClearPlayer.h">
       <Filter>ソース ファイル\Wakamura\GameClearPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="CoinUI.h">
+      <Filter>ソース ファイル\Hashimoto\CoinUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -1138,6 +1144,9 @@
     </ClCompile>
     <ClCompile Include="CGameClearPlayer.cpp">
       <Filter>ソース ファイル\Wakamura\GameClearPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\CoinUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
