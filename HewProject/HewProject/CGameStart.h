@@ -21,9 +21,10 @@ public:
     bool isProtein;
     int nNumProtein;
     float fProteinZ;
+    bool isMoveing;
 
 public:
-    CGameStart();
+    CGameStart(int _num);
 
     ~CGameStart();
 

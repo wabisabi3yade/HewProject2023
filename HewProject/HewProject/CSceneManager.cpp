@@ -326,8 +326,8 @@ void CSceneManager::SceneChange(int _scene)
 		break;
 
 	case CScene::GAMESTART:
-		nowSceneName = CScene::GAMESTART;
-		pNowScene = new CGameStart();
+		/*nowSceneName = CScene::GAMESTART;
+		pNowScene = new CGameStart();*/
 		break;
 
 	case CScene::SCENE_NAME::LOADING:

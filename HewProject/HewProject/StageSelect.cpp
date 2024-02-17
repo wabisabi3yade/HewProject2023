@@ -54,11 +54,9 @@ void StageSelect::Input()
 		// Žæ“¾
 		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
 
-		if (Fade::GetInstance()->GetState() == Fade::STATE::STAY)
-		{
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, next);
 			isSceneMoving = true;
-		}
+
 
 	}
 	else if (input->GetInputTrigger(InputType::CANCEL))
