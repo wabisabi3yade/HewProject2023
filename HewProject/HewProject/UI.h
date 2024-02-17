@@ -10,6 +10,7 @@ class UI
 
 protected:
 	bool isActive;	// 表示・非表示機能
+
 	// uv座標を宣言
 	FLOAT_XY uv = { 0,0 };
 

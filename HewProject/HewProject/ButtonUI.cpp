@@ -14,7 +14,7 @@
 
 Vector3 ButtonUI::ButtonScaleConversion(const Vector3& _scale)
 {
-	return {_scale.x, _scale.y / BTN_HORI_RATIO, 1.0f };
+	return { _scale.x, _scale.y / BTN_HORI_RATIO, 1.0f };
 }
 
 Vector3 ButtonUI::TextScaleConversion(const Vector3& _scale)
@@ -43,7 +43,7 @@ ButtonUI::ButtonUI(D3DBUFFER _buttonBuffer, D3DTEXTURE _buttonTex, D3DBUFFER _te
 	button->MakeDotween();
 	text = new ShadowUI(_textBuffer, _textTex);
 	text->MakeDotween();
-	
+
 	SetPosition(Vector3::zero);
 	SetScale(Vector3::one);
 }
@@ -63,7 +63,7 @@ ButtonUI::~ButtonUI()
 void ButtonUI::Update()
 {
 	button->Update();
-	
+
 	text->Update();
 }
 
@@ -92,7 +92,12 @@ void ButtonUI::SetHighlight(bool _isLight)
 		text->mTransform.scale = TextScaleConversion(grayState_scale);
 	}
 
-	button->SetUV(0.0f, v);	
+	button->SetUV(0.0f, v);
+}
+
+void ButtonUI::SetFlash()
+{
+	isFlash = true;
 }
 
 void ButtonUI::SetScale(const Vector3& _scale)

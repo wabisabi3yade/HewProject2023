@@ -11,6 +11,8 @@ protected:
 	UI* text = nullptr;
 	UI* button = nullptr;
 
+	bool isFlash = false;
+
 	// ボタンを押されたときの関数を
 	std::function<void()> func = nullptr;
 
@@ -22,6 +24,8 @@ protected:
 	Vector3 grayState_scale = Vector3::one;
 
 	float textScaleTimes = 0.85f;	// ボタンを1.0とした時のテキストの倍率
+
+
 
 	virtual void ScaleLoop(Vector3 _downScale, Vector3 _upScale);
 public:
@@ -44,6 +48,8 @@ public:
 	/// </summary>
 	/// <param name="_isLight">赤くするかどうか</param>
 	virtual void SetHighlight(bool _isLight);
+
+	void SetFlash();
 
 	virtual void SetScale(const Vector3& _scale);
 

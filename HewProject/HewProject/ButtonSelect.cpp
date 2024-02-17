@@ -1,4 +1,7 @@
-#include "ButtonSelect.h""
+#include "ButtonSelect.h"
+
+
+#define PUSH_SCALETINE (0.5f)
 
 ButtonSelect::ButtonSelect()
 {
@@ -50,10 +53,35 @@ void ButtonSelect::ButtonMove(int _add)
 	buttonRegister[pointButtonID]->SetHighlight(true);
 }
 
+void ButtonSelect::SetButtonID(int _id)
+{
+	int o_point = pointButtonID;
+
+	if (_id >= buttonRegister.size())
+	{
+		_id = buttonRegister.size() - 1;
+	}
+	else if (_id < 0)
+	{
+		_id = 0;
+	}
+
+	pointButtonID = _id;
+
+	// 前のボタンのハイライト表示を止める
+	buttonRegister[o_point]->SetHighlight(false);
+
+	// 新しく指定したボタンをハイライトさせる
+	buttonRegister[pointButtonID]->SetHighlight(true);
+
+}
+
 void ButtonSelect::PushButton()
 {
 	if (!isActive) return;
+
 	buttonRegister[pointButtonID]->BeginFunc();
+	isPushed = true;
 }
 
 void ButtonSelect::Regist(ButtonUI* _registButton)
