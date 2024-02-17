@@ -4,6 +4,12 @@
 #include "InputManager.h"
 #include "ButtonUI.h"
 #include "ButtonSelect.h"
+#include "CGameClearPlayer.h"
+
+#define BUTTON_POS_Y (-2.4f)
+#define BUTTON_SCALE (4.0f)
+
+#define WHITEBG_POS_Z (-0.11f)
 
 CGameClear::CGameClear()
 {
@@ -13,7 +19,7 @@ CGameClear::CGameClear()
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->SetColor({ 255,255,255 });
 	Bg->SetAlpha(0.0f);
-	Bg->mTransform.pos = { 0,0,0.1f };
+	Bg->mTransform.pos = { 0,0,WHITEBG_POS_Z };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
 	D3D_CreateSquare({ 6,1 }, &textBuffer);
@@ -25,26 +31,26 @@ CGameClear::CGameClear()
 		Text[i]->MakeDotween();
 	}
 
-	Text[0]->mTransform.pos = { -4.7f,3.0f,-0.02f };
+	Text[0]->mTransform.pos = { -4.7f,3.0f,WHITEBG_POS_Z - 0.02f };
 	Text[0]->mTransform.scale = Vector3::zero;
 
-	Text[1]->mTransform.pos = { -2.7f,3.0f,-0.03f };
+	Text[1]->mTransform.pos = { -2.7f,3.0f,WHITEBG_POS_Z - 0.03f };
 	Text[1]->mTransform.scale = Vector3::zero;
 	Text[1]->SetUV(1.0f / 6.0f * 1.0f, 0);
 
-	Text[2]->mTransform.pos = { -0.7f,3.0f,-0.04f };
+	Text[2]->mTransform.pos = { -0.7f,3.0f,WHITEBG_POS_Z - 0.04f };
 	Text[2]->mTransform.scale = Vector3::zero;
 	Text[2]->SetUV(1.0f / 6.0f * 2.0f, 0);
 
-	Text[3]->mTransform.pos = { 1.3f,3.0f,-0.05f };
+	Text[3]->mTransform.pos = { 1.3f,3.0f,WHITEBG_POS_Z - 0.05f };
 	Text[3]->mTransform.scale = Vector3::zero;
 	Text[3]->SetUV(1.0f / 6.0f * 3.0f, 0);
 
-	Text[4]->mTransform.pos = { 3.3f,3.0f,-0.06f };
+	Text[4]->mTransform.pos = { 3.3f,3.0f,WHITEBG_POS_Z - 0.06f };
 	Text[4]->mTransform.scale = Vector3::zero;
 	Text[4]->SetUV(1.0f / 6.0f * 4.0f, 0);
 
-	Text[5]->mTransform.pos = { 5.3f,3.0f,-0.07f };
+	Text[5]->mTransform.pos = { 5.3f,3.0f,WHITEBG_POS_Z - 0.07f };
 	Text[5]->mTransform.scale = Vector3::zero;
 	Text[5]->SetUV(1.0f / 6.0f * 5.0f, 0);
 
@@ -56,16 +62,16 @@ CGameClear::CGameClear()
 	text_stageSelectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_StageSelectBack.png");
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_nextStageTexture);
-	Message[0]->SetPosition({ -3.0f,-1.0f,0 });
-	Message[0]->SetScale({ 4.0f,4.0f,1.0f });
+	Message[0]->SetPosition({ -3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.01f });
+	Message[0]->SetScale({ BUTTON_SCALE,BUTTON_SCALE,1.0f });
 	Message[0]->SetHighlight(true);
 	Message[0]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::SELECT);
 		});
 
 	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_stageSelectTexture);
-	Message[1]->SetPosition({ 3.0f,-1.0f,0 });
-	Message[1]->SetScale({ 4.0f,4.0f,1.0f });
+	Message[1]->SetPosition({ 3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.01f });
+	Message[1]->SetScale({ BUTTON_SCALE,BUTTON_SCALE,1.0f });
 	Message[1]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::GAMECLEAR);
 		});
@@ -75,12 +81,12 @@ CGameClear::CGameClear()
 
 	Frame[0] = new UI(frameBuffer, frameTexture);
 	Frame[0]->MakeDotween();
-	Frame[0]->mTransform.pos = { 16.0f,4.0f,0 };
+	Frame[0]->mTransform.pos = { 16.0f,4.0f,WHITEBG_POS_Z - 0.1f };
 	Frame[0]->mTransform.scale = { 16.0f,1,1 };
 
 	Frame[1] = new UI(frameBuffer, frameTexture);
 	Frame[1]->MakeDotween();
-	Frame[1]->mTransform.pos = { -16.0f,-4.0f,0 };
+	Frame[1]->mTransform.pos = { -16.0f,-4.0f,WHITEBG_POS_Z - 0.1f };
 	Frame[1]->mTransform.scale = { 16.0f,1,1 };
 
 	D3D_CreateSquare({ 1,1 }, &namiBuffer);
@@ -88,12 +94,12 @@ CGameClear::CGameClear()
 
 	Nami[0] = new UI(namiBuffer, namiTexture);
 	Nami[0]->MakeDotween();
-	Nami[0]->mTransform.pos = { 16.0f,3.5f,-0.01f };
+	Nami[0]->mTransform.pos = { 16.0f,3.5f,WHITEBG_POS_Z - 0.11f };
 	Nami[0]->mTransform.scale = { 16.0f,1,1 };
 
 	Nami[1] = new UI(namiBuffer, namiTexture);
 	Nami[1]->MakeDotween();
-	Nami[1]->mTransform.pos = { -16.0f,-3.5f,-0.01f };
+	Nami[1]->mTransform.pos = { -16.0f,-3.5f,WHITEBG_POS_Z - 0.11f };
 	Nami[1]->mTransform.scale = { 16.0f,1,1 };
 
 	// ボタン選択クラス作成
@@ -101,9 +107,18 @@ CGameClear::CGameClear()
 	selectControl->Regist(Message[0]);
 	selectControl->Regist(Message[1]);
 
+	D3D_CreateSquare({ 3,4 }, &playerBuffer);
+	D3D_LoadTexture(L"asset/Player/N_EatCake.png", &player_EatTexture);
+	D3D_LoadTexture(L"asset/Player/N_Walk.png", &player_WalkTexture);
+
+	player = new CGameClearPlayer(playerBuffer, player_WalkTexture);
+	player->mTransform.pos = { 9.0f,0,WHITEBG_POS_Z - 0.35f };
+	player->mTransform.scale = { 4.0f,4.0f,1.0f };
+
 	isNoMoving = false;
 	isOnce = false;
 	isFrame = false;
+	isStopAnim = false;
 }
 
 CGameClear::~CGameClear()
@@ -132,11 +147,16 @@ CGameClear::~CGameClear()
 
 	CLASS_DELETE(selectControl);
 
+	CLASS_DELETE(player);
+
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(textBuffer);
 	SAFE_RELEASE(textBoxBuffer);
 	SAFE_RELEASE(frameBuffer);
 	SAFE_RELEASE(namiBuffer);
+	SAFE_RELEASE(playerBuffer);
+	SAFE_RELEASE(player_EatTexture);
+	SAFE_RELEASE(player_WalkTexture);
 }
 
 void CGameClear::Update()
@@ -175,18 +195,6 @@ void CGameClear::Update()
 						isOnce = true;
 						});
 				});
-			/*Frame[0]->dotween->OnComplete([&]()
-				{*/
-					/*Vector3 p = Frame[1]->mTransform.pos;
-					p.x = 0.0f;
-					Frame[1]->dotween->DoEaseOutCubic(p, 1.0f);
-					p = Nami[1]->mTransform.pos;
-					p.x = 0.0f;
-					Nami[1]->dotween->DoEaseOutCubic(p, 1.0f);
-					Frame[1]->dotween->OnComplete([&]() {
-						isOnce = true;
-						});*/
-				/*});*/
 			
 			isFrame = true;
 
@@ -197,7 +205,7 @@ void CGameClear::Update()
 			
 			for (int i = 0; i < 6; i++)
 			{
-				Text[i]->dotween->DoEaseElasticScale({2.0f, 2.0f,1.0f}, 2.0f);
+				Text[i]->dotween->DoEaseElasticScale({2.0f, 2.0f,WHITEBG_POS_Z - i*0.01f }, 2.0f);
 			}
 
 			Text[5]->dotween->OnComplete([&]()
@@ -226,7 +234,23 @@ void CGameClear::Update()
 		{
 			selectControl->ButtonMove(1);
 		}
+
+		if (player->isWalkAnim == true && isStopAnim == false)
+		{
+			player->mTransform.pos.x -= 0.1f;
+			if (player->mTransform.pos.x < 0)
+			{
+				player->mTransform.pos.x = 0;
+				player->SetTexture(player_EatTexture);
+				isStopAnim = true;
+				player->isEatAnim = false;
+
+			}
+		}
+
 	}
+
+	player->Update();
 
 	Bg->Update();
 
@@ -282,4 +306,10 @@ void CGameClear::Draw()
 		}
 
 	}
+
+	if (isNoMoving == true)
+	{
+		player->Draw();
+	}
+	
 }

@@ -164,6 +164,7 @@
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="CGall.h" />
     <ClInclude Include="CGameClear.h" />
+    <ClInclude Include="CGameClearPlayer.h" />
     <ClInclude Include="CGameOver.h" />
     <ClInclude Include="CGameStart.h" />
     <ClInclude Include="CGrid.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="CGall.cpp" />
     <ClCompile Include="CGameClear.cpp" />
+    <ClCompile Include="CGameClearPlayer.cpp" />
     <ClCompile Include="CGameOver.cpp" />
     <ClCompile Include="CGameStart.cpp" />
     <ClCompile Include="CGrid.cpp" />

@@ -400,6 +400,9 @@
     <Filter Include="ソース ファイル\Wakamura\WorldSelectPic">
       <UniqueIdentifier>{e16f4f24-ded5-4a02-957b-b2ed2a06a7e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Wakamura\GameClearPlayer">
+      <UniqueIdentifier>{c482fedc-59c8-4fba-b11b-ffff283637c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -765,6 +768,9 @@
     <ClInclude Include="WorldSelectPic.h">
       <Filter>ソース ファイル\Wakamura\WorldSelectPic</Filter>
     </ClInclude>
+    <ClInclude Include="CGameClearPlayer.h">
+      <Filter>ソース ファイル\Wakamura\GameClearPlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -1129,6 +1135,9 @@
     </ClCompile>
     <ClCompile Include="WorldSelectPic.cpp">
       <Filter>ソース ファイル\Wakamura\WorldSelectPic</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameClearPlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\GameClearPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
