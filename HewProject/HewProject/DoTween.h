@@ -22,6 +22,7 @@ public:
 		SCALE,
 		ROTATION,
 		MOVECURVE,
+		EASE_OUTBACK,
 		EASE_OUTCUBIC,
 		EASE_OUTCUBIC_SCALE,
 		EASE_OUTBACK_SCALE,
@@ -211,6 +212,7 @@ public:
 	void DoEaseOutBackScale(const Vector3& _targetAngle, const float& _moveTime);
 	void DoEaseInBackScale(const Vector3& _targetAngle, const float& _moveTime);
 	void DoEaseElasticScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseOutBack(const Vector3& _targetAngle, const float& _moveTime);
 	// Ç±ÇÍà»ç~ÇÃèàóùÇíxÇÁÇπÇÈ
 	void AppendDelay(float _delayTime);
 

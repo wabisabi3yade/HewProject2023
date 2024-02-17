@@ -11,8 +11,9 @@
 #include"FloorUI.h"
 #include "CalorieGage_hori.h"
 #include "CMenu.h"
+class DoTween;
 class CArrow;
-
+class CGameClear;
 #define MAX_LAYER (3)         // 階層の最大数
 #define UNDO_ARRAY_NUM (40)	// Undoの配列の要素数
 
@@ -62,6 +63,10 @@ private:
 	GridTable* thirdFloor;	// 3階
 	GridTable* nowFloor;	// 現在の階層
 
+	std::unique_ptr<DoTween> dotween;
+
+	CGameClear* gameClear;
+
 	//ステージの縦幅と横幅
 	CGrid::GRID_XY stageSquare;
 	// ステージの大きさ
@@ -80,6 +85,12 @@ private:
 	bool FloorOnlyMap;
 
 	bool cannonMove = false;
+
+	bool gallVibration = false;
+
+	bool gallReduction = false;
+
+	bool isGameClear;
 
 	//最大フロア
 	int nMaxFloor;
