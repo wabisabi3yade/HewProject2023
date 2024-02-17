@@ -34,6 +34,7 @@ PlayerMove::PlayerMove(Player* _p)
 	flagInit = false;
 	isFallBound = false;
 	cannonFX = false;
+	IsMissMove = true;
 }
 
 PlayerMove::~PlayerMove()
@@ -54,35 +55,63 @@ void PlayerMove::Input()
 	if (gInput->GetKeyTrigger(VK_RIGHT) || (PadStick.x > 0.0f && PadStick.y > 0.0f))
 	{
 		// その方向に移動できるなら
-		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)]) return;
+		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::RIGHT));
-		if (inCannon == false && isCannonMove == false)
 			// 移動する
+		if (inCannon == false && isCannonMove == false)
+		{
 			Move(DIRECTION::RIGHT);
+			IsMissMove = false;
+		}
 
 	}
 	else if (gInput->GetKeyTrigger(VK_LEFT) || (PadStick.x < 0.0f && PadStick.y < 0.0f))
 	{
-		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)]) return;
+		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::LEFT));
 		if (inCannon == false && isCannonMove == false)
+		{
 			Move(DIRECTION::LEFT);
+			IsMissMove = false;
+		}
 
 	}
 	else if (gInput->GetKeyTrigger(VK_UP) || (PadStick.x < 0.0f && PadStick.y > 0.0f))
 	{
-		if (!canMoveDir[static_cast<int>(DIRECTION::UP)]) return;
+		if (!canMoveDir[static_cast<int>(DIRECTION::UP)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::UP));
 		if (inCannon == false && isCannonMove == false)
+		{
 			Move(DIRECTION::UP);
+			IsMissMove = false;
+		}
 
 	}
 	else if (gInput->GetKeyTrigger(VK_DOWN) || (PadStick.x > 0.0f && PadStick.y < 0.0f))
 	{
-		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)]) return;
+		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
 		if (inCannon == false && isCannonMove == false)
+		{
 			Move(DIRECTION::DOWN);
+			IsMissMove = false;
+		}
 
 	}
 	else if (input->GetInputTrigger(InputType::CAMERA))
@@ -327,7 +356,7 @@ void PlayerMove::CannonMove1()
 			player->dotween->Append(v3MovePos, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->dotween->DelayedCall(CANNONBOUND_TIME, [&, movePos]()
 				{
-					
+
 					player->SetGridPos(movePos);
 					player->GetPlayerMove()->SetNextGridPos(movePos);
 					MoveAfter();
@@ -435,13 +464,13 @@ void PlayerMove::CannonMove2()
 		)
 	{
 		Vector3 v3MovePos = player->GetGridTable()->GridToWorld(nextCannonPos, CGridObject::BlockType::START);
-		
+
 		//player->ChangeTexture(Player::ANIM_TEX::CANNON);
-		if (flagInit == false)
-		{
-			nextCannonType = static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckObjectType(nextCannonPos));
-			flagInit = true;
-		}
+		//if (flagInit == false)
+		//{
+		//	nextCannonType = static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckObjectType(nextCannonPos));
+		//	//flagInit = true;
+		//}
 		if (moveDir == static_cast<int> (DIRECTION::UP) || moveDir == static_cast<int>(DIRECTION::RIGHT))
 		{
 			player->mTransform.pos.z += ISOME_BACKMOVE;
@@ -464,11 +493,14 @@ void PlayerMove::CannonMove2()
 					player->ChangeInvisible();
 				});
 			player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
-			
+
 			player->dotween->Append(v3MovePos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
 			player->GetPlayerMove()->SetNextGridPos(nextCannonPos);
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
 				{
+					if (player->GetState() == Player::STATE::MUSCLE)
+						player->mTransform.scale.y *= 1.4f;
+
 					player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					dynamic_cast<CPlayerAnim*>(player->GetmAnim())->SetAnimSpeedRate(0.3f);
 					isCannonMove = false;
@@ -476,7 +508,7 @@ void PlayerMove::CannonMove2()
 					inCannon = false;
 
 					//player->GetPlayerMove()->SetNextGridPos(player->GetPlayerMove()->GetNextGridPos());
-					
+
 					//MoveAfter();
 					player->GetPlayerMove()->Step();
 					isCannonMoveEnd = true;
@@ -485,7 +517,6 @@ void PlayerMove::CannonMove2()
 		}
 		else
 		{
-
 			isCannonMoveStart = true;
 			player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME);
 			player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -501,7 +532,11 @@ void PlayerMove::CannonMove2()
 	}
 	else
 	{
-		Vector3 v3MovePos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START);
+		Vector3 v3MovePos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START,static_cast<int>(player->GetState()));
+		if (player->GetState() == Player::STATE::MUSCLE)
+		{
+			player->mTransform.scale.y *= 1.4f;
+		}
 		isCannonMoveStartTrigger = true;
 		isCannonMoveStart = true;
 		player->ChangeTexture(Player::ANIM_TEX::WALK);

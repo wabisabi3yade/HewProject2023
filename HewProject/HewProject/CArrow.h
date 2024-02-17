@@ -1,10 +1,11 @@
 #pragma once
-#include "CObject.h"
+#include "UI.h"
 #include<iostream>
 constexpr float ArrowDis = 0.5f;
-class DoTween;
+class DoTweenUI;
+class CObject;
 class CArrow :
-    public CObject
+    public UI
 {
 public:
     enum DIRECTION
@@ -19,7 +20,7 @@ public:
     DIRECTION dir;
 
 private:
-    std::unique_ptr<DoTween> dotween;
+    std::unique_ptr<DoTweenUI> dotween;
     Vector3 scaleUpVal;
     Vector3 scaleDownVal;
     CObject* Owner;
@@ -36,5 +37,7 @@ public:
 
     void ScaleLoop();
 
+    bool GetIsActive()const { return isActive; }
+    void Appear(Vector2 _tergetPos, float _appearSpeed);
 };
 
