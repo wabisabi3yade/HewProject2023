@@ -61,6 +61,7 @@ public:
 		EAT_CHILI,
 		ACTION,
 		WAIT,
+		PANIC,
 		NUM,
 		CANNON,
 		BAUM,
