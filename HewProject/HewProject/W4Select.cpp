@@ -60,6 +60,7 @@ W4Select::W4Select()
 	D3D_LoadTexture(L"asset/Background/Stage4SelectBack.png", &backTex);
 	backGround[0]->SetTexture(backTex);
 	backGround[1]->SetTexture(backTex);
+	backGround[2]->SetTexture(backTex);
 
 	D3D_LoadTexture(L"asset/Text/World4Name.png", &worldNameTex);
 
@@ -118,12 +119,12 @@ void W4Select::Update()
 
 	stageSmpBack->Update();
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		backGround[i]->mTransform.pos.x -= 0.05f;
-		if (backGround[i]->mTransform.pos.x < -15.99f)
+		backGround[i]->mTransform.pos.x -= 0.015f;
+		if (backGround[i]->mTransform.pos.x < -24.0f)
 		{
-			backGround[i]->mTransform.pos.x = 16.0f;
+			backGround[i]->mTransform.pos.x = 22.0f;
 		}
 
 	}

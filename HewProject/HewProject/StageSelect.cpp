@@ -125,9 +125,13 @@ StageSelect::StageSelect()
 
 	backGround[1] = new UI(oneBuf, NULL);
 	backGround[1]->MakeDotween();
-	backGround[1]->mTransform.pos = { backGround[0]->mTransform.pos.x + SCREEN_RATIO_W - 0.2f ,backGround[0]->mTransform.pos.y,  BG_POSZ };
-	//backGround[1]->mTransform.pos.z = BG_POSZ;
+	backGround[1]->mTransform.pos = { backGround[0]->mTransform.pos.x + SCREEN_RATIO_W - 0.25f ,backGround[0]->mTransform.pos.y,  BG_POSZ };
 	backGround[1]->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H , 0.9f };
+
+	backGround[2] = new UI(oneBuf, NULL);
+	backGround[2]->MakeDotween();
+	backGround[2]->mTransform.pos = { backGround[0]->mTransform.pos.x + SCREEN_RATIO_W * 2 - 0.5f ,backGround[0]->mTransform.pos.y,  BG_POSZ };
+	backGround[2]->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H , 0.9f };
 
 	// スタートUI
 	D3D_LoadTexture(L"asset/UI/B_Enter.png", &startTex);
@@ -217,12 +221,12 @@ void StageSelect::Update()
 
 	}
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		backGround[i]->mTransform.pos.x -= 0.05f;
-		if (backGround[i]->mTransform.pos.x < -15.99f)
+		backGround[i]->mTransform.pos.x -= 0.015f;
+		if (backGround[i]->mTransform.pos.x < -24.0f)
 		{
-			backGround[i]->mTransform.pos.x = 16.0f;
+			backGround[i]->mTransform.pos.x = 22.0f;
 		}
 
 	}
@@ -266,6 +270,7 @@ void StageSelect::Draw()
 
 	backGround[0]->Draw();
 	backGround[1]->Draw();
+	backGround[2]->Draw();
 
 	stageSmpBack->Draw();
 
@@ -301,6 +306,7 @@ StageSelect::~StageSelect()
 	CLASS_DELETE(stageSmpBack);
 	CLASS_DELETE(backGround[0]);
 	CLASS_DELETE(backGround[1]);
+	CLASS_DELETE(backGround[2]);
 	CLASS_DELETE(btnSelect);
 
 	SAFE_RELEASE(startTex);
