@@ -6,7 +6,7 @@
 #include "ButtonUI.h"
 #include "ButtonSelect.h"
 
-#define BLACKBG_POS_Z (-0.11f)
+#define BLACKBG_POS_Z (-0.46f)
 
 CGameOver::CGameOver()
 {
@@ -18,7 +18,7 @@ CGameOver::CGameOver()
 
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->materialDiffuse = { 1,1,1,0 };
-	Bg->mTransform.pos = { 0,0 BLACKBG_POS_Z };
+	Bg->mTransform.pos = { 0,0, BLACKBG_POS_Z };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
 	for (int i = 0; i < MAXNUM_TEXT; i++)
