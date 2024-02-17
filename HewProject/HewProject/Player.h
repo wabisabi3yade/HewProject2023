@@ -194,5 +194,6 @@ public:
 	void SetCalorieGage(CalorieGage_hori* _calorie) { calorieGage = _calorie; }
 	
 	void SetIsCastellaPush(bool _set) { isCasetellaPush = _set; }
+	bool GetIsMissMove()const { return move->GetIsMissMove(); }
 };
 

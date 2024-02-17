@@ -164,5 +164,6 @@ public:
 	void SetCannonDir(bool* _set) { *cannonMoveDir = _set; }
 	void SetIsMenu(bool _set) { isMenu = _set; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
+	bool GetIsMissMove()const { return IsMissMove; }
 };
 

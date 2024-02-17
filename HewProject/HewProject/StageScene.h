@@ -14,7 +14,7 @@
 class CArrow;
 
 #define MAX_LAYER (3)         // 階層の最大数
-#define UNDO_ARRAY_NUM (20)	// Undoの配列の要素数
+#define UNDO_ARRAY_NUM (40)	// Undoの配列の要素数
 
 class GridTable;
 
@@ -88,7 +88,7 @@ private:
 	FIELD_FLOOR floorReset;
 
 	// やり直し機能
-	FIELD_FLOOR floorUndo[20];
+	FIELD_FLOOR floorUndo[UNDO_ARRAY_NUM];
 	int nNumUndo = 0;
 	int nNextUndo = 1;
 

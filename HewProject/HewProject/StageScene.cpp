@@ -138,7 +138,7 @@ void StageScene::Update()
 	}
 	else
 	{
-		if (InputManager::GetInstance()->GetInputTrigger(InputType::CANCEL))
+		if (InputManager::GetInstance()->GetInputTrigger(InputType::Undo))
 		{
 			Undo(stageScale);
 		}
@@ -157,8 +157,8 @@ void StageScene::Update()
 
 		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 		{
-			//Arrow[i]->Update();
-			//Arrow[i]->mTransform.pos.z = -0.35f;
+			Arrow[i]->Update();
+			Arrow[i]->mTransform.pos.z = -0.35f;
 		}
 
 		/// 
@@ -329,15 +329,15 @@ void StageScene::StageMove()
 				});
 		}
 
-		if (player->GetState() == Player::STATE::MUSCLE &&
-			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CANNON)
-		{
-			CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-			cannonObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&, cannonObj]()
-				{
-					cannonObj->BlowOff(player->GetDirection());
-				});
-		}
+		//if (player->GetState() == Player::STATE::MUSCLE &&
+		//	player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CANNON)
+		//{
+		//	CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+		//	cannonObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&, cannonObj]()
+		//		{
+		//			cannonObj->BlowOff(player->GetDirection());
+		//		});
+		//}
 
 		if (player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::WATAAME)
 		{
@@ -1043,7 +1043,6 @@ void StageScene::Undo(float _stageScale)
 	// まだ使われていないのなら
 	if (floorUndo[nNumUndo].objectTable[0][0][0] == 0)
 	{
-		MessageBoxA(NULL, "これ以上戻れません", "Undo", MB_ICONERROR | MB_OK);
 		nNumUndo = o_nNumUndo;	// 引く前の階数に戻す
 		return;	// 抜ける
 	}
@@ -1341,9 +1340,17 @@ void StageScene::Draw()
 	{
 		if (!player->GetPlayerMove()->GetisLoolMap())
 		{
-			if (*IsArrowDraw == true && (!player->GetIsMoving() || player->GetPlayerMove()->GetIncannon()))
+			if (*IsArrowDraw == true && (!player->GetIsMoving() || player->GetPlayerMove()->GetIncannon()) && player->GetIsMissMove())
 			{
+				if(!Arrow[i]->GetIsActive())
+				{
+					Arrow[i]->Appear({ stageScale ,stageScale }, 0.5f);
+				}
 				Arrow[i]->Draw();
+			}
+			else 
+			{
+				Arrow[i]->SetActive(false);
 			}
 		}
 		IsArrowDraw++;

@@ -1,14 +1,15 @@
 #include "CArrow.h"
-#include"DoTween.h"
+#include"DotweenUI.h"
 #include"Player.h"
+#include"CObject.h"
 constexpr float ARROW_SCALEUP_TIME = 0.8f;
 constexpr float ARROW_WAIT_TIME = 0.8f;
 
 CArrow::CArrow(D3DBUFFER vb, D3DTEXTURE tex)
-	:CObject(vb, tex)
+	:UI(vb, tex)
 {
 	dir = NUM;
-	dotween = std::make_unique<DoTween>(this);
+	dotween = std::make_unique<DoTweenUI>(this);
 	scaleUpVal = Vector3::zero;
 	scaleDownVal = Vector3::zero;
 }
@@ -47,12 +48,12 @@ void CArrow::Update()
 		break;
 	}
 	dotween->Update();
-	CObject::Update();
+	UI::Update();
 }
 
 void CArrow::Draw()
 {
-	CObject::Draw();
+	UI::Draw();
 }
 
 void CArrow::SetArrow(D3DTEXTURE _tex)
@@ -108,7 +109,19 @@ void CArrow::ScaleLoop()
 	scaleUpVal.x *= 1.3f;
 	scaleUpVal.y *= 1.3f;
 	dotween->DoScale(scaleUpVal, ARROW_SCALEUP_TIME);
-	dotween->Append(scaleDownVal, ARROW_SCALEUP_TIME, DoTween::FUNC::SCALE);
-	dotween->Append(Vector3::zero, ARROW_WAIT_TIME, DoTween::FUNC::DELAY);
+	dotween->Append(scaleDownVal, ARROW_SCALEUP_TIME, DoTweenUI::FUNC::SCALE);
+	dotween->Append(Vector3::zero, ARROW_WAIT_TIME, DoTweenUI::FUNC::DELAY);
 	dotween->SetLoop(-1);
+}
+
+void CArrow::Appear(Vector2 _tergetPos, float _appearSpeed)
+{
+	if (isActive)
+		return;
+	else
+		isActive = true;
+	mTransform.scale.x = 0.0f;
+	mTransform.scale.y = 0.0f;
+	Vector3 pos(_tergetPos.x * 0.4f, _tergetPos.y * 0.4f, 1.0f);
+	dotween->DoEaseOutBackScale(pos, _appearSpeed);
 }

@@ -4,7 +4,8 @@
 MuscleMove::MuscleMove(Player* _p)
 	:PlayerMove(_p)
 {
-	cantMoveBlock = { 0,5,6,7,18 };
+	cantMoveBlock = { 0,5,6,7, };
+	IsMissMove = false;
 }
 
 MuscleMove::~MuscleMove()
@@ -193,15 +194,18 @@ void MuscleMove::Move(DIRECTION _dir)
 				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(player->GetState())));
 				player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+				if (player->GetNowFloor() != 1)
 				{
-					//バウンドする高さを計算　代入
-					float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
-					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-					player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
-						{
-							isFallBound = true;
-						});
+					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					{
+						//バウンドする高さを計算　代入
+						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+							{
+								isFallBound = true;
+							});
+					}
 				}
 				player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
 					{
@@ -295,44 +299,73 @@ void MuscleMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::CANNON:
 	{
-		player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
-		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
-		player->GetPlayerAnim()->PlayPunch(2.5f);
-		player->dotween->DoDelay(BREAK_TIME);
-		player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-		player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos]()
+		//player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
+		//player->ChangeTexture(Player::ANIM_TEX::PUNCH);
+		//player->GetPlayerAnim()->PlayPunch(2.5f);
+		//player->dotween->DoDelay(BREAK_TIME);
+		//player->dotween->Append(forwardPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+		//player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		//player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos]()
+		//	{
+		//		player->ChangeTexture(Player::ANIM_TEX::WALK);
+		//		player->GetPlayerAnim()->PlayWalk(player->GetDirection());
+		//		WalkStart();
+		//		if (_dir == DIRECTION::UP || _dir == DIRECTION::RIGHT)
+		//		{
+		//			player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
+		//			player->mTransform.pos.z += ISOME_BACKMOVE;
+		//		}
+		//		// 手前のマスに行くときは先にZ座標を手前に合わせる
+		//		else
+		//		{
+		//			player->mTransform.pos.z = forwardPos.z;
+		//		}
+		//		player->dotween->DelayedCall(WALK_TIME, [&]()
+		//			{
+		//				WalkAfter();
+		//				MoveAfter();
+		//				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		//				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+		//			});
+		//	});
+
+		WalkStart();
+		Vector2 junpPos = {};
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START/*, static_cast<int>(player->GetState())*/));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DelayedCall(JUMP_TIME / 1.5f, [&]()
 			{
-				player->ChangeTexture(Player::ANIM_TEX::WALK);
-				player->GetPlayerAnim()->PlayWalk(player->GetDirection());
-				WalkStart();
-				if (_dir == DIRECTION::UP || _dir == DIRECTION::RIGHT)
-				{
-					player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
-					player->mTransform.pos.z += ISOME_BACKMOVE;
-				}
-				// 手前のマスに行くときは先にZ座標を手前に合わせる
-				else
-				{
-					player->mTransform.pos.z = forwardPos.z;
-				}
-				player->dotween->DelayedCall(WALK_TIME, [&]()
-					{
-						WalkAfter();
-						MoveAfter();
-						player->GetPlayerAnim()->StopWalk(player->GetDirection());
-						player->ChangeTexture(Player::ANIM_TEX::WAIT);
-					});
+				cannonFX = true;
+				player->ChangeInvisible();
+			});
+		//大砲に入るとき左下に最高地点が高いのを制御する
+		float CurvePosControlVal = 1.0f;
+		// 手前のマスに行くときは先にZ座標を手前に合わせる
+		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
+		{
+			player->mTransform.pos.z = forwardPos.z - 0.20001f;
+			CurvePosControlVal = 0.7f;
+		}
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * CurvePosControlVal * player->GetGridTable()->GetGridScale().y));
+		player->dotween->Append(forwardPos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+				player->SetGridPos(nextGridPos);
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+				player->GetPlayerMove()->InCannon();
+				player->mTransform.scale.y /= 1.4f;
 			});
 		break;
 	}
-	break;
 	case CGridObject::BlockType::GALL:
 	{
 		player->mTransform.pos.z = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START).z;
 		player->ChangeTexture(Player::ANIM_TEX::PUNCH);
-		player->GetPlayerAnim()->PlayPunch(2.0f,true);
-		player->dotween->DelayedCall(BREAK_TIME /0.2f , [&]()
+		player->GetPlayerAnim()->PlayPunch(2.0f, true);
+		player->dotween->DelayedCall(BREAK_TIME / 0.2f, [&]()
 			{
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -418,15 +451,18 @@ void MuscleMove::Step()
 		player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 		Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START, static_cast<int>(player->GetState())));
 		player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-		if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+		if (player->GetNowFloor() != 1)
 		{
-			//バウンドする高さを計算　代入
-			float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
-			player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-			player->dotween->DelayedCall(FALL_TIME + WALK_TIME + FALLMOVE_TIME * 2, [&]()
-				{
-					isFallBound = true;
-				});
+			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+			{
+				//バウンドする高さを計算　代入
+				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+				player->dotween->DelayedCall(FALL_TIME + WALK_TIME + FALLMOVE_TIME * 2, [&]()
+					{
+						isFallBound = true;
+					});
+			}
 		}
 		player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
 			{

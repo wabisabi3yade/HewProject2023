@@ -7,6 +7,7 @@ ThinMove::ThinMove(Player* _p)
 {
 	// 移動不可能な床の種類を決める
 	cantMoveBlock = { 0, 2, 5, 16 };
+	IsMissMove = false;
 }
 
 void ThinMove::Move(DIRECTION _dir)
