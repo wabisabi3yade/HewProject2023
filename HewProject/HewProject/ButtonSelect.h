@@ -2,6 +2,8 @@
 #include <vector>
 #include "ButtonUI.h"
 
+#define PUSH_SCALETIMES (1.3f)
+
 class ButtonSelect
 {
 	bool isActive = true;	// 今使われているかどうか
@@ -12,6 +14,8 @@ class ButtonSelect
 
 	bool c_isInput = false;
 	bool o_isInput = false;
+
+	bool isPushed = false;
 public:
 	ButtonSelect();
 	~ButtonSelect();
@@ -24,6 +28,8 @@ public:
 	/// </summary>
 	/// <param name="_add">ボタンをいくつ移動させるか（引くときはマイナスの値を指定）</param>
 	void ButtonMove(int _add);
+
+	void SetButtonID(int _id);
 
 
 	// 今指定しているボタンの関数を実行

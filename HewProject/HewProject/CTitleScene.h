@@ -53,6 +53,8 @@ public:
     ButtonSelect* selectControl;
     CTitlePlayer* player[MAXNUM_PLAYER];
 
+    const Vector3 buttonBaseScale = { 4,4,1 };
+
     bool isNoMoving;
     bool isOnce;
 
