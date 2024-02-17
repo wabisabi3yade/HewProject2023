@@ -77,6 +77,11 @@ void CPlayerAnim::Update()
 		{0,0,1,2,
 		3,4,5,
 		6,7,-2},
+
+		{0,0,1,1,2,2,
+		 3,3,4,4,5,5,
+		 6,6,7,7,8,8,-1},
+
 	};
 
 
@@ -283,6 +288,14 @@ void CPlayerAnim::PlayBaum(int _dir, float _animSpeedRate)
 		SetPattern(static_cast<int>(PATTERN::BAUM));
 		break;
 	}
+}
+
+void CPlayerAnim::PlayGallEat(float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	SetPattern(static_cast<int>(PATTERN::GALL_EAT));
 }
 
 

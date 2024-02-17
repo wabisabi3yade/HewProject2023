@@ -519,7 +519,7 @@ void PlayerMove::CannonMove2()
 		{
 			isCannonMoveStart = true;
 			player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME);
-			player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+			player->dotween->Append(v3MovePos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
 			isCannonMoveStartTrigger = true;
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
 				{
