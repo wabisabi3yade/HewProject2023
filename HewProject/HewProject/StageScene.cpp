@@ -22,6 +22,8 @@
 #include"CCamera.h"
 #include"DoTween.h"
 #include"CGameClear.h"
+#include"CGameOver.h"
+
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
@@ -38,6 +40,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	dotween = std::make_unique<DoTween>(CCamera::GetInstance());
 
 	gameClear = new CGameClear();
+	gameOver = new CGameOver();
 
 	isGameClear = false;
 
@@ -49,8 +52,8 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	switch (worldNum)
 	{
 	case 1:
-		stageTextureFloor = texFactory->Fetch(L"asset/Stage/pfloor_world1.png");
-		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/gfloor_world1.png");
+		stageTextureFloor = texFactory->Fetch(L"asset/Stage/one_fp.png");
+		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/one_fg.png");
 		break;
 
 	case 2:
@@ -60,12 +63,12 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 
 	case 3:
 		stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
-		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
+		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/third_fr.png");
 		break;
 
 	case 4:
-		stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
-		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
+		stageTextureFloor = texFactory->Fetch(L"asset/Stage/Ex_fp.png");
+		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/Ex_fy.png");
 		break;
 	}
 
@@ -145,6 +148,7 @@ StageScene::~StageScene()
 		CLASS_DELETE(Arrow[i]);
 	}
 	CLASS_DELETE(gameClear);
+	//CLASS_DELETE(gameOver);
 	//CLASS_DELETE();
 
 }
@@ -313,6 +317,10 @@ void StageScene::Update()
 		if (isGameClear)
 		{
 			gameClear->Update();
+		}
+		if (player->GetIsGameOver())
+		{
+			gameOver->Update();
 		}
 
 	}
@@ -1391,6 +1399,10 @@ void StageScene::Draw()
 	if (isGameClear)
 	{
 		gameClear->Draw();
+	}
+	if (player->GetIsGameOver())
+	{
+		gameOver->Draw();
 	}
 
 }

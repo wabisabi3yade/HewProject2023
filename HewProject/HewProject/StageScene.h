@@ -14,6 +14,7 @@
 class DoTween;
 class CArrow;
 class CGameClear;
+class CGameOver;
 #define MAX_LAYER (3)         // 階層の最大数
 #define UNDO_ARRAY_NUM (40)	// Undoの配列の要素数
 
@@ -66,6 +67,7 @@ private:
 	std::unique_ptr<DoTween> dotween;
 
 	CGameClear* gameClear;
+	CGameOver* gameOver;
 
 	//ステージの縦幅と横幅
 	CGrid::GRID_XY stageSquare;
