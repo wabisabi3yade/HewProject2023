@@ -140,9 +140,12 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::DRINK);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
 						MoveAfter();
+						player->EatEnd();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
@@ -230,7 +233,6 @@ void FatMove::Move(DIRECTION _dir)
 				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
 					{
 						player->Fall();
-						player->ChangeTexture(Player::ANIM_TEX::WALK);
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
@@ -287,7 +289,6 @@ void FatMove::Move(DIRECTION _dir)
 				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 				{
 					//バウンドする高さを計算　代入
-					//player->Fall();
 					float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 					player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
@@ -428,6 +429,7 @@ void FatMove::Step()
 				scale.y *= SMOKE_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 				player->EatEnd();
+				FallAfter();
 				player->EatCake();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -454,6 +456,7 @@ void FatMove::Step()
 					scale.y *= SMOKE_SCALE;
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 				}
+				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
@@ -479,7 +482,6 @@ void FatMove::Step()
 		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 			{
 				player->Fall();
-				player->ChangeTexture(Player::ANIM_TEX::WALK);
 			});
 		player->dotween->DoDelay(FALL_TIME);
 		player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
@@ -531,7 +533,6 @@ void FatMove::Step()
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
 				//バウンドする高さを計算　代入
-				//player->Fall();
 				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
@@ -560,7 +561,6 @@ void FatMove::Step()
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		// ↑にジャンプする
-
 	}
 	break;
 

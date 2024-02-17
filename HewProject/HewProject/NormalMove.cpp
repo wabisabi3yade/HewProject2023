@@ -146,11 +146,13 @@ void NormalMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
+				player->ChangeTexture(Player::ANIM_TEX::DRINK);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				WalkAfter();
-
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
 						MoveAfter();
+						player->EatEnd();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
@@ -178,7 +180,6 @@ void NormalMove::Move(DIRECTION _dir)
 				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
 					{
 						player->Fall();
-						player->ChangeTexture(Player::ANIM_TEX::WALK);
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
 					});
 				player->dotween->DoDelay(FALL_TIME);
@@ -368,6 +369,7 @@ void NormalMove::Step()
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+				FallAfter();
 				player->EatEnd();
 				player->EatCake();
 				FallAfter();
@@ -393,6 +395,7 @@ void NormalMove::Step()
 				}
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+				FallAfter();
 				player->EatChilli();
 				player->EatEnd();
 				FallAfter();
@@ -444,7 +447,6 @@ void NormalMove::Step()
 		player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
 			{
 				player->Fall();
-				player->ChangeTexture(Player::ANIM_TEX::WALK);
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
 			});
 		player->dotween->DoDelay(FALL_TIME);
@@ -485,15 +487,12 @@ void NormalMove::Step()
 		fallPosXY.y = fallPos.y;
 		player->Fall();
 		player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
-		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
-			//player->Fall();
 		player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 		Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 		if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 		{
 			//バウンドする高さを計算　代入
-			//player->Fall();
 			float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 			player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 			player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()

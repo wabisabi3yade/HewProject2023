@@ -62,6 +62,7 @@ public:
 		ACTION,
 		WAIT,
 		PANIC,
+		DRINK,
 		NUM,
 		CANNON,
 		BAUM,
