@@ -184,6 +184,7 @@ W1Select::W1Select()
 	D3D_LoadTexture(L"asset/Background/Stage1SelectBack.png", &backTex);
 	backGround[0]->SetTexture(backTex);
 	backGround[1]->SetTexture(backTex);
+	backGround[2]->SetTexture(backTex);
 
 	// ƒ[ƒ‹ƒh–¼‚É
 	D3D_LoadTexture(L"asset/Text/World1Name.png", &worldNameTex);

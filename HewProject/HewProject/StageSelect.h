@@ -49,7 +49,7 @@ protected:
 
 
     D3DTEXTURE backTex;    // îwåi
-    UI* backGround[2];
+    UI* backGround[3];
 
     D3DTEXTURE startTex;
     UI* startUI;

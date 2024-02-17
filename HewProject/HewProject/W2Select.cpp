@@ -58,6 +58,7 @@ W2Select::W2Select()
 	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &backTex);
 	backGround[0]->SetTexture(backTex);
 	backGround[1]->SetTexture(backTex);
+	backGround[2]->SetTexture(backTex);
 
 	D3D_LoadTexture(L"asset/Text/World2Name.png", &worldNameTex);
 
