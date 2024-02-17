@@ -27,6 +27,8 @@ private:
 	bool isSceneChange = false;
 	bool isLoadChange = false;
 
+	bool isFadeInEnd = false;
+
 	int nextScene;	// 次のシーン
 
 	// アクティブ/非アクティブ切り替え変数

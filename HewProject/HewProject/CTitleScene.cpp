@@ -330,7 +330,7 @@ void CTitleScene::Update()
 
 		if (input->GetInputTrigger(InputType::DECIDE))
 		{
-			selectControl->PushButton();
+			selectControl->PushButton(true);
 		}
 
 

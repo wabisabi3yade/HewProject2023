@@ -84,7 +84,7 @@ void Fade::Update()
 {
 	if (!isActive) return;
 
-	
+	backGround->dotween->Update();
 
 	// ó‘Ô‚²‚Æ‚É–ˆƒtƒŒ[ƒ€s‚¤ˆ—
 	switch (state)
@@ -109,8 +109,14 @@ void Fade::Update()
 		break;
 	}
 
+	if (isFadeInEnd)
+	{
+		isFadeInEnd = false;
+
+		FadeOutInit();
+	}
 	
-	backGround->dotween->Update();
+	
 	if (nowLoading != nullptr)
 	{
 		nowLoading->Update();
@@ -178,7 +184,7 @@ void Fade::FadeOutInit()
 	v.x = FADEOUT_POSX;
 	v.z = FADE_BASE_POSZ;
 
-	/*backGround->dotween->Stop();*/
+	backGround->dotween->Stop();
 	backGround->dotween->DoEaseOutCubic(v, FADE_TIME);
 	backGround->dotween->OnComplete([&]()
 		{
@@ -231,7 +237,7 @@ void Fade::FadeIn(const STATE& _nextState, std::function<void()> _onFunc, int _s
 			switch (nextState)
 			{
 			case STATE::FADE_OUT:
-				FadeOutInit();
+				/*FadeOutInit();*/ isFadeInEnd = true;
 				break;
 
 			case STATE::LOADING:

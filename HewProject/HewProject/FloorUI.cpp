@@ -10,7 +10,10 @@
 
 FloorUI::FloorUI(const int& _startFloorNum, const int& _maxNum)
 {
-	mTransform.pos = {7.0f, -2.0f, 0.0f};
+	baseUI = new UI();
+	baseUI->MakeDotween();
+
+	baseUI->mTransform.pos = {7.0f, -2.0f, 0.0f};
 
 	// Ç±ÇÃäKëwÇ…ïKóvÇ»äKëwUIÇÃêî
 	stageFloorNum = _maxNum;
@@ -39,6 +42,18 @@ FloorUI::FloorUI(const int& _startFloorNum, const int& _maxNum)
 	SetHighlight(_startFloorNum);
 }
 
+void FloorUI::Update()
+{
+	baseUI->Update();
+
+	if (baseUI->mTransform.pos != o_pos)
+	{
+		SetPosition();
+	}
+
+	o_pos = baseUI->mTransform.pos;
+}
+
 FloorUI::~FloorUI()
 {
 	SAFE_RELEASE(buffer);
@@ -51,6 +66,8 @@ FloorUI::~FloorUI()
 			CLASS_DELETE(floor[i][j]);
 		}
 	}
+
+	CLASS_DELETE(baseUI);
 }
 
 void FloorUI::Draw()
@@ -102,22 +119,22 @@ void FloorUI::SetPosition()
 	// äKëwÇ≤Ç∆ÇÃUIç¿ïWê›íË
 	for (int i = 0; i < stageFloorNum; i++)
 	{
-		float ypos = mTransform.pos.y + i * FLOOR_UI_OFFSETY;
+		float ypos = baseUI->mTransform.pos.y + i * FLOOR_UI_OFFSETY;
 
-		floor[i][0]->mTransform.pos = mTransform.pos;
+		floor[i][0]->mTransform.pos = baseUI->mTransform.pos;
 		floor[i][0]->mTransform.pos.y = ypos;
 		floor[i][0]->mTransform.scale = grayScale;
 
 
-		floor[i][1]->mTransform.pos = mTransform.pos;
+		floor[i][1]->mTransform.pos = baseUI->mTransform.pos;
 		floor[i][1]->mTransform.pos.x += F_OFFSETX;
 		floor[i][1]->mTransform.pos.y = ypos;
 		floor[i][1]->mTransform.pos.z -= F_OFFSETZ;
 		floor[i][1]->mTransform.scale = grayScale;
 	}
 
-	floor[nowHilghtFloor - 1][0]->mTransform.pos.x = mTransform.pos.x - HIGHLIGHT_OFFSET_X;
+	floor[nowHilghtFloor - 1][0]->mTransform.pos.x = baseUI->mTransform.pos.x - HIGHLIGHT_OFFSET_X;
 	floor[nowHilghtFloor - 1][0]->mTransform.scale = highlightScale;
-	floor[nowHilghtFloor - 1][1]->mTransform.pos.x = mTransform.pos.x + HIGHLIGHT_OFFSET_X;
+	floor[nowHilghtFloor - 1][1]->mTransform.pos.x = baseUI->mTransform.pos.x + HIGHLIGHT_OFFSET_X;
 	floor[nowHilghtFloor - 1][1]->mTransform.scale = highlightScale;
 }

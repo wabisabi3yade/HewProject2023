@@ -11,7 +11,9 @@ class FloorUI
 	D3DBUFFER buffer;
 	UI* floor[max][2];  // UI
 
-	Transform mTransform;
+	UI* baseUI;
+
+	Vector3 o_pos;
 
 	// 灰色のときの大きさ
 	Vector3 grayScale = { 0.5f,0.6f, 1.0f };
@@ -29,11 +31,15 @@ public:
 	/// <param name="_maxNum">最大の階層</param>
 	FloorUI(const int& _startFloorNum, const int& _maxNum);
 
+	void Update();
+
 	~FloorUI();
 
 	void Draw();
 
 	// ハイライトさせたい階層を設定
 	void SetHighlight(int _set);
+
+	DoTweenUI* GetDotween() { return baseUI->dotween; }
 };
 

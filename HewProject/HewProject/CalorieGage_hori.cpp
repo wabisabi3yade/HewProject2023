@@ -17,10 +17,13 @@
 #define MARK_SCALETIME (0.75f)	// 目盛り大きくなる時間
 CalorieGage_hori::CalorieGage_hori()
 {
+	base = new UI();
+	base->MakeDotween();
+
 	// 初期化
-	mTransform.pos = {};
-	mTransform.scale = { 1,1,1 };
-	mTransform.rotation = {};
+	base->mTransform.pos = {};
+	base->mTransform.scale = { 1,1,1 };
+	base->mTransform.rotation = {};
 
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 
@@ -29,7 +32,7 @@ CalorieGage_hori::CalorieGage_hori()
 
 	D3D_CreateSquare({ 1,1 }, &oneBuffer);
 
-	const Vector3& basePos = mTransform.pos;
+	const Vector3& basePos = base->mTransform.pos;
 
 	// ゲージ背景
 	texWork = texFactory->Fetch(L"asset/UI/Gage_Back.png");
@@ -69,8 +72,8 @@ CalorieGage_hori::CalorieGage_hori()
 	}
 
 	// UIを並べる
-	SetPosition(mTransform.pos);
-	SetScale(mTransform.scale);
+	SetPosition(base->mTransform.pos);
+	SetScale(base->mTransform.scale);
 
 	// 目盛りを初期カロリーに反映させる
 	SetCalorie(calorieNum, false);
@@ -93,6 +96,8 @@ CalorieGage_hori::~CalorieGage_hori()
 	}
 	CLASS_DELETE(rogo);
 	CLASS_DELETE(back);
+
+	CLASS_DELETE(base);
 }
 
 void CalorieGage_hori::Update()
@@ -101,6 +106,15 @@ void CalorieGage_hori::Update()
 	{
 		mark[i]->Update();
 	}
+
+	base->Update();
+
+	if (base->mTransform.pos != o_pos)
+	{
+		SetPosition(base->mTransform.pos);
+	}
+
+	o_pos = base->mTransform.pos;
 }
 
 void CalorieGage_hori::Draw()
@@ -128,11 +142,11 @@ void CalorieGage_hori::Draw()
 
 void CalorieGage_hori::SetPosition(const Vector3& _pos)
 {
-	mTransform.pos = _pos;
+	base->mTransform.pos = _pos;
 
 	// UI全ても変える
-	const Vector3& basePos = mTransform.pos;
-	const Vector3& baseScale = mTransform.scale;
+	const Vector3& basePos = base->mTransform.pos;
+	const Vector3& baseScale = base->mTransform.scale;
 
 	back->mTransform.pos = basePos;
 	back->mTransform.pos.z = basePos.z;
@@ -157,10 +171,10 @@ void CalorieGage_hori::SetPosition(const Vector3& _pos)
 void CalorieGage_hori::SetScale(const Vector3& _scale)
 {
 	// 大きさを変える
-	mTransform.scale = _scale;
+	base->mTransform.scale = _scale;
 
 	// UI全ても変える
-	const Vector3& basePos = mTransform.pos;
+	const Vector3& basePos = base->mTransform.pos;
 
 
 	// スケールを反映させる
@@ -218,8 +232,8 @@ void CalorieGage_hori::SetCalorie(const short& _set, bool action)
 		{
 			// 表示させて大きさを変える
 			mark[roop]->SetActive(true);
-			mark[roop]->mTransform.scale.x = mTransform.scale.x * markScale.x;
-			mark[roop]->mTransform.scale.y = mTransform.scale.y * markScale.y;
+			mark[roop]->mTransform.scale.x = base->mTransform.scale.x * markScale.x;
+			mark[roop]->mTransform.scale.y = base->mTransform.scale.y * markScale.y;
 		}
 		
 		for (; roop < MARKNUM_MAX; roop++)
@@ -268,7 +282,7 @@ void CalorieGage_hori::MarkAdd(const short& _oldNum, const short& _add)
 			mark[i]->mTransform.scale.x = 0.0f;
 			mark[i]->mTransform.scale.y = 0.0f;
 			// 目標の大きさ
-			Vector3 target = mTransform.scale * markScale;
+			Vector3 target = base->mTransform.scale * markScale;
 			target.z = 1.0f;
 			mark[i]->dotween->DoEaseOutBackScale(target, MARK_SCALETIME);
 		}
@@ -289,7 +303,7 @@ void CalorieGage_hori::MarkAdd(const short& _oldNum, const short& _add)
 					// 減らした後に増やすと時間差で非表示になってしまうので対策
 					if (i <= calorieNum)
 					{
-						Vector3 target = mTransform.scale * markScale;
+						Vector3 target = base->mTransform.scale * markScale;
 						mark[i - 1]->mTransform.scale = target;
 						mark[i - 1]->SetActive(true);
 					}
@@ -300,7 +314,7 @@ void CalorieGage_hori::MarkAdd(const short& _oldNum, const short& _add)
 
 void CalorieGage_hori::NumUISetting()
 {
-	const Vector3& baseScale = mTransform.scale;
+	const Vector3& baseScale = base->mTransform.scale;
 
 	// 数字
 	// 2桁未満ならロゴの中心にセットする
