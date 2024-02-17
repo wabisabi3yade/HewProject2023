@@ -4,7 +4,7 @@
 
 #define TEXT_BASEPOSX (2.0f)	// テキスト1文字目のX座標
 #define TEXT_SIN_BASEPOSY (0.0f)	// サイン関数で動かす軸となるY座標
-#define TEXT_POSZ (-0.49f)	// テキストのZ座標
+#define TEXT_POSZ (-0.499f)	// テキストのZ座標
 
 #define ALL_SCALE (0.93f)	// テキストの全体の倍率
 #define TEXT_SPACE_X (ALL_SCALE * 0.55f)	//	文字間のスペース

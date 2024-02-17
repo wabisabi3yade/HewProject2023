@@ -14,8 +14,8 @@ Fade_TestScene::Fade_TestScene()
 
 	floorUI = new FloorUI(1, 3);
 
-	gage->SetScale({ 0.5f, 0.5f,1.0f });
-	gage->SetPosition({ 3.0,3.0f,1.0f });
+	gage->SetScale({ 2.0f, 2.0f,1.0f });
+	gage->SetPosition({ 1.0f,0.0f,0.0f });
 
 	D3D_CreateSquare({ 1,2 }, &buffer);
 	D3D_CreateSquare({ 1,1 }, &b);
@@ -28,7 +28,7 @@ Fade_TestScene::Fade_TestScene()
 
 	proteinUI = new ProteinUI(3, false);
 	proteinUI->SetPosition({ 3.0f,4.0f, 0.0f });
-	proteinUI->SetScale({ 2.0f,2.0f});
+	proteinUI->SetScale({ 2.0f,2.0f });
 	proteinUI->SetActive(false);
 
 	proteinUI->GetDotween()->DoMove({ -5.0f, 2.0f,1.0f }, 1.0f);
@@ -124,9 +124,9 @@ void Fade_TestScene::Draw()
 {
 	gage->Draw();
 
-	floorUI->Draw();
+	/*floorUI->Draw();*/
 
 	/*buttonUI->Draw();*/
 
-	proteinUI->Draw();
+	//proteinUI->Draw();
 }

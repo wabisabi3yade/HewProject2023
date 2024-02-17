@@ -8,7 +8,7 @@
 
 #define FADESCALE_X (20.0f)
 #define FADESCALE_Y (9.0f)
-#define FADE_BASE_POSZ (-0.45f)	// フェードの基準座標
+#define FADE_BASE_POSZ (-0.498f)	// フェードの基準座標
 #define FADEOUT_POSX (16.0f + FADESCALE_X / 2.0f)	// フェードアウトの時に向かうX座標
 
 #define FADE_TIME (1.5f)
