@@ -6,6 +6,8 @@
 #include "ButtonUI.h"
 #include "ButtonSelect.h"
 
+#define BLACKBG_POS_Z (-0.11f)
+
 CGameOver::CGameOver()
 {
 	D3D_CreateSquare({ 7,1 }, &text_failedBuffer);
@@ -16,7 +18,7 @@ CGameOver::CGameOver()
 
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->materialDiffuse = { 1,1,1,0 };
-	Bg->mTransform.pos = { 0,0,0.1f };
+	Bg->mTransform.pos = { 0,0 BLACKBG_POS_Z };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
 	for (int i = 0; i < MAXNUM_TEXT; i++)
@@ -37,39 +39,39 @@ CGameOver::CGameOver()
 	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_Wait.png");
 
 
-	Text[0]->mTransform.pos = { -3.5f,6.0f,0 };
+	Text[0]->mTransform.pos = { -3.5f,6.0f, BLACKBG_POS_Z-0.01f };
 	Text[0]->mTransform.scale = { 1.0f,1.0f,1.0f };
 
-	Text[1]->mTransform.pos = { -2.5f,6.0f,0 };
+	Text[1]->mTransform.pos = { -2.5f,6.0f,BLACKBG_POS_Z - 0.01f };
 	Text[1]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	Text[1]->SetUV(1.0f/7.0f*1.0f,0);
 
-	Text[2]->mTransform.pos = { -1.5f,6.0f,0 };
+	Text[2]->mTransform.pos = { -1.5f,6.0f,BLACKBG_POS_Z - 0.01f };
 	Text[2]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	Text[2]->SetUV(1.0f / 7.0f * 2.0f, 0);
 
-	Text[3]->mTransform.pos = { -0.5f,6.0f,0 };
+	Text[3]->mTransform.pos = { -0.5f,6.0f,BLACKBG_POS_Z - 0.01f };
 	Text[3]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	Text[3]->SetUV(1.0f / 7.0f * 3.0f, 0);
 
-	Text[4]->mTransform.pos = { 0.5f,6.0f,0 };
+	Text[4]->mTransform.pos = { 0.5f,6.0f,BLACKBG_POS_Z - 0.01f };
 	Text[4]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	Text[4]->SetUV(1.0f / 7.0f * 4.0f, 0);
 
-	Text[5]->mTransform.pos = { 1.5f,6.0f,0 };
+	Text[5]->mTransform.pos = { 1.5f,6.0f,BLACKBG_POS_Z - 0.01f };
 	Text[5]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	Text[5]->SetUV(1.0f / 7.0f * 5.0f, 0);
 
-	Text[6]->mTransform.pos = { 2.5f,6.0f,0 };
+	Text[6]->mTransform.pos = { 2.5f,6.0f,BLACKBG_POS_Z - 0.01f };
 	Text[6]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	Text[6]->SetUV(1.0f / 7.0f * 3.0f, 0);
 
-	Text[7]->mTransform.pos = { 3.5f,6.0f,0 };
+	Text[7]->mTransform.pos = { 3.5f,6.0f,BLACKBG_POS_Z - 0.01f };
 	Text[7]->mTransform.scale = { 1.0f,1.0f,1.0f };
 	Text[7]->SetUV(1.0f / 7.0f * 6.0f, 0);
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_restartTexture);
-	Message[0]->SetPosition({ -5.0f,-3.0f,0 });
+	Message[0]->SetPosition({ -5.0f,-3.0f,BLACKBG_POS_Z - 0.02f });
 	Message[0]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[0]->SetHighlight(true);
 	Message[0]->SetFunc([&]() {
@@ -77,14 +79,14 @@ CGameOver::CGameOver()
 		});
 
 	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_undoTexture);
-	Message[1]->SetPosition({ 0,-3.0f,0 });
+	Message[1]->SetPosition({ 0,-3.0f,BLACKBG_POS_Z - 0.02f });
 	Message[1]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[1]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::TITLE);
 		});
 
 	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_backTexture);
-	Message[2]->SetPosition({ 5.0f,-3.0f,0 });
+	Message[2]->SetPosition({ 5.0f,-3.0f,BLACKBG_POS_Z - 0.02f });
 	Message[2]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[2]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::GAMEOVER);
