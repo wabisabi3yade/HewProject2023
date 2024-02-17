@@ -20,6 +20,8 @@
 #include "TextureFactory.h"
 #include"CArrow.h"
 #include"CCamera.h"
+#include"DoTween.h"
+#include"CGameClear.h"
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
 StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
@@ -32,6 +34,12 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	changeflag = false;
 
 	FloorOnlyMap = false;
+
+	dotween = std::make_unique<DoTween>(CCamera::GetInstance());
+
+	gameClear = new CGameClear();
+
+	isGameClear = false;
 
 	// テクスチャを管理するクラスのインスタンスを取得
 	TextureFactory* texFactory = TextureFactory::GetInstance();
@@ -60,7 +68,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
 		break;
 	}
-	
+
 
 	stageTextureWall = texFactory->Fetch(L"asset/Stage/Wall.png");
 	stageTextureHoll = texFactory->Fetch(L"asset/Stage/test_Hool.png");
@@ -136,6 +144,7 @@ StageScene::~StageScene()
 	{
 		CLASS_DELETE(Arrow[i]);
 	}
+	CLASS_DELETE(gameClear);
 	//CLASS_DELETE();
 
 }
@@ -285,7 +294,8 @@ void StageScene::Update()
 		{
 			UndoTableUpdate();
 		}
-
+		
+		dotween->Update();
 
 		//UI
 
@@ -299,6 +309,12 @@ void StageScene::Update()
 		{
 			Arrow[i]->Update();
 		}
+
+		if (isGameClear)
+		{
+			gameClear->Update();
+		}
+
 	}
 }
 
@@ -318,9 +334,6 @@ void StageScene::StageMove()
 		if (player->GetState() == Player::STATE::MUSCLE &&
 			player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::WALL)
 		{
-			//Vector3 vec = player->mTransform.pos;
-			//vec.z -= 0.002f;
-			//player->PlayEffect(vec, player->mTransform.scale, EffectManeger::FX_TYPE::PANTI, false);
 			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::WALL));
 			wallObj->Break(player->GetDirection());
 
@@ -344,16 +357,6 @@ void StageScene::StageMove()
 					chiliObj->BlowOff(player->GetDirection());
 				});
 		}
-
-		//if (player->GetState() == Player::STATE::MUSCLE &&
-		//	player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::CANNON)
-		//{
-		//	CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
-		//	cannonObj->dotween->DelayedCall(BREAK_TIME - 0.6f, [&, cannonObj]()
-		//		{
-		//			cannonObj->BlowOff(player->GetDirection());
-		//		});
-		//}
 
 		if (player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::WATAAME)
 		{
@@ -463,6 +466,10 @@ void StageScene::StageMove()
 		{
 			CGall* gallObj = dynamic_cast<CGall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(),
 				static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+
+			Vector3 pos = { 10.0f, 4.0f, 0.0f };
+			proteinUi->GetDotween()->DoEaseInBack(pos, 0.7f);
+
 			player->dotween->DelayedCall(BREAK_TIME / 9.0f, [&]()
 				{
 					player->GetPlayerAnim()->SetAnimSpeedRate(0.2f);
@@ -495,39 +502,46 @@ void StageScene::StageMove()
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 0.46f, [&, gallObj]()
 				{
+					gallVibration = true;
 					player->GetPlayerAnim()->SetAnimSpeedRate(0.0f);
 					player->GetPlayerAnim()->animSpeed = 0.0f;
-				});
-			player->dotween->DelayedCall(BREAK_TIME / 0.4f, [&]()
-				{
 					player->GetPlayerAnim()->SetAnimSpeedRate(1.0f);
 					player->GetPlayerAnim()->animSpeed = 0.1f;
-					float pos = 1.0f;
-					pos *= stageScale * 0.23f;
-					CCamera::GetInstance()->SetPos({ pos,0.0f });
-					player->dotween->DelayedCall(0.1f, [&, pos]()
-						{
-							CCamera::GetInstance()->SetPos({ pos * -1.0f,0.0f });
-							player->dotween->DelayedCall(0.1f, [&, pos]()
-								{
-									CCamera::GetInstance()->SetPos({ pos,0.0f });
-									player->dotween->DelayedCall(0.1f, [&, pos]()
-										{
-											CCamera::GetInstance()->SetPos({ pos * -1.0f,0.0f });
-
-										});
-								});
-						});
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 0.365f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y / 2 };
 					CCamera::GetInstance()->Zoom(0.26f, stageScale, { pos.x,pos.y, 0 });
 					gallObj->Open(clearBuffer, 2.0f, stageScale * 0.4f);
+					
+					gallObj->dotween->DelayedCall(BREAK_TIME / 2.5f, [&, gallObj]()
+						{
+							gallReduction = true;
+						});
 				});
 		}
 	}
 
+	if (gallVibration)
+	{
+		CCamera::GetInstance()->Shake(1.0f, 1.0f);
+		gallVibration = false;
+	}
+
+	if (gallReduction)
+	{
+		dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
+		dotween->OnComplete([&]()
+			{
+				isGameClear = true;
+			});
+		gallReduction = false;
+	}
+
+	if (CCamera::GetInstance()->GetIsShake())
+	{
+		CCamera::GetInstance()->ShakeUpdate();
+	}
 	// プレイヤーが動き終えると
 	if (player->GetPlayerMove()->GetIsWalkEnd())
 	{
@@ -1358,13 +1372,13 @@ void StageScene::Draw()
 		{
 			if (*IsArrowDraw == true && (!player->GetIsMoving() || player->GetPlayerMove()->GetIncannon()) && player->GetIsMissMove())
 			{
-				if(!Arrow[i]->GetIsActive())
+				if (!Arrow[i]->GetIsActive())
 				{
 					Arrow[i]->Appear({ stageScale ,stageScale }, 0.5f);
 				}
 				Arrow[i]->Draw();
 			}
-			else 
+			else
 			{
 				Arrow[i]->SetActive(false);
 			}
@@ -1373,6 +1387,11 @@ void StageScene::Draw()
 	}
 
 	Menu->Draw();
+
+	if (isGameClear)
+	{
+		gameClear->Draw();
+	}
 
 }
 

@@ -157,6 +157,29 @@ void DoTween::Update()
 					objPtr->mTransform.scale.y = (*itr2).oldPos.y + distance.y * calc;
 
 				}
+				break;
+
+				case FUNC::EASE_OUTBACK:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+
+					const float c1 = 1.70158f;
+					const float c3 = c1 + 1;
+
+					const float t = (*itr2).nowTime / (*itr2).moveTime;
+
+					// 計算式
+					float calc = 1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2);
+
+
+					//　始点 + 距離 × 0～1の割合
+					objPtr->mTransform.pos.x = (*itr2).oldPos.x + distance.x * calc;
+
+					objPtr->mTransform.pos.y = (*itr2).oldPos.y + distance.y * calc;
+				}
+
+				break;
 				}
 				itr2++;	// 次のイテレータに進む
 
@@ -170,6 +193,7 @@ void DoTween::Update()
 				{
 				case FUNC::MOVE:
 				case FUNC::EASE_OUTCUBIC:
+				case FUNC::EASE_OUTBACK:
 					objPtr->mTransform.pos = (*itr2).targetValue;
 					break;
 
@@ -190,7 +214,6 @@ void DoTween::Update()
 
 				case FUNC::SCALE:
 				case FUNC::EASE_OUTCUBIC_SCALE:
-				case FUNC::EASE_OUTBACK_SCALE:
 				case FUNC::EASE_INBACK_SCALE:
 				case FUNC::EASE_ELASTIC_SCALE:
 					objPtr->mTransform.scale = (*itr2).targetValue;
@@ -202,6 +225,28 @@ void DoTween::Update()
 				case FUNC::MOVECURVE:
 					objPtr->mTransform.pos.x = (*itr2).targetValue.x;
 					objPtr->mTransform.pos.y = (*itr2).targetValue.y;
+					break;
+				
+				case FUNC::EASE_OUTBACK_SCALE:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+
+					const float c1 = 1.70158f;
+					const float c3 = c1 + 1;
+
+					const float t = (*itr2).nowTime / (*itr2).moveTime;
+
+					// 計算式
+					float calc = 1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2);
+
+					//　始点 + 距離 × 0～1の割合
+					objPtr->mTransform.scale.x = (*itr2).oldPos.x + distance.x * calc;
+
+					objPtr->mTransform.scale.y = (*itr2).oldPos.y + distance.y * calc;
+				}
+
+				break;
 				}
 
 				auto nextItr = std::next(itr2);
@@ -645,6 +690,29 @@ void DoTween::DoEaseOutCubicScale(const Vector3& _targetAngle, const float& _mov
 	// シーケンスの最後にflowを入れる
 	sequence.push_back(flow);
 }
+
+void DoTween::DoEaseOutBack(const Vector3& _targetAngle, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::EASE_OUTBACK;
+	set.start = START::DO;
+	set.oldPos = objPtr->mTransform.pos;
+	set.targetValue = _targetAngle;
+
+	set.moveTime = _moveTime;
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
 
 void DoTween::DoEaseOutBackScale(const Vector3& _targetAngle, const float& _moveTime)
 {
