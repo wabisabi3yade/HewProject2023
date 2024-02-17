@@ -94,6 +94,8 @@ private:
 
 	bool isGameClear;
 
+	bool isStartStop;
+
 	//Å‘åƒtƒƒA
 	int nMaxFloor;
 
