@@ -31,26 +31,26 @@ CGameClear::CGameClear()
 		Text[i]->MakeDotween();
 	}
 
-	Text[0]->mTransform.pos = { -4.7f,3.0f,WHITEBG_POS_Z - 0.02f };
+	Text[0]->mTransform.pos = { -4.7f,3.0f,WHITEBG_POS_Z - 0.12f };
 	Text[0]->mTransform.scale = Vector3::zero;
 
-	Text[1]->mTransform.pos = { -2.7f,3.0f,WHITEBG_POS_Z - 0.03f };
+	Text[1]->mTransform.pos = { -2.7f,3.0f,WHITEBG_POS_Z - 0.13f };
 	Text[1]->mTransform.scale = Vector3::zero;
 	Text[1]->SetUV(1.0f / 6.0f * 1.0f, 0);
 
-	Text[2]->mTransform.pos = { -0.7f,3.0f,WHITEBG_POS_Z - 0.04f };
+	Text[2]->mTransform.pos = { -0.7f,3.0f,WHITEBG_POS_Z - 0.14f };
 	Text[2]->mTransform.scale = Vector3::zero;
 	Text[2]->SetUV(1.0f / 6.0f * 2.0f, 0);
 
-	Text[3]->mTransform.pos = { 1.3f,3.0f,WHITEBG_POS_Z - 0.05f };
+	Text[3]->mTransform.pos = { 1.3f,3.0f,WHITEBG_POS_Z - 0.15f };
 	Text[3]->mTransform.scale = Vector3::zero;
 	Text[3]->SetUV(1.0f / 6.0f * 3.0f, 0);
 
-	Text[4]->mTransform.pos = { 3.3f,3.0f,WHITEBG_POS_Z - 0.06f };
+	Text[4]->mTransform.pos = { 3.3f,3.0f,WHITEBG_POS_Z - 0.16f };
 	Text[4]->mTransform.scale = Vector3::zero;
 	Text[4]->SetUV(1.0f / 6.0f * 4.0f, 0);
 
-	Text[5]->mTransform.pos = { 5.3f,3.0f,WHITEBG_POS_Z - 0.07f };
+	Text[5]->mTransform.pos = { 5.3f,3.0f,WHITEBG_POS_Z - 0.17f };
 	Text[5]->mTransform.scale = Vector3::zero;
 	Text[5]->SetUV(1.0f / 6.0f * 5.0f, 0);
 
@@ -205,7 +205,7 @@ void CGameClear::Update()
 			
 			for (int i = 0; i < 6; i++)
 			{
-				Text[i]->dotween->DoEaseElasticScale({2.0f, 2.0f,WHITEBG_POS_Z - i*0.01f }, 2.0f);
+				Text[i]->dotween->DoEaseElasticScale({2.0f, 2.0f,1.0f }, 2.0f);
 			}
 
 			Text[5]->dotween->OnComplete([&]()
