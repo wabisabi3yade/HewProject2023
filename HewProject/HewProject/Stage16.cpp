@@ -1,7 +1,7 @@
 #include "Stage16.h"
 #include "CSceneManager.h"
 Stage16::Stage16()
-	: Stage(L"Stage1-6.csv")
+	: Stage(L"Stage1-6.csv", 1)
 {
 	back->SetTexture(backTex[0]);
 }

@@ -141,7 +141,7 @@ private:
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
 
-	StageScene(D3DBUFFER vb, D3DTEXTURE tex);
+	StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum);
 	~StageScene();
 
 	void Update();

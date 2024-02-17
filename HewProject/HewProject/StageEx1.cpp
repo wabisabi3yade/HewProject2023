@@ -2,7 +2,7 @@
 #include "CSceneManager.h"
 
 StageEx1::StageEx1()
-	: Stage(L"Stage4-1.csv")
+	: Stage(L"Stage4-1.csv", 4)
 {
 	back->SetTexture(backTex[3]);
 

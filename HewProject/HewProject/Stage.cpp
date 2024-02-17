@@ -6,7 +6,7 @@
 #include"CCamera.h"
 #define BACK_POSZ (1.0f)	
 
-Stage::Stage(const wchar_t* _csvName)
+Stage::Stage(const wchar_t* _csvName, short int worldNum)
 {
 
 	wchar_t work[256];
@@ -16,7 +16,7 @@ Stage::Stage(const wchar_t* _csvName)
 
 	csvPath = work;
 
-	stage = new StageScene(NULL, NULL);
+	stage = new StageScene(NULL, NULL, worldNum);
 	stage->Init(csvPath);
 
 	TextureFactory* texFactory =  TextureFactory::GetInstance();

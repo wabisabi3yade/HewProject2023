@@ -25,7 +25,7 @@ public:
     /// ステージシーンのコンストラクタ
     /// </summary>
     /// <param name="_csvPath">CSVファイルのパス</param>
-    Stage(const wchar_t* _csvPath);
+    Stage(const wchar_t* _csvPath, short int worldNum);
 
 
     void Init();

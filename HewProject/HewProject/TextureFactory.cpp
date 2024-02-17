@@ -90,8 +90,8 @@ void TextureFactory::Load()
 
 		L"asset/Stage/floor_y.png",
 		L"asset/Stage/floor_g.png",
-		L"asset/Stage/2floor_y.png",
-		L"asset/Stage/2floor_g.png",
+		L"asset/Stage/pfloor_world1.png",
+		L"asset/Stage/gfloor_world1.png",
 		L"asset/Stage/Wall.png",
 		L"asset/Stage/test_Hool.png",
 		L"asset/Stage/Wataame.png",
