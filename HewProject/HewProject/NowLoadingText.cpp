@@ -118,7 +118,7 @@ NowLoadingText::NowLoadingText()
 
 	texWork = texFactory->Fetch(L"asset/UI/LoadCharacter.png");
 	character = new LoadCharacter(buffer, texWork);
-	character->mTransform.scale = { 1.1f, 1.1f,1.0f };
+	character->mTransform.scale = { 1.3f, 1.3f, 1.0f };
 	character->mTransform.pos.x = TEXT_BASEPOSX - OFFSET_CHARA_TEXT;
 	character->mTransform.pos.z = TEXT_POSZ;
 	character->SetColor({ 255, 192, 103 });

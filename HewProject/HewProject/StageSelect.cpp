@@ -42,7 +42,7 @@ void StageSelect::Input()
 	// ˆÚ“®‚µ‚½‚Ì‚Å
 	if (c_pointStage != o_pointStage)
 	{
-		XA_Play(SOUND_LABEL::S_MOVEBUTTON);
+		/*XA_Play(SOUND_LABEL::S_MOVEBUTTON);*/
 	}
 
 	if (input->GetInputTrigger(InputType::DECIDE))

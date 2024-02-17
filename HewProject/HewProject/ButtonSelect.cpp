@@ -1,5 +1,5 @@
 #include "ButtonSelect.h"
-
+#include "xa2.h"
 
 #define PUSH_SCALETINE (0.5f)
 
@@ -46,6 +46,8 @@ void ButtonSelect::ButtonMove(int _add)
 		pointButtonID = buttonRegister.size() + pointButtonID;
 	}
 
+	XA_Play(SOUND_LABEL::S_MOVEBUTTON);
+
 	// 前のボタンのハイライト表示を止める
 	buttonRegister[o_buttonID]->SetHighlight(false);
 
@@ -76,12 +78,15 @@ void ButtonSelect::SetButtonID(int _id)
 
 }
 
-void ButtonSelect::PushButton()
+void ButtonSelect::PushButton(bool _isFlash)
 {
 	if (!isActive) return;
 
 	buttonRegister[pointButtonID]->BeginFunc();
-	buttonRegister[pointButtonID]->SetFlash();
+	if (_isFlash)
+	{
+		buttonRegister[pointButtonID]->SetFlash();
+	}
 }
 
 void ButtonSelect::Regist(ButtonUI* _registButton)

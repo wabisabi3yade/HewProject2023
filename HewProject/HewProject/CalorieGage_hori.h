@@ -9,7 +9,10 @@ class CalorieMark;
 // カロリーゲージのクラス
 class CalorieGage_hori
 {
-	Transform mTransform;	// ゲージ全体のトランスフォーム
+	UI* base;
+
+	Vector3 o_pos;
+	/*Transform mTransform;*/	// ゲージ全体のトランスフォーム
 
 	D3DBUFFER oneBuffer;
 	D3DBUFFER markBuffer;
@@ -30,7 +33,7 @@ class CalorieGage_hori
 
 	float mark_offsetX;
 
-	short int calorieNum = 7;
+	short int calorieNum = 8;
 
 	/// <summary>
 	/// 目盛りを変える
@@ -52,7 +55,6 @@ public:
 	void SetPosition(const Vector3& _pos);
 	void SetScale(const Vector3& _scale);
 
-
 	/// <summary>
 	/// カロリーの数を設定(ケーキ食べるときはここ)
 	/// </summary>
@@ -62,5 +64,7 @@ public:
 
 	// カロリーを足す(引くときはマイナスの値)　(移動、とうがらしはここ)
 	void AddCalorie(const short& _add);
+
+	DoTweenUI* GetDotween() { return base->dotween; }
 };
 

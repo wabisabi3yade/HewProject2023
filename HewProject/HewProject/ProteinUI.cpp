@@ -195,7 +195,7 @@ void ProteinUI::SetPosition(const Vector3& _pos)
 	for (int i = 0; i < stageProMax; i++)
 	{
 		proMark[i]->mTransform.pos.z = _pos.z - i * UI_OFFSETZ;
-		proMark[i]->mTransform.pos.y = _pos.y - CIRCLE_OFFSETY;
+		proMark[i]->mTransform.pos.y = _pos.y + allScale.y * CIRCLE_OFFSETY;
 		protein[i]->mTransform.pos = proMark[i]->mTransform.pos;
 		protein[i]->mTransform.pos.z -=  2 * UI_OFFSETZ;
 	}
@@ -240,7 +240,7 @@ void ProteinUI::SetScale(const Vector2& _scale)
 	for (int i = 0; i < stageProMax; i++)
 	{
 		proMark[i]->mTransform.pos.z = p.z - i * UI_OFFSETZ;
-		proMark[i]->mTransform.pos.y = p.y - CIRCLE_OFFSETY;
+		proMark[i]->mTransform.pos.y = p.y + allScale.y *  CIRCLE_OFFSETY;
 		protein[i]->mTransform.pos = proMark[i]->mTransform.pos;
 		protein[i]->mTransform.pos.z -= 2 * UI_OFFSETZ;
 	}

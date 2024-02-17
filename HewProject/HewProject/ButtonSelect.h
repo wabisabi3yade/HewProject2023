@@ -31,7 +31,7 @@ public:
 
 
 	// 今指定しているボタンの関数を実行
-	void PushButton();
+	void PushButton(bool _isFlash = false);
 
 	/// <summary>
 	/// ボタンを登録する
