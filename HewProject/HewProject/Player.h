@@ -68,6 +68,7 @@ public:
 		BAUM,
 		PUNCH,
 		PUSH_CASTELLA,
+		GALL_EAT,
 	};
 
 private:
@@ -112,6 +113,7 @@ private:
 	D3DTEXTURE muscleTex[static_cast<int>(ANIM_TEX::NUM)];
 	D3DTEXTURE castellaPushTex;
 	D3DTEXTURE cannonTex;
+	D3DTEXTURE GallEatTex;
 	//DIRECTION‚Æ“¯‚¶Œü‚«‚Ìƒpƒ“ƒ`‚Ì‰æ‘œ‚ğŠi”[
 	D3DTEXTURE punchTex[static_cast<int>(DIRECTION::NUM)];
 	// ‰æ‘œ‚ğã‚É”z—ñ‚É“ü‚ê‚é

@@ -92,7 +92,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 
 	castellaPushTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/F_PushWalk.png");
 
-
+	GallEatTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/12komaEat_L.png");
 
 	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 
@@ -401,6 +401,7 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		default:
 			break;
 		}
+		return;
 	}
 	else if (_animTex == ANIM_TEX::DRINK)
 	{
@@ -419,8 +420,13 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 			break;
 		}
 		isEat = true;
+		return;
 	}
-
+	else if (_animTex == ANIM_TEX::GALL_EAT)
+	{
+		SetTexture(GallEatTex);
+		return;
+	}
 	switch (playerState)
 	{
 	case Player::STATE::NORMAL:

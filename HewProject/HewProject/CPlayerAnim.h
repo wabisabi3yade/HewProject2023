@@ -36,6 +36,9 @@ public:
 
         //ゴール用のパンチ
         GALL_PUNCH,
+
+        //ゴール用の食べるアニメーション
+        GALL_EAT,
     };
 private:
     float AnimSpeedRate;
@@ -56,5 +59,6 @@ public:
     bool GetOldIsFall() { return Old_IsFall; }
     void SetIsFall(bool _isFall) { Now_IsFall = _isFall ;}
     void SetAnimSpeedRate(float _animSpeedRate) { AnimSpeedRate = _animSpeedRate; }
+    void PlayGallEat(float _animSpeedRate = 1.0f);
 };
 

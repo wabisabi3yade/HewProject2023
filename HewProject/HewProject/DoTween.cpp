@@ -72,12 +72,18 @@ void DoTween::Update()
 						(pow((1 - t), 2) * (*itr2).oldPos.x)
 						+ (2 * t) * (1 - t) * (((*itr2).oldPos.x + (*itr2).targetValue.x) / 2)
 						+ (pow(t, 2) * (*itr2).targetValue.x);
-
+					
+					float postiv = 1.0f;
+					float postiv2 = 1.0f;
+					if ((*itr2).curvePos < 0)
+						postiv = -1.0f;
+					if ((*itr2).targetValue.y < 0.0f)
+						postiv2 = -1.0f;
 					objPtr->mTransform.pos.y =
 						(pow((1 - t), 2) * (*itr2).oldPos.y)
-						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y) / 2
-							+ (*itr2).curvePos)
-						+ (pow(t, 2) * (*itr2).targetValue.y);
+						+ (2 * t) * (1 - t) * (((*itr2).oldPos.y + (*itr2).targetValue.y * postiv2) / 2
+							+ (*itr2).curvePos * postiv)
+						+ (pow(t, 2) * (*itr2).targetValue.y );
 					break;
 				}
 
