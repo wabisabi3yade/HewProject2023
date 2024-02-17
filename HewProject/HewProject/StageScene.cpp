@@ -281,7 +281,6 @@ void StageScene::Update()
 		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 		{
 			Arrow[i]->Update();
-			Arrow[i]->mTransform.pos.z = -0.35f;
 		}
 	}
 }
@@ -1642,6 +1641,7 @@ void StageScene::Init(const wchar_t* filePath)
 		Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
 		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
 		Arrow[i]->ScaleLoop();
+		Arrow[i]->mTransform.pos.z = -0.49f;
 	}
 	calorieGage->SetPosition({ -3.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 1.0f,1.0f,1.0f });

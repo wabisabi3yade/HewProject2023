@@ -226,11 +226,11 @@ void FatMove::Move(DIRECTION _dir)
 				pos.z -= 0.00001f;
 				scale.x *= MARK_SCALE;
 				scale.y *= MARK_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
 					{
 						player->Fall();
 						player->ChangeTexture(Player::ANIM_TEX::WALK);
-						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
