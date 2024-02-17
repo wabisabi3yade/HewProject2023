@@ -146,9 +146,12 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::DRINK);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
 						MoveAfter();
+						player->EatEnd();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
@@ -207,6 +210,10 @@ void ThinMove::Move(DIRECTION _dir)
 						//player->Fall();
 						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+						player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
+							{
+								isFallBound = true;
+							});
 						//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
 					}
 					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
@@ -430,7 +437,6 @@ void ThinMove::Move(DIRECTION _dir)
 					player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 						{
 							player->Fall();
-							player->ChangeTexture(Player::ANIM_TEX::WALK);
 						});
 					player->dotween->DoDelay(FALL_TIME);
 					player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
@@ -580,9 +586,12 @@ void ThinMove::Step()
 		if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 		{
 			//バウンドする高さを計算　代入
-			//player->Fall();
 			float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 			player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+			player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
+				{
+					isFallBound = true;
+				});
 			//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
 		}
 		player->dotween->DelayedCall(FALLMOVE_TIME, [&]()

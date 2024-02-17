@@ -71,12 +71,19 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureInput(L"asset/Player/N_EatCake.png", STATE::NORMAL, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/F_EatCake.png", STATE::FAT, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/T_EatCake.png", STATE::THIN, ANIM_TEX::EAT_CAKE),
-		TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
+	TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
 	
-	//TextureInput(L"asset/Player/")
+	TextureInput(L"asset/Player/N_Aseri.png", STATE::NORMAL, ANIM_TEX::PANIC);
+	TextureInput(L"asset/Player/F_Aseri.png", STATE::FAT, ANIM_TEX::PANIC);
+	TextureInput(L"asset/Player/T_Aseri.png", STATE::THIN, ANIM_TEX::PANIC);
+	TextureInput(L"asset/Player/M_Aseri.png", STATE::MUSCLE, ANIM_TEX::PANIC);
+
+	TextureInput(L"asset/Player/N_Drink.png", STATE::NORMAL, ANIM_TEX::DRINK);
+	TextureInput(L"asset/Player/F_Drink.png", STATE::FAT, ANIM_TEX::DRINK);
+	TextureInput(L"asset/Player/T_Drink.png", STATE::THIN, ANIM_TEX::DRINK);
 
 	punchTex[0] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Down.png");
 	punchTex[1] = TextureFactory::GetInstance()->Fetch(L"asset/Player/M_Punch_Left.png");
@@ -375,6 +382,45 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 		SetTexture(castellaPushTex);
 		return;
 	}
+	else if (_animTex == ANIM_TEX::PANIC)
+	{
+		switch (playerState)
+		{
+		case Player::STATE::NORMAL:
+			SetTexture(normalTex[_animTex]);
+			break;
+		case Player::STATE::THIN:
+			SetTexture(thinTex[_animTex]);
+			break;
+		case Player::STATE::FAT:
+			SetTexture(fatTex[_animTex]);
+			break;
+		case Player::STATE::MUSCLE:
+			SetTexture(muscleTex[_animTex]);
+			break;
+		default:
+			break;
+		}
+	}
+	else if (_animTex == ANIM_TEX::DRINK)
+	{
+		switch (playerState)
+		{
+		case Player::STATE::NORMAL:
+			SetTexture(normalTex[_animTex]);
+			break;
+		case Player::STATE::THIN:
+			SetTexture(thinTex[_animTex]);
+			break;
+		case Player::STATE::FAT:
+			SetTexture(fatTex[_animTex]);
+			break;
+		default:
+			break;
+		}
+		isEat = true;
+	}
+
 	switch (playerState)
 	{
 	case Player::STATE::NORMAL:
@@ -419,12 +465,14 @@ void Player::Draw()
 
 void Player::Fall()
 {
+	ChangeTexture(Player::ANIM_TEX::PANIC);
 	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
 	move->FallStart();
 }
 
 void Player::Rise()
 {
+	ChangeTexture(Player::ANIM_TEX::PANIC);
 	dynamic_cast<CPlayerAnim*>(mAnim)->PlayFall(static_cast<int>(direction), 2.0f);
 	move->RiseStart();
 }
