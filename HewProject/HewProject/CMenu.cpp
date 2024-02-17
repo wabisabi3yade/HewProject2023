@@ -25,12 +25,27 @@ CMenu::CMenu()
 	Bg->mTransform.pos = { 0,0,BG_POS_Z };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
-	for (int i = 0; i < MAXNUM_HELP; i++)
+	/*for (int i = 0; i < MAXNUM_HELP; i++)
 	{
 		Rule[i] = new UI(bgBuffer, ruleTexture);
 		Rule[i]->mTransform.pos = { 0,0,UI_POS_Z };
-		Rule[i]->mTransform.scale = { 13.0f - i * 1.0f,8.0f,1.0f };
-	}
+		Rule[i]->mTransform.scale = { 13.0f,8.0f,1.0f };
+	}*/
+
+	D3D_LoadTexture(L"asset/Tutorial/T_1.png", &T_1Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_2.png", &T_2Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_3.png", &T_3Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_4.png", &T_4Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_5.png", &T_5Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_6.png", &T_6Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_7.png", &T_7Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_8.png", &T_8Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_9.png", &T_9Texture);
+	D3D_LoadTexture(L"asset/Tutorial/T_10.png", &T_10Texture);
+
+	Tutorial = new UI(bgBuffer, T_1Texture);
+	Tutorial->mTransform.pos = { 0,0,UI_POS_Z};
+	Tutorial->mTransform.scale = { 13.0f,8.0f,1 };
 
 	D3D_CreateSquare({ 1,1 }, &pauseBuffer);
 	pauseTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/Pause.png");
@@ -105,6 +120,7 @@ CMenu::CMenu()
 	helpMessage[0]->SetHighlight(true);
 	helpMessage[0]->SetFunc([&]() {
 		nRule = 0;
+		Tutorial->SetTexture(T_1Texture);
 		isExplanation = true;
 		});
 
@@ -113,6 +129,7 @@ CMenu::CMenu()
 	helpMessage[1]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[1]->SetFunc([&]() {
 		nRule = 1;
+		Tutorial->SetTexture(T_2Texture);
 		isExplanation = true;
 		});
 
@@ -121,6 +138,7 @@ CMenu::CMenu()
 	helpMessage[2]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[2]->SetFunc([&]() {
 		nRule = 2;
+		Tutorial->SetTexture(T_3Texture);
 		isExplanation = true;
 		});
 
@@ -129,6 +147,7 @@ CMenu::CMenu()
 	helpMessage[3]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[3]->SetFunc([&]() {
 		nRule = 3;
+		Tutorial->SetTexture(T_4Texture);
 		isExplanation = true;
 		});
 
@@ -137,6 +156,7 @@ CMenu::CMenu()
 	helpMessage[4]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[4]->SetFunc([&]() {
 		nRule = 4;
+		Tutorial->SetTexture(T_5Texture);
 		isExplanation = true;
 		});
 
@@ -145,6 +165,7 @@ CMenu::CMenu()
 	helpMessage[5]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[5]->SetFunc([&]() {
 		nRule = 5;
+		Tutorial->SetTexture(T_6Texture);
 		isExplanation = true;
 		});
 
@@ -153,6 +174,7 @@ CMenu::CMenu()
 	helpMessage[6]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[6]->SetFunc([&]() {
 		nRule = 6;
+		Tutorial->SetTexture(T_7Texture);
 		isExplanation = true;
 		});
 
@@ -161,6 +183,7 @@ CMenu::CMenu()
 	helpMessage[7]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[7]->SetFunc([&]() {
 		nRule = 7;
+		Tutorial->SetTexture(T_8Texture);
 		isExplanation = true;
 		});
 
@@ -170,6 +193,7 @@ CMenu::CMenu()
 	helpMessage[8]->SetHighlight(true);
 	helpMessage[8]->SetFunc([&]() {
 		nRule = 8;
+		Tutorial->SetTexture(T_9Texture);
 		isExplanation = true;
 		});
 
@@ -178,6 +202,7 @@ CMenu::CMenu()
 	helpMessage[9]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[9]->SetFunc([&]() {
 		nRule = 9;
+		Tutorial->SetTexture(T_10Texture);
 		isExplanation = true;
 		});
 
@@ -225,6 +250,8 @@ CMenu::~CMenu()
 
 	CLASS_DELETE(B_Button);
 
+	CLASS_DELETE(Tutorial);
+
 	for (int i = 0; i < 3; i++)
 	{
 		CLASS_DELETE(Message[i]);
@@ -235,10 +262,10 @@ CMenu::~CMenu()
 		CLASS_DELETE(helpMessage[i]);
 	}
 
-	for (int i = 0; i < MAXNUM_HELP; i++)
+	/*for (int i = 0; i < MAXNUM_HELP; i++)
 	{
 		CLASS_DELETE(Rule[i]);
-	}
+	}*/
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -250,6 +277,16 @@ CMenu::~CMenu()
 	SAFE_RELEASE(textBoxBuffer);
 	SAFE_RELEASE(textBuffer);
 	SAFE_RELEASE(LRBuffer);
+	SAFE_RELEASE(T_1Texture);
+	SAFE_RELEASE(T_2Texture);
+	SAFE_RELEASE(T_3Texture);
+	SAFE_RELEASE(T_4Texture);
+	SAFE_RELEASE(T_5Texture);
+	SAFE_RELEASE(T_6Texture);
+	SAFE_RELEASE(T_7Texture);
+	SAFE_RELEASE(T_8Texture);
+	SAFE_RELEASE(T_9Texture);
+	SAFE_RELEASE(T_10Texture);
 
 }
 
@@ -423,6 +460,47 @@ void CMenu::Update()
 
 			}
 
+			if (nRule == 0)
+			{
+				Tutorial->SetTexture(T_1Texture);
+			}
+			else if (nRule == 1)
+			{
+				Tutorial->SetTexture(T_2Texture);
+			}
+			else if (nRule == 2)
+			{
+				Tutorial->SetTexture(T_3Texture);
+			}
+			else if (nRule == 3)
+			{
+				Tutorial->SetTexture(T_4Texture);
+			}
+			else if (nRule == 4)
+			{
+				Tutorial->SetTexture(T_5Texture);
+			}
+			else if (nRule == 5)
+			{
+				Tutorial->SetTexture(T_6Texture);
+			}
+			else if (nRule == 6)
+			{
+				Tutorial->SetTexture(T_7Texture);
+			}
+			else if (nRule == 7)
+			{
+				Tutorial->SetTexture(T_8Texture);
+			}
+			else if (nRule == 8)
+			{
+				Tutorial->SetTexture(T_9Texture);
+			}
+			else if (nRule == 9)
+			{
+				Tutorial->SetTexture(T_10Texture);
+			}
+
 		}
 	}
 
@@ -431,6 +509,8 @@ void CMenu::Update()
 	Pause->Update();
 
 	B_Button->Update();
+
+	Tutorial->Update();
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -442,10 +522,10 @@ void CMenu::Update()
 		helpMessage[i]->Update();
 	}
 
-	for (int i = 0; i < MAXNUM_HELP; i++)
+	/*for (int i = 0; i < MAXNUM_HELP; i++)
 	{
 		Rule[i]->Update();
-	}
+	}*/
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -502,7 +582,7 @@ void CMenu::Draw()
 
 			}
 			else {
-				if (nRule == 0)
+				/*if (nRule == 0)
 				{
 					Rule[0]->Draw();
 				}
@@ -541,7 +621,9 @@ void CMenu::Draw()
 				else if (nRule == 9)
 				{
 					Rule[9]->Draw();
-				}
+				}*/
+
+				Tutorial->Draw();
 
 				for (int i = 0; i < 2; i++)
 				{
