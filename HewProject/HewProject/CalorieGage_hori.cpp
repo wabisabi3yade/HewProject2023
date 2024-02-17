@@ -8,7 +8,7 @@
 #define ROGO_OFFSET_Y (0.2f)	// ゲージ全体からのロゴのY座標
 
 #define NUMBER_OFFSETX (0.3f)	// ロゴの中心からの距離
-#define NUMBER_OFFSETY (-0.1f)	// ロゴの中心からの距離
+#define NUMBER_OFFSETY (-0.15f)	// ロゴの中心からの距離
 
 #define MARK_BEGIN_OFFSET_X (-2.0f)	// 1目盛り目のX座標
 #define MARKTO_OFFSET_X (0.32f)	// 目盛り同士のX座標差分
@@ -335,7 +335,7 @@ void CalorieGage_hori::NumUISetting()
 
 	for (int i = 0; i < calorieDigits; i++)
 	{
-		number[i]->mTransform.pos.y = rogo->mTransform.pos.y + NUMBER_OFFSETY;
+		number[i]->mTransform.pos.y = rogo->mTransform.pos.y + baseScale.y * NUMBER_OFFSETY;
 		number[i]->mTransform.pos.z = rogo->mTransform.pos.z - (i + 1) * GAGEUI_OFFSET_Z;
 		number[i]->mTransform.scale = baseScale * numScale;
 		number[i]->mTransform.scale.z = 1.0f;

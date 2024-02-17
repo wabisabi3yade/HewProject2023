@@ -27,7 +27,7 @@ InputStateUpdate::InputStateUpdate()
 			break;
 
 		case InputType::OPTION:
-			keyWork = VK_ESCAPE;
+			keyWork = VK_TAB;
 			controllerWork = XINPUT_GAMEPAD_START;
 			break;
 

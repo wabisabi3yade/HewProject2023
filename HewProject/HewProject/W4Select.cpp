@@ -118,6 +118,16 @@ void W4Select::Update()
 
 	stageSmpBack->Update();
 
+	for (int i = 0; i < 2; i++)
+	{
+		backGround[i]->mTransform.pos.x -= 0.05f;
+		if (backGround[i]->mTransform.pos.x < -15.99f)
+		{
+			backGround[i]->mTransform.pos.x = 16.0f;
+		}
+
+	}
+
 	for (auto a : stgButton)
 	{
 		a->Update();

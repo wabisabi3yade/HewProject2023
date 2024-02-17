@@ -8,8 +8,8 @@
 #define HELP_POSX (-3.0f)
 #define HELP_POSY (3.0f)
 
-#define BG_POS_Z (-0.11f)
-#define UI_POS_Z (-0.12f)
+#define BG_POS_Z (-0.488f)
+#define UI_POS_Z (-0.489f)
 
 #define MESSAGE_SCALE (4.0f)
 
@@ -79,7 +79,7 @@ CMenu::CMenu()
 	BTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/B_Return.png");
 
 	B_Button = new UI(textBuffer, BTexture);
-	B_Button->mTransform.pos = { -6.5f,-4.0f,UI_POS_Z-0.01f };
+	B_Button->mTransform.pos = { -6.5f,-4.0f,UI_POS_Z - 0.0001f };
 	B_Button->mTransform.scale = { 2.4f,0.8f,1.0f };
 
 	for (int i = 0; i < 2; i++)
@@ -91,7 +91,7 @@ CMenu::CMenu()
 		Big.z = 1.0f;
 		Vector3 Small = LR_Button[i]->mTransform.scale * 1.0f;
 		LR_Button[i]->dotween->DoScale(Big, 1.0f);
-		LR_Button[i]->dotween->Append(Small, 1.0f,DoTweenUI::FUNC::SCALE);
+		LR_Button[i]->dotween->Append(Small, 1.0f, DoTweenUI::FUNC::SCALE);
 		LR_Button[i]->dotween->SetLoop(-1);
 	}
 
@@ -174,7 +174,7 @@ CMenu::CMenu()
 		});
 
 	helpMessage[9] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
-	helpMessage[9]->SetPosition({ HELP_POSX,HELP_POSY -2.0f,UI_POS_Z });
+	helpMessage[9]->SetPosition({ HELP_POSX,HELP_POSY - 2.0f,UI_POS_Z });
 	helpMessage[9]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[9]->SetFunc([&]() {
 		nRule = 9;
@@ -256,7 +256,7 @@ CMenu::~CMenu()
 void CMenu::Update()
 {
 	InputManager* input = InputManager::GetInstance();
-	
+
 	if (isMenu == false)
 	{
 		if (input->GetInputTrigger(InputType::OPTION))
@@ -300,10 +300,10 @@ void CMenu::Update()
 			}
 		}
 		else {
-			
+
 			if (isExplanation == false)
 			{
-				
+
 				if (input->GetInputTrigger(InputType::CANCEL))
 				{
 					isHelp = false;
@@ -326,14 +326,14 @@ void CMenu::Update()
 					{
 						help_2PageControl->PushButton();
 					}
-					
+
 					else if (input->GetInputTrigger(InputType::L_BUTTON))
 					{
 						isChangeExplanation = false;
 					}
 				}
 				else {
-					
+
 					helpControl->FlagUpdate();
 					if (input->GetMovement().y < 0)
 					{
@@ -365,10 +365,10 @@ void CMenu::Update()
 						isChangeExplanation = true;
 					}
 				}
-				
+
 			}
 			else {
-				
+
 				if (isChangeExplanation == false)
 				{
 					if (input->GetInputTrigger(InputType::L_BUTTON))
@@ -420,12 +420,12 @@ void CMenu::Update()
 						isExplanation = false;
 					}
 				}
-				
+
 			}
-			
+
 		}
 	}
-	
+
 	Bg->Update();
 
 	Pause->Update();
@@ -463,7 +463,7 @@ void CMenu::Draw()
 	if (isMenu == true)
 	{
 		Bg->Draw();
-		
+
 		if (isHelp == false)
 		{
 			Pause->Draw();
@@ -475,10 +475,10 @@ void CMenu::Draw()
 					Message[i]->Draw();
 				}
 			}
-			
+
 		}
 		else {
-			if (isExplanation==false)
+			if (isExplanation == false)
 			{
 				if (isChangeExplanation == false)
 				{
@@ -499,7 +499,7 @@ void CMenu::Draw()
 					LR_Button[0]->Draw();
 
 				}
-				
+
 			}
 			else {
 				if (nRule == 0)
@@ -548,9 +548,9 @@ void CMenu::Draw()
 					LR_Button[i]->Draw();
 				}
 			}
-			
+
 		}
-		
+
 		B_Button->Draw();
 
 	}
