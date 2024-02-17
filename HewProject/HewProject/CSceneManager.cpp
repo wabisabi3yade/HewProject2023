@@ -201,7 +201,7 @@ void CSceneManager::SceneChange(int _scene)
 
 	case CScene::HASHIMOTO:
 		nowSceneName = CScene::HASHIMOTO;
-		pNowScene = new Stage(L"Test.csv");
+		pNowScene = new Stage(L"Test.csv", 1);
 		break;
 	case CScene::STAGE1:
 		nowSceneName = CScene::STAGE1;
@@ -348,7 +348,7 @@ void CSceneManager::SceneChangeStage(const wchar_t* _path)
 	CLASS_DELETE(pNowScene);
 
 
-	pNowScene = new Stage(_path);
+	pNowScene = new Stage(_path, 1);
 }
 
 void CSceneManager::Exit()

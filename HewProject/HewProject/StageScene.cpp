@@ -22,7 +22,7 @@
 #include"CCamera.h"
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
-StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
+StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	: CObject(vb, tex)
 {
 	nNumProtein = 0;
@@ -37,17 +37,35 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 
 	// 各オブジェクトのテクスチャを取得する
-	stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
-	stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
-	/*stageTextureFloor = texFactory->Fetch(L"asset/Stage/2floor_y.png");
-	stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/2floor_g.png"); */
 
+	switch (worldNum)
+	{
+	case 1:
+		stageTextureFloor = texFactory->Fetch(L"asset/Stage/pfloor_world1.png");
+		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/gfloor_world1.png");
+		break;
+
+	case 2:
+		stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
+		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
+		break;
+
+	case 3:
+		stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
+		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
+		break;
+
+	case 4:
+		stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
+		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
+		break;
+	}
+	
 
 	stageTextureWall = texFactory->Fetch(L"asset/Stage/Wall.png");
 	stageTextureHoll = texFactory->Fetch(L"asset/Stage/test_Hool.png");
 	stageTextureWataame = texFactory->Fetch(L"asset/Stage/Wataame.png");
 
-	/*stageTextureCastella = texFactory->Fetch(L"asset/Stage/Castella.png");*/
 	stageTextureCastella = texFactory->Fetch(L"asset/Stage/Castella.png");
 
 	stageTextureBaumkuchen_R = texFactory->Fetch(L"asset/Stage/Baumkuchen_R.png");
@@ -60,7 +78,6 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex)
 	stageTextureGallChest = texFactory->Fetch(L"asset/Stage/GallChest.png");
 	stageTextureGumi = texFactory->Fetch(L"asset/Stage/Gumi.png");
 	stageTextureProtein = texFactory->Fetch(L"asset/Item/Protein.png");
-	/*playerTexture = texFactory->Fetch(L"asset/Stage/floor_y.png");*/
 	shadowTexture = texFactory->Fetch(L"asset/Item/shadow.png");
 	stageTextureArrow = texFactory->Fetch(L"asset/UI/Arrow.png");
 	stageTextureCannon[0] = texFactory->Fetch(L"asset/Stage/Canon_RightLeft.png");
