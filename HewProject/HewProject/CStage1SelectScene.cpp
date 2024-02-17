@@ -550,7 +550,6 @@ void CStage1SelectScene::Update()
 		else if (!c_isHitStage[i] && o_isHitStage[i])
 		{
 			stage[i]->dotween->Stop();
-
 			stage[i]->mTransform.scale = { STAGE_SCALE_X, STAGE_SCALE_Y, 1.0f };
 
 			switch (i)
@@ -566,6 +565,13 @@ void CStage1SelectScene::Update()
 				target_word.x = TEXT_POS_X;
 				target_word2 = Word[6]->mTransform.pos;
 				target_word2.x = TEXT_POS_X + 3.1f;
+
+				Text[1]->dotween->Stop();
+				World[1]->dotween->Stop();
+				Num[1]->dotween->Stop();
+				Word[2]->dotween->Stop();
+				Word[6]->dotween->Stop();
+
 
 				Text[1]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
 				World[1]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
@@ -587,6 +593,13 @@ void CStage1SelectScene::Update()
 				target_word2 = Word[7]->mTransform.pos;
 				target_word2.x = TEXT_POS_X + 3.1f;
 
+
+				Text[2]->dotween->Stop();
+				World[2]->dotween->Stop();
+				Num[2]->dotween->Stop();
+				Word[3]->dotween->Stop();
+				Word[7]->dotween->Stop();
+
 				Text[2]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
 				World[2]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
 				Num[2]->dotween->DoEaseOutBack(target_num, TARGETBACK_MOVETIME);
@@ -605,6 +618,14 @@ void CStage1SelectScene::Update()
 				target_word.x = TEXT_POS_XX;
 				target_word2 = Word[4]->mTransform.pos;
 				target_word2.x = TEXT_POS_XX + 3.0f;
+
+
+				Text[0]->dotween->Stop();
+				World[0]->dotween->Stop();
+				Num[0]->dotween->Stop();
+				Word[0]->dotween->Stop();
+				Word[4]->dotween->Stop();
+
 				Text[0]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
 				World[0]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
 				Num[0]->dotween->DoEaseOutBack(target_num, TARGETBACK_MOVETIME);
@@ -624,6 +645,13 @@ void CStage1SelectScene::Update()
 				target_word.x = TEXT_POS_XX;
 				target_word2 = Word[5]->mTransform.pos;
 				target_word2.x = TEXT_POS_XX + 2.4f;
+
+				Text[3]->dotween->Stop();
+				World[3]->dotween->Stop();
+				Num[3]->dotween->Stop();
+				Word[1]->dotween->Stop();
+				Word[5]->dotween->Stop();
+
 				Text[3]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
 				World[3]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
 				Num[3]->dotween->DoEaseOutBack(target_num, TARGETBACK_MOVETIME);
@@ -640,94 +668,7 @@ void CStage1SelectScene::Update()
 		
 	}
 
-	if (isOnce == true)
-	{
-		////ワールド１
-		//if (CollsionRect(stage[0], player) == false)
-		//{
-		//	Vector3 target = Text[1]->mTransform.pos;
-		//	target.x = TEXT_POS_X;
-		//	Vector3 target_world = World[1]->mTransform.pos;
-		//	target_world.x = TEXT_POS_X;
-		//	Vector3 target_num = Num[1]->mTransform.pos;
-		//	target_num.x = TEXT_POS_X + 2.3f;
-		//	Vector3 target_word = Word[2]->mTransform.pos;
-		//	target_word.x = TEXT_POS_X;
-		//	Vector3 target_word2 = Word[6]->mTransform.pos;
-		//	target_word2.x = TEXT_POS_X + 3.1f;
-
-		//	Text[1]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
-		//	World[1]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
-		//	Num[1]->dotween->DoEaseOutBack(target_num, TARGETBACK_MOVETIME);
-		//	Word[2]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
-		//	Word[6]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
-		//	isOnce = false;
-		//}
-
-		////ワールド3
-		//if (CollsionRect(stage[1], player) == false)
-		//{
-		//	Vector3 target = Text[2]->mTransform.pos;
-		//	target.x = TEXT_POS_X;
-		//	Vector3 target_world = World[2]->mTransform.pos;
-		//	target_world.x = TEXT_POS_X;
-		//	Vector3 target_num = Num[2]->mTransform.pos;
-		//	target_num.x = TEXT_POS_X + 2.3f;
-		//	Vector3 target_word = Word[3]->mTransform.pos;
-		//	target_word.x = TEXT_POS_X;
-		//	Vector3 target_word2 = Word[7]->mTransform.pos;
-		//	target_word2.x = TEXT_POS_X + 3.1f;
-
-		//	Text[2]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
-		//	World[2]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
-		//	Num[2]->dotween->DoEaseOutBack(target_num, TARGETBACK_MOVETIME);
-		//	Word[3]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
-		//	Word[7]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
-		//	isOnce = false;
-		//}
-
-		////ワールド２
-		//if (CollsionRect(stage[2], player) == false)
-		//{
-		//	Vector3 target = Text[0]->mTransform.pos;
-		//	target.x = TEXT_POS_XX;
-		//	Vector3 target_world = World[0]->mTransform.pos;
-		//	target_world.x = TEXT_POS_XX;
-		//	Vector3 target_num = Num[0]->mTransform.pos;
-		//	target_num.x = TEXT_POS_XX + 2.3f;
-		//	Vector3 target_word = Word[0]->mTransform.pos;
-		//	target_word.x = TEXT_POS_XX;
-		//	Vector3 target_word2 = Word[4]->mTransform.pos;
-		//	target_word2.x = TEXT_POS_XX + 3.0f;
-		//	Text[0]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
-		//	World[0]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
-		//	Num[0]->dotween->DoEaseOutBack(target_num, TARGETBACK_MOVETIME);
-		//	Word[0]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
-		//	Word[4]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
-		//	isOnce = false;
-		//}
-
-		////ワールド４
-		//if (CollsionRect(stage[3], player) == false)
-		//{
-		//	Vector3 target = Text[3]->mTransform.pos;
-		//	target.x = TEXT_POS_XX;
-		//	Vector3 target_world = World[3]->mTransform.pos;
-		//	target_world.x = TEXT_POS_XX;
-		//	Vector3 target_num = Num[3]->mTransform.pos;
-		//	target_num.x = TEXT_POS_XX + 2.3f;
-		//	Vector3 target_word = Word[1]->mTransform.pos;
-		//	target_word.x = TEXT_POS_XX;
-		//	Vector3 target_word2 = Word[5]->mTransform.pos;
-		//	target_word2.x = TEXT_POS_XX + 2.4f;
-		//	Text[3]->dotween->DoEaseOutBack(target, TARGETBACK_MOVETIME);
-		//	World[3]->dotween->DoEaseOutBack(target_world, TARGETBACK_MOVETIME);
-		//	Num[3]->dotween->DoEaseOutBack(target_num, TARGETBACK_MOVETIME);
-		//	Word[1]->dotween->DoEaseOutBack(target_word, TARGETBACK_MOVETIME);
-		//	Word[5]->dotween->DoEaseOutBack(target_word2, TARGETBACK_MOVETIME);
-		//	isOnce = false;
-		//}
-	}
+	
 
 	for (int i = 0; i < FOUR; i++)
 	{
