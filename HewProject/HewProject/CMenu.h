@@ -14,6 +14,16 @@ public:
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
     D3DTEXTURE ruleTexture;
+    D3DTEXTURE T_1Texture;
+    D3DTEXTURE T_2Texture;
+    D3DTEXTURE T_3Texture;
+    D3DTEXTURE T_4Texture;
+    D3DTEXTURE T_5Texture;
+    D3DTEXTURE T_6Texture;
+    D3DTEXTURE T_7Texture;
+    D3DTEXTURE T_8Texture;
+    D3DTEXTURE T_9Texture;
+    D3DTEXTURE T_10Texture;
 
     D3DBUFFER pauseBuffer;
     D3DTEXTURE pauseTexture;
@@ -38,6 +48,7 @@ public:
     ButtonUI* Message[3];
     ButtonUI* helpMessage[MAXNUM_HELP];
     UI* Rule[MAXNUM_HELP];
+    UI* Tutorial;
     UI* LR_Button[2];
     UI* B_Button;
 

@@ -231,21 +231,6 @@ void StageSelect::Update()
 
 	}
 
-	/*if (isMove == false)
-	{
-		isMove = true;
-		for (int i = 0; i < 2; i++)
-		{
-			backGround[i]->dotween->DoMoveX(-24.0f, 5.0f);
-			backGround[i]->dotween->OnComplete([&]() {
-				backGround[i]->mTransform.pos = { 24.0f,backGround[i]->mTransform.pos.y,BG_POSZ };
-				isMove = false;
-				});
-
-		}
-	}*/
-
-
 	// ƒTƒ“ƒvƒ‹‚ÌˆÚ“®ˆ—
 	SmpMove();
 
