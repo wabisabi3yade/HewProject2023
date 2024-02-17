@@ -14,8 +14,6 @@ class ButtonSelect
 
 	bool c_isInput = false;
 	bool o_isInput = false;
-
-	bool isPushed = false;
 public:
 	ButtonSelect();
 	~ButtonSelect();

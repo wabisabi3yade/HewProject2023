@@ -81,7 +81,7 @@ void ButtonSelect::PushButton()
 	if (!isActive) return;
 
 	buttonRegister[pointButtonID]->BeginFunc();
-	isPushed = true;
+	buttonRegister[pointButtonID]->SetFlash();
 }
 
 void ButtonSelect::Regist(ButtonUI* _registButton)

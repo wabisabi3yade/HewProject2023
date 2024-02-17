@@ -12,6 +12,7 @@ protected:
 	UI* button = nullptr;
 
 	bool isFlash = false;
+	float elapsedTime = 0.0f;
 
 	// ボタンを押されたときの関数を
 	std::function<void()> func = nullptr;
@@ -25,7 +26,7 @@ protected:
 
 	float textScaleTimes = 0.85f;	// ボタンを1.0とした時のテキストの倍率
 
-
+	float nowUV = 0.0f;
 
 	virtual void ScaleLoop(Vector3 _downScale, Vector3 _upScale);
 public:
