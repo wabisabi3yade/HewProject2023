@@ -12,7 +12,7 @@
 #define FADEOUT_POSX (16.0f + FADESCALE_X / 2.0f)	// フェードアウトの時に向かうX座標
 
 #define FADE_TIME (1.5f)
-#define LOAD_TIME (2.5f)	// ロード時間
+#define LOAD_TIME (2.0f)	// ロード時間
 
 #define LOADING_BACKSPEED (0.007f)	// ローディング時に動く背景の速度 
 #define NOWLOADING_OFFSET_Z (0.1f)	// NowLoadingのテキストが背景からの差 
@@ -84,10 +84,12 @@ void Fade::Update()
 {
 	if (!isActive) return;
 
+	
+
 	// 状態ごとに毎フレーム行う処理
 	switch (state)
 	{
-	case STATE::STAY:;
+	case STATE::STAY:
 		break;
 
 	case STATE::FADE_IN:
@@ -107,8 +109,8 @@ void Fade::Update()
 		break;
 	}
 
+	
 	backGround->dotween->Update();
-
 	if (nowLoading != nullptr)
 	{
 		nowLoading->Update();
@@ -175,6 +177,8 @@ void Fade::FadeOutInit()
 	Vector3 v = Vector3::zero;
 	v.x = FADEOUT_POSX;
 	v.z = FADE_BASE_POSZ;
+
+	/*backGround->dotween->Stop();*/
 	backGround->dotween->DoEaseOutCubic(v, FADE_TIME);
 	backGround->dotween->OnComplete([&]()
 		{

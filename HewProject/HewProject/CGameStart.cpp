@@ -3,8 +3,9 @@
 #include "TextureFactory.h"
 #include "ProteinUI.h"
 
+#define GAMESTART_POS_Z (-0.496f)
 
-CGameStart::CGameStart()
+CGameStart::CGameStart(int _num)
 {
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/FadeBlack.png");
@@ -13,7 +14,7 @@ CGameStart::CGameStart()
 	Bg->MakeDotween();
 	Bg->SetColor({ 0,0,0 });
 	Bg->SetAlpha(0);
-	Bg->mTransform.pos = { 0,0,0.1f };
+	Bg->mTransform.pos = { 0,0,GAMESTART_POS_Z };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
 
 	D3D_CreateSquare({ 1,1 }, &textBuffer);
@@ -21,11 +22,11 @@ CGameStart::CGameStart()
 
 	Text = new UI(textBuffer, textTexture);
 	Text->MakeDotween();
-	Text->mTransform.pos = { 12.0f,2.0f,0 };
+	Text->mTransform.pos = { 12.0f,2.0f,GAMESTART_POS_Z-0.00001f };
 	Text->mTransform.scale = { 6.0f,1.5f,1.0f };
 
-	nNumProtein = 3;
-	fProteinZ = 0.0f;
+	nNumProtein = _num;
+	fProteinZ = GAMESTART_POS_Z - 0.00002f;
 
 	Protein = new ProteinUI(nNumProtein, false);
 	Protein->SetPosition({ 11.0f,0,fProteinZ });
@@ -34,6 +35,7 @@ CGameStart::CGameStart()
 
 
 	isProtein = false;
+	isMoveing = false;
 }
 
 CGameStart::~CGameStart()
@@ -55,9 +57,9 @@ void CGameStart::Update()
 
 		Bg->dotween->DoAlpha(0.5f, 0.2f);
 		Bg->dotween->OnComplete([&]() {
-			Text->dotween->DoEaseOutBack({ 0,2.0f,0 }, 0.4f);
+			Text->dotween->DoEaseOutBack({ 0,2.0f,GAMESTART_POS_Z - 0.00001f }, 0.4f);
 			Text->dotween->Join(0, 2.0f, DoTweenUI::FUNC::DELAY);
-			Text->dotween->Append({ -10.0f,2.0f,0 }, 0.3f, DoTweenUI::FUNC::EASE_INBACK);
+			Text->dotween->Append({ -10.0f,2.0f,GAMESTART_POS_Z - 0.00001f }, 0.3f, DoTweenUI::FUNC::EASE_INBACK);
 			Text->dotween->OnComplete([&]() {
 				Text->SetActive(false);
 				});
@@ -65,15 +67,16 @@ void CGameStart::Update()
 			if (nNumProtein == 1)
 			{
 				Protein->GetDotween()->DoEaseOutBack(0, 0.8f);
-				Protein->GetDotween()->Append({ -10.0f,0,0 }, 0.3f, DoTweenUI::FUNC::DELAY);
+				Protein->GetDotween()->Append({ -10.0f,0,GAMESTART_POS_Z - 0.00002f }, 0.3f, DoTweenUI::FUNC::DELAY);
 				Protein->GetDotween()->OnComplete([&]() {
 					Protein->SetActive(true);
 					Protein->AddProtein();
 					Protein->GetDotween()->DelayedCall(0.9f, [&]() {
-						Protein->GetDotween()->DoEaseInBack({ -10.0f,0,0 }, 0.5f);
+						Protein->GetDotween()->DoEaseInBack({ -10.0f,0,GAMESTART_POS_Z - 0.00002f }, 0.5f);
 						Protein->GetDotween()->OnComplete([&]() {
 							Bg->dotween->DoAlpha(0, 0.2f);
 							Protein->SetProtein(false);
+							isMoveing = true;
 							});
 						});
 					});
@@ -81,17 +84,18 @@ void CGameStart::Update()
 			else if (nNumProtein == 2)
 			{
 				Protein->GetDotween()->DoEaseOutBack(0, 0.8f);
-				Protein->GetDotween()->Append({ -10.0f,0,0 }, 0.1f, DoTweenUI::FUNC::DELAY);
+				Protein->GetDotween()->Append({ -10.0f,0,GAMESTART_POS_Z - 0.00002f }, 0.1f, DoTweenUI::FUNC::DELAY);
 				Protein->GetDotween()->OnComplete([&]() {
 					Protein->SetActive(true);
 					Protein->AddProtein();
 					Protein->GetDotween()->DelayedCall(0.1f, [&]() {
 						Protein->AddProtein();
 						Protein->GetDotween()->DelayedCall(1.0f, [&]() {
-							Protein->GetDotween()->DoEaseInBack({ -10.0f,0,0 }, 0.5f);
+							Protein->GetDotween()->DoEaseInBack({ -10.0f,0,GAMESTART_POS_Z - 0.00002f }, 0.5f);
 							Protein->GetDotween()->OnComplete([&]() {
 								Bg->dotween->DoAlpha(0, 0.2f);
 								Protein->SetProtein(false);
+								isMoveing = true;
 								});
 							});
 						});
@@ -101,7 +105,7 @@ void CGameStart::Update()
 			else if (nNumProtein == 3)
 			{
 				Protein->GetDotween()->DoEaseOutBack(0, 0.8f);
-				Protein->GetDotween()->Append({ -10.0f,0,0 }, 0.1f, DoTweenUI::FUNC::DELAY);
+				Protein->GetDotween()->Append({ -10.0f,0,GAMESTART_POS_Z - 0.00002f }, 0.1f, DoTweenUI::FUNC::DELAY);
 				Protein->GetDotween()->OnComplete([&]() {
 					Protein->SetActive(true);
 					Protein->AddProtein();
@@ -110,10 +114,11 @@ void CGameStart::Update()
 						Protein->GetDotween()->DelayedCall(0.1f, [&]() {
 							Protein->AddProtein();
 							Protein->GetDotween()->DelayedCall(1.0f, [&]() {
-								Protein->GetDotween()->DoEaseInBack({ -12.0f,0,0 }, 0.5f);
+								Protein->GetDotween()->DoEaseInBack({ -12.0f,0,GAMESTART_POS_Z - 0.00002f }, 0.5f);
 								Protein->GetDotween()->OnComplete([&]() {
 									Bg->dotween->DoAlpha(0, 0.2f);
 									Protein->SetProtein(false);
+									isMoveing = true;
 									});
 								});
 							});

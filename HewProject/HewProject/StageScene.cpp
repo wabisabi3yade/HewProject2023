@@ -23,6 +23,7 @@
 #include"DoTween.h"
 #include"CGameClear.h"
 #include"CGameOver.h"
+#include"CGameStart.h"
 
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
@@ -150,19 +151,32 @@ StageScene::~StageScene()
 		CLASS_DELETE(Arrow[i]);
 	}
 	CLASS_DELETE(gameClear);
-	//CLASS_DELETE(gameOver);
+	CLASS_DELETE(gameOver);
+	CLASS_DELETE(gameStart);
 	//CLASS_DELETE();
 
 }
 
 void StageScene::Update()
 {
-	//メニュー画面
-	if (player->GetIsMoving() == false)
+	if (isStartStop == true)
 	{
-		Menu->Update();
-	}
+		gameStart->Update();
 
+		if (gameStart->isMoveing == true)
+		{
+			isStartStop = false;
+
+		}
+	}
+	else {
+		//メニュー画面
+		if (player->GetIsMoving() == false)
+		{
+			Menu->Update();
+		}
+	}
+	
 	if (Menu->GetisMenu() == true)
 	{
 		player->GetPlayerMove()->SetIsMenu(true);
@@ -170,11 +184,15 @@ void StageScene::Update()
 	}
 	else
 	{
-		if (InputManager::GetInstance()->GetInputTrigger(InputType::Undo))
+		if (!isStartStop)
 		{
-			Undo(stageScale);
-		}
+			if (InputManager::GetInstance()->GetInputTrigger(InputType::Undo))
+			{
+				Undo(stageScale);
+			}
 
+		}
+		
 		player->GetPlayerMove()->SetIsMenu(false);
 		for (auto i : *vStageObj)
 		{
@@ -300,7 +318,7 @@ void StageScene::Update()
 		{
 			UndoTableUpdate();
 		}
-		
+
 		dotween->Update();
 
 		//UI
@@ -326,6 +344,7 @@ void StageScene::Update()
 		}
 
 	}
+	
 }
 
 void StageScene::StageMove()
@@ -1386,7 +1405,11 @@ void StageScene::Draw()
 				{
 					Arrow[i]->Appear({ stageScale ,stageScale }, 0.5f);
 				}
-				Arrow[i]->Draw();
+
+				if (!isStartStop)
+				{
+					Arrow[i]->Draw();
+				}
 			}
 			else
 			{
@@ -1405,6 +1428,10 @@ void StageScene::Draw()
 	if (player->GetIsGameOver())
 	{
 		gameOver->Draw();
+	}
+	if (isStartStop == true)
+	{
+		gameStart->Draw();
 	}
 
 }
@@ -1606,7 +1633,7 @@ void StageScene::Init(const wchar_t* filePath)
 
 	proteinUi->SetPosition({ 6.0f, 4.0f, 0.0f });
 
-
+	gameStart = new CGameStart(nNumProtein);
 
 
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
