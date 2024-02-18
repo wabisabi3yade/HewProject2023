@@ -22,7 +22,9 @@
 #define TEXT_SCALE_Y (3.0f)
 
 #define WORD_SCALE_X (4.0f)
-#define WORD_SCALE_Y (1.0f)
+#define WORLD_SCALE_X (6.0f)
+#define WORLD_SCALE_Y (1.0f)
+#define WORLDEX_SCALE_X (7.0f)
 
 #define TARGET_MOVETIME (0.7f)
 #define TARGETBACK_MOVETIME (0.5f)
@@ -62,7 +64,10 @@ CStage1SelectScene::CStage1SelectScene()
 	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &text_world2Texture);
 	D3D_LoadTexture(L"asset/Background/Stage3SelectBack.png", &text_world3Texture);
 	D3D_LoadTexture(L"asset/Background/Stage4SelectBack.png", &text_world4Texture);
-	D3D_LoadTexture(L"asset/UI/T_World.png", &worldTexture);
+	D3D_LoadTexture(L"asset/Text/World1Text.png", &world1Texture);
+	D3D_LoadTexture(L"asset/Text/World2Text.png", &world2Texture);
+	D3D_LoadTexture(L"asset/Text/World3Text.png", &world3Texture);
+	D3D_LoadTexture(L"asset/Text/World4Text.png", &worldEXTexture);
 
 	D3D_CreateSquare({ 3,4 }, &numBuffer);
 	D3D_LoadTexture(L"asset/UI/Number.png", &numTexture);
@@ -116,11 +121,11 @@ CStage1SelectScene::CStage1SelectScene()
 	Text[0]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
 	Text[0]->materialDiffuse = { 1,1,1,1 };
 
-	World[0] = new UI(textBuffer, worldTexture);
+	World[0] = new UI(textBuffer, world2Texture);
 	World[0]->MakeDotween();
 	World[0]->SetColor({ 4,111,243 });
 	World[0]->mTransform.pos = { TEXT_POS_XX,WORLD_POS_YY,-0.1f };
-	World[0]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	World[0]->mTransform.scale = { WORLD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Text[1] = new UI(textBuffer, text_world1Texture);
 	Text[1]->MakeDotween();
@@ -128,11 +133,11 @@ CStage1SelectScene::CStage1SelectScene()
 	Text[1]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
 	Text[1]->materialDiffuse = { 1,1,1,1 };
 
-	World[1] = new UI(textBuffer, worldTexture);
+	World[1] = new UI(textBuffer, world1Texture);
 	World[1]->MakeDotween();
 	World[1]->SetColor({ 246,232,120 });
 	World[1]->mTransform.pos = { TEXT_POS_X,WORLD_POS_YY,-0.1f };
-	World[1]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	World[1]->mTransform.scale = { WORLD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Text[2] = new UI(textBuffer, text_world3Texture);
 	Text[2]->MakeDotween();
@@ -140,11 +145,11 @@ CStage1SelectScene::CStage1SelectScene()
 	Text[2]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
 	Text[2]->materialDiffuse = { 1,1,1,1 };
 
-	World[2] = new UI(textBuffer, worldTexture);
+	World[2] = new UI(textBuffer, world3Texture);
 	World[2]->MakeDotween();
 	World[2]->SetColor({ 231,166,203 });
 	World[2]->mTransform.pos = { TEXT_POS_X,WORLD_POS_Y,-0.1f };
-	World[2]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	World[2]->mTransform.scale = { WORLD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Text[3] = new UI(textBuffer, text_world4Texture);
 	Text[3]->MakeDotween();
@@ -152,55 +157,55 @@ CStage1SelectScene::CStage1SelectScene()
 	Text[3]->mTransform.scale = { TEXT_SCALE_X,TEXT_SCALE_Y,1 };
 	Text[3]->materialDiffuse = { 1,1,1,1 };
 
-	World[3] = new UI(textBuffer, worldTexture);
+	World[3] = new UI(textBuffer, worldEXTexture);
 	World[3]->MakeDotween();
 	World[3]->SetColor({ 15,14,88 });
 	World[3]->mTransform.pos = { TEXT_POS_XX,WORLD_POS_Y,-0.1f };
-	World[3]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	World[3]->mTransform.scale = { WORLDEX_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[0] = new UI(wordBuffer, word_RightUpTexture);
 	Word[0]->MakeDotween();
 	Word[0]->mTransform.pos = { TEXT_POS_XX,-2.0f,-0.1f };
-	Word[0]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[0]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[1] = new UI(wordBuffer, word_RightDownTexture);
 	Word[1]->MakeDotween();
 	Word[1]->mTransform.pos = { TEXT_POS_XX,1.0f,-0.1f };
-	Word[1]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[1]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[2] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[2]->MakeDotween();
 	Word[2]->mTransform.pos = { TEXT_POS_X,-2.0f,-0.1f };
-	Word[2]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[2]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[3] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[3]->MakeDotween();
 	Word[3]->mTransform.pos = { TEXT_POS_X,1.0f,-0.1f };
-	Word[3]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[3]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[4] = new UI(wordBuffer, word_RightUpTexture);
 	Word[4]->MakeDotween();
 	Word[4]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[4]->mTransform.pos = { TEXT_POS_XX + 3.0f,-2.0f,-0.11f };
-	Word[4]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[4]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[5] = new UI(wordBuffer, word_RightDownTexture);
 	Word[5]->MakeDotween();
 	Word[5]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[5]->mTransform.pos = { TEXT_POS_XX + 2.4f,1.0f,-0.11f };
-	Word[5]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[5]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[6] = new UI(wordBuffer, word_LeftUpTexture);
 	Word[6]->MakeDotween();
 	Word[6]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[6]->mTransform.pos = { TEXT_POS_X + 3.1f,-2.0f,-0.11f };
-	Word[6]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[6]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	Word[7] = new UI(wordBuffer, word_LeftDownTexture);
 	Word[7]->MakeDotween();
 	Word[7]->SetUV(0, 1.0f / 2.0f * 1.0f);
 	Word[7]->mTransform.pos = { TEXT_POS_X + 3.1f,1.0f,-0.11f };
-	Word[7]->mTransform.scale = { WORD_SCALE_X,WORD_SCALE_Y,1 };
+	Word[7]->mTransform.scale = { WORD_SCALE_X,WORLD_SCALE_Y,1 };
 
 	stage[0]->mTransform.pos = { -4.0f,2.0f,-0.1f };
 	stage[0]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
@@ -297,7 +302,10 @@ CStage1SelectScene::~CStage1SelectScene()
 	SAFE_RELEASE(word_LeftUpTexture);
 	SAFE_RELEASE(word_RightDownTexture);
 	SAFE_RELEASE(word_RightUpTexture);
-	SAFE_RELEASE(worldTexture);
+	SAFE_RELEASE(world1Texture);
+	SAFE_RELEASE(world2Texture);
+	SAFE_RELEASE(world3Texture);
+	SAFE_RELEASE(worldEXTexture);
 	SAFE_RELEASE(numTexture);
 }
 

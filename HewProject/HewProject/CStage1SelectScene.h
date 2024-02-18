@@ -42,7 +42,10 @@ public:
     D3DTEXTURE word_RightDownTexture;
     D3DTEXTURE word_LeftUpTexture;
     D3DTEXTURE word_LeftDownTexture;
-    D3DTEXTURE worldTexture;
+    D3DTEXTURE world1Texture;
+    D3DTEXTURE world2Texture;
+    D3DTEXTURE world3Texture;
+    D3DTEXTURE worldEXTexture;
 
     //êîéö
     D3DBUFFER numBuffer;
