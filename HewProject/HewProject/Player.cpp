@@ -9,7 +9,7 @@
 #include "TextureFactory.h"
 #include"CalorieGage_hori.h"
 
-#define START_CALORIE (10)	// スタート時のカロリー
+#define START_CALORIE (8)	// スタート時のカロリー
 #define CHILI_CALORIE (2)	// とうがらし食べた減るのリスのカロリー
 
 void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_tex)

@@ -47,6 +47,9 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 
 	isStartStop = true;
 
+	isLookMap = false;
+	isMenu = false;
+
 	// テクスチャを管理するクラスのインスタンスを取得
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 
@@ -89,7 +92,9 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	stageTextureCake = texFactory->Fetch(L"asset/Item/Cake.png");
 	stageTextureChili = texFactory->Fetch(L"asset/Item/Chili.png");
 	stageTextureCoin = texFactory->Fetch(L"asset/Item/Coin.png");
-	stageTextureGallChest = texFactory->Fetch(L"asset/Stage/GallChest.png");
+	stageTextureGallChest[0] = texFactory->Fetch(L"asset/Stage/GallChest.png");
+	stageTextureGallChest[1] = texFactory->Fetch(L"asset/Stage/GallChestLight.png");
+	stageTextureGallChest[2] = texFactory->Fetch(L"asset/Stage/GallChestAura.png");
 	stageTextureGumi = texFactory->Fetch(L"asset/Stage/Gumi.png");
 	stageTextureProtein = texFactory->Fetch(L"asset/Item/Protein.png");
 	shadowTexture = texFactory->Fetch(L"asset/Item/shadow.png");
@@ -171,12 +176,12 @@ void StageScene::Update()
 	}
 	else {
 		//メニュー画面
-		if (player->GetIsMoving() == false)
+		if (player->GetIsMoving() == false && !isStartStop)
 		{
 			Menu->Update();
 		}
 	}
-	
+
 	if (Menu->GetisMenu() == true)
 	{
 		player->GetPlayerMove()->SetIsMenu(true);
@@ -192,7 +197,7 @@ void StageScene::Update()
 			}
 
 		}
-		
+
 		player->GetPlayerMove()->SetIsMenu(false);
 		for (auto i : *vStageObj)
 		{
@@ -214,37 +219,48 @@ void StageScene::Update()
 		/// 
 		/// 階層変更している
 		/// 
-
-		if (player->GetPlayerMove()->GetisLoolMap() == true)
+		if (!isStartStop)
 		{
 			InputManager* input = InputManager::GetInstance();
 
-			if (input->GetInputTrigger(InputType::L_BUTTON))
-			{
-				if (lockStageMap != nMaxFloor)
-				{
-					lockStageMap++;
-				}
-				floorUi->SetHighlight(lockStageMap);
-			}
-			else if (input->GetInputTrigger(InputType::R_BUTTON))
+		if (input->GetInputTrigger(InputType::CAMERA))
+		{
+			isLookMap = true;
+		}
+
+
+			if (player->GetPlayerMove()->GetisLoolMap() == true)
 			{
 
-				if (lockStageMap != 1)
+				if (input->GetInputTrigger(InputType::L_BUTTON))
 				{
-					lockStageMap--;
+					if (lockStageMap != nMaxFloor)
+					{
+						lockStageMap++;
+					}
+					floorUi->SetHighlight(lockStageMap);
 				}
-				floorUi->SetHighlight(lockStageMap);
-			}
-			else if (input->GetInputTrigger(InputType::CANCEL))
-			{
-				lockStageMap = nowFloorNum;
-				floorUi->SetHighlight(lockStageMap);
-				player->GetPlayerMove()->CameraEnd();
-			}
-			else if (input->GetInputTrigger(InputType::OPTION))
-			{
-				FloorOnlyMap = !FloorOnlyMap;
+				else if (input->GetInputTrigger(InputType::R_BUTTON))
+				{
+
+					if (lockStageMap != 1)
+					{
+						lockStageMap--;
+					}
+					floorUi->SetHighlight(lockStageMap);
+				}
+				else if (input->GetInputTrigger(InputType::CANCEL))
+				{
+					lockStageMap = nowFloorNum;
+					floorUi->SetHighlight(lockStageMap);
+					//player->GetPlayerMove()->CameraEnd();
+					isLookMap = false;
+				}
+				else if (input->GetInputTrigger(InputType::OPTION))
+				{
+					FloorOnlyMap = !FloorOnlyMap;
+				}
+
 			}
 		}
 		if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
@@ -329,6 +345,8 @@ void StageScene::Update()
 		//カロリーゲージ
 		calorieGage->Update();
 
+		floorUi->Update();
+
 		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 		{
 			Arrow[i]->Update();
@@ -344,7 +362,7 @@ void StageScene::Update()
 		}
 
 	}
-	
+
 }
 
 void StageScene::StageMove()
@@ -498,6 +516,10 @@ void StageScene::StageMove()
 
 			Vector3 pos = { 10.0f, 4.0f, 0.0f };
 			proteinUi->GetDotween()->DoEaseInBack(pos, 0.7f);
+			pos = { -16.0f, 3.5f, 0.0 };
+			calorieGage->GetDotween()->DoEaseInBack(pos, 0.7f);
+			pos = { 10.0f,-2.0f,0.0f };
+			floorUi->GetDotween()->DoEaseInBack(pos, 0.7f);
 
 			player->dotween->DelayedCall(BREAK_TIME / 9.0f, [&]()
 				{
@@ -542,7 +564,7 @@ void StageScene::StageMove()
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y / 2 };
 					CCamera::GetInstance()->Zoom(0.26f, stageScale, { pos.x,pos.y, 0 });
 					gallObj->Open(clearBuffer, 2.0f, stageScale * 0.4f);
-					
+					gallObj->SetTexture(stageTextureGallChest[1]);
 					gallObj->dotween->DelayedCall(BREAK_TIME / 2.5f, [&, gallObj]()
 						{
 							gallReduction = true;
@@ -562,7 +584,12 @@ void StageScene::StageMove()
 		dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
 		dotween->OnComplete([&]()
 			{
+				CCamera::GetInstance()->Init();
 				isGameClear = true;
+				player->dotween->DelayedCall(5.0f, [&]()
+					{
+						player->ChangeInvisible();
+					});
 			});
 		gallReduction = false;
 	}
@@ -1725,6 +1752,12 @@ void StageScene::Init(const wchar_t* filePath)
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
 
+	isLookMap =  player->GetPlayerMove()->GetIsLookCamera();
+	isMenu = player->GetPlayerMove()->GetIsMenu();
+	isLookMap;
+	//player->GetPlayerMove()->SetIsLookCamera(&isLookMap);
+	//player->GetPlayerMove()->SetIsMenu(&isMenu);
+
 	floorReset.playerUndo = player->GetGridPos();
 	floorReset.stateUndo = player->GetState();
 	floorReset.dirUndo = player->GetDirection();
@@ -1806,7 +1839,7 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				player = dynamic_cast<Player*>(objWork);
 				break;
 			case CGridObject::BlockType::GALL:
-				objWork = new CGall(playerBuffer, stageTextureGallChest);
+				objWork = new CGall(playerBuffer, stageTextureGallChest[2]);
 				break;
 			case CGridObject::BlockType::CANNON:
 				objWork = new CCannon(playerBuffer, stageTextureCannon[1], nowFloor);

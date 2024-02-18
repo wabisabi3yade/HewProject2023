@@ -9,6 +9,7 @@ class CGall :
 {
      std::list<CEffect*> effect;
     bool playEffect;
+    Transform  o_Transform;
 public:
     std::unique_ptr<DoTween> dotween;
     CGall(D3DBUFFER vb, D3DTEXTURE tex);

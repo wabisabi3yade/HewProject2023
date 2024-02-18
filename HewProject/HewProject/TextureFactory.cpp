@@ -109,7 +109,10 @@ void TextureFactory::Load()
 		L"asset/Stage/Canon_UpDown.png",
 		L"asset/Stage/Castella.png",
 		L"asset/Stage/GallChest.png",
+		L"asset/Stage/GallChestLight.png",
+		L"asset/Stage/GallChestAura.png",
 		L"asset/Stage/Gumi.png",
+
 
 		L"asset/Item/Cake.png",
 		L"asset/Item/Chili.png",
