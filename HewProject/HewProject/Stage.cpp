@@ -6,6 +6,26 @@
 #include"CCamera.h"
 #define BACK_POSZ (1.0f)	
 
+Stage::Stage()
+{
+	TextureFactory* texFactory = TextureFactory::GetInstance();
+	backTex[0] = texFactory->Fetch(L"asset/Background/Stage1.png");
+	backTex[1] = texFactory->Fetch(L"asset/Background/Stage2.png");
+	backTex[2] = texFactory->Fetch(L"asset/Background/Stage3.png");
+	backTex[3] = texFactory->Fetch(L"asset/Background/StageEX.png");
+
+	D3D_CreateSquare({ 1,1 }, &backBuffer);
+	back = new CObject(backBuffer, NULL);
+	back->mTransform.pos.z = BACK_POSZ;
+	back->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H, 1.0f };
+
+	if (isDirectWriteUse)
+	{
+		dbgFloorTable = new DebugTable(stage->GetNowFloor(), true);
+		dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
+	}
+}
+
 Stage::Stage(const wchar_t* _csvName, short int worldNum)
 {
 
@@ -39,16 +59,7 @@ Stage::Stage(const wchar_t* _csvName, short int worldNum)
 
 void Stage::Init()
 {
-	//stage = new StageScene(NULL, NULL);
 
-	//stage->Init(csvPath);
-
-	//if (isDirectWriteUse)
-	//{
-	//	dbgFloorTable = new DebugTable(stage->GetNowFloor(), true);
-	//	dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
-	//	gauge = new Ckcal_gauge();
-	//}
 }
 
 void Stage::Update()

@@ -245,6 +245,7 @@
     <ClInclude Include="StageEx3.h" />
     <ClInclude Include="StageEx4.h" />
     <ClInclude Include="StageScene.h" />
+    <ClInclude Include="StageScene11.h" />
     <ClInclude Include="StageSelect.h" />
     <ClInclude Include="StgButton.h" />
     <ClInclude Include="SweetsUI.h" />
@@ -252,6 +253,7 @@
     <ClInclude Include="ThinMove.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Tutorial.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
@@ -371,12 +373,14 @@
     <ClCompile Include="StageEx3.cpp" />
     <ClCompile Include="StageEx4.cpp" />
     <ClCompile Include="StageScene.cpp" />
+    <ClCompile Include="StageScene11.cpp" />
     <ClCompile Include="StageSelect.cpp" />
     <ClCompile Include="StgButton.cpp" />
     <ClCompile Include="SweetsUI.cpp" />
     <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="ThinMove.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
