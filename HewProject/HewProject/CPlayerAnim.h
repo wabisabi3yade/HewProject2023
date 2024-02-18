@@ -39,6 +39,10 @@ public:
 
         //ゴール用の食べるアニメーション
         GALL_EAT,
+
+        //プレイヤーマッチョになるときのアニメーション
+        MAKEOVER_RIGHT,
+        MAKEOVER_LEFT,
     };
 private:
     float AnimSpeedRate;
@@ -60,5 +64,6 @@ public:
     void SetIsFall(bool _isFall) { Now_IsFall = _isFall ;}
     void SetAnimSpeedRate(float _animSpeedRate) { AnimSpeedRate = _animSpeedRate; }
     void PlayGallEat(float _animSpeedRate = 1.0f);
+    void PlayMakeover(int _dir , float _animSpeedRate = 1.0f);
 };
 

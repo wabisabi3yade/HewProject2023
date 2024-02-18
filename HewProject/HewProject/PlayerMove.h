@@ -5,7 +5,7 @@
 #include "GridTable.h"
 
 class CEffect;
-#define WALK_TIME (1.0f)	// •à‚­‚Æ‚«‚ÌˆÚ“®ŽžŠÔ
+#define WALK_TIME (0.78f)	// •à‚­‚Æ‚«‚ÌˆÚ“®ŽžŠÔ
 
 class Player;
 

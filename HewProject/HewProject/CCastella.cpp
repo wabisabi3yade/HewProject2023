@@ -33,7 +33,7 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 	// 手前のマスに行くときは先にZ座標を手前に合わせる
 	else
 	{
-		mTransform.pos.z = _pos.z;
+		mTransform.pos.z = _pos.z + 0.001f;
 	}
 
 	dotween->DoMoveXY({ _pos.x,_pos.y }, CASTELLAWALK_TIME);
@@ -46,7 +46,7 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 		dotween->Append(_fallPos, CASTELLAFALL_TIME, DoTween::FUNC::MOVE_XY);
 		Vector3 pos = _pos;
 		Vector3 scale = this->mTransform.scale;
-		pos.z += 0.000001f;
+		pos.z += 0.000101f;
 		scale.x *= STAR_CASTELLA_SCALE;
 		scale.y *= STAR_CASTELLA_SCALE;
 		pos.y += 0.1f * this->mTransform.scale.y;

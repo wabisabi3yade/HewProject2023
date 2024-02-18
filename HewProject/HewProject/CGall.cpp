@@ -28,22 +28,7 @@ void CGall::Update()
 {
 	if (!playEffect)
 	{
-		//Vector3 pos = mTransform.pos;
-		//pos.z -= 0.00001f;
-		//pos.x += 0.0666 * mTransform.scale.x;
-		//pos.y -= 0.0666 * mTransform.scale.y;
-		//Vector3 scale = mTransform.scale;
-		//scale.x *= 1.5f;
-		//scale.y *= 1.5f;
-		//CEffect* set = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::BOX, true);
-		//set->GetEffectAnim()->animSpeed = 0.22f;
-		//set->SetAlpha(0.5f);
-		//effect.push_back(set);
 		o_Transform = mTransform;
-		mTransform.scale.x *= 1.5f;
-		mTransform.scale.y *= 1.5f;
-		mTransform.pos.x += 0.35f;
-		mTransform.pos.y -= 0.3f;
 		playEffect = true;
 	}
 	dotween->Update();
@@ -91,7 +76,8 @@ void CGall::Open(D3DBUFFER vb, float _animSpeedRate, float _scale)
 
 	mTransform = o_Transform;
 
-	mTransform.pos.y -= 0.03f* mTransform.scale.y;
+	mTransform.pos.y += 0.17f * mTransform.scale.y;
+	mTransform.pos.x -= 0.11f * mTransform.scale.x;
 	dotween->DelayedCall(BREAK_TIME / 2.0f, [&,vb,_animSpeedRate,_scale]()
 		{
 			Vector3 pos = mTransform.pos;
