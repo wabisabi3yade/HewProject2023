@@ -54,6 +54,24 @@ W2Select::W2Select()
 
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 
+	D3DTEXTURE texWork;
+	D3D_LoadTexture(L"asset/Sample/21.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/22.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/23.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/24.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	smp->SetTexture(stageSmpTex[0]);
+
+	// ふち色を変える
+	stageSmpBack->SetColor({ 238, 252, 254 });
+
 	// 背景のテクスチャを設定
 	D3D_LoadTexture(L"asset/Background/Stage2SelectBack.png", &backTex);
 	backGround[0]->SetTexture(backTex);

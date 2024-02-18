@@ -76,7 +76,6 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _typ
 		disTimes = 0.415f;
 		break;
 	case CGridObject::BlockType::CASTELLA:
-	case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::CANNON:
 		disTimes = 0.455f;
 		break;
@@ -92,6 +91,10 @@ Vector3 GridTable::GridToWorld(CGrid::GRID_XY _grid, CGridObject::BlockType _typ
 	case CGridObject::BlockType::CAKE:
 	case CGridObject::BlockType::CHILI:
 	case CGridObject::BlockType::PROTEIN:
+		disTimes = 0.7f;
+		break;
+
+	case CGridObject::BlockType::COIN:
 		disTimes = 0.7f;
 		break;
 

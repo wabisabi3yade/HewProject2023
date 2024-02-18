@@ -8,7 +8,7 @@
 #define BG_POSZ (1.1f)	// 背景
 #define SMPBACK_POSZ (1.0f)	
 
-#define SMP_ROT (-10.0f)	// サンプルの回転角度 
+#define SMP_ROT (-7.50f)	// サンプルの回転角度 
 #define SMPBACK_TARGET_POSX (3.5f)	// サンプル背景目標の値
 #define SMPBACK_BEGIN_OFFSETX (0.3f)	
 #define SMP_MOVETIME (0.3f)	// サンプルの移動時間
@@ -38,6 +38,9 @@ void StageSelect::Input()
 	}
 	// 選んでいるステージの数を取得
 	c_pointStage = btnSelect->GetPointButton() + 1;
+
+	// サンプルの画像変える
+	smp->SetTexture(stageSmpTex[c_pointStage - 1]);
 
 	// 移動したので
 	if (c_pointStage != o_pointStage)
@@ -86,6 +89,10 @@ void StageSelect::SmpMove()
 		stageSmpBack->dotween->DoMoveX(SMPBACK_TARGET_POSX, SMP_MOVETIME);
 		stageSmpBack->dotween->Join(1.0f, SMP_MOVETIME, DoTweenUI::FUNC::ALPHA);
 
+	}
+	else
+	{
+		/*stageSmpBack*/
 	}
 }
 
@@ -328,6 +335,13 @@ StageSelect::~StageSelect()
 	}
 	SAFE_RELEASE(worldNameBuffer);
 	SAFE_RELEASE(worldNameTex);
+
+	CLASS_DELETE(smp);
+	
+	for (auto a : stageSmpTex)
+	{
+		SAFE_RELEASE(a);
+	}
 }
 
 void StageSelect::BeginMove()

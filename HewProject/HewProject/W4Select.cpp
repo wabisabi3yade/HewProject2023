@@ -56,6 +56,23 @@ W4Select::W4Select()
 
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 
+	stageSmpBack->SetColor({ 199, 178, 156 });
+
+	D3DTEXTURE texWork;
+	D3D_LoadTexture(L"asset/Sample/41.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/42.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/43.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/44.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	smp->SetTexture(stageSmpTex[0]);
+
 	// ”wŒi‚ÌƒeƒNƒXƒ`ƒƒ‚ðÝ’è
 	D3D_LoadTexture(L"asset/Background/Stage4SelectBack.png", &backTex);
 	backGround[0]->SetTexture(backTex);
@@ -118,6 +135,10 @@ void W4Select::Update()
 	SmpMove();
 
 	stageSmpBack->Update();
+
+	smp->mTransform.pos = stageSmpBack->mTransform.pos;
+	smp->mTransform.pos.z -= UI_OFFSETZ;
+	smp->SetAlpha(stageSmpBack->materialDiffuse.w);
 
 	for (int i = 0; i < 3; i++)
 	{

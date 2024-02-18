@@ -33,6 +33,9 @@ void W1Select::Input()
 	// 選んでいるステージの数を取得
 	c_pointStage = btnSelect->GetPointButton() + 1;
 
+	// サンプルの画像変える
+	smp->SetTexture(stageSmpTex[c_pointStage - 1]);
+
 	// 移動したので
 	if (c_pointStage != o_pointStage)
 	{
@@ -167,12 +170,28 @@ W1Select::W1Select()
 	}
 	D3DTEXTURE texWork;
 	D3D_LoadTexture(L"asset/Sample/11.png", &texWork);
+	stageSmpTex.push_back(texWork);
 
+	D3D_LoadTexture(L"asset/Sample/12.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/13.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/14.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/15.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/16.png", &texWork);
 	stageSmpTex.push_back(texWork);
 
 	smp->SetTexture(stageSmpTex[0]);
-
 	stgButton[c_pointStage - 1]->SetHighlight(true);
+
+	// ふち色を変える
+	stageSmpBack->SetColor({ 252, 247, 234 });
 
 	stageTextPos.x = -6.5f;
 	stageTextPos.y = 0.2f;
