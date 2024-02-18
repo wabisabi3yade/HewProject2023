@@ -90,6 +90,10 @@ private:
 
 	bool cannonMove = false;
 
+	bool isLookMap;
+
+	bool isMenu;
+
 	bool gallVibration = false;
 
 	bool gallReduction = false;
@@ -133,7 +137,7 @@ private:
 	D3DTEXTURE stageTextureCake;
 	D3DTEXTURE stageTextureChili;
 	D3DTEXTURE stageTextureCoin;
-	D3DTEXTURE stageTextureGallChest;
+	D3DTEXTURE stageTextureGallChest[3];//0　通常　1　光開く　2　光オーラ
 	D3DTEXTURE stageTextureGumi;
 	D3DTEXTURE stageTextureProtein;
 	D3DTEXTURE playerTexture;

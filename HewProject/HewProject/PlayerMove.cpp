@@ -45,7 +45,7 @@ PlayerMove::~PlayerMove()
 void PlayerMove::Input()
 {
 	// 移動しているときは処理しない
-	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon || isMenu) return;
+	if (isMoving || isRising || isFalling || &isLookMap || isCannonMove || inCannon || &isMenu) return;
 
 	InputManager* input = InputManager::GetInstance();
 
@@ -113,10 +113,6 @@ void PlayerMove::Input()
 			IsMissMove = false;
 		}
 
-	}
-	else if (input->GetInputTrigger(InputType::CAMERA))
-	{
-		isLookMap = true;
 	}
 }
 

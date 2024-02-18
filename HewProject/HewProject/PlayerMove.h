@@ -165,5 +165,10 @@ public:
 	void SetIsMenu(bool _set) { isMenu = _set; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 	bool GetIsMissMove()const { return IsMissMove; }
+	bool* GetIsLookCamera() { return &isLookMap ; }
+	bool* GetIsMenu() { return &isMenu; }
+
+	void SetIsLookCamera(bool _set) { isLookMap = &_set; }
+	//void SetIsMenu(bool _set) { isMenu = &_set; }
 };
 

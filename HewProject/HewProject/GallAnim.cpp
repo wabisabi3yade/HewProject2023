@@ -2,7 +2,8 @@
 
 GallAnim::GallAnim()
 {
-	AnimSpeedRate = 1.0f;
+	AnimSpeedRate = 1.5f;
+	
 }
 
 GallAnim::~GallAnim()
@@ -13,10 +14,14 @@ void GallAnim::Update()
 {
 	int animTable[][32] = {
 
-		{0,-1},//通常待機状態
+		{0,1,2,
+		3, -1},//通常待機状態
 
 		{0,1,2,
-		3,-2},
+		3,4,5,
+		6,-2},
+
+		{3,4,5,6,-1}
 	};
 
 
@@ -35,10 +40,10 @@ void GallAnim::Update()
 		else if (animTable[animPattern][(int)animCounter] == -2)
 		{
 			// 再生を止める
-			isPlaying = false;
-			//animPattern -= 1;
+			//isPlaying = false;
+			animPattern += 1;
 			// 最初のコマに戻して止める
-			animCounter -= 1.0f;
+			animCounter = 0.0f;
 		}
 	}
 
@@ -49,6 +54,7 @@ void GallAnim::Update()
 	nowUV.x = (animID % 3) * (1.0f / 3);
 
 	nowUV.y = (animID / 3) * 0.25f;
+
 }
 
 void GallAnim::PlayOpen(float _animSpeedRate)
