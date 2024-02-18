@@ -406,6 +406,12 @@
     <Filter Include="ソース ファイル\Hashimoto\CoinUI">
       <UniqueIdentifier>{7ed1ee9a-ad34-4a61-9627-34299007f8c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage11\StageScene11">
+      <UniqueIdentifier>{b1cf2441-7dd7-40ee-917f-2cd3e9e247bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Tutorial">
+      <UniqueIdentifier>{9e0c3ab5-0d25-4775-9d98-a505f31bde71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -777,6 +783,12 @@
     <ClInclude Include="CoinUI.h">
       <Filter>ソース ファイル\Hashimoto\CoinUI</Filter>
     </ClInclude>
+    <ClInclude Include="StageScene11.h">
+      <Filter>ソース ファイル\Stage\World1\Stage11\StageScene11</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>ソース ファイル\Hashimoto\Tutorial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -1147,6 +1159,12 @@
     </ClCompile>
     <ClCompile Include="CoinUI.cpp">
       <Filter>ソース ファイル\Hashimoto\CoinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="StageScene11.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage11\StageScene11</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>ソース ファイル\Hashimoto\Tutorial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

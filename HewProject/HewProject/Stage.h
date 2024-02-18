@@ -23,6 +23,9 @@ protected:
 
     CScene::SCENE_NAME nextStage;
 public:
+
+    Stage();
+
     /// <summary>
     /// ステージシーンのコンストラクタ
     /// </summary>

@@ -9,6 +9,8 @@ class ButtonUI;
 class ProteinUI;
 class CoinUI;
 
+class Tutorial;
+
 class Fade_TestScene
 	:public CScene
 {
@@ -22,6 +24,10 @@ class Fade_TestScene
 
 	ProteinUI* proteinUI;
 	CoinUI* coinUI;
+
+	Tutorial* tutorial;
+
+	D3DTEXTURE tutorialTex;
 
 public:
 	Fade_TestScene();

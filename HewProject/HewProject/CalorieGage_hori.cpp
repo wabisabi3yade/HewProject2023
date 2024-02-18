@@ -294,6 +294,8 @@ void CalorieGage_hori::MarkAdd(const short& _oldNum, const short& _add)
 		{
 			if (i <= 0) break;
 
+			Vector3 target = Vector3::zero;
+			target.z = 1.0f;
 			// –Ú•W‚Ì‘å‚«‚³
 			mark[i - 1]->dotween->DoEaseInBackScale(Vector3::zero , MARK_SCALETIME);
 			mark[i - 1]->dotween->OnComplete([&, i]()

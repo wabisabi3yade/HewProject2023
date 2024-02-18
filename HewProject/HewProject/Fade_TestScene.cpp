@@ -9,6 +9,8 @@
 
 #include "CoinUI.h"
 
+#include "Tutorial.h"
+
 Fade_TestScene::Fade_TestScene()
 {
 	fade = Fade::GetInstance();
@@ -37,6 +39,12 @@ Fade_TestScene::Fade_TestScene()
 	coinUI->SetPosition({ 0.0f,0.0f, 0.0f });
 	/*coinUI->SetScale({ 1.0f,1.0f });*/
 	coinUI->SetActive(true);
+
+
+	D3D_LoadTexture(L"asset/Tutorial/T_1.png", &tutorialTex);
+
+	tutorial = new Tutorial(tutorialTex);
+
 	//proteinUI->GetDotween()->DoMove({ -5.0f, 2.0f,1.0f }, 1.0f);
 	//proteinUI->GetDotween()->OnComplete([&]
 	//	{
@@ -57,6 +65,9 @@ Fade_TestScene::~Fade_TestScene()
 
 	SAFE_RELEASE(buffer);
 	SAFE_RELEASE(b);
+
+	CLASS_DELETE(tutorial);
+	SAFE_RELEASE(tutorialTex);
 }
 
 void Fade_TestScene::Update()
@@ -65,7 +76,7 @@ void Fade_TestScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{
-		fade->FadeIn(Fade::STATE::LOADING, nullptr, CScene::SCENE_NAME::WORLD1_SELECT);
+		tutorial->Display();
 	}
 	else if (gInput->GetKeyTrigger(VK_SPACE))
 	{
@@ -126,6 +137,8 @@ void Fade_TestScene::Update()
 	proteinUI->Update();
 	floorUI->Update();
 	coinUI->Update();
+
+	tutorial->Update();
 }
 
 void Fade_TestScene::LateUpdate()
@@ -142,5 +155,7 @@ void Fade_TestScene::Draw()
 
 	/*proteinUI->Draw();*/
 
-	coinUI->Draw();
+	/*coinUI->Draw();*/
+
+	tutorial->Draw();
 }
