@@ -8,6 +8,7 @@
 #include "MuscleMove.h"
 #include "TextureFactory.h"
 #include"CalorieGage_hori.h"
+#include"CCamera.h"
 
 #define START_CALORIE (8)	// スタート時のカロリー
 #define CHILI_CALORIE (2)	// とうがらし食べた減るのリスのカロリー
@@ -54,9 +55,9 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	risingChangeTrriger = false;
 	risingMoveTrriger = false;
 	ChangeCannonTexture = false;
-	PlayAura = false;
 	IsStop = true;
 	isCasetellaPush = false;
+	PlayMakeover = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -71,11 +72,11 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureInput(L"asset/Player/N_EatCake.png", STATE::NORMAL, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/F_EatCake.png", STATE::FAT, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/T_EatCake.png", STATE::THIN, ANIM_TEX::EAT_CAKE),
-	TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
+		TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
-	
+
 	TextureInput(L"asset/Player/N_Aseri.png", STATE::NORMAL, ANIM_TEX::PANIC);
 	TextureInput(L"asset/Player/F_Aseri.png", STATE::FAT, ANIM_TEX::PANIC);
 	TextureInput(L"asset/Player/T_Aseri.png", STATE::THIN, ANIM_TEX::PANIC);
@@ -131,12 +132,12 @@ void Player::Update()
 	// フラグの初期化
 	move->FlagInit();
 	isCasetellaPush = false;
-
+	IsPlayMakeoverTrigger = false;
 	// ↓FlagInitの後
 	move->Input();
 	fallMoveTrriger = false;
 	risingMoveTrriger = false;
-	
+
 
 	dotween->Update();
 
@@ -267,11 +268,9 @@ void Player::EatChilli()
 void Player::ChangeState(STATE _set)
 {
 	bool o_isMoveTrigger = false;
-
 	if (move.get() != nullptr)
 	{
 		o_isMoveTrigger = move->GetIsMoveTrigger();
-
 	}
 
 	// 移動クラスを解放する
@@ -285,42 +284,64 @@ void Player::ChangeState(STATE _set)
 		move = std::make_shared<NormalMove>(this);
 		playerState = STATE::NORMAL;
 		SetTexture(normalTex[ANIM_TEX::WAIT]);
+		PlayMakeover = false;
 		break;
 
 	case STATE::FAT:
 		move = std::make_shared<FatMove>(this);
 		playerState = STATE::FAT;
 		SetTexture(fatTex[ANIM_TEX::WAIT]);
+		PlayMakeover = false;
 		break;
 
 	case STATE::THIN:
 		move = std::make_shared<ThinMove>(this);
 		playerState = STATE::THIN;
 		SetTexture(thinTex[ANIM_TEX::WAIT]);
+		PlayMakeover = false;
 		break;
 
 	case STATE::MUSCLE:
-		this->mTransform.scale.y *= 1.5f;
 		move = std::make_shared<MuscleMove>(this);
-		playerState = STATE::MUSCLE;
 		SetTexture(muscleTex[ANIM_TEX::WAIT]);
-		//if (!PlayAura)
-		//{
-		//	Vector3 pos = mTransform.pos;
-		//	//pos.z += 0.00001f;
-		//	//pos.y -= 1.5f;
-		//	Vector3 scale = mTransform.scale;
-		//	scale.x *= AURA_SCALE;
-		//	//scale.y *= AURA_SCALE;
-		//	this->PlayEffect(pos, scale, EffectManeger::FX_TYPE::AURA, true);
-		//	PlayAura = true;
-		//}
+		if (!PlayMakeover)
+		{
+			ChangeTexture(Player::ANIM_TEX::PANIC);
+			IsPlaymakeover = true;
+			PlayMakeover = true;
+			IsPlayMakeoverTrigger = true;
+		}
+		else
+		{
+			this->mTransform.scale.y *= 1.5f;
+		}
+		playerState = STATE::MUSCLE;
 		break;
 	}
 
 	move->SetMoveTrigger(o_isMoveTrigger);
 
 	dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(direction));
+	if (IsPlaymakeover)
+	{
+		mTransform.pos = gridTable->GridToWorld(Grid->gridPos, CGridObject::BlockType::START);
+		dynamic_cast<CPlayerAnim*>(mAnim)->PlayMakeover(static_cast<int>(direction));
+		dotween->DelayedCall(MAKEOVER_TIME, [&]()
+			{
+				Vector3 pos = mTransform.pos;
+				Vector3 scale = mTransform.scale;
+				scale.x *= 3.0f;
+				scale.y *= 3.0f;
+				pos.z -= 0.0001f;
+				pos.y += 0.3f * scale.y;
+				this->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_P, false);
+				this->mTransform.scale.y *= 1.5f;
+				SetTexture(muscleTex[ANIM_TEX::WAIT]);
+				mTransform.pos = gridTable->GridToWorld(Grid->gridPos, CGridObject::BlockType::START, static_cast<int>(playerState));
+				IsPlaymakeover = false;
+			});
+	}
+
 
 	// 移動できる方向を更新
 	move->CheckCanMove();

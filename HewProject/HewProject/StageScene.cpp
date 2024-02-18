@@ -43,12 +43,14 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	//gameClear = new CGameClear();
 	gameOver = new CGameOver();
 
+	gameClear = new CGameClear(CScene::SCENE_NAME::NONE);
+
 	isGameClear = false;
 
 	isStartStop = true;
 
 	isLookMap = nullptr;
-	 isMenu = nullptr;
+	isMenu = nullptr;
 
 	// テクスチャを管理するクラスのインスタンスを取得
 	TextureFactory* texFactory = TextureFactory::GetInstance();
@@ -210,6 +212,17 @@ void StageScene::Update()
 		StageMove();
 
 
+
+		if (player->GetIsPlayMakeoverTrigger())
+		{
+			CCamera::GetInstance()->Zoom(0.25f, stageScale, { player->mTransform.pos.x, player->mTransform.pos.y, 0 });
+			dotween->DelayedCall(MAKEOVER_TIME, [&]()
+				{
+					CCamera::GetInstance()->mTransform.pos = Vector3::zero;
+					dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
+					CCamera::GetInstance()->Shake(0.7f, 0.3f);
+				});
+		}
 
 		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 		{
@@ -582,10 +595,11 @@ void StageScene::StageMove()
 
 	if (gallReduction)
 	{
+		CCamera::GetInstance()->mTransform.pos = Vector3::zero;
 		dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
 		dotween->OnComplete([&]()
 			{
-				CCamera::GetInstance()->Init();
+				//CCamera::GetInstance()->Init();
 				isGameClear = true;
 				player->dotween->DelayedCall(5.0f, [&]()
 					{
@@ -784,7 +798,10 @@ void StageScene::StageMove()
 			player->ChangeState(Player::STATE::MUSCLE);
 			calorieGage->SetCalorie(CAKE_CALORIE);
 			player->SetCalorie(CAKE_CALORIE);
-			player->mTransform.pos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START, static_cast<int>(Player::STATE::MUSCLE));
+			//if (!player->GetIsPlayMakeover())
+			//{
+			//	player->mTransform.pos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START, static_cast<int>(Player::STATE::MUSCLE));
+			//}
 		}
 		// マッチョじゃないなら
 		if (player->GetState() == Player::STATE::MUSCLE) return;
@@ -1134,6 +1151,8 @@ void StageScene::Undo(float _stageScale)
 		return;	// 抜ける
 	}
 
+	bool o_MakeOver = player->GetPlayMakeover();
+
 	// 更新するテーブル
 	GridTable* updateTable = nowFloor;
 	// 更新するオブジェクトのリスト
@@ -1270,6 +1289,8 @@ void StageScene::Undo(float _stageScale)
 	}
 	player->SetNowFloor(floorUndo[nNumUndo].old_Floor);
 
+	if (player->GetPlayMakeover() != o_MakeOver)
+		player->SetPlayMakeover(o_MakeOver);
 
 	FIELD_FLOOR beforeStage = floorUndo[nNumUndo];
 	// プレイヤーに必要な情報を更新する
@@ -1281,6 +1302,8 @@ void StageScene::Undo(float _stageScale)
 	{
 		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
 	}
+
+
 
 	// 未使用にする
 	floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
@@ -1757,7 +1780,7 @@ void StageScene::Init(const wchar_t* filePath)
 	player->Init(nowFloor);
 
 	isLookMap;
-	isLookMap =  player->GetPlayerMove()->GetIsLookCamera();
+	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
 	isMenu = player->GetPlayerMove()->GetIsMenu();
 	isLookMap;
 	//player->GetPlayerMove()->SetIsLookCamera(isLookMap);
@@ -1880,6 +1903,13 @@ void StageScene::CreateStage(const GridTable& _gridTable, std::vector<CGridObjec
 				else if (objWork->GetBlookType() == CGridObject::BlockType::CANNON)
 				{
 					dynamic_cast<CCannon*>(objWork)->CheckCanMove(_gridTable);
+				}
+				else if (objWork->GetBlookType() == CGridObject::BlockType::GALL)
+				{
+					objWork->mTransform.pos.x += 0.1296f * objWork->mTransform.scale.x;
+					objWork->mTransform.pos.y -= 0.111f * objWork->mTransform.scale.y;
+					objWork->mTransform.scale.x *= 1.5f;
+					objWork->mTransform.scale.y *= 1.5f;
 				}
 				_settingList.push_back(objWork);
 			}

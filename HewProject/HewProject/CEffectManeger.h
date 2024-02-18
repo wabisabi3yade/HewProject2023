@@ -39,6 +39,7 @@ public:
 		SMOKE_R,
 		SMOKE_G,
 		SMOKE_Y,
+		SMOKE_P,
 		HEART,
 		STAR_BOUND,
 		STAR_CASTELLA,

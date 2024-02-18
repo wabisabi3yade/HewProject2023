@@ -1,7 +1,7 @@
 #pragma once
 #include "CGridObject.h"
 #include<iostream>
-constexpr float MELT_TIME = 1.0f;
+constexpr float MELT_TIME = 0.75f;
 
 
 class DoTween;

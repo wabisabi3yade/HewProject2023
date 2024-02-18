@@ -50,7 +50,7 @@ bool* PlayerMove::GetIsLookCamera()
 void PlayerMove::Input()
 {
 	// 移動しているときは処理しない
-	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon || isMenu) return;
+	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon || isMenu || player->GetIsPlayMakeover()) return;
 
 	InputManager* input = InputManager::GetInstance();
 

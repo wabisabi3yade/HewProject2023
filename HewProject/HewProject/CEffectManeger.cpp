@@ -23,6 +23,7 @@ EffectManeger::EffectManeger()
 		L"asset/Effect/smoke_red.png",
 		L"asset/Effect/smoke_green.png",
 		L"asset/Effect/smoke_yellow.png",
+		L"asset/Effect/smoke_pink.png",
 		L"asset/Effect/heart01.png",
 		L"asset/Effect/star02.png",
 		L"asset/Effect/star01.png",

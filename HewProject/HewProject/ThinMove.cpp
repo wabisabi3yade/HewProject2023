@@ -210,7 +210,7 @@ void ThinMove::Move(DIRECTION _dir)
 						//player->Fall();
 						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
+						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME  , [&]()
 							{
 								isFallBound = true;
 							});
@@ -588,7 +588,7 @@ void ThinMove::Step()
 			//バウンドする高さを計算　代入
 			float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 			player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-			player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
+			player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 				{
 					isFallBound = true;
 				});

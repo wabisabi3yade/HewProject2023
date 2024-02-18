@@ -235,7 +235,7 @@ void FatMove::Move(DIRECTION _dir)
 						player->Fall();
 					});
 				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 				player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
@@ -246,7 +246,7 @@ void FatMove::Move(DIRECTION _dir)
 						//バウンドする高さを計算　代入
 						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALL_TIME + FALLMOVE_TIME, [&]()
 							{
 								isFallBound = true;
 							});
@@ -291,7 +291,7 @@ void FatMove::Move(DIRECTION _dir)
 					//バウンドする高さを計算　代入
 					float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-					player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
+					player->dotween->DelayedCall(FALLMOVE_TIME+ FALLMOVE_TIME+ FALLMOVE_TIME , [&]()
 						{
 							isFallBound = true;
 						});
@@ -495,7 +495,7 @@ void FatMove::Step()
 				//バウンドする高さを計算　代入
 				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-				player->dotween->DelayedCall(FALL_TIME + WALK_TIME + FALLMOVE_TIME * 2, [&]()
+				player->dotween->DelayedCall(FALL_TIME + WALK_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
 						isFallBound = true;
 					});
@@ -535,7 +535,7 @@ void FatMove::Step()
 				//バウンドする高さを計算　代入
 				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-				player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
+				player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
 						isFallBound = true;
 					});

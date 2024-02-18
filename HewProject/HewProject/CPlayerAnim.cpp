@@ -82,6 +82,11 @@ void CPlayerAnim::Update()
 		 3,3,4,4,5,5,
 		 6,6,7,7,8,8,-1},
 
+		{1,-1},
+
+		{4,-1},
+
+
 	};
 
 
@@ -297,5 +302,28 @@ void CPlayerAnim::PlayGallEat(float _animSpeedRate)
 	AnimSpeedRate = _animSpeedRate;
 	SetPattern(static_cast<int>(PATTERN::GALL_EAT));
 }
+
+void CPlayerAnim::PlayMakeover(int _dir, float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	switch (_dir)
+	{
+	case 0: 
+	case 2: 
+		SetPattern(static_cast<int>(PATTERN::MAKEOVER_RIGHT));
+		break;
+		// ç∂
+	case 1:
+		// è„
+	case 3:
+		SetPattern(static_cast<int>(PATTERN::MAKEOVER_LEFT));
+		break;
+	default:
+		break;
+	}
+}
+
 
 
