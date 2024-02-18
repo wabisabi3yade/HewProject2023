@@ -218,3 +218,8 @@ void CGameOver::Draw()
 
 	}
 }
+
+void CGameOver::SetFunc(int _num, std::function<void()> _onComplete)
+{
+	Message[_num]->SetFunc(_onComplete);
+}
