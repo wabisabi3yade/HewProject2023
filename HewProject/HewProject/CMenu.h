@@ -13,7 +13,6 @@ class CMenu :
 public:
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
-    D3DTEXTURE ruleTexture;
     D3DTEXTURE T_1Texture;
     D3DTEXTURE T_2Texture;
     D3DTEXTURE T_3Texture;
@@ -33,6 +32,17 @@ public:
     D3DTEXTURE text_helpTexture;
     D3DTEXTURE text_escapeTexture;
 
+    D3DTEXTURE text_T_1Texture;
+    D3DTEXTURE text_T_2Texture;
+    D3DTEXTURE text_T_3Texture;
+    D3DTEXTURE text_T_4Texture;
+    D3DTEXTURE text_T_5Texture;
+    D3DTEXTURE text_T_6Texture;
+    D3DTEXTURE text_T_7Texture;
+    D3DTEXTURE text_T_8Texture;
+    D3DTEXTURE text_T_9Texture;
+    D3DTEXTURE text_T_10Texture;
+
     D3DBUFFER textBoxBuffer;
     D3DTEXTURE textBoxTexture;
 
@@ -47,7 +57,6 @@ public:
     ButtonSelect* help_2PageControl;
     ButtonUI* Message[3];
     ButtonUI* helpMessage[MAXNUM_HELP];
-    UI* Rule[MAXNUM_HELP];
     UI* Tutorial;
     UI* LR_Button[2];
     UI* B_Button;
