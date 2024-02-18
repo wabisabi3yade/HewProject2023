@@ -47,8 +47,8 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 
 	isStartStop = true;
 
-	isLookMap = false;
-	isMenu = false;
+	isLookMap = nullptr;
+	 isMenu = nullptr;
 
 	// テクスチャを管理するクラスのインスタンスを取得
 	TextureFactory* texFactory = TextureFactory::GetInstance();
@@ -167,11 +167,12 @@ void StageScene::Update()
 	if (isStartStop == true)
 	{
 		gameStart->Update();
-
+		if (*isLookMap == false)
+			*isLookMap = true;
 		if (gameStart->isMoveing == true)
 		{
 			isStartStop = false;
-
+			*isLookMap = false;
 		}
 	}
 	else {
@@ -184,7 +185,7 @@ void StageScene::Update()
 
 	if (Menu->GetisMenu() == true)
 	{
-		player->GetPlayerMove()->SetIsMenu(true);
+		//player->GetPlayerMove()->SetIsMenu(true);
 		player->GetmAnim()->animSpeed = 0;
 	}
 	else
@@ -198,7 +199,7 @@ void StageScene::Update()
 
 		}
 
-		player->GetPlayerMove()->SetIsMenu(false);
+		//player->GetPlayerMove()->SetIsMenu(false);
 		for (auto i : *vStageObj)
 		{
 			i->Update();
@@ -223,13 +224,13 @@ void StageScene::Update()
 		{
 			InputManager* input = InputManager::GetInstance();
 
-		if (input->GetInputTrigger(InputType::CAMERA))
-		{
-			isLookMap = true;
-		}
+			if (input->GetInputTrigger(InputType::CAMERA))
+			{
+				*isLookMap = true;
+			}
 
 
-			if (player->GetPlayerMove()->GetisLoolMap() == true)
+			if (*isLookMap == true)
 			{
 
 				if (input->GetInputTrigger(InputType::L_BUTTON))
@@ -254,7 +255,7 @@ void StageScene::Update()
 					lockStageMap = nowFloorNum;
 					floorUi->SetHighlight(lockStageMap);
 					//player->GetPlayerMove()->CameraEnd();
-					isLookMap = false;
+					*isLookMap = false;
 				}
 				else if (input->GetInputTrigger(InputType::OPTION))
 				{
@@ -1502,6 +1503,9 @@ void StageScene::Init(const wchar_t* filePath)
 	case 7:
 		stageScale = 1.9f;
 		break;
+	case 9:
+		stageScale = 1.5f;
+		break;
 	default:
 		stageScale = 1;
 		break;
@@ -1752,11 +1756,12 @@ void StageScene::Init(const wchar_t* filePath)
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
 
+	isLookMap;
 	isLookMap =  player->GetPlayerMove()->GetIsLookCamera();
 	isMenu = player->GetPlayerMove()->GetIsMenu();
 	isLookMap;
-	//player->GetPlayerMove()->SetIsLookCamera(&isLookMap);
-	//player->GetPlayerMove()->SetIsMenu(&isMenu);
+	//player->GetPlayerMove()->SetIsLookCamera(isLookMap);
+	//player->GetPlayerMove()->SetIsMenu(isMenu);
 
 	floorReset.playerUndo = player->GetGridPos();
 	floorReset.stateUndo = player->GetState();
