@@ -475,6 +475,7 @@ void PlayerMove::CannonMove2()
 		if (moveDir == static_cast<int> (DIRECTION::UP) || moveDir == static_cast<int>(DIRECTION::RIGHT))
 		{
 			player->mTransform.pos.z += ISOME_BACKMOVE;
+			v3MovePos.z += ISOME_BACKMOVE;
 		}
 		// 手前のマスに行くときは先にZ座標を手前に合わせる
 		else
@@ -499,8 +500,7 @@ void PlayerMove::CannonMove2()
 			player->GetPlayerMove()->SetNextGridPos(nextCannonPos);
 			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
 				{
-					if (player->GetState() == Player::STATE::MUSCLE)
-						player->mTransform.scale.y *= 1.4f;
+
 
 					player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					dynamic_cast<CPlayerAnim*>(player->GetmAnim())->SetAnimSpeedRate(0.3f);

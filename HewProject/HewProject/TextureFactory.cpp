@@ -147,6 +147,9 @@ void TextureFactory::Load()
 		L"asset/UI/Ty_Frame.png",
 		L"asset/UI/B_LB_RB.png",
 		L"asset/UI/B_Return.png",
+		L"asset/UI/B_Camera.png",
+		L"asset/UI/B_FloorLook.png",
+		L"asset/UI/B_Undo1.png",
 
 		L"asset/Text/T_NextStage.png",
 		L"asset/Text/T_StageSelectBack.png",
@@ -158,6 +161,7 @@ void TextureFactory::Load()
 		L"asset/Text/T_Undo.png",
 		L"asset/Text/Pause.png",
 		L"asset/Text/T_GoalAt.png",
+		L"asset/Text/T_Looking 1.png",
 	};
 
 	D3DTEXTURE texWork;

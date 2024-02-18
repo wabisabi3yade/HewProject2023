@@ -109,6 +109,11 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	stageTextureBaumAnim[2] = texFactory->Fetch(L"asset/Player/Baum_Right.png");
 	stageTextureBaumAnim[3] = texFactory->Fetch(L"asset/Player/Baum_Up.png");
 
+	ButtonTextureCamera = texFactory->Fetch(L"asset/UI/B_Camera.png");
+	ButtonTextureFloorLook = texFactory->Fetch(L"asset/UI/B_FloorLook.png");
+	ButtonTextureUndo = texFactory->Fetch(L"asset/UI/B_Undo1.png");
+	TextTextureLooking = texFactory->Fetch(L"asset/Text/T_Looking 1.png");
+
 }
 
 // テクスチャは解放しない
@@ -160,6 +165,10 @@ StageScene::~StageScene()
 	CLASS_DELETE(gameClear);
 	CLASS_DELETE(gameOver);
 	CLASS_DELETE(gameStart);
+	CLASS_DELETE(CameraButton);
+	CLASS_DELETE(FloorLookButton);
+	CLASS_DELETE(UndoButton);
+	CLASS_DELETE(LookingTxet);
 	//CLASS_DELETE();
 
 }
@@ -528,7 +537,7 @@ void StageScene::StageMove()
 			CGall* gallObj = dynamic_cast<CGall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(),
 				static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
 
-			Vector3 pos = { 10.0f, 4.0f, 0.0f };
+			Vector3 pos = { 10.0f, 3.0f, 0.0f };
 			proteinUi->GetDotween()->DoEaseInBack(pos, 0.7f);
 			pos = { -16.0f, 3.5f, 0.0 };
 			calorieGage->GetDotween()->DoEaseInBack(pos, 0.7f);
@@ -681,7 +690,7 @@ void StageScene::StageMove()
 		case CGridObject::BlockType::WALL:
 		{
 			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), type));
-			wallObj->Break(-1, 0.0f);
+			wallObj->Break(player->GetDirection(), 1.4f);
 			break;
 		}
 		case CGridObject::BlockType::CAKE:
@@ -969,6 +978,7 @@ void StageScene::InCanonInput()
 	Vector3 _pos = player->mTransform.pos;
 	Vector3 _Scale = player->mTransform.scale;
 	_pos.z = cannonObj->mTransform.pos.z;
+	player->mTransform.pos.z = _pos.z - 0.000001f;
 	_Scale.x = _Scale.x * CANNON_FIRE_SCALE;
 	_Scale.y = _Scale.y * CANNON_FIRE_SCALE;
 	// 右 or 左なら　大砲動かす
@@ -979,7 +989,8 @@ void StageScene::InCanonInput()
 		{
 			_pos.x = _pos.x + (0.5f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = _pos.z - 0.15f;
+			_pos.z = _pos.z - 0.000002f;
+			//_pos.z = -0.14f;
 		}
 		else//左
 		{
@@ -1015,8 +1026,8 @@ void StageScene::InCanonInput()
 		{
 			_pos.x = _pos.x + (0.3f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			//_pos.z = _pos.z - (INFRONT_PLUSZ + HORIZONLINE_PLUSZ / 2.0f);
-			_pos.z = _pos.z - 0.15f;
+			_pos.z = _pos.z - (INFRONT_PLUSZ + HORIZONLINE_PLUSZ / 2.0f);
+			//_pos.z = _pos.z - 0.15f;
 		}
 		else
 		{
@@ -1297,7 +1308,7 @@ void StageScene::Undo(float _stageScale)
 	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
-
+	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
 		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
@@ -1435,6 +1446,20 @@ void StageScene::Draw()
 
 
 	//UI
+
+	if (!isStartStop)
+	{
+		if (*isLookMap == true && Menu->GetisMenu() == false)
+		{
+			FloorLookButton->Draw();
+			LookingTxet->Draw();
+		}
+		else if (*isLookMap == false && Menu->GetisMenu() == false)
+		{
+			CameraButton->Draw();
+			UndoButton->Draw();
+		}
+	}
 
 	//プロテイン
 	proteinUi->Draw();
@@ -1680,12 +1705,29 @@ void StageScene::Init(const wchar_t* filePath)
 
 	//UI
 
+	//ボタン
+	CameraButton = new UI(stageBuffer, ButtonTextureCamera);
+	FloorLookButton = new UI(stageBuffer, ButtonTextureFloorLook);
+	UndoButton = new UI(stageBuffer, ButtonTextureUndo);
+	LookingTxet = new UI(stageBuffer, TextTextureLooking);
+
+	CameraButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
+	FloorLookButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
+	UndoButton->mTransform.pos = { -6.05f,-3.0f,0.0f };
+
+	CameraButton->mTransform.scale = { 2.7f,0.9f,1.0f };
+	FloorLookButton->mTransform.scale = { 2.7f,0.9f,1.0f };
+	UndoButton->mTransform.scale = { 3.6f,0.9f,1.0f };
+
+	LookingTxet->mTransform.pos = { -4.5f,2.5f,0.0 };
+	LookingTxet->mTransform.scale = { 5.4f,0.9f,0.0f };
+
 	//プロテインUI作成　数が分かってから行う
 	proteinUi = new ProteinUI(nNumProtein);
 
 	Menu = new CMenu();
 
-	proteinUi->SetPosition({ 6.0f, 4.0f, 0.0f });
+	proteinUi->SetPosition({ 6.0f, 3.0f, 0.0f });
 
 	gameStart = new CGameStart(nNumProtein);
 
@@ -1774,17 +1816,14 @@ void StageScene::Init(const wchar_t* filePath)
 		Arrow[i]->ScaleLoop();
 		Arrow[i]->mTransform.pos.z = -0.49f;
 	}
-	calorieGage->SetPosition({ -3.5f,3.5f,0.0 });
-	calorieGage->SetScale({ 1.0f,1.0f,1.0f });
+	calorieGage->SetPosition({ -4.5f,3.5f,0.0 });
+	calorieGage->SetScale({ 0.75f,0.75f,1.0f });
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
 
-	isLookMap;
 	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
 	isMenu = player->GetPlayerMove()->GetIsMenu();
-	isLookMap;
-	//player->GetPlayerMove()->SetIsLookCamera(isLookMap);
-	//player->GetPlayerMove()->SetIsMenu(isMenu);
+
 
 	floorReset.playerUndo = player->GetGridPos();
 	floorReset.stateUndo = player->GetState();
