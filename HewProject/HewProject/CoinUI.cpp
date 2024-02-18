@@ -2,7 +2,7 @@
 
 #include "TextureFactory.h"
 
-#define CIRCLE_OFFSETX (1.0f)	// Z“¯Žm‚ÌXÀ•W·•ª
+#define CIRCLE_OFFSETX (1.5f)	// Z“¯Žm‚ÌXÀ•W·•ª
 #define CIRCLE_OFFSETY (0.7f)	// –_‚©‚çZ‚ÌYÀ•W·•ª
 #define PRO_SCALETIME (1.3f)	// ‘å‚«‚­‚È‚é‚Ü‚Å‚ÌŽžŠÔ
 
@@ -25,15 +25,16 @@ CoinUI::CoinUI(const int& _proteinNum, bool _isMarkActive)
 	D3D_CreateSquare({ 1,1 }, &buffer);
 	D3DTEXTURE texWork;
 	// Z‚ÌUI
-	texWork = texFactory->Fetch(L"asset/UI/Protein_Mark.png");
+
+	D3D_LoadTexture(L"asset/UI/Coin_Mark.png", &markTex);
 	for (int i = 0; i < stageProMax; i++)
 	{
-		proMark[i] = new UI(buffer, texWork);
+		proMark[i] = new UI(buffer, markTex);
 		proMark[i]->mTransform.scale = proScale;
 	}
 
 	// ƒvƒƒeƒCƒ“
-	texWork = texFactory->Fetch(L"asset/Item/Protein.png");
+	texWork = texFactory->Fetch(L"asset/Item/Coin.png");
 	for (int i = 0; i < stageProMax; i++)
 	{
 		protein[i] = new UI(buffer, texWork);
@@ -67,6 +68,8 @@ CoinUI::~CoinUI()
 	CLASS_DELETE(bar);
 
 	CLASS_DELETE(baseUI);
+
+	SAFE_RELEASE(markTex);
 }
 
 void CoinUI::Update()
@@ -153,8 +156,6 @@ void CoinUI::Draw()
 {
 	if (isMarkActive)
 	{
-		bar->Draw();
-
 		for (int i = 0; i < stageProMax; i++)
 		{
 			proMark[i]->Draw();
@@ -219,7 +220,7 @@ void CoinUI::SetScale(const Vector2& _scale)
 	bar->mTransform.scale.y = barScale.y * allScale.y;
 
 	// À•WXV
-	const Vector3& p = mTransform.pos;
+	const Vector3& p = baseUI->mTransform.pos;
 	switch (stageProMax)
 	{
 	case 1:

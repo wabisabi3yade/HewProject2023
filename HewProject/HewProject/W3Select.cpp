@@ -55,6 +55,23 @@ W3Select::W3Select()
 
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 
+
+
+	D3DTEXTURE texWork;
+	D3D_LoadTexture(L"asset/Sample/31.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/32.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/33.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	D3D_LoadTexture(L"asset/Sample/34.png", &texWork);
+	stageSmpTex.push_back(texWork);
+
+	smp->SetTexture(stageSmpTex[0]);
+
 	// ”wŒi‚ÌƒeƒNƒXƒ`ƒƒ‚ðÝ’è
 	D3D_LoadTexture(L"asset/Background/Stage3SelectBack.png", &backTex);
 	backGround[0]->SetTexture(backTex);
@@ -62,6 +79,8 @@ W3Select::W3Select()
 	backGround[2]->SetTexture(backTex);
 
 	D3D_LoadTexture(L"asset/Text/World3Name.png", &worldNameTex);
+
+	stageSmpBack->SetColor({ 250, 237, 244 });
 
 	worldNameOffsetX = 2.5f;
 	worldName[1]->mTransform.pos.x += worldNameOffsetX;

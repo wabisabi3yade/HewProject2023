@@ -7,6 +7,8 @@
 #include "ProteinUI.h"
 #include "CSceneManager.h"
 
+#include "CoinUI.h"
+
 Fade_TestScene::Fade_TestScene()
 {
 	fade = Fade::GetInstance();
@@ -31,6 +33,10 @@ Fade_TestScene::Fade_TestScene()
 	proteinUI->SetScale({ 2.0f,2.0f });
 	proteinUI->SetActive(true);
 
+	coinUI = new CoinUI(3, true);
+	coinUI->SetPosition({ 0.0f,0.0f, 0.0f });
+	/*coinUI->SetScale({ 1.0f,1.0f });*/
+	coinUI->SetActive(true);
 	//proteinUI->GetDotween()->DoMove({ -5.0f, 2.0f,1.0f }, 1.0f);
 	//proteinUI->GetDotween()->OnComplete([&]
 	//	{
@@ -46,6 +52,8 @@ Fade_TestScene::~Fade_TestScene()
 	CLASS_DELETE(buttonUI);
 	CLASS_DELETE(proteinUI);
 	CLASS_DELETE(floorUI);
+
+	CLASS_DELETE(coinUI);
 
 	SAFE_RELEASE(buffer);
 	SAFE_RELEASE(b);
@@ -107,16 +115,17 @@ void Fade_TestScene::Update()
 
 	if (gInput->GetKeyTrigger(VK_F5))
 	{
-		proteinUI->SetProtein(1);
+		coinUI->SetProtein(1);
 	}
 	else if (gInput->GetKeyTrigger(VK_F6))
 	{
-		proteinUI->AddProtein();
+		coinUI->AddProtein();
 	}
 
 	gage->Update();
 	proteinUI->Update();
 	floorUI->Update();
+	coinUI->Update();
 }
 
 void Fade_TestScene::LateUpdate()
@@ -131,5 +140,7 @@ void Fade_TestScene::Draw()
 
 	/*buttonUI->Draw();*/
 
-	proteinUI->Draw();
+	/*proteinUI->Draw();*/
+
+	coinUI->Draw();
 }

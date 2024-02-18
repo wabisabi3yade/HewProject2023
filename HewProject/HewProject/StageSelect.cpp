@@ -8,7 +8,7 @@
 #define BG_POSZ (1.1f)	// ”wŒi
 #define SMPBACK_POSZ (1.0f)	
 
-#define SMP_ROT (-10.0f)	// ƒTƒ“ƒvƒ‹‚Ì‰ñ“]Šp“x 
+#define SMP_ROT (-7.50f)	// ƒTƒ“ƒvƒ‹‚Ì‰ñ“]Šp“x 
 #define SMPBACK_TARGET_POSX (3.5f)	// ƒTƒ“ƒvƒ‹”wŒi–Ú•W‚Ì’l
 #define SMPBACK_BEGIN_OFFSETX (0.3f)	
 #define SMP_MOVETIME (0.3f)	// ƒTƒ“ƒvƒ‹‚ÌˆÚ“®ŽžŠÔ
@@ -38,6 +38,9 @@ void StageSelect::Input()
 	}
 	// ‘I‚ñ‚Å‚¢‚éƒXƒe[ƒW‚Ì”‚ðŽæ“¾
 	c_pointStage = btnSelect->GetPointButton() + 1;
+
+	// ƒTƒ“ƒvƒ‹‚Ì‰æ‘œ•Ï‚¦‚é
+	smp->SetTexture(stageSmpTex[c_pointStage - 1]);
 
 	// ˆÚ“®‚µ‚½‚Ì‚Å
 	if (c_pointStage != o_pointStage)
@@ -87,6 +90,10 @@ void StageSelect::SmpMove()
 		stageSmpBack->dotween->Join(1.0f, SMP_MOVETIME, DoTweenUI::FUNC::ALPHA);
 
 	}
+	else
+	{
+		/*stageSmpBack*/
+	}
 }
 
 StageSelect::StageSelect()
@@ -114,6 +121,12 @@ StageSelect::StageSelect()
 	stageSmpBack->mTransform.scale = { 8.0f, 6.0f, 1.0f };
 	stageSmpBack->mTransform.rotation.z = SMP_ROT;
 	stageSmpBack->MakeDotween();
+
+	smp = new UI(oneBuf, NULL);
+	smp->mTransform.rotation.z = SMP_ROT;
+	smp->mTransform.scale = { 7.0f,5.25f, 1.0f };
+
+	
 
 	// ”wŒi
 	backGround[0] = new UI(oneBuf, NULL);
@@ -167,7 +180,6 @@ StageSelect::StageSelect()
 	worldNum->mTransform.scale = { 0.8f, 0.8f, 1.0f };
 	dynamic_cast<ShadowUI*>(worldNum)->SetShadowOffset({ WORLDNUM_SHADOWOFFSETX, WORLDNUM_SHADOWOFFSETY });
 
-	smp = new UI(oneBuf, NULL);
 
 	worldNamePos = { -4.5f, 2.6f, UI_POSZ };
 	// ƒ[ƒ‹ƒh–¼
@@ -238,6 +250,8 @@ void StageSelect::Update()
 	stageSmpBack->Update();
 
 	smp->mTransform.pos = stageSmpBack->mTransform.pos;
+	smp->mTransform.pos.z -= UI_OFFSETZ;
+	smp->SetAlpha(stageSmpBack->materialDiffuse.w);
 
 
 	for (auto a : stgButton)
@@ -321,6 +335,13 @@ StageSelect::~StageSelect()
 	}
 	SAFE_RELEASE(worldNameBuffer);
 	SAFE_RELEASE(worldNameTex);
+
+	CLASS_DELETE(smp);
+	
+	for (auto a : stageSmpTex)
+	{
+		SAFE_RELEASE(a);
+	}
 }
 
 void StageSelect::BeginMove()
