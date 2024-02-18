@@ -22,6 +22,7 @@ class CoinUI
 	static const short max_pro = 3;
 
 	D3DBUFFER buffer;
+	D3DTEXTURE markTex;
 
 	// ‘S‘Ì‚Ì”{—¦
 	Vector2 allScale = { 1.0f, 1.0f };

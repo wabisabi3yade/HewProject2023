@@ -115,6 +115,12 @@ StageSelect::StageSelect()
 	stageSmpBack->mTransform.rotation.z = SMP_ROT;
 	stageSmpBack->MakeDotween();
 
+	smp = new UI(oneBuf, NULL);
+	smp->mTransform.rotation.z = SMP_ROT;
+	smp->mTransform.scale = { 7.0f,5.25f, 1.0f };
+
+	
+
 	// ”wŒi
 	backGround[0] = new UI(oneBuf, NULL);
 	backGround[0]->MakeDotween();
@@ -167,7 +173,6 @@ StageSelect::StageSelect()
 	worldNum->mTransform.scale = { 0.8f, 0.8f, 1.0f };
 	dynamic_cast<ShadowUI*>(worldNum)->SetShadowOffset({ WORLDNUM_SHADOWOFFSETX, WORLDNUM_SHADOWOFFSETY });
 
-	smp = new UI(oneBuf, NULL);
 
 	worldNamePos = { -4.5f, 2.6f, UI_POSZ };
 	// ƒ[ƒ‹ƒh–¼
@@ -238,6 +243,8 @@ void StageSelect::Update()
 	stageSmpBack->Update();
 
 	smp->mTransform.pos = stageSmpBack->mTransform.pos;
+	smp->mTransform.pos.z -= UI_OFFSETZ;
+	smp->SetAlpha(stageSmpBack->materialDiffuse.w);
 
 
 	for (auto a : stgButton)

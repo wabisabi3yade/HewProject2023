@@ -7,6 +7,7 @@ class FloorUI;
 class UI;
 class ButtonUI;
 class ProteinUI;
+class CoinUI;
 
 class Fade_TestScene
 	:public CScene
@@ -20,7 +21,7 @@ class Fade_TestScene
 	ButtonUI* buttonUI;
 
 	ProteinUI* proteinUI;
-
+	CoinUI* coinUI;
 
 public:
 	Fade_TestScene();

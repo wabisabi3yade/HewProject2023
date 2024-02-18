@@ -165,8 +165,12 @@ W1Select::W1Select()
 
 
 	}
+	D3DTEXTURE texWork;
+	D3D_LoadTexture(L"asset/Sample/11.png", &texWork);
 
-	/*D3D_LoadTexture(L"asset/Sample/11.png", &stageSmpTex[0]);*/
+	stageSmpTex.push_back(texWork);
+
+	smp->SetTexture(stageSmpTex[0]);
 
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 
