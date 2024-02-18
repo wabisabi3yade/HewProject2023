@@ -5,6 +5,7 @@ Stage31::Stage31()
 {
 	back->SetTexture(backTex[2]);
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLD3);
+	nextStage = CScene::SCENE_NAME::STAGE3_2;
 }
 
 Stage31::~Stage31()
