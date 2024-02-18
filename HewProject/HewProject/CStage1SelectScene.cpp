@@ -212,6 +212,14 @@ CStage1SelectScene::CStage1SelectScene()
 	Bg->mTransform.pos = { 0,0,0.5f };
 	Bg->mTransform.scale = { 16,9,1 };
 
+	D3D_CreateSquare({ 1,1 }, &decisionBuffer);
+	D3D_LoadTexture(L"asset/Background/Stage1SelectBack.png", &decisionTexture);
+
+	for (int i = 0; i < 5; i++)
+	{
+		Decision[i] = new UI(decisionBuffer, decisionTexture);
+	}
+
 	isPlayerMoving = false;
 	isOnce = false;
 	isUpDown = false;
@@ -251,6 +259,11 @@ CStage1SelectScene::~CStage1SelectScene()
 		CLASS_DELETE(stage[i]);
 	}
 
+	for (int i = 0; i < 5; i++)
+	{
+		CLASS_DELETE(Decision[i]);
+	}
+
 	for (int i = 0; i < FOUR; i++)
 	{
 		CLASS_DELETE(World[i]);
@@ -261,7 +274,7 @@ CStage1SelectScene::~CStage1SelectScene()
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(wordBuffer);
 	SAFE_RELEASE(textBuffer);
-	SAFE_RELEASE(numBuffer);
+	SAFE_RELEASE(decisionBuffer);
 	SAFE_RELEASE(text_world1Texture);
 	SAFE_RELEASE(text_world2Texture);
 	SAFE_RELEASE(text_world3Texture);
@@ -274,7 +287,7 @@ CStage1SelectScene::~CStage1SelectScene()
 	SAFE_RELEASE(world2Texture);
 	SAFE_RELEASE(world3Texture);
 	SAFE_RELEASE(worldEXTexture);
-	SAFE_RELEASE(numTexture);
+	SAFE_RELEASE(decisionTexture);
 	SAFE_RELEASE(backTexture);
 }
 
@@ -286,7 +299,6 @@ void CStage1SelectScene::Update()
 
 	for (int i = 0; i < 4; i++)
 	{
-		//stage[i]->Update();
 		Shadow[i]->mTransform.scale = { stage[i]->mTransform.scale };
 	}
 
