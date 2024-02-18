@@ -18,10 +18,14 @@ typedef struct
 PARAM g_param[SOUND_LABEL_MAX] =
 {
 	// BGM（ループさせるのでtrue設定）
+	{"BGM/Title.wav", 0.5f,true},
 	{"BGM/WorldSelect.wav", 0.2f, true},
 	{"BGM/StageSelect.wav",0.3f, true},
+	{"BGM/World1.wav", 0.5f,true},
+	{"BGM/World2.wav", 0.f,true},
 	{"BGM/World3.wav", 0.2f,true},
 	{"BGM/WorldEx.wav", 0.5f,true},
+	
 
 	// SE（ループしないのでfalse設定)
 	{"SE/PushButton.wav", 0.3f,false},

@@ -15,10 +15,14 @@ typedef enum
 	NONE = -1,		// ‚È‚É‚à‚È‚µ
 
 	// BGM
+	B_Title,
 	B_WORLDSELECT,
 	B_STAGESELECT,
+	B_WORLD1,
+	B_WORLD2,
 	B_WORLD3,
 	B_WORLDEX,
+	
 
 	// Œø‰Ê‰¹
 	S_PUSHBUTTON,

@@ -149,6 +149,9 @@ CTitleScene::CTitleScene()
 	isNoMoving = false;
 	isOnce = false;
 	
+	// BGM—¬‚·
+	pSceneManager->SetPlayBgm(SOUND_LABEL::B_Title);
+
 }
 
 CTitleScene::~CTitleScene()

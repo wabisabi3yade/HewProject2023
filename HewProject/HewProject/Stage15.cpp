@@ -4,6 +4,7 @@ Stage15::Stage15()
 	: Stage(L"Stage1-5.csv", 1)
 {
 	back->SetTexture(backTex[0]);
+	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLD1);
 	nextStage = CScene::SCENE_NAME::STAGE1_6;
 }
 
