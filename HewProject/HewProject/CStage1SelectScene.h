@@ -28,6 +28,7 @@ public:
     D3DTEXTURE stage3Texture;
     D3DTEXTURE stage4Texture;
     D3DTEXTURE shadowTexture;
+    D3DTEXTURE backTexture;
 
     //テキスト
     D3DBUFFER textBuffer;
