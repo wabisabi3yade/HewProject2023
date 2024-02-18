@@ -36,6 +36,9 @@
 #define FOUR (4)
 #define MOVETIME (0.1f)
 
+#define BACK_SCALE_X (2.4f)
+#define BACK_SCALE_Y (1.2f)
+
 CStage1SelectScene::CStage1SelectScene()
 {
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLDSELECT);
@@ -50,6 +53,7 @@ CStage1SelectScene::CStage1SelectScene()
 	stage3Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/World3_pic.png");
 	stage4Texture = TextureFactory::GetInstance()->Fetch(L"asset/Background/World4_pic.png");
 	shadowTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/FadeBlack.png");
+	D3D_LoadTexture(L"asset/UI/StageBack_Icon.png", &backTexture);
 
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/Background/WorldSelectBack.png");
@@ -80,7 +84,7 @@ CStage1SelectScene::CStage1SelectScene()
 	stage[1] = new WorldSelectPic(stageBuffer, stage3Texture);
 	stage[2] = new WorldSelectPic(stageBuffer, stage2Texture);
 	stage[3] = new WorldSelectPic(stageBuffer, stage4Texture);
-	stage[4] = new WorldSelectPic(stageBuffer, stage1Texture);
+	stage[4] = new WorldSelectPic(stageBuffer, backTexture);
 
 	player = new CStageSelectPlayer(playerBuffer, playerTexture);
 	player->mTransform.scale = { 2,2,1 };
@@ -191,8 +195,8 @@ CStage1SelectScene::CStage1SelectScene()
 	stage[3]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
 	stage[3]->mTransform.rotation = { 0,0,-7.0f };
 
-	stage[4]->mTransform.pos = { 0,-2,-0.1f };
-	stage[4]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
+	stage[4]->mTransform.pos = { -6.5f,-3.5f,-0.1f };
+	stage[4]->mTransform.scale = { BACK_SCALE_X,BACK_SCALE_Y,1 };
 
 	Vector3 shadowPos[4];
 
@@ -271,6 +275,7 @@ CStage1SelectScene::~CStage1SelectScene()
 	SAFE_RELEASE(world3Texture);
 	SAFE_RELEASE(worldEXTexture);
 	SAFE_RELEASE(numTexture);
+	SAFE_RELEASE(backTexture);
 }
 
 void CStage1SelectScene::Update()
@@ -281,9 +286,10 @@ void CStage1SelectScene::Update()
 
 	for (int i = 0; i < 4; i++)
 	{
-		stage[i]->Update();
+		//stage[i]->Update();
 		Shadow[i]->mTransform.scale = { stage[i]->mTransform.scale };
 	}
+
 
 	if (player->isChangeScene == true && !isSceneChange)
 	{
@@ -346,7 +352,6 @@ void CStage1SelectScene::Update()
 				stage[i]->dotween->DoEaseOutCubicScale(Big, 2.5f);
 				stage[i]->dotween->Append(Small, 2.5f, DoTween::FUNC::EASE_OUTCUBIC_SCALE);
 				stage[i]->dotween->SetLoop(-1);
-
 
 				switch (i)
 				{
@@ -502,7 +507,15 @@ void CStage1SelectScene::Update()
 		else if (!c_isHitStage[i] && o_isHitStage[i])
 		{
 			stage[i]->dotween->Stop();
-			stage[i]->mTransform.scale = { STAGE_SCALE_X, STAGE_SCALE_Y, 1.0f };
+
+			if (i == 0 || i == 1 || i == 2 || i == 3)
+			{
+				stage[i]->mTransform.scale = { STAGE_SCALE_X, STAGE_SCALE_Y, 1.0f };
+			}
+			else {
+				stage[i]->mTransform.scale = { BACK_SCALE_X,BACK_SCALE_Y, 1.0f };
+			}
+			
 
 			switch (i)
 			{
