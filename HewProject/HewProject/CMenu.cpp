@@ -17,20 +17,12 @@ CMenu::CMenu()
 {
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/FadeBlack.png");
-	ruleTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/Ty_Frame.png");
 
 	Bg = new UI(bgBuffer, bgTexture);
 	Bg->SetColor({ 0,0,0 });
 	Bg->SetAlpha(0.5f);
 	Bg->mTransform.pos = { 0,0,BG_POS_Z };
 	Bg->mTransform.scale = { 16.0f,9.0f,1.0f };
-
-	/*for (int i = 0; i < MAXNUM_HELP; i++)
-	{
-		Rule[i] = new UI(bgBuffer, ruleTexture);
-		Rule[i]->mTransform.pos = { 0,0,UI_POS_Z };
-		Rule[i]->mTransform.scale = { 13.0f,8.0f,1.0f };
-	}*/
 
 	D3D_LoadTexture(L"asset/Tutorial/T_1.png", &T_1Texture);
 	D3D_LoadTexture(L"asset/Tutorial/T_2.png", &T_2Texture);
@@ -42,6 +34,17 @@ CMenu::CMenu()
 	D3D_LoadTexture(L"asset/Tutorial/T_8.png", &T_8Texture);
 	D3D_LoadTexture(L"asset/Tutorial/T_9.png", &T_9Texture);
 	D3D_LoadTexture(L"asset/Tutorial/T_10.png", &T_10Texture);
+
+	D3D_LoadTexture(L"asset/Text/ty/T._Kihonsousa.png", &text_T_1Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T._Keki_Huto.png", &text_T_2Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_Macho.png", &text_T_3Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_YaseJyoutai.png", &text_T_4Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_ItaChoco.png", &text_T_5Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_Wataame.png", &text_T_6Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_FuroaIdou.png", &text_T_7Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_Tougarasi.png", &text_T_8Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_Taihou.png", &text_T_9Texture);
+	D3D_LoadTexture(L"asset/Text/ty/T_Coin.png", &text_T_10Texture);
 
 	Tutorial = new UI(bgBuffer, T_1Texture);
 	Tutorial->mTransform.pos = { 0,0,UI_POS_Z};
@@ -114,7 +117,7 @@ CMenu::CMenu()
 	LR_Button[1]->mTransform.pos = { 7.2f,0,UI_POS_Z };
 	LR_Button[1]->SetUV(1.0f / 2.0f * 1.0f, 0);
 
-	helpMessage[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_1Texture);
 	helpMessage[0]->SetPosition({ HELP_POSX,HELP_POSY,UI_POS_Z });
 	helpMessage[0]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[0]->SetHighlight(true);
@@ -124,7 +127,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_helpTexture);
+	helpMessage[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_2Texture);
 	helpMessage[1]->SetPosition({ HELP_POSX,HELP_POSY - 2.0f,UI_POS_Z });
 	helpMessage[1]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[1]->SetFunc([&]() {
@@ -133,7 +136,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[2] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
+	helpMessage[2] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_3Texture);
 	helpMessage[2]->SetPosition({ HELP_POSX,HELP_POSY - 4.0f,UI_POS_Z });
 	helpMessage[2]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[2]->SetFunc([&]() {
@@ -142,7 +145,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[3] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_retryTexture);
+	helpMessage[3] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_4Texture);
 	helpMessage[3]->SetPosition({ HELP_POSX,HELP_POSY - 6.0f,UI_POS_Z });
 	helpMessage[3]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[3]->SetFunc([&]() {
@@ -151,7 +154,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[4] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[4] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_5Texture);
 	helpMessage[4]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY,UI_POS_Z });
 	helpMessage[4]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[4]->SetFunc([&]() {
@@ -160,7 +163,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[5] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[5] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_6Texture);
 	helpMessage[5]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 2.0f,UI_POS_Z });
 	helpMessage[5]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[5]->SetFunc([&]() {
@@ -169,7 +172,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[6] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[6] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_7Texture);
 	helpMessage[6]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 4.0f,UI_POS_Z });
 	helpMessage[6]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[6]->SetFunc([&]() {
@@ -178,7 +181,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[7] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[7] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_8Texture);
 	helpMessage[7]->SetPosition({ HELP_POSX + 6.0f,HELP_POSY - 6.0f,UI_POS_Z });
 	helpMessage[7]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[7]->SetFunc([&]() {
@@ -187,7 +190,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[8] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[8] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_9Texture);
 	helpMessage[8]->SetPosition({ HELP_POSX,HELP_POSY ,UI_POS_Z });
 	helpMessage[8]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[8]->SetHighlight(true);
@@ -197,7 +200,7 @@ CMenu::CMenu()
 		isExplanation = true;
 		});
 
-	helpMessage[9] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_escapeTexture);
+	helpMessage[9] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_T_10Texture);
 	helpMessage[9]->SetPosition({ HELP_POSX,HELP_POSY - 2.0f,UI_POS_Z });
 	helpMessage[9]->SetScale({ MESSAGE_SCALE,MESSAGE_SCALE,1.0f });
 	helpMessage[9]->SetFunc([&]() {
@@ -262,11 +265,6 @@ CMenu::~CMenu()
 		CLASS_DELETE(helpMessage[i]);
 	}
 
-	/*for (int i = 0; i < MAXNUM_HELP; i++)
-	{
-		CLASS_DELETE(Rule[i]);
-	}*/
-
 	for (int i = 0; i < 2; i++)
 	{
 		CLASS_DELETE(LR_Button[i]);
@@ -287,7 +285,16 @@ CMenu::~CMenu()
 	SAFE_RELEASE(T_8Texture);
 	SAFE_RELEASE(T_9Texture);
 	SAFE_RELEASE(T_10Texture);
-
+	SAFE_RELEASE(text_T_1Texture);
+	SAFE_RELEASE(text_T_2Texture);
+	SAFE_RELEASE(text_T_3Texture);
+	SAFE_RELEASE(text_T_4Texture);
+	SAFE_RELEASE(text_T_5Texture);
+	SAFE_RELEASE(text_T_6Texture);
+	SAFE_RELEASE(text_T_7Texture);
+	SAFE_RELEASE(text_T_8Texture);
+	SAFE_RELEASE(text_T_9Texture);
+	SAFE_RELEASE(text_T_10Texture);
 }
 
 void CMenu::Update()
@@ -348,6 +355,7 @@ void CMenu::Update()
 
 				if (isChangeExplanation == true)
 				{
+					helpControl->FlagUpdate();
 					help_2PageControl->FlagUpdate();
 					if (input->GetMovement().y < 0)
 					{
@@ -367,11 +375,13 @@ void CMenu::Update()
 					else if (input->GetInputTrigger(InputType::L_BUTTON))
 					{
 						isChangeExplanation = false;
+						helpControl->SetButtonID(0);
 					}
 				}
 				else {
 
 					helpControl->FlagUpdate();
+					help_2PageControl->FlagUpdate();
 					if (input->GetMovement().y < 0)
 					{
 						helpControl->ButtonMove(1);
@@ -400,62 +410,33 @@ void CMenu::Update()
 					else if (input->GetInputTrigger(InputType::R_BUTTON))
 					{
 						isChangeExplanation = true;
+						help_2PageControl->SetButtonID(0);
 					}
 				}
 
 			}
 			else {
 
-				if (isChangeExplanation == false)
+				if (input->GetInputTrigger(InputType::L_BUTTON))
 				{
-					if (input->GetInputTrigger(InputType::L_BUTTON))
+					nRule--;
+					if (nRule < 0)
 					{
-						nRule--;
-						helpControl->ButtonMove(-1);
-						if (nRule < 0)
-						{
-							nRule = MAXNUM_HELP - 3;
-						}
-					}
-					else if (input->GetInputTrigger(InputType::R_BUTTON))
-					{
-						nRule++;
-						helpControl->ButtonMove(1);
-
-						if (nRule > MAXNUM_HELP - 3)
-						{
-							nRule = 0;
-						}
-					}
-					else if (input->GetInputTrigger(InputType::CANCEL))
-					{
-						isExplanation = false;
+						nRule = MAXNUM_HELP - 1;
 					}
 				}
-				else {
-					if (input->GetInputTrigger(InputType::L_BUTTON))
-					{
-						nRule--;
-						help_2PageControl->ButtonMove(-1);
+				else if (input->GetInputTrigger(InputType::R_BUTTON))
+				{
+					nRule++;
 
-						if (nRule < 8)
-						{
-							nRule = MAXNUM_HELP - 1;
-						}
-					}
-					else if (input->GetInputTrigger(InputType::R_BUTTON))
+					if (nRule > MAXNUM_HELP - 1)
 					{
-						nRule++;
-						help_2PageControl->ButtonMove(1);
-						if (nRule > MAXNUM_HELP - 1)
-						{
-							nRule = 8;
-						}
+						nRule = 0;
 					}
-					else if (input->GetInputTrigger(InputType::CANCEL))
-					{
-						isExplanation = false;
-					}
+				}
+				else if (input->GetInputTrigger(InputType::CANCEL))
+				{
+					isExplanation = false;
 				}
 
 			}
@@ -522,10 +503,6 @@ void CMenu::Update()
 		helpMessage[i]->Update();
 	}
 
-	/*for (int i = 0; i < MAXNUM_HELP; i++)
-	{
-		Rule[i]->Update();
-	}*/
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -582,47 +559,7 @@ void CMenu::Draw()
 
 			}
 			else {
-				/*if (nRule == 0)
-				{
-					Rule[0]->Draw();
-				}
-				else if (nRule == 1)
-				{
-					Rule[1]->Draw();
-				}
-				else if (nRule == 2)
-				{
-					Rule[2]->Draw();
-				}
-				else if (nRule == 3)
-				{
-					Rule[3]->Draw();
-				}
-				else if (nRule == 4)
-				{
-					Rule[4]->Draw();
-				}
-				else if (nRule == 5)
-				{
-					Rule[5]->Draw();
-				}
-				else if (nRule == 6)
-				{
-					Rule[6]->Draw();
-				}
-				else if (nRule == 7)
-				{
-					Rule[7]->Draw();
-				}
-				else if (nRule == 8)
-				{
-					Rule[8]->Draw();
-				}
-				else if (nRule == 9)
-				{
-					Rule[9]->Draw();
-				}*/
-
+				
 				Tutorial->Draw();
 
 				for (int i = 0; i < 2; i++)
