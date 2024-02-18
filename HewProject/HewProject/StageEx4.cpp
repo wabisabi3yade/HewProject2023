@@ -6,6 +6,7 @@ StageEx4::StageEx4()
 {
 	back->SetTexture(backTex[3]);
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLDEX);
+	nextStage = CScene::SCENE_NAME::WORLD4_SELECT;
 }
 
 StageEx4::~StageEx4()

@@ -20,6 +20,8 @@ protected:
     D3DBUFFER backBuffer;
 
     CObject* back;
+
+    CScene::SCENE_NAME nextStage;
 public:
     /// <summary>
     /// ステージシーンのコンストラクタ

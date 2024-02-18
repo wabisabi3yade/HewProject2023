@@ -4,6 +4,7 @@ Stage12::Stage12()
 	: Stage(L"Stage1-2.csv", 1)
 {
 	back->SetTexture(backTex[0]);
+	nextStage = CScene::SCENE_NAME::STAGE1_2;
 }
 
 Stage12::~Stage12()
