@@ -13,9 +13,11 @@ public:
 
     D3DBUFFER textBuffer;
     D3DTEXTURE textTexture;
+    D3DTEXTURE needTexture;
 
     UI* Bg;
     UI* Text;
+    UI* Need;
     ProteinUI* Protein;
 
     bool isProtein;
