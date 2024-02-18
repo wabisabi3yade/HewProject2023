@@ -48,9 +48,9 @@ public:
     D3DTEXTURE world3Texture;
     D3DTEXTURE worldEXTexture;
 
-    //êîéö
-    D3DBUFFER numBuffer;
-    D3DTEXTURE numTexture;
+    //åàíË
+    D3DBUFFER decisionBuffer;
+    D3DTEXTURE decisionTexture;
 
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
@@ -62,6 +62,7 @@ public:
     UI* Bg;
     UI* World[4];
     UI* Num[4];
+    UI* Decision[5];
     ShadowUI* Shadow[4];
 
     bool isPlayerMoving;
