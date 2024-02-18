@@ -146,7 +146,16 @@ private:
 	D3DTEXTURE stageTextureArrow;
 	D3DTEXTURE stageTextureBaumAnim[4];
 
+	D3DTEXTURE ButtonTextureCamera;
+	D3DTEXTURE ButtonTextureFloorLook;
+	D3DTEXTURE ButtonTextureUndo;
+	D3DTEXTURE TextTextureLooking;
+
 	//UI関係
+	UI* LookingTxet;
+	UI* CameraButton;
+	UI* FloorLookButton;
+	UI* UndoButton;
 
 	//プロテイン
 	ProteinUI* proteinUi;
@@ -201,6 +210,13 @@ public:
 	void ChangeFloor(int _nextFloor);
 
 	void MapDraw();
+
+	/// <summary>
+	/// ゲーム開始時のプレイヤーの状態を変える関数
+	/// </summary>
+	/// <param name="_calorie">初期カロリー MAX15</param>
+	/// <param name="_state">プレイヤーの初期状態  0 通常  1 ガリ  2 デブ 3 マッチョ</param>
+	void SetPlayerStartstatus(int _calorie , int _state) { player->SetCalorie(_calorie) ,player->ChangeState(static_cast<Player::STATE>(_state)); }
 
 	// 今の階層にある指定したグリッド座標のオブジェクトを取得する
 	CGridObject* GetStageObject(CGrid::GRID_XY _gridPos, CGridObject::BlockType _blockType);

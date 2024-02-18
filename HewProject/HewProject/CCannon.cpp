@@ -157,6 +157,12 @@ void CCannon::CheckCanMove(const GridTable& _nowTable)
 		forwordPos.x += d.x;
 		forwordPos.y += d.y;
 
+		if (_nowTable.objectTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::GALL) )
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
 			|| _nowTable.floorTable[forwordPos.y][forwordPos.x] == 0)
