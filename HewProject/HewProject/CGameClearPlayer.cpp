@@ -29,7 +29,7 @@ void CGameClearPlayer::Update()
 	if (isEatAnim == false)
 	{
 		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(0);
-		dynamic_cast<CPlayerAnim*>(mAnim)->PlayEat(static_cast<int> (DIRECTION::LEFT));
+		dynamic_cast<CPlayerAnim*>(mAnim)->PlayGallEat(static_cast<int> (DIRECTION::LEFT));
 		isEatAnim = true;
 	}
 

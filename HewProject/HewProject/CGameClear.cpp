@@ -110,7 +110,7 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 	selectControl->Regist(Message[1]);
 
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
-	D3D_LoadTexture(L"asset/Player/N_EatCake.png", &player_EatTexture);
+	D3D_LoadTexture(L"asset/Player/12komaEat_L.png", &player_EatTexture);
 	D3D_LoadTexture(L"asset/Player/N_Walk.png", &player_WalkTexture);
 
 	player = new CGameClearPlayer(playerBuffer, player_WalkTexture);
