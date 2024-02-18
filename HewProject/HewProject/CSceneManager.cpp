@@ -225,7 +225,7 @@ void CSceneManager::SceneChange(int _scene)
 
 	case CScene::GAMECLEAR:
 		nowSceneName = CScene::GAMECLEAR;
-		pNowScene = new CGameClear();
+		pNowScene = new CGameClear(CScene::SCENE_NAME::NONE);
 		break;
 
 	case CScene::WORLD1_SELECT:

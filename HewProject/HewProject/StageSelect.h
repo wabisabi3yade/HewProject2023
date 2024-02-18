@@ -45,6 +45,7 @@ protected:
     UI* stageSmpBack;   
     Vector3 stageSmpPos;
 
+    UI* smp;
     std::vector<D3DTEXTURE> stageSmpTex;    // ステージのサンプルテクスチャ
 
 
@@ -73,6 +74,7 @@ protected:
     float worldNameOffsetX;
 
     D3DTEXTURE btnNumTex;   // ボタン用テクスチャ
+
 
     virtual void Input();
 

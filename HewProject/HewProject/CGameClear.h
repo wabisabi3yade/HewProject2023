@@ -10,6 +10,9 @@ class CGameClear :
     public CScene
 {
 
+    CScene::SCENE_NAME nextScene;
+
+
 public:
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
@@ -47,7 +50,7 @@ public:
     bool isStopAnim;
 
 public:
-    CGameClear();
+    CGameClear(CScene::SCENE_NAME _nextScene);
 
     ~CGameClear();
     
