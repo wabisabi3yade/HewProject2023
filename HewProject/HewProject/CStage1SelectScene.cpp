@@ -218,12 +218,24 @@ CStage1SelectScene::CStage1SelectScene()
 	for (int i = 0; i < 5; i++)
 	{
 		Decision[i] = new UI(decisionBuffer, decisionTexture);
+		
+		if (i != 4)
+		{
+			Decision[i]->mTransform.pos = { Text[i]->mTransform.pos };
+		}
+		else {
+			Decision[i]->mTransform.pos = { stage[i]->mTransform.pos };
+		}
+
+		Decision[i]->mTransform.scale = { 4.0f,1.0f,1.0f };
+		
 	}
 
 	isPlayerMoving = false;
 	isOnce = false;
 	isUpDown = false;
 	isBigSmall = false;
+	isOncePos = false;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -302,6 +314,21 @@ void CStage1SelectScene::Update()
 		Shadow[i]->mTransform.scale = { stage[i]->mTransform.scale };
 	}
 
+	for (int i = 0; i < 5; i++)
+	{
+		if (i != 4)
+		{
+			Decision[i]->mTransform.pos = { Text[i]->mTransform.pos.x + 1.8f,Text[i]->mTransform.pos.y - 1.5f,Text[i]->mTransform.pos.z };
+		}
+		else {
+			if (isOncePos == false)
+			{
+				Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z };
+				isOncePos = true;
+			}
+			
+		}
+	}
 
 	if (player->isChangeScene == true && !isSceneChange)
 	{
@@ -480,6 +507,7 @@ void CStage1SelectScene::Update()
 				}
 				break;
 				case 4:
+					Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x + 2.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z };
 					break;
 				default:
 					break;
@@ -622,6 +650,8 @@ void CStage1SelectScene::Update()
 				break;
 				// –ß‚éƒ{ƒ^ƒ“
 			case 4:
+				Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z };
+				isOncePos = false;
 				break;
 			}
 		}
@@ -666,6 +696,11 @@ void CStage1SelectScene::Update()
 	{
 		stage[i]->Update();
 	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		Decision[i]->Update();
+	}
 }
 
 void CStage1SelectScene::LateUpdate()
@@ -684,6 +719,11 @@ void CStage1SelectScene::Draw()
 	for (int i = 0; i < 5; i++)
 	{
 		stage[i]->Draw();
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		Decision[i]->Draw();
 	}
 
 	player->Draw();

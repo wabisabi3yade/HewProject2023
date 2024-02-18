@@ -69,6 +69,7 @@ public:
     bool isOnce;
     bool isUpDown;
     bool isBigSmall;
+    bool isOncePos;
 
 public:
     CStage1SelectScene();
