@@ -11,8 +11,10 @@
 
 #define WHITEBG_POS_Z (-0.11f)
 
-CGameClear::CGameClear()
+CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 {
+	nextScene = _nextScene;
+
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/White.png");
 

@@ -85,6 +85,7 @@ void StageSelect::SmpMove()
 
 		stageSmpBack->dotween->DoMoveX(SMPBACK_TARGET_POSX, SMP_MOVETIME);
 		stageSmpBack->dotween->Join(1.0f, SMP_MOVETIME, DoTweenUI::FUNC::ALPHA);
+
 	}
 }
 
@@ -166,6 +167,8 @@ StageSelect::StageSelect()
 	worldNum->mTransform.scale = { 0.8f, 0.8f, 1.0f };
 	dynamic_cast<ShadowUI*>(worldNum)->SetShadowOffset({ WORLDNUM_SHADOWOFFSETX, WORLDNUM_SHADOWOFFSETY });
 
+	smp = new UI(oneBuf, NULL);
+
 	worldNamePos = { -4.5f, 2.6f, UI_POSZ };
 	// ƒ[ƒ‹ƒh–¼
 	D3D_CreateSquare({ 1,2 }, &worldNameBuffer);
@@ -234,6 +237,9 @@ void StageSelect::Update()
 
 	stageSmpBack->Update();
 
+	smp->mTransform.pos = stageSmpBack->mTransform.pos;
+
+
 	for (auto a : stgButton)
 	{
 		a->Update();
@@ -256,6 +262,8 @@ void StageSelect::Draw()
 	backGround[2]->Draw();
 
 	stageSmpBack->Draw();
+
+	smp->Draw();
 
 	worldText->Draw();
 	worldNum->Draw();

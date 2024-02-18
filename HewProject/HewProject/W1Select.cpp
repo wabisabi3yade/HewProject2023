@@ -163,11 +163,10 @@ W1Select::W1Select()
 		stgButton.push_back(btnWork);
 		btnSelect->Regist(btnWork);
 
-		// テクスチャ関連
-
-
 
 	}
+
+	/*D3D_LoadTexture(L"asset/Sample/11.png", &stageSmpTex[0]);*/
 
 	stgButton[c_pointStage - 1]->SetHighlight(true);
 

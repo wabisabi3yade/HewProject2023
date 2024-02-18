@@ -40,7 +40,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 
 	dotween = std::make_unique<DoTween>(CCamera::GetInstance());
 
-	gameClear = new CGameClear();
+	//gameClear = new CGameClear();
 	gameOver = new CGameOver();
 
 	isGameClear = false;
