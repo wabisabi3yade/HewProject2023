@@ -42,10 +42,15 @@ PlayerMove::~PlayerMove()
 	cantMoveBlock.clear();
 }
 
+bool* PlayerMove::GetIsLookCamera()
+{
+	 return &isLookMap; 
+}
+
 void PlayerMove::Input()
 {
 	// 移動しているときは処理しない
-	if (isMoving || isRising || isFalling || &isLookMap || isCannonMove || inCannon || &isMenu) return;
+	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon || isMenu) return;
 
 	InputManager* input = InputManager::GetInstance();
 

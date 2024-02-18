@@ -90,9 +90,9 @@ private:
 
 	bool cannonMove = false;
 
-	bool isLookMap;
+	bool* isLookMap;
 
-	bool isMenu;
+	bool* isMenu;
 
 	bool gallVibration = false;
 

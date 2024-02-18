@@ -162,13 +162,13 @@ public:
 	bool GetIsFallBound()const { return isFallBound; }
 	bool GetCannonFX()const { return cannonFX; }
 	void SetCannonDir(bool* _set) { *cannonMoveDir = _set; }
-	void SetIsMenu(bool _set) { isMenu = _set; }
+	void SetIsMenu(bool &_set) { isMenu = _set; }
 	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
 	bool GetIsMissMove()const { return IsMissMove; }
-	bool* GetIsLookCamera() { return &isLookMap ; }
+	bool* GetIsLookCamera();
 	bool* GetIsMenu() { return &isMenu; }
 
-	void SetIsLookCamera(bool _set) { isLookMap = &_set; }
+	void SetIsLookCamera(bool &_set) { isLookMap = _set; }
 	//void SetIsMenu(bool _set) { isMenu = &_set; }
 };
 
