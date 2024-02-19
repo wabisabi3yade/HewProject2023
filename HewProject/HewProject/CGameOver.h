@@ -53,5 +53,7 @@ public:
 
     void SetFunc(int _num, std::function<void()> _onComplete);
 
+    void ResetPos();
+
 };
 

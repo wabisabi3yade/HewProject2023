@@ -77,6 +77,7 @@ CGameOver::CGameOver()
 	Message[0]->SetHighlight(true);
 	Message[0]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::SELECT);
+		ResetPos();
 		});
 
 	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_undoTexture);
@@ -84,6 +85,7 @@ CGameOver::CGameOver()
 	Message[1]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[1]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::TITLE);
+		ResetPos();
 		});
 
 	Message[2] = new ButtonUI(textBoxBuffer, textBoxTexture,textBuffer,text_backTexture);
@@ -91,6 +93,7 @@ CGameOver::CGameOver()
 	Message[2]->SetScale({ 4.0f,4.0f,1.0f });
 	Message[2]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::GAMEOVER);
+		ResetPos();
 		});
 
 	// ボタン選択クラス作成
@@ -213,4 +216,13 @@ void CGameOver::Draw()
 void CGameOver::SetFunc(int _num, std::function<void()> _onComplete)
 {
 	Message[_num]->SetFunc(_onComplete);
+}
+
+void CGameOver::ResetPos()
+{
+	for (int i = 0; i < 8; i++)
+	{
+		Text[i]->mTransform.pos = { TEXT_POS_X + i * 1.2f,TEXT_POS_Y, BLACKBG_POS_Z - i * 0.01f };
+	}
+	
 }
