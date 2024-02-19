@@ -34,6 +34,9 @@ public:
     D3DBUFFER selectBuffer;
     D3DTEXTURE selectTexture;
 
+    D3DBUFFER A_ButtonBuffer;
+    D3DTEXTURE A_ButtonTexture;
+
     D3DBUFFER buttonBuffer;
     D3DTEXTURE buttonTexture;
 
@@ -52,6 +55,7 @@ public:
     ButtonUI* select[2];
     ButtonSelect* selectControl;
     CTitlePlayer* player[MAXNUM_PLAYER];
+    UI* A_Button;
 
     const Vector3 buttonBaseScale = { 4,4,1 };
 
