@@ -4,6 +4,9 @@
 #include "DebugTable.h"
 #include<iostream>
 #include "Tutorial.h"
+
+class UI;
+
 class Stage :
     public CScene
 {
@@ -28,6 +31,8 @@ protected:
 
     Tutorial* tutorial = nullptr;
     D3DTEXTURE tutolialTex = NULL;
+
+   
 public:
 
     Stage();
