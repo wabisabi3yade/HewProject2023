@@ -33,26 +33,26 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 		Text[i]->MakeDotween();
 	}
 
-	Text[0]->mTransform.pos = { -4.7f,3.0f,WHITEBG_POS_Z - 0.12f };
+	Text[0]->mTransform.pos = { -4.7f,3.0f,WHITEBG_POS_Z - 0.012f };
 	Text[0]->mTransform.scale = Vector3::zero;
 
-	Text[1]->mTransform.pos = { -2.7f,3.0f,WHITEBG_POS_Z - 0.13f };
+	Text[1]->mTransform.pos = { -2.7f,3.0f,WHITEBG_POS_Z - 0.013f };
 	Text[1]->mTransform.scale = Vector3::zero;
 	Text[1]->SetUV(1.0f / 6.0f * 1.0f, 0);
 
-	Text[2]->mTransform.pos = { -0.7f,3.0f,WHITEBG_POS_Z - 0.14f };
+	Text[2]->mTransform.pos = { -0.7f,3.0f,WHITEBG_POS_Z - 0.014f };
 	Text[2]->mTransform.scale = Vector3::zero;
 	Text[2]->SetUV(1.0f / 6.0f * 2.0f, 0);
 
-	Text[3]->mTransform.pos = { 1.3f,3.0f,WHITEBG_POS_Z - 0.15f };
+	Text[3]->mTransform.pos = { 1.3f,3.0f,WHITEBG_POS_Z - 0.015f };
 	Text[3]->mTransform.scale = Vector3::zero;
 	Text[3]->SetUV(1.0f / 6.0f * 3.0f, 0);
 
-	Text[4]->mTransform.pos = { 3.3f,3.0f,WHITEBG_POS_Z - 0.16f };
+	Text[4]->mTransform.pos = { 3.3f,3.0f,WHITEBG_POS_Z - 0.016f };
 	Text[4]->mTransform.scale = Vector3::zero;
 	Text[4]->SetUV(1.0f / 6.0f * 4.0f, 0);
 
-	Text[5]->mTransform.pos = { 5.3f,3.0f,WHITEBG_POS_Z - 0.17f };
+	Text[5]->mTransform.pos = { 5.3f,3.0f,WHITEBG_POS_Z - 0.017f };
 	Text[5]->mTransform.scale = Vector3::zero;
 	Text[5]->SetUV(1.0f / 6.0f * 5.0f, 0);
 
@@ -64,7 +64,7 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 	text_stageSelectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_StageSelectBack.png");
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_nextStageTexture);
-	Message[0]->SetPosition({ -3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.11f });
+	Message[0]->SetPosition({ -3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.011f });
 	Message[0]->SetScale({ BUTTON_SCALE,BUTTON_SCALE,1.0f });
 	Message[0]->SetHighlight(true);
 	Message[0]->SetFunc([&]() {
@@ -72,7 +72,7 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 		});
 
 	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_stageSelectTexture);
-	Message[1]->SetPosition({ 3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.11f });
+	Message[1]->SetPosition({ 3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.011f });
 	Message[1]->SetScale({ BUTTON_SCALE,BUTTON_SCALE,1.0f });
 	Message[1]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::GAMECLEAR);
@@ -83,12 +83,12 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 
 	Frame[0] = new UI(frameBuffer, frameTexture);
 	Frame[0]->MakeDotween();
-	Frame[0]->mTransform.pos = { 16.0f,4.0f,WHITEBG_POS_Z - 0.1f };
+	Frame[0]->mTransform.pos = { 16.0f,4.0f,WHITEBG_POS_Z - 0.001f };
 	Frame[0]->mTransform.scale = { 16.0f,1,1 };
 
 	Frame[1] = new UI(frameBuffer, frameTexture);
 	Frame[1]->MakeDotween();
-	Frame[1]->mTransform.pos = { -16.0f,-4.0f,WHITEBG_POS_Z - 0.1f };
+	Frame[1]->mTransform.pos = { -16.0f,-4.0f,WHITEBG_POS_Z - 0.001f };
 	Frame[1]->mTransform.scale = { 16.0f,1,1 };
 
 	D3D_CreateSquare({ 1,1 }, &namiBuffer);
@@ -96,12 +96,12 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 
 	Nami[0] = new UI(namiBuffer, namiTexture);
 	Nami[0]->MakeDotween();
-	Nami[0]->mTransform.pos = { 16.0f,3.5f,WHITEBG_POS_Z - 0.11f };
+	Nami[0]->mTransform.pos = { 16.0f,3.5f,WHITEBG_POS_Z - 0.011f };
 	Nami[0]->mTransform.scale = { 16.0f,1,1 };
 
 	Nami[1] = new UI(namiBuffer, namiTexture);
 	Nami[1]->MakeDotween();
-	Nami[1]->mTransform.pos = { -16.0f,-3.5f,WHITEBG_POS_Z - 0.11f };
+	Nami[1]->mTransform.pos = { -16.0f,-3.5f,WHITEBG_POS_Z - 0.011f };
 	Nami[1]->mTransform.scale = { 16.0f,1,1 };
 
 	// ボタン選択クラス作成
@@ -114,7 +114,7 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 	D3D_LoadTexture(L"asset/Player/N_Walk.png", &player_WalkTexture);
 
 	player = new CGameClearPlayer(playerBuffer, player_WalkTexture);
-	player->mTransform.pos = { 9.0f,0,WHITEBG_POS_Z - 0.35f };
+	player->mTransform.pos = { 9.0f,0,WHITEBG_POS_Z - 0.27f };
 	player->mTransform.scale = { 4.0f,4.0f,1.0f };
 
 	isNoMoving = false;
