@@ -324,7 +324,7 @@ void CMenu::Update()
 
 			if (input->GetInputTrigger(InputType::DECIDE))
 			{
-				selectControl->PushButton(true);
+				selectControl->PushButton();
 			}
 
 			if (input->GetInputTrigger(InputType::CANCEL))
