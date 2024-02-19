@@ -103,11 +103,20 @@ W4Select::W4Select()
 
 void W4Select::Update()
 {
+	
 
 	if (isBeginFin)
 	{
 		// “ü—Í
 		Input();
+
+		sinRot += SIN_SPEED;
+		stageSmpBack->mTransform.pos.y = SIN_POWER * sin(DirectX::XMConvertToRadians(sinRot));
+
+		if (sinRot > 360.0f)
+		{
+			sinRot = 0.0f;
+		}
 	}
 	// Å‰‚ÌˆÚ“®Žž‚ÉŽg—p‚·‚éˆ—‚Í‚±‚±
 	else

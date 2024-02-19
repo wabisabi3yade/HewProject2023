@@ -18,9 +18,6 @@
 #define WORLDNUM_SHADOWOFFSETX (0.03f)
 #define WORLDNUM_SHADOWOFFSETY (0.03f)
 
-#define SIN_POWER (0.1f)
-#define SIN_SPEED (1.0f)
-
 void StageSelect::Input()
 {
 
@@ -60,8 +57,8 @@ void StageSelect::Input()
 		// Žæ“¾
 		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
 
-			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, next);
-			isSceneMoving = true;
+		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, next);
+		isSceneMoving = true;
 
 
 	}
@@ -154,7 +151,7 @@ StageSelect::StageSelect()
 
 	D3D_LoadTexture(L"asset/UI/B_Return.png", &backButtonTex);
 	backUI = new ShadowUI(oneBuf, backButtonTex);
-	backUI->mTransform.pos = { -4.5f, -4.0f, 0.5f };
+	backUI->mTransform.pos = { -3.6f, -4.0f, 0.499f };
 	backUI->mTransform.scale = { 2.4f, 0.8f, 1.0f };
 
 	D3D_LoadTexture(L"asset/UI/T_Stage.png", &stageTex);
@@ -213,7 +210,13 @@ StageSelect::StageSelect()
 
 void StageSelect::Update()
 {
-	static float sinRot = 0.0f;
+	
+
+	if (isBeginFin)
+	{
+		// “ü—Í
+		Input();
+
 		sinRot += SIN_SPEED;
 		stageSmpBack->mTransform.pos.y = SIN_POWER * sin(DirectX::XMConvertToRadians(sinRot));
 
@@ -221,11 +224,6 @@ void StageSelect::Update()
 		{
 			sinRot = 0.0f;
 		}
-
-	if (isBeginFin)
-	{
-		// “ü—Í
-		Input();
 
 	}
 	// Å‰‚ÌˆÚ“®Žž‚ÉŽg—p‚·‚éˆ—‚Í‚±‚±
@@ -313,6 +311,7 @@ void StageSelect::Draw()
 	}
 
 	startUI->Draw();
+	backUI->Draw();
 }
 
 StageSelect::~StageSelect()
@@ -356,7 +355,7 @@ StageSelect::~StageSelect()
 	SAFE_RELEASE(worldNameTex);
 
 	CLASS_DELETE(smp);
-	
+
 	for (auto a : stageSmpTex)
 	{
 		SAFE_RELEASE(a);
