@@ -62,6 +62,7 @@ private:
 	short nowFloorNum;	// 現在にいる階層の数字
 
 	CScene::SCENE_NAME selectName;
+	CScene::SCENE_NAME nextStageName;
 
 	bool isTrue = true;
 	bool isFalse = false;
@@ -186,7 +187,7 @@ private:
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
 
-	StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum);
+	StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum, CScene::SCENE_NAME _nextStage = CScene::SCENE_NAME::NONE);
 	~StageScene();
 
 	void Update();

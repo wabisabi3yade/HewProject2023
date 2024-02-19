@@ -283,9 +283,6 @@
     <Filter Include="ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark">
       <UniqueIdentifier>{23de8dc2-387e-4563-9953-88f7a44044d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Wakamura\CGameOver">
-      <UniqueIdentifier>{59c8e443-44b4-4ca6-b01c-ddce08582c1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Hashimoto\FloorUI">
       <UniqueIdentifier>{f870b5a0-ef4e-42a1-979a-fd03eea4ab32}</UniqueIdentifier>
     </Filter>
@@ -411,6 +408,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Hashimoto\Tutorial">
       <UniqueIdentifier>{9e0c3ab5-0d25-4775-9d98-a505f31bde71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CGameOver">
+      <UniqueIdentifier>{59c8e443-44b4-4ca6-b01c-ddce08582c1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -657,9 +657,6 @@
     <ClInclude Include="CalorieMark.h">
       <Filter>ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark</Filter>
     </ClInclude>
-    <ClInclude Include="CGameOver.h">
-      <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
-    </ClInclude>
     <ClInclude Include="FloorUI.h">
       <Filter>ソース ファイル\Hashimoto\FloorUI</Filter>
     </ClInclude>
@@ -788,6 +785,9 @@
     </ClInclude>
     <ClInclude Include="Tutorial.h">
       <Filter>ソース ファイル\Hashimoto\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameOver.h">
+      <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

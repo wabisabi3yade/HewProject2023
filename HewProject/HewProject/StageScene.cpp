@@ -28,7 +28,7 @@
 
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
-StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
+StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum, CScene::SCENE_NAME _nextStage)
 	: CObject(vb, tex)
 {
 	nNumProtein = 0;
@@ -53,11 +53,13 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	isLookMap = nullptr;
 	isMenu = nullptr;
 
+	nextStageName = nextStageName;
 	// テクスチャを管理するクラスのインスタンスを取得
 	TextureFactory* texFactory = TextureFactory::GetInstance();
 
-	// 各オブジェクトのテクスチャを取得する
+	nextStageName = _nextStage;
 
+	// 各オブジェクトのテクスチャを取得する
 	switch (worldNum)
 	{
 	case 1:
@@ -1997,7 +1999,7 @@ void StageScene::Init(const wchar_t* filePath)
 
 	gameClear->SetFunc(0, [&]()
 		{
-			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, selectName);
+			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, nextStageName);
 		});
 	gameClear->SetFunc(1, [&]()
 		{

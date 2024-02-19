@@ -59,5 +59,7 @@ public:
     void LateUpdate() override;
 
     void Draw() override;
+
+    void SetFunc(int _num, std::function<void()> _onComplete);
 };
 
