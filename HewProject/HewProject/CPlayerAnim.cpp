@@ -68,25 +68,29 @@ void CPlayerAnim::Update()
 		{ 0,0,1,1,2,2,
 		 3,3,3,3,3,4,4,5,5,
 		 6,6,6,7,7,7,7,-1},
-		
+
 		 //バウム
 		{ 0,0,1,1,2,2,
 		3,3,4,4,5,5,
 		6,6,7,7,-1},
-		//
+		//クリアパンチ
 		{0,0,1,2,
 		3,4,5,
 		6,7,-2},
-
+		//クリア食べる
 		{0,0,1,1,2,2,
 		 3,3,4,4,5,5,
 		 6,6,7,7,8,8,-1},
-
+		 //マッチョの変身白目　右
 		{1,-1},
-
+		//マッチョの変身白目　左
 		{4,-1},
-
-
+		//ゲームオーバー　右
+		{0,0,1,1,2,2,
+		3,3,-2},
+		//ゲームオーバー　左
+		{6,6,7,7,8,8,
+		9,9,-2},
 	};
 
 
@@ -268,10 +272,10 @@ void CPlayerAnim::PlayPunch(float _animSpeedRate, bool _isGall)
 	isPlaying = true;
 	animCounter = 0;
 	AnimSpeedRate = _animSpeedRate;
-	if(!_isGall)
-	SetPattern(static_cast<int>(PATTERN::PUNCH));
+	if (!_isGall)
+		SetPattern(static_cast<int>(PATTERN::PUNCH));
 	else
-	SetPattern(static_cast<int>(PATTERN::GALL_PUNCH));
+		SetPattern(static_cast<int>(PATTERN::GALL_PUNCH));
 }
 
 void CPlayerAnim::PlayBaum(int _dir, float _animSpeedRate)
@@ -310,8 +314,8 @@ void CPlayerAnim::PlayMakeover(int _dir, float _animSpeedRate)
 	AnimSpeedRate = _animSpeedRate;
 	switch (_dir)
 	{
-	case 0: 
-	case 2: 
+	case 0:
+	case 2:
 		SetPattern(static_cast<int>(PATTERN::MAKEOVER_RIGHT));
 		break;
 		// 左
@@ -321,6 +325,29 @@ void CPlayerAnim::PlayMakeover(int _dir, float _animSpeedRate)
 		SetPattern(static_cast<int>(PATTERN::MAKEOVER_LEFT));
 		break;
 	default:
+		break;
+	}
+}
+
+void CPlayerAnim::PlayGameOver(int _dir, float _animSpeedRate)
+{
+	isPlaying = true;
+	animCounter = 0;
+	AnimSpeedRate = _animSpeedRate;
+	switch (_dir)
+	{
+		//　下
+		// 全方位行動可
+	case 0:
+		// 右
+	case 2:
+		SetPattern(static_cast<int>(PATTERN::GAMEOVER_RIGHT));
+		break;
+		// 左
+	case 1:
+		// 上
+	case 3:
+		SetPattern(static_cast<int>(PATTERN::GAMEOVER_LEFT));
 		break;
 	}
 }

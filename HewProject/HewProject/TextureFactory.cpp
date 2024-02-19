@@ -88,6 +88,7 @@ void TextureFactory::Load()
 		L"asset/Player/T_Aseri.png",
 		L"asset/Player/T_Drink.png",
 		L"asset/Player/12komaEat_L.png",
+		L"asset/Player/collapse.png",
 
 		L"asset/Stage/floor_y.png",
 		L"asset/Stage/floor_g.png",

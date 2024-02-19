@@ -12,6 +12,7 @@
 
 #define START_CALORIE (8)	// スタート時のカロリー
 #define CHILI_CALORIE (2)	// とうがらし食べた減るのリスのカロリー
+constexpr float GAMEOVER_TIME = 9.0f; //カロリーが０になってから何秒後にゲームオーバーになるか
 
 void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_tex)
 {
@@ -58,6 +59,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	IsStop = true;
 	isCasetellaPush = false;
 	PlayMakeover = false;
+	gameOverOnes = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -94,6 +96,8 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	castellaPushTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/F_PushWalk.png");
 
 	GallEatTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/12komaEat_L.png");
+
+	GameOverTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/collapse.png");
 
 	cannonTex = TextureFactory::GetInstance()->Fetch(L"asset/Player/Player_CanonMove.png");
 
@@ -237,8 +241,16 @@ void Player::Update()
 	}
 
 
-	if (calorie <= 0 && !IsgameOver)
-		GameOver();
+	if (calorie <= 0 && !gameOverOnes)
+	{
+		ChangeTexture(ANIM_TEX::GAMEOVER);
+		dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction),1.5f);
+		dotween->DelayedCall(GAMEOVER_TIME, [&]()
+			{
+				GameOver();
+			});
+		gameOverOnes = true;
+	}
 }
 
 // 歩いた時のカロリー消費
@@ -446,6 +458,11 @@ void Player::ChangeTexture(ANIM_TEX _animTex)
 	else if (_animTex == ANIM_TEX::GALL_EAT)
 	{
 		SetTexture(GallEatTex);
+		return;
+	}
+	else if (_animTex == Player::ANIM_TEX::GAMEOVER)
+	{
+		SetTexture(GameOverTex);
 		return;
 	}
 	switch (playerState)

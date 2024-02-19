@@ -88,13 +88,17 @@ void DoTween::Update()
 				}
 
 				case FUNC::EASE_OUTCUBIC:
-					{
+				{
 					// 始点と終点の距離を取る
 					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+
+					float calc = 1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3);
 					//　始点 + 距離 × 0～1の割合
-					objPtr->mTransform.pos = (*itr2).oldPos + distance * (1 - std::pow(1 - (*itr2).nowTime / (*itr2).moveTime, 3));
-					}
-					break;
+					objPtr->mTransform.pos.x = (*itr2).oldPos.x + distance.x * calc;
+
+					objPtr->mTransform.pos.y = (*itr2).oldPos.y + distance.y * calc;
+				}
+				break;
 
 				case FUNC::EASE_OUTCUBIC_SCALE:
 				{

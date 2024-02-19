@@ -122,6 +122,7 @@ private:
 	D3DBUFFER stageBuffer;	// ステージのオブジェクト
 	D3DBUFFER playerBuffer;	// プレイヤー
 	D3DBUFFER clearBuffer;	// クリア
+	D3DBUFFER LR_ButtonBuffer;	// LB_RLボタン用バッファ
 
 	// テクスチャ
 	D3DTEXTURE stageTextureFloor;
@@ -150,13 +151,15 @@ private:
 	D3DTEXTURE ButtonTextureFloorLook;
 	D3DTEXTURE ButtonTextureUndo;
 	D3DTEXTURE TextTextureLooking;
+	D3DTEXTURE Button_LB_RB_Texture;
 
 	//UI関係
 	UI* LookingTxet;
 	UI* CameraButton;
 	UI* FloorLookButton;
 	UI* UndoButton;
-
+	UI* RB_Button;
+	UI* LB_Button;
 	//プロテイン
 	ProteinUI* proteinUi;
 
