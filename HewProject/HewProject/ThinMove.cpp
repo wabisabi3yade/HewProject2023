@@ -93,8 +93,8 @@ void ThinMove::Move(DIRECTION _dir)
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 				//煙用に
 				pos = player->mTransform.pos;
-				pos.z += 0.0009998f;
-				player->mTransform.pos.z += 0.0009999f;
+				pos.z += 0.0009976f;
+				player->mTransform.pos.z += 0.0009989f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale = player->mTransform.scale;
 				scale.x *= SMOKE_SCALE;
@@ -206,6 +206,7 @@ void ThinMove::Move(DIRECTION _dir)
 					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+					if(player)
 					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 					{
 						//バウンドする高さを計算　代入
@@ -357,7 +358,8 @@ void ThinMove::Move(DIRECTION _dir)
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 					//煙用に
 					pos = player->mTransform.pos;
-					pos.z -= 0.000001f;
+					pos.z += 0.0009976f;
+					player->mTransform.pos.z += 0.0009989f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale = player->mTransform.scale;
 					scale.x *= SMOKE_SCALE;
@@ -549,8 +551,8 @@ void ThinMove::Step()
 		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 		//煙用に
 		pos = player->mTransform.pos;
-		pos.z += 0.00099961;
-		player->mTransform.pos.z += 0.0009999f;
+		pos.z += 0.0009976f;
+		player->mTransform.pos.z += 0.0009989f;
 		pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 		scale = player->mTransform.scale;
 		scale.x *= SMOKE_SCALE;
@@ -614,7 +616,6 @@ void ThinMove::Step()
 		player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
 		if (player->GetNowFloor() != 1)
 		{
-
 			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
 			{
 				//バウンドする高さを計算　代入
