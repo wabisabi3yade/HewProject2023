@@ -38,7 +38,7 @@ public:
     UI* Bg;
     UI* Text[MAXNUM_TEXT];
     ButtonUI* Message[MAXNUM_MESSAGE];
-    CWorldSelectPlayer* Player;
+    //CWorldSelectPlayer* Player;
     ButtonSelect* selectControl;
 
     bool isOnce;

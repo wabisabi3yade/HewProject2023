@@ -39,6 +39,9 @@
 #define BACK_SCALE_X (2.4f)
 #define BACK_SCALE_Y (1.2f)
 
+#define DECISION_SCALE_X (2.8f)
+#define DECISION_SCALE_Y (0.7f)
+
 CStage1SelectScene::CStage1SelectScene()
 {
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLDSELECT);
@@ -213,7 +216,7 @@ CStage1SelectScene::CStage1SelectScene()
 	Bg->mTransform.scale = { 16,9,1 };
 
 	D3D_CreateSquare({ 1,1 }, &decisionBuffer);
-	D3D_LoadTexture(L"asset/Background/Stage1SelectBack.png", &decisionTexture);
+	D3D_LoadTexture(L"asset/Text/B_Decide.png", &decisionTexture);
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -227,7 +230,7 @@ CStage1SelectScene::CStage1SelectScene()
 			Decision[i]->mTransform.pos = { stage[i]->mTransform.pos };
 		}
 
-		Decision[i]->mTransform.scale = { 4.0f,1.0f,1.0f };
+		Decision[i]->mTransform.scale = { DECISION_SCALE_X,DECISION_SCALE_Y,1.0f };
 		
 	}
 

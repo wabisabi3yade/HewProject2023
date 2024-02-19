@@ -30,7 +30,7 @@ CGameStart::CGameStart(int _num)
 	Need = new UI(textBuffer, needTexture);
 	Need->MakeDotween();
 	Need->mTransform.pos = { 12.0f,-0.5f,GAMESTART_POS_Z - 0.00001f };
-	Need->mTransform.scale = { 4.0f,1.0f,1.0f };
+	Need->mTransform.scale = { 4.5f,1.5f,1.0f };
 
 	nNumProtein = _num;
 	fProteinZ = GAMESTART_POS_Z - 0.00002f;
