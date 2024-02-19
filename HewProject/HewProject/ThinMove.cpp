@@ -86,14 +86,15 @@ void ThinMove::Move(DIRECTION _dir)
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z -= 0.000001f;
+				pos.z += 0.0001f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= HEART_SCALE;
 				scale.y *= HEART_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 				//煙用に
 				pos = player->mTransform.pos;
-				pos.z -= 0.000001f;
+				pos.z += 0.0009998f;
+				player->mTransform.pos.z += 0.0009999f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale = player->mTransform.scale;
 				scale.x *= SMOKE_SCALE;
@@ -128,6 +129,7 @@ void ThinMove::Move(DIRECTION _dir)
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
+
 						player->EatEnd();
 						player->EatChilli();
 						MoveAfter();
@@ -529,22 +531,46 @@ void ThinMove::Step()
 	switch (player->GetPlayerMove()->CheckNextMassType())
 	{
 	case CGridObject::BlockType::CAKE:
+	{
 
+		if (player->GetCalorie() <= 0)
+		{
+			player->GameOver();
+			return;
+		}
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
+		Vector3 pos = player->mTransform.pos;
+		Vector3 scale = player->mTransform.scale;
+		pos.z += 0.0001f;
+		pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+		scale.x *= HEART_SCALE;
+		scale.y *= HEART_SCALE;
+		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
+		//煙用に
+		pos = player->mTransform.pos;
+		pos.z += 0.00099961;
+		player->mTransform.pos.z += 0.0009999f;
+		pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+		scale = player->mTransform.scale;
+		scale.x *= SMOKE_SCALE;
+		scale.y *= SMOKE_SCALE;
 		// 食べ終わったら移動できるようにする
-		player->dotween->DelayedCall(EAT_TIME, [&]()
+		player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 			{
 				player->EatEnd();
 				player->EatCake();
 				MoveAfter();
-				FallAfter();
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 		break;
 
+	}
 	case CGridObject::BlockType::CHILI:
+	{
+
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -558,7 +584,9 @@ void ThinMove::Step()
 			});
 		break;
 
+	}
 	case CGridObject::BlockType::PROTEIN:
+	{
 
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
@@ -568,6 +596,7 @@ void ThinMove::Step()
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 		break;
+	}
 	case CGridObject::BlockType::HOLL:
 	{
 		WalkStart();

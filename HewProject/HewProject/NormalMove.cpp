@@ -79,14 +79,15 @@ void NormalMove::Move(DIRECTION _dir)
 				Vector3 scale = player->mTransform.scale;
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
-				pos.z -= 0.000001f;
+				pos.z += 0.001000f;
 				scale.x *= HEART_SCALE;
 				scale.y *= HEART_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 
 				pos = player->mTransform.pos;
 				scale = player->mTransform.scale;
-				pos.z -= 0.000001f;
+				player->mTransform.pos.z += 0.0009989f;
+				pos.z += 0.0009976f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
@@ -125,7 +126,8 @@ void NormalMove::Move(DIRECTION _dir)
 						{
 							Vector3 pos = player->mTransform.pos;
 							Vector3 scale = player->mTransform.scale;
-							pos.z -= 0.000001f;
+							player->mTransform.pos.z += 0.0009889f;
+							pos.z += 0.0009776f;
 							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
@@ -152,6 +154,17 @@ void NormalMove::Move(DIRECTION _dir)
 				player->dotween->DelayedCall(EAT_TIME, [&]()
 					{
 						MoveAfter();
+						if (player->GetCalorie() < 6)
+						{
+							Vector3 pos = player->mTransform.pos;
+							Vector3 scale = player->mTransform.scale;
+							pos.z += 0.0009998f;
+							player->mTransform.pos.z += 0.0009999f;
+							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+							scale.x *= SMOKE_SCALE;
+							scale.y *= SMOKE_SCALE;
+							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+						}
 						player->EatEnd();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -335,7 +348,8 @@ void NormalMove::Move(DIRECTION _dir)
 			{
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z -= 0.000001f;
+				pos.z += 0.0009776f;
+				player->mTransform.pos.z += 0.0009889f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
@@ -362,7 +376,8 @@ void NormalMove::Step()
 
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z -= 0.000001f;
+				pos.z += 0.0009998f;
+				player->mTransform.pos.z += 0.0009999f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
@@ -387,7 +402,8 @@ void NormalMove::Step()
 				{
 					Vector3 pos = player->mTransform.pos;
 					Vector3 scale = player->mTransform.scale;
-					pos.z -= 0.000001f;
+					pos.z += 0.0009998f;
+					player->mTransform.pos.z += 0.0009999f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
@@ -542,7 +558,8 @@ void NormalMove::Step()
 		{
 			Vector3 pos = player->mTransform.pos;
 			Vector3 scale = player->mTransform.scale;
-			pos.z -= 0.000001f;
+			pos.z += 0.0009998f;
+			player->mTransform.pos.z += 0.0009999f;
 			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
