@@ -278,6 +278,7 @@ void StageScene::Update()
 					CCamera::GetInstance()->mTransform.pos = Vector3::zero;
 					CCamera::GetInstance()->Shake(0.7f, 0.3f);
 					dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
+					isLookMap = player->GetPlayerMove()->GetIsLookCamera();
 					if (isDoTutorial)
 					{
 						if (tutorial->GetIs1_1())
@@ -806,7 +807,7 @@ void StageScene::StageMove()
 		case CGridObject::BlockType::WALL:
 		{
 			CWall* wallObj = dynamic_cast<CWall*>(GetStageObject(player->GetPlayerMove()->GetNextGridPos(), type));
-			wallObj->Break(player->GetDirection(), 1.4f);
+			wallObj->Break(player->GetDirection(), 0.0f);
 			break;
 		}
 		case CGridObject::BlockType::CAKE:
