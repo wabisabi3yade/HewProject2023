@@ -67,8 +67,8 @@ void CGameStart::Update()
 		Bg->dotween->DoAlpha(0.5f, 0.2f);
 		Bg->dotween->OnComplete([&]() {
 			Text->dotween->DoEaseOutBack({ 0,2.0f,GAMESTART_POS_Z - 0.00001f }, 0.4f);
-			Text->dotween->Join(0, 2.2f, DoTweenUI::FUNC::DELAY);
-			Text->dotween->Append({ -12.0f,2.0f,GAMESTART_POS_Z - 0.00001f }, 0.3f, DoTweenUI::FUNC::EASE_INBACK);
+			Text->dotween->Join(0, 2.0f, DoTweenUI::FUNC::DELAY);
+			Text->dotween->Append({ -12.0f,2.0f,GAMESTART_POS_Z - 0.00001f }, 0.7f, DoTweenUI::FUNC::EASE_INBACK);
 
 			Need->dotween->DoEaseOutBack({ 5.0f,-0.5f,GAMESTART_POS_Z - 0.00001f }, 0.4f);
 			Need->dotween->Join(0, 2.0f, DoTweenUI::FUNC::DELAY);
