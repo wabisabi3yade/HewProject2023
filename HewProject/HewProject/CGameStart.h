@@ -20,13 +20,18 @@ public:
     UI* Need;
     ProteinUI* Protein;
 
+    Vector3 TextEndPos;
+    Vector3 NeedEndPos;
+    Vector3 ProteinEndPos;
+
     bool isProtein;
     int nNumProtein;
     float fProteinZ;
     bool isMoveing;
+    bool isWorld1;
 
 public:
-    CGameStart(int _num);
+    CGameStart(int _num,bool _world1 = false);
 
     ~CGameStart();
 
