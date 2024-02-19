@@ -19,9 +19,6 @@ public:
     D3DBUFFER text_failedBuffer;
     D3DTEXTURE textTexture;
 
-    D3DBUFFER playerBuffer;
-    D3DTEXTURE playerTexture;
-
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
 
@@ -38,7 +35,6 @@ public:
     UI* Bg;
     UI* Text[MAXNUM_TEXT];
     ButtonUI* Message[MAXNUM_MESSAGE];
-    //CWorldSelectPlayer* Player;
     ButtonSelect* selectControl;
 
     bool isOnce;

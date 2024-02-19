@@ -7,6 +7,7 @@ CGameClearPlayer::CGameClearPlayer(D3DBUFFER vb, D3DTEXTURE tex) : CObject(vb,te
 	mAnim = new CPlayerAnim();
 	mAnim->SetPattern(1);
 	mAnim->isStop = false;
+	mAnim->animSpeed = 0.25f;
 
 	isEatAnim = true;
 	isWalkAnim = false;
@@ -29,6 +30,7 @@ void CGameClearPlayer::Update()
 	if (isEatAnim == false)
 	{
 		dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(0);
+		mAnim->animSpeed = 0.1f;
 		dynamic_cast<CPlayerAnim*>(mAnim)->PlayGallEat(static_cast<int> (DIRECTION::LEFT));
 		isEatAnim = true;
 	}
