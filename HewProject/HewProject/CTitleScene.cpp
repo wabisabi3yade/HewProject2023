@@ -146,6 +146,13 @@ CTitleScene::CTitleScene()
 	player[3]->isAll = false;
 	player[3]->nRandomChara = nRandom;
 
+	D3D_CreateSquare({ 1,1 }, &A_ButtonBuffer);
+	D3D_LoadTexture(L"asset/UI/B_Enter.png", &A_ButtonTexture);
+
+	A_Button = new UI(A_ButtonBuffer, A_ButtonTexture);
+	A_Button->mTransform.pos = { -6.5f,-4.0f,-0.3f };
+	A_Button->mTransform.scale = { 2.4f,0.8f,1.0f };
+
 	isNoMoving = false;
 	isOnce = false;
 	
@@ -159,6 +166,8 @@ CTitleScene::~CTitleScene()
 	CLASS_DELETE(Title);
 
 	CLASS_DELETE(Bg);
+
+	CLASS_DELETE(A_Button);
 
 	for (int i = 0; i < MAXNUM_PLAYER; i++)
 	{
@@ -186,6 +195,8 @@ CTitleScene::~CTitleScene()
 	SAFE_RELEASE(playerBuffer);
 	SAFE_RELEASE(baumTexture);
 	SAFE_RELEASE(proteinTexture);
+	SAFE_RELEASE(A_ButtonBuffer);
+	SAFE_RELEASE(A_ButtonTexture);
 }
 
 void CTitleScene::Update()
@@ -195,6 +206,8 @@ void CTitleScene::Update()
 	Title->Update();
 
 	Bg->Update();
+
+	A_Button->Update();
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -371,10 +384,11 @@ void CTitleScene::Draw()
 
 		select[0]->Draw();
 		select[1]->Draw();
+
+		A_Button->Draw();
 	}
 	
 	Title->Draw();
-
 }
 
 void CTitleScene::RandomSweets(int _num)
