@@ -1,23 +1,25 @@
 #include "ThinMove.h"
 #include "Player.h"
+#include "CBaum.h"
 
 ThinMove::ThinMove(Player* _p)
 	: PlayerMove(_p)
 {
-	// ˆÚ“®•s‰Â”\‚È°‚Ìí—Ş‚ğŒˆ‚ß‚é
+	// ç§»å‹•ä¸å¯èƒ½ãªåºŠã®ç¨®é¡ã‚’æ±ºã‚ã‚‹
 	cantMoveBlock = { 0, 2, 5, 16 };
+	IsMissMove = false;
 }
 
 void ThinMove::Move(DIRECTION _dir)
 {
-	// ˆÚ“®ƒtƒ‰ƒO‚ğtrue
+	// ç§»å‹•ãƒ•ãƒ©ã‚°ã‚’true
 	isMoving = true;
 	isMoveStartTrigger = true;
 
-	// •ûŒü‚ğİ’è‚·‚é
+	// æ–¹å‘ã‚’è¨­å®šã™ã‚‹
 	player->SetDirection(static_cast<int>(_dir));
 
-	//	ˆÚ“®æ‚ÌƒOƒŠƒbƒhÀ•W
+	//	ç§»å‹•å…ˆã®ã‚°ãƒªãƒƒãƒ‰åº§æ¨™
 	nextGridPos = player->GetGridPos();
 	CGrid::GRID_XY d = {};
 	switch (_dir)
@@ -42,188 +44,467 @@ void ThinMove::Move(DIRECTION _dir)
 	nextGridPos.x += d.x;
 	nextGridPos.y += d.y;
 
-	//	‚±‚±‚©‚çˆÚ“®‚·‚éæ‚Ìí—Ş‚É‚æ‚Á‚Ä‚·‚é‚±‚Æ‚ğ•Ï‚¦‚é //////////////////////////
-	// ƒLƒƒƒ‰ƒNƒ^[‚ğˆÚ“®æ‚ÌÀ•W
-	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);
+	//	ã“ã“ã‹ã‚‰ç§»å‹•ã™ã‚‹å…ˆã®ç¨®é¡ã«ã‚ˆã£ã¦ã™ã‚‹ã“ã¨ã‚’å¤‰ãˆã‚‹ //////////////////////////
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’ç§»å‹•å…ˆã®åº§æ¨™
+	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
 
-	// ‰œ‘¤‚És‚­‚Æ‚«‚Ìs“®‚Ì‡”Ô
-	// ‡@ ISOME_BACKMOVE‘«‚·@i“¯‚¶‰¡—ñ‚Ìª‚É‚ ‚éƒIƒuƒWƒFƒNƒg‚æ‚è‰œ‚ÉˆÚ“®‚·‚é‚Ì‚ÅƒIƒuƒWƒFƒNƒg‚æ‚è‰œ‚É‚·‚éj
-	// ‡AˆÚ“®æ‚É“’…‚·‚é‚Æ‚»‚Ì°‚É‡‚í‚¹‚½ZÀ•W‚É‡‚í‚¹‚é
+	// å¥¥å´ã«è¡Œãã¨ãã®è¡Œå‹•ã®é †ç•ª
+	// â‘  ISOME_BACKMOVEè¶³ã™ã€€ï¼ˆåŒã˜æ¨ªåˆ—ã®â†‘ã«ã‚ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚ˆã‚Šå¥¥ã«ç§»å‹•ã™ã‚‹ã®ã§ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚ˆã‚Šå¥¥ã«ã™ã‚‹ï¼‰
+	// â‘¡ç§»å‹•å…ˆã«åˆ°ç€ã™ã‚‹ã¨ãã®åºŠã«åˆã‚ã›ãŸZåº§æ¨™ã«åˆã‚ã›ã‚‹
 	if (_dir == DIRECTION::UP || _dir == DIRECTION::RIGHT)
 	{
 		player->mTransform.pos.z += ISOME_BACKMOVE;
 	}
-	// è‘O‚Ìƒ}ƒX‚És‚­‚Æ‚«‚Íæ‚ÉZÀ•W‚ğè‘O‚É‡‚í‚¹‚é
+	// æ‰‹å‰ã®ãƒã‚¹ã«è¡Œãã¨ãã¯å…ˆã«Zåº§æ¨™ã‚’æ‰‹å‰ã«åˆã‚ã›ã‚‹
 	else
 	{
 		player->mTransform.pos.z = forwardPos.z;
 	}
 
-	// i‚ñ‚¾æ‚ÌƒuƒƒbƒN‚É‚æ‚Á‚Ä‘Î‰‚·‚éƒAƒNƒVƒ‡ƒ“‚ğİ’è‚·‚é
+	// é€²ã‚“ã å…ˆã®ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚ˆã£ã¦å¯¾å¿œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹
 	switch (CheckNextMassType())
 	{
-	case CStageMake::BlockType::CAKE:
+	case CGridObject::BlockType::CAKE:
 
 		WalkStart();
 
-		// ˆÚ“®‚·‚é
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-		
-		// ˆÚ“®‚µI‚¦‚½‚çƒP[ƒL‚ğH‚×‚é
-		player->dotween->OnComplete([&]()
-			{
-				WalkAfter();
-				// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
-				player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatCake(); MoveAfter(); });
-			});
-		break;
-
-	case CStageMake::BlockType::CHILI:
+		// ç§»å‹•ã™ã‚‹
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
+		// ç§»å‹•ã—çµ‚ãˆãŸã‚‰ã‚±ãƒ¼ã‚­ã‚’é£Ÿã¹ã‚‹
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
-				player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
-			});
-		break;
-
-	case CStageMake::BlockType::CHOCOCRACK:
-
-		WalkStart();
-
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
-		player->dotween->OnComplete([&]()
-			{
-
-				WalkAfter();
-				CGrid::GRID_XY GridXY = (nextGridPos);
-				float player_z = player->mTransform.pos.z;
-				//‰æ–ÊŠO‚Ü‚ÅˆÚ“®‚·‚é‚æ‚¤‚ÉY‚ğƒ}ƒNƒ‚Å’è‹`‚µ‚Äg—p‚·‚é
-				GridXY.x -= 1;
-				GridXY.y += 1;
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(GridXY, CStageMake::BlockType::FLOOR));
-				fallPos.y = (FALL_POS_Y) - (player->mTransform.scale.y / 2.0f);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-					{
-						player->Fall();
-					});
-				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos,	FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
-			});
-
-		break;
-
-	case CStageMake::BlockType::HOLL:
-		// «‚É‚¨‚¿‚é‚Æ‚«‚ÌƒWƒƒƒ“ƒv
-
-		WalkStart();
-
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
-		player->dotween->OnComplete([&]()
-			{
-
-				WalkAfter();
-				//‰æ–ÊŠO‚Ü‚ÅˆÚ“®‚·‚é‚æ‚¤‚ÉY‚ğƒ}ƒNƒ‚Å’è‹`‚µ‚Äg—p‚·‚é
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
-				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-					{
-						player->Fall();
-					});
-				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
-			});
-
-		break;
-
-	case CStageMake::BlockType::GUMI:
-		// ª‚ÉƒWƒƒƒ“ƒv‚·‚é
-
-		WalkStart();
-
-		break;
-
-	case CStageMake::BlockType::BAUMHORIZONTAL:
-	case CStageMake::BlockType::BAUMVERTICAL:
-		// ƒoƒEƒ€ƒN[ƒwƒ“‚ÌŒü‚±‚¤‘¤‚ÉˆÚ“®‚·‚é
-		// ‚à‚¤ˆêŒÂæ‚ÉÀ•Wİ’è
-		nextGridPos.x += d.x;
-		nextGridPos.y += d.y;
-
-		WalkStart();
-
-		forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);		
-		forwardPosXY = { forwardPos.x, forwardPos.y };
-
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
-		// “®‚«I‚í‚Á‚½‚ç
-		player->dotween->OnComplete([&]()
-			{
-				WalkAfter();
-
-				// ƒJƒXƒeƒ‰’´‚¦‚½æ‚ÉƒuƒƒbƒN‚É‚æ‚Á‚Äˆ—‚ğ‚·‚é
-				switch (static_cast<CStageMake::BlockType>(player->GetGridTable()->CheckObjectType(nextGridPos)))
+				if (player->GetCalorie() <= 0)
 				{
-				case CStageMake::BlockType::CAKE:
-					// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
-					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatCake(); MoveAfter(); });
-					break;
+					player->GameOver();
+					return;
+				}
+				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+				scale.x *= HEART_SCALE;
+				scale.y *= HEART_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
+				//ç…™ç”¨ã«
+				pos = player->mTransform.pos;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+				scale = player->mTransform.scale;
+				scale.x *= SMOKE_SCALE;
+				scale.y *= SMOKE_SCALE;
+				// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
+				player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
+					{
+						player->EatEnd();
+						player->EatCake();
+						MoveAfter();
+						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
+			});
+		break;
 
-				case CStageMake::BlockType::CHILI:
-					// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
-					player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
-					break;
+	case CGridObject::BlockType::CHILI:
+		WalkStart();
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-				case CStageMake::BlockType::COIN:
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
+				if (player->GetCalorie() <= 0)
+				{
+					player->GameOver();
+					return;
+				}
+				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				player->dotween->DelayedCall(EAT_TIME, [&]()
+					{
+						player->EatEnd();
+						player->EatChilli();
+						MoveAfter();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
+			});
+		break;
 
-					break;
+	case CGridObject::BlockType::PROTEIN:
+		WalkStart();
 
-				case CStageMake::BlockType::CHOCO:
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-					break;
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::DRINK);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				player->dotween->DelayedCall(EAT_TIME, [&]()
+					{
+						MoveAfter();
+						player->EatEnd();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
+			});
+		break;
+	case CGridObject::BlockType::CHOCOCRACK:
 
-				case CStageMake::BlockType::CHOCOCRACK:
+		WalkStart();
 
-					WalkStart();
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-					player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-					player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
 
-					player->dotween->OnComplete([&]()
+				MoveAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+
+			});
+
+		break;
+
+	case CGridObject::BlockType::HOLL:
+		// â†“ã«ãŠã¡ã‚‹ã¨ãã®ã‚¸ãƒ£ãƒ³ãƒ—
+
+		WalkStart();
+		{
+
+			Vector2 junpPos = {};
+
+			Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+			junpPos.x = Vec3JumpPos.x;
+			junpPos.y = Vec3JumpPos.y;
+			player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+			player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+			player->dotween->OnComplete([&]()
+				{
+					//ç”»é¢å¤–ã¾ã§ç§»å‹•ã™ã‚‹ã‚ˆã†ã«Yã‚’ãƒã‚¯ãƒ­ã§å®šç¾©ã—ã¦ä½¿ç”¨ã™ã‚‹
+					Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+					fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
+					Vector2 fallPosXY;
+					fallPosXY.x = fallPos.x;
+					fallPosXY.y = fallPos.y;
+					player->Fall();
+					player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
+					//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					{
+						//ãƒã‚¦ãƒ³ãƒ‰ã™ã‚‹é«˜ã•ã‚’è¨ˆç®—ã€€ä»£å…¥
+						//player->Fall();
+						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME  , [&]()
+							{
+								isFallBound = true;
+							});
+						//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
+					}
+					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 						{
-
-							WalkAfter();
-							//‰æ–ÊŠO‚Ü‚ÅˆÚ“®‚·‚é‚æ‚¤‚ÉY‚ğƒ}ƒNƒ‚Å’è‹`‚µ‚Äg—p‚·‚é
-							Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
-							fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-							player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-								{
-									player->Fall();
-								});
-							player->dotween->DoDelay(FALL_TIME);
-							player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+							player->fallMoveTrriger = true;
 						});
 
-
-					break;
-
-				default:
-					MoveAfter();
-					break;
-				}				
-			});
+				});
+		}
 		break;
 
+	case CGridObject::BlockType::GUMI:
+	{
+
+		WalkStart();
+
+		Vector2 junpPos = {};
+
+
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y + 0.3f;
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
+		//MoveAfter();
+
+		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
+		player->dotween->OnComplete([&, Vec3JumpPos]()
+			{
+				player->dotween->DoDelay(0.3f);
+				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->Rise();
+				player->GetPlayerMove()->RiseStart();
+				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
+				player->dotween->Append(targetPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->Append(targetPos, RISING_TIME + 0.5f, DoTween::FUNC::MOVECURVE, targetPos.y + 7.0f);
+				player->dotween->DelayedCall(RISING_TIME + 0.3f, [&]()
+					{
+						player->risingMoveTrriger = true;
+					});
+			});
+
+		// â†‘ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹
+
+	}
+	break;
+
+	case CGridObject::BlockType::BAUMHORIZONTAL:
+	case CGridObject::BlockType::BAUMVERTICAL:
+	{
+		CGrid::GRID_XY nextGridPosCopy = nextGridPos;
+		// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³ã®å‘ã“ã†å´ã«ç§»å‹•ã™ã‚‹
+		// ã‚‚ã†ä¸€å€‹å…ˆã«åº§æ¨™è¨­å®š
+		nextGridPosCopy.x += d.x;
+		nextGridPosCopy.y += d.y;
+
+		CGrid::GRID_XY XY = { 0,0 };
+		for (int i = 0; i < 9; i++)
+		{
+			if (player->GetGridTable()->floorTable[0][i] != 0)
+			{
+				XY.x += 1;
+			}
+			if (player->GetGridTable()->floorTable[i][0] != 0)
+			{
+				XY.y += 1;
+			}
+			else if (player->GetGridTable()->floorTable[i][i] == 0)
+			{
+				break;
+			}
+		}
+		if (nextGridPosCopy.x < 0 || nextGridPosCopy.y < 0 || nextGridPosCopy.x > XY.x || nextGridPosCopy.y > XY.y)
+		{
+			nextGridPos = player->GetGridPos();
+			MoveAfter();
+			return;
+		}
+		//player->ChangeTexture(Player::ANIM_TEX::BAUM);
+		WalkStart();
+		player->ChangeInvisible();
+		forwardPos = player->GetGridTable()->GridToWorld(nextGridPosCopy, CGridObject::BlockType::START);
+		forwardPosXY = { forwardPos.x, forwardPos.y };
+
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç§»å‹•ã•ã›ã¦ãŠã
+		player->mTransform.pos = forwardPos;
+
+
+		Vector2 baumAdjustPos = Vector2::zero;
+		// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³å¾®èª¿æ•´åº§æ¨™
+		switch (_dir)
+		{
+		case DIRECTION::DOWN:
+			baumAdjustPos = { 0.015f, 0.1f };
+			break;
+
+		case DIRECTION::UP:
+			baumAdjustPos = { -0.0180f, 0.058f };
+			break;
+
+		case DIRECTION::RIGHT:
+			baumAdjustPos = { 0.022f,0.06f };
+			break;
+
+
+		case DIRECTION::LEFT:
+			baumAdjustPos = { -0.013f, 0.103f };
+			break;
+		}
+		player->mTransform.pos.x += baumAdjustPos.x * player->GetGridTable()->GetGridScale().x;
+		player->mTransform.pos.y += baumAdjustPos.y * player->GetGridTable()->GetGridScale().y;
+
+		// å‹•ãçµ‚ã‚ã£ãŸã‚‰
+		player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, nextGridPosCopy]()
+			{
+				nextGridPos = nextGridPosCopy;
+				// ã‚«ã‚¹ãƒ†ãƒ©è¶…ãˆãŸå…ˆã«ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚ˆã£ã¦å‡¦ç†ã‚’ã™ã‚‹
+				switch (static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckMassType(nextGridPosCopy)))
+				{
+				case CGridObject::BlockType::CAKE:
+				{
+					WalkAfter();
+					// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
+					if (player->GetCalorie() <= 0)
+					{
+						player->GameOver();
+						return;
+					}
+					player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+					player->GetPlayerAnim()->PlayEat(player->GetDirection());
+					Vector3 pos = player->mTransform.pos;
+					Vector3 scale = player->mTransform.scale;
+					pos.z -= 0.000001f;
+					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+					scale.x *= HEART_SCALE;
+					scale.y *= HEART_SCALE;
+					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
+					//ç…™ç”¨ã«
+					pos = player->mTransform.pos;
+					pos.z -= 0.000001f;
+					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+					scale = player->mTransform.scale;
+					scale.x *= SMOKE_SCALE;
+					scale.y *= SMOKE_SCALE;
+					// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
+					player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
+						{
+							player->EatEnd();
+							player->EatCake();
+							MoveAfter();
+							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
+							player->GetPlayerAnim()->StopWalk(player->GetDirection());
+							player->ChangeTexture(Player::ANIM_TEX::WAIT);
+						});
+					break;
+				}
+				case CGridObject::BlockType::CHILI:
+					WalkAfter();
+					// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
+					if (player->GetCalorie() <= 0)
+					{
+						player->GameOver();
+						return;
+					}
+					player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+					player->GetPlayerAnim()->PlayEat(player->GetDirection());
+					player->dotween->DelayedCall(EAT_TIME, [&]()
+						{
+							player->EatEnd();
+							player->EatChilli();
+							MoveAfter();
+							player->GetPlayerAnim()->StopWalk(player->GetDirection());
+							player->ChangeTexture(Player::ANIM_TEX::WAIT);
+						});
+					break;
+				case CGridObject::BlockType::PROTEIN:
+					WalkAfter();
+					nextGridPos = nextGridPosCopy;
+					player->dotween->DelayedCall(EAT_TIME, [&]()
+						{
+							MoveAfter();
+							player->GetPlayerAnim()->StopWalk(player->GetDirection());
+							player->ChangeTexture(Player::ANIM_TEX::WAIT);
+						});
+					break;
+
+				case CGridObject::BlockType::COIN:
+					WalkAfter();
+					nextGridPos = nextGridPosCopy;
+					MoveAfter();
+					player->GetPlayerAnim()->StopWalk(player->GetDirection());
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					break;
+
+				case CGridObject::BlockType::CHOCO:
+					WalkAfter();
+					nextGridPos = nextGridPosCopy;
+					MoveAfter();
+					player->GetPlayerAnim()->StopWalk(player->GetDirection());
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					break;
+
+				case CGridObject::BlockType::CHOCOCRACK:
+					WalkAfter();
+					nextGridPos = nextGridPosCopy;
+					MoveAfter();
+					player->GetPlayerAnim()->StopWalk(player->GetDirection());
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					break;
+
+				case CGridObject::BlockType::HOLL:
+				{
+					Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+					fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
+					Vector2 fallPosXY;
+					fallPosXY.x = fallPos.x;
+					fallPosXY.y = fallPos.y;
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+						{
+							player->Fall();
+						});
+					player->dotween->DoDelay(FALL_TIME);
+					player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+
+					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START));
+					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					{
+						//ãƒã‚¦ãƒ³ãƒ‰ã™ã‚‹é«˜ã•ã‚’è¨ˆç®—ã€€ä»£å…¥
+						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+							{
+								isFallBound = true;
+							});
+					}
+					player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
+						{
+							player->fallMoveTrriger = true;
+						});
+					break;
+				}
+				default:
+					WalkAfter();
+					nextGridPos = nextGridPosCopy;
+					MoveAfter();
+					break;
+				}
+			});
+	}
+	break;
+
+	case CGridObject::BlockType::CANNON:
+	{
+		WalkStart();
+
+
+		Vector2 junpPos = {};
+
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DelayedCall(JUMP_TIME / 1.5f, [&]()
+			{
+				cannonFX = true;
+				player->ChangeInvisible();
+			});
+		//å¤§ç ²ã«å…¥ã‚‹ã¨ãå·¦ä¸‹ã«æœ€é«˜åœ°ç‚¹ãŒé«˜ã„ã®ã‚’åˆ¶å¾¡ã™ã‚‹
+		float CurvePosControlVal = 1.0f;
+		// æ‰‹å‰ã®ãƒã‚¹ã«è¡Œãã¨ãã¯å…ˆã«Zåº§æ¨™ã‚’æ‰‹å‰ã«åˆã‚ã›ã‚‹
+		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
+		{
+			player->mTransform.pos.z = forwardPos.z - 0.20001f;
+			CurvePosControlVal = 0.7f;
+		}
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+				player->SetGridPos(nextGridPos);
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+				player->GetPlayerMove()->InCannon();
+			});
+	}
+	break;
 
 	default:
 
@@ -232,20 +513,132 @@ void ThinMove::Move(DIRECTION _dir)
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
+				MoveAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
+		break;
+	}
+}
+
+void ThinMove::Step()
+{
+	switch (player->GetPlayerMove()->CheckNextMassType())
+	{
+	case CGridObject::BlockType::CAKE:
+
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
+		// é£Ÿã¹çµ‚ã‚ã£ãŸã‚‰ç§»å‹•ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
+		player->dotween->DelayedCall(EAT_TIME, [&]()
+			{
+				player->EatEnd();
+				player->EatCake();
+				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
+		break;
+
+	case CGridObject::BlockType::CHILI:
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
+		player->dotween->DelayedCall(EAT_TIME, [&]()
+			{
+				player->EatChilli();
+				player->EatEnd();
+				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
+		break;
+
+	case CGridObject::BlockType::PROTEIN:
+
+		player->dotween->DelayedCall(EAT_TIME, [&]()
+			{
+				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
+		break;
+	case CGridObject::BlockType::HOLL:
+	{
+		WalkStart();
+		//ç”»é¢å¤–ã¾ã§ç§»å‹•ã™ã‚‹ã‚ˆã†ã«Yã‚’ãƒã‚¯ãƒ­ã§å®šç¾©ã—ã¦ä½¿ç”¨ã™ã‚‹
+		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
+		Vector2 fallPosXY;
+		fallPosXY.x = fallPos.x;
+		fallPosXY.y = fallPos.y;
+		player->Fall();
+		player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
+		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+		player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+		Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+		if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+		{
+			//ãƒã‚¦ãƒ³ãƒ‰ã™ã‚‹é«˜ã•ã‚’è¨ˆç®—ã€€ä»£å…¥
+			float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+			player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+			player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+				{
+					isFallBound = true;
+				});
+			//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
+		}
+		player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+			{
+				player->fallMoveTrriger = true;
+			});
+	}
+	break;
+
+	case CGridObject::BlockType::GUMI:
+	{
+		//WalkStart();
+		MoveAfter();
+		FallAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
+		// â†‘ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹
+	}
+	break;
+
+	case CGridObject::BlockType::CANNON:
+
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
+		player->GetPlayerMove()->InCannon();
+		player->SetGridPos(nextGridPos);
+
+		break;
+
+	default:	// åºŠ
+		MoveAfter();
+		FallAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		break;
 	}
 }
 
 void ThinMove::CheckCanMove()
 {
-	// ‘S‚Ä‚Ì•ûŒü‚ğtrue
+	// å…¨ã¦ã®æ–¹å‘ã‚’true
 	for (int i = 0; i < 4; i++)
 	{
 		canMoveDir[i] = true;
 	}
 
-	// Œã‚ë‚Ì•ûŒü‚És‚¯‚È‚¢‚æ‚¤‚É‚·‚é
+	// å¾Œã‚ã®æ–¹å‘ã«è¡Œã‘ãªã„ã‚ˆã†ã«ã™ã‚‹
 	switch (static_cast<Player::DIRECTION>(player->GetDirection()))
 	{
 	case Player::DIRECTION::UP:
@@ -266,14 +659,14 @@ void ThinMove::CheckCanMove()
 	}
 
 
-	//«i˜Hæ‚Ì°‚Ìî•ñ‚ÅˆÚ“®‚Å‚«‚é‚©”»’f‚·‚é //////////////////////////
-	// 4•ûŒüŒ©‚é
+	//â†“é€²è·¯å…ˆã®åºŠã®æƒ…å ±ã§ç§»å‹•ã§ãã‚‹ã‹åˆ¤æ–­ã™ã‚‹ //////////////////////////
+	// 4æ–¹å‘è¦‹ã‚‹
 	for (int dirRoop = 0; dirRoop < static_cast<int>(Player::DIRECTION::NUM); dirRoop++)
 	{
-		// Œã‚ëˆÈŠO‚ğŒ©‚é‚¾‚¯‚Å‘åä•v‚È‚Ì‚Å
+		// å¾Œã‚ä»¥å¤–ã‚’è¦‹ã‚‹ã ã‘ã§å¤§ä¸ˆå¤«ãªã®ã§
 		if (!canMoveDir[dirRoop]) continue;
 
-		// •ûŒü
+		// æ–¹å‘
 		CGrid::GRID_XY d = {};
 
 		switch (static_cast<DIRECTION>(dirRoop))
@@ -294,12 +687,12 @@ void ThinMove::CheckCanMove()
 			d.x = -1;
 			break;
 		}
-		// ƒvƒŒƒCƒ„[‚Ìisæ‚ÌƒOƒŠƒbƒhÀ•W‚ğæ“¾
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€²è¡Œå…ˆã®ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’å–å¾—
 		CGrid::GRID_XY forwordPos = player->GetGridPos();
 		forwordPos.x += d.x;
 		forwordPos.y += d.y;
 
-		// ˆÚ“®æ‚ªƒ}ƒbƒvŠO‚È‚çˆÚ“®‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
+		// ç§»å‹•å…ˆãŒãƒãƒƒãƒ—å¤–ãªã‚‰ç§»å‹•ã§ããªã„ã‚ˆã†ã«ã™ã‚‹
 		if (forwordPos.x < 0 || forwordPos.y < 0
 			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
 		{
@@ -307,10 +700,17 @@ void ThinMove::CheckCanMove()
 			continue;
 		}
 
-		// ‚»‚Ì•ûŒü‚ÉˆÚ“®•s‰Â‚ÌƒuƒƒbƒN‚È‚ç
+		if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::HOLL) &&
+			player->GetNowFloor() == 1)
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
+		// ãã®æ–¹å‘ã«ç§»å‹•ä¸å¯ã®ãƒ–ãƒ­ãƒƒã‚¯ãªã‚‰
 		for (int j = 0; j < cantMoveBlock.size(); j++)
 		{
-			// i˜Hæ‚ªˆÚ“®‚Å‚«‚È‚¢‚È‚ç
+			// é€²è·¯å…ˆãŒç§»å‹•ã§ããªã„ãªã‚‰
 			if (player->GetGridTable()->objectTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j] ||
 				player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j])
 			{
@@ -318,20 +718,20 @@ void ThinMove::CheckCanMove()
 				break;
 			}
 		}
-		if (!canMoveDir[dirRoop]) continue;	// ‚±‚±‚Ü‚Å‚Å’Ê‚ê‚È‚¢‚±‚Æ‚ªŒˆ‚Ü‚Á‚Ä‚¢‚½‚çŸ‚Ì•ûŒü‚ğŠm”F
+		if (!canMoveDir[dirRoop]) continue;	// ã“ã“ã¾ã§ã§é€šã‚Œãªã„ã“ã¨ãŒæ±ºã¾ã£ã¦ã„ãŸã‚‰æ¬¡ã®æ–¹å‘ã‚’ç¢ºèª
 
-		// ƒoƒEƒ€ƒN[ƒwƒ“‚Ì•ûŒü‚Ås‚¯‚é‚©Šm”F‚·‚é
-		// ˆÚ“®æ‚ª‰¡Œü‚«ƒoƒEƒ€@‚©‚Â@ˆÚ“®•ûŒü‚ªc‚È‚ç
+		// ãƒã‚¦ãƒ ã‚¯ãƒ¼ãƒ˜ãƒ³ã®æ–¹å‘ã§è¡Œã‘ã‚‹ã‹ç¢ºèªã™ã‚‹
+		// ç§»å‹•å…ˆãŒæ¨ªå‘ããƒã‚¦ãƒ ã€€ã‹ã¤ã€€ç§»å‹•æ–¹å‘ãŒç¸¦ãªã‚‰
 		if (player->GetGridTable()->CheckObjectType(forwordPos) ==
-			static_cast<int>(CStageMake::BlockType::BAUMHORIZONTAL) &&
+			static_cast<int>(CGridObject::BlockType::BAUMHORIZONTAL) &&
 			d.y != 0)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;
 		}
-		// ˆÚ“®æ‚ªcŒü‚«ƒoƒEƒ€@‚©‚Â@ˆÚ“®•ûŒü‚ª‰¡‚È‚ç
+		// ç§»å‹•å…ˆãŒç¸¦å‘ããƒã‚¦ãƒ ã€€ã‹ã¤ã€€ç§»å‹•æ–¹å‘ãŒæ¨ªãªã‚‰
 		else if (player->GetGridTable()->CheckObjectType(forwordPos) ==
-			static_cast<int>(CStageMake::BlockType::BAUMVERTICAL) &&
+			static_cast<int>(CGridObject::BlockType::BAUMVERTICAL) &&
 			d.x != 0)
 		{
 			canMoveDir[dirRoop] = false;

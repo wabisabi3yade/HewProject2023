@@ -1,16 +1,15 @@
 #pragma once
+
 #include "CSceneManager.h"
 #include "CScene.h"
-#include "COperation.h"
+#include "direct3d.h"
+#include "Vector2.h"
+
+class GameController;
 
 class CTatemizoScene :
 	public CScene
 {
-	//現在の向きを表すベクトル変数
-	Vector3 dir = { 0, 0, 0 };
-
-	//移動速度
-	float moveSpeed = 1.0f;
 
 public:
 	D3DBUFFER charBuffer;
@@ -19,13 +18,16 @@ public:
 
 public:
 
-	//仮想世界の中の位置座標
-	Vector3 pos = { 0, 0, 0 };
+	// 現在の向きを表すベクトル変数
+	Vector2 dir = { 0, 0 };
 
-	//拡大縮小率を持つ変数
-	Vector3 scale = { 1.0f, 1.0f, 1.0f };
+	// 仮想世界の中の位置座標
+	Vector2 pos = { 0, 0 };
 
-	//回転角度
+	// 拡大縮小率を持つ変数
+	Vector2 scale = { 1.0f, 1.0f };
+
+	// 回転角度
 	float angle = 0.0f;
 
 	CTatemizoScene();
@@ -38,15 +40,15 @@ public:
 
 	void Draw() override;
 
-	void SetMoveSpeed(float sp)
-	{
-		moveSpeed = sp;
-	}
+	void ButtonState();
 
-	void SetDir(Vector3 v)
+	GameController* val;
+	GameController* button;
+
+
+	void SetDir(Vector2 v)
 	{
 		dir = v;
 	}
-
 };
 

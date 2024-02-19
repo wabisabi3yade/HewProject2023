@@ -21,6 +21,8 @@ CWakamuraScene::~CWakamuraScene()
 {
 	CLASS_DELETE(test);
 	CLASS_DELETE(player);
+
+	SAFE_RELEASE(playerBuffer);
 }
 
 void CWakamuraScene::Update()

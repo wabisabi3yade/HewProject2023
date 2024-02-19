@@ -3,6 +3,8 @@
 CGumi::CGumi(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
+	type = BlockType::GUMI;
+	category = Category::OBJECT;
 }
 
 CGumi::~CGumi()

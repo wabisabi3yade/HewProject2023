@@ -9,8 +9,7 @@
 #include <fstream>
 #include <sstream>
 //
-
-
+#define MAX_GRIDNUM (9)
 
 //struct Stage
 //{
@@ -25,11 +24,18 @@ struct STAGE_XY
 	DirectX::XMFLOAT2 pos;
 };
 
-
+struct StageGridTable
+{
+	short int floorTable[MAX_GRIDNUM][MAX_GRIDNUM] = {};
+};
 
 struct LoadData
 {
-	std::vector<int> data;	// ステージのデータが入る
+	// ステージのデータが入る
+	StageGridTable oneFloor;
+	StageGridTable secondFloor;
+	StageGridTable thirdFloor;
+
 	int numX;	// ステージに列が難行あるか
 	int numY;	// ステージの行が何行あるか
 };
@@ -44,7 +50,7 @@ public:
 	//~CLoadStage();
 
 
-	LoadData LoadStage(const wchar_t* filePath);
+	LoadData LoadStage(const wchar_t* filePath );
 
 };
 

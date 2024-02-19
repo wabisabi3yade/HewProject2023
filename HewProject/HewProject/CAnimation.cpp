@@ -53,9 +53,9 @@ void CAnimation::Update()
 	int animID = animTable[animPattern][(int)animCounter];
 
 	// 表示させるUVを計算
-	nowUV.x = (animID % 3) * 0.33f;
+	nowUV.x = (animID % 3) * (1.0f / 3.0f);
 
-	nowUV.y = (animID / 3) * 0.25f;
+	nowUV.y = (animID / 3) * (1.0f / 4.0f);
 }
 
 // セッター関数(animPattern)

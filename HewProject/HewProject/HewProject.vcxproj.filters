@@ -55,9 +55,6 @@
     <Filter Include="ソース ファイル\Shader">
       <UniqueIdentifier>{2511f23d-a609-45a1-9b4a-4f187f5858a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Kawada\KawadaScene">
-      <UniqueIdentifier>{5ed2b1b0-ca68-4a60-bc1f-2f0f306d1ee5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Mizuno">
       <UniqueIdentifier>{1c595654-7265-467c-8867-01eda9b4ba44}</UniqueIdentifier>
     </Filter>
@@ -139,9 +136,6 @@
     <Filter Include="ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild">
       <UniqueIdentifier>{f9465aab-a377-45cb-9439-3f7694f21cb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
-      <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Base\GameBase\GridObject">
       <UniqueIdentifier>{165b52df-7038-4c82-8b6a-a9a41e37a9d5}</UniqueIdentifier>
     </Filter>
@@ -184,6 +178,30 @@
     <Filter Include="ソース ファイル\Mizuno\Stage\Chili">
       <UniqueIdentifier>{9998fbb4-f21a-47ab-8896-65a7f5339c57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\GridTable">
+      <UniqueIdentifier>{245040de-01e8-47db-8699-598b52fdd55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\debugText">
+      <UniqueIdentifier>{6da28bc9-f924-4fc0-a66f-b54cbb703efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Item">
+      <UniqueIdentifier>{6c038bbd-8cce-4bcd-8c10-3802ddcbe007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Shadow">
+      <UniqueIdentifier>{c84275ad-6251-42bd-b223-f19eece73e34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\TextureFactory">
+      <UniqueIdentifier>{eb4ece78-3595-434e-9767-f49bc97263e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CWorldSelectScene">
+      <UniqueIdentifier>{09435ef5-03ac-4b80-8ec8-f1e6c2a1c708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CWorldSelectPlayer">
+      <UniqueIdentifier>{8d20f394-e632-4ff7-aae4-863850d7f0bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove">
+      <UniqueIdentifier>{c0c357a4-e0a0-4b8e-bc20-47d6927db519}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\FatMove">
       <UniqueIdentifier>{10b15db6-1d87-4575-8325-29e582744d95}</UniqueIdentifier>
     </Filter>
@@ -196,31 +214,208 @@
     <Filter Include="ソース ファイル\Hashimoto\Player\PlayerMove\MurscleMove">
       <UniqueIdentifier>{25dc536e-0da5-468c-ae82-1d22ba88e667}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\GridTable">
-      <UniqueIdentifier>{245040de-01e8-47db-8699-598b52fdd55e}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Wakamura\CStage1SelectScene">
+      <UniqueIdentifier>{744c0c17-b4af-4f12-bf30-d30e6e2d27a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\debugText">
-      <UniqueIdentifier>{6da28bc9-f924-4fc0-a66f-b54cbb703efc}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Wakamura\CStageSelectPlayer">
+      <UniqueIdentifier>{2ec5f6b3-a280-424f-9329-316fcc5c30f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hashimoto\Player\stageScene">
+    <Filter Include="ソース ファイル\Hashimoto\Fade">
+      <UniqueIdentifier>{0fedf063-ae9c-4330-964b-b3a56bb9b9e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Fade_Test">
+      <UniqueIdentifier>{076b2640-c5c6-4fbf-8bc6-42bf0c55dd6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\DotweenUI">
+      <UniqueIdentifier>{6bfcca2b-6288-4596-aead-d3003a8589b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\NowLoadingText">
+      <UniqueIdentifier>{977af2bd-d905-496e-a241-7e8af4e87623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\UI">
+      <UniqueIdentifier>{fcb6f50d-d592-4854-96e0-4be9a81a1e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\stageScene">
       <UniqueIdentifier>{95226933-b755-45a9-ac95-5cad9942290a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Mizuno\Stage\Item">
-      <UniqueIdentifier>{6c038bbd-8cce-4bcd-8c10-3802ddcbe007}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{037eb5bb-3ef6-4cac-8da0-112575ca59bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Mizuno\Stage\Shadow">
-      <UniqueIdentifier>{c84275ad-6251-42bd-b223-f19eece73e34}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Stage\World1">
+      <UniqueIdentifier>{687f611f-3984-4b4e-9696-ac1a7c05e67c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Base\GameCore\TextureFactory">
-      <UniqueIdentifier>{eb4ece78-3595-434e-9767-f49bc97263e5}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Stage\World2">
+      <UniqueIdentifier>{cce0c517-7d7a-40e5-82be-8373159bf1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3">
+      <UniqueIdentifier>{506cbb4d-54be-483b-b464-3e9f609613cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx">
+      <UniqueIdentifier>{796ba7e4-557f-4757-afef-229754961aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CTitleScene">
+      <UniqueIdentifier>{5774fff4-f88d-4e96-8929-215b586c8edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hosoda">
+      <UniqueIdentifier>{c33f2221-962a-4164-ac92-c3e769fbda35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Cannon">
+      <UniqueIdentifier>{93366efc-7ef3-4e6c-bcda-2a14e2f241af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mizuno\Stage\Arrow">
+      <UniqueIdentifier>{64495bf3-3dd9-4bf9-8282-8e37b5f6c346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input\CInput">
+      <UniqueIdentifier>{d37b7007-708e-447a-8c5d-67c6233c4546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input\InputManager">
+      <UniqueIdentifier>{5ceb9643-a6b9-4e88-bfd9-6e80baf89763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input\InputStateUpdate">
+      <UniqueIdentifier>{d92c7057-9b29-469e-9676-57e0c32ceaa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input\InputMovement">
+      <UniqueIdentifier>{7f1f9b67-4914-468a-b472-0131757d2622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\CalorieGage_hori">
+      <UniqueIdentifier>{ed37f547-e949-426f-ba82-9578cbb328a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark">
+      <UniqueIdentifier>{23de8dc2-387e-4563-9953-88f7a44044d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CGameOver">
+      <UniqueIdentifier>{59c8e443-44b4-4ca6-b01c-ddce08582c1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\FloorUI">
+      <UniqueIdentifier>{f870b5a0-ef4e-42a1-979a-fd03eea4ab32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\ProteinUI">
+      <UniqueIdentifier>{4ea25902-1033-4b94-8897-cc848b66186c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\ButtonUI">
+      <UniqueIdentifier>{f23ad8a7-2543-46d1-bcec-496d91dee963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CTitlePlayer">
+      <UniqueIdentifier>{ee69b16b-4447-49dd-a782-bfb638575baf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\SweetsUI">
+      <UniqueIdentifier>{05f50c75-660b-47cf-b86a-a88512c73bce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\ButtonSelect">
+      <UniqueIdentifier>{47f9617a-504b-4f05-ac34-a014daa6e9b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\CGameClear">
+      <UniqueIdentifier>{8f33a973-5774-449d-929f-69eb20af392f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect">
+      <UniqueIdentifier>{80b397dd-7cac-4640-83de-a19ef3623fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World1">
+      <UniqueIdentifier>{1e9c6bdd-a509-4c44-bda6-7749b0147599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World2">
+      <UniqueIdentifier>{f6ea4164-ac74-43b7-95b8-f0e2245fb53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World3">
+      <UniqueIdentifier>{5e410114-5df0-4b8a-8f5a-df7dfeb94daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\World4">
+      <UniqueIdentifier>{669cbd7e-2bfd-4a02-a0d8-2e9234ce0752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\StageButtton">
+      <UniqueIdentifier>{72900537-b8bf-4f32-8094-0e31dc783888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base\GameBase\UI\ShadowUI">
+      <UniqueIdentifier>{4903ac40-9c5d-44c2-948a-43417e559dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageSelect\stageSelectPlayer">
+      <UniqueIdentifier>{2a9db323-d51a-4387-ac09-968464bef8e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\Menu">
+      <UniqueIdentifier>{a1be0cdb-474e-4b04-8dee-d39d95c29dd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\GameStart">
+      <UniqueIdentifier>{c3e91dc2-787d-4b26-853a-3060f6b24a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Fade\LoadingScene">
+      <UniqueIdentifier>{83e81464-3203-4443-ba25-d63578a43801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Kawada\KawadaScene">
+      <UniqueIdentifier>{5ed2b1b0-ca68-4a60-bc1f-2f0f306d1ee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage11">
+      <UniqueIdentifier>{c5f84d8d-e501-4bab-ac7e-24c835a2daff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage12">
+      <UniqueIdentifier>{78624a35-ce35-409a-9182-3196f14afef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage13">
+      <UniqueIdentifier>{48845095-e8a4-4353-a032-2b3fc5d9bd85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage14">
+      <UniqueIdentifier>{b5e1f029-7872-47dc-a8cf-cd1277d77745}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage15">
+      <UniqueIdentifier>{51bb17e3-26cc-49f3-822a-c1d72c984afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage16">
+      <UniqueIdentifier>{ffa762d4-f6da-40e8-b561-8701df738a6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage21">
+      <UniqueIdentifier>{78f837be-af87-46bd-89b2-437ce2c41978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage22">
+      <UniqueIdentifier>{8f03f745-64c3-4d28-916f-e2913f72a4c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage23">
+      <UniqueIdentifier>{5a1b5f87-3a22-4df9-b288-38c3e317ba89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World2\Stage24">
+      <UniqueIdentifier>{35eec60f-2ee6-4380-8da8-ab4821f92b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage31">
+      <UniqueIdentifier>{24e04474-95c7-4319-b60e-00d858685bc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage32">
+      <UniqueIdentifier>{1464b13b-e3dd-4c5c-b2d6-e827ec444ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage33">
+      <UniqueIdentifier>{e4171df3-f1f7-4516-bed5-ad4101b4df0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World3\Stage34">
+      <UniqueIdentifier>{350df544-9720-41ab-9c8a-2b168b1c3969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx1">
+      <UniqueIdentifier>{4da45ff9-1bd5-42c8-958a-df7b43fd3e51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx2">
+      <UniqueIdentifier>{3753196b-c9bf-406d-b4cd-3d0f2f67f1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx3">
+      <UniqueIdentifier>{71968410-aabf-424d-91a5-d9960973799d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\WorldEx\StageEx4">
+      <UniqueIdentifier>{b3176087-d2fc-401e-b22c-f1ddc03e71a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\WorldSelectPic">
+      <UniqueIdentifier>{e16f4f24-ded5-4a02-957b-b2ed2a06a7e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wakamura\GameClearPlayer">
+      <UniqueIdentifier>{c482fedc-59c8-4fba-b11b-ffff283637c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\CoinUI">
+      <UniqueIdentifier>{7ed1ee9a-ad34-4a61-9627-34299007f8c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage\World1\Stage11\StageScene11">
+      <UniqueIdentifier>{b1cf2441-7dd7-40ee-917f-2cd3e9e247bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\Tutorial">
+      <UniqueIdentifier>{9e0c3ab5-0d25-4775-9d98-a505f31bde71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
       <Filter>ソース ファイル\Hashimoto</Filter>
-    </ClInclude>
-    <ClInclude Include="CInput.h">
-      <Filter>ソース ファイル\Base\GameCore\Input</Filter>
     </ClInclude>
     <ClInclude Include="CAnimation.h">
       <Filter>ソース ファイル\Base\GameBase\Animation</Filter>
@@ -315,7 +510,7 @@
     <ClInclude Include="Vector2.h">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClInclude>
-    <ClInclude Include="COperation.h">
+    <ClInclude Include="GameController.h">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMove.h">
@@ -388,7 +583,7 @@
       <Filter>ソース ファイル\Hashimoto\debugText</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
-      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+      <Filter>ソース ファイル\Hashimoto\stageScene</Filter>
     </ClInclude>
     <ClInclude Include="CItem.h">
       <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>
@@ -399,13 +594,205 @@
     <ClInclude Include="TextureFactory.h">
       <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
     </ClInclude>
+    <ClInclude Include="CWorldSelectScene.h">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorldSelectPlayer.h">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="CStage1SelectScene.h">
+      <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CStageSelectPlayer.h">
+      <Filter>ソース ファイル\Wakamura\CStageSelectPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>ソース ファイル\Hashimoto\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade_TestScene.h">
+      <Filter>ソース ファイル\Hashimoto\Fade_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>ソース ファイル\Base\GameBase\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DotweenUI.h">
+      <Filter>ソース ファイル\Hashimoto\DotweenUI</Filter>
+    </ClInclude>
+    <ClInclude Include="NowLoadingText.h">
+      <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeUI.h">
+      <Filter>ソース ファイル\Hashimoto\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadCharacter.h">
+      <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleScene.h">
+      <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="HosodaSelect.h">
+      <Filter>ソース ファイル\Hosoda</Filter>
+    </ClInclude>
+    <ClInclude Include="CCannon.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="CArrow.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="CInput.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\CInput</Filter>
+    </ClInclude>
+    <ClInclude Include="InputStateUpdate.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputStateUpdate</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMovement.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputMovement</Filter>
+    </ClInclude>
+    <ClInclude Include="CalorieGage_hori.h">
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori</Filter>
+    </ClInclude>
+    <ClInclude Include="CalorieMark.h">
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameOver.h">
+      <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorUI.h">
+      <Filter>ソース ファイル\Hashimoto\FloorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ProteinUI.h">
+      <Filter>ソース ファイル\Hashimoto\ProteinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUI.h">
+      <Filter>ソース ファイル\Hashimoto\ButtonUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitlePlayer.h">
+      <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="SweetsUI.h">
+      <Filter>ソース ファイル\Wakamura\SweetsUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonAnim.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonSelect.h">
+      <Filter>ソース ファイル\Hashimoto\ButtonSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameClear.h">
+      <Filter>ソース ファイル\Wakamura\CGameClear</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelect.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="StgButton.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\StageButtton</Filter>
+    </ClInclude>
+    <ClInclude Include="W1Select.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowUI.h">
+      <Filter>ソース ファイル\Base\GameBase\UI\ShadowUI</Filter>
+    </ClInclude>
+    <ClInclude Include="W2Select.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World2</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Select.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World3</Filter>
+    </ClInclude>
+    <ClInclude Include="W4Select.h">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World4</Filter>
+    </ClInclude>
+    <ClInclude Include="CMenu.h">
+      <Filter>ソース ファイル\Wakamura\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameStart.h">
+      <Filter>ソース ファイル\Wakamura\GameStart</Filter>
+    </ClInclude>
+    <ClInclude Include="BaumAnim.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>ソース ファイル\Hashimoto\Fade\LoadingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage11.h">
+      <Filter>ソース ファイル\Stage\World1\Stage11</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage12.h">
+      <Filter>ソース ファイル\Stage\World1\Stage12</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage13.h">
+      <Filter>ソース ファイル\Stage\World1\Stage13</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage14.h">
+      <Filter>ソース ファイル\Stage\World1\Stage14</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage15.h">
+      <Filter>ソース ファイル\Stage\World1\Stage15</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage16.h">
+      <Filter>ソース ファイル\Stage\World1\Stage16</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage21.h">
+      <Filter>ソース ファイル\Stage\World2\Stage21</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage22.h">
+      <Filter>ソース ファイル\Stage\World2\Stage22</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage23.h">
+      <Filter>ソース ファイル\Stage\World2\Stage23</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage24.h">
+      <Filter>ソース ファイル\Stage\World2\Stage24</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage31.h">
+      <Filter>ソース ファイル\Stage\World3\Stage31</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage32.h">
+      <Filter>ソース ファイル\Stage\World3\Stage32</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage33.h">
+      <Filter>ソース ファイル\Stage\World3\Stage33</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage34.h">
+      <Filter>ソース ファイル\Stage\World3\Stage34</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx1.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx1</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx2.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx2</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx3.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx3</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEx4.h">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx4</Filter>
+    </ClInclude>
+    <ClInclude Include="GallAnim.h">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldSelectPic.h">
+      <Filter>ソース ファイル\Wakamura\WorldSelectPic</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameClearPlayer.h">
+      <Filter>ソース ファイル\Wakamura\GameClearPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinUI.h">
+      <Filter>ソース ファイル\Hashimoto\CoinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="StageScene11.h">
+      <Filter>ソース ファイル\Stage\World1\Stage11\StageScene11</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>ソース ファイル\Hashimoto\Tutorial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
       <Filter>ソース ファイル\Hashimoto</Filter>
-    </ClCompile>
-    <ClCompile Include="CInput.cpp">
-      <Filter>ソース ファイル\Base\GameCore\Input</Filter>
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
       <Filter>ソース ファイル\Base\GameBase\Animation</Filter>
@@ -500,7 +887,7 @@
     <ClCompile Include="Vector2.cpp">
       <Filter>ソース ファイル\Base\GameBase\Vector2</Filter>
     </ClCompile>
-    <ClCompile Include="COperation.cpp">
+    <ClCompile Include="GameController.cpp">
       <Filter>ソース ファイル\Tatemizo\TatemizoScene\controller\controllerchild</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMove.cpp">
@@ -573,7 +960,7 @@
       <Filter>ソース ファイル\Hashimoto\debugText</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
-      <Filter>ソース ファイル\Hashimoto\Player\stageScene</Filter>
+      <Filter>ソース ファイル\Hashimoto\stageScene</Filter>
     </ClCompile>
     <ClCompile Include="CItem.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Item</Filter>
@@ -584,6 +971,201 @@
     <ClCompile Include="TextureFactory.cpp">
       <Filter>ソース ファイル\Base\GameCore\TextureFactory</Filter>
     </ClCompile>
+    <ClCompile Include="CWorldSelectScene.cpp">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldSelectPlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\CWorldSelectPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage1SelectScene.cpp">
+      <Filter>ソース ファイル\Wakamura\CStage1SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageSelectPlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\CStageSelectPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>ソース ファイル\Hashimoto\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="Fade_TestScene.cpp">
+      <Filter>ソース ファイル\Hashimoto\Fade_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>ソース ファイル\Base\GameBase\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DotweenUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\DotweenUI</Filter>
+    </ClCompile>
+    <ClCompile Include="NowLoadingText.cpp">
+      <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadCharacter.cpp">
+      <Filter>ソース ファイル\Hashimoto\NowLoadingText</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleScene.cpp">
+      <Filter>ソース ファイル\Wakamura\CTitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="HosodaSelect.cpp">
+      <Filter>ソース ファイル\Hosoda</Filter>
+    </ClCompile>
+    <ClCompile Include="CCannon.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrow.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="CInput.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\CInput</Filter>
+    </ClCompile>
+    <ClCompile Include="InputStateUpdate.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputStateUpdate</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="InputMovement.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\InputMovement</Filter>
+    </ClCompile>
+    <ClCompile Include="CalorieGage_hori.cpp">
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori</Filter>
+    </ClCompile>
+    <ClCompile Include="CalorieMark.cpp">
+      <Filter>ソース ファイル\Hashimoto\CalorieGage_hori\CalorieMark</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameOver.cpp">
+      <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\FloorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ProteinUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\ProteinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\ButtonUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitlePlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\CTitlePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="SweetsUI.cpp">
+      <Filter>ソース ファイル\Wakamura\SweetsUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonAnim.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonSelect.cpp">
+      <Filter>ソース ファイル\Hashimoto\ButtonSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameClear.cpp">
+      <Filter>ソース ファイル\Wakamura\CGameClear</Filter>
+    </ClCompile>
+    <ClCompile Include="StgButton.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\StageButtton</Filter>
+    </ClCompile>
+    <ClCompile Include="W1Select.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World1</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowUI.cpp">
+      <Filter>ソース ファイル\Base\GameBase\UI\ShadowUI</Filter>
+    </ClCompile>
+    <ClCompile Include="W2Select.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World2</Filter>
+    </ClCompile>
+    <ClCompile Include="W3Select.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World3</Filter>
+    </ClCompile>
+    <ClCompile Include="W4Select.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect\World4</Filter>
+    </ClCompile>
+    <ClCompile Include="CMenu.cpp">
+      <Filter>ソース ファイル\Wakamura\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameStart.cpp">
+      <Filter>ソース ファイル\Wakamura\GameStart</Filter>
+    </ClCompile>
+    <ClCompile Include="BaumAnim.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Baum</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>ソース ファイル\Hashimoto\Fade\LoadingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage11.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage11</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage12.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage12</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage13.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage13</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage14.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage14</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage15.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage15</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage16.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage16</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage21.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage21</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage22.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage22</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage23.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage23</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage24.cpp">
+      <Filter>ソース ファイル\Stage\World2\Stage24</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage31.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage31</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage32.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage32</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage33.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage33</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage34.cpp">
+      <Filter>ソース ファイル\Stage\World3\Stage34</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx1.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx1</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx2.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx2</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx3.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx3</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEx4.cpp">
+      <Filter>ソース ファイル\Stage\WorldEx\StageEx4</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelect.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="GallAnim.cpp">
+      <Filter>ソース ファイル\Mizuno\Stage\Gall</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldSelectPic.cpp">
+      <Filter>ソース ファイル\Wakamura\WorldSelectPic</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameClearPlayer.cpp">
+      <Filter>ソース ファイル\Wakamura\GameClearPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinUI.cpp">
+      <Filter>ソース ファイル\Hashimoto\CoinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="StageScene11.cpp">
+      <Filter>ソース ファイル\Stage\World1\Stage11\StageScene11</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>ソース ファイル\Hashimoto\Tutorial</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -592,5 +1174,8 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>ソース ファイル\Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

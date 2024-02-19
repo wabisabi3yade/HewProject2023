@@ -7,6 +7,7 @@ FatMove::FatMove(Player* _p)
 {
 	// 移動不可能な床の種類を決める
 	cantMoveBlock = { 0, 2, 6, 7, 16 };
+	IsMissMove = false;
 }
 
 void FatMove::Move(DIRECTION _dir)
@@ -45,7 +46,7 @@ void FatMove::Move(DIRECTION _dir)
 
 	//	ここから移動する先の種類によってすることを変える //////////////////////////
 	// キャラクターを移動先の座標
-	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::START);
+	Vector3 forwardPos = player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START);
 	Vector2 forwardPosXY = { forwardPos.x, forwardPos.y };
 
 	// 奥側に行くときの行動の順番
@@ -64,7 +65,7 @@ void FatMove::Move(DIRECTION _dir)
 	// 進んだ先のブロックによって対応するアクションを設定する
 	switch (CheckNextMassType())
 	{
-	case CStageMake::BlockType::CAKE:
+	case CGridObject::BlockType::CAKE:
 
 		WalkStart();
 
@@ -76,12 +77,28 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+				scale.x *= HEART_SCALE;
+				scale.y *= HEART_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 				// 食べ終わったら移動できるようにする
-				player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatCake(); MoveAfter(); });
+				player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
+					{
+						player->EatEnd();
+						player->EatCake();
+						MoveAfter();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
 			});
 		break;
 
-	case CStageMake::BlockType::CHILI:
+	case CGridObject::BlockType::CHILI:
 
 		WalkStart();
 
@@ -91,13 +108,55 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
-				player->dotween->DelayedCall(EAT_TIME, [&]() {player->EatChilli(); MoveAfter(); });
+				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				player->dotween->DelayedCall(EAT_TIME, [&]()
+					{
+						player->EatEnd();
+						player->EatChilli();
+						MoveAfter();
+						if (player->GetCalorie() < 11)
+						{
+							Vector3 pos = player->mTransform.pos;
+							Vector3 scale = player->mTransform.scale;
+							pos.z -= 0.000001f;
+							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+							scale.x *= SMOKE_SCALE;
+							scale.y *= SMOKE_SCALE;
+							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+						}
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
 			});
 		break;
 
-	case CStageMake::BlockType::CASTELLA:
+	case CGridObject::BlockType::PROTEIN:
+		WalkStart();
+
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+				WalkAfter();
+				player->ChangeTexture(Player::ANIM_TEX::DRINK);
+				player->GetPlayerAnim()->PlayEat(player->GetDirection());
+				player->dotween->DelayedCall(EAT_TIME, [&]()
+					{
+						MoveAfter();
+						player->EatEnd();
+						player->GetPlayerAnim()->StopWalk(player->GetDirection());
+						player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					});
+			});
+		break;
+
+	case CGridObject::BlockType::CASTELLA:
 
 		WalkStart();
+
+		player->SetIsCastellaPush(true);
 
 		// カステラが落ちると移動できるようにする
 		player->dotween->DoMoveXY(forwardPosXY, CASTELLAWALK_TIME);
@@ -105,7 +164,7 @@ void FatMove::Move(DIRECTION _dir)
 
 		// カステラの移動先に穴があるなら
 		if (player->GetGridTable()->CheckFloorType({ nextGridPos.x + d.x, nextGridPos.y + d.y }) ==
-			static_cast<int>(CStageMake::BlockType::HOLL))
+			static_cast<int>(CGridObject::BlockType::HOLL))
 		{
 
 			player->dotween->OnComplete([&]()
@@ -114,6 +173,18 @@ void FatMove::Move(DIRECTION _dir)
 					player->dotween->DelayedCall(CASTELLAFALL_TIME, [&]()
 						{
 							MoveAfter();
+							player->GetPlayerAnim()->StopWalk(player->GetDirection());
+							player->ChangeTexture(Player::ANIM_TEX::WAIT);
+							if (player->GetCalorie() < 6)
+							{
+								Vector3 pos = player->mTransform.pos;
+								Vector3 scale = player->mTransform.scale;
+								pos.z -= 0.000001f;
+								pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+								scale.x *= SMOKE_SCALE;
+								scale.y *= SMOKE_SCALE;
+								player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+							}
 						});
 				});
 		}
@@ -123,13 +194,186 @@ void FatMove::Move(DIRECTION _dir)
 				{
 					WalkAfter();
 					MoveAfter();
+					player->GetPlayerAnim()->StopWalk(player->GetDirection());
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					if (player->GetCalorie() < 11)
+					{
+						Vector3 pos = player->mTransform.pos;
+						Vector3 scale = player->mTransform.scale;
+						pos.z -= 0.000001f;
+						pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+						scale.x *= SMOKE_SCALE;
+						scale.y *= SMOKE_SCALE;
+						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+					}
 				});
 		}
 
 		break;
 
-	case CStageMake::BlockType::CHOCO:
-	case CStageMake::BlockType::CHOCOCRACK:
+	case CGridObject::BlockType::CHOCO:
+	case CGridObject::BlockType::CHOCOCRACK:
+	{
+		WalkStart();
+		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		player->dotween->OnComplete([&]()
+			{
+				//画面外まで移動するようにYをマクロで定義して使用する
+				WalkAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.00001f;
+				scale.x *= MARK_SCALE;
+				scale.y *= MARK_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
+					{
+						player->Fall();
+					});
+				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				if (player->GetNowFloor() != 1)
+				{
+					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					{
+						//バウンドする高さを計算　代入
+						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALL_TIME + FALLMOVE_TIME, [&]()
+							{
+								isFallBound = true;
+							});
+					}
+				}
+				player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
+					{
+						player->fallMoveTrriger = true;
+					});
+
+			});
+		break;
+	}
+	case CGridObject::BlockType::HOLL:
+	{
+		WalkStart();
+		//ジャンプしてから落ちるように
+
+		Vector2 junpPos = {};
+
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+				////画面外まで移動するようにYをマクロで定義して使用する
+				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
+				Vector2 fallPosXY;
+				fallPosXY.x = fallPos.x;
+				fallPosXY.y = fallPos.y;
+				player->Fall();
+				player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
+				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+				{
+					//バウンドする高さを計算　代入
+					float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+					player->dotween->DelayedCall(FALLMOVE_TIME+ FALLMOVE_TIME+ FALLMOVE_TIME , [&]()
+						{
+							isFallBound = true;
+						});
+				}
+				player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+					{
+						player->fallMoveTrriger = true;
+					});
+			});
+	}
+	break;
+
+	case CGridObject::BlockType::GUMI:
+	{
+
+		WalkStart();
+
+		Vector2 junpPos = {};
+
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y + 0.3f;
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
+		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		Vec3JumpPos.y = (FALL_POS_Y * -1.0f) + player->mTransform.scale.y / 2;
+		//MoveAfter();
+
+		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
+		player->dotween->OnComplete([&, Vec3JumpPos]()
+			{
+				player->dotween->DoDelay(0.3f);
+				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->Rise();
+				//player->GetPlayerMove()->RiseStart();
+				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
+				player->dotween->Append(targetPos, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->Append(targetPos, RISING_TIME + 0.5f, DoTween::FUNC::MOVECURVE, targetPos.y + 7.0f);
+				player->dotween->DelayedCall(RISING_TIME + 0.3f, [&]()
+					{
+						player->risingMoveTrriger = true;
+					});
+			});
+
+		// ↑にジャンプする
+
+	}
+	break;
+
+	case CGridObject::BlockType::CANNON:
+	{
+		WalkStart();
+		Vector2 junpPos = {};
+		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		junpPos.x = Vec3JumpPos.x;
+		junpPos.y = Vec3JumpPos.y;
+		player->dotween->DelayedCall(JUMP_TIME / 1.5f, [&]()
+			{
+				cannonFX = true;
+				player->ChangeInvisible();
+			});
+		//大砲に入るとき左下に最高地点が高いのを制御する
+		float CurvePosControlVal = 1.0f;
+		// 手前のマスに行くときは先にZ座標を手前に合わせる
+		if (_dir != DIRECTION::UP || _dir != DIRECTION::RIGHT)
+		{
+			player->mTransform.pos.z = forwardPos.z - 0.20001f;
+			CurvePosControlVal = 0.7f;
+		}
+		player->dotween->DoMoveCurve(junpPos, JUMP_TIME, junpPos.y + (CANNON_IN_CURVE_POS_Y * player->GetGridTable()->GetGridScale().y));
+		player->dotween->Append(forwardPos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
+
+		player->dotween->OnComplete([&]()
+			{
+				player->SetGridPos(nextGridPos);
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+				player->GetPlayerMove()->InCannon();
+			});
+		break;
+	}
+	default:
 
 		WalkStart();
 
@@ -138,43 +382,211 @@ void FatMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
-
 				WalkAfter();
-				//画面外まで移動するようにYをマクロで定義して使用する
-				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CStageMake::BlockType::FLOOR));
-				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-					{
-						player->Fall();
-					});
-				player->dotween->DoDelay(FALL_TIME);
-				player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+				MoveAfter();
+				if (player->GetCalorie() < 11)
+				{
+					Vector3 pos = player->mTransform.pos;
+					Vector3 scale = player->mTransform.scale;
+					pos.z -= 0.000001f;
+					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+					scale.x *= SMOKE_SCALE;
+					scale.y *= SMOKE_SCALE;
+					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+				}
+			});
+		break;
+	}
+}
+
+void FatMove::Step()
+{
+	switch (player->GetPlayerMove()->CheckNextMassType())
+	{
+	case CGridObject::BlockType::CAKE:
+	{
+		WalkStart();
+		// 食べ終わったら移動できるようにする
+
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
+
+		Vector3 pos = player->mTransform.pos;
+		Vector3 scale = player->mTransform.scale;
+		pos.z -= 0.000001f;
+		scale.x *= HEART_SCALE;
+		scale.y *= HEART_SCALE;
+		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
+
+		player->dotween->DelayedCall(EAT_TIME, [&]()
+			{
+				MoveAfter();
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+				scale.x *= SMOKE_SCALE;
+				scale.y *= SMOKE_SCALE;
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
+				player->EatEnd();
+				FallAfter();
+				player->EatCake();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
+		break;
+	}
+	case CGridObject::BlockType::CHILI:
+
+
+		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
+		player->dotween->DelayedCall(EAT_TIME, [&]()
+			{
+				player->EatChilli();
+				player->EatEnd();
+				MoveAfter();
+				if (player->GetCalorie() < 6)
+				{
+					Vector3 pos = player->mTransform.pos;
+					Vector3 scale = player->mTransform.scale;
+					pos.z -= 0.000001f;
+					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+					scale.x *= SMOKE_SCALE;
+					scale.y *= SMOKE_SCALE;
+					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+				}
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
 
-
-		break;
-	case CStageMake::BlockType::HOLL:
-		// ↓におちるときのジャンプ
-
-		WalkStart();
-
 		break;
 
-	case CStageMake::BlockType::GUMI:
+	case CGridObject::BlockType::PROTEIN:
+
+		player->dotween->DelayedCall(EAT_TIME, [&]()
+			{
+				MoveAfter();
+				FallAfter();
+				player->GetPlayerAnim()->StopWalk(player->GetDirection());
+				player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			});
+		break;
+	case CGridObject::BlockType::CHOCO:
+	case CGridObject::BlockType::CHOCOCRACK:
+	{
+		//画面外まで移動するようにYをマクロで定義して使用する
+		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+			{
+				player->Fall();
+			});
+		player->dotween->DoDelay(FALL_TIME);
+		player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+		player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+		Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+		player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+		if (player->GetNowFloor() != 1)
+		{
+			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+			{
+				//バウンドする高さを計算　代入
+				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+				player->dotween->DelayedCall(FALL_TIME + WALK_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+					{
+						isFallBound = true;
+					});
+			}
+		}
+		player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
+			{
+				player->fallMoveTrriger = true;
+			});
+		break;
+	}
+	case CGridObject::BlockType::HOLL:
+	{
+		//WalkStart();
+		//ジャンプしてから落ちるように
+
+		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::FLOOR));
+		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
+		Vector2 fallPosXY;
+		fallPosXY.x = fallPos.x;
+		fallPosXY.y = fallPos.y;
+		player->Fall();
+		player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
+		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+		switch (player->GetNowFloor())
+		{
+		case 1:
+			break;
+		case 2:
+		case 3:
+		{
+			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+			{
+				//バウンドする高さを計算　代入
+				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+				player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+					{
+						isFallBound = true;
+					});
+			}
+			player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+				{
+					player->fallMoveTrriger = true;
+				});
+		}
+
+		break;
+		default:
+			break;
+		}
+
+
+	}
+	break;
+
+	case CGridObject::BlockType::GUMI:
+	{
+		MoveAfter();
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 		// ↑にジャンプする
+	}
+	break;
 
-		WalkStart();
-
+	case CGridObject::BlockType::CANNON:
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->GetPlayerMove()->InCannon();
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
+		player->SetGridPos(nextGridPos);
 		break;
 
-	default:
+	default:	// 床
+		MoveAfter();
+		FallAfter();
+		if (player->GetCalorie() < 6)
+		{
+			Vector3 pos = player->mTransform.pos;
+			Vector3 scale = player->mTransform.scale;
+			pos.z -= 0.000001f;
+			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+			scale.x *= SMOKE_SCALE;
+			scale.y *= SMOKE_SCALE;
+			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+		}
+		player->GetPlayerAnim()->StopWalk(player->GetDirection());
+		player->ChangeTexture(Player::ANIM_TEX::WAIT);
 
-		WalkStart();
-
-		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
-		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
-		player->dotween->OnComplete([&]() {WalkAfter(); MoveAfter(); });
 		break;
 	}
 }
@@ -251,6 +663,13 @@ void FatMove::CheckCanMove()
 			continue;
 		}
 
+		if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::HOLL) &&
+			player->GetNowFloor() == 1)
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
 		// その方向に移動不可のブロックなら
 		for (int j = 0; j < cantMoveBlock.size(); j++)
 		{
@@ -266,7 +685,7 @@ void FatMove::CheckCanMove()
 
 		// 移動先にカステラがあるなら
 		if (player->GetGridTable()->CheckObjectType(forwordPos) ==
-			static_cast<int>(CStageMake::BlockType::CASTELLA))
+			static_cast<int>(CGridObject::BlockType::CASTELLA))
 		{
 			// 移動先のカステラの座標
 			CGrid::GRID_XY nextCastella = forwordPos;
@@ -274,18 +693,18 @@ void FatMove::CheckCanMove()
 			nextCastella.y += d.y;
 
 			// カステラ移動先にこれらがあるなら
-			switch (static_cast<CStageMake::BlockType>
+			switch (static_cast<CGridObject::BlockType>
 				(player->GetGridTable()->CheckObjectType(nextCastella)))
 			{
-			case CStageMake::BlockType::WALL:
-			case CStageMake::BlockType::CAKE:
-			case CStageMake::BlockType::CHILI:
-			case CStageMake::BlockType::COIN:
-			case CStageMake::BlockType::PROTEIN:
-			case CStageMake::BlockType::GALL:
-			case CStageMake::BlockType::GUMI:
-			case CStageMake::BlockType::BAUMHORIZONTAL:
-			case CStageMake::BlockType::BAUMVERTICAL:
+			case CGridObject::BlockType::WALL:
+			case CGridObject::BlockType::CAKE:
+			case CGridObject::BlockType::CHILI:
+			case CGridObject::BlockType::COIN:
+			case CGridObject::BlockType::PROTEIN:
+			case CGridObject::BlockType::GALL:
+			case CGridObject::BlockType::GUMI:
+			case CGridObject::BlockType::BAUMHORIZONTAL:
+			case CGridObject::BlockType::BAUMVERTICAL:
 
 				canMoveDir[dirRoop] = false;
 				continue;

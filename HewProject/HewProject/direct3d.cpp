@@ -1,7 +1,3 @@
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
 #include <d3d11.h> // DirectX11というライブラリのヘッダー
 #include <atltypes.h>// CRectを使うのに必要なヘッダー
 #include "WICTextureLoader.h" // テクスチャ読み込みライブラリ
@@ -120,6 +116,11 @@ HRESULT D3D_Create(HWND hwnd)
 	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 	if (FAILED(hr))
 		return hr;
+
+	// フルスクリーンにする
+	/*hr = m_pSwapChain->SetFullscreenState(TRUE, NULL);
+	if (FAILED(hr))
+		return hr;*/
 
 	// レンダーターゲットを作成する関数を呼び出し
 	hr = m_pDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRenderTargetView);
@@ -265,7 +266,10 @@ HRESULT D3D_Create(HWND hwnd)
 // Release＝解放
 // アプリケーション終了時に実行する
 void D3D_Release()
-{
+{	
+	//// 最後にフルスクリーンを解放
+	m_pSwapChain->SetFullscreenState(FALSE, NULL);
+
 	if (m_pImmediateContext) {
 		m_pImmediateContext->ClearState();
 	}

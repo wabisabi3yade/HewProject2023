@@ -34,7 +34,7 @@ void CObject::LateUpdate()
 
 void CObject::Draw()
 {
-	if (!isActive) return;
+	if (!isActive || IsInvisible) return;
 
 	// uv座標を宣言
 	FLOAT_XY uv = { 0,0 };
@@ -61,7 +61,7 @@ void CObject::Draw()
 	// 平行投影の行列作成
 	// 引数　①②：映し出す面の横縦の長さ　
 	// 　　　③④：映し出す空間の奥行（手前と最奥の距離）
-	cb.matrixProj = XMMatrixOrthographicLH(SCREEN_RATIO_W * mCamera->scaleScreen, SCREEN_RATIO_H * mCamera->scaleScreen, 0.0f, 3.0f);
+	cb.matrixProj = XMMatrixOrthographicLH(SCREEN_RATIO_W * mCamera->scaleScreen * mCamera->mTransform.scale.x, SCREEN_RATIO_H * mCamera->scaleScreen* mCamera->mTransform.scale.y, 0.0f, 3.0f);
 	// XMMatrixTranspose = 転置行列を作る(並び方を整える）
 	// カメラを反映
 	cb.matrixProj = XMMatrixTranspose(matrixView * cb.matrixProj);
@@ -105,4 +105,9 @@ void CObject::Draw()
 void CObject::SetDir(Vector3 setdir)
 {
 	mDir = setdir;
+}
+
+void CObject::ChangeInvisible()
+{
+	IsInvisible = !IsInvisible;
 }

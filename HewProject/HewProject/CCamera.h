@@ -3,6 +3,7 @@
 #include "CObject.h"
 
 #include "direct3d.h"
+#include<iostream>
 
 // ゲームのカメラのクラス
 // カメラはプレイヤーを追従していく
@@ -14,6 +15,16 @@ class CCamera
 	~CCamera();
 
 	static CCamera* instance;
+
+	float endTime;
+
+	Vector3 o_pos;
+
+	bool isShake;
+
+	float duration;
+
+	float magnitude;
 
 public:
 	static float scaleScreen;	// 画像の大きさ（値が小さくなるほど画像は大きくなる）
@@ -47,7 +58,13 @@ public:
 
 	//拡大
 	void Zoom();
+	// 画像の大きさ（値が小さくなるほど画像は大きくなる）
+	void Zoom(float _targetScale,float _stageScale, Vector3 _targetPos);
 
 	//縮小
 	void Reduction();
+
+	void Shake(float _duration, float _magnitude);
+	void ShakeUpdate();
+	bool GetIsShake()const { return isShake; }
 };

@@ -1,20 +1,19 @@
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
+#include"InputManager.h"
 #include "PlayerMove.h"
 #include "CInput.h"
 #include "Player.h"
-#include "CStageMake.h"
+#include "CEffect.h"
+#include"CEffectManeger.h"
 
 PlayerMove::PlayerMove(Player* _p)
 {
 	player = _p;
 
-	// «‰Šú‰»
+	// â†“åˆæœŸåŒ–
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
 		canMoveDir[i] = false;
+		cannonMoveDir[i] = false;
 	}
 	isMovingTrigger = false;
 	isMoving = false;
@@ -23,6 +22,19 @@ PlayerMove::PlayerMove(Player* _p)
 	isWalking_now = false;
 	isWalking_old = false;
 	isFalling = false;
+	isRising = false;
+	isCannonMove = false;
+	isCannonMoveEnd = false;
+	isCannonMoveStart = false;
+	inCannon = false;
+	isLookMap = false;
+	isMenu = false;
+	nextCannonType = CGridObject::BlockType::NONE;
+	isCannonMoveStartTrigger = false;
+	flagInit = false;
+	isFallBound = false;
+	cannonFX = false;
+	IsMissMove = true;
 }
 
 PlayerMove::~PlayerMove()
@@ -30,40 +42,82 @@ PlayerMove::~PlayerMove()
 	cantMoveBlock.clear();
 }
 
+bool* PlayerMove::GetIsLookCamera()
+{
+	 return &isLookMap; 
+}
+
 void PlayerMove::Input()
 {
-	// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ‚«‚Íˆ—‚µ‚È‚¢
-	if (isMoving) return;
+	// ç§»å‹•ã—ã¦ã„ã‚‹ã¨ãã¯å‡¦ç†ã—ãªã„
+	if (isMoving || isRising || isFalling || isLookMap || isCannonMove || inCannon || isMenu || player->GetIsPlayMakeover() || player->GetGameOverOnes()) return;
 
-	// “ü—Í‚³‚ê‚é‚Æ
-	if (gInput->GetKeyTrigger(VK_RIGHT))
+	InputManager* input = InputManager::GetInstance();
+
+	Vector2 PadStick = input->GetMovement();
+
+	// å…¥åŠ›ã•ã‚Œã‚‹ã¨
+	if (gInput->GetKeyTrigger(VK_RIGHT) || (PadStick.x > 0.0f && PadStick.y > 0.0f))
 	{
-		// ‚»‚Ì•ûŒü‚ÉˆÚ“®‚Å‚«‚é‚È‚ç
-		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)]) return;
+		// ãã®æ–¹å‘ã«ç§»å‹•ã§ãã‚‹ãªã‚‰
+		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::RIGHT));
-		// ˆÚ“®‚·‚é
-		Move(DIRECTION::RIGHT);
+			// ç§»å‹•ã™ã‚‹
+		if (inCannon == false && isCannonMove == false)
+		{
+			Move(DIRECTION::RIGHT);
+			IsMissMove = false;
+		}
+
 	}
-	else if (gInput->GetKeyTrigger(VK_LEFT))
+	else if (gInput->GetKeyTrigger(VK_LEFT) || (PadStick.x < 0.0f && PadStick.y < 0.0f))
 	{
-		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)]) return;
+		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::LEFT));
-		Move(DIRECTION::LEFT);
+		if (inCannon == false && isCannonMove == false)
+		{
+			Move(DIRECTION::LEFT);
+			IsMissMove = false;
+		}
 
 	}
-	else if (gInput->GetKeyTrigger(VK_UP))
+	else if (gInput->GetKeyTrigger(VK_UP) || (PadStick.x < 0.0f && PadStick.y > 0.0f))
 	{
-		if (!canMoveDir[static_cast<int>(DIRECTION::UP)]) return;
+		if (!canMoveDir[static_cast<int>(DIRECTION::UP)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::UP));
-
-		Move(DIRECTION::UP);
+		if (inCannon == false && isCannonMove == false)
+		{
+			Move(DIRECTION::UP);
+			IsMissMove = false;
+		}
 
 	}
-	else if (gInput->GetKeyTrigger(VK_DOWN))
+	else if (gInput->GetKeyTrigger(VK_DOWN) || (PadStick.x > 0.0f && PadStick.y < 0.0f))
 	{
-		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)]) return;
+		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)])
+		{
+			IsMissMove = true;
+			return;
+		}
 		player->SetDirection(static_cast<int>(DIRECTION::DOWN));
-		Move(DIRECTION::DOWN);
+		if (inCannon == false && isCannonMove == false)
+		{
+			Move(DIRECTION::DOWN);
+			IsMissMove = false;
+		}
+
 	}
 }
 
@@ -73,27 +127,55 @@ void PlayerMove::FlagInit()
 	isWalkEnd = false;
 	isMoveStartTrigger = false;
 	isWalking_old = isWalking_now;
+	isFallBound = false;
+	cannonFX = false;
 }
 
 void PlayerMove::WalkAfter()
 {
-	player->WalkCalorie();
+	if (!inCannon)
+	{
+		switch (player->GetState())
+		{
 
+		case Player::STATE::THIN:
+			player->WalkCalorie();
+			break;
+
+		case Player::STATE::NORMAL:
+			if (CheckNextFloorType() != CGridObject::BlockType::CHOCOCRACK)
+			{
+				player->WalkCalorie();
+			}
+			break;
+
+		case Player::STATE::FAT:
+		case Player::STATE::MUSCLE:
+			if (CheckNextFloorType() != CGridObject::BlockType::CHOCO && CheckNextFloorType() != CGridObject::BlockType::CHOCOCRACK)
+			{
+				player->WalkCalorie();
+			}
+			break;
+		default:
+			break;
+		}
+
+	}
 	isWalking_now = false;
 	isWalking_old = true;
-	// ˆÚ“®‚µI‚¦‚½ƒtƒ‰ƒO‚ğtrue
+	// ç§»å‹•ã—çµ‚ãˆãŸãƒ•ãƒ©ã‚°ã‚’true
 	isWalkEnd = true;
 }
 
-CStageMake::BlockType PlayerMove::CheckNextMassType()
+CGridObject::BlockType PlayerMove::CheckNextMassType()
 {
-	// æ‚ÉƒIƒuƒWƒFƒNƒg‚ÌŒ^‚ğŒ©‚é
-	CStageMake::BlockType type = CheckNextObjectType();
+	// å…ˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‹ã‚’è¦‹ã‚‹
+	CGridObject::BlockType type = CheckNextObjectType();
 
-	// ‰½‚à‚È‚©‚Á‚½‚ç
-	if (type == CStageMake::BlockType::NONE)
+	// ä½•ã‚‚ãªã‹ã£ãŸã‚‰
+	if (type == CGridObject::BlockType::NONE || type == CGridObject::BlockType::START)
 	{
-		// °‚Ìƒe[ƒuƒ‹‚ğŠm”F
+		// åºŠã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç¢ºèª
 		type = CheckNextFloorType();
 	}
 	return type;
@@ -104,9 +186,9 @@ void PlayerMove::WalkStart()
 	isWalking_now = true;
 }
 
-CStageMake::BlockType PlayerMove::CheckNextObjectType()
+CGridObject::BlockType PlayerMove::CheckNextObjectType()
 {
-	return static_cast<CStageMake::BlockType>(player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x]);
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->objectTable[nextGridPos.y][nextGridPos.x]);
 }
 
 void PlayerMove::FallStart()
@@ -114,31 +196,409 @@ void PlayerMove::FallStart()
 	isFalling = true;
 }
 
-CStageMake::BlockType PlayerMove::CheckNextFloorType()
+void PlayerMove::RiseStart()
 {
-	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[nextGridPos.y][nextGridPos.x]);
+	isRising = true;
 }
 
-CStageMake::BlockType PlayerMove::CheckNowFloorType()
+CGridObject::BlockType PlayerMove::CheckNextFloorType()
+{
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->floorTable[nextGridPos.y][nextGridPos.x]);
+}
+
+CGridObject::BlockType PlayerMove::CheckNowFloorType()
 {
 	CGrid::GRID_XY NowGridPos = player->GetGridPos();
-	return static_cast<CStageMake::BlockType>(player->GetGridTable()->floorTable[NowGridPos.y][NowGridPos.x]);
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->floorTable[NowGridPos.y][NowGridPos.x]);
+}
+
+CGridObject::BlockType PlayerMove::CheckNowObjectType()
+{
+	CGrid::GRID_XY NowGridPos = player->GetGridPos();
+	return static_cast<CGridObject::BlockType>(player->GetGridTable()->objectTable[NowGridPos.y][NowGridPos.x]);
+}
+
+CGridObject::BlockType PlayerMove::CheckNowMassType()
+{
+	// å…ˆã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‹ã‚’è¦‹ã‚‹
+	CGridObject::BlockType type = CheckNowObjectType();
+
+	// ä½•ã‚‚ãªã‹ã£ãŸã‚‰
+	if (type == CGridObject::BlockType::NONE || type == CGridObject::BlockType::START)
+	{
+		// åºŠã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç¢ºèª
+		type = CheckNowFloorType();
+	}
+	return type;
+}
+
+void PlayerMove::CameraEnd()
+{
+	isLookMap = false;
 }
 
 void PlayerMove::FallAfter()
 {
 	isFalling = false;
+	isWalking_now = false;
+	isWalking_old = true;
+}
+
+void PlayerMove::RiseAfter()
+{
+	isRising = false;
+	isWalking_now = false;
+	isWalking_old = true;
+}
+
+void PlayerMove::InCannon()
+{
+	inCannon = true;
+}
+
+void PlayerMove::CannonMove1()
+{
+	CGrid::GRID_XY XY = { 0,0 };
+	for (int i = 0; i < 9; i++)
+	{
+		if (player->GetGridTable()->floorTable[0][i] != 0)
+		{
+			XY.x += 1;
+		}
+		if (player->GetGridTable()->floorTable[i][0] != 0)
+		{
+			XY.y += 1;
+		}
+		else if (player->GetGridTable()->floorTable[i][i] == 0)
+		{
+			break;
+		}
+	}
+
+	CGrid::GRID_XY movePos = player->GetGridPos();
+	int moveDir = 0;
+	cannonMoveDir[static_cast<int>(DIRECTION::UP)] = true;
+	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
+	{
+		if (cannonMoveDir[i] == true)
+		{
+			moveDir = i;
+			break;
+		}
+	}
+
+
+	switch (moveDir)
+	{
+	case static_cast<int>(DIRECTION::DOWN):
+		for (int i = player->GetGridPos().y; i < XY.y; i++)
+		{
+			if (player->GetGridTable()->objectTable[i - 1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.y++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	case static_cast<int>(DIRECTION::UP):
+		for (int i = player->GetGridPos().y; i > 0; i--)
+		{
+			if (player->GetGridTable()->objectTable[i - 1][player->GetGridPos().x] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.y--;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	case static_cast<int>(DIRECTION::RIGHT):
+		for (int i = player->GetGridPos().x; i < XY.x; i++)
+		{
+			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i - 1] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.x++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	case static_cast<int>(DIRECTION::LEFT):
+		for (int i = player->GetGridPos().x; i > 0; i--)
+		{
+			if (player->GetGridTable()->objectTable[player->GetGridPos().y][i - 1] != static_cast<int>(CGridObject::BlockType::GALL))
+			{
+				movePos.x--;
+			}
+			else
+			{
+				break;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	WalkStart();
+	Vector3 v3MovePos = player->GetGridTable()->GridToWorld(movePos, CGridObject::BlockType::START);
+	//ç§»å‹•é‡ã«å¿œã˜ã¦é€Ÿåº¦ã‚’å¤‰ãˆã‚‹
+	player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME / ((movePos.x - player->GetGridPos().x) + (movePos.y + player->GetGridPos().y)));
+	player->dotween->OnComplete([&, movePos, v3MovePos]()
+		{
+			player->dotween->DoMoveCurve({ player->mTransform.pos.x,player->mTransform.pos.y }, CANNONBOUND_TIME, player->mTransform.pos.y + CANNONBOUND_POS_Y);
+			//ï½šã‚’å¤‰æ›´ã™ã‚‹
+			player->dotween->Append(v3MovePos, 0.0f, DoTween::FUNC::MOVE_Z);
+			player->dotween->DelayedCall(CANNONBOUND_TIME, [&, movePos]()
+				{
+
+					player->SetGridPos(movePos);
+					player->GetPlayerMove()->SetNextGridPos(movePos);
+					MoveAfter();
+					Step();
+				});
+		});
+}
+
+void PlayerMove::CannonMove2()
+{
+	isCannonMoveStartTrigger = false;
+	if (isCannonMoveStart)
+	{
+		return;
+	}
+
+	int moveDir = -1;
+	bool isBound = false;
+	CGrid::GRID_XY movePos = player->GetGridPos();
+	//cannonMoveDir[static_cast<int>(DIRECTION::UP)] = true;
+	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
+	{
+		if (cannonMoveDir[i] == true)
+		{
+			moveDir = i;
+			break;
+		}
+	}
+	if (moveDir == -1)
+	{
+		return;
+	}
+	if (player->GetCangeCannonTexture() == false)
+	{
+		player->ChangeTexture(Player::ANIM_TEX::CANNON);
+		player->SetChangeCannonTexture(true);
+		dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayCannon(moveDir, 3.0f);
+		nextCannonPos = movePos;
+	}
+
+	CGrid::GRID_XY XY = { 0,0 };
+	for (int i = 0; i < 9; i++)
+	{
+		if (player->GetGridTable()->floorTable[0][i] != 0)
+		{
+			XY.x += 1;
+		}
+		if (player->GetGridTable()->floorTable[i][0] != 0)
+		{
+			XY.y += 1;
+		}
+		else if (player->GetGridTable()->floorTable[i][i] == 0)
+		{
+			break;
+		}
+	}
+	if (!isCannonMoveStart && nextCannonPos.x > -1 && nextCannonPos.y > -1 && nextCannonPos.x < XY.x && nextCannonPos.y < XY.y)
+	{
+		switch (moveDir)
+		{
+		case static_cast<int>(DIRECTION::DOWN):
+			movePos.y++;
+			movePos.y++;
+			nextCannonPos.y++;
+			break;
+
+		case static_cast<int>(DIRECTION::UP):
+			movePos.y--;
+			movePos.y--;
+			nextCannonPos.y--;
+			break;
+
+		case static_cast<int>(DIRECTION::RIGHT):
+			movePos.x++;
+			movePos.x++;
+			nextCannonPos.x++;
+			break;
+
+		case static_cast<int>(DIRECTION::LEFT):
+			movePos.x--;
+			movePos.x--;
+			nextCannonPos.x--;
+			break;
+		default:
+			break;
+		}
+		if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::GALL) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::CASTELLA) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMHORIZONTAL) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMVERTICAL) &&
+			player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::WALL) &&
+			!isCannonMoveStart
+			)
+			nextGridPos = nextCannonPos;
+	}
+
+
+
+	if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::GALL) &&
+		player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::CASTELLA) &&
+		player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMHORIZONTAL) &&
+		player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::BAUMVERTICAL) &&
+		player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] != static_cast<int> (CGridObject::BlockType::WALL) &&
+		(nextCannonPos.x != -1 && nextCannonPos.y != -1 && nextCannonPos.x < XY.x && nextCannonPos.y < XY.y)
+		)
+	{
+		Vector3 v3MovePos = player->GetGridTable()->GridToWorld(nextCannonPos, CGridObject::BlockType::START);
+
+		//player->ChangeTexture(Player::ANIM_TEX::CANNON);
+		//if (flagInit == false)
+		//{
+		//	nextCannonType = static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckObjectType(nextCannonPos));
+		//	//flagInit = true;
+		//}
+		if (moveDir == static_cast<int> (DIRECTION::UP) || moveDir == static_cast<int>(DIRECTION::RIGHT))
+		{
+			player->mTransform.pos.z += ISOME_BACKMOVE;
+			v3MovePos.z += ISOME_BACKMOVE;
+		}
+		// æ‰‹å‰ã®ãƒã‚¹ã«è¡Œãã¨ãã¯å…ˆã«Zåº§æ¨™ã‚’æ‰‹å‰ã«åˆã‚ã›ã‚‹
+		else
+		{
+			player->mTransform.pos.z = v3MovePos.z;
+		}
+		if (player->GetGridTable()->objectTable[nextCannonPos.y][nextCannonPos.x] == static_cast<int> (CGridObject::BlockType::CANNON))
+		{
+			if (moveDir != static_cast<int>(DIRECTION::UP) || moveDir != static_cast<int>(DIRECTION::RIGHT))
+			{
+				player->mTransform.pos.z = v3MovePos.z - 0.20001f;
+			}
+			isCannonMoveStart = true;
+			player->dotween->DelayedCall(CANNONBOUND_TIME / 1.5f, [&]()
+				{
+					cannonFX = true;
+					player->ChangeInvisible();
+				});
+			player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
+
+			player->dotween->Append(v3MovePos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
+			player->GetPlayerMove()->SetNextGridPos(nextCannonPos);
+			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
+				{
+
+
+					player->ChangeTexture(Player::ANIM_TEX::WAIT);
+					dynamic_cast<CPlayerAnim*>(player->GetmAnim())->SetAnimSpeedRate(0.3f);
+					isCannonMove = false;
+					player->SetChangeCannonTexture(false);
+					inCannon = false;
+
+					//player->GetPlayerMove()->SetNextGridPos(player->GetPlayerMove()->GetNextGridPos());
+
+					//MoveAfter();
+					player->GetPlayerMove()->Step();
+					isCannonMoveEnd = true;
+					isCannonMoveStart = false;
+				});
+		}
+		else
+		{
+			isCannonMoveStart = true;
+			player->dotween->DoMoveXY({ v3MovePos.x,v3MovePos.y }, CANNONMOVE_TIME);
+			player->dotween->Append(v3MovePos.z - 0.20001f, 0.0f, DoTween::FUNC::MOVE_Z);
+			isCannonMoveStartTrigger = true;
+			player->dotween->OnComplete([&, v3MovePos, movePos, moveDir, XY]()
+				{
+
+					isCannonMoveEnd = true;
+					isCannonMoveStart = false;
+					player->SetGridPos(this->GetNextGridPos());
+				});
+		}
+	}
+	else
+	{
+		Vector3 v3MovePos = player->GetGridTable()->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START,static_cast<int>(player->GetState()));
+		if (player->GetState() == Player::STATE::MUSCLE)
+		{
+			player->mTransform.scale.y *= 1.4f;
+		}
+		isCannonMoveStartTrigger = true;
+		isCannonMoveStart = true;
+		player->ChangeTexture(Player::ANIM_TEX::WALK);
+		dynamic_cast<CPlayerAnim*>(player->GetmAnim())->PlayFall(moveDir, 2.0f);
+		player->dotween->DoMoveCurve({ v3MovePos.x,v3MovePos.y }, CANNONBOUND_TIME, v3MovePos.y + CANNONBOUND_POS_Y);
+		player->dotween->Append(v3MovePos.z, 0.0f, DoTween::FUNC::MOVE_Z);
+		player->GetPlayerMove()->SetNextGridPos(nextCannonPos);
+		player->dotween->OnComplete([&]()
+			{
+				player->SetChangeCannonTexture(false);
+				isCannonMoveEnd = true;
+				isCannonMove = false;
+				player->GetPlayerMove()->SetNextGridPos(player->GetGridPos());
+				player->dotween->DelayedCall(0.1f, [&]()
+					{
+						inCannon = false;
+						//					CheckCanMove();
+					});
+				WalkAfter();
+				player->GetPlayerMove()->Step();
+				flagInit = false;
+				isCannonMoveStart = false;
+				isCannonMoveEnd = false;
+				//CheckCanMove();
+
+			});
+	}
+	//ç§»å‹•å¯èƒ½ã§æ³£ã‘ã‚Œã°ãƒã‚¦ãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹
+	//å¤§ç ²ç§»å‹•ãƒ•ãƒ©ã‚°ã‚’æ¶ˆã™
+
+//}
+
+}
+
+void PlayerMove::CannonMoveStart()
+{
+	isCannonMove = true;
+	isCannonMoveStartTrigger = true;
+	inCannon = false;
+	//effect.push_back(EffectManeger::GetInstance()->Play(player->mTransform.pos, { player->mTransform.scale.x * CANNON_FIRE_SCALE,player->mTransform.scale.y * CANNON_FIRE_SCALE,player->mTransform.scale.z + 0.001f }, EffectManeger::FX_TYPE::CANNON_FIRE, false));
+}
+
+void PlayerMove::CannonDirSelect(DIRECTION _dir)
+{
+	for (int i = 0; i < static_cast<int>(DIRECTION::NUM); i++)
+	{
+		cannonMoveDir[i] = false;
+	}
+
+	cannonMoveDir[static_cast<int>(_dir)] = true;
 }
 
 void PlayerMove::CheckCanMove()
 {
-	// ‘S‚Ä‚Ì•ûŒü‚ğtrue
+	// å…¨ã¦ã®æ–¹å‘ã‚’true
 	for (int i = 0; i < 4; i++)
 	{
 		canMoveDir[i] = true;
 	}
 
-	// Œã‚ë‚Ì•ûŒü‚És‚¯‚È‚¢‚æ‚¤‚É‚·‚é
+	// å¾Œã‚ã®æ–¹å‘ã«è¡Œã‘ãªã„ã‚ˆã†ã«ã™ã‚‹
 	switch (static_cast<Player::DIRECTION>(player->GetDirection()))
 	{
 	case Player::DIRECTION::UP:
@@ -159,14 +619,14 @@ void PlayerMove::CheckCanMove()
 	}
 
 
-	//«i˜Hæ‚Ì°‚Ìî•ñ‚ÅˆÚ“®‚Å‚«‚é‚©”»’f‚·‚é //////////////////////////
-	// 4•ûŒüŒ©‚é
+	//â†“é€²è·¯å…ˆã®åºŠã®æƒ…å ±ã§ç§»å‹•ã§ãã‚‹ã‹åˆ¤æ–­ã™ã‚‹ //////////////////////////
+	// 4æ–¹å‘è¦‹ã‚‹
 	for (int dirRoop = 0; dirRoop < static_cast<int>(Player::DIRECTION::NUM); dirRoop++)
 	{
-		// Œã‚ëˆÈŠO‚ğŒ©‚é‚¾‚¯‚Å‘åä•v‚È‚Ì‚Å
+		// å¾Œã‚ä»¥å¤–ã‚’è¦‹ã‚‹ã ã‘ã§å¤§ä¸ˆå¤«ãªã®ã§
 		if (!canMoveDir[dirRoop]) continue;
 
-		// •ûŒü
+		// æ–¹å‘
 		CGrid::GRID_XY d = {};
 
 		switch (static_cast<DIRECTION>(dirRoop))
@@ -189,12 +649,12 @@ void PlayerMove::CheckCanMove()
 		}
 
 
-		// ƒvƒŒƒCƒ„[‚Ìisæ‚ÌƒOƒŠƒbƒhÀ•W‚ğæ“¾
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€²è¡Œå…ˆã®ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’å–å¾—
 		CGrid::GRID_XY forwordPos = player->GetGridPos();
 		forwordPos.x += d.x;
 		forwordPos.y += d.y;
 
-		// ˆÚ“®æ‚ªƒ}ƒbƒvŠO‚È‚çˆÚ“®‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
+		// ç§»å‹•å…ˆãŒãƒãƒƒãƒ—å¤–ãªã‚‰ç§»å‹•ã§ããªã„ã‚ˆã†ã«ã™ã‚‹
 		if (forwordPos.x < 0 || forwordPos.y < 0
 			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
 		{
@@ -202,9 +662,16 @@ void PlayerMove::CheckCanMove()
 			continue;
 		}
 
+		if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::HOLL) &&
+			player->GetNowFloor() == 1)
+		{
+			canMoveDir[dirRoop] = false;
+			continue;
+		}
+
 		for (int j = 0; j < cantMoveBlock.size(); j++)
 		{
-			// i˜Hæ‚ªˆÚ“®‚Å‚«‚È‚¢‚È‚ç
+			// é€²è·¯å…ˆãŒç§»å‹•ã§ããªã„ãªã‚‰
 			if (player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j] ||
 				player->GetGridTable()->objectTable[forwordPos.y][forwordPos.x] == cantMoveBlock[j])
 			{
@@ -213,34 +680,19 @@ void PlayerMove::CheckCanMove()
 			}
 		}
 	}
-	//ªi˜Hæ‚Ì°‚Ìî•ñ‚ÅˆÚ“®‚Å‚«‚é‚©”»’f‚·‚é //////////////////////////
+	//â†‘é€²è·¯å…ˆã®åºŠã®æƒ…å ±ã§ç§»å‹•ã§ãã‚‹ã‹åˆ¤æ–­ã™ã‚‹ //////////////////////////
 }
 
 void PlayerMove::MoveAfter()
 {
-	// ˆÚ“®ƒtƒ‰ƒO‚ğ–ß‚·
+	// ç§»å‹•ãƒ•ãƒ©ã‚°ã‚’æˆ»ã™
 	isMoving = false;
 	isMovingTrigger = true;
 
-	// «‚±‚±‚ÅƒOƒŠƒbƒhÀ•W‚ğƒZƒbƒg‚µ‚Ä‚¢‚é
+	// â†“ã“ã“ã§ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’ã‚»ãƒƒãƒˆã—ã¦ã„ã‚‹
 	player->SetGridPos(nextGridPos.x, nextGridPos.y);
 
-	// ˆÚ“®‚Å‚«‚é•ûŒü‚ğŒˆ’è‚·‚é
+	// ç§»å‹•ã§ãã‚‹æ–¹å‘ã‚’æ±ºå®šã™ã‚‹
 	CheckCanMove();
 
-	// ƒ}ƒbƒ`ƒ‡‚¶‚á‚È‚¢‚È‚ç
-	if (player->GetState() == Player::STATE::MUSCLE) return;
-	// “®‚«I‚¦‚½‚ ‚Æ‚ÉƒJƒƒŠ[‚ªó‘Ô•Ï‚í‚é‚æ‚¤‚È‚çó‘Ô‚ğ•Ï‰»‚³‚¹‚é
-	Player::STATE nextState = Player::STATE::FAT;
-	if (player->GetCalorie() <= THIN_CALOMAX)
-	{
-		nextState = Player::STATE::THIN;
-	}
-	else if (player->GetCalorie() <= NORMAL_CALOMAX)
-	{
-		nextState = Player::STATE::NORMAL;
-	}
-
-	if (player->GetState() != nextState)
-		player->ChangeState(nextState);
 }

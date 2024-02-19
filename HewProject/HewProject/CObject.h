@@ -14,7 +14,6 @@ enum ObjectLayer
 {
 	FADE,
 	EFECT,
-	UI,
 	PLAY_GROUND,
 	BACK_GROUND,
 };
@@ -48,6 +47,8 @@ protected:
 
 	// アクティブ/非アクティブ切り替え変数
 	bool isActive = true;
+
+	bool IsInvisible = false;
 
 public:
 
@@ -95,11 +96,15 @@ public:
 		mTransform.scale.x = _x, mTransform.scale.y = _y, mTransform.scale.z = _z;
 	}
 
+	void SetVertexBuffer(D3DBUFFER _vb) { mVertexBuffer = _vb; }
+
 	void SetMoveSpeed(float _moveSpeed) { mMoveSpeed = _moveSpeed; }
 
 	void SetLayer(ObjectLayer _layer) { mLayer = _layer; }
 
 	void SetActive(bool _set) { isActive = _set; }
 	bool GetActive() const { return isActive; }
+
+	void ChangeInvisible();
 };
 

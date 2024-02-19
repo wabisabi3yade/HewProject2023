@@ -74,7 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	// fpsを測定する時に使用
 	ULONGLONG o_ms = GetTickCount64();	// １秒間測定するときに使う変数
 	ULONGLONG n_ms = o_ms;	// システムを起動してからの時間を受け取る変数
-	char str[14] = "";
+	char str[15] = "";
 
 	// FPS固定用変数
 	LARGE_INTEGER liWork;	// 関数から値を受け取る用（Workと付いてる変数は作業用変数のことが多い）
@@ -92,8 +92,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	MSG msg;
 
+	// シーンマネージャー作成
 	gSceneManager = CSceneManager::GetInstance();
-	gSceneManager->SceneChange(CSceneManager::SELECT);
+	gSceneManager->SceneChange(CScene::TITLE);
+
 
 	// ゲームループ
 	for (;;) {
@@ -122,6 +124,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				gInput->UpdateKeyState();
 				oldCount = nowCount;
 				nFpsCounter++;
+
+				if (gSceneManager->GetGameExit())
+				{
+					break;
+				}
 			}
 
 			n_ms = GetTickCount64();
@@ -130,7 +137,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			{
 				/*sprintf_s(str, 14, "fps:%d", nFpsCounter);
 				SetWindowText(hWnd, str);*/
-				sprintf_s(str, 14, "シーン番号：%d", gSceneManager->GetNowScene());
+				sprintf_s(str, 15, "シーン番号：%d", gSceneManager->GetNowScene());
 				SetWindowText(hWnd, str);
 
 				nFpsCounter = 0;	// カウントリセットする

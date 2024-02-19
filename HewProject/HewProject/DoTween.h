@@ -21,6 +21,13 @@ public:
 		MOVE_Z,
 		SCALE,
 		ROTATION,
+		MOVECURVE,
+		EASE_OUTBACK,
+		EASE_OUTCUBIC,
+		EASE_OUTCUBIC_SCALE,
+		EASE_OUTBACK_SCALE,
+		EASE_INBACK_SCALE,
+		EASE_ELASTIC_SCALE,
 		DELAY
 	};
 
@@ -45,7 +52,8 @@ public:
 
 		FUNC dotweenType = FUNC::NONE;	// Dotweenの種類変数
 		START start = START::DO;	//　始まる方法の種類変数
-
+		Vector3 oldPos = {};	//	移動開始時の座標保持用（CURVE）
+		float curvePos = 0.0f;
 		float nowTime = 0.0f;	// Dotween始まった時の時間(ms)
 		float moveTime = 0.0f;	// 移動にかかる時間(ms)
 		float moveSpeed = 0.0f;	// 移動速度
@@ -113,8 +121,9 @@ public:
 	/// <param name="_target">目標の値</param>
 	/// <param name="_moveTime">時間</param>
 	/// <param name="_type">Dotweenの種類（DoTween::FUNC::～で呼んでね）</param>
-	void Append(Vector3 _target, float _moveTime, FUNC _type);
-	void Append(float _target, float _moveTime, FUNC _type);
+	/// <param name="_curvepos">ジャンプを使用するときジャンプの最高地点(PosYを入れてください) </param>
+	void Append(Vector3 _target, float _moveTime, FUNC _type, float _curvepos = 0);
+	void Append(float _target, float _moveTime, FUNC _type, float _curvepos = 0);
 
 	/// <summary>
 	/// 前の処理と同じタイミングで呼ばれる
@@ -190,7 +199,20 @@ public:
 
 	// 遅らせる処理
 	void DoDelay(float _delayTime);
+	/// <summary>
+	/// 目的の座標までにカーブしながら移動する関数
+	/// </summary>
+	/// <param name="_targetPosXY">目的のXY座標</param>
+	/// <param name="_moveTime">移動時間</param>
+	/// <param name="_curvePos">カーブする最大の高さ</param>
+	void DoMoveCurve(Vector2 _targetPosXY, float _moveTime ,float _curvePos = 1.0f);
 
+	void DoEaseOutCubic(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseOutCubicScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseOutBackScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseInBackScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseElasticScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseOutBack(const Vector3& _targetAngle, const float& _moveTime);
 	// これ以降の処理を遅らせる
 	void AppendDelay(float _delayTime);
 

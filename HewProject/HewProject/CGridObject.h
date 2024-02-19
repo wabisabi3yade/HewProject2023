@@ -1,14 +1,50 @@
 #pragma once
 #include "CObject.h"
 #include"CGrid.h"
+
+constexpr float MAX_POS_X = 8.0f;
+constexpr float MAX_POS_Y = 4.5f;
+constexpr float BLOWOFF_TIME = 2.0f;
+
 class CGridObject :
 	public CObject
 {
+public:
+	enum class BlockType
+	{
+		FLOOR = 1,		// 床				1
+		WALL,			// 壁				2
+		HOLL,			// 穴				3
+		CAKE,			// ケーキ			4
+		CASTELLA,		// カステラ			5
+		BAUMHORIZONTAL,	// バウムクーヘン横	6
+		BAUMVERTICAL,	// バウムクーヘン縦	7
+		COIN,			// コイン			8
+		WATAAME,		// 綿あめ			9
+		CHOCO,			// チョコ			10
+		CHOCOCRACK,		// チョコひび		11
+		GUMI,			// グミ				12
+		PROTEIN,		// プロテイン		13
+		CHILI,			// とうがらし		14
+		START,			// スタート			15
+		GALL,			// ゴール			16
+		CASTELLA_FLOOR,	// カステラの床		17
+		CANNON,			// 大砲				18
+		NONE = 99,
+	};
+
+	// ステージのオブジェクトの区分
+	enum class Category
+	{
+		FLOOR,	// 床
+		ITEM,	// アイテム(ケーキ、とうがらし、メダルとか)
+		OBJECT	// アイテム以外のオブジェクト(バウムクーヘン、壁とか)
+	};
 
 protected:
 	CGrid* Grid;
-	int BlockType;
-	int category;
+	BlockType type;
+	Category category;
 public:
 	CGridObject(D3DBUFFER vb, D3DTEXTURE tex);
 	virtual ~CGridObject();
@@ -18,10 +54,13 @@ public:
 	void SetGridPos(CGrid::GRID_XY _gridXY);
 	CGrid::GRID_XY GetGridPos() const { return Grid->gridPos; };
 
-	void SetBlookType(int _BkType) { BlockType = _BkType; };
-	int GetBlookType() const { return BlockType; };
+	void SetBlookType(BlockType _BkType) { type = _BkType; };
+	BlockType GetBlookType() const { return type; };
 
-	void SetCategory(int _category) { category = _category; };
-	int GetCategory() const { return category; };
+	void SetCategory(Category _category) { category = _category; };
+	Category GetCategory() const { return category; };
+
+	// そのブロックのタイプが何のカテゴリーかを返す
+	static Category TypeToCategory(BlockType _type);
 };
 

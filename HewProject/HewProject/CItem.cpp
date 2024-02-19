@@ -37,7 +37,7 @@ void CItem::Update()
 		movement -= MAX_MOVEMENT;
 	}
 	drawPos.y = mTransform.pos.y + HALF_AMPLITUDE_SIZE *  mTransform.scale.y 
-		* cos(XMConvertToRadians(movement));
+		* sin(XMConvertToRadians(movement));
 
 	FloatingFluffy();
 }
@@ -117,6 +117,14 @@ void CItem::Draw()
 	// ƒ‚ƒfƒ‹‚ğ•`‰æ‚·‚é–½—ß
 	// ‘æ‚Pˆø”F•`‰æ‚·‚é’¸“_”
 	m_pImmediateContext->Draw(6, 0);
+}
+
+void CItem::InitItem(D3DTEXTURE _shadowTex)
+{
+	SetShadow(_shadowTex);
+
+	// •`‰æÀ•W‚ğİ’è‚·‚é
+	drawPos = mTransform.pos;
 }
 
 void CItem::SetShadow(D3DTEXTURE _shadowTex)

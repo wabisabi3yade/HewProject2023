@@ -3,6 +3,7 @@
 class CEffectAnim :
     public CAnimation
 {
+    bool AnimEnd;
 public:
     enum EffectPattertn
     {
@@ -11,6 +12,7 @@ public:
 
 public:
     CEffectAnim();
+    ~CEffectAnim();
 
     void Update() override;
 
@@ -18,6 +20,7 @@ public:
 
     void SetEffectLoop(bool);
 
-    ~CEffectAnim();
+    bool GetAnimEnd()const { return AnimEnd; }
+
 };
 

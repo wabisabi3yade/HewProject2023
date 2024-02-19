@@ -3,9 +3,9 @@
 #include "Vector3.h"
 #include <vector>
 #include "GridTable.h"
-#include "CStageMake.h"
 
-#define WALK_TIME (1.0f)	// 歩くときの移動時間
+class CEffect;
+#define WALK_TIME (0.78f)	// 歩くときの移動時間
 
 class Player;
 
@@ -26,7 +26,13 @@ public:
 protected:
 	Player* player;	// プレイヤークラスのポインタ
 
+	//大砲移動時に一マス移動後にじぶんのマスを確認時
+	//自分のタイプを取得するため移動した瞬間に次のタイプを保持する変数
+	CGridObject::BlockType nextCannonType;
+
 	bool canMoveDir[static_cast<int>(DIRECTION::NUM)];	// 移動可能である方向
+
+	bool cannonMoveDir[static_cast<int>(DIRECTION::NUM)];
 
 	bool isMoving;	// 移動可能フラグ
 
@@ -40,10 +46,29 @@ protected:
 
 	bool isWalking_now;	//　今
 
-	bool isFalling;
+	bool isFalling;   //落下中
+
+	bool isRising;   //上昇中
+
+	bool isLookMap;   //マップを見る
+
+	bool isFallBound;
+
+	bool isMenu;   //メニュー画面を開いている
+
+	bool IsMissMove;
+
+	bool flagInit;
+
+	bool cannonFX;
+	bool inCannon;
+	bool isCannonMove;
+	bool isCannonMoveStart;
+	bool isCannonMoveStartTrigger;
+	bool isCannonMoveEnd;
 
 	CGrid::GRID_XY nextGridPos;	// 移動先の座標（MoveAfterでプレイヤーのグリッド座標に更新している）
-
+	CGrid::GRID_XY nextCannonPos;
 	std::vector<int> cantMoveBlock;	// 移動できない床の種類を保持
 
 public:
@@ -56,6 +81,8 @@ public:
 	// 入力されると移動を行う関数
 	virtual void Move(DIRECTION _dir) = 0;
 
+	virtual void Step() =  0 ;
+
 	// 歩き終わった後にする処理（歩き終わって食べるアニメーションをしたりする）
 	virtual void WalkAfter();
 
@@ -66,23 +93,45 @@ public:
 	void WalkStart();
 
 	void  FallStart();
+
+	void RiseStart();
 	//落ち終わったあとにする処理
 	virtual void FallAfter();
 
+	virtual void RiseAfter();
 
+	void InCannon();
+
+	void CannonMove1();
+
+	void CannonMove2();
+
+	void CannonMoveStart();
+
+	void CannonDirSelect(DIRECTION _dir);
+
+	bool kari = false;
+
+	void CameraEnd();
+
+	bool GetisLoolMap() const { return isLookMap; };
 
 	// プレイヤーの移動先の座標にあるマスの種類を取得する
 	// オブジェクト優先→なにもないなら床の種類が帰ってくる
 	// 間違えているかもしれないっす・・・
-	CStageMake::BlockType CheckNextMassType();
+	CGridObject::BlockType CheckNextMassType();
 
 	// 移動先のプレイヤーのグリッド座標にある物の種類を取得する
-	CStageMake::BlockType CheckNextObjectType();
+	CGridObject::BlockType CheckNextObjectType();
 
 	// 移動先のプレイヤーのグリッド座標にある床の種類を取得する
-	CStageMake::BlockType CheckNextFloorType();
+	CGridObject::BlockType CheckNextFloorType();
 
-	CStageMake::BlockType CheckNowFloorType();
+	CGridObject::BlockType CheckNowFloorType();
+
+	CGridObject::BlockType CheckNowObjectType();
+
+	CGridObject::BlockType CheckNowMassType();
 
 	// どの方向に移動ができるか取得する関数
 	virtual void  CheckCanMove() = 0;
@@ -91,6 +140,11 @@ public:
 
 	CGrid::GRID_XY GetNextGridPos() const { return nextGridPos; };
 
+	void SetNextGridPos(const CGrid::GRID_XY _nextGirdPos) { nextGridPos = _nextGirdPos; }
+
+	bool GetMoveTrigger() { return isMovingTrigger; }
+	void SetMoveTrigger(bool _set) { isMovingTrigger = _set; }
+
 	bool GetIsMoving()const { return isMoving; }
 	bool GetIsMoveStart()const { return isMoveStartTrigger; }
 	bool GetIsMoveTrigger() const { return isMovingTrigger; }
@@ -98,6 +152,23 @@ public:
 	bool GetIsWalk_Now() const { return isWalking_now; }
 	bool GetIsWalk_Old() const { return isWalking_old; }
 	bool GetIsFalling()const { return isFalling; }
+	bool GetIsRising()const { return isRising; }
+	bool GetIsCannonMove()const { return isCannonMove; }
+	bool* GetCanMoveDir() { return &canMoveDir[0]; }
+	bool GetCannonMoveEnd()const { return isCannonMoveEnd; }
+	bool GetCannonMoveStart()const { return isCannonMoveStart; }
+	bool GetCannonMoveStartTrigger()const { return isCannonMoveStartTrigger; }
+	bool GetIncannon()const { return inCannon; }
+	bool GetIsFallBound()const { return isFallBound; }
+	bool GetCannonFX()const { return cannonFX; }
+	void SetCannonDir(bool* _set) { *cannonMoveDir = _set; }
+	void SetIsMenu(bool &_set) { isMenu = _set; }
+	CGridObject::BlockType GetNextCannonType()const { return nextCannonType; }
+	bool GetIsMissMove()const { return IsMissMove; }
+	bool* GetIsLookCamera();
+	bool* GetIsMenu() { return &isMenu; }
 
+	void SetIsLookCamera(bool &_set) { isLookMap = _set; }
+	//void SetIsMenu(bool _set) { isMenu = &_set; }
 };
 

@@ -5,8 +5,22 @@
 #include"CEffect.h"
 class Vector3;
 
-//class CEffect;
+//大きさの倍率
 
+constexpr float CRACKSCALE = 1.5f;
+constexpr float CANNON_IN_SCALE = 1.5f;
+constexpr float CANNON_FIRE_SCALE = 1.5f;
+constexpr float PANTI_SCALE = 1.5f;
+constexpr float SMOKE_SCALE = 3.0f;
+constexpr float HEART_SCALE = 1.8f;
+constexpr float STAR_BOUND_SCALE = 1.5f;
+constexpr float STAR_CASTELLA_SCALE = 1.5f;
+constexpr float AURA_SCALE = 1.5f;
+constexpr float BOX_SCALE = 1.5f;
+constexpr float KUMO_SCALE = 1.0f;
+constexpr float MARK_SCALE = 1.5f;
+
+//constexpr float
 class EffectManeger //public CObject
 {
 
@@ -17,11 +31,28 @@ public:
 		EFFECT_UP = 0,
 		EFFECT_DOWN,
 		CHARE,
+		CRACK,
+		CANNON_IN,
+		CANNON_FIRE,
+		PANTI,
+		PANTI_L,
+		SMOKE_R,
+		SMOKE_G,
+		SMOKE_Y,
+		SMOKE_P,
+		HEART,
+		STAR_BOUND,
+		STAR_CASTELLA,
+		AURA,
+		BOX,
+		KUMO,
+		MARK,
+		CLEAR,
 		EFFECT_MAX,
 	}FX_TYPE;
 
 private:
-	std::list<CEffect*>EffectList;
+	//std::list<CEffect*>EffectList;
 
 	std::vector<D3DTEXTURE> effectTexBox;	// エフェクトのオブジェクトをまとめた配列
 
@@ -42,7 +73,7 @@ public:
 
 	static EffectManeger* GetInstance();
 
-	void Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLoop);
+	CEffect* Play(Vector3 _pos, Vector3 _scale, FX_TYPE _type, bool _isLoop);
 
 	void Draw();
 

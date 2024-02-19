@@ -12,6 +12,8 @@ public:
 
     void Move(DIRECTION _dir) override;
 
+    void Step() override;
+
     // ‚Ç‚Ì•ûŒü‚ÉˆÚ“®‚ª‚Å‚«‚é‚©æ“¾‚·‚éŠÖ”
     void CheckCanMove()override;
 

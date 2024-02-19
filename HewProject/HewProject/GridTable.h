@@ -2,7 +2,7 @@
 #include "CGrid.h"
 #include "Vector2.h"
 #include "Vector3.h"
-#include "CStageMake.h"
+#include "CGridObject.h"
 
 #define MAX_GRIDNUM (9)    // グリッドの最大マス数
 
@@ -42,14 +42,16 @@ public:
 	// 指定した座標に何があるか確認する
 	int CheckObjectType(CGrid::GRID_XY _gridPos);
 	int CheckFloorType(CGrid::GRID_XY _gridPos);
+	int CheckMassType(CGrid::GRID_XY _gridPos);
 
 	/// <summary>
-	/// グリッドの座標を返す（床と同じ座標）
+	/// グリッド座標からワールド座標を変換する
 	/// </summary>
 	/// <param name="_gridX">グリッドX座標</param>
 	/// <param name="_gridY">グリッドY座標</param>
+	/// <param name="_playerState">プレイヤーの状態（プレイヤー時のみ引数に代入）</param>
 	/// <returns>ワールド座標</returns>
-	Vector3 GridToWorld(CGrid::GRID_XY _pos, CStageMake::BlockType _type);
+	Vector3 GridToWorld(CGrid::GRID_XY _pos, CGridObject::BlockType _type ,int _playerState = NULL);
 
 	Vector3 GetGridScale()const { return oneGridScale; }
 

@@ -1,6 +1,6 @@
 #include "CCastella.h"
 #include "Player.h"
-
+#include "CEffectManeger.h"
 CCastella::CCastella(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb, tex)
 {
@@ -9,10 +9,13 @@ CCastella::CCastella(D3DBUFFER vb, D3DTEXTURE tex)
 
 CCastella::~CCastella()
 {
+	CLASS_DELETE(effect);
 }
 
 void CCastella::Update()
 {
+	if (effect != nullptr)
+		effect->Update();
 	CGridObject::Update();
 	dotween->Update();
 	mTransform.pos;
@@ -30,10 +33,10 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 	// 手前のマスに行くときは先にZ座標を手前に合わせる
 	else
 	{
-		mTransform.pos.z = _pos.z;
+		mTransform.pos.z = _pos.z + 0.001f;
 	}
 
-	dotween->DoMove(_pos, CASTELLAWALK_TIME);
+	dotween->DoMoveXY({ _pos.x,_pos.y }, CASTELLAWALK_TIME);
 	dotween->Append(_pos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 	// 床に落ちるのなら
@@ -41,7 +44,16 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 	{
 		dotween->Append(_fallPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		dotween->Append(_fallPos, CASTELLAFALL_TIME, DoTween::FUNC::MOVE_XY);
-
+		Vector3 pos = _pos;
+		Vector3 scale = this->mTransform.scale;
+		pos.z += 0.000101f;
+		scale.x *= STAR_CASTELLA_SCALE;
+		scale.y *= STAR_CASTELLA_SCALE;
+		pos.y += 0.1f * this->mTransform.scale.y;
+		dotween->OnComplete([&, pos, scale]()
+			{
+				effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::STAR_CASTELLA, false);
+			});
 	}
 
 
@@ -50,4 +62,6 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 void CCastella::Draw()
 {
 	CGridObject::Draw();
+	if (effect != nullptr)
+		effect->Draw();
 }

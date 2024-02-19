@@ -9,6 +9,8 @@ public:
 
     void Move(DIRECTION _dir) override;
 
+    void Step() override;
+
     void CheckCanMove()override;
 };
 
