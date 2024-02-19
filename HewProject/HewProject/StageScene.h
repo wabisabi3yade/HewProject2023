@@ -61,6 +61,11 @@ private:
 	Player* player;
 	short nowFloorNum;	// 現在にいる階層の数字
 
+	CScene::SCENE_NAME selectName;
+
+	bool isTrue = true;
+	bool isFalse = false;
+
 	// ステージのグリッドテーブル
 	GridTable* oneFloor;	// 1階
 	GridTable* secondFloor;	// 2階
@@ -202,7 +207,7 @@ public:
 	void CannonItemDelete(CGrid::GRID_XY _deletePos = {-1,-1}, CGridObject::BlockType _type = CGridObject::BlockType::NONE);
 
 	// ステージの状態を一つ前に戻す関数
-	void Undo(float _stageScale);
+	void Undo(float _stageScale, bool _isReset = false, bool isPush = false);
 	// 移動するごとに前のテーブル状態に更新する
 	void UndoTableUpdate();
 
