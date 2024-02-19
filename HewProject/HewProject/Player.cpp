@@ -12,7 +12,7 @@
 
 #define START_CALORIE (8)	// スタート時のカロリー
 #define CHILI_CALORIE (2)	// とうがらし食べた減るのリスのカロリー
-constexpr float GAMEOVER_TIME = 9.0f; //カロリーが０になってから何秒後にゲームオーバーになるか
+constexpr float GAMEOVER_TIME = 1.0f; //カロリーが０になってから何秒後にゲームオーバーになるか
 
 void Player::TextureInput(const wchar_t* _texPath, STATE _set, ANIM_TEX _anim_tex)
 {
