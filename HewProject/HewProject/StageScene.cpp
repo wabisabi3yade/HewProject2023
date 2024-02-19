@@ -182,15 +182,16 @@ void StageScene::Update()
 	if (isStartStop == true)
 	{
 		gameStart->Update();
-		if (*isLookMap == false)
-			*isLookMap = true;
+		if (*isMenu == false)
+			*isMenu = true;
+
 		if (gameStart->isMoveing == true)
 		{
 
 			if (!isDoTutorial)
 			{
 				isStartStop = false;
-				*isLookMap = false;
+				//*isLookMap = false;
 
 			}
 			else
@@ -200,17 +201,19 @@ void StageScene::Update()
 				tutorial->Display();
 				isStartStop = false;
 				tutorial->Update();
+
 			}
 		}
 	}
 	else if (isTutorialNow)
 	{
-		*isLookMap = true;
+		//*isLookMap = true;
 		tutorial->Update();
 		if (tutorial->GetState() == Tutorial::STATE::END)
 		{
 			isTutorialNow = false;
 			*isLookMap = false;
+			*isMenu = false;
 		}
 	}
 	else {
@@ -237,7 +240,7 @@ void StageScene::Update()
 	}
 	else
 	{
-		if (!isStartStop)
+		if (!isStartStop && !isGameClear && !player->GetIsGameOver() && (*isLookMap) == false)
 		{
 			if (InputManager::GetInstance()->GetInputTrigger(InputType::Undo))
 			{
@@ -247,9 +250,12 @@ void StageScene::Update()
 		}
 
 		//player->GetPlayerMove()->SetIsMenu(false);
-		for (auto i : *vStageObj)
+		if (!isTutorialNow)
 		{
-			i->Update();
+			for (auto i : *vStageObj)
+			{
+				i->Update();
+			}
 		}
 		player->GetmAnim()->animSpeed = 0.1f;
 
@@ -302,17 +308,9 @@ void StageScene::Update()
 		/// 
 		/// 階層変更している
 		/// 
-		if (!isStartStop)
+		if (!isStartStop && !isGameClear && !player->GetIsGameOver() && !player->GetIsMoving() && !isTutorialNow)
 		{
 			InputManager* input = InputManager::GetInstance();
-
-			if (input->GetInputTrigger(InputType::CAMERA))
-			{
-				*isLookMap = true;
-				Vector3 pos(-4.5f, 2.5f, 0.0);
-				LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
-				LookingTxet->SetActive(true);
-			}
 
 
 			if (*isLookMap == true)
@@ -338,11 +336,12 @@ void StageScene::Update()
 					}
 					floorUi->SetHighlight(lockStageMap);
 				}
-				else if (input->GetInputTrigger(InputType::CANCEL))
+				else if (input->GetInputTrigger(InputType::CAMERA))
 				{
 					lockStageMap = nowFloorNum;
 					floorUi->SetHighlight(lockStageMap);
 					//player->GetPlayerMove()->CameraEnd();
+					LookingTxet->dotween->Stop();
 					Vector3 pos(-13.0f, 2.5f, 0.0);
 					LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
 					*isLookMap = false;
@@ -351,9 +350,13 @@ void StageScene::Update()
 							LookingTxet->SetActive(false);
 						});
 				}
-				else if (input->GetInputTrigger(InputType::OPTION))
+				else if (input->GetInputPress(InputType::DECIDE))
 				{
-					FloorOnlyMap = !FloorOnlyMap;
+					FloorOnlyMap = true;
+				}
+				else
+				{
+					FloorOnlyMap = false;
 				}
 
 				if (changefloor)
@@ -372,6 +375,17 @@ void StageScene::Update()
 					default:
 						break;
 					}
+			}
+			else if (*isLookMap == false)
+			{
+				if (input->GetInputTrigger(InputType::CAMERA))
+				{
+					*isLookMap = true;
+					Vector3 pos(-4.5f, 2.5f, 0.0);
+					LookingTxet->dotween->Stop();
+					LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
+					LookingTxet->SetActive(true);
+				}
 			}
 		}
 		if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
@@ -1548,7 +1562,7 @@ void StageScene::Draw()
 
 	if (!isStartStop)
 	{
-		if (Menu->GetisMenu() == false)
+		if (Menu->GetisMenu() == false && !isGameClear && !player->GetIsGameOver() && !player->GetIsMoving() && !isTutorialNow)
 		{
 
 			if (*isLookMap == true)
@@ -1964,6 +1978,7 @@ void StageScene::Init(const wchar_t* filePath)
 
 	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
 	isMenu = player->GetPlayerMove()->GetIsMenu();
+	(*isLookMap) = false;
 
 
 	floorReset.playerUndo = player->GetGridPos();
