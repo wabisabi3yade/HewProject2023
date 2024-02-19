@@ -6,8 +6,21 @@
 #define GAMESTART_POS_Z (-0.496f)
 #define GAMESTART_POS_Y (-1.3f)
 
-CGameStart::CGameStart(int _num)
+#define MOVEMENT (17.0f)
+#define DOTWEEN_OUTTIME (0.4f)
+#define DOTWEEN_INTIME (0.7f)
+#define DOTWEEN_DELAY_PROTEIN (0.1f)
+#define DOTWEEN_DELAY_TEXT_WORLD1 (2.5f)
+#define DOTWEEN_DELAY_TEXT (1.3f)
+#define DOTWEEN_DELAYEDCALL_PROTEIN_WORLD1 (2.4f)
+#define DOTWEEN_DELAYEDCALL_PROTEIN (1.2f)
+
+CGameStart::CGameStart(int _num, bool _world1)
 {
+	TextEndPos = { 0,2.0f,GAMESTART_POS_Z - 0.00001f };
+	NeedEndPos = { 5.0f,-0.5f,GAMESTART_POS_Z - 0.00001f };
+	ProteinEndPos = { 0,GAMESTART_POS_Y ,GAMESTART_POS_Z };
+	
 	D3D_CreateSquare({ 1,1 }, &bgBuffer);
 	bgTexture = TextureFactory::GetInstance()->Fetch(L"asset/UI/FadeBlack.png");
 
@@ -24,19 +37,26 @@ CGameStart::CGameStart(int _num)
 
 	Text = new UI(textBuffer, textTexture);
 	Text->MakeDotween();
-	Text->mTransform.pos = { 12.0f,2.0f,GAMESTART_POS_Z - 0.00001f };
+	Text->mTransform.pos = TextEndPos;
+	Text->mTransform.pos.x += MOVEMENT;
 	Text->mTransform.scale = { 6.0f,1.5f,1.0f };
 
 	Need = new UI(textBuffer, needTexture);
 	Need->MakeDotween();
-	Need->mTransform.pos = { 12.0f,-0.5f,GAMESTART_POS_Z - 0.00001f };
+	Need->mTransform.pos = NeedEndPos;
+	Need->mTransform.pos.x += MOVEMENT;
 	Need->mTransform.scale = { 4.5f,1.5f,1.0f };
 
 	nNumProtein = _num;
+	isWorld1 = _world1;
+
 	fProteinZ = GAMESTART_POS_Z - 0.00002f;
 
+	Vector3 a = ProteinEndPos;
+	a.x += MOVEMENT;
+
 	Protein = new ProteinUI(nNumProtein, false);
-	Protein->SetPosition({ 11.0f,0,fProteinZ });
+	Protein->SetPosition(a);
 	Protein->SetScale({ 2,2 });
 	Protein->SetActive(false);
 
@@ -64,79 +84,178 @@ void CGameStart::Update()
 	{
 		isProtein = true;
 
-		Bg->dotween->DoAlpha(0.5f, 0.2f);
-		Bg->dotween->OnComplete([&]() {
-			Text->dotween->DoEaseOutBack({ 0,2.0f,GAMESTART_POS_Z - 0.00001f }, 0.4f);
-			Text->dotween->Join(0, 2.0f, DoTweenUI::FUNC::DELAY);
-			Text->dotween->Append({ -12.0f,2.0f,GAMESTART_POS_Z - 0.00001f }, 0.7f, DoTweenUI::FUNC::EASE_INBACK);
+		if (isWorld1 == false)
+		{
+			Bg->dotween->DoAlpha(0.5f, 0.2f);
+			Bg->dotween->OnComplete([&]() {
+				Text->dotween->DoEaseOutBack(TextEndPos, DOTWEEN_OUTTIME);
+				Text->dotween->Append(0, DOTWEEN_DELAY_TEXT, DoTweenUI::FUNC::DELAY);
+				Vector3 text = TextEndPos;
+				text.x -= MOVEMENT;
+				Text->dotween->Append(text, DOTWEEN_INTIME, DoTweenUI::FUNC::EASE_INBACK);
 
-			Need->dotween->DoEaseOutBack({ 5.0f,-0.5f,GAMESTART_POS_Z - 0.00001f }, 0.4f);
-			Need->dotween->Join(0, 2.0f, DoTweenUI::FUNC::DELAY);
-			Need->dotween->Append({ -12.0f,-0.5f,GAMESTART_POS_Z - 0.00001f }, 0.7f, DoTweenUI::FUNC::EASE_INBACK);
+				Need->dotween->DoEaseOutBack(NeedEndPos, DOTWEEN_OUTTIME);
+				Need->dotween->Append(0, DOTWEEN_DELAY_TEXT, DoTweenUI::FUNC::DELAY);
+				Vector3 need = NeedEndPos;
+				need.x -= MOVEMENT;
+				Need->dotween->Append(need, DOTWEEN_INTIME, DoTweenUI::FUNC::EASE_INBACK);
 
-			Need->dotween->OnComplete([&]() {
-				Protein->SetProtein(false);
-				isMoveing = true;
-				Need->SetActive(false);
-				Text->SetActive(false);
-				});
-
-			if (nNumProtein == 1)
-			{
-				Protein->GetDotween()->DoEaseOutBack({ 0,GAMESTART_POS_Y ,GAMESTART_POS_Z }, 0.8f);
-				Protein->GetDotween()->Append({ -10.0f,GAMESTART_POS_Y,GAMESTART_POS_Z - 0.00002f }, 0.3f, DoTweenUI::FUNC::DELAY);
-				Protein->GetDotween()->OnComplete([&]() {
-					Protein->SetActive(true);
-					Protein->AddProtein();
-					Protein->GetDotween()->DelayedCall(1.0f, [&]() {
-						Protein->GetDotween()->DoEaseInBack({ -10.0f,GAMESTART_POS_Y,GAMESTART_POS_Z - 0.00002f }, 0.5f);
-						Protein->GetDotween()->OnComplete([&]() {
-							Bg->dotween->DoAlpha(0, 0.2f);
-							});
-						});
+				Need->dotween->OnComplete([&]() {
+					Protein->SetProtein(false);
+					isMoveing = true;
+					Need->SetActive(false);
+					Text->SetActive(false);
 					});
-			}
-			else if (nNumProtein == 2)
-			{
-				Protein->GetDotween()->DoEaseOutBack({ 0,GAMESTART_POS_Y ,GAMESTART_POS_Z }, 0.8f);
-				Protein->GetDotween()->Append({ -10.0f,GAMESTART_POS_Y,GAMESTART_POS_Z - 0.00002f }, 0.1f, DoTweenUI::FUNC::DELAY);
-				Protein->GetDotween()->OnComplete([&]() {
-					Protein->SetActive(true);
-					Protein->AddProtein();
-					Protein->GetDotween()->DelayedCall(0.1f, [&]() {
+
+				if (nNumProtein == 1)
+				{
+					Protein->GetDotween()->DoEaseOutBack(ProteinEndPos, DOTWEEN_OUTTIME);
+					Protein->GetDotween()->Append(ProteinEndPos, DOTWEEN_DELAY_PROTEIN, DoTweenUI::FUNC::DELAY);
+					Protein->GetDotween()->OnComplete([&]() {
+						Protein->SetActive(true);
 						Protein->AddProtein();
-						Protein->GetDotween()->DelayedCall(1.1f, [&]() {
-							Protein->GetDotween()->DoEaseInBack({ -10.0f,GAMESTART_POS_Y,GAMESTART_POS_Z - 0.00002f }, 0.5f);
+						Protein->GetDotween()->DelayedCall(DOTWEEN_DELAYEDCALL_PROTEIN, [&]() {
+							Vector3 protein = ProteinEndPos;
+							protein.x -= MOVEMENT;
+							Protein->GetDotween()->DoEaseInBack(protein, DOTWEEN_INTIME);
 							Protein->GetDotween()->OnComplete([&]() {
 								Bg->dotween->DoAlpha(0, 0.2f);
 								});
 							});
 						});
-
-					});
-			}
-			else if (nNumProtein == 3)
-			{
-				Protein->GetDotween()->DoEaseOutBack({ 0,GAMESTART_POS_Y ,GAMESTART_POS_Z }, 0.8f);
-				Protein->GetDotween()->Append({ -10.0f,GAMESTART_POS_Y,GAMESTART_POS_Z - 0.00002f }, 0.1f, DoTweenUI::FUNC::DELAY);
-				Protein->GetDotween()->OnComplete([&]() {
-					Protein->SetActive(true);
-					Protein->AddProtein();
-					Protein->GetDotween()->DelayedCall(0.1f, [&]() {
+				}
+				else if (nNumProtein == 2)
+				{
+					Protein->GetDotween()->DoEaseOutBack(ProteinEndPos, DOTWEEN_OUTTIME);
+					Protein->GetDotween()->Append(ProteinEndPos, DOTWEEN_DELAY_PROTEIN, DoTweenUI::FUNC::DELAY);
+					Protein->GetDotween()->OnComplete([&]() {
+						Protein->SetActive(true);
 						Protein->AddProtein();
-						Protein->GetDotween()->DelayedCall(0.1f, [&]() {
+						Protein->GetDotween()->DelayedCall(DOTWEEN_DELAY_PROTEIN, [&]() {
 							Protein->AddProtein();
-							Protein->GetDotween()->DelayedCall(1.0f, [&]() {
-								Protein->GetDotween()->DoEaseInBack({ -12.0f,GAMESTART_POS_Y,GAMESTART_POS_Z - 0.00002f }, 0.5f);
+							Protein->GetDotween()->DelayedCall(DOTWEEN_DELAYEDCALL_PROTEIN - 0.1f, [&]() {
+								Vector3 protein = ProteinEndPos;
+								protein.x -= MOVEMENT;
+								Protein->GetDotween()->DoEaseInBack(protein, DOTWEEN_INTIME);
 								Protein->GetDotween()->OnComplete([&]() {
 									Bg->dotween->DoAlpha(0, 0.2f);
 									});
 								});
 							});
+
 						});
+				}
+				else if (nNumProtein == 3)
+				{
+					Protein->GetDotween()->DoEaseOutBack(ProteinEndPos, DOTWEEN_OUTTIME);
+					Protein->GetDotween()->Append(ProteinEndPos, DOTWEEN_DELAY_PROTEIN, DoTweenUI::FUNC::DELAY);
+					Protein->GetDotween()->OnComplete([&]() {
+						Protein->SetActive(true);
+						Protein->AddProtein();
+						Protein->GetDotween()->DelayedCall(DOTWEEN_DELAY_PROTEIN, [&]() {
+							Protein->AddProtein();
+							Protein->GetDotween()->DelayedCall(DOTWEEN_DELAY_PROTEIN, [&]() {
+								Protein->AddProtein();
+								Protein->GetDotween()->DelayedCall(DOTWEEN_DELAYEDCALL_PROTEIN - 0.2f, [&]() {
+									Vector3 protein = ProteinEndPos;
+									protein.x -= MOVEMENT;
+									Protein->GetDotween()->DoEaseInBack(protein, DOTWEEN_INTIME);
+									Protein->GetDotween()->OnComplete([&]() {
+										Bg->dotween->DoAlpha(0, 0.2f);
+										});
+									});
+								});
+							});
+						});
+				}
+				});
+		}
+		else {
+			Bg->dotween->DoAlpha(0.5f, 0.2f);
+			Bg->dotween->OnComplete([&]() {
+				Text->dotween->DoEaseOutBack(TextEndPos, DOTWEEN_OUTTIME);
+				Text->dotween->Append(0, DOTWEEN_DELAY_TEXT_WORLD1, DoTweenUI::FUNC::DELAY);
+				Vector3 text = TextEndPos;
+				text.x -= MOVEMENT;
+				Text->dotween->Append(text, DOTWEEN_INTIME, DoTweenUI::FUNC::EASE_INBACK);
+
+				Need->dotween->DoEaseOutBack(NeedEndPos, DOTWEEN_OUTTIME);
+				Need->dotween->Append(0, DOTWEEN_DELAY_TEXT_WORLD1, DoTweenUI::FUNC::DELAY);
+				Vector3 need = NeedEndPos;
+				need.x -= MOVEMENT;
+				Need->dotween->Append(need, DOTWEEN_INTIME, DoTweenUI::FUNC::EASE_INBACK);
+
+				Need->dotween->OnComplete([&]() {
+					Protein->SetProtein(false);
+					isMoveing = true;
+					Need->SetActive(false);
+					Text->SetActive(false);
 					});
-			}
-			});
+
+				if (nNumProtein == 1)
+				{
+					Protein->GetDotween()->DoEaseOutBack(ProteinEndPos, DOTWEEN_OUTTIME);
+					Protein->GetDotween()->Append(ProteinEndPos, DOTWEEN_DELAY_PROTEIN, DoTweenUI::FUNC::DELAY);
+					Protein->GetDotween()->OnComplete([&]() {
+						Protein->SetActive(true);
+						Protein->AddProtein();
+						Protein->GetDotween()->DelayedCall(DOTWEEN_DELAYEDCALL_PROTEIN_WORLD1, [&]() {
+							Vector3 protein = ProteinEndPos;
+							protein.x -= MOVEMENT;
+							Protein->GetDotween()->DoEaseInBack(protein, DOTWEEN_INTIME);
+							Protein->GetDotween()->OnComplete([&]() {
+								Bg->dotween->DoAlpha(0, 0.2f);
+								});
+							});
+						});
+				}
+				else if (nNumProtein == 2)
+				{
+					Protein->GetDotween()->DoEaseOutBack(ProteinEndPos, DOTWEEN_OUTTIME);
+					Protein->GetDotween()->Append(ProteinEndPos, DOTWEEN_DELAY_PROTEIN, DoTweenUI::FUNC::DELAY);
+					Protein->GetDotween()->OnComplete([&]() {
+						Protein->SetActive(true);
+						Protein->AddProtein();
+						Protein->GetDotween()->DelayedCall(DOTWEEN_DELAY_PROTEIN, [&]() {
+							Protein->AddProtein();
+							Protein->GetDotween()->DelayedCall(DOTWEEN_DELAYEDCALL_PROTEIN_WORLD1 - 0.1f, [&]() {
+								Vector3 protein = ProteinEndPos;
+								protein.x -= MOVEMENT;
+								Protein->GetDotween()->DoEaseInBack(protein, DOTWEEN_INTIME);
+								Protein->GetDotween()->OnComplete([&]() {
+									Bg->dotween->DoAlpha(0, 0.2f);
+									});
+								});
+							});
+
+						});
+				}
+				else if (nNumProtein == 3)
+				{
+					Protein->GetDotween()->DoEaseOutBack(ProteinEndPos, DOTWEEN_OUTTIME);
+					Protein->GetDotween()->Append(ProteinEndPos, DOTWEEN_DELAY_PROTEIN, DoTweenUI::FUNC::DELAY);
+					Protein->GetDotween()->OnComplete([&]() {
+						Protein->SetActive(true);
+						Protein->AddProtein();
+						Protein->GetDotween()->DelayedCall(DOTWEEN_DELAY_PROTEIN, [&]() {
+							Protein->AddProtein();
+							Protein->GetDotween()->DelayedCall(DOTWEEN_DELAY_PROTEIN, [&]() {
+								Protein->AddProtein();
+								Protein->GetDotween()->DelayedCall(DOTWEEN_DELAYEDCALL_PROTEIN_WORLD1 - 0.2f, [&]() {
+									Vector3 protein = ProteinEndPos;
+									protein.x -= MOVEMENT;
+									Protein->GetDotween()->DoEaseInBack(protein, DOTWEEN_INTIME);
+									Protein->GetDotween()->OnComplete([&]() {
+										Bg->dotween->DoAlpha(0, 0.2f);
+										});
+									});
+								});
+							});
+						});
+				}
+				});
+		}
+		
 
 
 
