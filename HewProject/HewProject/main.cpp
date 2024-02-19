@@ -94,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	// シーンマネージャー作成
 	gSceneManager = CSceneManager::GetInstance();
-	gSceneManager->SceneChange(CScene::SELECT);
+	gSceneManager->SceneChange(CScene::TITLE);
 
 
 	// ゲームループ

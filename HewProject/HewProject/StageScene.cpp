@@ -1981,18 +1981,28 @@ void StageScene::Init(const wchar_t* filePath)
 		{
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, [&]()
 				{
-					Undo(stageScale, isTrue, isTrue);
+					Undo(stageScale, true, true);
 				});
 		});
-	gameOver->SetFunc(1, [&]()
+
+	gameOver->SetFunc(1, [=]()
 		{
-			Undo(stageScale, isFalse, isFalse);
+			Undo(stageScale, false, true);
 		});
+
 	gameOver->SetFunc(2, [&]()
+		{
+			Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, selectName);
+		});
+
+	gameClear->SetFunc(0, [&]()
 		{
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, selectName);
 		});
-
+	gameClear->SetFunc(1, [&]()
+		{
+			Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, selectName);
+		});
 
 		//カロリーゲージ
 	calorieGage = new CalorieGage_hori();
