@@ -412,6 +412,9 @@
     <Filter Include="ソース ファイル\Wakamura\CGameOver">
       <UniqueIdentifier>{59c8e443-44b4-4ca6-b01c-ddce08582c1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Hashimoto\StageMoveText">
+      <UniqueIdentifier>{a6bbf926-f460-4c15-b098-df26a75c2178}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -789,6 +792,9 @@
     <ClInclude Include="CGameOver.h">
       <Filter>ソース ファイル\Wakamura\CGameOver</Filter>
     </ClInclude>
+    <ClInclude Include="StageMoveText.h">
+      <Filter>ソース ファイル\Hashimoto\StageMoveText</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -1165,6 +1171,9 @@
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
       <Filter>ソース ファイル\Hashimoto\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="StageMoveText.cpp">
+      <Filter>ソース ファイル\Hashimoto\StageMoveText</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

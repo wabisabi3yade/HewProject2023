@@ -8,6 +8,8 @@
 class FadeUI;
 class UI;
 
+class StageMoveText;
+
 // ゲーム全体のフェードを担うクラス
 class Fade
 {
@@ -19,9 +21,17 @@ public:
 		FADE_IN,	// フェードが入ってくる
 		LOADING, // ローディング
 		FADE_OUT,
+		MOVING,	// 移動中
 	};
 
 private: 
+
+	struct INT_XY
+	{
+		int x;
+		int y;
+	};
+
 	static Fade* instance;
 
 	bool isSceneChange = false;
@@ -46,6 +56,9 @@ private:
 	UI* nowLoading;	// テキスト
 	UI* character;	// キャラクター
 
+	// 文字列s
+	StageMoveText* moveText = nullptr;
+
 	std::function<void()> func = nullptr;
 
 	Fade();
@@ -55,6 +68,8 @@ private:
 	D3DBUFFER vb;
 
 	void SceneChange();
+
+	INT_XY JudgeNum();
 
 public:
 	static Fade* GetInstance();
@@ -66,6 +81,7 @@ public:
 	void FadeInUpdate();
 	void LoadingUpdate();
 	void FadeOutUpdate();
+	void MovingUpdate();
 
 	/// <summary>
 	/// フェードインする関数
@@ -82,6 +98,9 @@ public:
 	void LoadingInit();
 	// フェードアウトする
 	void FadeOutInit();
+
+	// 移動中
+	void MovingInit();
 
 	void Draw();
 

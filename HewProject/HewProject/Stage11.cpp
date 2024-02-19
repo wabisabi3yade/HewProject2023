@@ -17,14 +17,14 @@ Stage11::Stage11()
 	tutorial->SetTexture(tex);
 
 	D3D_LoadTexture(L"asset/UI/T_GetProtein.png", &getProteinTex);
-	D3D_LoadTexture(L"asset/Tutorial/T_GoChest.png", &goChestTex);
+	D3D_LoadTexture(L"asset/UI/T_GoChest.png", &goChestTex);
 
 	stage->SetTutorial(tutorial);
 
 	text = new UI(backBuffer, getProteinTex);
 
 	text->mTransform.pos = { 5.0f, 3.0f, TEXT_POSZ };
-	text->mTransform.scale = { 9.0f, 2.0f, TEXT_POSZ };
+	text->mTransform.scale = { 4.5f, 1.0f, TEXT_POSZ };
 }
 
 void Stage11::Update()

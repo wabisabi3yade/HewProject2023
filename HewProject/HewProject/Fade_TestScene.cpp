@@ -84,7 +84,7 @@ void Fade_TestScene::Update()
 	}
 	else if (gInput->GetKeyTrigger(VK_SPACE))
 	{
-		fade->FadeIn(Fade::STATE::FADE_OUT);
+		fade->FadeIn(Fade::STATE::MOVING, nullptr, SCENE_NAME::STAGE2_2);
 	}
 
 	else if (gInput->GetKeyTrigger(VK_UP))

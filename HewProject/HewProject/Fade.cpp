@@ -3,6 +3,8 @@
 #include "NowLoadingText.h"
 #include "TextureFactory.h"
 #include "CScene.h"
+#include "Vector2.h"
+#include "StageMoveText.h"
 
 
 
@@ -55,6 +57,7 @@ Fade::~Fade()
 	CLASS_DELETE(backGround);
 
 	CLASS_DELETE(nowLoading);
+	CLASS_DELETE(moveText);
 
 	SAFE_RELEASE(vb);
 }
@@ -102,6 +105,10 @@ void Fade::Update()
 
 	case STATE::FADE_OUT:
 		FadeOutUpdate();
+		break;
+
+	case STATE::MOVING:
+		MovingUpdate();
 		break;
 
 	default:
@@ -244,11 +251,53 @@ void Fade::FadeIn(const STATE& _nextState, std::function<void()> _onFunc, int _s
 				LoadingInit();
 				break;
 
+			case STATE::MOVING:
+				MovingInit();
+				break;
+
 			default:
 				MessageBoxA(NULL, "FadeのFadeIn関数で指定した状態が範囲外です", "エラー", MB_ICONERROR | MB_OK);
 				break;
 			}
 		});
+}
+
+void Fade::MovingInit()
+{
+	//シーンをロードシーンに行く
+	ChangeLoadScene();
+
+	state = STATE::MOVING;
+	loadingTime = 0.0f;
+
+	// 次のステージの数を求める
+	INT_XY nextStageNum = JudgeNum();
+
+	moveText = new StageMoveText(nextStageNum.x, nextStageNum.y);
+}
+
+void Fade::MovingUpdate()
+{
+	// 右側に動く
+	float vecX = 1.0f;
+
+	// 背景を移動させる
+	backGround->mTransform.pos.x += vecX * LOADING_BACKSPEED;
+	
+	if(moveText != nullptr)
+	moveText->Update();
+
+	// 1フレームの時間
+	loadingTime += 1.0f / 60;
+	// ロード時間が超えたら
+	if (loadingTime < LOAD_TIME) return;
+
+	// テキストを解放する
+	CLASS_DELETE(moveText);
+
+	state = STATE::FADE_OUT;	// フェードアウトする
+
+	FadeOutInit();
 }
 
 void Fade::Draw()
@@ -262,6 +311,96 @@ void Fade::Draw()
 	{
 		nowLoading->Draw();
 	}
+
+	if (moveText != nullptr)
+	{
+		moveText->Draw();
+	}
+}
+
+Fade::INT_XY Fade::JudgeNum()
+{
+	INT_XY w_sNum = {};
+	switch (nextScene)
+	{
+	case CScene::STAGE1_1:
+	case CScene::STAGE1_2:
+	case CScene::STAGE1_3:
+	case CScene::STAGE1_4:
+	case CScene::STAGE1_5:
+	case CScene::STAGE1_6:		
+		w_sNum.x = 1;
+		break;
+
+	case CScene::STAGE2_1:
+	case CScene::STAGE2_2:
+	case CScene::STAGE2_3:
+	case CScene::STAGE2_4:
+		w_sNum.x = 2;
+		break;
+
+	case CScene::STAGE3_1:
+	case CScene::STAGE3_2:
+	case CScene::STAGE3_3:
+	case CScene::STAGE3_4:
+		w_sNum.x = 3;
+		break;
+
+	case CScene::STAGE4_1:
+	case CScene::STAGE4_2:
+	case CScene::STAGE4_3:
+	case CScene::STAGE4_4:
+		w_sNum.x = 4;
+		break;
+
+	default:
+		break;
+	}
+
+	switch (nextScene)
+	{
+	case CScene::STAGE1_1:
+	case CScene::STAGE2_1:
+	case CScene::STAGE3_1:
+	case CScene::STAGE4_1:
+		w_sNum.y = 1;
+		break;
+
+	case CScene::STAGE1_2:
+	case CScene::STAGE2_2:
+	case CScene::STAGE3_2:
+	case CScene::STAGE4_2:
+		w_sNum.y = 2;
+		break;
+
+	case CScene::STAGE1_3:
+	case CScene::STAGE2_3:
+	case CScene::STAGE3_3:
+	case CScene::STAGE4_3:
+		w_sNum.y = 3;
+		break;
+
+
+	case CScene::STAGE1_4:
+	case CScene::STAGE2_4:
+	case CScene::STAGE3_4:
+	case CScene::STAGE4_4:
+		w_sNum.y = 4;
+		break;
+
+	
+	case CScene::STAGE1_5:
+		w_sNum.y = 5;
+		break;
+	case CScene::STAGE1_6:
+		w_sNum.y = 6;
+		break;
+
+	default:
+		break;
+	}
+
+	return w_sNum;
 }
 
 bool Fade::GetIsChange()

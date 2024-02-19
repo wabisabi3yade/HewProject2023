@@ -14,6 +14,8 @@ class Tutorial;
 class Fade_TestScene
 	:public CScene
 {
+
+
 	Fade* fade;
 	CalorieGage_hori* gage;
 	FloorUI* floorUI;
