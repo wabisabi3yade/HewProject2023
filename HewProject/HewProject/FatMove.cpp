@@ -1,7 +1,7 @@
 #include "FatMove.h"
 #include "Player.h"
 #include "CCastella.h"
-
+#include"xa2.h"
 FatMove::FatMove(Player* _p)
 	: PlayerMove(_p)
 {
@@ -70,6 +70,7 @@ void FatMove::Move(DIRECTION _dir)
 		WalkStart();
 
 		// 移動する
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -77,6 +78,7 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				XA_Play(SOUND_LABEL::S_EAT);
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
@@ -101,13 +103,14 @@ void FatMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHILI:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				XA_Play(SOUND_LABEL::S_EAT);
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -134,13 +137,14 @@ void FatMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::PROTEIN:
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
 				player->ChangeTexture(Player::ANIM_TEX::DRINK);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -156,7 +160,7 @@ void FatMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CASTELLA:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->SetIsCastellaPush(true);
 
 		// カステラが落ちると移動できるようにする
@@ -218,6 +222,7 @@ void FatMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 		WalkStart();
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]()
@@ -233,9 +238,14 @@ void FatMove::Move(DIRECTION _dir)
 				scale.x *= MARK_SCALE;
 				scale.y *= MARK_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
-				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_BIKKURI);
+					});
+				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
 						player->Fall();
+						XA_Play(SOUND_LABEL::S_FLY_BATABATA);
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
@@ -251,6 +261,7 @@ void FatMove::Move(DIRECTION _dir)
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALL_TIME + FALLMOVE_TIME, [&]()
 							{
+								XA_Play(SOUND_LABEL::S_TYAKUTI);
 								isFallBound = true;
 							});
 					}
@@ -273,6 +284,7 @@ void FatMove::Move(DIRECTION _dir)
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
+		XA_Play(SOUND_LABEL::S_JUNP);
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -298,6 +310,7 @@ void FatMove::Move(DIRECTION _dir)
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 							{
+								XA_Play(SOUND_LABEL::S_TYAKUTI);
 								isFallBound = true;
 							});
 					}
@@ -330,7 +343,15 @@ void FatMove::Move(DIRECTION _dir)
 			{
 				player->dotween->DoDelay(0.3f);
 				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->DelayedCall(0.3f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_JUMP_GUMI);
+					});
 				player->Rise();
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_JUMP_UP);
+					});
 				//player->GetPlayerMove()->RiseStart();
 				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
@@ -382,7 +403,7 @@ void FatMove::Move(DIRECTION _dir)
 	default:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -414,7 +435,7 @@ void FatMove::Step()
 	{
 		WalkStart();
 		// 食べ終わったら移動できるようにする
-
+		XA_Play(SOUND_LABEL::S_EAT);
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 
@@ -446,7 +467,7 @@ void FatMove::Step()
 	}
 	case CGridObject::BlockType::CHILI:
 
-
+		XA_Play(SOUND_LABEL::S_EAT);
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -506,6 +527,7 @@ void FatMove::Step()
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				player->dotween->DelayedCall(FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
+						XA_Play(SOUND_LABEL::S_TYAKUTI);
 						isFallBound = true;
 					});
 			}
@@ -541,6 +563,7 @@ void FatMove::Step()
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
+						XA_Play(SOUND_LABEL::S_TYAKUTI);
 						isFallBound = true;
 					});
 			}

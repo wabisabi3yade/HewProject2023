@@ -186,7 +186,7 @@ CStage1SelectScene::CStage1SelectScene()
 	stage[3]->mTransform.scale = { STAGE_SCALE_X,STAGE_SCALE_Y,1 };
 	stage[3]->mTransform.rotation = { 0,0,-7.0f };
 
-	stage[4]->mTransform.pos = { -6.5f,-3.5f,-0.1f };
+	stage[4]->mTransform.pos = { -6.5f,-2.9f,-0.1f };
 	stage[4]->mTransform.scale = { BACK_SCALE_X,BACK_SCALE_Y,1 };
 
 	Vector3 shadowPos[4];
@@ -211,6 +211,11 @@ CStage1SelectScene::CStage1SelectScene()
 	D3D_LoadTexture(L"asset/UI/World2_ABack.png", &decision_textbox2Texture);
 	D3D_LoadTexture(L"asset/UI/World3_ABack.png", &decision_textbox3Texture);
 	D3D_LoadTexture(L"asset/UI/World4_ABack.png", &decision_textbox4Texture);
+	D3D_LoadTexture(L"asset/TEXT/WorldBack.png", &B_ButtonTexture);
+
+	B_Button = new UI(decisionBuffer, B_ButtonTexture);
+	B_Button->mTransform.pos = { -6.5f,-4.0f,0.4f };
+	B_Button->mTransform.scale = { DECISION_SCALE_X,DECISION_SCALE_Y,1.0f };
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -267,6 +272,8 @@ CStage1SelectScene::~CStage1SelectScene()
 	CLASS_DELETE(player);
 
 	CLASS_DELETE(Bg);
+
+	CLASS_DELETE(B_Button);
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -329,6 +336,7 @@ CStage1SelectScene::~CStage1SelectScene()
 	SAFE_RELEASE(decision_textbox3Texture);
 	SAFE_RELEASE(decision_textbox4Texture);
 	SAFE_RELEASE(decision_textboxBuffer);
+	SAFE_RELEASE(B_ButtonTexture);
 }
 
 void CStage1SelectScene::Update()
@@ -336,6 +344,8 @@ void CStage1SelectScene::Update()
 	InputManager* input = InputManager::GetInstance();
 
 	Bg->Update();
+
+	B_Button->Update();
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -451,7 +461,7 @@ void CStage1SelectScene::Update()
 				}
 				break;
 				case 4:
-					Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x + 2.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z };
+					Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x + 2.2f ,stage[4]->mTransform.pos.y - 1.1f ,stage[4]->mTransform.pos.z };
 					break;
 				default:
 					break;
@@ -565,8 +575,8 @@ void CStage1SelectScene::Update()
 		else {
 			if (isOncePos == false)
 			{
-				Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z - 0.002f };
-				Decision_textbox[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z - 0.001f };
+				Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 1.0f ,stage[4]->mTransform.pos.z - 0.002f };
+				Decision_textbox[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 1.0f ,stage[4]->mTransform.pos.z - 0.001f };
 				isOncePos = true;
 			}
 
@@ -659,6 +669,8 @@ void CStage1SelectScene::Draw()
 	{
 		stage[i]->Draw();
 	}
+
+	B_Button->Draw();
 
 	player->Draw();
 
