@@ -6,8 +6,8 @@
 #include "ButtonUI.h"
 #include "ButtonSelect.h"
 
-#define TEXT_SCALE (2.0f)
-#define TEXT_POS_X (-6.3f)
+#define TEXT_SCALE (1.3f)
+#define TEXT_POS_X (-4.0f)
 #define TEXT_POS_Y (5.0f)
 
 #define BLACKBG_POS_Z (-0.46f)
@@ -39,38 +39,35 @@ CGameOver::CGameOver()
 	text_undoTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Undo.png");
 	text_backTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Back.png");
 
-	D3D_CreateSquare({ 3,4 }, &playerBuffer);
-	playerTexture = TextureFactory::GetInstance()->Fetch(L"asset/Player/T_Wait.png");
-
 
 	Text[0]->mTransform.pos = { TEXT_POS_X,TEXT_POS_Y, BLACKBG_POS_Z-0.01f };
 	Text[0]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 
-	Text[1]->mTransform.pos = { TEXT_POS_X + 1.8f,TEXT_POS_Y,BLACKBG_POS_Z - 0.02f };
+	Text[1]->mTransform.pos = { TEXT_POS_X + 1.2f,TEXT_POS_Y,BLACKBG_POS_Z - 0.02f };
 	Text[1]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 	Text[1]->SetUV(1.0f/7.0f*1.0f,0);
 
-	Text[2]->mTransform.pos = { TEXT_POS_X + 3.6f,TEXT_POS_Y,BLACKBG_POS_Z - 0.03f };
+	Text[2]->mTransform.pos = { TEXT_POS_X + 2.4f,TEXT_POS_Y,BLACKBG_POS_Z - 0.03f };
 	Text[2]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 	Text[2]->SetUV(1.0f / 7.0f * 2.0f, 0);
 
-	Text[3]->mTransform.pos = { TEXT_POS_X + 5.4f,TEXT_POS_Y,BLACKBG_POS_Z - 0.04f };
+	Text[3]->mTransform.pos = { TEXT_POS_X + 3.6f,TEXT_POS_Y,BLACKBG_POS_Z - 0.04f };
 	Text[3]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 	Text[3]->SetUV(1.0f / 7.0f * 3.0f, 0);
 
-	Text[4]->mTransform.pos = { TEXT_POS_X + 7.2f,TEXT_POS_Y,BLACKBG_POS_Z - 0.05f };
+	Text[4]->mTransform.pos = { TEXT_POS_X + 4.8f,TEXT_POS_Y,BLACKBG_POS_Z - 0.05f };
 	Text[4]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 	Text[4]->SetUV(1.0f / 7.0f * 4.0f, 0);
 
-	Text[5]->mTransform.pos = { TEXT_POS_X + 9.0f,TEXT_POS_Y,BLACKBG_POS_Z - 0.06f };
+	Text[5]->mTransform.pos = { TEXT_POS_X + 6.0f,TEXT_POS_Y,BLACKBG_POS_Z - 0.06f };
 	Text[5]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 	Text[5]->SetUV(1.0f / 7.0f * 5.0f, 0);
 
-	Text[6]->mTransform.pos = { TEXT_POS_X + 10.8f,TEXT_POS_Y,BLACKBG_POS_Z - 0.07f };
+	Text[6]->mTransform.pos = { TEXT_POS_X + 7.2f,TEXT_POS_Y,BLACKBG_POS_Z - 0.07f };
 	Text[6]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 	Text[6]->SetUV(1.0f / 7.0f * 3.0f, 0);
 
-	Text[7]->mTransform.pos = { TEXT_POS_X + 12.6f,TEXT_POS_Y,BLACKBG_POS_Z - 0.08f };
+	Text[7]->mTransform.pos = { TEXT_POS_X + 8.4f,TEXT_POS_Y,BLACKBG_POS_Z - 0.08f };
 	Text[7]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 	Text[7]->SetUV(1.0f / 7.0f * 6.0f, 0);
 
@@ -102,11 +99,6 @@ CGameOver::CGameOver()
 	selectControl->Regist(Message[1]);
 	selectControl->Regist(Message[2]);
 
-	/*Player = new CWorldSelectPlayer(playerBuffer, playerTexture);
-	Player->mTransform.pos = { 0,0,-1.0f };
-	Player->mTransform.scale = { 4.0f,4.0f,1.0f };
-	Player->isOnPlayer = false;*/
-
 	isOnce = false;
 	isNoMoving = false;
 }
@@ -123,7 +115,6 @@ CGameOver::~CGameOver()
 		CLASS_DELETE(Message[i]);
 	}
 
-	//CLASS_DELETE(Player);
 
 	CLASS_DELETE(Bg);
 
@@ -133,7 +124,6 @@ CGameOver::~CGameOver()
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(textBoxBuffer);
 	SAFE_RELEASE(textBuffer);
-	//SAFE_RELEASE(playerBuffer);
 }
 
 void CGameOver::Update()
@@ -185,7 +175,6 @@ void CGameOver::Update()
 	
 	Bg->Update();
 
-	//Player->Update();
 	
 	for (int i = 0; i < MAXNUM_MESSAGE; i++)
 	{
@@ -218,8 +207,6 @@ void CGameOver::Draw()
 			Message[i]->Draw();
 		}
 		
-		//Player->Draw();
-
 	}
 }
 

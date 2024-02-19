@@ -48,7 +48,7 @@ CMenu::CMenu()
 
 	Tutorial = new UI(bgBuffer, T_1Texture);
 	Tutorial->mTransform.pos = { 0,0,UI_POS_Z};
-	Tutorial->mTransform.scale = { 13.0f,8.0f,1 };
+	Tutorial->mTransform.scale = { 12.44f,7.0f,1 };
 
 	D3D_CreateSquare({ 1,1 }, &pauseBuffer);
 	pauseTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/Pause.png");
