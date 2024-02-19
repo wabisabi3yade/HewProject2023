@@ -3,6 +3,7 @@
 #include "StageScene.h"
 #include "DebugTable.h"
 #include<iostream>
+#include "Tutorial.h"
 class Stage :
     public CScene
 {
@@ -22,6 +23,9 @@ protected:
     CObject* back;
 
     CScene::SCENE_NAME nextStage;
+
+    Tutorial* tutorial = nullptr;
+    D3DTEXTURE tutolialTex = NULL;
 public:
 
     Stage();

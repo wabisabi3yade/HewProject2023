@@ -24,6 +24,7 @@
 #include"CGameClear.h"
 #include"CGameOver.h"
 #include"CGameStart.h"
+#include "Tutorial.h"
 
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
@@ -185,7 +186,30 @@ void StageScene::Update()
 			*isLookMap = true;
 		if (gameStart->isMoveing == true)
 		{
-			isStartStop = false;
+
+			if (!isDoTutorial)
+			{
+				isStartStop = false;
+				*isLookMap = false;
+
+			}
+			else
+			{
+				isTutorialNow = true;
+				// みえるようになる
+				tutorial->Display();
+				isStartStop = false;
+				tutorial->Update();
+			}
+		}
+	}
+	else if (isTutorialNow)
+	{
+		*isLookMap = true;
+		tutorial->Update();
+		if (tutorial->GetState() == Tutorial::STATE::END)
+		{
+			isTutorialNow = false;
 			*isLookMap = false;
 		}
 	}
@@ -242,6 +266,29 @@ void StageScene::Update()
 					CCamera::GetInstance()->mTransform.pos = Vector3::zero;
 					CCamera::GetInstance()->Shake(0.7f, 0.3f);
 					dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
+					if (isDoTutorial)
+					{
+						if (tutorial->GetIs1_1())
+						{
+							if (!tutorial->GetIsMachoOnce())
+							{
+								dotween->OnComplete([&]
+									{
+										tutorial->MachoDisplay();
+										isTutorialNow = true;
+									});
+							}
+
+						}
+					}
+
+
+					// 1-1なら
+					if (tutorial->GetIs1_1())
+					{
+						static bool isMachoTutorialOnce = false;
+						isTutorialNow = true;
+					}
 
 				});
 		}
@@ -417,7 +464,6 @@ void StageScene::Update()
 		{
 			Arrow[i]->Update();
 		}
-
 		if (isGameClear)
 		{
 			gameClear->Update();
@@ -1558,6 +1604,11 @@ void StageScene::Draw()
 
 	Menu->Draw();
 
+
+	if (isTutorialNow)
+	{
+		tutorial->Draw();
+	}
 	if (isGameClear)
 	{
 		gameClear->Draw();
@@ -2258,4 +2309,11 @@ CGridObject* StageScene::GetStageFloor(CGrid::GRID_XY _gridPos, CGridObject::Blo
 GridTable* StageScene::GetNowFloor() const
 {
 	return nowFloor;
+}
+
+void StageScene::SetTutorial(Tutorial* _setTutorial)
+{
+	tutorial = _setTutorial;
+
+	isDoTutorial = true;
 }

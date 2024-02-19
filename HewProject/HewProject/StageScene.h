@@ -21,6 +21,8 @@ class CGameStart;
 
 class GridTable;
 
+class Tutorial;
+
 class StageScene :
 	public CObject
 {
@@ -171,6 +173,11 @@ private:
 
 	CArrow* Arrow[static_cast<int>(Player::DIRECTION::NUM)];
 
+	// チュートリアルするかどうかフラグ
+	bool isDoTutorial = false;
+	bool isTutorialNow = false;
+	Tutorial* tutorial = nullptr;
+
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
 
@@ -230,4 +237,6 @@ public:
 	Player* GetPlayer() const { return player; };
 
 	GridTable* GetNowFloor() const;
+
+	void SetTutorial(Tutorial* _setTutorial);
 };

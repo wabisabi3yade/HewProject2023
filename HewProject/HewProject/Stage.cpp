@@ -140,6 +140,9 @@ Stage::~Stage()
 	SAFE_RELEASE(backBuffer);
 	CLASS_DELETE(back);
 
+	SAFE_RELEASE(tutolialTex);
+	CLASS_DELETE(tutorial);
+
 	CLASS_DELETE(stage);
 	CLASS_DELETE(dbgFloorTable);
 	CLASS_DELETE(dbgObjTable);

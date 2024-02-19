@@ -6,6 +6,12 @@ Stage21::Stage21()
 	back->SetTexture(backTex[1]);
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLD2);
 	nextStage = CScene::SCENE_NAME::STAGE2_2;
+
+	D3D_LoadTexture(L"asset/Tutorial/T_7.png", &tutolialTex);
+	tutorial = new Tutorial();
+	tutorial->SetTexture(tutolialTex);
+
+	stage->SetTutorial(tutorial);
 }
 
 Stage21::~Stage21()
