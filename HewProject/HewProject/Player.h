@@ -70,6 +70,7 @@ public:
 		PUNCH,
 		PUSH_CASTELLA,
 		GALL_EAT,
+		GAMEOVER,
 	};
 
 private:
@@ -87,6 +88,8 @@ private:
 	int nowFloor;	// ¡‰½‘w–Ú‚É‚¢‚é‚©
 
 	bool IsgameOver;
+
+	bool gameOverOnes;
 
 	bool GameClear;
 
@@ -119,6 +122,7 @@ private:
 	D3DTEXTURE castellaPushTex;
 	D3DTEXTURE cannonTex;
 	D3DTEXTURE GallEatTex;
+	D3DTEXTURE GameOverTex;
 	//DIRECTION‚Æ“¯‚¶Œü‚«‚Ìƒpƒ“ƒ`‚Ì‰æ‘œ‚ğŠi”[
 	D3DTEXTURE punchTex[static_cast<int>(DIRECTION::NUM)];
 	// ‰æ‘œ‚ğã‚É”z—ñ‚É“ü‚ê‚é
@@ -183,6 +187,7 @@ public:
 	CPlayerAnim* GetPlayerAnim() { return dynamic_cast<CPlayerAnim*> (mAnim); }
 
 	bool GetIsGameOver() { return  IsgameOver; }
+	bool GetGameOverOnes() { return  gameOverOnes; }
 	int GetNowFloor() { return nowFloor; }
 	void SetNowFloor(int _set);
 	void GameOver();

@@ -43,6 +43,9 @@ public:
         //プレイヤーマッチョになるときのアニメーション
         MAKEOVER_RIGHT,
         MAKEOVER_LEFT,
+
+        GAMEOVER_RIGHT,
+        GAMEOVER_LEFT,
     };
 private:
     float AnimSpeedRate;
@@ -65,5 +68,6 @@ public:
     void SetAnimSpeedRate(float _animSpeedRate) { AnimSpeedRate = _animSpeedRate; }
     void PlayGallEat(float _animSpeedRate = 1.0f);
     void PlayMakeover(int _dir , float _animSpeedRate = 1.0f);
+    void PlayGameOver(int _dir, float _animSpeedRate = 1.0f);
 };
 

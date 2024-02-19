@@ -113,6 +113,7 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	ButtonTextureFloorLook = texFactory->Fetch(L"asset/UI/B_FloorLook.png");
 	ButtonTextureUndo = texFactory->Fetch(L"asset/UI/B_Undo1.png");
 	TextTextureLooking = texFactory->Fetch(L"asset/Text/T_Looking 1.png");
+	Button_LB_RB_Texture = texFactory->Fetch(L"asset/UI/B_LB_RB.png");
 
 }
 
@@ -169,6 +170,8 @@ StageScene::~StageScene()
 	CLASS_DELETE(FloorLookButton);
 	CLASS_DELETE(UndoButton);
 	CLASS_DELETE(LookingTxet);
+	CLASS_DELETE(RB_Button);
+	CLASS_DELETE(LB_Button);
 	//CLASS_DELETE();
 
 }
@@ -190,7 +193,16 @@ void StageScene::Update()
 		//メニュー画面
 		if (player->GetIsMoving() == false && !isStartStop)
 		{
+			//static bool o_isMenu = false;
 			Menu->Update();
+
+			//if (Menu->GetisMenu() == false && o_isMenu == true)
+			//{
+			//	return;
+
+			//}
+
+			//o_isMenu = Menu->GetisMenu();
 		}
 	}
 
@@ -228,8 +240,9 @@ void StageScene::Update()
 			dotween->DelayedCall(MAKEOVER_TIME, [&]()
 				{
 					CCamera::GetInstance()->mTransform.pos = Vector3::zero;
-					dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
 					CCamera::GetInstance()->Shake(0.7f, 0.3f);
+					dotween->DoEaseOutBackScale(Vector3::one, 1.0f);
+
 				});
 		}
 
@@ -249,26 +262,32 @@ void StageScene::Update()
 			if (input->GetInputTrigger(InputType::CAMERA))
 			{
 				*isLookMap = true;
+				Vector3 pos(-4.5f, 2.5f, 0.0);
+				LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
+				LookingTxet->SetActive(true);
 			}
 
 
 			if (*isLookMap == true)
 			{
+				bool changefloor = false;
 
 				if (input->GetInputTrigger(InputType::L_BUTTON))
 				{
-					if (lockStageMap != nMaxFloor)
+					if (lockStageMap != 1)
 					{
-						lockStageMap++;
+						lockStageMap--;
+						changefloor = true;
 					}
 					floorUi->SetHighlight(lockStageMap);
 				}
 				else if (input->GetInputTrigger(InputType::R_BUTTON))
 				{
 
-					if (lockStageMap != 1)
+					if (lockStageMap != nMaxFloor)
 					{
-						lockStageMap--;
+						lockStageMap++;
+						changefloor = true;
 					}
 					floorUi->SetHighlight(lockStageMap);
 				}
@@ -277,19 +296,43 @@ void StageScene::Update()
 					lockStageMap = nowFloorNum;
 					floorUi->SetHighlight(lockStageMap);
 					//player->GetPlayerMove()->CameraEnd();
+					Vector3 pos(-13.0f, 2.5f, 0.0);
+					LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
 					*isLookMap = false;
+					LookingTxet->dotween->OnComplete([&]()
+						{
+							LookingTxet->SetActive(false);
+						});
 				}
 				else if (input->GetInputTrigger(InputType::OPTION))
 				{
 					FloorOnlyMap = !FloorOnlyMap;
 				}
 
+				if (changefloor)
+					switch (lockStageMap)
+					{
+					case 1:
+						RB_Button->mTransform.pos.y = -1.0f;
+						break;
+					case 2:
+						RB_Button->mTransform.pos.y = 0.0f;
+						LB_Button->mTransform.pos.y = -1.0f * 2.0f;
+						break;
+					case 3:
+						LB_Button->mTransform.pos.y = -1.0f;
+						break;
+					default:
+						break;
+					}
 			}
 		}
 		if (player->GetPlayerMove()->GetIncannon() && !cannonMove)
 		{
 			InCanonInput();
 		}
+
+		LookingTxet->Update();
 
 		if (player->GetPlayerMove()->GetIsFallBound())
 		{
@@ -673,6 +716,13 @@ void StageScene::StageMove()
 			}
 		}
 
+		if (player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::COIN)
+		{
+			CCoin* coinObj = dynamic_cast<CCoin*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(),
+				static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+			coinObj->GetCoin();
+		}
+
 		if (player->GetPlayerMove()->CheckNextObjectType() == CGridObject::BlockType::GUMI)
 		{
 			player->GetPlayerMove()->RiseStart();
@@ -826,7 +876,10 @@ void StageScene::StageMove()
 		}
 
 		if (player->GetState() != nextState)
+		{
 			player->ChangeState(nextState);
+			isLookMap = player->GetPlayerMove()->GetIsLookCamera();
+		}
 	}
 }
 
@@ -1066,7 +1119,7 @@ void StageScene::ItemDelete()
 		nNumProtein--;
 		proteinUi->AddProtein();
 	case CGridObject::BlockType::CAKE:
-	case CGridObject::BlockType::COIN:
+		//case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::CHILI:
 	case CGridObject::BlockType::CANNON:
 	{
@@ -1449,15 +1502,23 @@ void StageScene::Draw()
 
 	if (!isStartStop)
 	{
-		if (*isLookMap == true && Menu->GetisMenu() == false)
+		if (Menu->GetisMenu() == false)
 		{
-			FloorLookButton->Draw();
+
+			if (*isLookMap == true)
+			{
+				FloorLookButton->Draw();
+				if (lockStageMap != 1)
+					LB_Button->Draw();
+				if (lockStageMap != nMaxFloor)
+					RB_Button->Draw();
+			}
+			else if (*isLookMap == false)
+			{
+				CameraButton->Draw();
+				UndoButton->Draw();
+			}
 			LookingTxet->Draw();
-		}
-		else if (*isLookMap == false && Menu->GetisMenu() == false)
-		{
-			CameraButton->Draw();
-			UndoButton->Draw();
 		}
 	}
 
@@ -1522,6 +1583,7 @@ void StageScene::Init(const wchar_t* filePath)
 	D3D_CreateSquare({ 1,1 }, &stageBuffer);
 	D3D_CreateSquare({ 3,4 }, &playerBuffer);
 	D3D_CreateSquare({ 6,7 }, &clearBuffer);
+	D3D_CreateSquare({ 2,1 }, &LR_ButtonBuffer);
 
 	// ステージの大きさを設定する
 
@@ -1711,6 +1773,9 @@ void StageScene::Init(const wchar_t* filePath)
 	UndoButton = new UI(stageBuffer, ButtonTextureUndo);
 	LookingTxet = new UI(stageBuffer, TextTextureLooking);
 
+	RB_Button = new UI(LR_ButtonBuffer, Button_LB_RB_Texture);
+	LB_Button = new UI(LR_ButtonBuffer, Button_LB_RB_Texture);
+
 	CameraButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
 	FloorLookButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
 	UndoButton->mTransform.pos = { -6.05f,-3.0f,0.0f };
@@ -1719,8 +1784,33 @@ void StageScene::Init(const wchar_t* filePath)
 	FloorLookButton->mTransform.scale = { 2.7f,0.9f,1.0f };
 	UndoButton->mTransform.scale = { 3.6f,0.9f,1.0f };
 
-	LookingTxet->mTransform.pos = { -4.5f,2.5f,0.0 };
+	LookingTxet->mTransform.pos = { -13.0f,2.5f,0.0 };
 	LookingTxet->mTransform.scale = { 5.4f,0.9f,0.0f };
+	LookingTxet->MakeDotween();
+
+	RB_Button->SetUV(0.5f, 0.0f);
+
+	RB_Button->mTransform.pos = { 6.0f,0.0f,0.0 };
+	LB_Button->mTransform.pos = { 6.0f,0.0f,0.0 };
+
+	RB_Button->mTransform.scale = { 0.7f,0.7f,0.0 };
+	LB_Button->mTransform.scale = { 0.7f,0.7f,0.0 };
+
+	switch (lockStageMap)
+	{
+	case 1:
+		RB_Button->mTransform.pos.y = -1.0f;
+		break;
+	case 2:
+		RB_Button->mTransform.pos.y = 0.0f;
+		LB_Button->mTransform.pos.y = -1.0f * 2.0f;
+		break;
+	case 3:
+		LB_Button->mTransform.pos.y = -1.0f;
+		break;
+	default:
+		break;
+	}
 
 	//プロテインUI作成　数が分かってから行う
 	proteinUi = new ProteinUI(nNumProtein);
