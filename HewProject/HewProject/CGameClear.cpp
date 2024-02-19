@@ -9,7 +9,7 @@
 #define BUTTON_POS_Y (-2.4f)
 #define BUTTON_SCALE (4.0f)
 
-#define WHITEBG_POS_Z (-0.11f)
+#define WHITEBG_POS_Z (-0.455f)
 
 CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 {
@@ -314,4 +314,9 @@ void CGameClear::Draw()
 		player->Draw();
 	}
 	
+}
+
+void CGameClear::SetFunc(int _num, std::function<void()> _onComplete)
+{
+	Message[_num]->SetFunc(_onComplete);
 }
