@@ -2,6 +2,7 @@
 #include "xa2.h"
 
 #define PUSH_SCALETINE (0.5f)
+#define CANT_SELECT_TIME (1.0f)
 
 ButtonSelect::ButtonSelect()
 {
@@ -17,10 +18,24 @@ void ButtonSelect::FlagUpdate()
 {
 	o_isInput = c_isInput;
 	c_isInput = false;
+
+	if (!isSlecting)
+	{
+		static float elapsedTime = 0.0f;
+
+		elapsedTime += 1.0f / 60;
+
+		if (elapsedTime > CANT_SELECT_TIME)
+		{
+			isSlecting = true;
+		}
+	}
 }
 
 void ButtonSelect::ButtonMove(int _add)
 {
+
+	if (!isSlecting) return;
 	c_isInput = true;
 
 	// “ü—Í‚³‚ê‚½uŠÔ
@@ -81,7 +96,7 @@ void ButtonSelect::SetButtonID(int _id)
 void ButtonSelect::PushButton(bool _isFlash)
 {
 	if (!isActive) return;
-
+	isSlecting = false;
 	buttonRegister[pointButtonID]->BeginFunc();
 	if (_isFlash)
 	{

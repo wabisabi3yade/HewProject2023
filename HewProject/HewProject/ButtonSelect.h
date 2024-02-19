@@ -10,6 +10,8 @@ class ButtonSelect
 	int pointButtonID = 0;
 	int registCnt = 0;	// 登録されているボタンの数
 
+	bool isSlecting = true;
+
 	std::vector<ButtonUI*> buttonRegister;	// 制御するボタンの配列
 
 	bool c_isInput = false;

@@ -159,7 +159,7 @@ void Tutorial::DisplayUpdate()
 {
 	InputManager* input = InputManager::GetInstance();
 
-	if (tutorialTex.size() <= 2)
+	if (tutorialTex.size() >= 2)
 	{	//1ƒy[ƒW–Ú
 		if (nowPage == 1 && input->GetInputTrigger(InputType::R_BUTTON))
 		{
