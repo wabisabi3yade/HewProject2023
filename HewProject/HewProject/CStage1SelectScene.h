@@ -51,6 +51,7 @@ public:
     //Œˆ’è
     D3DBUFFER decisionBuffer;
     D3DTEXTURE decisionTexture;
+    D3DTEXTURE B_ButtonTexture;
 
     D3DBUFFER decision_textboxBuffer;
     D3DTEXTURE decision_textbox1Texture;
@@ -71,6 +72,7 @@ public:
     UI* Decision[5];
     UI* Decision_textbox[5];
     ShadowUI* Shadow[4];
+    UI* B_Button;
 
     bool isPlayerMoving;
     bool isOnce;
