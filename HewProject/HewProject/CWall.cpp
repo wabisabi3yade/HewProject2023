@@ -47,12 +47,12 @@ void CWall::Update()
 void CWall::Draw()
 {
 	if (effect != nullptr)
-	if(effect->mTransform.pos.z  > this->mTransform.pos.z)
-	effect->Draw();
+		if (effect->mTransform.pos.z > this->mTransform.pos.z)
+			effect->Draw();
 	CGridObject::Draw();
 	if (effect != nullptr)
-		if(effect->mTransform.pos.z  < this->mTransform.pos.z)
-		effect->Draw();
+		if (effect->mTransform.pos.z < this->mTransform.pos.z)
+			effect->Draw();
 }
 
 void CWall::Break(int _dir, float _breakTime)
@@ -74,7 +74,7 @@ void CWall::Break(int _dir, float _breakTime)
 		pos.z += 0.0001f;
 		break;
 	case 2:
-		pos.x -= dis_X * this->mTransform.scale.x/3.0f;
+		pos.x -= dis_X * this->mTransform.scale.x / 3.0f;
 		pos.y += dis_Y * this->mTransform.scale.y;
 		pos.z -= 0.0001f;
 		break;
@@ -86,15 +86,32 @@ void CWall::Break(int _dir, float _breakTime)
 	default:
 		break;
 	}
-	dotween->DelayedCall(_breakTime / 2.0, [&,pos,scale,_dir]()
+	if (_breakTime == 0.0f)
+	{
+		isBreak = true;
+		time = 0;
+		isDecrease = true;
+		if (_dir == 1 || _dir == 2)
+			effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::PANTI_L, false);
+		else if (_dir == 0 || _dir == 3)
+			effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::PANTI, false);
+		dotween->DelayedCall(CANNONBOUND_TIME-0.3f, [&]()
+			{
+				isBreak = false;
+				this->SetActive(false);
+			});
+		return;
+	}
+
+	dotween->DelayedCall(_breakTime / 2.0, [&, pos, scale, _dir]()
 		{
 			isBreak = true;
 			time = 0;
 			isDecrease = true;
-			if( _dir == 1 || _dir == 2)
-			effect = EffectManeger::GetInstance()->Play(pos,scale,EffectManeger::FX_TYPE::PANTI_L,false);
-			else if(_dir == 0 || _dir == 3 )
-			effect = EffectManeger::GetInstance()->Play(pos,scale,EffectManeger::FX_TYPE::PANTI,false);
+			if (_dir == 1 || _dir == 2)
+				effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::PANTI_L, false);
+			else if (_dir == 0 || _dir == 3)
+				effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::PANTI, false);
 		});
 	dotween->DelayedCall(_breakTime, [&]()
 		{
