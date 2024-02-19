@@ -484,7 +484,7 @@ void NormalMove::Step()
 					});
 			}
 		}
-		player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
+		player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 			{
 				player->fallMoveTrriger = true;
 			});
@@ -513,13 +513,13 @@ void NormalMove::Step()
 				//バウンドする高さを計算　代入
 				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-				player->dotween->DelayedCall(FALLMOVE_TIME * 3, [&]()
+				player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
 						isFallBound = true;
 					});
 			}
 		}
-		player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
+		player->dotween->DelayedCall(FALLMOVE_TIME+ FALLMOVE_TIME, [&]()
 			{
 				player->fallMoveTrriger = true;
 			});

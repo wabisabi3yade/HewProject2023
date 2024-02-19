@@ -185,7 +185,8 @@ public:
 	PlayerMove* GetPlayerMove()const;
 
 	CPlayerAnim* GetPlayerAnim() { return dynamic_cast<CPlayerAnim*> (mAnim); }
-
+	void SetGameOver(bool _set) { IsgameOver = _set; }
+	void Reset();
 	bool GetIsGameOver() { return  IsgameOver; }
 	bool GetGameOverOnes() { return  gameOverOnes; }
 	int GetNowFloor() { return nowFloor; }

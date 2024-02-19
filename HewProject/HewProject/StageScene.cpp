@@ -1985,6 +1985,8 @@ void StageScene::Init(const wchar_t* filePath)
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, [&]()
 				{
 					Undo(stageScale, true, true);
+					gameOver->ResetPos();
+					player->SetGameOver(false);
 				});
 		});
 

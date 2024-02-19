@@ -571,6 +571,11 @@ void Player::PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _ty
 	effect.push_back(EffectManeger::GetInstance()->Play(_pos, _scale, _type, _isLoop));
 }
 
+void Player::Reset()
+{
+	SetGameOver(false);
+}
+
 void Player::SetDirection(int _set)
 {
 	direction = static_cast<DIRECTION>(_set);
