@@ -64,7 +64,7 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 	text_stageSelectTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_StageSelectBack.png");
 
 	Message[0] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_nextStageTexture);
-	Message[0]->SetPosition({ -3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.011f });
+	Message[0]->SetPosition({ -3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.012f });
 	Message[0]->SetScale({ BUTTON_SCALE,BUTTON_SCALE,1.0f });
 	Message[0]->SetHighlight(true);
 	Message[0]->SetFunc([&]() {
@@ -72,7 +72,7 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 		});
 
 	Message[1] = new ButtonUI(textBoxBuffer, textBoxTexture, textBuffer, text_stageSelectTexture);
-	Message[1]->SetPosition({ 3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.011f });
+	Message[1]->SetPosition({ 3.0f, BUTTON_POS_Y,WHITEBG_POS_Z - 0.012f });
 	Message[1]->SetScale({ BUTTON_SCALE,BUTTON_SCALE,1.0f });
 	Message[1]->SetFunc([&]() {
 		CScene::SetScene(SCENE_NAME::GAMECLEAR);
