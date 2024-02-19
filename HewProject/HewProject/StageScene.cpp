@@ -25,6 +25,7 @@
 #include"CGameOver.h"
 #include"CGameStart.h"
 #include "Tutorial.h"
+#include"xa2.h"
 
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
@@ -708,6 +709,7 @@ void StageScene::StageMove()
 		dotween->OnComplete([&]()
 			{
 				//CCamera::GetInstance()->Init();
+				XA_Play(SOUND_LABEL::S_GAMECLRAR);
 				isGameClear = true;
 				player->dotween->DelayedCall(5.0f, [&]()
 					{
@@ -1116,6 +1118,7 @@ void StageScene::InCanonInput()
 					{
 						player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 						player->GetPlayerMove()->CannonMoveStart();
+						XA_Play(SOUND_LABEL::S_SHOT);
 						player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 						player->ChangeInvisible();
 						cannonMove = false;
@@ -1149,6 +1152,7 @@ void StageScene::InCanonInput()
 			{
 				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 				player->GetPlayerMove()->CannonMoveStart();
+				XA_Play(SOUND_LABEL::S_SHOT);
 				player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
 				player->ChangeInvisible();
 				cannonMove = false;

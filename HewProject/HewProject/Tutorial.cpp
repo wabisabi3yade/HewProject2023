@@ -1,7 +1,7 @@
 #include "Tutorial.h"
 #include "TextureFactory.h"
 #include "InputManager.h"
-
+#include"xa2.h"
 #define FADEIN_TIME (0.5f)
 #define FADEOUT_TIME (0.5f)
 #define FADE_ALPHATIMES (0.5f)
@@ -93,6 +93,7 @@ void Tutorial::Display()
 	state = STATE::FADE_IN;
 	ChangeLR(1);
 	base->SetAlpha(0.0f);
+	XA_Play(SOUND_LABEL::S_TUTORIAL);
 }
 
 void Tutorial::FeadOut()

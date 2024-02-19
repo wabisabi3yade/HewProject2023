@@ -1,6 +1,6 @@
 #include "NormalMove.h"
 #include "Player.h"
-
+#include"xa2.h"
 NormalMove::NormalMove(Player* _p)
 	: PlayerMove(_p)
 {
@@ -66,7 +66,7 @@ void NormalMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CAKE:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		// ˆÚ“®‚·‚é
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -77,6 +77,7 @@ void NormalMove::Move(DIRECTION _dir)
 				WalkAfter();
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
+				XA_Play(SOUND_LABEL::S_EAT);
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				pos.z += 0.001000f;
@@ -107,7 +108,7 @@ void NormalMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHILI:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -115,6 +116,7 @@ void NormalMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				XA_Play(SOUND_LABEL::S_EAT);
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -142,12 +144,13 @@ void NormalMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::PROTEIN:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
+				XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
 				player->ChangeTexture(Player::ANIM_TEX::DRINK);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				WalkAfter();
@@ -175,6 +178,7 @@ void NormalMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 		WalkStart();
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]()
@@ -194,6 +198,7 @@ void NormalMove::Move(DIRECTION _dir)
 					{
 						player->Fall();
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
+						XA_Play(SOUND_LABEL::S_BIKKURI);
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
@@ -210,6 +215,7 @@ void NormalMove::Move(DIRECTION _dir)
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 						player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 							{
+								XA_Play(SOUND_LABEL::S_TYAKUTI);
 								isFallBound = true;
 							});
 					}
@@ -231,6 +237,7 @@ void NormalMove::Move(DIRECTION _dir)
 		Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 		junpPos.x = Vec3JumpPos.x;
 		junpPos.y = Vec3JumpPos.y;
+		XA_Play(SOUND_LABEL::S_JUNP);
 		player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -257,6 +264,7 @@ void NormalMove::Move(DIRECTION _dir)
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 							{
+								XA_Play(SOUND_LABEL::S_TYAKUTI);
 								isFallBound = true;
 							});
 					}
@@ -289,7 +297,15 @@ void NormalMove::Move(DIRECTION _dir)
 			{
 				player->dotween->DoDelay(0.3f);
 				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->DelayedCall(0.3f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_JUMP_GUMI);
+					});
 				player->Rise();
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_JUMP_UP);
+					});
 				//player->GetPlayerMove()->RiseStart();
 				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
@@ -341,7 +357,7 @@ void NormalMove::Move(DIRECTION _dir)
 	default:	// °
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]() {
@@ -370,6 +386,7 @@ void NormalMove::Step()
 	{
 	case CGridObject::BlockType::CAKE:
 
+		XA_Play(SOUND_LABEL::S_EAT);
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		// H‚×I‚í‚Á‚½‚çˆÚ“®‚Å‚«‚é‚æ‚¤‚É‚·‚é
@@ -396,6 +413,7 @@ void NormalMove::Step()
 		break;
 
 	case CGridObject::BlockType::CHILI:
+		XA_Play(SOUND_LABEL::S_EAT);
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -464,10 +482,15 @@ void NormalMove::Step()
 		pos.z -= 0.000001f;
 		scale.x *= MARK_SCALE;
 		scale.y *= MARK_SCALE;
-		player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
+		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_BIKKURI);
+			});
+		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 			{
 				player->Fall();
-				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
+				XA_Play(SOUND_LABEL::S_FLY_BATABATA);
 			});
 		player->dotween->DoDelay(FALL_TIME);
 		player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
@@ -484,6 +507,7 @@ void NormalMove::Step()
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
+						XA_Play(SOUND_LABEL::S_TYAKUTI);
 						isFallBound = true;
 					});
 			}
@@ -519,6 +543,7 @@ void NormalMove::Step()
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
+						XA_Play(SOUND_LABEL::S_TYAKUTI);
 						isFallBound = true;
 					});
 			}

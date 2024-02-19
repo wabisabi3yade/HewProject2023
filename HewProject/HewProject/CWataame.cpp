@@ -2,6 +2,7 @@
 #include"DoTween.h"
 #include"Player.h"
 #include"CEffectManeger.h"
+#include"xa2.h"
 CWataame::CWataame(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb,tex)
 {
@@ -41,6 +42,7 @@ void CWataame::Melt()
 
 	dotween->OnComplete([&,pos,scale]()
 		{
+			XA_Play(SOUND_LABEL::S_WATAAME);
 			effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::KUMO, false);
 			this->SetActive(false);
 		});

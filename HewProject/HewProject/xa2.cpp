@@ -25,7 +25,7 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"BGM/World2.wav", 0.5f,true},
 	{"BGM/World3.wav", 0.2f,true},
 	{"BGM/WorldEx.wav", 0.5f,true},
-	
+	{"BGM/macchohadebgm.wav",0.5f,true},
 
 	// SEÅiÉãÅ[ÉvÇµÇ»Ç¢ÇÃÇ≈falseê›íË)
 	{"SE/PushButton.wav", 0.3f,false},
@@ -44,6 +44,18 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/tyutorial.wav", 0.8f,false},
 	{"SE/walk.wav", 0.3f,false},
 	{"SE/wataame.wav", 0.8f,false},
+	{"SE/bikkuri.wav",0.5f,false},
+	{"SE/dageki.wav",0.5f,false},
+	{"SE/gameclear.wav",0.5f,false},
+	{"SE/gameover.wav",0.5f,false},
+	{"SE/janpu.wav",0.5f,false},
+	{"SE/proteindrink.wav",0.5f,false},
+	{"SE/syasin.wav",0.5f,false},
+	{"SE/text1.wav",0.5f,false},
+	{"SE/textin2.wav",0.5f,false},
+	{"SE/tyakuti.wav",0.5f,false},
+	{"SE/yajirusiup.wav",0.5f,false},
+
 };
 //===================================================//
 //===================================================//
