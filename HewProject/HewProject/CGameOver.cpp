@@ -10,7 +10,7 @@
 #define TEXT_POS_X (-4.0f)
 #define TEXT_POS_Y (5.0f)
 
-#define BLACKBG_POS_Z (-0.46f)
+#define BLACKBG_POS_Z (-0.455f)
 
 CGameOver::CGameOver()
 {
