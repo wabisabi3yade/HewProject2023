@@ -12,10 +12,17 @@
 #define LR_SMOLLSCALE_TIMES (1.0f)
 #define LR_SCALING_TIME (1.0f)
 
-Tutorial::Tutorial(int _type)
+Tutorial::Tutorial(bool _is1_1)
 {
 	base = new UI();
 	base->MakeDotween();
+
+	isStage1_1 = _is1_1;
+
+	if (isStage1_1)
+	{
+		D3D_LoadTexture(L"asset/Tutorial/T_3.png", &tex1_1);
+	}
 
 	D3D_CreateSquare({ 1,1 }, &tutorialBuf);
 
@@ -76,13 +83,15 @@ Tutorial::~Tutorial()
 	}
 	SAFE_RELEASE(LR_Buf);
 
+	SAFE_RELEASE(tex1_1);
+
 }
 
 void Tutorial::Display()
 {
 	isActive = true;
 	state = STATE::FADE_IN;
-
+	ChangeLR(1);
 	base->SetAlpha(0.0f);
 }
 
@@ -150,22 +159,8 @@ void Tutorial::DisplayUpdate()
 {
 	InputManager* input = InputManager::GetInstance();
 
-	if (tutorialTex.size() <= 1)
-	{
-		if (input->GetInputTrigger(InputType::CANCEL))
-		{
-			state = STATE::FADE_OUT;
-		}
-	}
-	// 2個以上
-	else
-	{
-		if (nowPage == 2 && input->GetInputTrigger(InputType::CANCEL))
-		{
-			state = STATE::FADE_OUT;
-		}
-
-		//1ページ目
+	if (tutorialTex.size() <= 2)
+	{	//1ページ目
 		if (nowPage == 1 && input->GetInputTrigger(InputType::R_BUTTON))
 		{
 			nowPage = 2;
@@ -180,6 +175,11 @@ void Tutorial::DisplayUpdate()
 			tutorialUI->SetTexture(tutorialTex[nowPage - 1]);
 		}
 	}
+
+	if (input->GetInputTrigger(InputType::CANCEL) && isCanBack)
+	{
+		state = STATE::FADE_OUT;
+	}
 }
 
 void Tutorial::FadeOutUpdate()
@@ -193,6 +193,12 @@ void Tutorial::FadeOutUpdate()
 		base->materialDiffuse.w = 0.0f;
 		state = STATE::END;
 		isActive = false;
+
+		if (isMacho)
+		{
+			isMachoOnce = true;
+			isMacho = false;
+		}
 	}
 }
 
@@ -202,7 +208,10 @@ void Tutorial::Draw()
 
 	fade->Draw();
 
-	backUI->Draw();
+	if (isCanBack)
+	{
+		backUI->Draw();
+	}
 
 	// ２枚以上あるときは
 	if (tutorialTex.size() >= 2)
@@ -231,8 +240,8 @@ void Tutorial::SetTexture(D3DTEXTURE _tex)
 	}
 	else
 	{
+		isCanBack = false;
 		backUI->SetActive(false);
-		ChangeLR(1);
 	}
 
 	tutorialTex.push_back(_tex);
@@ -250,18 +259,42 @@ void Tutorial::ChangeLR(int num)
 		LR_UI[i]->SetActive(false);
 	}
 
-	int buttonNum = 0;
-	if (num == 1)
+	if (isMacho || tutorialTex.size() < 2) return;
+
+	int buttonNum = 1;
+	
+	if(num == 2)
 	{
-		backUI->SetActive(false);
-		buttonNum = 1;
-	}
-	else
-	{
+		buttonNum = 0;
+		isCanBack = true;
 		backUI->SetActive(true);
 	}
 
 	
 	LR_UI[buttonNum]->SetActive(true);
 	
+}
+
+int Tutorial::GetState()
+{
+	return state;
+}
+
+bool Tutorial::GetIs1_1()
+{
+	return isStage1_1;
+}
+
+void Tutorial::MachoDisplay()
+{
+	isMacho = true;
+
+	tutorialUI->SetTexture(tex1_1);
+
+	Display();
+}
+
+bool Tutorial::GetIsMachoOnce()
+{
+	return isMachoOnce;
 }

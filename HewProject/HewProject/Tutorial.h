@@ -16,21 +16,19 @@ public:
 		NUM
 	};
 
-	enum TYPE
-	{
-		STAGE1_1,
-		STAGE1_2,
-		STAGE1_3,
-		STAGE1_4
-	};
-
-
 private:
 	STATE state = STATE::STAY;
+	bool isStage1_1 = false;
 
 	bool isActive = false;
 
 	bool isEnd = false;
+
+	bool isMacho = false;
+
+	bool isCanBack = true;
+
+	bool isMachoOnce = false;
 
 	std::vector<D3DTEXTURE> tutorialTex;
 	int nowPage = 1;
@@ -41,6 +39,8 @@ private:
 	D3DBUFFER tutorialBuf;
 	D3DBUFFER LR_Buf;
 
+	D3DTEXTURE tex1_1 = NULL;
+
 	UI* base;
 
 	UI* backUI;
@@ -48,7 +48,7 @@ private:
 	UI* LR_UI[2];
 
 public:
-	Tutorial(int _type);
+	Tutorial(bool _is1_1 = false);
 	~Tutorial();
 
 	void Display();
@@ -69,5 +69,13 @@ public:
 	void SetTexture(D3DTEXTURE _tex);
 
 	void ChangeLR(int num);
+
+	int GetState();
+
+	bool GetIs1_1();
+
+	void MachoDisplay();
+
+	bool GetIsMachoOnce();
 };
 

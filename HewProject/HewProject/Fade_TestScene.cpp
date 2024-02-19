@@ -44,7 +44,7 @@ Fade_TestScene::Fade_TestScene()
 
 	D3D_LoadTexture(L"asset/Tutorial/T_1.png", &tutorial1Tex);
 	D3D_LoadTexture(L"asset/Tutorial/T_2.png", &tutorial2Tex);
-	tutorial = new Tutorial(0);
+	tutorial = new Tutorial();
 	tutorial->SetTexture(tutorial1Tex);
 	tutorial->SetTexture(tutorial2Tex);
 

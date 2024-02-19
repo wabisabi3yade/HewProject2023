@@ -8,6 +8,12 @@ StageEx1::StageEx1()
 
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLDEX);
 	nextStage = CScene::SCENE_NAME::STAGE4_2;
+
+	D3D_LoadTexture(L"asset/Tutorial/T_10.png", &tutolialTex);
+	tutorial = new Tutorial();
+	tutorial->SetTexture(tutolialTex);
+
+	stage->SetTutorial(tutorial);
 }
 
 StageEx1::~StageEx1()

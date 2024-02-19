@@ -3,8 +3,8 @@
 #include "DoTween.h"
 class CEffect;
 
-#define CASTELLAWALK_TIME (2.0f)	// カステラを押すときの移動速度
-#define CASTELLAFALL_TIME (2.0f)	// カステラが落ちるまでの待機時間
+#define CASTELLAWALK_TIME (1.65f)	// カステラを押すときの移動速度
+#define CASTELLAFALL_TIME (1.1f)	// カステラが落ちるまでの待機時間
 
 class CCastella :
     public CGridObject

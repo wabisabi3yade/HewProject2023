@@ -4,6 +4,7 @@ class Stage11 :
     public Stage
 {
 
+    D3DTEXTURE tex;
 public:
     Stage11();
     ~Stage11();
