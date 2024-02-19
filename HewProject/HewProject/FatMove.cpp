@@ -81,7 +81,7 @@ void FatMove::Move(DIRECTION _dir)
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z += 0.001000f;
+				pos.z += 0.001f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= HEART_SCALE;
 				scale.y *= HEART_SCALE;
