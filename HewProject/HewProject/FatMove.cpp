@@ -81,7 +81,7 @@ void FatMove::Move(DIRECTION _dir)
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z += 0.001f;
+				pos.z += 0.0001f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= HEART_SCALE;
 				scale.y *= HEART_SCALE;
@@ -176,11 +176,12 @@ void FatMove::Move(DIRECTION _dir)
 							MoveAfter();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
 							player->ChangeTexture(Player::ANIM_TEX::WAIT);
-							if (player->GetCalorie() < 6)
+							if (player->GetCalorie() < 11)
 							{
 								Vector3 pos = player->mTransform.pos;
 								Vector3 scale = player->mTransform.scale;
-								pos.z -= 0.000001f;
+								pos.z += 0.0009996f;
+								player->mTransform.pos.z += 0.0009999f;
 								pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 								scale.x *= SMOKE_SCALE;
 								scale.y *= SMOKE_SCALE;
@@ -201,7 +202,8 @@ void FatMove::Move(DIRECTION _dir)
 					{
 						Vector3 pos = player->mTransform.pos;
 						Vector3 scale = player->mTransform.scale;
-						pos.z -= 0.000001f;
+						pos.z += 0.0009996f;
+						player->mTransform.pos.z += 0.0009999f;
 						pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 						scale.x *= SMOKE_SCALE;
 						scale.y *= SMOKE_SCALE;
@@ -287,15 +289,18 @@ void FatMove::Move(DIRECTION _dir)
 				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 				player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+				if (player->GetNowFloor() != 1)
 				{
-					//バウンドする高さを計算　代入
-					float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
-					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-					player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
-						{
-							isFallBound = true;
-						});
+					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					{
+						//バウンドする高さを計算　代入
+						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+							{
+								isFallBound = true;
+							});
+					}
 				}
 				player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 					{
@@ -389,7 +394,8 @@ void FatMove::Move(DIRECTION _dir)
 				{
 					Vector3 pos = player->mTransform.pos;
 					Vector3 scale = player->mTransform.scale;
-					pos.z -= 0.000001f;
+					pos.z += 0.0009996f;
+					player->mTransform.pos.z += 0.0009999f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
@@ -424,7 +430,8 @@ void FatMove::Step()
 				MoveAfter();
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z -= 0.000001f;
+				pos.z += 0.0009996f;
+				player->mTransform.pos.z += 0.0009999f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
@@ -451,7 +458,8 @@ void FatMove::Step()
 				{
 					Vector3 pos = player->mTransform.pos;
 					Vector3 scale = player->mTransform.scale;
-					pos.z -= 0.000001f;
+					pos.z += 0.0009996f;
+					player->mTransform.pos.z += 0.0009999f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
@@ -569,7 +577,8 @@ void FatMove::Step()
 		{
 			Vector3 pos = player->mTransform.pos;
 			Vector3 scale = player->mTransform.scale;
-			pos.z -= 0.000001f;
+			pos.z += 0.0009996f;
+			player->mTransform.pos.z += 0.0009999f;
 			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
