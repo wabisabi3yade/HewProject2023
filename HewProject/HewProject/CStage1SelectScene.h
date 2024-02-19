@@ -52,6 +52,12 @@ public:
     D3DBUFFER decisionBuffer;
     D3DTEXTURE decisionTexture;
 
+    D3DBUFFER decision_textboxBuffer;
+    D3DTEXTURE decision_textbox1Texture;
+    D3DTEXTURE decision_textbox2Texture;
+    D3DTEXTURE decision_textbox3Texture;
+    D3DTEXTURE decision_textbox4Texture;
+
     D3DBUFFER bgBuffer;
     D3DTEXTURE bgTexture;
 
@@ -63,6 +69,7 @@ public:
     UI* World[4];
     UI* Num[4];
     UI* Decision[5];
+    UI* Decision_textbox[5];
     ShadowUI* Shadow[4];
 
     bool isPlayerMoving;

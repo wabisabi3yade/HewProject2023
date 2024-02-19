@@ -218,6 +218,12 @@ CStage1SelectScene::CStage1SelectScene()
 	D3D_CreateSquare({ 1,1 }, &decisionBuffer);
 	D3D_LoadTexture(L"asset/Text/B_Decide.png", &decisionTexture);
 
+	D3D_CreateSquare({ 1,1 }, &decision_textboxBuffer);
+	D3D_LoadTexture(L"asset/Text/B_Decide.png", &decision_textbox1Texture);
+	D3D_LoadTexture(L"asset/Text/B_Decide.png", &decision_textbox2Texture);
+	D3D_LoadTexture(L"asset/Text/B_Decide.png", &decision_textbox3Texture);
+	D3D_LoadTexture(L"asset/Text/B_Decide.png", &decision_textbox4Texture);
+
 	for (int i = 0; i < 5; i++)
 	{
 		Decision[i] = new UI(decisionBuffer, decisionTexture);
@@ -232,6 +238,27 @@ CStage1SelectScene::CStage1SelectScene()
 
 		Decision[i]->mTransform.scale = { DECISION_SCALE_X,DECISION_SCALE_Y,1.0f };
 		
+	}
+	
+	Decision_textbox[0] = new UI(decision_textboxBuffer, decision_textbox1Texture);
+	Decision_textbox[1] = new UI(decision_textboxBuffer, decision_textbox2Texture);
+	Decision_textbox[2] = new UI(decision_textboxBuffer, decision_textbox3Texture);
+	Decision_textbox[3] = new UI(decision_textboxBuffer, decision_textbox4Texture);
+	Decision_textbox[4] = new UI(decision_textboxBuffer, decision_textbox1Texture);
+
+	for (int i = 0; i < 5; i++)
+	{
+
+		if (i != 4)
+		{
+			Decision_textbox[i]->mTransform.pos = { Text[i]->mTransform.pos };
+		}
+		else {
+			Decision_textbox[i]->mTransform.pos = { stage[i]->mTransform.pos };
+		}
+
+		Decision_textbox[i]->mTransform.scale = { DECISION_SCALE_X,DECISION_SCALE_Y,1.0f };
+
 	}
 
 	isPlayerMoving = false;
@@ -279,6 +306,11 @@ CStage1SelectScene::~CStage1SelectScene()
 		CLASS_DELETE(Decision[i]);
 	}
 
+	for (int i = 0; i < 5; i++)
+	{
+		CLASS_DELETE(Decision_textbox[i]);
+	}
+
 	for (int i = 0; i < FOUR; i++)
 	{
 		CLASS_DELETE(World[i]);
@@ -304,6 +336,11 @@ CStage1SelectScene::~CStage1SelectScene()
 	SAFE_RELEASE(worldEXTexture);
 	SAFE_RELEASE(decisionTexture);
 	SAFE_RELEASE(backTexture);
+	SAFE_RELEASE(decision_textbox1Texture);
+	SAFE_RELEASE(decision_textbox2Texture);
+	SAFE_RELEASE(decision_textbox3Texture);
+	SAFE_RELEASE(decision_textbox4Texture);
+	SAFE_RELEASE(decision_textboxBuffer);
 }
 
 void CStage1SelectScene::Update()
@@ -322,11 +359,13 @@ void CStage1SelectScene::Update()
 		if (i != 4)
 		{
 			Decision[i]->mTransform.pos = { Text[i]->mTransform.pos.x + 1.8f,Text[i]->mTransform.pos.y - 1.5f,Text[i]->mTransform.pos.z };
+			Decision_textbox[i]->mTransform.pos = { Text[i]->mTransform.pos.x + 1.8f,Text[i]->mTransform.pos.y - 1.5f,Text[i]->mTransform.pos.z - 0.001f };
 		}
 		else {
 			if (isOncePos == false)
 			{
 				Decision[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z };
+				Decision_textbox[4]->mTransform.pos = { stage[4]->mTransform.pos.x - 6.0f ,stage[4]->mTransform.pos.y - 0.5f ,stage[4]->mTransform.pos.z - 0.001f};
 				isOncePos = true;
 			}
 			
@@ -704,6 +743,11 @@ void CStage1SelectScene::Update()
 	{
 		Decision[i]->Update();
 	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		Decision_textbox[i]->Update();
+	}
 }
 
 void CStage1SelectScene::LateUpdate()
@@ -722,6 +766,11 @@ void CStage1SelectScene::Draw()
 	for (int i = 0; i < 5; i++)
 	{
 		stage[i]->Draw();
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		Decision_textbox[i]->Draw();
 	}
 
 	for (int i = 0; i < 5; i++)
