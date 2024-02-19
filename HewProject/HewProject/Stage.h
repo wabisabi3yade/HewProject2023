@@ -11,6 +11,8 @@ class Stage :
     DebugTable* dbgObjTable; // テスト用
 
 protected:
+    short stageNum;
+
     // ステージのUIとか
     StageScene* stage; // ステージ全体のオブジェクト
     // csvファイルの名前

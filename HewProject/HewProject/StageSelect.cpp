@@ -18,6 +18,9 @@
 #define WORLDNUM_SHADOWOFFSETX (0.03f)
 #define WORLDNUM_SHADOWOFFSETY (0.03f)
 
+#define SIN_POWER (0.1f)
+#define SIN_SPEED (1.0f)
+
 void StageSelect::Input()
 {
 
@@ -126,8 +129,6 @@ StageSelect::StageSelect()
 	smp->mTransform.rotation.z = SMP_ROT;
 	smp->mTransform.scale = { 7.0f,5.25f, 1.0f };
 
-	
-
 	// ”wŒi
 	backGround[0] = new UI(oneBuf, NULL);
 	backGround[0]->MakeDotween();
@@ -150,6 +151,11 @@ StageSelect::StageSelect()
 	startUI = new ShadowUI(oneBuf, startTex);
 	startUI->mTransform.pos = { -6.5f, -4.0f, 0.5f };
 	startUI->mTransform.scale = { 2.4f, 0.8f, 1.0f };
+
+	D3D_LoadTexture(L"asset/UI/B_Return.png", &backButtonTex);
+	backUI = new ShadowUI(oneBuf, backButtonTex);
+	backUI->mTransform.pos = { -4.5f, -4.0f, 0.5f };
+	backUI->mTransform.scale = { 2.4f, 0.8f, 1.0f };
 
 	D3D_LoadTexture(L"asset/UI/T_Stage.png", &stageTex);
 	stageText = new ShadowUI(oneBuf, stageTex);
@@ -211,6 +217,16 @@ void StageSelect::Update()
 	{
 		// “ü—Í
 		Input();
+
+
+		/*static float sinRot = 0.0f;
+		sinRot += SIN_SPEED;
+		stageSmpBack->mTransform.pos.y = SIN_POWER * sin(DirectX::XMConvertToRadians(sinRot));
+
+		if (sinRot > 360.0f)
+		{
+			sinRot = 0.0f;
+		}*/
 	}
 	// Å‰‚ÌˆÚ“®‚Ég—p‚·‚éˆ—‚Í‚±‚±
 	else
@@ -316,6 +332,8 @@ StageSelect::~StageSelect()
 
 	SAFE_RELEASE(startTex);
 	CLASS_DELETE(startUI);
+	CLASS_DELETE(backUI);
+	SAFE_RELEASE(backButtonTex);
 
 	CLASS_DELETE(stageText);
 	SAFE_RELEASE(stageTex);
@@ -324,6 +342,7 @@ StageSelect::~StageSelect()
 
 	CLASS_DELETE(worldText);
 	SAFE_RELEASE(worldTextTex)
+
 
 		CLASS_DELETE(worldNum);
 

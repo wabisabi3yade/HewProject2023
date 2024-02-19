@@ -6,6 +6,8 @@
 #include"CCamera.h"
 #define BACK_POSZ (1.0f)	
 
+#define BACK_SCALETIMES (1.1f)	// ”wŒi‚Ì”{—¦
+
 Stage::Stage()
 {
 	TextureFactory* texFactory = TextureFactory::GetInstance();
@@ -17,7 +19,10 @@ Stage::Stage()
 	D3D_CreateSquare({ 1,1 }, &backBuffer);
 	back = new CObject(backBuffer, NULL);
 	back->mTransform.pos.z = BACK_POSZ;
-	back->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H, 1.0f };
+
+	Vector2 s = {SCREEN_RATIO_W * BACK_SCALETIMES, SCREEN_RATIO_H * BACK_SCALETIMES };
+
+	back->mTransform.scale = { s.x, s.y, 1.0f };
 
 	if (isDirectWriteUse)
 	{
@@ -48,7 +53,10 @@ Stage::Stage(const wchar_t* _csvName, short int worldNum)
 	D3D_CreateSquare({ 1,1 }, &backBuffer);
 	back = new CObject(backBuffer, NULL);
 	back->mTransform.pos.z = BACK_POSZ;
-	back->mTransform.scale = { SCREEN_RATIO_W, SCREEN_RATIO_H, 1.0f };
+
+
+	Vector2 s = { SCREEN_RATIO_W * BACK_SCALETIMES, SCREEN_RATIO_H * BACK_SCALETIMES };
+	back->mTransform.scale = { s.x, s.y, 1.0f };
 
 	if (isDirectWriteUse)
 	{
@@ -84,50 +92,6 @@ void Stage::Draw()
 	back->Draw();
 
 	stage->Draw();
-	if (isDirectWriteUse)
-	{
-		dbgFloorTable->Draw();
-		dbgObjTable->Draw();
-
-		std::string canMoveDirCheck;
-		bool* canmove = stage->GetPlayer()->GetCanMoveDir();
-		if (canmove[0] == 1)
-		{
-			canMoveDirCheck.append("1");
-		}
-		else
-		{
-			canMoveDirCheck.append("0");
-		}
-		if (canmove[1] == 1)
-		{
-			canMoveDirCheck.append("1");
-		}
-		else
-		{
-			canMoveDirCheck.append("0");
-		}
-		if (canmove[2] == 1)
-		{
-			canMoveDirCheck.append("1");
-		}
-		else
-		{
-			canMoveDirCheck.append("0");
-		}
-		if (canmove[3] == 1)
-		{
-			canMoveDirCheck.append("1");
-		}
-		else
-		{
-			canMoveDirCheck.append("0");
-		}
-
-
-		Write->SetFont(Font::HG_Gyosyo, nullptr, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 30, L"ja-jp", DWRITE_TEXT_ALIGNMENT_LEADING, D2D1::ColorF(D2D1::ColorF::Green));
-		Write->DrawString(canMoveDirCheck, DirectX::XMFLOAT2(30, 10), D2D1_DRAW_TEXT_OPTIONS_NONE);
-	}
 }
 
 Stage::~Stage()

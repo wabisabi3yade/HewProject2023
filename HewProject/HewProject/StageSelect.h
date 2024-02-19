@@ -52,8 +52,13 @@ protected:
     D3DTEXTURE backTex;    // ”wŒi
     UI* backGround[3];
 
+    // Aƒ{ƒ^ƒ“
     D3DTEXTURE startTex;
     UI* startUI;
+
+    // Bƒ{ƒ^ƒ“
+    D3DTEXTURE backButtonTex;
+    UI* backUI;
 
     D3DTEXTURE stageTex;
     UI* stageText;

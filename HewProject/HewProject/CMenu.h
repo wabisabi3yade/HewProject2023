@@ -81,5 +81,7 @@ public:
     void Draw() override;
 
     bool GetisMenu();
+
+    void SetFunc(std::function<void()> _onComplete);
 };
 
