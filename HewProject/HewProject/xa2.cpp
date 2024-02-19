@@ -31,6 +31,19 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/PushButton.wav", 0.3f,false},
 	{"SE/CursorMove.wav", 0.6f,false},
 	{"SE/PushStageBtn.wav", 0.3f,false},
+	{"SE/choco_Break.wav", 0.6f,false},
+	{"SE/coin01.wav", 0.3f,false},
+	{"SE/Down.wav", 0.3f,false},
+	{"SE/eat.wav", 0.6f,false},
+	{"SE/FadeIn.wav", 0.5f,false},
+	{"SE/fly_batabata.wav", 0.9f,false},
+	{"SE/GumiJump.wav", 0.2f,false},
+	{"SE/jumpUp.wav", 0.2f,false},
+	{"SE/Macho_Walk.wav", 1.0f,false},
+	{"SE/shot.wav", 0.8f,false},
+	{"SE/tyutorial.wav", 0.8f,false},
+	{"SE/walk.wav", 0.3f,false},
+	{"SE/wataame.wav", 0.8f,false},
 };
 //===================================================//
 //===================================================//
