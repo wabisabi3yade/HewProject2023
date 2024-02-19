@@ -324,7 +324,7 @@ void CMenu::Update()
 
 			if (input->GetInputTrigger(InputType::DECIDE))
 			{
-				selectControl->PushButton();
+				selectControl->PushButton(true);
 			}
 
 			if (input->GetInputTrigger(InputType::CANCEL))
@@ -579,4 +579,9 @@ void CMenu::Draw()
 bool CMenu::GetisMenu()
 {
 	return isMenu;
+}
+
+void CMenu::SetFunc(std::function<void()> _onComplete)
+{
+	Message[0]->SetFunc(_onComplete);
 }
