@@ -11,11 +11,16 @@
 
 #define WORLDNAME_OFFSETY (1.5f)	// y²‚Ì·•ª’l
 
+#define SIN_POWER (0.12f)
+#define SIN_SPEED (1.0f)
+
 class StageSelect :
     public CScene
 {
 
 protected:
+    float sinRot = 0.0f;
+
     bool isBeginFin = false;
 
     bool isChangeNumTriger = false; // ”š‚ª•Ï‚í‚Á‚½uŠÔ

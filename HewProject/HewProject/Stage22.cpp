@@ -1,7 +1,7 @@
 #include "Stage22.h"
 #include "CSceneManager.h"
 Stage22::Stage22()
-	: Stage(L"Stage2-2.csv", 2)
+	: Stage(L"Stage2-2.csv", 2, CScene::SCENE_NAME::STAGE2_3)
 {
 	back->SetTexture(backTex[1]);
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLD2);

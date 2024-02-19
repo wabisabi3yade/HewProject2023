@@ -31,7 +31,7 @@ Stage::Stage()
 	}
 }
 
-Stage::Stage(const wchar_t* _csvName, short int worldNum)
+Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _next)
 {
 
 	wchar_t work[256];
@@ -57,6 +57,8 @@ Stage::Stage(const wchar_t* _csvName, short int worldNum)
 
 	Vector2 s = { SCREEN_RATIO_W * BACK_SCALETIMES, SCREEN_RATIO_H * BACK_SCALETIMES };
 	back->mTransform.scale = { s.x, s.y, 1.0f };
+
+	stage->SetNextStageName(_next);
 
 	if (isDirectWriteUse)
 	{
