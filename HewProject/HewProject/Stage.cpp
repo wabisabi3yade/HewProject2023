@@ -73,11 +73,6 @@ void Stage::Update()
 		dbgObjTable->SetTable(stage->GetNowFloor());
 
 	}
-
-	if (gInput->GetKeyTrigger(VK_CONTROL))
-	{
-		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
-	}
 }
 
 void Stage::LateUpdate()

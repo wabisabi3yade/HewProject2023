@@ -63,24 +63,27 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	case 1:
 		stageTextureFloor = texFactory->Fetch(L"asset/Stage/one_fp.png");
 		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/one_fg.png");
+		selectName = CScene::SCENE_NAME::WORLD1_SELECT;
 		break;
 
 	case 2:
 		stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
 		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/floor_g.png");
+		selectName = CScene::SCENE_NAME::WORLD2_SELECT;
 		break;
 
 	case 3:
 		stageTextureFloor = texFactory->Fetch(L"asset/Stage/floor_y.png");
 		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/third_fr.png");
+		selectName = CScene::SCENE_NAME::WORLD3_SELECT;
 		break;
 
 	case 4:
 		stageTextureFloor = texFactory->Fetch(L"asset/Stage/Ex_fp.png");
 		stageTextureFloor2 = texFactory->Fetch(L"asset/Stage/Ex_fy.png");
+		selectName = CScene::SCENE_NAME::WORLD4_SELECT;
 		break;
 	}
-
 
 	stageTextureWall = texFactory->Fetch(L"asset/Stage/Wall.png");
 	stageTextureHoll = texFactory->Fetch(L"asset/Stage/test_Hool.png");
@@ -193,6 +196,7 @@ void StageScene::Update()
 				isStartStop = false;
 				//*isLookMap = false;
 
+				*isMenu = false;
 			}
 			else
 			{
@@ -1257,9 +1261,9 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 	}
 }
 
-void StageScene::Undo(float _stageScale)
+void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 {
-	if (player->GetPlayerMove()->GetIsMoving()) return;
+	if (player->GetPlayerMove()->GetIsMoving() && !isPush) return;
 	short o_nNumUndo = nNumUndo;
 
 	// 1より下に行く
@@ -1274,7 +1278,6 @@ void StageScene::Undo(float _stageScale)
 		nNumUndo = o_nNumUndo;	// 引く前の階数に戻す
 		return;	// 抜ける
 	}
-
 	bool o_MakeOver = player->GetPlayMakeover();
 
 	// 更新するテーブル
@@ -1284,8 +1287,24 @@ void StageScene::Undo(float _stageScale)
 	// 前にいた階数のグリッドテーブルを更新する
 	const short& o_floorNum = floorUndo[nNumUndo].old_Floor;
 
-	// 階層を移動していないなら
-	if (nowFloorNum == o_floorNum)
+	FIELD_FLOOR& changeFloor = floorUndo[nNumUndo];
+
+	// リセットするなら
+	if (_isReset)
+	{
+		changeFloor = floorReset;
+
+		// 全部消しておく
+		for (int i = 0; i < UNDO_ARRAY_NUM; i++)
+		{
+			floorUndo[i].objectTable[0][0][0] == 0;
+		}
+		// 0番目に入れておく
+		floorUndo[0] = floorReset;
+	}
+
+	// 階層を移動していない  リセットじゃないなら
+	if (nowFloorNum == o_floorNum && !_isReset)
 	{
 		// １つずつ入れていく
 		for (int i = 0; i < stageSquare.y; i++)
@@ -1294,11 +1313,11 @@ void StageScene::Undo(float _stageScale)
 			{
 				// 情報を入れる
 				updateTable->objectTable[i][j] =
-					floorUndo[nNumUndo].objectTable[o_floorNum - 1][i][j];
+					changeFloor.objectTable[o_floorNum - 1][i][j];
 
 				// 情報を入れる
 				updateTable->floorTable[i][j] =
-					floorUndo[nNumUndo].floorTable[o_floorNum - 1][i][j];
+					changeFloor.floorTable[o_floorNum - 1][i][j];
 			}
 		}
 		// 入れた階層のオブジェクトを作る
@@ -1340,17 +1359,15 @@ void StageScene::Undo(float _stageScale)
 				{
 					// 情報を入れる
 					updateTable->objectTable[i][j] =
-						floorUndo[nNumUndo].objectTable[loop][i][j];
+						changeFloor.objectTable[loop][i][j];
 					// 情報を入れる
 					updateTable->floorTable[i][j] =
-						floorUndo[nNumUndo].floorTable[loop][i][j];
+						changeFloor.floorTable[loop][i][j];
 				}
 			}
 			// 入れた階層のオブジェクトを作る
 			CreateStage(*updateTable, *updateObjList);
 		}
-
-
 	}
 
 	// プロテインの数を求める
@@ -1387,13 +1404,14 @@ void StageScene::Undo(float _stageScale)
 		}
 
 	}
+
 	// プロテインUIに設定する
 	proteinUi->SetProtein(nNumProtein, true);
 
 	// リスがいる階層を更新
 	nowFloorNum = o_floorNum;
 	// 更新する
-	switch (floorUndo[nNumUndo].old_Floor)
+	switch (changeFloor.old_Floor)
 	{
 	case 1:
 		vStageObj = &oneFStgObj;
@@ -1416,9 +1434,8 @@ void StageScene::Undo(float _stageScale)
 	if (player->GetPlayMakeover() != o_MakeOver)
 		player->SetPlayMakeover(o_MakeOver);
 
-	FIELD_FLOOR beforeStage = floorUndo[nNumUndo];
 	// プレイヤーに必要な情報を更新する
-	UndoPlayerSet(beforeStage.dirUndo, beforeStage.calorieUndo, beforeStage.stateUndo);
+	UndoPlayerSet(changeFloor.dirUndo, changeFloor.calorieUndo, changeFloor.stateUndo);
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
 	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
@@ -1428,9 +1445,12 @@ void StageScene::Undo(float _stageScale)
 	}
 
 
+	if (!_isReset)
+	{
+		// 未使用にする
+		floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
 
-	// 未使用にする
-	floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
+	}
 }
 
 void StageScene::UndoTableUpdate()
@@ -1957,7 +1977,24 @@ void StageScene::Init(const wchar_t* filePath)
 	}
 
 
-	//カロリーゲージ
+	gameOver->SetFunc(0, [&]()
+		{
+			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, [&]()
+				{
+					Undo(stageScale, isTrue, isTrue);
+				});
+		});
+	gameOver->SetFunc(1, [&]()
+		{
+			Undo(stageScale, isFalse, isFalse);
+		});
+	gameOver->SetFunc(2, [&]()
+		{
+			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, selectName);
+		});
+
+
+		//カロリーゲージ
 	calorieGage = new CalorieGage_hori();
 
 	player->SetCalorieGage(calorieGage);
