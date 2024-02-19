@@ -295,14 +295,6 @@ void StageScene::Update()
 						}
 					}
 
-
-					// 1-1なら
-					if (tutorial->GetIs1_1())
-					{
-						static bool isMachoTutorialOnce = false;
-						isTutorialNow = true;
-					}
-
 				});
 		}
 

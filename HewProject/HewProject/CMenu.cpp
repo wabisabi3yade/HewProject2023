@@ -324,7 +324,11 @@ void CMenu::Update()
 
 			if (input->GetInputTrigger(InputType::DECIDE))
 			{
-				selectControl->PushButton();
+				bool _flash = false;
+				if (selectControl->GetPointButton() == 2)
+					_flash = true;
+
+				selectControl->PushButton(_flash);
 			}
 
 			if (input->GetInputTrigger(InputType::CANCEL))
