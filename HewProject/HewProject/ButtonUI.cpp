@@ -12,7 +12,7 @@
 #define WAIT_TIME (0.0f)	// ハイライト中のUIの大きさ
 
 #define FLASH_TIME (0.1f)
-#define FLASH_ENDTIME (3.0f)
+#define FLASH_END (10)
 
 Vector3 ButtonUI::ButtonScaleConversion(const Vector3& _scale)
 {
@@ -70,19 +70,25 @@ void ButtonUI::Update()
 
 	if (isFlash)
 	{
+		static short flashTimes = 0;
 		elapsedTime += 1.0f / 60;
 
-		if (elapsedTime > FLASH_TIME)
+		if (elapsedTime >  FLASH_TIME)
 		{
+			flashTimes++;
 			nowUV += 0.5f;
 			if (nowUV >= 1.0f) nowUV = 0.0f;
 
 			button->SetUV(0.0f, nowUV);
+
+			elapsedTime = 0.0f;
 		}
 
-		if (elapsedTime > FLASH_ENDTIME)
+		if (flashTimes > FLASH_END)
 		{
 			isFlash = false;
+			flashTimes = 0;
+			button->SetUV(0.0f, 0.5f);
 		}
 	}
 

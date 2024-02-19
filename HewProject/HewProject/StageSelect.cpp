@@ -213,20 +213,20 @@ StageSelect::StageSelect()
 
 void StageSelect::Update()
 {
-	if (isBeginFin)
-	{
-		// “ü—Í
-		Input();
-
-
-		/*static float sinRot = 0.0f;
+	static float sinRot = 0.0f;
 		sinRot += SIN_SPEED;
 		stageSmpBack->mTransform.pos.y = SIN_POWER * sin(DirectX::XMConvertToRadians(sinRot));
 
 		if (sinRot > 360.0f)
 		{
 			sinRot = 0.0f;
-		}*/
+		}
+
+	if (isBeginFin)
+	{
+		// “ü—Í
+		Input();
+
 	}
 	// Å‰‚ÌˆÚ“®‚Ég—p‚·‚éˆ—‚Í‚±‚±
 	else
