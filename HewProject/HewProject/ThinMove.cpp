@@ -1,7 +1,7 @@
 #include "ThinMove.h"
 #include "Player.h"
 #include "CBaum.h"
-
+#include"xa2.h"
 ThinMove::ThinMove(Player* _p)
 	: PlayerMove(_p)
 {
@@ -68,7 +68,7 @@ void ThinMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CAKE:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		// 移動する
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -79,9 +79,11 @@ void ThinMove::Move(DIRECTION _dir)
 				WalkAfter();
 				if (player->GetCalorie() <= 0)
 				{
+					XA_Play(SOUND_LABEL::S_DOWN);
 					player->GameOver();
 					return;
 				}
+				XA_Play(SOUND_LABEL::S_EAT);
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
@@ -114,6 +116,7 @@ void ThinMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::CHILI:
 		WalkStart();
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -122,9 +125,11 @@ void ThinMove::Move(DIRECTION _dir)
 				WalkAfter();
 				if (player->GetCalorie() <= 0)
 				{
+					XA_Play(SOUND_LABEL::S_DOWN);
 					player->GameOver();
 					return;
 				}
+				XA_Play(SOUND_LABEL::S_EAT);
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -141,13 +146,20 @@ void ThinMove::Move(DIRECTION _dir)
 
 	case CGridObject::BlockType::PROTEIN:
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				if (player->GetCalorie() <= 0)
+				{
+					XA_Play(SOUND_LABEL::S_DOWN);
+					player->GameOver();
+					return;
+				}
+				XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
 				player->ChangeTexture(Player::ANIM_TEX::DRINK);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -162,7 +174,7 @@ void ThinMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHOCOCRACK:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -189,6 +201,7 @@ void ThinMove::Move(DIRECTION _dir)
 			Vector3 Vec3JumpPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 			junpPos.x = Vec3JumpPos.x;
 			junpPos.y = Vec3JumpPos.y;
+			XA_Play(SOUND_LABEL::S_JUNP);
 			player->dotween->DoMoveCurve(junpPos, JUMP_TIME);
 			player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -206,18 +219,21 @@ void ThinMove::Move(DIRECTION _dir)
 					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-					if(player)
-					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					if (player->GetNowFloor() != 1)
 					{
-						//バウンドする高さを計算　代入
-						//player->Fall();
-						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
-						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
-							{
-								isFallBound = true;
-							});
-						//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
+						if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+						{
+							//バウンドする高さを計算　代入
+							//player->Fall();
+							float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+							player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+							player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+								{
+									XA_Play(SOUND_LABEL::S_TYAKUTI);
+									isFallBound = true;
+								});
+							//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
+						}
 					}
 					player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 						{
@@ -249,7 +265,15 @@ void ThinMove::Move(DIRECTION _dir)
 			{
 				player->dotween->DoDelay(0.3f);
 				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
+				player->dotween->DelayedCall(0.3f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_JUMP_GUMI);
+					});
 				player->Rise();
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_JUMP_UP);
+					});
 				player->GetPlayerMove()->RiseStart();
 				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);
@@ -344,9 +368,11 @@ void ThinMove::Move(DIRECTION _dir)
 					// 食べ終わったら移動できるようにする
 					if (player->GetCalorie() <= 0)
 					{
+						XA_Play(SOUND_LABEL::S_DOWN);
 						player->GameOver();
 						return;
 					}
+					XA_Play(SOUND_LABEL::S_EAT);
 					player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 					player->GetPlayerAnim()->PlayEat(player->GetDirection());
 					Vector3 pos = player->mTransform.pos;
@@ -381,9 +407,11 @@ void ThinMove::Move(DIRECTION _dir)
 					// 食べ終わったら移動できるようにする
 					if (player->GetCalorie() <= 0)
 					{
+						XA_Play(SOUND_LABEL::S_DOWN);
 						player->GameOver();
 						return;
 					}
+					XA_Play(SOUND_LABEL::S_EAT);
 					player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 					player->GetPlayerAnim()->PlayEat(player->GetDirection());
 					player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -398,6 +426,15 @@ void ThinMove::Move(DIRECTION _dir)
 				case CGridObject::BlockType::PROTEIN:
 					WalkAfter();
 					nextGridPos = nextGridPosCopy;
+					if (player->GetCalorie() <= 0)
+					{
+						XA_Play(SOUND_LABEL::S_DOWN);
+						player->GameOver();
+						return;
+					}
+					XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+					player->ChangeTexture(Player::ANIM_TEX::DRINK);
+					player->GetPlayerAnim()->PlayEat(player->GetDirection());
 					player->dotween->DelayedCall(EAT_TIME, [&]()
 						{
 							MoveAfter();
@@ -455,6 +492,7 @@ void ThinMove::Move(DIRECTION _dir)
 						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 							{
+								XA_Play(SOUND_LABEL::S_TYAKUTI);
 								isFallBound = true;
 							});
 					}
@@ -513,13 +551,19 @@ void ThinMove::Move(DIRECTION _dir)
 	default:
 
 		WalkStart();
-
+		XA_Play(SOUND_LABEL::S_WALK);
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				if (player->GetCalorie() <= 0)
+				{
+					XA_Play(SOUND_LABEL::S_DOWN);
+					player->GameOver();
+					return;
+				}
 				MoveAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -537,9 +581,11 @@ void ThinMove::Step()
 
 		if (player->GetCalorie() <= 0)
 		{
+			XA_Play(SOUND_LABEL::S_DOWN);
 			player->GameOver();
 			return;
 		}
+		XA_Play(SOUND_LABEL::S_EAT);
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		Vector3 pos = player->mTransform.pos;
@@ -572,7 +618,13 @@ void ThinMove::Step()
 	}
 	case CGridObject::BlockType::CHILI:
 	{
-
+		if (player->GetCalorie() <= 0)
+		{
+			XA_Play(SOUND_LABEL::S_DOWN);
+			player->GameOver();
+			return;
+		}
+		XA_Play(SOUND_LABEL::S_EAT);
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -589,9 +641,18 @@ void ThinMove::Step()
 	}
 	case CGridObject::BlockType::PROTEIN:
 	{
-
+		if (player->GetCalorie() <= 0)
+		{
+			XA_Play(SOUND_LABEL::S_DOWN);
+			player->GameOver();
+			return;
+		}
+		XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+		player->ChangeTexture(Player::ANIM_TEX::DRINK);
+		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
+
 				MoveAfter();
 				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -623,6 +684,7 @@ void ThinMove::Step()
 				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
 				player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
 					{
+						XA_Play(SOUND_LABEL::S_TYAKUTI);
 						isFallBound = true;
 					});
 				//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
@@ -657,6 +719,12 @@ void ThinMove::Step()
 
 	default:	// 床
 		MoveAfter();
+		if (player->GetCalorie() <= 0)
+		{
+			XA_Play(SOUND_LABEL::S_DOWN);
+			player->GameOver();
+			return;
+		}
 		FallAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);

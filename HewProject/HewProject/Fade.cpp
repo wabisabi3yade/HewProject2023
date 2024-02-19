@@ -3,7 +3,7 @@
 #include "NowLoadingText.h"
 #include "TextureFactory.h"
 #include "CScene.h"
-
+#include"xa2.h"
 
 
 #define FADESCALE_X (20.0f)
@@ -42,7 +42,7 @@ Fade::Fade()
 
 	backGround = new FadeUI(vb, tex);
 	backGround->MakeDotween();
-	backGround->mTransform.scale = {FADESCALE_X, FADESCALE_Y, 1.0f };
+	backGround->mTransform.scale = { FADESCALE_X, FADESCALE_Y, 1.0f };
 	backGround->SetActive(false);
 	backGround->mTransform.pos.z = FADE_BASE_POSZ;
 }
@@ -115,8 +115,8 @@ void Fade::Update()
 
 		FadeOutInit();
 	}
-	
-	
+
+
 	if (nowLoading != nullptr)
 	{
 		nowLoading->Update();
@@ -177,8 +177,8 @@ void Fade::FadeOutInit()
 		func();
 	}
 	// シーンを変えるときに呼ぶ関数
-	if(nextScene != CScene::SCENE_NAME::NONE)
-	SceneChange();
+	if (nextScene != CScene::SCENE_NAME::NONE)
+		SceneChange();
 
 	Vector3 v = Vector3::zero;
 	v.x = FADEOUT_POSX;
@@ -229,9 +229,13 @@ void Fade::FadeIn(const STATE& _nextState, std::function<void()> _onFunc, int _s
 	// フェードが画面端に到達する瞬間の座標
 	Vector3 v = Vector3::zero;
 	v.z = FADE_BASE_POSZ;
-	
+
+	backGround->dotween->DelayedCall(FADEIN_DELAYTIME, [&]
+		{
+			XA_Play(SOUND_LABEL::S_FADE_IN);
+		});
 	backGround->dotween->DoDelay(FADEIN_DELAYTIME);
-	backGround->dotween->Append(v, FADE_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC); 
+	backGround->dotween->Append(v, FADE_TIME, DoTweenUI::FUNC::EASE_OUTCUBIC);
 	backGround->dotween->OnComplete([&]()
 		{
 			switch (nextState)

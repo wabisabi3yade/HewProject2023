@@ -1,5 +1,6 @@
 #include "CCoin.h"
 #include"DoTween.h"
+#include"xa2.h"
 constexpr float GET_SCALE = 0.3f;
 constexpr float GET_POS_Y = 1.5f;
 constexpr float GET_MOVETIME = 1.5f;
@@ -35,6 +36,7 @@ void CCoin::GetCoin()
 	Vector3 pos(mTransform.pos);
 	pos.y += GET_POS_Y;
 	dotween->DoEaseOutCubic(pos, GET_MOVETIME);
+	XA_Play(SOUND_LABEL::S_COIN);
 	dotween->OnComplete([&]()
 		{
 			isActive = false;

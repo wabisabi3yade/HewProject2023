@@ -9,6 +9,7 @@
 #include "TextureFactory.h"
 #include"CalorieGage_hori.h"
 #include"CCamera.h"
+#include"xa2.h"
 
 #define START_CALORIE (8)	// スタート時のカロリー
 #define CHILI_CALORIE (2)	// とうがらし食べた減るのリスのカロリー
@@ -184,6 +185,7 @@ void Player::Update()
 			{
 				if (this->GetNowFloor() == 1)
 				{
+					XA_Play(SOUND_LABEL::S_GAMEOVER);
 					this->GameOver();
 					return;
 				}
@@ -243,10 +245,12 @@ void Player::Update()
 
 	if (calorie <= 0 && !gameOverOnes)
 	{
+		XA_Play(SOUND_LABEL::S_DOWN);
 		ChangeTexture(ANIM_TEX::GAMEOVER);
 		dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction),1.5f);
 		dotween->DelayedCall(GAMEOVER_TIME, [&]()
 			{
+				XA_Play(SOUND_LABEL::S_GAMEOVER);
 				GameOver();
 			});
 		gameOverOnes = true;

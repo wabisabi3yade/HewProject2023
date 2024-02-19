@@ -2,7 +2,7 @@
 #include "DoTween.h"
 #include"Player.h"
 #include"CEffectManeger.h"
-
+#include"xa2.h"
 constexpr float dis_X = 0.3f;
 constexpr float dis_Y = 0.3f;
 
@@ -105,6 +105,7 @@ void CWall::Break(int _dir, float _breakTime)
 
 	dotween->DelayedCall(_breakTime / 2.0, [&, pos, scale, _dir]()
 		{
+			XA_Play(SOUND_LABEL::S_DAGEKI);
 			isBreak = true;
 			time = 0;
 			isDecrease = true;

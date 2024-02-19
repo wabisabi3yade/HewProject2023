@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "CEffect.h"
 #include"CEffectManeger.h"
+#include"xa2.h"
 
 PlayerMove::PlayerMove(Player* _p)
 {
@@ -62,6 +63,7 @@ void PlayerMove::Input()
 		// その方向に移動できるなら
 		if (!canMoveDir[static_cast<int>(DIRECTION::RIGHT)])
 		{
+			XA_Play(SOUND_LABEL::S_YAJIRUISI_UP);
 			IsMissMove = true;
 			return;
 		}
@@ -78,6 +80,7 @@ void PlayerMove::Input()
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::LEFT)])
 		{
+			XA_Play(SOUND_LABEL::S_YAJIRUISI_UP);
 			IsMissMove = true;
 			return;
 		}
@@ -93,6 +96,7 @@ void PlayerMove::Input()
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::UP)])
 		{
+			XA_Play(SOUND_LABEL::S_YAJIRUISI_UP);
 			IsMissMove = true;
 			return;
 		}
@@ -108,6 +112,7 @@ void PlayerMove::Input()
 	{
 		if (!canMoveDir[static_cast<int>(DIRECTION::DOWN)])
 		{
+			XA_Play(SOUND_LABEL::S_YAJIRUISI_UP);
 			IsMissMove = true;
 			return;
 		}
