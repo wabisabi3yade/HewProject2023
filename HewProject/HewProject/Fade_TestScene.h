@@ -27,7 +27,8 @@ class Fade_TestScene
 
 	Tutorial* tutorial;
 
-	D3DTEXTURE tutorialTex;
+	D3DTEXTURE tutorial1Tex;
+	D3DTEXTURE tutorial2Tex;
 
 public:
 	Fade_TestScene();

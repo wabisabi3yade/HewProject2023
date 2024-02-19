@@ -41,9 +41,12 @@ Fade_TestScene::Fade_TestScene()
 	coinUI->SetActive(true);
 
 
-	D3D_LoadTexture(L"asset/Tutorial/T_1.png", &tutorialTex);
 
-	tutorial = new Tutorial(tutorialTex);
+	D3D_LoadTexture(L"asset/Tutorial/T_1.png", &tutorial1Tex);
+	D3D_LoadTexture(L"asset/Tutorial/T_2.png", &tutorial2Tex);
+	tutorial = new Tutorial(0);
+	tutorial->SetTexture(tutorial1Tex);
+	tutorial->SetTexture(tutorial2Tex);
 
 	//proteinUI->GetDotween()->DoMove({ -5.0f, 2.0f,1.0f }, 1.0f);
 	//proteinUI->GetDotween()->OnComplete([&]
@@ -67,7 +70,8 @@ Fade_TestScene::~Fade_TestScene()
 	SAFE_RELEASE(b);
 
 	CLASS_DELETE(tutorial);
-	SAFE_RELEASE(tutorialTex);
+	SAFE_RELEASE(tutorial1Tex);
+	SAFE_RELEASE(tutorial2Tex);
 }
 
 void Fade_TestScene::Update()
