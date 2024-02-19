@@ -3,7 +3,7 @@
 #include "InputManager.h"
 #include "Direct3D.h"
 
-#define STAGESELECT_SPEED (0.05f)	// プレイヤー速度
+#define STAGESELECT_SPEED (0.06f)	// プレイヤー速度
 #define STAGESELECT_PLAYER_ANIMSPD (0.2f)	// プレイヤーアニメ速度
 #define SCREEN_RIGHT_MAX (7.0f)   //画面右端
 #define SCREEN_LEFT_MAX (-7.0f)   //画面左端
