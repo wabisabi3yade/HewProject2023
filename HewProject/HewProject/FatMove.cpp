@@ -119,8 +119,8 @@ void FatMove::Move(DIRECTION _dir)
 						{
 							Vector3 pos = player->mTransform.pos;
 							Vector3 scale = player->mTransform.scale;
-							pos.z += 0.0009996f;
-							player->mTransform.pos.z += 0.0009999f;
+							pos.z += 0.0009976f;
+							player->mTransform.pos.z += 0.0009989f;
 							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
@@ -180,8 +180,8 @@ void FatMove::Move(DIRECTION _dir)
 							{
 								Vector3 pos = player->mTransform.pos;
 								Vector3 scale = player->mTransform.scale;
-								pos.z += 0.0009996f;
-								player->mTransform.pos.z += 0.0009999f;
+								pos.z += 0.0009976f;
+								player->mTransform.pos.z += 0.0009989f;
 								pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 								scale.x *= SMOKE_SCALE;
 								scale.y *= SMOKE_SCALE;
@@ -202,8 +202,8 @@ void FatMove::Move(DIRECTION _dir)
 					{
 						Vector3 pos = player->mTransform.pos;
 						Vector3 scale = player->mTransform.scale;
-						pos.z += 0.0009996f;
-						player->mTransform.pos.z += 0.0009999f;
+						pos.z += 0.0009976f;
+						player->mTransform.pos.z += 0.0009989f;
 						pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 						scale.x *= SMOKE_SCALE;
 						scale.y *= SMOKE_SCALE;
@@ -394,8 +394,8 @@ void FatMove::Move(DIRECTION _dir)
 				{
 					Vector3 pos = player->mTransform.pos;
 					Vector3 scale = player->mTransform.scale;
-					pos.z += 0.0009996f;
-					player->mTransform.pos.z += 0.0009999f;
+					pos.z += 0.0009976f;
+					player->mTransform.pos.z += 0.0009989f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
@@ -430,8 +430,8 @@ void FatMove::Step()
 				MoveAfter();
 				Vector3 pos = player->mTransform.pos;
 				Vector3 scale = player->mTransform.scale;
-				pos.z += 0.0009996f;
-				player->mTransform.pos.z += 0.0009999f;
+				pos.z += 0.0009976f;
+				player->mTransform.pos.z += 0.0009989f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
@@ -458,8 +458,8 @@ void FatMove::Step()
 				{
 					Vector3 pos = player->mTransform.pos;
 					Vector3 scale = player->mTransform.scale;
-					pos.z += 0.0009996f;
-					player->mTransform.pos.z += 0.0009999f;
+					pos.z += 0.0009976f;
+					player->mTransform.pos.z += 0.0009989f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
@@ -577,8 +577,8 @@ void FatMove::Step()
 		{
 			Vector3 pos = player->mTransform.pos;
 			Vector3 scale = player->mTransform.scale;
-			pos.z += 0.0009996f;
-			player->mTransform.pos.z += 0.0009999f;
+			pos.z += 0.0009976f;
+			player->mTransform.pos.z += 0.0009989f;
 			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;

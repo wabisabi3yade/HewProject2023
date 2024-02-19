@@ -1101,14 +1101,14 @@ void StageScene::InCanonInput()
 		{
 			_pos.x = _pos.x + (0.5f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = _pos.z - 0.000002f;
+			_pos.z = -0.99f;
 			//_pos.z = -0.14f;
 		}
 		else//左
 		{
 			_pos.x = _pos.x - (0.1f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = _pos.z - 0.15f;
+			_pos.z = _pos.z - 0.0015f;
 		}
 		cannonObj->SetTexture(stageTextureCannon[0]);
 		dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir, 2.0f);
@@ -1146,7 +1146,7 @@ void StageScene::InCanonInput()
 			_pos.x = _pos.x - (0.3f * stageScale);
 			_pos.y = _pos.y + (0.3f * stageScale);
 			//_pos.z = _pos.z - HORIZONLINE_PLUSZ + 0.00001f;
-			_pos.z = _pos.z - 0.15f;
+			_pos.z = _pos.z - 0.0015f;
 		}
 		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos, _Scale]()
 			{
@@ -1292,7 +1292,7 @@ void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 		// 全部消しておく
 		for (int i = 0; i < UNDO_ARRAY_NUM; i++)
 		{
-			floorUndo[i].objectTable[0][0][0] == 0;
+			floorUndo[i].objectTable[0][0][0] = 0;
 		}
 		// 0番目に入れておく
 		floorUndo[0] = floorReset;

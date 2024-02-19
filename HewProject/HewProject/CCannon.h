@@ -3,7 +3,6 @@
 #include"Player.h"
 #include"CannonAnim.h"
 class CArrow;
-class EffectManeger;
 class CEffect;
 class CCannon :
     public CGridObject
