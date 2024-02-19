@@ -49,7 +49,7 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/gameclear.wav",0.5f,false},
 	{"SE/gameover.wav",0.5f,false},
 	{"SE/janpu.wav",0.5f,false},
-	{"SE/proteindrink.wav",0.5f,false},
+	{"SE/protaindrink.wav",0.5f,false},
 	{"SE/syasin.wav",0.5f,false},
 	{"SE/text1.wav",0.5f,false},
 	{"SE/textin2.wav",0.5f,false},
