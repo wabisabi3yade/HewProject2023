@@ -473,7 +473,6 @@ void MuscleMove::Step()
 					{
 						isFallBound = true;
 					});
-				//player->dotween->DoMoveCurve({ floorFallPos.x,floorFallPos.y }, BOUND_TIME, BoundPosY);
 			}
 		}
 		player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
