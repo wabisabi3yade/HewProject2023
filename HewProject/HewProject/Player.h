@@ -186,6 +186,7 @@ public:
 
 	CPlayerAnim* GetPlayerAnim() { return dynamic_cast<CPlayerAnim*> (mAnim); }
 	void SetGameOver(bool _set) { IsgameOver = _set; }
+	void SetGameOverFalse() { IsgameOver = false; }
 	void Reset();
 	bool GetIsGameOver() { return  IsgameOver; }
 	bool GetGameOverOnes() { return  gameOverOnes; }

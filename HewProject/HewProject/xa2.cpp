@@ -51,8 +51,8 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/janpu.wav",0.5f,false},
 	{"SE/protaindrink.wav",0.5f,false},
 	{"SE/syasin.wav",0.5f,false},
-	{"SE/text1.wav",0.5f,false},
-	{"SE/textin2.wav",0.5f,false},
+	{"SE/text1.wav",3.0f,false},
+	{"SE/textin2.wav",3.0f,false},
 	{"SE/tyakuti.wav",0.5f,false},
 	{"SE/yajirusiup.wav",0.5f,false},
 

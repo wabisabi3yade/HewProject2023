@@ -11,6 +11,7 @@
 #include"FloorUI.h"
 #include "CalorieGage_hori.h"
 #include "CMenu.h"
+#include"CoinUI.h"
 class DoTween;
 class CArrow;
 class CGameClear;
@@ -170,6 +171,8 @@ private:
 	UI* LB_Button;
 	//プロテイン
 	ProteinUI* proteinUi;
+	//コイン
+	CoinUI* coinUI;
 
 	//階層
 	FloorUI* floorUi;
@@ -187,6 +190,7 @@ private:
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
 
+	int nNumCoin;
 	StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum);
 	~StageScene();
 
@@ -211,6 +215,8 @@ public:
 	void Undo(float _stageScale, bool _isReset = false, bool isPush = false);
 	// 移動するごとに前のテーブル状態に更新する
 	void UndoTableUpdate();
+
+	void Reset();
 
 	// ひとつ前に戻すときにプレイヤーの情報を設定する
 	void UndoPlayerSet(const int& _dir, const int& _calorie, const Player::STATE& _state);

@@ -661,7 +661,8 @@ void PlayerMove::CheckCanMove()
 
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
-			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
+			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0
+			|| forwordPos.x > 8 || forwordPos.y > 8)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;
