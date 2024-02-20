@@ -6,10 +6,6 @@ class Stage11 :
 
     D3DTEXTURE tex;
 
-    D3DTEXTURE getProteinTex = NULL;
-    D3DTEXTURE goChestTex = NULL;
-
-    UI* text;
 public:
     Stage11();
 

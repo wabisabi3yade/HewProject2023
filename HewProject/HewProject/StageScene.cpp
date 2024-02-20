@@ -29,7 +29,7 @@
 
 #define PLAYER dynamic_cast<Player*>(player)	// わざわざ書くのめんどくさい
 
-StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
+StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum, bool _isW11)
 	: CObject(vb, tex)
 {
 	nNumProtein = 0;
@@ -40,12 +40,13 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 
 	FloorOnlyMap = false;
 
+	isW11 = _isW11;
+
 	dotween = std::make_unique<DoTween>(CCamera::GetInstance());
 
 	//gameClear = new CGameClear();
 	gameOver = new CGameOver();
 
-	gameClear = new CGameClear(CScene::SCENE_NAME::NONE);
 
 	isGameClear = false;
 
@@ -118,7 +119,13 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum)
 	ButtonTextureUndo = texFactory->Fetch(L"asset/UI/B_Undo1.png");
 	TextTextureLooking = texFactory->Fetch(L"asset/Text/T_Looking 1.png");
 	Button_LB_RB_Texture = texFactory->Fetch(L"asset/UI/B_LB_RB.png");
+	ButtonTextureCameraBack = texFactory->Fetch(L"asset/UI/B_CameraBack.png");
 
+	if (isW11)
+	{
+		GetProteinTexture = texFactory->Fetch(L"asset/Text/T_GoalAt.png");
+		GoChestTexture = texFactory->Fetch(L"asset/Text/T_Looking 1.png");
+	}
 }
 
 // テクスチャは解放しない
@@ -176,6 +183,12 @@ StageScene::~StageScene()
 	CLASS_DELETE(LookingTxet);
 	CLASS_DELETE(RB_Button);
 	CLASS_DELETE(LB_Button);
+	CLASS_DELETE(BackCameraButton);
+	if (GoChest != nullptr)
+	{
+		CLASS_DELETE(GoChest);
+		CLASS_DELETE(GetProtein);
+	}
 	//CLASS_DELETE();
 
 }
@@ -1614,6 +1627,7 @@ void StageScene::Draw()
 			if (*isLookMap == true)
 			{
 				FloorLookButton->Draw();
+				BackCameraButton->Draw();
 				if (lockStageMap != 1)
 					LB_Button->Draw();
 				if (lockStageMap != nMaxFloor)
@@ -1627,7 +1641,11 @@ void StageScene::Draw()
 			LookingTxet->Draw();
 		}
 	}
-
+	if (isW11 && Menu->GetisMenu() == false)
+	{
+		GetProtein->Draw();
+		GoChest->Draw();
+	}
 	//プロテイン
 	proteinUi->Draw();
 
@@ -1901,13 +1919,16 @@ void StageScene::Init(const wchar_t* filePath)
 	RB_Button = new UI(LR_ButtonBuffer, Button_LB_RB_Texture);
 	LB_Button = new UI(LR_ButtonBuffer, Button_LB_RB_Texture);
 
-	CameraButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
-	FloorLookButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
-	UndoButton->mTransform.pos = { -6.05f,-3.0f,0.0f };
+	BackCameraButton = new UI(stageBuffer, ButtonTextureCameraBack);
 
-	CameraButton->mTransform.scale = { 2.7f,0.9f,1.0f };
-	FloorLookButton->mTransform.scale = { 2.7f,0.9f,1.0f };
-	UndoButton->mTransform.scale = { 3.6f,0.9f,1.0f };
+	CameraButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
+	FloorLookButton->mTransform.pos = { -6.5f,-3.0f,0.0f };
+	UndoButton->mTransform.pos = { -6.1f,-3.0f,0.0f };
+	BackCameraButton->mTransform.pos = { -6.5f,-4.0f,0.0f };
+	CameraButton->mTransform.scale = { 2.4f,0.8f,1.0f };
+	FloorLookButton->mTransform.scale = { 2.4f,0.8f,1.0f };
+	UndoButton->mTransform.scale = { 3.2f,0.8f,1.0f };
+	BackCameraButton->mTransform.scale = { 2.4f,0.8f,1.0f };
 
 	LookingTxet->mTransform.pos = { -13.0f,2.5f,0.0 };
 	LookingTxet->mTransform.scale = { 5.4f,0.9f,0.0f };
@@ -1954,9 +1975,14 @@ void StageScene::Init(const wchar_t* filePath)
 	{
 		gameStart = new CGameStart(nNumProtein);
 	}
-	if (selectName == CScene::SCENE_NAME::STAGE1)
+
+	if (selectName == CScene::SCENE_NAME::STAGE1_1)
 	{
-		//gameStart = new CGameStart(nNumProtein,true);
+		GoChest = new UI(stageBuffer, GoChestTexture);
+		GetProtein = new UI(stageBuffer, GetProteinTexture);
+
+		GoChest->mTransform.scale = { 1.0f,2.0f,0.0f };
+		GetProtein->mTransform.scale = { 1.0f,2.0f,0.0f };
 	}
 
 	if (nNumCoin != 0)
@@ -1964,6 +1990,8 @@ void StageScene::Init(const wchar_t* filePath)
 		coinUI = new CoinUI(nNumCoin);
 		coinUI->SetPosition({ 6.0f,1.5f,0.0f });
 	}
+
+	gameClear = new CGameClear(CScene::SCENE_NAME::NONE,coinUI);
 
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 

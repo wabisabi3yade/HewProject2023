@@ -161,6 +161,9 @@ private:
 	D3DTEXTURE ButtonTextureUndo;
 	D3DTEXTURE TextTextureLooking;
 	D3DTEXTURE Button_LB_RB_Texture;
+	D3DTEXTURE ButtonTextureCameraBack;
+	D3DTEXTURE GetProteinTexture;
+	D3DTEXTURE GoChestTexture;
 
 	//UI関係
 	UI* LookingTxet;
@@ -169,6 +172,10 @@ private:
 	UI* UndoButton;
 	UI* RB_Button;
 	UI* LB_Button;
+	UI* BackCameraButton;
+	
+	UI* GetProtein;
+	UI* GoChest;
 	//プロテイン
 	ProteinUI* proteinUi;
 	//コイン
@@ -187,11 +194,14 @@ private:
 	bool isTutorialNow = false;
 	Tutorial* tutorial = nullptr;
 
+	bool isW11 = false;
+
+
 public:
 	int nNumProtein;	// 現在ステージにあるプロテインの数
 
 	int nNumCoin;
-	StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum);
+	StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum, bool _isW11 = false);
 	~StageScene();
 
 	void Update();
