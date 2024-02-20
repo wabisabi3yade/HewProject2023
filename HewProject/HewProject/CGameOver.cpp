@@ -41,7 +41,7 @@ CGameOver::CGameOver()
 	text_backTexture = TextureFactory::GetInstance()->Fetch(L"asset/Text/T_Back.png");
 
 
-	Text[0]->mTransform.pos = { TEXT_POS_X,TEXT_POS_Y, BLACKBG_POS_Z-0.0001f };
+	Text[0]->mTransform.pos = { TEXT_POS_X,TEXT_POS_Y, BLACKBG_POS_Z - 0.0001f };
 	Text[0]->mTransform.scale = { TEXT_SCALE,TEXT_SCALE,1.0f };
 
 	Text[1]->mTransform.pos = { TEXT_POS_X + 1.2f,TEXT_POS_Y,BLACKBG_POS_Z - 0.0002f };
@@ -224,7 +224,7 @@ void CGameOver::ResetPos()
 {
 	for (int i = 0; i < MAXNUM_TEXT; i++)
 	{
-		Text[i]->mTransform.pos = { TEXT_POS_X + i * 1.2f,TEXT_POS_Y, BLACKBG_POS_Z - i * 0.0001f };
+		Text[i]->mTransform.pos = { TEXT_POS_X + i * 1.2f,TEXT_POS_Y, BLACKBG_POS_Z - 0.0001f - i * 0.0001f };
 	}
 	
 	isOnce = false;
