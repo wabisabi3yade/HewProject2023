@@ -88,6 +88,8 @@ void CWall::Break(int _dir, float _breakTime)
 	}
 	if (_breakTime == 0.0f)
 	{
+		XA_Play(SOUND_LABEL::S_DAGEKI);
+
 		isBreak = true;
 		time = 0;
 		isDecrease = true;
