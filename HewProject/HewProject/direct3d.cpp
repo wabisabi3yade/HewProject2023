@@ -113,7 +113,7 @@ HRESULT D3D_Create(HWND hwnd)
 		return hr;
 
 	// フルスクリーンにする
-//	hr = m_pSwapChain->SetFullscreenState(TRUE, NULL);
+	hr = m_pSwapChain->SetFullscreenState(TRUE, NULL);
 	if (FAILED(hr))
 		return hr;
 
@@ -244,7 +244,7 @@ HRESULT D3D_Create(HWND hwnd)
 // Release＝解放
 // アプリケーション終了時に実行する
 void D3D_Release()
-{	
+{
 	//// 最後にフルスクリーンを解放
 	m_pSwapChain->SetFullscreenState(FALSE, NULL);
 

@@ -720,6 +720,7 @@ void StageScene::StageMove()
 					gallObj->dotween->DelayedCall(BREAK_TIME / 2.5f, [&, gallObj]()
 						{
 							gallReduction = true;
+							XA_Play(SOUND_LABEL::S_GOAL);
 						});
 				});
 		}
@@ -2133,6 +2134,17 @@ void StageScene::Init(const wchar_t* filePath)
 	}
 	calorieGage->SetPosition({ -4.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 0.75f,0.75f,1.0f });
+
+
+	player->SetCalorie(8);
+
+	if (nextStageName == CScene::SCENE_NAME::STAGE4_2)
+	{
+		player->SetCalorie(15);
+	}
+
+	
+
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);
 

@@ -63,6 +63,7 @@ typedef enum
 	S_CHARGE1,
 	S_CHARGE2,
 	S_CHARGE3,
+	S_GOAL,
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
 

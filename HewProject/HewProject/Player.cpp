@@ -118,10 +118,14 @@ void Player::Init(GridTable* _pTable)
 	// 通常状態から始める
 	/*playerState = STATE::NORMAL;*/
 
-	ChangeState(STATE::NORMAL);
-
-
-	calorie = START_CALORIE;
+	if (calorie > 8)
+	{
+		ChangeState(STATE::FAT);
+	}
+	else
+	{
+		ChangeState(STATE::NORMAL);
+	}
 	/*SetTexture(normalTex[0]);*/
 
 	calorieGage->SetCalorie(calorie);
