@@ -34,7 +34,7 @@ Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _ne
 
 	csvPath = work;
 
-	stage = new StageScene(NULL, NULL, worldNum);
+	stage = new StageScene(NULL, NULL, worldNum,_isW11);
 	stage->Init(csvPath);
 
 	TextureFactory* texFactory =  TextureFactory::GetInstance();

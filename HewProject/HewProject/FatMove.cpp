@@ -143,6 +143,7 @@ void FatMove::Move(DIRECTION _dir)
 							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
+							XA_Play(SOUND_LABEL::S_CHANGE);
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
 							player->Stop();
 						}
@@ -218,6 +219,7 @@ void FatMove::Move(DIRECTION _dir)
 								pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 								scale.x *= SMOKE_SCALE;
 								scale.y *= SMOKE_SCALE;
+								XA_Play(SOUND_LABEL::S_CHANGE);
 								player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
 								player->Stop();
 							}
@@ -241,6 +243,7 @@ void FatMove::Move(DIRECTION _dir)
 						pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 						scale.x *= SMOKE_SCALE;
 						scale.y *= SMOKE_SCALE;
+						XA_Play(SOUND_LABEL::S_CHANGE);
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
 						player->Stop();
 					}
@@ -462,6 +465,7 @@ void FatMove::Move(DIRECTION _dir)
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
+					XA_Play(SOUND_LABEL::S_CHANGE);
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
 					player->Stop();
 				}
@@ -503,6 +507,7 @@ void FatMove::Step()
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
+				XA_Play(SOUND_LABEL::S_CHANGE);
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 				player->EatEnd();
 				FallAfter();
@@ -535,6 +540,7 @@ void FatMove::Step()
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
+					XA_Play(SOUND_LABEL::S_CHANGE);
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 					player->Stop();
 				}
@@ -663,6 +669,7 @@ void FatMove::Step()
 			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
+			XA_Play(SOUND_LABEL::S_CHANGE);
 			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 			player->Stop();
 		}

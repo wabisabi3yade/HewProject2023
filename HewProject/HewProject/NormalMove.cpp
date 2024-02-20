@@ -104,6 +104,7 @@ void NormalMove::Move(DIRECTION _dir)
 				player->dotween->DelayedCall(EAT_TIME, [&, pos, scale]()
 					{
 						MoveAfter();
+						XA_Play(SOUND_LABEL::S_CHANGE);
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 						player->EatEnd();
 						player->Stop();
@@ -151,6 +152,7 @@ void NormalMove::Move(DIRECTION _dir)
 							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
+							XA_Play(SOUND_LABEL::S_CHANGE);
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 							player->Stop();
 						}
@@ -193,6 +195,7 @@ void NormalMove::Move(DIRECTION _dir)
 							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
+							XA_Play(SOUND_LABEL::S_CHANGE);
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 							player->Stop();
 						}
@@ -415,6 +418,7 @@ void NormalMove::Move(DIRECTION _dir)
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
+				XA_Play(SOUND_LABEL::S_CHANGE);
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 				player->Stop();
 			}
@@ -449,6 +453,7 @@ void NormalMove::Step()
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
+				XA_Play(SOUND_LABEL::S_CHANGE);
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -480,6 +485,7 @@ void NormalMove::Step()
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
+					XA_Play(SOUND_LABEL::S_CHANGE);
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 					player->Stop();
 				}
@@ -514,6 +520,7 @@ void NormalMove::Step()
 			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
+			XA_Play(SOUND_LABEL::S_CHANGE);
 			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 		}
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -647,6 +654,7 @@ void NormalMove::Step()
 			pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
+			XA_Play(SOUND_LABEL::S_CHANGE);
 			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 		}
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());

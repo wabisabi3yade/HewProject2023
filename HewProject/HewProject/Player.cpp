@@ -268,6 +268,7 @@ void Player::Update()
 			pos.y += 0.5f * gridTable->GetGridScale().y;
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
+			XA_Play(SOUND_LABEL::S_CHANGE);
 			PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
 			gameOverOnes = true;
 			ChangeState(STATE::THIN);
@@ -381,6 +382,7 @@ void Player::ChangeState(STATE _set)
 				scale.y *= 3.0f;
 				pos.z -= 0.0001f;
 				pos.y += 0.3f * scale.y;
+				XA_Play(SOUND_LABEL::S_CHANGE);
 				this->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_P, false);
 				this->mTransform.scale.y *= 1.5f;
 				SetTexture(muscleTex[ANIM_TEX::WAIT]);

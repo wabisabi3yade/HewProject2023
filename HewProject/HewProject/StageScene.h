@@ -175,7 +175,6 @@ private:
 	UI* BackCameraButton;
 	
 	UI* GetProtein;
-	UI* GoChest;
 	//プロテイン
 	ProteinUI* proteinUi;
 	//コイン

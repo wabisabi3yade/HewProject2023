@@ -115,6 +115,7 @@ void ThinMove::Move(DIRECTION _dir)
 						player->EatEnd();
 						player->EatCake();
 						MoveAfter();
+						XA_Play(SOUND_LABEL::S_CHANGE);
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 						player->Stop();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -433,6 +434,7 @@ void ThinMove::Move(DIRECTION _dir)
 							player->EatEnd();
 							player->EatCake();
 							MoveAfter();
+							XA_Play(SOUND_LABEL::S_CHANGE);
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 							player->Stop();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -671,6 +673,7 @@ void ThinMove::Step()
 				player->EatEnd();
 				player->EatCake();
 				MoveAfter();
+				XA_Play(SOUND_LABEL::S_CHANGE);
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
