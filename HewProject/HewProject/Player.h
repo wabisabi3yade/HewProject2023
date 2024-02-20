@@ -100,6 +100,8 @@ private:
 
 	bool isEat;
 
+	bool isEatTrigger;
+
 	bool PlayMakeover;
 
 	bool IsPlaymakeover;
@@ -217,5 +219,7 @@ public:
 	bool GetPlayMakeover()const { return PlayMakeover; }
 	void SetIsPlayMakeover(bool _set) { IsPlaymakeover = _set; }
 	void SetPlayMakeover(bool _set) { PlayMakeover = _set; }
+	bool GetIsEat()const { return isEat; }
+	void Stop(float _stopEndTime = 0.5f);
 };
 

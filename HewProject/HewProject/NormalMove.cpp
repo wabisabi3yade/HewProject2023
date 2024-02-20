@@ -106,10 +106,12 @@ void NormalMove::Move(DIRECTION _dir)
 						MoveAfter();
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
 						player->EatEnd();
+						player->Stop();
 						player->EatCake();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
+
 			});
 		break;
 
@@ -150,6 +152,7 @@ void NormalMove::Move(DIRECTION _dir)
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+							player->Stop();
 						}
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -191,6 +194,7 @@ void NormalMove::Move(DIRECTION _dir)
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+							player->Stop();
 						}
 						player->EatEnd();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -222,11 +226,12 @@ void NormalMove::Move(DIRECTION _dir)
 				pos.z -= 0.000001f;
 				scale.x *= MARK_SCALE;
 				scale.y *= MARK_SCALE;
-				player->dotween->DelayedCall(FALL_TIME / 2, [&, pos, scale]()
-					{
-						player->Fall();
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
 						XA_Play(SOUND_LABEL::S_BIKKURI);
+				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+					{
+						player->Fall();
+						XA_Play(SOUND_LABEL::S_FLY_BATABATA);
 					});
 				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
@@ -405,6 +410,7 @@ void NormalMove::Move(DIRECTION _dir)
 				scale.x *= SMOKE_SCALE;
 				scale.y *= SMOKE_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+				player->Stop();
 			}
 			});
 		break;
@@ -469,6 +475,7 @@ void NormalMove::Step()
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+					player->Stop();
 				}
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);

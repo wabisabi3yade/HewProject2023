@@ -116,6 +116,7 @@ void ThinMove::Move(DIRECTION _dir)
 						player->EatCake();
 						MoveAfter();
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
+						player->Stop();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
@@ -356,7 +357,6 @@ void ThinMove::Move(DIRECTION _dir)
 		forwardPosXY = { forwardPos.x, forwardPos.y };
 
 		// プレイヤーを移動させておく
-		player->mTransform.pos = forwardPos;
 
 
 		Vector2 baumAdjustPos = Vector2::zero;
@@ -380,12 +380,16 @@ void ThinMove::Move(DIRECTION _dir)
 			baumAdjustPos = { -0.013f, 0.103f };
 			break;
 		}
-		player->mTransform.pos.x += baumAdjustPos.x * player->GetGridTable()->GetGridScale().x;
-		player->mTransform.pos.y += baumAdjustPos.y * player->GetGridTable()->GetGridScale().y;
+
 
 		// 動き終わったら
-		player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, nextGridPosCopy]()
+		player->dotween->DelayedCall(BAUM_THROWENDTIME, [&, nextGridPosCopy,forwardPos, baumAdjustPos]()
 			{
+				player->mTransform.pos = forwardPos;
+
+				player->mTransform.pos.x += baumAdjustPos.x * player->GetGridTable()->GetGridScale().x;
+				player->mTransform.pos.y += baumAdjustPos.y * player->GetGridTable()->GetGridScale().y;
+
 				nextGridPos = nextGridPosCopy;
 				// カステラ超えた先にブロックによって処理をする
 				switch (static_cast<CGridObject::BlockType>(player->GetGridTable()->CheckMassType(nextGridPosCopy)))
@@ -429,6 +433,7 @@ void ThinMove::Move(DIRECTION _dir)
 							player->EatCake();
 							MoveAfter();
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
+							player->Stop();
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
 							player->ChangeTexture(Player::ANIM_TEX::WAIT);
 						});
@@ -455,6 +460,12 @@ void ThinMove::Move(DIRECTION _dir)
 							player->EatEnd();
 							player->EatChilli();
 							MoveAfter();
+							if (player->GetCalorie() <= 0)
+							{
+								XA_Play(SOUND_LABEL::S_DOWN);
+								player->GameOver();
+								return;
+							}
 							player->GetPlayerAnim()->StopWalk(player->GetDirection());
 							player->ChangeTexture(Player::ANIM_TEX::WAIT);
 						});

@@ -57,10 +57,11 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	risingChangeTrriger = false;
 	risingMoveTrriger = false;
 	ChangeCannonTexture = false;
-	IsStop = true;
+	IsStop = false;
 	isCasetellaPush = false;
 	PlayMakeover = false;
 	gameOverOnes = false;
+	isEatTrigger = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -138,6 +139,7 @@ void Player::Update()
 	move->FlagInit();
 	isCasetellaPush = false;
 	IsPlayMakeoverTrigger = false;
+	isEatTrigger = false;
 	// ↓FlagInitの後
 	move->Input();
 	fallMoveTrriger = false;
@@ -167,13 +169,13 @@ void Player::Update()
 				ChangeTexture(ANIM_TEX::PUSH_CASTELLA);
 				dynamic_cast<CPlayerAnim*>(mAnim)->PlayWalk(static_cast<int>(direction), 0.7f);
 			}
-			IsStop = false;
+			//IsStop = false;
 		}
 		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false && isEat == false)
 		{
 			ChangeTexture(ANIM_TEX::WAIT);
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
-			IsStop = true;
+			//IsStop = true;
 		}
 	}
 	else
@@ -527,7 +529,10 @@ void Player::Rise()
 
 void Player::EatEnd()
 {
-	isEat = false;
+	dotween->DelayedCall(0.5f,[&]()
+		{
+			isEat = false;
+		});
 }
 
 // テクスチャは解放しない
@@ -578,6 +583,15 @@ void Player::PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _ty
 void Player::Reset()
 {
 	SetGameOver(false);
+}
+
+void Player::Stop(float _stopEndTime)
+{
+	 IsStop = true;
+	 dotween->DelayedCall(_stopEndTime, [&]()
+		 {
+			 IsStop = false;
+		 });
 }
 
 void Player::SetDirection(int _set)

@@ -55,6 +55,13 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/textin2.wav",3.0f,false},
 	{"SE/tyakuti.wav",0.5f,false},
 	{"SE/yajirusiup.wav",0.5f,false},
+	{"SE/Chest_Open.wav",0.5f,false},
+	{"SE/Chest_Punch.wav",0.5f,false},
+	{"SE/fall.wav",0.5f,false},
+	{"SE/FloorChange.wav",0.5f,false},
+	{"SE/InCanon.wav",0.5f,false},
+	{"SE/puroteinUp.wav",0.5f,false},
+	{"SE/cansel.wav",0.5f,false},
 
 };
 //===================================================//

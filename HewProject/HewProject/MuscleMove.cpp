@@ -205,10 +205,6 @@ void MuscleMove::Move(DIRECTION _dir)
 				scale.y *= MARK_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
 				XA_Play(SOUND_LABEL::S_BIKKURI);
-				player->dotween->DelayedCall(0.5f, [&]()
-					{
-						XA_Play(SOUND_LABEL::S_BIKKURI);
-					});
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
 						player->Fall();
@@ -234,7 +230,7 @@ void MuscleMove::Move(DIRECTION _dir)
 							});
 					}
 				}
-				player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME , [&]()
+				player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
 					{
 						player->fallMoveTrriger = true;
 					});

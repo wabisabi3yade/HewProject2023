@@ -144,6 +144,7 @@ void FatMove::Move(DIRECTION _dir)
 							scale.x *= SMOKE_SCALE;
 							scale.y *= SMOKE_SCALE;
 							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+							player->Stop();
 						}
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -218,6 +219,7 @@ void FatMove::Move(DIRECTION _dir)
 								scale.x *= SMOKE_SCALE;
 								scale.y *= SMOKE_SCALE;
 								player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+								player->Stop();
 							}
 						});
 				});
@@ -240,6 +242,7 @@ void FatMove::Move(DIRECTION _dir)
 						scale.x *= SMOKE_SCALE;
 						scale.y *= SMOKE_SCALE;
 						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+						player->Stop();
 					}
 				});
 		}
@@ -270,10 +273,8 @@ void FatMove::Move(DIRECTION _dir)
 				scale.x *= MARK_SCALE;
 				scale.y *= MARK_SCALE;
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
-				//player->dotween->DelayedCall(0.1f, [&]()
-				//	{
-				//	});
-						XA_Play(SOUND_LABEL::S_BIKKURI);
+
+				XA_Play(SOUND_LABEL::S_BIKKURI);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
 						player->Fall();
@@ -322,6 +323,7 @@ void FatMove::Move(DIRECTION _dir)
 
 		player->dotween->OnComplete([&]()
 			{
+				XA_Play(SOUND_LABEL::S_FALL);
 				////画面外まで移動するようにYをマクロで定義して使用する
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
@@ -457,6 +459,7 @@ void FatMove::Move(DIRECTION _dir)
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+					player->Stop();
 				}
 			});
 		break;
@@ -529,6 +532,7 @@ void FatMove::Step()
 					scale.x *= SMOKE_SCALE;
 					scale.y *= SMOKE_SCALE;
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+					player->Stop();
 				}
 				FallAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
@@ -650,6 +654,7 @@ void FatMove::Step()
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
 			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+			player->Stop();
 		}
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		player->ChangeTexture(Player::ANIM_TEX::WAIT);
