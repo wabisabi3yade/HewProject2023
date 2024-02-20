@@ -124,7 +124,7 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene,CoinUI* _coin)
 	if (Coin != nullptr)
 	{
 		//Coin = new CoinUI(_coin->GetStageCoin());
-		Coin->SetPosition({ -9.0f,-0.2f,WHITEBG_POS_Z - 0.331f });
+		Coin->SetPosition({ -16.0f,-0.2f,WHITEBG_POS_Z + 0.0001 });
 		Coin->SetScale({ 1.5f,1.5f });
 		Coin->SetActive(true);
 	}
@@ -215,7 +215,7 @@ void CGameClear::Update()
 
 						if (Coin != nullptr)
 						{
-							Coin->GetDotween()->DoEaseOutBack({ -4.7f,-0.2f,WHITEBG_POS_Z +0.0001 }, 1.0f);
+							Coin->GetDotween()->DoEaseOutBack({ -4.7f,-0.2f,WHITEBG_POS_Z + 0.0001 }, 1.0f);
 						}
 						
 						});
