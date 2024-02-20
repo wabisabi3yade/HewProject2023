@@ -133,7 +133,6 @@ void CoinUI::AddProtein()
 	// ステージにあるプロテインの数を超えたら
 	if (getProtein > stageProMax)
 	{
-		MessageBoxA(NULL, "プロテインの取得数がステージにある\nプロテイン取得数を超えました", "AddProtein関数", MB_ICONERROR | MB_OK);
 		// 数を合わせる
 		getProtein = stageProMax;
 	}
