@@ -415,6 +415,9 @@
     <Filter Include="ソース ファイル\Hashimoto\StageMoveText">
       <UniqueIdentifier>{a6bbf926-f460-4c15-b098-df26a75c2178}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Base\GameCore\Input\ControllerVibration">
+      <UniqueIdentifier>{3ad47a83-177a-4d93-8a55-e60f45552931}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTest.h">
@@ -795,6 +798,9 @@
     <ClInclude Include="StageMoveText.h">
       <Filter>ソース ファイル\Hashimoto\StageMoveText</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerVibration.h">
+      <Filter>ソース ファイル\Base\GameCore\Input\ControllerVibration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTest.cpp">
@@ -1174,6 +1180,9 @@
     </ClCompile>
     <ClCompile Include="StageMoveText.cpp">
       <Filter>ソース ファイル\Hashimoto\StageMoveText</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerVibration.cpp">
+      <Filter>ソース ファイル\Base\GameCore\Input\ControllerVibration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

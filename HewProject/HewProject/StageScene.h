@@ -212,7 +212,7 @@ public:
 	void CannonItemDelete(CGrid::GRID_XY _deletePos = {-1,-1}, CGridObject::BlockType _type = CGridObject::BlockType::NONE);
 
 	// ステージの状態を一つ前に戻す関数
-	void Undo(float _stageScale, bool _isReset = false, bool isPush = false);
+	void Undo(float _stageScale, bool isPush = false);
 	// 移動するごとに前のテーブル状態に更新する
 	void UndoTableUpdate();
 

@@ -31,6 +31,8 @@ public:
 
 	void SetButtonID(int _id);
 
+	void SetFlash();
+
 
 	// 今指定しているボタンの関数を実行
 	void PushButton(bool _isFlash = false);

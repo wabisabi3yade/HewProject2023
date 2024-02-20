@@ -47,4 +47,6 @@ public:
 
 	bool GetInputPress(InputType::TYPE _buttonType);
 	bool GetInputTrigger(InputType::TYPE _buttonType);
+
+	void Viberation();
 };

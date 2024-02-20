@@ -6,7 +6,7 @@
 #include"CCamera.h"
 #define BACK_POSZ (1.0f)	
 
-#define BACK_SCALETIMES (1.2f)	// ”wŒi‚Ì”{—¦
+#define BACK_SCALETIMES (1.3f)	// ”wŒi‚Ì”{—¦
 
 Stage::Stage()
 {

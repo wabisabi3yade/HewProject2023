@@ -32,5 +32,8 @@ public:
 
 	// ”š‚ğİ’è
 	void SetNum(short num);
+
+	void SetFlash() override;
+
 };
 
