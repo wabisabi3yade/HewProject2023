@@ -126,7 +126,6 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene,CoinUI* _coin)
 		Coin->SetPosition({ -9.0f,-0.2f,WHITEBG_POS_Z - 0.512f });
 		Coin->SetScale({ 1.5f,1.5f });
 		Coin->SetActive(true);
-		nGetCoin = _coin->GetCoin();
 	}
 	
 
@@ -239,21 +238,25 @@ void CGameClear::Update()
 				{
 					isNoMoving = true;
 
-					if (nGetCoin == 0)
+					if (Coin != nullptr)
 					{
+						if (Coin->GetCoin() == 0)
+						{
 
-					}
-					else if (nGetCoin == 1)
-					{
-						Coin->AddProtein();
-					}
-					else if (nGetCoin == 2)
-					{
-						Coin->AddProtein();
-						Coin->GetDotween()->DelayedCall(0.1f, [&]() {
+						}
+						else if (Coin->GetCoin() == 1)
+						{
 							Coin->AddProtein();
-							});
+						}
+						else if (Coin->GetCoin() == 2)
+						{
+							Coin->AddProtein();
+							Coin->GetDotween()->DelayedCall(0.1f, [&]() {
+								Coin->AddProtein();
+								});
+						}
 					}
+					
 				});
 
 			isOnce = false;
