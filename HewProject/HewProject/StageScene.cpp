@@ -319,6 +319,7 @@ void StageScene::Update()
 					if (lockStageMap != 1)
 					{
 						lockStageMap--;
+						XA_Play(SOUND_LABEL::S_FLOOR_CHANGE);
 						changefloor = true;
 					}
 					floorUi->SetHighlight(lockStageMap);
@@ -329,6 +330,7 @@ void StageScene::Update()
 					if (lockStageMap != nMaxFloor)
 					{
 						lockStageMap++;
+						XA_Play(SOUND_LABEL::S_FLOOR_CHANGE);
 						changefloor = true;
 					}
 					floorUi->SetHighlight(lockStageMap);
@@ -679,6 +681,7 @@ void StageScene::StageMove()
 			player->dotween->DelayedCall(BREAK_TIME / 0.46f, [&, gallObj]()
 				{
 					gallVibration = true;
+					XA_Play(SOUND_LABEL::S_CHEST_PUNCH);
 					player->GetPlayerAnim()->SetAnimSpeedRate(0.0f);
 					player->GetPlayerAnim()->animSpeed = 0.0f;
 					player->GetPlayerAnim()->SetAnimSpeedRate(1.0f);
@@ -689,6 +692,7 @@ void StageScene::StageMove()
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y / 2 };
 					CCamera::GetInstance()->Zoom(0.26f, stageScale, { pos.x,pos.y, 0 });
 					gallObj->Open(clearBuffer, 2.0f, stageScale * 0.4f);
+					XA_Play(SOUND_LABEL::S_CHEST_OPEN);
 					gallObj->SetTexture(stageTextureGallChest[1]);
 					gallObj->dotween->DelayedCall(BREAK_TIME / 2.5f, [&, gallObj]()
 						{
@@ -897,6 +901,7 @@ void StageScene::StageMove()
 		scale.x *= CANNON_IN_SCALE;
 		scale.y *= CANNON_IN_SCALE;
 		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::CANNON_IN, false);
+		XA_Play(SOUND_LABEL::S_INCANNON);
 
 		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
 		bool* canmove = cannonObj->GetCanMove();
@@ -1179,9 +1184,12 @@ void StageScene::ItemDelete()
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
 	{
-
-		nNumProtein--;
-		proteinUi->AddProtein();
+		player->dotween->DelayedCall(EAT_TIME, [&]()
+			{
+				nNumProtein--;
+				proteinUi->AddProtein();
+				XA_Play(SOUND_LABEL::S_PROTEIN_UP);
+			});
 		auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
 			{
 				return (_obj->GetGridPos().x == next.x &&
@@ -1952,6 +1960,10 @@ void StageScene::Init(const wchar_t* filePath)
 
 	proteinUi->SetScale({ 1.3f, 1.3f });
 	gameStart = new CGameStart(nNumProtein);
+	if (selectName == CScene::SCENE_NAME::STAGE1)
+	{
+		//gameStart = new CGameStart(nNumProtein,true);
+	}
 
 	if (nNumCoin != 0)
 	{
