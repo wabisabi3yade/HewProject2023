@@ -1,5 +1,6 @@
 #include "ButtonSelect.h"
 #include "xa2.h"
+#include "InputManager.h"
 
 #define PUSH_SCALETINE (0.5f)
 #define CANT_SELECT_TIME (1.0f)
@@ -68,6 +69,8 @@ void ButtonSelect::ButtonMove(int _add)
 
 	// 新しく指定したボタンをハイライトさせる
 	buttonRegister[pointButtonID]->SetHighlight(true);
+
+	
 }
 
 void ButtonSelect::SetButtonID(int _id)

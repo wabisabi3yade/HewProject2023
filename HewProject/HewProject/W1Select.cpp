@@ -50,7 +50,8 @@ void W1Select::Input()
 		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
 
 		XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
-
+		btnSelect->SetFlash();
+		
 		Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, next);
 
 		isSceneMoving = true;
@@ -61,6 +62,8 @@ void W1Select::Input()
 		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
 		Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 		isSceneMoving = true;
+		
+		XA_Play(SOUND_LABEL::S_CANSEL);
 	}
 }
 
