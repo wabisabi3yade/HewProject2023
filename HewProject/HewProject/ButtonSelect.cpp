@@ -93,6 +93,11 @@ void ButtonSelect::SetButtonID(int _id)
 
 }
 
+void ButtonSelect::SetFlash()
+{
+	buttonRegister[pointButtonID]->SetFlash();
+}
+
 void ButtonSelect::PushButton(bool _isFlash)
 {
 	if (!isActive) return;

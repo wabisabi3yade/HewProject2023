@@ -2,6 +2,10 @@
 #include "UI.h"
 #include <functional>
 
+#define FLASH_TIME (0.1f)
+#define FLASH_END (10)
+
+
 class ButtonUI
 {
 	Vector3 ButtonScaleConversion(const Vector3& _scale);
@@ -50,7 +54,7 @@ public:
 	/// <param name="_isLight">ê‘Ç≠Ç∑ÇÈÇ©Ç«Ç§Ç©</param>
 	virtual void SetHighlight(bool _isLight);
 
-	void SetFlash();
+	virtual void SetFlash();
 
 	virtual void SetScale(const Vector3& _scale);
 

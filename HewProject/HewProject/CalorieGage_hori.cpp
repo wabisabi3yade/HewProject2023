@@ -105,6 +105,7 @@ void CalorieGage_hori::Update()
 	for (int i = 0; i < MARKNUM_MAX; i++)
 	{
 		mark[i]->Update();
+		mark[i]->mTransform.scale.z = 1.0f;
 	}
 
 	base->Update();
@@ -306,6 +307,7 @@ void CalorieGage_hori::MarkAdd(const short& _oldNum, const short& _add)
 					if (i <= calorieNum)
 					{
 						Vector3 target = base->mTransform.scale * markScale;
+						target.z = 1.0f;
 						mark[i - 1]->mTransform.scale = target;
 						mark[i - 1]->SetActive(true);
 					}

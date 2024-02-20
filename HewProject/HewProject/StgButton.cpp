@@ -5,6 +5,8 @@
 #define SCALEUP_TIME (1.2f)	// 大きくなるまでの大きさ
 #define SCALEWAIT_TIME (0.4f)	// 待機する時間
 
+#define UP_FLASHTIME (0.5f)
+
 
 void StgButton::ScaleLoop(Vector3 _downScale, Vector3 _upScale)
 {
@@ -37,11 +39,39 @@ StgButton::~StgButton()
 
 void StgButton::Update()
 {
+
+	if (isFlash)
+	{
+		static short flashTimes = 0;
+		elapsedTime += 1.0f / 60;
+
+		if (elapsedTime > FLASH_TIME)
+		{
+			flashTimes++;
+			nowUV += 0.5f;
+			if (nowUV >= 1.0f) nowUV = 0.0f;
+
+			button->SetUV(0.0f, nowUV);
+
+			elapsedTime = 0.0f;
+		}
+
+		if (flashTimes > FLASH_END)
+		{
+			isFlash = false;
+			flashTimes = 0;
+			button->SetUV(0.0f, 0.5f);
+		}
+	}
+
 	button->Update();
 
 	text->mTransform.pos = button->mTransform.pos;
 	text->mTransform.pos.z -= UI_OFFSETZ;
 	text->Update();
+
+
+
 }
 
 void StgButton::Draw()
@@ -52,11 +82,11 @@ void StgButton::Draw()
 
 void StgButton::SetHighlight(bool _isLight)
 {
-	float u = 0.0f;
+	float v = 0.0f;
 	//  2等分の下なので
 	if (_isLight)
 	{
-		u = 0.5f;
+		v = 0.5f;
 
 		// 拡大のスケール
 		Vector3 upScale = grayState_scale * LIGHT_SCALEUPTIMES;
@@ -78,7 +108,7 @@ void StgButton::SetHighlight(bool _isLight)
 		text->mTransform.scale.z = 1.0f;
 	}
 
-	button->SetUV(u, 0.0f);
+	button->SetUV(0.0f, v);
 }
 
 void StgButton::SetScale(const Vector3& _scale)
@@ -89,7 +119,7 @@ void StgButton::SetScale(const Vector3& _scale)
 	button->mTransform.scale = { _scale.x , _scale.y, 1.0f };
 
 	const float textScaleTimes = 0.7f;	// ボタンを1.0とした時のテキストの倍率
-	text->mTransform.scale = { _scale.x * textScaleTimes, _scale.y  * textScaleTimes , 1.0f };
+	text->mTransform.scale = { _scale.x * textScaleTimes, _scale.y * textScaleTimes , 1.0f };
 }
 
 void StgButton::SetPosition(const Vector3& _pos)
@@ -113,4 +143,26 @@ void StgButton::BeginFunc()
 void StgButton::SetNum(short num)
 {
 	text->SetUV(num % 3 * (1.0f / 3), num / 3 * (1.0f / 4));
+}
+
+void StgButton::SetFlash()
+{
+	isFlash = true;
+
+	//// 拡大のスケール
+	//Vector3 upScale = grayState_scale * LIGHT_SCALEUPTIMES;
+	//upScale.z = 1.0f;
+
+	//button->dotween->Stop();
+	//button->mTransform.scale = grayState_scale * 0.3f;
+	//button->dotween->DoEaseOutBackScale(upScale, UP_FLASHTIME);
+
+	//Vector3 upTextScale = upScale * textScaleTimes;
+	//upTextScale.z = 1.0f;
+
+	//text->dotween->Stop();
+	//text->mTransform.scale = grayState_scale * textScaleTimes * 0.3f;
+	//text->mTransform.scale.z = 1.0f;
+
+	//button->dotween->DoEaseOutBackScale(upTextScale, UP_FLASHTIME);
 }

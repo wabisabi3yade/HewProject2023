@@ -225,4 +225,8 @@ void CGameOver::ResetPos()
 		Text[i]->mTransform.pos = { TEXT_POS_X + i * 1.2f,TEXT_POS_Y, BLACKBG_POS_Z - i * 0.0001f };
 	}
 	
+	isOnce = false;
+	isNoMoving = false;
+
+	Bg->materialDiffuse.w = 0.0f;
 }

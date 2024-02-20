@@ -53,6 +53,7 @@ void StageSelect::Input()
 		if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
 
 		XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
+		btnSelect->SetFlash();
 
 		// æ“¾
 		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
@@ -101,7 +102,7 @@ StageSelect::StageSelect()
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_STAGESELECT);
 
 	// ƒ{ƒ^ƒ“”wŒi
-	D3D_CreateSquare({ 2,1 }, &stageBtnBuf);
+	D3D_CreateSquare({ 1,2 }, &stageBtnBuf);
 	D3D_LoadTexture(L"asset/UI/StageSelect_Btn.png", &stageBtnTex);
 	// ”š
 	D3D_CreateSquare({ 3,4 }, &numberBuf);

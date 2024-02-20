@@ -11,8 +11,6 @@
 #define SCALEUP_TIME (0.8f)	// 大きくなるまでの大きさ
 #define WAIT_TIME (0.0f)	// ハイライト中のUIの大きさ
 
-#define FLASH_TIME (0.1f)
-#define FLASH_END (10)
 
 Vector3 ButtonUI::ButtonScaleConversion(const Vector3& _scale)
 {
