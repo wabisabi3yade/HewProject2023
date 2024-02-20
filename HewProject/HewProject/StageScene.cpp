@@ -1292,7 +1292,7 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 	}
 }
 
-void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
+void StageScene::Undo(float _stageScale, bool isPush)
 {
 	if (player->GetPlayerMove()->GetIsMoving() && !isPush) return;
 	short o_nNumUndo = nNumUndo;
@@ -1318,24 +1318,8 @@ void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 	// 前にいた階数のグリッドテーブルを更新する
 	const short& o_floorNum = floorUndo[nNumUndo].old_Floor;
 
-	FIELD_FLOOR& changeFloor = floorUndo[nNumUndo];
-
-	// リセットするなら
-	if (_isReset)
-	{
-		changeFloor = floorReset;
-
-		// 全部消しておく
-		for (int i = 0; i < UNDO_ARRAY_NUM; i++)
-		{
-			floorUndo[i].objectTable[0][0][0] = 0;
-		}
-		// 0番目に入れておく
-		floorUndo[0] = floorReset;
-	}
-
 	// 階層を移動していない  リセットじゃないなら
-	if (nowFloorNum == o_floorNum && !_isReset)
+	if (nowFloorNum == o_floorNum)
 	{
 		// １つずつ入れていく
 		for (int i = 0; i < stageSquare.y; i++)
@@ -1344,11 +1328,11 @@ void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 			{
 				// 情報を入れる
 				updateTable->objectTable[i][j] =
-					changeFloor.objectTable[o_floorNum - 1][i][j];
+					floorUndo[nNumUndo].objectTable[o_floorNum - 1][i][j];
 
 				// 情報を入れる
 				updateTable->floorTable[i][j] =
-					changeFloor.floorTable[o_floorNum - 1][i][j];
+					floorUndo[nNumUndo].floorTable[o_floorNum - 1][i][j];
 			}
 		}
 		// 入れた階層のオブジェクトを作る
@@ -1390,10 +1374,10 @@ void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 				{
 					// 情報を入れる
 					updateTable->objectTable[i][j] =
-						changeFloor.objectTable[loop][i][j];
+						floorUndo[nNumUndo].objectTable[loop][i][j];
 					// 情報を入れる
 					updateTable->floorTable[i][j] =
-						changeFloor.floorTable[loop][i][j];
+						floorUndo[nNumUndo].floorTable[loop][i][j];
 				}
 			}
 			// 入れた階層のオブジェクトを作る
@@ -1403,6 +1387,9 @@ void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 
 	// プロテインの数を求める
 	nNumProtein = 0;
+
+	// コインの数を求める
+
 	for (int layer = 0; layer < MAX_LAYER; layer++)
 	{
 		// 各階層のオブジェクトテーブルをゲット
@@ -1434,15 +1421,19 @@ void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 			}
 		}
 
+		// コインの数を見る
+
 	}
 
 	// プロテインUIに設定する
 	proteinUi->SetProtein(nNumProtein, true);
 
+	// コインUIに設定
+
 	// リスがいる階層を更新
 	nowFloorNum = o_floorNum;
 	// 更新する
-	switch (changeFloor.old_Floor)
+	switch (floorUndo[nNumUndo].old_Floor)
 	{
 	case 1:
 		vStageObj = &oneFStgObj;
@@ -1466,21 +1457,13 @@ void StageScene::Undo(float _stageScale, bool _isReset, bool isPush)
 		player->SetPlayMakeover(o_MakeOver);
 
 	// プレイヤーに必要な情報を更新する
-	UndoPlayerSet(changeFloor.dirUndo, changeFloor.calorieUndo, changeFloor.stateUndo);
+	UndoPlayerSet(floorUndo[nNumUndo].dirUndo, floorUndo[nNumUndo].calorieUndo, floorUndo[nNumUndo].stateUndo);
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
 	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
 	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
 	{
 		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
-	}
-
-
-	if (!_isReset)
-	{
-		// 未使用にする
-		floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
-
 	}
 }
 
@@ -2033,7 +2016,7 @@ void StageScene::Init(const wchar_t* filePath)
 		{
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, [&]()
 				{
-					Undo(stageScale, true, true);
+					Reset();
 					gameOver->ResetPos();
 					player->SetGameOverFalse();
 				});
@@ -2041,7 +2024,7 @@ void StageScene::Init(const wchar_t* filePath)
 
 	gameOver->SetFunc(1, [&]()
 		{
-			Undo(stageScale, false, true);
+			Undo(stageScale,true);
 			gameOver->ResetPos();
 			player->SetGameOverFalse();
 		});
@@ -2054,7 +2037,7 @@ void StageScene::Init(const wchar_t* filePath)
 
 	gameClear->SetFunc(0, [&]()
 		{
-			Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, nextStageName);
+			Fade::GetInstance()->FadeIn(Fade::STATE::MOVING, nullptr, nextStageName);
 		});
 	gameClear->SetFunc(1, [&]()
 		{
@@ -2066,7 +2049,7 @@ void StageScene::Init(const wchar_t* filePath)
 			{
 				Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, [&]()
 					{
-						//Reset();
+						Reset();
 						gameOver->ResetPos();
 						player->SetGameOverFalse();
 					});
