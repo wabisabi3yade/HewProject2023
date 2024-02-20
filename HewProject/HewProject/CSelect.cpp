@@ -1,6 +1,5 @@
 #include "CSelect.h"
 #include "CSceneManager.h"
-#include "CDirectWrite.h"
 #include <string>
 
 CSelect::CSelect()
@@ -86,6 +85,5 @@ void CSelect::Draw()
 {
 
 	charObj->Draw();
-	Write->SetFont(Font::MelodyLine);
-	Write->DrawString(std::to_string(nextScene), DirectX::XMFLOAT2(90, 100), D2D1_DRAW_TEXT_OPTIONS_NONE);
+	
 }

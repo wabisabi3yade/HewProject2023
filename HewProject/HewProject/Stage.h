@@ -1,7 +1,6 @@
 #pragma once
 #include "CScene.h"
 #include "StageScene.h"
-#include "DebugTable.h"
 #include<iostream>
 #include "Tutorial.h"
 
@@ -10,9 +9,6 @@ class UI;
 class Stage :
     public CScene
 {
-    DebugTable* dbgFloorTable; // テスト用
-    DebugTable* dbgObjTable; // テスト用
-
 protected:
     short stageNum;
 
