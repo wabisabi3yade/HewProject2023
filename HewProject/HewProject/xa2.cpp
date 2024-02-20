@@ -66,7 +66,7 @@ PARAM g_param[SOUND_LABEL_MAX] =
 	{"SE/charge1.wav",0.5f,false},
 	{"SE/charge2.wav",0.5f,false},
 	{"SE/charge3.wav",0.5f,false},
-	{"SE/Goal.wav",0.5f,false},
+	{"SE/Goal.wav",0.8f,false},
 
 };
 //===================================================//

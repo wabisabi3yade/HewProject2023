@@ -398,6 +398,8 @@ void StageScene::Update()
 					LookingTxet->dotween->Stop();
 					LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
 					LookingTxet->SetActive(true);
+
+					XA_Play(SOUND_LABEL::S_TEXT);
 				}
 			}
 		}
@@ -1329,6 +1331,8 @@ void StageScene::Undo(float _stageScale, bool isPush)
 	if (player->GetPlayerMove()->GetIsMoving() && !isPush) return;
 	short o_nNumUndo = nNumUndo;
 
+	XA_Play(SOUND_LABEL::S_CANSEL);
+
 	// 1より下に行く
 	nNumUndo--;
 	if (nNumUndo < 0)
@@ -1632,7 +1636,7 @@ void StageScene::Draw()
 
 	if (!isStartStop)
 	{
-		if (Menu->GetisMenu() == false && !isGameClear && !player->GetIsGameOver()  && !isTutorialNow)
+		if (Menu->GetisMenu() == false && !isGameClear && !player->GetIsGameOver() && !isTutorialNow)
 		{
 			if (*isLookMap == true)
 			{
@@ -2002,7 +2006,7 @@ void StageScene::Init(const wchar_t* filePath)
 		coinUI->SetPosition({ 6.0f,1.5f,0.0f });
 	}
 
-	gameClear = new CGameClear(CScene::SCENE_NAME::NONE,coinUI);
+	gameClear = new CGameClear(CScene::SCENE_NAME::NONE, coinUI);
 
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 
@@ -2143,7 +2147,7 @@ void StageScene::Init(const wchar_t* filePath)
 		player->SetCalorie(15);
 	}
 
-	
+
 
 	// プレイヤーの初期化を行う（ここで最初にどの方向に進むかを決めている）
 	player->Init(nowFloor);

@@ -28,11 +28,13 @@ void StageSelect::Input()
 	InputManager* input = InputManager::GetInstance();
 	if (input->GetMovement().x > 0.0f)
 	{
+		XA_Play(SOUND_LABEL::S_SYASIN);
 		btnSelect->ButtonMove(1);
 		c_pointStage++;
 	}
 	else if (input->GetMovement().x < 0.0f)
 	{
+		XA_Play(SOUND_LABEL::S_SYASIN);
 		btnSelect->ButtonMove(-1);
 		c_pointStage--;
 	}

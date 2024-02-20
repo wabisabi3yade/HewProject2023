@@ -39,7 +39,7 @@ void W1Select::Input()
 	// ˆÚ“®‚µ‚½‚Ì‚Å
 	if (c_pointStage != o_pointStage)
 	{
-		/*XA_Play(SOUND_LABEL::S_MOVEBUTTON);*/
+		XA_Play(SOUND_LABEL::S_SYASIN);
 	}
 
 	if (input->GetInputTrigger(InputType::DECIDE))

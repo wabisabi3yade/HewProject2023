@@ -263,6 +263,8 @@ void Tutorial::ChangeLR(int num)
 	if (isMacho || tutorialTex.size() < 2) return;
 
 	int buttonNum = 1;
+
+	XA_Play(SOUND_LABEL::S_TEXT);
 	
 	if(num == 2)
 	{
