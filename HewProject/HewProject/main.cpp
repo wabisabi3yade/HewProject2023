@@ -13,7 +13,7 @@
 
 // マクロ定義
 #define CLASS_NAME    "DX21Smpl"// ウインドウクラスの名前
-#define WINDOW_NAME  "あ"// ウィンドウの名前
+#define WINDOW_NAME  "イートルート"// ウィンドウの名前
 
 #define SCREEN_WIDTH (1280)	// ウインドウの幅
 #define SCREEN_HEIGHT (720)	// ウインドウの高さ
@@ -135,11 +135,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 			if (n_ms > o_ms + 1000)		// 前のときより1秒間たったら
 			{
-				/*sprintf_s(str, 14, "fps:%d", nFpsCounter);
-				SetWindowText(hWnd, str);*/
-				sprintf_s(str, 15, "シーン番号：%d", gSceneManager->GetNowScene());
-				SetWindowText(hWnd, str);
-
 				nFpsCounter = 0;	// カウントリセットする
 				o_ms = n_ms;	// 今から1秒間測定するために今の時間を代入しておく
 			}

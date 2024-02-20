@@ -309,6 +309,7 @@ void CMenu::Update()
 			isMenu = true;
 			isOnce = false;
 			isButton = false;
+			XA_Play(SOUND_LABEL::S_TEXT);
 		}
 	}
 	else {
@@ -329,13 +330,17 @@ void CMenu::Update()
 				if (selectControl->GetPointButton() == 2)
 					_flash = true;
 
+				XA_Play(S_PUSHBUTTON);
+			
 				selectControl->PushButton(_flash);
 			}
 
 			if (input->GetInputTrigger(InputType::CANCEL))
 			{
+				XA_Play(SOUND_LABEL::S_CANSEL);
 				isMenu = false;
 				Pause->mTransform.scale = { 0,0,1.0f };
+				
 			}
 
 			selectControl->FlagUpdate();
@@ -355,6 +360,8 @@ void CMenu::Update()
 
 				if (input->GetInputTrigger(InputType::CANCEL))
 				{
+					XA_Play(SOUND_LABEL::S_CANSEL);
+					
 					isHelp = false;
 				}
 
@@ -375,12 +382,15 @@ void CMenu::Update()
 					else if (input->GetInputTrigger(InputType::DECIDE))
 					{
 						help_2PageControl->PushButton();
+						
+						XA_Play(SOUND_LABEL::S_PUSHBUTTON);
 					}
 
 					else if (input->GetInputTrigger(InputType::L_BUTTON))
 					{
 						isChangeExplanation = false;
 						helpControl->SetButtonID(0);
+						XA_Play(SOUND_LABEL::S_TEXT);
 					}
 				}
 				else {
@@ -410,12 +420,15 @@ void CMenu::Update()
 					else if (input->GetInputTrigger(InputType::DECIDE))
 					{
 						helpControl->PushButton();
+					
+						XA_Play(SOUND_LABEL::S_PUSHBUTTON);
 					}
 
 					else if (input->GetInputTrigger(InputType::R_BUTTON))
 					{
 						isChangeExplanation = true;
 						help_2PageControl->SetButtonID(0);
+						XA_Play(SOUND_LABEL::S_TEXT);
 					}
 				}
 
@@ -425,6 +438,7 @@ void CMenu::Update()
 				if (input->GetInputTrigger(InputType::L_BUTTON))
 				{
 					nRule--;
+					XA_Play(SOUND_LABEL::S_TEXT);
 					if (nRule < 0)
 					{
 						nRule = MAXNUM_HELP - 1;
@@ -433,7 +447,7 @@ void CMenu::Update()
 				else if (input->GetInputTrigger(InputType::R_BUTTON))
 				{
 					nRule++;
-
+					XA_Play(SOUND_LABEL::S_TEXT);
 					if (nRule > MAXNUM_HELP - 1)
 					{
 						nRule = 0;
@@ -441,6 +455,7 @@ void CMenu::Update()
 				}
 				else if (input->GetInputTrigger(InputType::CANCEL))
 				{
+					XA_Play(SOUND_LABEL::S_CANSEL);
 					isExplanation = false;
 				}
 

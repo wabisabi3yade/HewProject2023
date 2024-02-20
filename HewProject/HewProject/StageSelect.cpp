@@ -54,6 +54,7 @@ void StageSelect::Input()
 
 		XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
 		btnSelect->SetFlash();
+		
 
 		// Žæ“¾
 		CScene::SCENE_NAME next = static_cast<CScene::SCENE_NAME>(btnSelect->GetPointSceneName());
@@ -69,6 +70,8 @@ void StageSelect::Input()
 		{
 			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
 			isSceneMoving = true;
+			XA_Play(SOUND_LABEL::S_CANSEL);
+			
 		}
 
 	}
