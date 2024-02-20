@@ -349,9 +349,6 @@
     <Filter Include="ソース ファイル\Base\GameCore\Hashimoto\GridTable">
       <UniqueIdentifier>{245040de-01e8-47db-8699-598b52fdd55e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Base\GameCore\Hashimoto\debugText">
-      <UniqueIdentifier>{6da28bc9-f924-4fc0-a66f-b54cbb703efc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Base\GameCore\Hashimoto\Fade">
       <UniqueIdentifier>{0fedf063-ae9c-4330-964b-b3a56bb9b9e7}</UniqueIdentifier>
     </Filter>
@@ -498,9 +495,6 @@
     <ClInclude Include="CStageMake.h">
       <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
     </ClInclude>
-    <ClInclude Include="CDirectWrite.h">
-      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
-    </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>ソース ファイル\Mizuno\Time</Filter>
     </ClInclude>
@@ -584,9 +578,6 @@
     </ClInclude>
     <ClInclude Include="GridTable.h">
       <Filter>ソース ファイル\Base\GameCore\Hashimoto\GridTable</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugTable.h">
-      <Filter>ソース ファイル\Base\GameCore\Hashimoto\debugText</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>ソース ファイル\Base\GameCore\Hashimoto\stageScene</Filter>
@@ -881,9 +872,6 @@
     <ClCompile Include="CStageMake.cpp">
       <Filter>ソース ファイル\Mizuno\Stage\Make</Filter>
     </ClCompile>
-    <ClCompile Include="CDirectWrite.cpp">
-      <Filter>ソース ファイル\Wakamura\WakamuraScene</Filter>
-    </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>ソース ファイル\Mizuno\Time</Filter>
     </ClCompile>
@@ -967,9 +955,6 @@
     </ClCompile>
     <ClCompile Include="GridTable.cpp">
       <Filter>ソース ファイル\Base\GameCore\Hashimoto\GridTable</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugTable.cpp">
-      <Filter>ソース ファイル\Base\GameCore\Hashimoto\debugText</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ソース ファイル\Base\GameCore\Hashimoto\stageScene</Filter>

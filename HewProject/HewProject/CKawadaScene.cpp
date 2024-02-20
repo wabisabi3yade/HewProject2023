@@ -2,10 +2,8 @@
 #include "CSceneManager.h"
 #include "xa2.h"
 #include "CEffectManeger.h"
-#include "CDirectWrite.h"
-#include <string>
 
-extern DirectWrite* Write;
+#include <string>
 CKawadaScene::CKawadaScene()
 {
 	////========サウンド初期化=======//
@@ -99,8 +97,4 @@ void CKawadaScene::LateUpdate()
 
 void CKawadaScene::Draw()
 {
-	Write->SetFont(Font::Arial);
-	Write->DrawString("エフェクトタイプ", DirectX::XMFLOAT2(90, 0), D2D1_DRAW_TEXT_OPTIONS_NONE);
-
-	Write->DrawString(std::to_string(test), DirectX::XMFLOAT2(400, 0), D2D1_DRAW_TEXT_OPTIONS_NONE);
 }

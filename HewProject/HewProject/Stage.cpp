@@ -1,7 +1,6 @@
 #include "Stage.h"
 #include "CSceneManager.h"
 #include"Player.h"
-#include"CDirectWrite.h"
 #include "TextureFactory.h"
 #include"CCamera.h"
 #define BACK_POSZ (1.0f)	
@@ -23,12 +22,6 @@ Stage::Stage()
 	Vector2 s = {SCREEN_RATIO_W * BACK_SCALETIMES, SCREEN_RATIO_H * BACK_SCALETIMES };
 
 	back->mTransform.scale = { s.x, s.y, 1.0f };
-
-	if (isDirectWriteUse)
-	{
-		dbgFloorTable = new DebugTable(stage->GetNowFloor(), true);
-		dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
-	}
 }
 
 Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _next)
@@ -60,11 +53,6 @@ Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _ne
 
 	stage->SetNextStageName(_next);
 
-	if (isDirectWriteUse)
-	{
-		dbgFloorTable = new DebugTable(stage->GetNowFloor(), true);
-		dbgObjTable = new DebugTable(stage->GetNowFloor(), false);
-	}
 }
 
 void Stage::Init()
@@ -75,14 +63,6 @@ void Stage::Init()
 void Stage::Update()
 {
 	stage->Update();
-
-
-	if (isDirectWriteUse)
-	{
-		dbgFloorTable->SetTable(stage->GetNowFloor());
-		dbgObjTable->SetTable(stage->GetNowFloor());
-
-	}
 }
 
 void Stage::LateUpdate()
@@ -105,8 +85,6 @@ Stage::~Stage()
 	CLASS_DELETE(tutorial);
 
 	CLASS_DELETE(stage);
-	CLASS_DELETE(dbgFloorTable);
-	CLASS_DELETE(dbgObjTable);
 	CCamera::GetInstance()->Init();
 }
 
