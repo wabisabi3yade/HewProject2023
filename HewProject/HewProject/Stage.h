@@ -37,7 +37,7 @@ public:
     /// ステージシーンのコンストラクタ
     /// </summary>
     /// <param name="_csvPath">CSVファイルのパス</param>
-    Stage(const wchar_t* _csvPath, short int worldNum, CScene::SCENE_NAME _next);
+    Stage(const wchar_t* _csvPath, short int worldNum, CScene::SCENE_NAME _next , bool _isW11 = false );
 
 
     void Init();

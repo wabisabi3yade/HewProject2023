@@ -24,7 +24,7 @@ Stage::Stage()
 	back->mTransform.scale = { s.x, s.y, 1.0f };
 }
 
-Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _next)
+Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _next, bool _isW11)
 {
 
 	wchar_t work[256];
