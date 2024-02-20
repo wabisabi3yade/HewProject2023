@@ -113,9 +113,9 @@ HRESULT D3D_Create(HWND hwnd)
 		return hr;
 
 	// フルスクリーンにする
-	/*hr = m_pSwapChain->SetFullscreenState(TRUE, NULL);
+	hr = m_pSwapChain->SetFullscreenState(TRUE, NULL);
 	if (FAILED(hr))
-		return hr;*/
+		return hr;
 
 	// レンダーターゲットを作成する関数を呼び出し
 	hr = m_pDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRenderTargetView);
