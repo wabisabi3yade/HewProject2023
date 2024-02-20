@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "ButtonSelect.h"
 #include "ButtonUI.h"
+#include "xa2.h"
 
 #define HELP_POSX (-3.0f)
 #define HELP_POSY (3.0f)

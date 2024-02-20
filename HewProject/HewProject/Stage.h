@@ -51,5 +51,7 @@ public:
     virtual void Draw();
 
     virtual ~Stage();
+
+    void BackScaleSet(float _scale);
 };
 

@@ -6,7 +6,7 @@
 #include"CCamera.h"
 #define BACK_POSZ (1.0f)	
 
-#define BACK_SCALETIMES (1.3f)	// ”wŒi‚Ì”{—¦
+#define BACK_SCALETIMES (1.1f)	// ”wŒi‚Ì”{—¦
 
 Stage::Stage()
 {
@@ -108,4 +108,9 @@ Stage::~Stage()
 	CLASS_DELETE(dbgFloorTable);
 	CLASS_DELETE(dbgObjTable);
 	CCamera::GetInstance()->Init();
+}
+
+void Stage::BackScaleSet(float _scale)
+{
+	back->mTransform.scale = { SCREEN_RATIO_W * _scale,SCREEN_RATIO_H * _scale, 1.0f };
 }

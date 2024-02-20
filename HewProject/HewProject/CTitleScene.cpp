@@ -34,8 +34,13 @@ CTitleScene::CTitleScene()
 	select[0]->SetScale({ 4,4,1 });
 	select[0]->SetFunc([&]()
 		{
-			if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
-			Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
+
+			Title->dotween->DelayedCall(0.5f, [&]()
+				{
+					if (Fade::GetInstance()->GetState() != Fade::STATE::STAY) return;
+					Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, nullptr, CScene::SCENE_NAME::STAGE1);
+				});
+			
 		});
 
 	select[1] = new ButtonUI(buttonBuffer, buttonTexture, textBuffer, text_endTexture);
@@ -43,8 +48,11 @@ CTitleScene::CTitleScene()
 	select[1]->SetScale({ 4,4,1 });
 	select[1]->SetFunc([&]()
 		{
-			// I—¹
-			Exit();
+			Title->dotween->DelayedCall(2.0f, [&]()
+				{
+					// I—¹
+					Exit();
+				});
 		});
 
 	select[0]->SetHighlight(true);
@@ -346,6 +354,7 @@ void CTitleScene::Update()
 
 		if (input->GetInputTrigger(InputType::DECIDE))
 		{
+			XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
 			selectControl->PushButton(true);
 		}
 
