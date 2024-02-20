@@ -610,7 +610,7 @@ void NormalMove::Step()
 					});
 			}
 		}
-		player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+		player->dotween->DelayedCall(FALLMOVE_TIME , [&]()
 			{
 				player->fallMoveTrriger = true;
 			});
