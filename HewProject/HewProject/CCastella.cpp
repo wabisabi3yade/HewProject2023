@@ -1,6 +1,8 @@
 #include "CCastella.h"
 #include "Player.h"
 #include "CEffectManeger.h"
+#include "xa2.h"
+
 CCastella::CCastella(D3DBUFFER vb, D3DTEXTURE tex)
 	:CGridObject(vb, tex)
 {
@@ -53,6 +55,8 @@ void CCastella::Move(Vector3 _pos, int _dir, Vector3 _fallPos)
 		dotween->OnComplete([&, pos, scale]()
 			{
 				effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::STAR_CASTELLA, false);
+
+				XA_Play(SOUND_LABEL::S_INCANNON);
 			});
 	}
 

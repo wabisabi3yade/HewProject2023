@@ -398,6 +398,8 @@ void StageScene::Update()
 					LookingTxet->dotween->Stop();
 					LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
 					LookingTxet->SetActive(true);
+
+					XA_Play(SOUND_LABEL::S_TEXT);
 				}
 			}
 		}
@@ -1328,6 +1330,8 @@ void StageScene::Undo(float _stageScale, bool isPush)
 {
 	if (player->GetPlayerMove()->GetIsMoving() && !isPush) return;
 	short o_nNumUndo = nNumUndo;
+
+	XA_Play(SOUND_LABEL::S_CANSEL);
 
 	// 1より下に行く
 	nNumUndo--;

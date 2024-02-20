@@ -12,6 +12,8 @@ Stage22::Stage22()
 	tutorial->SetTexture(tutolialTex);
 
 	stage->SetTutorial(tutorial);
+
+	BackScaleSet(1.33f);
 }
 
 Stage22::~Stage22()
