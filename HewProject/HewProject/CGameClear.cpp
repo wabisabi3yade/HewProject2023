@@ -5,13 +5,14 @@
 #include "ButtonUI.h"
 #include "ButtonSelect.h"
 #include "CGameClearPlayer.h"
+#include "CoinUI.h"
 
 #define BUTTON_POS_Y (-2.4f)
 #define BUTTON_SCALE (4.0f)
 
 #define WHITEBG_POS_Z (-0.455f)
 
-CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
+CGameClear::CGameClear(CScene::SCENE_NAME _nextScene,CoinUI* _coin)
 {
 	nextScene = _nextScene;
 
@@ -117,10 +118,23 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene)
 	player->mTransform.pos = { 9.0f,0,WHITEBG_POS_Z - 0.27f };
 	player->mTransform.scale = { 4.0f,4.0f,1.0f };
 
+	Coin = _coin;
+
+	if (Coin != nullptr)
+	{
+		Coin = new CoinUI(_coin->GetStageCoin());
+		Coin->SetPosition({ -9.0f,-0.2f,WHITEBG_POS_Z - 0.512f });
+		Coin->SetScale({ 1.5f,1.5f });
+		Coin->SetActive(true);
+		nGetCoin = _coin->GetCoin();
+	}
+	
+
 	isNoMoving = false;
 	isOnce = false;
 	isFrame = false;
 	isStopAnim = false;
+	isCoin = false;
 }
 
 CGameClear::~CGameClear()
@@ -150,6 +164,8 @@ CGameClear::~CGameClear()
 	CLASS_DELETE(selectControl);
 
 	CLASS_DELETE(player);
+
+	CLASS_DELETE(Coin);
 
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(textBuffer);
@@ -195,6 +211,13 @@ void CGameClear::Update()
 					Nami[1]->dotween->DoEaseOutCubic(p, 1.0f);
 					Frame[1]->dotween->OnComplete([&]() {
 						isOnce = true;
+						isCoin = true;
+
+						if (Coin != nullptr)
+						{
+							Coin->GetDotween()->DoEaseOutBack({ -5.0f,-0.2f,WHITEBG_POS_Z - 0.512f }, 1.0f);
+						}
+						
 						});
 				});
 			
@@ -210,9 +233,27 @@ void CGameClear::Update()
 				Text[i]->dotween->DoEaseElasticScale({2.0f, 2.0f,1.0f }, 2.0f);
 			}
 
+			
+
 			Text[5]->dotween->OnComplete([&]()
 				{
 					isNoMoving = true;
+
+					if (nGetCoin == 0)
+					{
+
+					}
+					else if (nGetCoin == 1)
+					{
+						Coin->AddProtein();
+					}
+					else if (nGetCoin == 2)
+					{
+						Coin->AddProtein();
+						Coin->GetDotween()->DelayedCall(0.1f, [&]() {
+							Coin->AddProtein();
+							});
+					}
 				});
 
 			isOnce = false;
@@ -252,6 +293,11 @@ void CGameClear::Update()
 
 	}
 
+	if (Coin != nullptr)
+	{
+		Coin->Update();
+	}
+	
 	player->Update();
 
 	Bg->Update();
@@ -308,6 +354,15 @@ void CGameClear::Draw()
 		}
 
 	}
+
+	if (isCoin == true)
+	{
+		if (Coin != nullptr)
+		{
+			Coin->Draw();
+		}
+	}
+	
 
 	if (isNoMoving == true)
 	{
