@@ -211,6 +211,10 @@ void MuscleMove::Move(DIRECTION _dir)
 						XA_Play(SOUND_LABEL::S_FLY_BATABATA);
 					});
 				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->DelayedCall(FALL_TIME, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_FALL);
+					});
 				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 
 				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
@@ -254,6 +258,8 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				////画面外まで移動するようにYをマクロで定義して使用する
+
+				XA_Play(SOUND_LABEL::S_FALL);
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR, static_cast<int>(Player::STATE::MUSCLE)));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 				Vector2 fallPosXY;
@@ -447,6 +453,7 @@ void MuscleMove::Step()
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
 		//画面外まで移動するようにYをマクロで定義して使用する
+		XA_Play(SOUND_LABEL::S_FALL);
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR, static_cast<int>(player->GetState())));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
 		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
@@ -488,6 +495,7 @@ void MuscleMove::Step()
 		junpPos.y = Vec3JumpPos.y;
 
 
+		XA_Play(SOUND_LABEL::S_FALL);
 		//画面外まで移動するようにYをマクロで定義して使用する
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;

@@ -190,6 +190,19 @@ void DoTween::Update()
 				}
 
 				break;
+				case FUNC::EASE_ELASTIC:
+				{
+					// 始点と終点の距離を取る
+					Vector3 distance = (*itr2).targetValue - (*itr2).oldPos;
+					const float t = (*itr2).nowTime / (*itr2).moveTime;
+
+					float calc = 1 - pow(2, (-10 * t)) * sin((10 * t + 0.75) * 2 * PI / 3);
+
+					objPtr->mTransform.pos.x = (*itr2).oldPos.x + distance.x * calc;
+					objPtr->mTransform.pos.y = (*itr2).oldPos.y + distance.y * calc;
+				}
+				break;
+
 				}
 				itr2++;	// 次のイテレータに進む
 
@@ -775,6 +788,28 @@ void DoTween::DoEaseElasticScale(const Vector3& _targetAngle, const float& _move
 	set.dotweenType = FUNC::EASE_ELASTIC_SCALE;
 	set.start = START::DO;
 	set.oldPos = objPtr->mTransform.scale;
+	set.targetValue = _targetAngle;
+
+	set.moveTime = _moveTime;
+	set.state = STATE::PLAY;	// Dotween起動
+	set.nowTime = 0;	// 初期化
+
+	// flowの最初の要素として追加する
+	FLOW flow;	// 1連の流れ
+	// 待機リストに追加
+	flow.flowList.push_back(set);
+
+	// シーケンスの最後にflowを入れる
+	sequence.push_back(flow);
+}
+
+void DoTween::DoEaseElastic(const Vector3& _targetAngle, const float& _moveTime)
+{
+	//　設定をする
+	VALUE set;
+	set.dotweenType = FUNC::EASE_ELASTIC_SCALE;
+	set.start = START::DO;
+	set.oldPos = objPtr->mTransform.pos;
 	set.targetValue = _targetAngle;
 
 	set.moveTime = _moveTime;

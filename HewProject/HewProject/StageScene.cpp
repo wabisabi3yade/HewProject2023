@@ -917,7 +917,7 @@ void StageScene::StageMove()
 	if (player->GetPlayerMove()->GetIsMoveTrigger())
 	{
 
-		if (player->GetState() != Player::STATE::MUSCLE && nNumProtein <= 0)
+		if (player->GetState() != Player::STATE::MUSCLE && nNumProtein <= 0 && !player->GetGameOverOnes())
 		{
 			player->ChangeState(Player::STATE::MUSCLE);
 			calorieGage->SetCalorie(CAKE_CALORIE);
@@ -1184,9 +1184,9 @@ void StageScene::ItemDelete()
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
 	{
+		nNumProtein--;
 		player->dotween->DelayedCall(EAT_TIME, [&]()
 			{
-				nNumProtein--;
 				proteinUi->AddProtein();
 				XA_Play(SOUND_LABEL::S_PROTEIN_UP);
 			});
@@ -1218,7 +1218,7 @@ void StageScene::ItemDelete()
 		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]));
 
 		// 画面から消す
-		deleteObj->SetActive(false);
+		//deleteObj->SetActive(false);
 		break;
 	}
 	case CGridObject::BlockType::CAKE:
@@ -1397,7 +1397,7 @@ void StageScene::Undo(float _stageScale, bool isPush)
 	nNumProtein = 0;
 
 	// コインの数を求める
-
+	nNumCoin = 0;
 	for (int layer = 0; layer < MAX_LAYER; layer++)
 	{
 		// 各階層のオブジェクトテーブルをゲット
@@ -1426,6 +1426,8 @@ void StageScene::Undo(float _stageScale, bool isPush)
 				// プロテインの数を取得する
 				if (updateTable->objectTable[ver][hori] == static_cast<int>(CGridObject::BlockType::PROTEIN))
 					nNumProtein++;
+				else if (updateTable->objectTable[ver][hori] == static_cast<int>(CGridObject::BlockType::COIN))
+					nNumCoin++;
 			}
 		}
 
@@ -1437,6 +1439,8 @@ void StageScene::Undo(float _stageScale, bool isPush)
 	proteinUi->SetProtein(nNumProtein, true);
 
 	// コインUIに設定
+	if (coinUI != nullptr)
+		coinUI->SetProtein(nNumCoin, true);
 
 	// リスがいる階層を更新
 	nowFloorNum = o_floorNum;
@@ -1942,7 +1946,14 @@ void StageScene::Init(const wchar_t* filePath)
 
 
 	proteinUi->SetScale({ 1.3f, 1.3f });
-	gameStart = new CGameStart(nNumProtein);
+	if (selectName == CScene::SCENE_NAME::WORLD1_SELECT)
+	{
+		gameStart = new CGameStart(nNumProtein, true);
+	}
+	else
+	{
+		gameStart = new CGameStart(nNumProtein);
+	}
 	if (selectName == CScene::SCENE_NAME::STAGE1)
 	{
 		//gameStart = new CGameStart(nNumProtein,true);
@@ -2036,7 +2047,7 @@ void StageScene::Init(const wchar_t* filePath)
 
 	gameOver->SetFunc(1, [&]()
 		{
-			Undo(stageScale,true);
+			Undo(stageScale, true);
 			gameOver->ResetPos();
 			player->SetGameOverFalse();
 		});
