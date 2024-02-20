@@ -149,20 +149,25 @@ void StgButton::SetFlash()
 {
 	isFlash = true;
 
-	//// 拡大のスケール
-	//Vector3 upScale = grayState_scale * LIGHT_SCALEUPTIMES;
-	//upScale.z = 1.0f;
+	// 拡大のスケール
+	Vector3 upScale = grayState_scale * LIGHT_SCALEUPTIMES;
+	upScale.z = 1.0f;
 
-	//button->dotween->Stop();
-	//button->mTransform.scale = grayState_scale * 0.3f;
-	//button->dotween->DoEaseOutBackScale(upScale, UP_FLASHTIME);
+	button->dotween->Stop();
+	text->dotween->Stop();
+	button->mTransform.scale = { 2.5f, 2.5f, 1.0f };
+	text->mTransform.scale = { 1.40f, 1.40f, 1.0f };
+	/*button->dotween->Stop();
+	button->mTransform.scale = grayState_scale * 0.3f;
+	button->mTransform.scale.z = 1.0f;
+	button->dotween->DoEaseOutBackScale(upScale, UP_FLASHTIME);
 
-	//Vector3 upTextScale = upScale * textScaleTimes;
-	//upTextScale.z = 1.0f;
+	Vector3 upTextScale = upScale * textScaleTimes;
+	upTextScale.z = 1.0f;
 
-	//text->dotween->Stop();
-	//text->mTransform.scale = grayState_scale * textScaleTimes * 0.3f;
-	//text->mTransform.scale.z = 1.0f;
+	text->dotween->Stop();
+	text->mTransform.scale = grayState_scale * textScaleTimes * 0.3f;
+	text->mTransform.scale.z = 1.0f;
 
-	//button->dotween->DoEaseOutBackScale(upTextScale, UP_FLASHTIME);
+	button->dotween->DoEaseOutBackScale(upTextScale, UP_FLASHTIME);*/
 }

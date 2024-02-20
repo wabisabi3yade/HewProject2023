@@ -3,7 +3,7 @@
 #include <functional>
 
 #define FLASH_TIME (0.1f)
-#define FLASH_END (10)
+#define FLASH_END (15)
 
 
 class ButtonUI
