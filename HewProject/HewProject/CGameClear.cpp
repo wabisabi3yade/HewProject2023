@@ -6,6 +6,7 @@
 #include "ButtonSelect.h"
 #include "CGameClearPlayer.h"
 #include "CoinUI.h"
+#include "xa2.h"
 
 #define BUTTON_POS_Y (-2.4f)
 #define BUTTON_SCALE (4.0f)
@@ -279,6 +280,7 @@ void CGameClear::Update()
 		if (input->GetInputTrigger(InputType::DECIDE))
 		{
 			selectControl->PushButton();
+			XA_Play(SOUND_LABEL::S_PUSHBUTTON);
 		}
 
 		selectControl->FlagUpdate();
