@@ -76,7 +76,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	TextureInput(L"asset/Player/N_EatCake.png", STATE::NORMAL, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/F_EatCake.png", STATE::FAT, ANIM_TEX::EAT_CAKE);
 	TextureInput(L"asset/Player/T_EatCake.png", STATE::THIN, ANIM_TEX::EAT_CAKE),
-	TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
+		TextureInput(L"asset/Player/N_EatChili.png", STATE::NORMAL, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/F_EatChili.png", STATE::FAT, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
 	TextureInput(L"asset/Player/T_EatChili.png", STATE::THIN, ANIM_TEX::EAT_CHILI);
@@ -247,15 +247,44 @@ void Player::Update()
 
 	if (calorie <= 0 && !gameOverOnes)
 	{
-		XA_Play(SOUND_LABEL::S_DOWN);
-		ChangeTexture(ANIM_TEX::GAMEOVER);
-		dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction),1.5f);
-		dotween->DelayedCall(GAMEOVER_TIME, [&]()
-			{
-				XA_Play(SOUND_LABEL::S_GAMEOVER);
-				GameOver();
-			});
-		gameOverOnes = true;
+		if (playerState != STATE::MUSCLE)
+		{
+			XA_Play(SOUND_LABEL::S_DOWN);
+			ChangeTexture(ANIM_TEX::GAMEOVER);
+			dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction), 1.5f);
+			dotween->DelayedCall(GAMEOVER_TIME, [&]()
+				{
+					XA_Play(SOUND_LABEL::S_GAMEOVER);
+					GameOver();
+				});
+			gameOverOnes = true;
+		}
+		else
+		{
+			Vector3 pos = mTransform.pos;
+			Vector3 scale = mTransform.scale;
+
+			pos.z -= 0.00001f;
+			pos.y += 0.5f * gridTable->GetGridScale().y;
+			scale.x *= SMOKE_SCALE;
+			scale.y *= SMOKE_SCALE;
+			PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+			gameOverOnes = true;
+			ChangeState(STATE::THIN);
+			mTransform.scale.y /= 1.4f;
+			mTransform.pos = gridTable->GridToWorld(GetGridPos(), CGridObject::BlockType::START);
+			dotween->DelayedCall(1.0f, [&]()
+				{
+					XA_Play(SOUND_LABEL::S_DOWN);
+					ChangeTexture(ANIM_TEX::GAMEOVER);
+					dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction), 1.5f);
+					dotween->DelayedCall(GAMEOVER_TIME, [&]()
+						{
+							XA_Play(SOUND_LABEL::S_GAMEOVER);
+							GameOver();
+						});
+				});
+		}
 	}
 }
 
@@ -529,7 +558,7 @@ void Player::Rise()
 
 void Player::EatEnd()
 {
-	dotween->DelayedCall(0.5f,[&]()
+	dotween->DelayedCall(0.5f, [&]()
 		{
 			isEat = false;
 		});
@@ -587,11 +616,11 @@ void Player::Reset()
 
 void Player::Stop(float _stopEndTime)
 {
-	 IsStop = true;
-	 dotween->DelayedCall(_stopEndTime, [&]()
-		 {
-			 IsStop = false;
-		 });
+	IsStop = true;
+	dotween->DelayedCall(_stopEndTime, [&]()
+		{
+			IsStop = false;
+		});
 }
 
 void Player::SetDirection(int _set)

@@ -28,6 +28,7 @@ public:
 		EASE_OUTBACK_SCALE,
 		EASE_INBACK_SCALE,
 		EASE_ELASTIC_SCALE,
+		EASE_ELASTIC,
 		DELAY
 	};
 
@@ -212,6 +213,7 @@ public:
 	void DoEaseOutBackScale(const Vector3& _targetAngle, const float& _moveTime);
 	void DoEaseInBackScale(const Vector3& _targetAngle, const float& _moveTime);
 	void DoEaseElasticScale(const Vector3& _targetAngle, const float& _moveTime);
+	void DoEaseElastic(const Vector3& _targetAngle, const float& _moveTime);
 	void DoEaseOutBack(const Vector3& _targetAngle, const float& _moveTime);
 	// Ç±ÇÍà»ç~ÇÃèàóùÇíxÇÁÇπÇÈ
 	void AppendDelay(float _delayTime);

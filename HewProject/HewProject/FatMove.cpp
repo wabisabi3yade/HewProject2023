@@ -281,6 +281,10 @@ void FatMove::Move(DIRECTION _dir)
 						XA_Play(SOUND_LABEL::S_FLY_BATABATA);
 					});
 				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->DelayedCall(FALL_TIME, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_FALL);
+					});
 				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
@@ -562,6 +566,10 @@ void FatMove::Step()
 				player->Fall();
 			});
 		player->dotween->DoDelay(FALL_TIME);
+		player->dotween->DelayedCall(FALL_TIME, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_FALL);
+			});
 		player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 		Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
@@ -597,6 +605,8 @@ void FatMove::Step()
 		fallPosXY.x = fallPos.x;
 		fallPosXY.y = fallPos.y;
 		player->Fall();
+
+		XA_Play(SOUND_LABEL::S_FALL);
 		player->dotween->DoMoveXY(fallPosXY, FALLMOVE_TIME);
 		//player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 		player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
