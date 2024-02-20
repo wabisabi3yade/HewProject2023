@@ -226,14 +226,18 @@ void NormalMove::Move(DIRECTION _dir)
 				pos.z -= 0.000001f;
 				scale.x *= MARK_SCALE;
 				scale.y *= MARK_SCALE;
-						player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
-						XA_Play(SOUND_LABEL::S_BIKKURI);
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
+				XA_Play(SOUND_LABEL::S_BIKKURI);
 				player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 					{
 						player->Fall();
 						XA_Play(SOUND_LABEL::S_FLY_BATABATA);
 					});
 				player->dotween->DoDelay(FALL_TIME);
+				player->dotween->DelayedCall(FALL_TIME, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_FALL);
+					});
 				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 
 				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
@@ -277,6 +281,8 @@ void NormalMove::Move(DIRECTION _dir)
 		player->dotween->OnComplete([&]()
 			{
 				////画面外まで移動するようにYをマクロで定義して使用する
+
+				XA_Play(SOUND_LABEL::S_FALL);
 				Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 				fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
 				Vector2 fallPosXY;
@@ -521,6 +527,7 @@ void NormalMove::Step()
 		//画面外まで移動するようにYをマクロで定義して使用する
 
 
+		XA_Play(SOUND_LABEL::S_FALL);
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
@@ -570,6 +577,7 @@ void NormalMove::Step()
 		//WalkStart();
 		//ジャンプしてから落ちるように
 
+		XA_Play(SOUND_LABEL::S_FALL);
 		//画面外まで移動するようにYをマクロで定義して使用する
 		Vector3 fallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::FLOOR));
 		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f) - 0.1f;
