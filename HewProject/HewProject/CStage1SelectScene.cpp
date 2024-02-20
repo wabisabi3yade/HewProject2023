@@ -9,6 +9,7 @@
 #include "ShadowUI.h"
 #include "WorldSelectPic.h"
 #include "DoTween.h"
+#include"xa2.h"
 
 #define STAGE_SCALE_X (4.27f)
 #define STAGE_SCALE_Y (3.2f)
@@ -414,6 +415,7 @@ void CStage1SelectScene::Update()
 				stage[i]->dotween->Append(Small, 2.5f, DoTween::FUNC::EASE_OUTCUBIC_SCALE);
 				stage[i]->dotween->SetLoop(-1);
 
+				//XA_Play(SOUND_LABEL::S_TEXT);
 				switch (i)
 				{
 				case 0:
@@ -421,7 +423,7 @@ void CStage1SelectScene::Update()
 					//ワールド１
 					target = Text[1]->mTransform.pos;
 					target.x = 2.0f;
-					
+					XA_Play(SOUND_LABEL::S_TEXT);
 					Text[1]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 					Text[1]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 					Text[1]->dotween->OnComplete([&]() {isOnce = true; });
@@ -432,7 +434,7 @@ void CStage1SelectScene::Update()
 					//ワールド3
 					target = Text[2]->mTransform.pos;
 					target.x = 2.5f;
-					
+					XA_Play(SOUND_LABEL::S_TEXT);
 					Text[2]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 					Text[2]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 					Text[2]->dotween->OnComplete([&]() {isOnce = true; });
@@ -443,7 +445,7 @@ void CStage1SelectScene::Update()
 					//ワールド２
 					target = Text[0]->mTransform.pos;
 					target.x = -2.0f;
-					
+					XA_Play(SOUND_LABEL::S_TEXT);
 					Text[0]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 					Text[0]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 					Text[0]->dotween->OnComplete([&]() {isOnce = true; });
@@ -454,7 +456,7 @@ void CStage1SelectScene::Update()
 					//ワールド４
 					target = Text[3]->mTransform.pos;
 					target.x = -2.0f;
-
+					XA_Play(SOUND_LABEL::S_TEXT);
 					Text[3]->dotween->DoEaseOutBack(target, TARGET_MOVETIME);
 					Text[3]->dotween->Append(Vector3::zero, MOVETIME, DoTweenUI::FUNC::NONE);
 					Text[3]->dotween->OnComplete([&]() {isOnce = true; });

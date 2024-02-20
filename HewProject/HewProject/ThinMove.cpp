@@ -69,6 +69,10 @@ void ThinMove::Move(DIRECTION _dir)
 
 		WalkStart();
 		XA_Play(SOUND_LABEL::S_WALK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_WALK);
+			});
 		// 移動する
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
@@ -84,6 +88,10 @@ void ThinMove::Move(DIRECTION _dir)
 					return;
 				}
 				XA_Play(SOUND_LABEL::S_EAT);
+				player->dotween->DelayedCall(0.7f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_EAT);
+					});
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				Vector3 pos = player->mTransform.pos;
@@ -117,6 +125,10 @@ void ThinMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::CHILI:
 		WalkStart();
 		XA_Play(SOUND_LABEL::S_WALK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_WALK);
+			});
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -130,6 +142,10 @@ void ThinMove::Move(DIRECTION _dir)
 					return;
 				}
 				XA_Play(SOUND_LABEL::S_EAT);
+				player->dotween->DelayedCall(0.7f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_EAT);
+					});
 				player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -147,6 +163,10 @@ void ThinMove::Move(DIRECTION _dir)
 	case CGridObject::BlockType::PROTEIN:
 		WalkStart();
 		XA_Play(SOUND_LABEL::S_WALK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_WALK);
+			});
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -160,6 +180,10 @@ void ThinMove::Move(DIRECTION _dir)
 					return;
 				}
 				XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+					});
 				player->ChangeTexture(Player::ANIM_TEX::DRINK);
 				player->GetPlayerAnim()->PlayEat(player->GetDirection());
 				player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -175,6 +199,10 @@ void ThinMove::Move(DIRECTION _dir)
 
 		WalkStart();
 		XA_Play(SOUND_LABEL::S_WALK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_WALK);
+			});
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -373,6 +401,10 @@ void ThinMove::Move(DIRECTION _dir)
 						return;
 					}
 					XA_Play(SOUND_LABEL::S_EAT);
+					player->dotween->DelayedCall(0.7f, [&]()
+						{
+							XA_Play(SOUND_LABEL::S_EAT);
+						});
 					player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 					player->GetPlayerAnim()->PlayEat(player->GetDirection());
 					Vector3 pos = player->mTransform.pos;
@@ -412,6 +444,10 @@ void ThinMove::Move(DIRECTION _dir)
 						return;
 					}
 					XA_Play(SOUND_LABEL::S_EAT);
+					player->dotween->DelayedCall(0.7f, [&]()
+						{
+							XA_Play(SOUND_LABEL::S_EAT);
+						});
 					player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 					player->GetPlayerAnim()->PlayEat(player->GetDirection());
 					player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -433,6 +469,10 @@ void ThinMove::Move(DIRECTION _dir)
 						return;
 					}
 					XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+					player->dotween->DelayedCall(0.5f, [&]()
+						{
+							XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+						});
 					player->ChangeTexture(Player::ANIM_TEX::DRINK);
 					player->GetPlayerAnim()->PlayEat(player->GetDirection());
 					player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -552,6 +592,10 @@ void ThinMove::Move(DIRECTION _dir)
 
 		WalkStart();
 		XA_Play(SOUND_LABEL::S_WALK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_WALK);
+			});
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -586,6 +630,10 @@ void ThinMove::Step()
 			return;
 		}
 		XA_Play(SOUND_LABEL::S_EAT);
+		player->dotween->DelayedCall(0.7f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_EAT);
+			});
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CAKE);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		Vector3 pos = player->mTransform.pos;
@@ -625,6 +673,10 @@ void ThinMove::Step()
 			return;
 		}
 		XA_Play(SOUND_LABEL::S_EAT);
+		player->dotween->DelayedCall(0.7f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_EAT);
+			});
 		player->ChangeTexture(Player::ANIM_TEX::EAT_CHILI);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -648,6 +700,10 @@ void ThinMove::Step()
 			return;
 		}
 		XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_PROTEIN_DRINK);
+			});
 		player->ChangeTexture(Player::ANIM_TEX::DRINK);
 		player->GetPlayerAnim()->PlayEat(player->GetDirection());
 		player->dotween->DelayedCall(EAT_TIME, [&]()
@@ -796,7 +852,8 @@ void ThinMove::CheckCanMove()
 
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
-			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
+			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0
+			|| forwordPos.x > 8 || forwordPos.y > 8)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;

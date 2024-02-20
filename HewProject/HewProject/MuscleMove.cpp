@@ -78,6 +78,10 @@ void MuscleMove::Move(DIRECTION _dir)
 			{
 
 				XA_Play(SOUND_LABEL::S_MACHO_WALK);
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_MACHO_WALK);
+					});
 				player->ChangeTexture(Player::ANIM_TEX::WALK);
 				player->GetPlayerAnim()->PlayWalk(player->GetDirection());
 				WalkStart();
@@ -111,6 +115,10 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos]()
 			{
 				XA_Play(SOUND_LABEL::S_MACHO_WALK);
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_MACHO_WALK);
+					});
 				player->ChangeTexture(Player::ANIM_TEX::WALK);
 				player->GetPlayerAnim()->PlayWalk(player->GetDirection());
 				WalkStart();
@@ -144,6 +152,10 @@ void MuscleMove::Move(DIRECTION _dir)
 		player->dotween->DelayedCall(BREAK_TIME, [&, _dir, forwardPos]()
 			{
 				XA_Play(SOUND_LABEL::S_MACHO_WALK);
+				player->dotween->DelayedCall(0.5f, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_MACHO_WALK);
+					});
 				player->ChangeTexture(Player::ANIM_TEX::WALK);
 				player->GetPlayerAnim()->PlayWalk(player->GetDirection());
 				WalkStart();
@@ -172,6 +184,10 @@ void MuscleMove::Move(DIRECTION _dir)
 	{
 		WalkStart();
 		XA_Play(SOUND_LABEL::S_MACHO_WALK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_MACHO_WALK);
+			});
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 		player->dotween->OnComplete([&]()
@@ -370,6 +386,10 @@ void MuscleMove::Move(DIRECTION _dir)
 
 		WalkStart();
 		XA_Play(SOUND_LABEL::S_MACHO_WALK);
+		player->dotween->DelayedCall(0.5f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_MACHO_WALK);
+			});
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
 
@@ -603,7 +623,8 @@ void MuscleMove::CheckCanMove()
 
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0
-			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0)
+			|| player->GetGridTable()->floorTable[forwordPos.y][forwordPos.x] == 0
+			|| forwordPos.x > 8 || forwordPos.y > 8)
 		{
 			canMoveDir[dirRoop] = false;
 			continue;
