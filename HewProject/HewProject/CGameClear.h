@@ -5,6 +5,7 @@ class UI;
 class ButtonUI;
 class ButtonSelect;
 class CGameClearPlayer;
+class CoinUI;
 
 class CGameClear :
     public CScene
@@ -43,14 +44,18 @@ public:
     UI* Frame[2];
     UI* Nami[2];
     CGameClearPlayer* player;
+    CoinUI* Coin;
+    int nNumCoin;
+    int nGetCoin;
 
     bool isNoMoving;
     bool isOnce;
     bool isFrame;
     bool isStopAnim;
+    bool isCoin;
 
 public:
-    CGameClear(CScene::SCENE_NAME _nextScene);
+    CGameClear(CScene::SCENE_NAME _nextScene, CoinUI* _coin = nullptr);
 
     ~CGameClear();
     

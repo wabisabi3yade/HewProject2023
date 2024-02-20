@@ -64,6 +64,10 @@ public:
 
 	void SetActive(bool _isActive);
 
+	int GetStageCoin() { return stageProMax; };
+
+	int GetCoin() { return getProtein; };
+
 	DoTweenUI* GetDotween() { return baseUI->dotween; }
 };
 
