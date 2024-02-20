@@ -9,6 +9,8 @@ InputManager::InputManager()
 	controller = GameController::GetInstance();
 	inputStateUpdate = InputStateUpdate::GetInstance();
 	inputMovement = InputMovement::GetInstance();
+	
+	viberation = ControllerVibration::GetInstance();
 
 	// 仮でデッドゾーン設定
 	Vector2 setDeadZone = { 0.5f,0.5f };
@@ -20,6 +22,7 @@ InputManager::~InputManager()
 	GameController::Delete();
 	InputStateUpdate::Delete();
 	InputMovement::Delete();
+	ControllerVibration::Delete();
 }
 
 InputManager* InputManager::GetInstance()
@@ -50,7 +53,9 @@ void InputManager::Update()
 	controller->PadStick();
 
 	// キーボードの移動量の更新
-	inputMovement->KeybordMovementUpdate();	
+	inputMovement->KeybordMovementUpdate();
+
+	viberation->Update();
 }
 
 bool InputManager::GetInputPress(InputType::TYPE _button)
@@ -72,6 +77,11 @@ void InputManager::SetDeadZone(const Vector2& _deadzone)
 Vector2 InputManager::GetMovement()
 {
 	return inputMovement->CheckMovement();
+}
+
+void InputManager::Vibelation(float _low, float _high, float _time)
+{
+	viberation->Shake(_high, _low, _time);
 }
 
 

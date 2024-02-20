@@ -11,6 +11,8 @@
 
 #include "Tutorial.h"
 
+#include "InputManager.h"
+
 Fade_TestScene::Fade_TestScene()
 {
 	fade = Fade::GetInstance();
@@ -77,6 +79,13 @@ Fade_TestScene::~Fade_TestScene()
 void Fade_TestScene::Update()
 {
 	static int a = 1;
+
+	InputManager* input = InputManager::GetInstance();
+
+	if (input->GetController()->Button(XINPUT_GAMEPAD_A))
+	{
+		input->Vibelation(65535,0, 2.0f);
+	}
 
 	if (gInput->GetKeyTrigger(VK_RETURN))
 	{

@@ -3,6 +3,7 @@ ControllerVibration* ControllerVibration::instance = nullptr;
 
 ControllerVibration::ControllerVibration()
 {
+	ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
 }
 
 ControllerVibration::~ControllerVibration()
@@ -30,14 +31,30 @@ void ControllerVibration::Delete()
 
 void ControllerVibration::Update()
 {
-	ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-	vibration.wLeftMotorSpeed = leftPower; // use any value between 0-65535 here
-	vibration.wRightMotorSpeed = rightPower; // use any value between 0-65535 here
-	XInputSetState(NULL, &vibration);
+	if (isShaking)
+	{
+		elapsedTime += 1.0f / 60;
+		vibration.wLeftMotorSpeed = leftPower; // use any value between 0-65535 here
+		vibration.wRightMotorSpeed = rightPower; // use any value between 0-65535 here
+		XInputSetState(NULL, &vibration);
+
+		if (elapsedTime > shakeTime)
+		{
+			isShaking = false;
+			vibration.wLeftMotorSpeed = 0; // use any value between 0-65535 here
+			vibration.wRightMotorSpeed = 0; // use any value between 0-65535 here
+			XInputSetState(NULL, &vibration);
+		}
+	}
 }
 
 void ControllerVibration::Shake(float _leftVibePower, float _rightVibePower, float _shakeTime)
 {
 	leftPower = _leftVibePower;
 	rightPower = _rightVibePower;
+
+	elapsedTime = 0.0f;
+	shakeTime = _shakeTime;
+
+	isShaking = true;
 }
