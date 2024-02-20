@@ -462,6 +462,8 @@ void StageScene::Update()
 		dotween->Update();
 
 		//UI
+		if (coinUI != nullptr)
+			coinUI->Update();
 
 		//プロテイン
 		proteinUi->Update();
@@ -1100,7 +1102,7 @@ void StageScene::InCanonInput()
 		{
 			_pos.x = _pos.x + (0.5f * stageScale);
 			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = -0.99f;
+			_pos.z = -0.79f;
 			//_pos.z = -0.14f;
 		}
 		else//左
@@ -1176,10 +1178,42 @@ void StageScene::ItemDelete()
 	{
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::PROTEIN:
+	{
+
 		nNumProtein--;
 		proteinUi->AddProtein();
+		auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
+			{
+				return (_obj->GetGridPos().x == next.x &&
+					_obj->GetGridPos().y == next.y &&
+					_obj->GetCategory() == CGridObject::Category::ITEM);
+			});
+
+		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]));
+
+		// 画面から消す
+		deleteObj->SetActive(false);
+		break;
+	}
+	case CGridObject::BlockType::COIN:
+	{
+		nNumCoin--;
+		coinUI->AddProtein();
+
+		auto itr = std::find_if(vStageObj->begin(), vStageObj->end(), [&](CGridObject* _obj)
+			{
+				return (_obj->GetGridPos().x == next.x &&
+					_obj->GetGridPos().y == next.y &&
+					_obj->GetCategory() == CGridObject::Category::ITEM);
+			});
+
+		deleteObj = GetStageObject(next, static_cast<CGridObject::BlockType>((nowFloor)->objectTable[next.y][next.x]));
+
+		// 画面から消す
+		deleteObj->SetActive(false);
+		break;
+	}
 	case CGridObject::BlockType::CAKE:
-		//case CGridObject::BlockType::COIN:
 	case CGridObject::BlockType::CHILI:
 	case CGridObject::BlockType::CANNON:
 	{
@@ -1231,7 +1265,8 @@ void StageScene::CannonItemDelete(CGrid::GRID_XY _deletePos, CGridObject::BlockT
 	{
 		// プレイヤーの位置にこのアイテムがあれば
 	case CGridObject::BlockType::COIN:
-
+		nNumCoin--;
+		coinUI->AddProtein();
 	case CGridObject::BlockType::PROTEIN:
 	case CGridObject::BlockType::CAKE:
 	case CGridObject::BlockType::CHILI:
@@ -1601,6 +1636,9 @@ void StageScene::Draw()
 	//プロテイン
 	proteinUi->Draw();
 
+	if (coinUI != nullptr)
+		coinUI->Draw();
+
 	//階層
 	floorUi->Draw();
 
@@ -1669,6 +1707,8 @@ void StageScene::Init(const wchar_t* filePath)
 	// ステージの大きさを設定する
 
 	nNumProtein = 0;
+
+	nNumCoin = 0;
 
 	stage = new CLoadStage;
 	//stageMake = new CStageMake();
@@ -1762,6 +1802,9 @@ void StageScene::Init(const wchar_t* filePath)
 				case CGridObject::BlockType::PROTEIN:
 					nNumProtein++;
 					break;
+				case CGridObject::BlockType::COIN:
+					nNumCoin++;
+					break;
 				default:
 					break;
 				}
@@ -1797,6 +1840,9 @@ void StageScene::Init(const wchar_t* filePath)
 					case CGridObject::BlockType::PROTEIN:
 						nNumProtein++;
 						break;
+					case CGridObject::BlockType::COIN:
+						nNumCoin++;
+						break;
 					default:
 						break;
 					}
@@ -1831,6 +1877,9 @@ void StageScene::Init(const wchar_t* filePath)
 							break;
 						case CGridObject::BlockType::PROTEIN:
 							nNumProtein++;
+							break;
+						case CGridObject::BlockType::COIN:
+							nNumCoin++;
 							break;
 						default:
 							break;
@@ -1900,8 +1949,15 @@ void StageScene::Init(const wchar_t* filePath)
 
 	proteinUi->SetPosition({ 6.0f, 3.0f, 0.0f });
 
+
+	proteinUi->SetScale({ 1.3f, 1.3f });
 	gameStart = new CGameStart(nNumProtein);
 
+	if (nNumCoin != 0)
+	{
+		coinUI = new CoinUI(nNumCoin);
+		coinUI->SetPosition({ 6.0f,1.5f,0.0f });
+	}
 
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 
@@ -1979,13 +2035,15 @@ void StageScene::Init(const wchar_t* filePath)
 				{
 					Undo(stageScale, true, true);
 					gameOver->ResetPos();
-					player->SetGameOver(false);
+					player->SetGameOverFalse();
 				});
 		});
 
-	gameOver->SetFunc(1, [=]()
+	gameOver->SetFunc(1, [&]()
 		{
 			Undo(stageScale, false, true);
+			gameOver->ResetPos();
+			player->SetGameOverFalse();
 		});
 
 	gameOver->SetFunc(2, [&]()
@@ -2003,7 +2061,19 @@ void StageScene::Init(const wchar_t* filePath)
 			Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, selectName);
 		});
 
-		//カロリーゲージ
+	Menu->SetFunc(
+		([&]()
+			{
+				Fade::GetInstance()->FadeIn(Fade::STATE::FADE_OUT, [&]()
+					{
+						//Reset();
+						gameOver->ResetPos();
+						player->SetGameOverFalse();
+					});
+			})
+	);
+
+	//カロリーゲージ
 	calorieGage = new CalorieGage_hori();
 
 	player->SetCalorieGage(calorieGage);
@@ -2015,7 +2085,7 @@ void StageScene::Init(const wchar_t* filePath)
 		Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
 		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
 		Arrow[i]->ScaleLoop();
-		Arrow[i]->mTransform.pos.z = -0.49f;
+		Arrow[i]->mTransform.pos.z = -0.80f;
 	}
 	calorieGage->SetPosition({ -4.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 0.75f,0.75f,1.0f });
@@ -2370,6 +2440,146 @@ CGridObject* StageScene::GetStageFloor(CGrid::GRID_XY _gridPos, CGridObject::Blo
 GridTable* StageScene::GetNowFloor() const
 {
 	return nowFloor;
+}
+
+void StageScene::Reset()
+{
+	nNumUndo = 0;
+
+	bool o_MakeOver = player->GetPlayMakeover();
+
+	// 更新するテーブル
+	GridTable* updateTable = nowFloor;
+	// 更新するオブジェクトのリスト
+	std::vector<CGridObject*>* updateObjList = vStageObj;
+	// 前にいた階数のグリッドテーブルを更新する
+	const short& o_floorNum = floorReset.old_Floor;
+
+
+	// 移動しているなら
+	for (int loop = 0; loop < MAX_LAYER; loop++)
+	{
+		// 全ての階層を更新する
+		switch (loop)
+		{
+		case 0:
+			updateTable = oneFloor;
+			updateObjList = &oneFStgObj;
+			break;
+		case 1:
+			updateTable = secondFloor;
+			updateObjList = &secondFStgObj;
+			break;
+		case 2:
+			updateTable = thirdFloor;
+			updateObjList = &thirdFStgObj;
+			break;
+
+		default:	// エラー
+			MessageBoxA(NULL, "Undo関数でold_Floorが1～3階の範囲でありません", "エラー", MB_ICONERROR | MB_OK);
+			break;
+		}
+
+		// 階層がこれ以上ないなら終わる
+		if (updateTable == nullptr) break;
+
+		// １つずつ入れていく
+		for (int i = 0; i < stageSquare.y; i++)
+		{
+			for (int j = 0; j < stageSquare.x; j++)
+			{
+				// 情報を入れる
+				updateTable->objectTable[i][j] =
+					floorReset.objectTable[loop][i][j];
+				// 情報を入れる
+				updateTable->floorTable[i][j] =
+					floorReset.floorTable[loop][i][j];
+			}
+		}
+		// 入れた階層のオブジェクトを作る
+		CreateStage(*updateTable, *updateObjList);
+
+	}
+
+	// プロテインの数を求める
+	nNumProtein = 0;
+	for (int layer = 0; layer < MAX_LAYER; layer++)
+	{
+		// 各階層のオブジェクトテーブルをゲット
+		switch (layer)
+		{
+		case 0:
+			updateTable = oneFloor;
+			break;
+
+		case 1:
+			updateTable = secondFloor;
+			break;
+
+		case 2:
+			updateTable = thirdFloor;
+			break;
+		}
+
+		if (updateTable == nullptr) break;
+
+		// プロテインを見る
+		for (int ver = 0; ver < stageSquare.y; ver++)
+		{
+			for (int hori = 0; hori < stageSquare.x; hori++)
+			{
+				// プロテインの数を取得する
+				if (updateTable->objectTable[ver][hori] == static_cast<int>(CGridObject::BlockType::PROTEIN))
+					nNumProtein++;
+			}
+		}
+
+	}
+
+	// プロテインUIに設定する
+	proteinUi->SetProtein(nNumProtein, true);
+
+	// リスがいる階層を更新
+	nowFloorNum = o_floorNum;
+	// 更新する
+	switch (floorUndo[nNumUndo].old_Floor)
+	{
+	case 1:
+		vStageObj = &oneFStgObj;
+		nowFloor = oneFloor;
+
+		break;
+
+	case 2:
+		vStageObj = &secondFStgObj;
+		nowFloor = secondFloor;
+		break;
+
+	case 3:
+		vStageObj = &thirdFStgObj;
+		nowFloor = thirdFloor;
+		break;
+	}
+	player->SetNowFloor(floorUndo[nNumUndo].old_Floor);
+
+	if (player->GetPlayMakeover() != o_MakeOver)
+		player->SetPlayMakeover(o_MakeOver);
+
+	// プレイヤーに必要な情報を更新する
+	UndoPlayerSet(floorUndo[nNumUndo].dirUndo, floorUndo[nNumUndo].calorieUndo, floorUndo[nNumUndo].stateUndo);
+	player->SetCalorieGage(calorieGage);
+	calorieGage->SetCalorie(player->GetCalorie(), false);
+	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
+	for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
+	{
+		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
+	}
+
+	// 未使用にしておく
+	for (int i = 1; i < UNDO_ARRAY_NUM; i++)
+	{
+		floorUndo[i].objectTable[0][0][0] = 0;
+	}
 }
 
 void StageScene::SetTutorial(Tutorial* _setTutorial)
