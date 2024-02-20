@@ -382,7 +382,6 @@ void CStage1SelectScene::Update()
 		{
 			XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
 			Fade::GetInstance()->FadeIn(Fade::STATE::LOADING, nullptr, nextScene);
-			input->Vibelation(5000, 5000, 0.4f);
 			isSceneChanging = true;
 		}
 	}

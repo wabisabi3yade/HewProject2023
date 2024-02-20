@@ -5,6 +5,7 @@
 #include "CWorldSelectPlayer.h"
 #include "ButtonUI.h"
 #include "ButtonSelect.h"
+#include "xa2.h"
 
 #define TEXT_SCALE (1.3f)
 #define TEXT_POS_X (-4.0f)
@@ -163,6 +164,7 @@ void CGameOver::Update()
 		if (input->GetInputTrigger(InputType::DECIDE))
 		{
 			selectControl->PushButton();
+			XA_Play(SOUND_LABEL::S_PUSHBUTTON);
 		}
 
 		selectControl->FlagUpdate();
