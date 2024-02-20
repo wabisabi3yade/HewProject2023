@@ -11,8 +11,14 @@ class ControllerVibration
 
 	static ControllerVibration* instance;
 
+	bool isShaking = false;
+
 	float leftPower = 0.0f;
 	float rightPower = 0.0f;
+
+	float shakeTime = 0.0f;
+
+	float elapsedTime = 0.0f;
 public:
 
 	static ControllerVibration* GetInstance();
