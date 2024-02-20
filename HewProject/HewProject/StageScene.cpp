@@ -123,8 +123,8 @@ StageScene::StageScene(D3DBUFFER vb, D3DTEXTURE tex, short int worldNum, bool _i
 
 	if (isW11)
 	{
-		GetProteinTexture = texFactory->Fetch(L"asset/Text/T_GoalAt.png");
-		GoChestTexture = texFactory->Fetch(L"asset/Text/T_Looking 1.png");
+		GetProteinTexture = texFactory->Fetch(L"asset/UI/T_GetProtein.png");
+		GoChestTexture = texFactory->Fetch(L"asset/UI/T_GoChest.png");
 	}
 }
 
@@ -184,9 +184,8 @@ StageScene::~StageScene()
 	CLASS_DELETE(RB_Button);
 	CLASS_DELETE(LB_Button);
 	CLASS_DELETE(BackCameraButton);
-	if (GoChest != nullptr)
+	if (GetProtein != nullptr)
 	{
-		CLASS_DELETE(GoChest);
 		CLASS_DELETE(GetProtein);
 	}
 	//CLASS_DELETE();
@@ -279,7 +278,8 @@ void StageScene::Update()
 
 		StageMove();
 
-
+		if (GetProtein != nullptr)
+			GetProtein->Update();
 
 		if (player->GetIsPlayMakeoverTrigger())
 		{
@@ -300,6 +300,7 @@ void StageScene::Update()
 									{
 										tutorial->MachoDisplay();
 										isTutorialNow = true;
+										GetProtein->SetTexture(GoChestTexture);
 									});
 							}
 
@@ -660,6 +661,12 @@ void StageScene::StageMove()
 			calorieGage->GetDotween()->DoEaseInBack(pos, 0.7f);
 			pos = { 10.0f,-2.0f,0.0f };
 			floorUi->GetDotween()->DoEaseInBack(pos, 0.7f);
+			if (GetProtein != nullptr)
+			{
+				pos.y = 2.1f;
+				pos.x = 15.0f;
+				GetProtein->dotween->DoEaseInBack(pos, 0.7f);
+			}
 
 			player->dotween->DelayedCall(BREAK_TIME / 9.0f, [&]()
 				{
@@ -670,16 +677,19 @@ void StageScene::StageMove()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
 					CCamera::GetInstance()->Zoom(0.35f, stageScale, { pos.x,pos.y / 2, 0 });
+					XA_Play(SOUND_LABEL::S_CHARGE1);
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 1.4f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
 					CCamera::GetInstance()->Zoom(0.31f, stageScale, { pos.x,pos.y / 2, 0 });
+					XA_Play(SOUND_LABEL::S_CHARGE2);
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 0.8f, [&, gallObj]()
 				{
 					Vector2 pos = { gallObj->mTransform.pos.x ,gallObj->mTransform.pos.y };
 					CCamera::GetInstance()->Zoom(0.29f, stageScale, { pos.x,pos.y / 2, 0 });
+					XA_Play(SOUND_LABEL::S_CHARGE3);
 				});
 			player->dotween->DelayedCall(BREAK_TIME / 0.75f, [&, gallObj]()
 				{
@@ -1621,9 +1631,8 @@ void StageScene::Draw()
 
 	if (!isStartStop)
 	{
-		if (Menu->GetisMenu() == false && !isGameClear && !player->GetIsGameOver() && !player->GetIsMoving() && !isTutorialNow)
+		if (Menu->GetisMenu() == false && !isGameClear && !player->GetIsGameOver()  && !isTutorialNow)
 		{
-
 			if (*isLookMap == true)
 			{
 				FloorLookButton->Draw();
@@ -1644,7 +1653,6 @@ void StageScene::Draw()
 	if (isW11 && Menu->GetisMenu() == false)
 	{
 		GetProtein->Draw();
-		GoChest->Draw();
 	}
 	//プロテイン
 	proteinUi->Draw();
@@ -1976,13 +1984,15 @@ void StageScene::Init(const wchar_t* filePath)
 		gameStart = new CGameStart(nNumProtein);
 	}
 
-	if (selectName == CScene::SCENE_NAME::STAGE1_1)
+	if (isW11)
 	{
-		GoChest = new UI(stageBuffer, GoChestTexture);
 		GetProtein = new UI(stageBuffer, GetProteinTexture);
 
-		GoChest->mTransform.scale = { 1.0f,2.0f,0.0f };
-		GetProtein->mTransform.scale = { 1.0f,2.0f,0.0f };
+		GetProtein->mTransform.scale = { 5.0f,2.0f,0.0f };
+
+		GetProtein->mTransform.pos = { 5.5f,2.1f,0.9f };
+		GetProtein->MakeDotween();
+
 	}
 
 	if (nNumCoin != 0)
