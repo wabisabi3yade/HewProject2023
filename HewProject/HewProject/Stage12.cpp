@@ -13,7 +13,7 @@ Stage12::Stage12()
 
 	stage->SetTutorial(tutorial);
 
-	BackScaleSet(1.3f);
+	BackScaleSet(1.33f);
 }
 
 Stage12::~Stage12()

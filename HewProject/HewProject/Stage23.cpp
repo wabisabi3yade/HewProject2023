@@ -6,6 +6,7 @@ Stage23::Stage23()
 	back->SetTexture(backTex[1]);
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_WORLD2);
 	nextStage = CScene::SCENE_NAME::STAGE2_4;
+	BackScaleSet(1.353f);
 }
 
 Stage23::~Stage23()

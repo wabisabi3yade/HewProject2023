@@ -35,6 +35,7 @@ Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _ne
 	csvPath = work;
 
 	stage = new StageScene(NULL, NULL, worldNum,_isW11);
+	stage->SetNextStageName(_next);
 	stage->Init(csvPath);
 
 	TextureFactory* texFactory =  TextureFactory::GetInstance();
@@ -50,9 +51,6 @@ Stage::Stage(const wchar_t* _csvName, short int worldNum, CScene::SCENE_NAME _ne
 
 	Vector2 s = { SCREEN_RATIO_W * BACK_SCALETIMES, SCREEN_RATIO_H * BACK_SCALETIMES };
 	back->mTransform.scale = { s.x, s.y, 1.0f };
-
-	stage->SetNextStageName(_next);
-
 }
 
 void Stage::Init()
