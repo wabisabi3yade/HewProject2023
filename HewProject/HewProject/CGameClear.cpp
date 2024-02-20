@@ -214,7 +214,7 @@ void CGameClear::Update()
 
 						if (Coin != nullptr)
 						{
-							Coin->GetDotween()->DoEaseOutBack({ -5.0f,-0.2f,WHITEBG_POS_Z - 0.512f }, 1.0f);
+							Coin->GetDotween()->DoEaseOutBack({ -4.7f,-0.2f,WHITEBG_POS_Z - 0.512f }, 1.0f);
 						}
 						
 						});
