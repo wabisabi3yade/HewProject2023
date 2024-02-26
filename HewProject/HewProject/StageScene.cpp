@@ -672,13 +672,17 @@ void StageScene::StageMove()
 			
 			pos = { 10.0f,1.5f,-0.4f };
 
-			coinUI->GetDotween()->DoEaseInBack(pos, 0.7f);
-			coinUI->GetDotween()->OnComplete([&]()
-				{
-					coinUI->SetPosition({ -16.0f,-0.2f,-0.455f + 0.132f });
-					coinUI->SetScale({ 1.5f,1.5f });
-					coinUI->SetActive(true);
-				});
+			if (coinUI != nullptr)
+			{
+				coinUI->GetDotween()->DoEaseInBack(pos, 0.7f);
+				coinUI->GetDotween()->OnComplete([&]()
+					{
+						coinUI->SetPosition({ -16.0f,-0.2f,-0.455f + 0.132f });
+						coinUI->SetScale({ 1.5f,1.5f });
+						coinUI->SetActive(true);
+					});
+			}
+			
 			player->dotween->DelayedCall(BREAK_TIME / 9.0f, [&]()
 				{
 					player->GetPlayerAnim()->SetAnimSpeedRate(0.2f);
