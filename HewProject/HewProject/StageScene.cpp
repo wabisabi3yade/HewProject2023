@@ -669,7 +669,16 @@ void StageScene::StageMove()
 				pos.x = 15.0f;
 				GetProtein->dotween->DoEaseInBack(pos, 0.7f);
 			}
+			
+			pos = { 10.0f,1.5f,-0.4f };
 
+			coinUI->GetDotween()->DoEaseInBack(pos, 0.7f);
+			coinUI->GetDotween()->OnComplete([&]()
+				{
+					coinUI->SetPosition({ -16.0f,-0.2f,-0.455f + 0.132f });
+					coinUI->SetScale({ 1.5f,1.5f });
+					coinUI->SetActive(true);
+				});
 			player->dotween->DelayedCall(BREAK_TIME / 9.0f, [&]()
 				{
 					player->GetPlayerAnim()->SetAnimSpeedRate(0.2f);
@@ -1662,8 +1671,6 @@ void StageScene::Draw()
 	//プロテイン
 	proteinUi->Draw();
 
-	if (coinUI != nullptr)
-		coinUI->Draw();
 
 	//階層
 	floorUi->Draw();
@@ -1696,6 +1703,8 @@ void StageScene::Draw()
 		IsArrowDraw++;
 	}
 
+	if (coinUI != nullptr)
+		coinUI->Draw();
 	Menu->Draw();
 
 
@@ -2003,10 +2012,12 @@ void StageScene::Init(const wchar_t* filePath)
 	if (nNumCoin != 0)
 	{
 		coinUI = new CoinUI(nNumCoin);
-		coinUI->SetPosition({ 6.0f,1.5f,0.0f });
+		coinUI->SetPosition({ 6.0f,1.5f,-0.4f });
+		Vector2 xy(2.0f, 2.0f);
+		coinUI->SetScale(xy);
 	}
 
-	gameClear = new CGameClear(CScene::SCENE_NAME::NONE, coinUI);
+ 	gameClear = new CGameClear(CScene::SCENE_NAME::NONE, coinUI);
 
 	//ここでグリッドテーブルを作成する /////////////////////////////////////////
 

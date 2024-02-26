@@ -123,10 +123,10 @@ CGameClear::CGameClear(CScene::SCENE_NAME _nextScene,CoinUI* _coin)
 
 	if (Coin != nullptr)
 	{
-		//Coin = new CoinUI(_coin->GetStageCoin());
-		Coin->SetPosition({ -16.0f,-0.2f,WHITEBG_POS_Z +0.132f });
-		Coin->SetScale({ 1.5f,1.5f });
-		Coin->SetActive(true);
+		coin = new CoinUI(_coin->GetStageCoin());
+		coin->SetPosition({ -16.0f,-0.2f,WHITEBG_POS_Z +0.132f });
+		coin->SetScale({ 1.5f,1.5f });
+		coin->SetActive(true);
 	}
 	
 
@@ -166,6 +166,7 @@ CGameClear::~CGameClear()
 	CLASS_DELETE(player);
 
 	CLASS_DELETE(Coin);
+	CLASS_DELETE(coin);
 
 	SAFE_RELEASE(bgBuffer);
 	SAFE_RELEASE(textBuffer);
@@ -215,7 +216,7 @@ void CGameClear::Update()
 
 						if (Coin != nullptr)
 						{
-							Coin->GetDotween()->DoEaseOutBack({ -4.7f,-0.2f,WHITEBG_POS_Z + 0.132f }, 1.0f);
+							coin->GetDotween()->DoEaseOutBack({ -4.7f,-0.2f,WHITEBG_POS_Z + 0.132f }, 1.0f);
 						}
 						
 						});
@@ -247,21 +248,22 @@ void CGameClear::Update()
 						}
 						else if (Coin->GetCoin() == 1)
 						{
-							//Coin->AddProtein();
+							coin->AddProtein();
+
 						}
 						else if (Coin->GetCoin() == 2)
 						{
-							Coin->AddProtein();
-							Coin->GetDotween()->DelayedCall(0.1f, [&]() {
+							coin->AddProtein();
+							coin->GetDotween()->DelayedCall(0.1f, [&]() {
 								//Coin->AddProtein();
 								});
 						}
 						else if (Coin->GetCoin() == 3)
 						{
-							Coin->AddProtein();
-							Coin->GetDotween()->DelayedCall(0.1f, [&]() {
-								Coin->AddProtein();
-								Coin->GetDotween()->DelayedCall(0.1f, [&]() {
+							coin->AddProtein();
+							coin->GetDotween()->DelayedCall(0.1f, [&]() {
+								coin->AddProtein();
+								coin->GetDotween()->DelayedCall(0.1f, [&]() {
 									//Coin->AddProtein();
 									});
 								});
@@ -311,6 +313,7 @@ void CGameClear::Update()
 	if (Coin != nullptr)
 	{
 		Coin->Update();
+		coin->Update();
 	}
 	
 	player->Update();
@@ -375,6 +378,7 @@ void CGameClear::Draw()
 		if (Coin != nullptr)
 		{
 			Coin->Draw();
+			coin->Draw();
 		}
 	}
 	
