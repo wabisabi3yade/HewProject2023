@@ -529,54 +529,81 @@ void NormalMove::Step()
 		break;
 	case CGridObject::BlockType::CHOCOCRACK:
 	{
-		WalkStart();
 
-		//画面外まで移動するようにYをマクロで定義して使用する
-
-
-		XA_Play(SOUND_LABEL::S_FALL);
-		player->GetPlayerAnim()->StopWalk(player->GetDirection());
-		Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
-		fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
-		Vector3 pos = player->mTransform.pos;
-		Vector3 scale = player->mTransform.scale;
-		pos.z -= 0.000001f;
-		scale.x *= MARK_SCALE;
-		scale.y *= MARK_SCALE;
-		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
-		player->dotween->DelayedCall(0.5f, [&]()
-			{
-				XA_Play(SOUND_LABEL::S_BIKKURI);
-			});
-		player->dotween->DelayedCall(FALL_TIME / 2, [&]()
-			{
-				player->Fall();
-				XA_Play(SOUND_LABEL::S_FLY_BATABATA);
-			});
-		player->dotween->DoDelay(FALL_TIME);
-		player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
-
-		player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
-		Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
-		player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-		if (player->GetNowFloor() != 1)
+		if (!isFalling)
 		{
-			if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+
+			WalkStart();
+
+			//画面外まで移動するようにYをマクロで定義して使用する
+
+
+			XA_Play(SOUND_LABEL::S_FALL);
+			player->GetPlayerAnim()->StopWalk(player->GetDirection());
+			Vector3 fallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::FLOOR));
+			fallPos.y = (FALL_POS_Y)-(player->mTransform.scale.y / 2.0f);
+			Vector3 pos = player->mTransform.pos;
+			Vector3 scale = player->mTransform.scale;
+			pos.z -= 0.000001f;
+			scale.x *= MARK_SCALE;
+			scale.y *= MARK_SCALE;
+			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::MARK, false);
+			player->dotween->DelayedCall(0.5f, [&]()
+				{
+					XA_Play(SOUND_LABEL::S_BIKKURI);
+				});
+			player->dotween->DelayedCall(FALL_TIME / 2, [&]()
+				{
+					player->Fall();
+					XA_Play(SOUND_LABEL::S_FLY_BATABATA);
+				});
+			player->dotween->DoDelay(FALL_TIME);
+			player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
+
+			player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
+			Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
+			player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
+			if (player->GetNowFloor() != 1)
 			{
-				//バウンドする高さを計算　代入
-				float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
-				player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-				player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
-					{
-						XA_Play(SOUND_LABEL::S_TYAKUTI);
-						isFallBound = true;
-					});
+				if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+				{
+					//バウンドする高さを計算　代入
+					float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+					player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+					player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+						{
+							XA_Play(SOUND_LABEL::S_TYAKUTI);
+							isFallBound = true;
+						});
+				}
 			}
+			player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+				{
+					player->fallMoveTrriger = true;
+				});
 		}
-		player->dotween->DelayedCall(FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+		else
+		{
+			MoveAfter();
+
+			if (player->GetCalorie() < 6)
 			{
-				player->fallMoveTrriger = true;
-			});
+				Vector3 pos = player->mTransform.pos;
+				Vector3 scale = player->mTransform.scale;
+				pos.z -= 0.000001f;
+				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+				scale.x *= SMOKE_SCALE;
+				scale.y *= SMOKE_SCALE;
+				XA_Play(SOUND_LABEL::S_CHANGE);
+				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+			}
+			player->GetPlayerAnim()->StopWalk(player->GetDirection());
+			player->ChangeTexture(Player::ANIM_TEX::WAIT);
+			player->dotween->DelayedCall(0.1f, [&]()
+				{
+					FallAfter();
+				});
+		}
 		break;
 	}
 	case CGridObject::BlockType::HOLL:
@@ -610,7 +637,7 @@ void NormalMove::Step()
 					});
 			}
 		}
-		player->dotween->DelayedCall(FALLMOVE_TIME , [&]()
+		player->dotween->DelayedCall(FALLMOVE_TIME, [&]()
 			{
 				player->fallMoveTrriger = true;
 			});

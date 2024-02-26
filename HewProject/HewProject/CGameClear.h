@@ -45,6 +45,7 @@ public:
     UI* Nami[2];
     CGameClearPlayer* player;
     CoinUI* Coin;
+    CoinUI* coin;
     int nNumCoin;
     int nGetCoin;
 
