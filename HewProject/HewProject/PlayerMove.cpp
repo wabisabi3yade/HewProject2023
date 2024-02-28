@@ -36,6 +36,7 @@ PlayerMove::PlayerMove(Player* _p)
 	isFallBound = false;
 	cannonFX = false;
 	IsMissMove = true;
+	MoveToWataame = false;
 }
 
 PlayerMove::~PlayerMove()

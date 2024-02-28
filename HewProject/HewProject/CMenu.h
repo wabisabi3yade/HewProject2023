@@ -83,5 +83,7 @@ public:
     bool GetisMenu();
 
     void SetFunc(std::function<void()> _onComplete);
+
+    void SetIsMenu(bool _set) { isMenu = _set; }
 };
 

@@ -532,25 +532,28 @@ void ThinMove::Move(DIRECTION _dir)
 					player->dotween->DelayedCall(FALL_TIME / 2, [&]()
 						{
 							player->Fall();
+							XA_Play(SOUND_LABEL::S_FALL);
 						});
 					player->dotween->DoDelay(FALL_TIME);
 
-					XA_Play(SOUND_LABEL::S_FALL);
-					player->dotween->Append(fallPos, WALK_TIME, DoTween::FUNC::MOVE_XY);
+					player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 
 					player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 					Vector3 floorFallPos(player->GetGridTable()->GridToWorld(nextGridPos, CGridObject::BlockType::START));
 					player->dotween->Append(floorFallPos.y, FALLMOVE_TIME, DoTween::FUNC::MOVE_Y);
-					if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+					if (player->GetNowFloor() != 1)
 					{
-						//バウンドする高さを計算　代入
-						float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
-						player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
-						player->dotween->DelayedCall(WALK_TIME + FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
-							{
-								XA_Play(SOUND_LABEL::S_TYAKUTI);
-								isFallBound = true;
-							});
+						if (player->GetNextGridTable()->CheckFloorType(player->GetPlayerMove()->GetNextGridPos()) != static_cast<int>(CGridObject::BlockType::HOLL))
+						{
+							//バウンドする高さを計算　代入
+							float BoundPosY = floorFallPos.y + 0.3f + BOUND_CURVE_POS_Y * nextGridPos.y;
+							player->dotween->Append(floorFallPos, BOUND_TIME, DoTween::FUNC::MOVECURVE, BoundPosY);
+							player->dotween->DelayedCall( FALL_TIME + FALLMOVE_TIME + FALLMOVE_TIME, [&]()
+								{
+									XA_Play(SOUND_LABEL::S_TYAKUTI);
+									isFallBound = true;
+								});
+						}
 					}
 					player->dotween->DelayedCall(FALLMOVE_TIME + FALL_TIME, [&]()
 						{

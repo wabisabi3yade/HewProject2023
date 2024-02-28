@@ -38,7 +38,12 @@ void CChoco::CRACK()
 	if (this->type == CGridObject::BlockType::CHOCO)
 	{
 		CLASS_DELETE(effect);
-		effect = EffectManeger::GetInstance()->Play({mTransform.pos.x,mTransform.pos.y,mTransform.pos.z - 0.000001f}, {this->mTransform.scale.x * CRACKSCALE,this->mTransform.scale.y * CRACKSCALE,this->mTransform.scale.z}, EffectManeger::FX_TYPE::CRACK, false);
+		Vector3 pos = mTransform.pos;
+		pos.z -= 0.00001f;
+		Vector3 scale = mTransform.scale;
+		scale.x *= CRACKSCALE;
+		scale.y *= CRACKSCALE;
+		effect = EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::CRACK, false);
 		XA_Play(SOUND_LABEL::S_CHOCO_BREAK);
 		this->type = CGridObject::BlockType::CHOCOCRACK;
 		this->category = CGridObject::Category::FLOOR;
