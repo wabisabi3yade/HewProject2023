@@ -3,6 +3,7 @@
 #include "CArrow.h"
 #include"CScene.h"
 #include"CEffectManeger.h"
+#include"xa2.h"
 
 void CCannon::CheckCanMove()
 {
@@ -66,13 +67,18 @@ CCannon::CCannon(D3DBUFFER vb, D3DTEXTURE tex, GridTable* _nowTable)
 	IsUse = false;
 	mAnim = new CannonAnim();
 	dotween = std::make_unique<DoTween>(this);
-	
 }
 
 CCannon::~CCannon()
 {
 	CLASS_DELETE(mAnim);
-	
+	for (auto it : effect)
+	{
+		CLASS_DELETE(it);
+		it++;
+	}
+
+	effect.clear();
 }
 
 void CCannon::SetStageSize(CGrid::GRID_XY _set)
@@ -82,24 +88,89 @@ void CCannon::SetStageSize(CGrid::GRID_XY _set)
 
 void CCannon::Update()
 {
-	//mAnim->Update();
 	dotween->Update();
 	CGridObject::Update();
+	for (auto it = effect.begin(); it != effect.end();)
+	{
+		(*it)->Update();
+		if ((*it)->GetFxType() == static_cast<int>(EffectManeger::FX_TYPE::AURA))
+		{
+			(*it)->mTransform.pos = this->mTransform.pos;
+			(*it)->mTransform.pos.z += 0.00001f;
+			(*it)->mTransform.pos.y -= 0.5f;
+		}
+		if ((*it)->GetEffectAnim()->GetAnimEnd())
+		{
+			CLASS_DELETE(*it);
+			it = effect.erase(it);
+			continue;
+		}
+		it++;
+	}
 }
 
 void CCannon::Draw()
 {
-	CGridObject::Draw();
+	if (effect.size() > 0)
+	{
+		for (auto it = effect.begin(); it != effect.end(); it++)
+		{
+			if ((*it)->mTransform.pos.z > this->mTransform.pos.z)
+				(*it)->Draw();
+		}
+	}
+	CObject::Draw();
+	if (effect.size() > 0)
+	{
+		for (auto it = effect.begin(); it != effect.end(); it++)
+		{
+			if ((*it)->mTransform.pos.z < this->mTransform.pos.z)
+				(*it)->Draw();
+		}
+	}
+}
+
+void CCannon::Fire(int _dir)
+{
+	Vector3 _pos = mTransform.pos;
+	Vector3 _Scale = mTransform.scale;
+	_Scale.x = _Scale.x * CANNON_FIRE_SCALE;
+	_Scale.y = _Scale.y * CANNON_FIRE_SCALE;
+	// 右 or 左なら　大砲動かす
+	_pos.z -= 0.00001f;
+	switch (_dir)
+	{
+	case 0:
+		_pos.x = _pos.x + (0.3f * mTransform.scale.x);
+		_pos.y = _pos.y + (0.4f * mTransform.scale.y);
+		_pos.z -= 0.100002f;
+		break;
+		//左に
+	case 1:
+		_pos.x = _pos.x - (0.1f * mTransform.scale.x);
+		_pos.y = _pos.y + (0.4f * mTransform.scale.y);
+		_pos.z -= 0.0002f;
+		break;
+		//右に
+	case 2:
+			_pos.x = _pos.x + (0.5f * mTransform.scale.x);
+			_pos.y = _pos.y + (0.4f * mTransform.scale.y);
+		break;
+	case 3:
+		_pos.x = _pos.x - (0.3f *  mTransform.scale.x);
+		_pos.y = _pos.y + (0.3f *  mTransform.scale.y);
+		_pos.z += 0.00002f;
+		break;
+	default:
+		break;
+	}
+	effect.push_back(EffectManeger::GetInstance()->Play(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false));
 }
 
 void CCannon::DirSelect(Player::DIRECTION _dir)
 {
-	//moveDir = static_cast<DIRECTION>(_dir);
-
 	//向きに合わせて回転を使う
 	//dynamic_cast<CannonAnim*>(mAnim)->PlayTurn
-
-		//this->mAnim;
 	switch (_dir)
 	{
 	case Player::DIRECTION::DOWN:
@@ -157,7 +228,7 @@ void CCannon::CheckCanMove(const GridTable& _nowTable)
 		forwordPos.x += d.x;
 		forwordPos.y += d.y;
 
-		if (_nowTable.objectTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::GALL) )
+		if (_nowTable.objectTable[forwordPos.y][forwordPos.x] == static_cast<short> (CGridObject::BlockType::GALL))
 		{
 			canMoveDir[dirRoop] = false;
 			continue;
@@ -175,7 +246,7 @@ void CCannon::CheckCanMove(const GridTable& _nowTable)
 
 void CCannon::PlayTurn(int _dir, float _animSpeedRate)
 {
-	dynamic_cast<CannonAnim*>(mAnim)->PlayTurn(_dir,3.0f);
+	dynamic_cast<CannonAnim*>(mAnim)->PlayTurn(_dir, 3.0f);
 }
 
 void CCannon::PlayReturn(float _animSpeedRate)
@@ -203,4 +274,16 @@ void CCannon::BlowOff(int _dir)
 	default:
 		break;
 	}
+}
+
+void CCannon::InPlayer()
+{
+	Vector3 pos = mTransform.pos;
+	pos.y += mTransform.scale.y / 2.0f;
+	pos.z -= 0.0001f;
+	Vector3 scale = mTransform.scale;
+	scale.x *= CANNON_IN_SCALE;
+	scale.y *= CANNON_IN_SCALE;
+	 effect.push_back(EffectManeger::GetInstance()->Play(pos, scale, EffectManeger::FX_TYPE::CANNON_IN, false));
+	 XA_Play(SOUND_LABEL::S_INCANNON);
 }

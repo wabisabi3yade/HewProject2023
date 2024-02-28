@@ -60,6 +60,8 @@ protected:
 
 	bool flagInit;
 
+	bool MoveToWataame;
+
 	bool cannonFX;
 	bool inCannon;
 	bool isCannonMove;
@@ -169,6 +171,7 @@ public:
 	bool* GetIsMenu() { return &isMenu; }
 
 	void SetIsLookCamera(bool &_set) { isLookMap = _set; }
-	//void SetIsMenu(bool _set) { isMenu = &_set; }
+	bool GetMoveWataame()const { return MoveToWataame; }
+	void SetMoveWataame(bool _set) { MoveToWataame = _set; }
 };
 

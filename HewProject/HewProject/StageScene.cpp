@@ -443,7 +443,7 @@ void StageScene::Update()
 					}
 					else
 					{
-						chocoObj->CRACK();
+						chocoObj->CRACK(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(),CGridObject::BlockType::START));
 						chocoObj->SetTexture(stageTextureChocolateClack);
 					}
 
@@ -467,14 +467,36 @@ void StageScene::Update()
 		if (player->GetPlayerMove()->GetIsMoving() || player->GetPlayerMove()->GetIsMoveTrigger())
 		{
 			// グリッドテーブルを更新する
-			TableUpdate();
+			if (player->GetPlayerMove()->GetMoveWataame())
+			{
+				//player->GetPlayerMove()->SetMoveWataame(false);
+				player->dotween->DelayedCall(0.8f, [&]()
+					{
+						TableUpdate();
+					});
+			}
+			else
+			{
+				TableUpdate();
+			}
 		}
 
 
 
 		if (player->GetPlayerMove()->GetIsMoveTrigger())
 		{
-			UndoTableUpdate();
+			if (player->GetPlayerMove()->GetMoveWataame())
+			{
+				player->GetPlayerMove()->SetMoveWataame(false);
+				player->dotween->DelayedCall(0.8f, [&]()
+					{
+						UndoTableUpdate();
+					});
+			}
+			else
+			{
+				UndoTableUpdate();
+			}
 		}
 
 		dotween->Update();
@@ -547,12 +569,14 @@ void StageScene::StageMove()
 					chiliObj->BlowOff(player->GetDirection());
 				});
 		}
-
 		if (player->GetPlayerMove()->CheckNowFloorType() == CGridObject::BlockType::WATAAME)
 		{
 			CWataame* wataameObj = dynamic_cast<CWataame*>(GetStageObject(player->GetGridPos(), CGridObject::BlockType::WATAAME));
 			wataameObj->Melt();
+			player->GetPlayerMove()->SetMoveWataame(true);
+			CGrid::GRID_XY xy = wataameObj->GetGridPos();
 			// ↓ここで穴のオブジェクトをnewしてvstageObjにpushbackする
+			nowFloor->floorTable[xy.y][xy.x] = static_cast<short>(CGridObject::BlockType::HOLL);
 			CHoll* hollObj = new CHoll(stageBuffer, stageTextureHoll);
 			hollObj->SetGridPos(static_cast <CGrid::GRID_XY> (player->GetGridPos()));
 			hollObj->SetBlookType(CGridObject::BlockType::HOLL);
@@ -933,16 +957,8 @@ void StageScene::StageMove()
 	}
 	if (player->GetCannonFX() == true)
 	{
-		Vector3 pos = player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START);
-		pos.y += stageScale / 2.0f;
-		pos.z -= 0.0001f;
-		Vector3 scale = player->mTransform.scale;
-		scale.x *= CANNON_IN_SCALE;
-		scale.y *= CANNON_IN_SCALE;
-		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::CANNON_IN, false);
-		XA_Play(SOUND_LABEL::S_INCANNON);
-
 		CCannon* cannonObj = dynamic_cast<CCannon*>(GetStageFloor(player->GetPlayerMove()->GetNextGridPos(), static_cast<CGridObject::BlockType>(player->GetPlayerMove()->CheckNextObjectType())));
+		cannonObj->InPlayer();
 		bool* canmove = cannonObj->GetCanMove();
 		bool* p_canmove = player->GetCanMoveDir();
 		for (int i = 0; i < static_cast<int>(Player::DIRECTION::NUM); i++)
@@ -1142,19 +1158,14 @@ void StageScene::InCanonInput()
 	if (isSelectDir == 2 || isSelectDir == 1)
 	{
 		//右
-		if (isSelectDir == 2)
-		{
-			_pos.x = _pos.x + (0.5f * stageScale);
-			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = -0.79f;
-			//_pos.z = -0.14f;
-		}
-		else//左
+		if (isSelectDir == 1)
 		{
 			_pos.x = _pos.x - (0.1f * stageScale);
-			_pos.y = _pos.y + (0.4f * stageScale);
-			_pos.z = _pos.z - 0.0015f;
+			_pos.y = _pos.y - (0.1f * stageScale);
+			_pos.z = _pos.z - 0.1015f;
+			//_pos.z = -0.14f;
 		}
+
 		cannonObj->SetTexture(stageTextureCannon[0]);
 		dynamic_cast<CannonAnim*>(cannonObj->GetmAnim())->PlayTurn(isSelectDir, 2.0f);
 		player->dotween->DelayedCall(0.9f, [&, isSelectDir, cannonObj, _pos, _Scale]()
@@ -1165,7 +1176,10 @@ void StageScene::InCanonInput()
 						player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 						player->GetPlayerMove()->CannonMoveStart();
 						XA_Play(SOUND_LABEL::S_SHOT);
+						if(isSelectDir == 1)
 						player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
+						else
+						cannonObj->Fire(isSelectDir);
 						player->ChangeInvisible();
 						cannonMove = false;
 						cannonObj->PlayReturn();
@@ -1183,23 +1197,19 @@ void StageScene::InCanonInput()
 		if (isSelectDir == 0)
 		{
 			_pos.x = _pos.x + (0.3f * stageScale);
-			_pos.y = _pos.y + (0.4f * stageScale);
+			_pos.y = _pos.y - (0.1f * stageScale);
 			_pos.z = _pos.z - (INFRONT_PLUSZ + HORIZONLINE_PLUSZ / 2.0f);
 			//_pos.z = _pos.z - 0.15f;
-		}
-		else
-		{
-			_pos.x = _pos.x - (0.3f * stageScale);
-			_pos.y = _pos.y + (0.3f * stageScale);
-			//_pos.z = _pos.z - HORIZONLINE_PLUSZ + 0.00001f;
-			_pos.z = _pos.z - 0.0015f;
 		}
 		player->dotween->DelayedCall(0.9f, [&, cannonObj, isSelectDir, _pos, _Scale]()
 			{
 				player->GetPlayerMove()->CannonDirSelect(static_cast<PlayerMove::DIRECTION>(isSelectDir));
 				player->GetPlayerMove()->CannonMoveStart();
 				XA_Play(SOUND_LABEL::S_SHOT);
-				player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
+				if(isSelectDir == 0)
+					player->PlayEffect(_pos, _Scale, EffectManeger::FX_TYPE::CANNON_FIRE, false);
+				else
+				cannonObj->Fire(isSelectDir);
 				player->ChangeInvisible();
 				cannonMove = false;
 				cannonObj->PlayReturn(2.0f);
@@ -2149,7 +2159,7 @@ void StageScene::Init(const wchar_t* filePath)
 		Arrow[i] = new CArrow(stageBuffer, stageTextureArrow);
 		Arrow[i]->SetOwner(player, static_cast<CArrow::DIRECTION>(i), stageScale);
 		Arrow[i]->ScaleLoop();
-		Arrow[i]->mTransform.pos.z = -0.80f;
+		Arrow[i]->mTransform.pos.z = -0.60f;
 	}
 	calorieGage->SetPosition({ -4.5f,3.5f,0.0 });
 	calorieGage->SetScale({ 0.75f,0.75f,1.0f });
@@ -2522,7 +2532,9 @@ void StageScene::Reset()
 	nNumUndo = 0;
 
 	bool o_MakeOver = player->GetPlayMakeover();
-
+	*isLookMap = false;
+	
+	 LookingTxet->mTransform.pos = { -13.0f,2.5f,0.0 };
 	// 更新するテーブル
 	GridTable* updateTable = nowFloor;
 	// 更新するオブジェクトのリスト
@@ -2639,6 +2651,26 @@ void StageScene::Reset()
 
 	if (player->GetPlayMakeover() != o_MakeOver)
 		player->SetPlayMakeover(o_MakeOver);
+
+	lockStageMap = nowFloorNum;
+	floorUi->SetHighlight(lockStageMap);
+	switch (lockStageMap)
+	{
+	case 1:
+		RB_Button->mTransform.pos.y = -1.0f;
+		break;
+	case 2:
+		RB_Button->mTransform.pos.y = 0.0f;
+		LB_Button->mTransform.pos.y = -1.0f * 2.0f;
+		break;
+	case 3:
+		LB_Button->mTransform.pos.y = -1.0f;
+		break;
+	default:
+		break;
+	}
+
+	Menu->SetIsMenu(false);
 
 	// プレイヤーに必要な情報を更新する
 	UndoPlayerSet(floorUndo[nNumUndo].dirUndo, floorUndo[nNumUndo].calorieUndo, floorUndo[nNumUndo].stateUndo);

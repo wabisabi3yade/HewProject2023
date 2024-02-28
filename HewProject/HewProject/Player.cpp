@@ -320,9 +320,11 @@ void Player::EatChilli()
 void Player::ChangeState(STATE _set)
 {
 	bool o_isMoveTrigger = false;
+	bool o_iswataame = false;
 	if (move.get() != nullptr)
 	{
 		o_isMoveTrigger = move->GetIsMoveTrigger();
+		o_iswataame = move->GetMoveWataame();
 	}
 
 	// 移動クラスを解放する
@@ -372,6 +374,9 @@ void Player::ChangeState(STATE _set)
 	}
 
 	move->SetMoveTrigger(o_isMoveTrigger);
+
+	if (move->GetMoveWataame() != o_iswataame)
+		move->SetMoveWataame(o_iswataame);
 
 	dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(direction));
 	if (IsPlaymakeover)

@@ -23,6 +23,8 @@ class CCannon :
     bool IsUse;
 
     DIRECTION moveDir;
+
+    std::list<CEffect*> effect;
 public:
 
     std::unique_ptr<DoTween> dotween;
@@ -32,11 +34,13 @@ public:
 
     void Update()override;
     void Draw()override;
+    void Fire(int _dir);
     void DirSelect(Player::DIRECTION _dir);
     void CheckCanMove(const GridTable& _nowTable);
     void PlayTurn(int _dir, float _animSpeedRate = 1.0f);
     void PlayReturn(float _animSpeedRate = 1.0f);
     void BlowOff(int _dir);
     bool* GetCanMove() { return &canMoveDir[0]; }
+    void InPlayer();
 };
 
