@@ -117,6 +117,9 @@ HRESULT D3D_Create(HWND hwnd)
 	if (FAILED(hr))
 		return hr;
 
+	//マウス非表示
+	ShowCursor(FALSE);
+
 	// レンダーターゲットを作成する関数を呼び出し
 	hr = m_pDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRenderTargetView);
 	pBackBuffer->Release();
