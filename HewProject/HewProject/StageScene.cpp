@@ -443,7 +443,7 @@ void StageScene::Update()
 					}
 					else
 					{
-						chocoObj->CRACK(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(),CGridObject::BlockType::START));
+						chocoObj->CRACK();
 						chocoObj->SetTexture(stageTextureChocolateClack);
 					}
 
@@ -2027,7 +2027,7 @@ void StageScene::Init(const wchar_t* filePath)
 	{
 		coinUI = new CoinUI(nNumCoin);
 		coinUI->SetPosition({ 6.0f,1.5f,-0.4f });
-		Vector2 xy(2.0f, 2.0f);
+		Vector2 xy(1.0f, 1.0f);
 		coinUI->SetScale(xy);
 	}
 
