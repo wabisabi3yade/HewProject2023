@@ -255,7 +255,7 @@ void CGameClear::Update()
 						{
 							coin->AddProtein();
 							coin->GetDotween()->DelayedCall(0.1f, [&]() {
-								//Coin->AddProtein();
+								coin->AddProtein();
 								});
 						}
 						else if (Coin->GetCoin() == 3)
@@ -264,7 +264,7 @@ void CGameClear::Update()
 							coin->GetDotween()->DelayedCall(0.1f, [&]() {
 								coin->AddProtein();
 								coin->GetDotween()->DelayedCall(0.1f, [&]() {
-									//Coin->AddProtein();
+									coin->AddProtein();
 									});
 								});
 						}

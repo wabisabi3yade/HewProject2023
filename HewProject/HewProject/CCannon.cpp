@@ -280,7 +280,7 @@ void CCannon::InPlayer()
 {
 	Vector3 pos = mTransform.pos;
 	pos.y += mTransform.scale.y / 2.0f;
-	pos.z -= 0.0001f;
+	pos.z -= 0.000001f;
 	Vector3 scale = mTransform.scale;
 	scale.x *= CANNON_IN_SCALE;
 	scale.y *= CANNON_IN_SCALE;

@@ -176,6 +176,18 @@ void FatMove::Move(DIRECTION _dir)
 					{
 						MoveAfter();
 						player->EatEnd();
+						if (player->GetCalorie() < 11)
+						{
+							Vector3 pos = player->mTransform.pos;
+							Vector3 scale = player->mTransform.scale;
+							pos.z -= 0.000001f;
+							pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
+							scale.x *= SMOKE_SCALE;
+							scale.y *= SMOKE_SCALE;
+							XA_Play(SOUND_LABEL::S_CHANGE);
+							player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
+							player->Stop();
+						}
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
 					});
