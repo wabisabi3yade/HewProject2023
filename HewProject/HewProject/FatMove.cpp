@@ -666,7 +666,7 @@ void FatMove::Step()
 	default:	// °
 		MoveAfter();
 		FallAfter();
-		if (player->GetCalorie() < 6)
+		if (player->GetCalorie() < 11)
 		{
 			Vector3 pos = player->mTransform.pos;
 			Vector3 scale = player->mTransform.scale;
@@ -675,7 +675,7 @@ void FatMove::Step()
 			scale.x *= SMOKE_SCALE;
 			scale.y *= SMOKE_SCALE;
 			XA_Play(SOUND_LABEL::S_CHANGE);
-			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_Y, false);
 			player->Stop();
 		}
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());

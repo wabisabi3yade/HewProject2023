@@ -103,8 +103,7 @@ void ThinMove::Move(DIRECTION _dir)
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 				//煙用に
 				pos = player->mTransform.pos;
-				pos.z += 0.0009976f;
-				player->mTransform.pos.z += 0.0009989f;
+				pos.z -= 0.000001f;
 				pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 				scale = player->mTransform.scale;
 				scale.x *= SMOKE_SCALE;
@@ -422,8 +421,7 @@ void ThinMove::Move(DIRECTION _dir)
 					player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 					//煙用に
 					pos = player->mTransform.pos;
-					pos.z += 0.0009976f;
-					player->mTransform.pos.z += 0.0009989f;
+					pos.z -= 0.000001f;
 					pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 					scale = player->mTransform.scale;
 					scale.x *= SMOKE_SCALE;
@@ -664,8 +662,7 @@ void ThinMove::Step()
 		player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::HEART, false);
 		//煙用に
 		pos = player->mTransform.pos;
-		pos.z += 0.0009976f;
-		player->mTransform.pos.z += 0.0009989f;
+		pos.z -= 0.000001f;
 		pos.y += 0.5f * player->GetGridTable()->GetGridScale().y;
 		scale = player->mTransform.scale;
 		scale.x *= SMOKE_SCALE;
@@ -678,6 +675,7 @@ void ThinMove::Step()
 				MoveAfter();
 				XA_Play(SOUND_LABEL::S_CHANGE);
 				player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_G, false);
+				player->Stop();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
 			});
