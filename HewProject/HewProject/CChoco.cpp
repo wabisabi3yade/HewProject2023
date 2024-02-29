@@ -39,7 +39,7 @@ void CChoco::CRACK()
 	{
 		CLASS_DELETE(effect);
 		Vector3 pos = mTransform.pos;
-		pos.z -= 0.00001f;
+		pos.z -= 0.000001f;
 		Vector3 scale = mTransform.scale;
 		scale.x *= CRACKSCALE;
 		scale.y *= CRACKSCALE;

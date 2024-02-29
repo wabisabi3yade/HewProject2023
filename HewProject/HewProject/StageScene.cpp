@@ -446,21 +446,18 @@ void StageScene::Update()
 						chocoObj->CRACK();
 						chocoObj->SetTexture(stageTextureChocolateClack);
 					}
-
 					break;
 				}
 				default:
 					break;
 				}
-
 			}
 			Vector3 pos = player->mTransform.pos;
 			Vector3 scale = player->mTransform.scale;
-			pos.z -= 0.0001f;
+			pos.z -= 0.000001f;
 			pos.y -= 0.1f;
 			scale.x *= STAR_BOUND_SCALE;
 			scale.y *= STAR_BOUND_SCALE;
-
 			player->PlayEffect(pos, scale, EffectManeger::FX_TYPE::STAR_BOUND, false);
 		}
 		// 動いているときと動き終わった瞬間だけ
@@ -706,7 +703,10 @@ void StageScene::StageMove()
 						coinUI->SetActive(true);
 					});
 			}
-			
+			CameraButton->SetActive(false);
+			UndoButton->SetActive(false);
+			FloorLookButton->SetActive(false);
+			BackCameraButton->SetActive(false);
 			player->dotween->DelayedCall(BREAK_TIME / 9.0f, [&]()
 				{
 					player->GetPlayerAnim()->SetAnimSpeedRate(0.2f);
