@@ -2,7 +2,7 @@
 
 #include "TextureFactory.h"
 
-#define CIRCLE_OFFSETX (1.5f)	// Z“¯m‚ÌXÀ•W·•ª
+#define CIRCLE_OFFSETX (1.3f)	// Z“¯m‚ÌXÀ•W·•ª
 #define CIRCLE_OFFSETY (0.7f)	// –_‚©‚çZ‚ÌYÀ•W·•ª
 #define PRO_SCALETIME (1.3f)	// ‘å‚«‚­‚È‚é‚Ü‚Å‚ÌŠÔ
 
