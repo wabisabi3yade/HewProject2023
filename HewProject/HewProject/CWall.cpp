@@ -66,22 +66,22 @@ void CWall::Break(int _dir, float _breakTime)
 	case 0:
 		pos.x -= dis_X * this->mTransform.scale.x;
 		pos.y += dis_Y * this->mTransform.scale.y;
-		pos.z += 0.0001f;
+		pos.z += 0.000001f;
 		break;
 	case 1:
 		pos.x += dis_X * this->mTransform.scale.x;
 		pos.y += dis_Y * this->mTransform.scale.y;
-		pos.z += 0.0001f;
+		pos.z += 0.000001f;
 		break;
 	case 2:
 		pos.x -= dis_X * this->mTransform.scale.x / 3.0f;
 		pos.y += dis_Y * this->mTransform.scale.y;
-		pos.z -= 0.0001f;
+		pos.z -= 0.000001f;
 		break;
 	case 3:
 		pos.x += dis_X * this->mTransform.scale.x;
 		pos.y += dis_Y * this->mTransform.scale.y;
-		pos.z -= 0.0001f;
+		pos.z -= 0.000001f;
 		break;
 	default:
 		break;
