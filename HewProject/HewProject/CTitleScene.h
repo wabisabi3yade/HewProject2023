@@ -61,6 +61,7 @@ public:
 
     bool isNoMoving;
     bool isOnce;
+    bool isDecided;
 
     int nRandom;
     int nRandom_Bg;
