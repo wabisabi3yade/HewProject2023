@@ -163,6 +163,7 @@ CTitleScene::CTitleScene()
 
 	isNoMoving = false;
 	isOnce = false;
+	isDecided = false;
 	
 	// BGM—¬‚·
 	pSceneManager->SetPlayBgm(SOUND_LABEL::B_Title);
@@ -352,10 +353,11 @@ void CTitleScene::Update()
 		}
 		
 
-		if (input->GetInputTrigger(InputType::DECIDE))
+		if (!isDecided && input->GetInputTrigger(InputType::DECIDE))
 		{
 			XA_Play(SOUND_LABEL::S_PUSH_STAGEBTN);
 			selectControl->PushButton(true);
+			isDecided = true;
 		}
 
 
