@@ -292,11 +292,11 @@ void FatMove::Move(DIRECTION _dir)
 						player->Fall();
 						XA_Play(SOUND_LABEL::S_FLY_BATABATA);
 					});
-				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->DelayedCall(FALL_TIME, [&]()
 					{
 						XA_Play(SOUND_LABEL::S_FALL);
 					});
+				player->dotween->DoDelay(FALL_TIME);
 				player->dotween->Append(fallPos, FALLMOVE_TIME, DoTween::FUNC::MOVE_XY);
 				player->dotween->Append(Vector3::zero, FALLMOVE_TIME, DoTween::FUNC::DELAY);
 				Vector3 floorFallPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
@@ -391,17 +391,13 @@ void FatMove::Move(DIRECTION _dir)
 		player->dotween->Append(junpPos.y - 0.3f, 0.5f, DoTween::FUNC::MOVE_Y);
 		player->dotween->OnComplete([&, Vec3JumpPos]()
 			{
-				player->dotween->DoDelay(0.3f);
-				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
 				player->dotween->DelayedCall(0.3f, [&]()
 					{
 						XA_Play(SOUND_LABEL::S_JUMP_GUMI);
 					});
+				player->dotween->DoDelay(0.3f);
+				player->dotween->Append(Vec3JumpPos.y, RISING_TIME, DoTween::FUNC::MOVE_Y);
 				player->Rise();
-				player->dotween->DelayedCall(0.5f, [&]()
-					{
-						XA_Play(SOUND_LABEL::S_JUMP_UP);
-					});
 				//player->GetPlayerMove()->RiseStart();
 				Vector3 targetPos(player->GetGridTable()->GridToWorld(player->GetPlayerMove()->GetNextGridPos(), CGridObject::BlockType::START));
 				player->dotween->Append(Vector3::zero, RISING_TIME + 0.1f, DoTween::FUNC::DELAY);

@@ -222,6 +222,14 @@ void Player::Update()
 				move->WalkAfter();
 				this->SetGridPos(move->GetNextGridPos());
 				//move->MoveAfter();
+				XA_Play(SOUND_LABEL::S_TYAKUTI);
+				Vector3 pos = mTransform.pos;
+				Vector3 scale = mTransform.scale;
+				pos.z -= 0.000001f;
+				pos.y -= 0.1f;
+				scale.x *= STAR_BOUND_SCALE;
+				scale.y *= STAR_BOUND_SCALE;
+				PlayEffect(pos, scale, EffectManeger::FX_TYPE::STAR_BOUND, false);
 				move->Step();
 				move->RiseAfter();
 				risingChangeTrriger = false;

@@ -400,6 +400,22 @@ void StageScene::Update()
 					LookingTxet->SetActive(true);
 
 					XA_Play(SOUND_LABEL::S_TEXT);
+					lockStageMap = nowFloorNum;
+					switch (lockStageMap)
+					{
+					case 1:
+						RB_Button->mTransform.pos.y = -1.0f;
+						break;
+					case 2:
+						RB_Button->mTransform.pos.y = 0.0f;
+						LB_Button->mTransform.pos.y = -1.0f * 2.0f;
+						break;
+					case 3:
+						LB_Button->mTransform.pos.y = -1.0f;
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}
@@ -1634,7 +1650,7 @@ void StageScene::UndoPlayerSet(const int& _dir, const int& _calorie,
 
 	// 状態を変化させる
 	player->ChangeState(_state);
-
+	player->GetPlayerMove()->SetIsMissMove(true);
 	player->mTransform.pos = nowFloor->GridToWorld(player->GetGridPos(), player->GetBlookType(), static_cast<int>(player->GetState()));
 }
 
