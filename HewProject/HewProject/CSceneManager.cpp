@@ -85,19 +85,7 @@ void CSceneManager::OnEscape()
 {
 	if (gInput->GetKeyTrigger(VK_ESCAPE))
 	{
-		int id;
-
-		id = MessageBoxA(NULL, "ゲームを終了しますか？",
-			"チェック", MB_OKCANCEL | MB_ICONQUESTION);
-
-		switch (id)
-		{
-		case IDOK:
-			Exit();
-			break;
-		case IDCANCEL:
-			break;
-		}
+		Exit();
 	}
 }
 
