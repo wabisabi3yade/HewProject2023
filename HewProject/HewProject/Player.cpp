@@ -62,6 +62,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	PlayMakeover = false;
 	gameOverOnes = false;
 	isEatTrigger = false;
+	isReset = false;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -255,12 +256,6 @@ void Player::Update()
 		}
 		it++;
 	}
-
-
-	if (calorie <= 0 && !gameOverOnes)
-	{
-
-	}
 }
 
 // 歩いた時のカロリー消費
@@ -339,6 +334,10 @@ void Player::ChangeState(STATE _set)
 		{
 			this->mTransform.scale.y *= 1.4f;
 		}
+		if (IsgameOver)
+		{
+			IsPlaymakeover = false;
+		}
 		playerState = STATE::MUSCLE;
 		break;
 	}
@@ -347,7 +346,15 @@ void Player::ChangeState(STATE _set)
 
 	if (move->GetMoveWataame() != o_iswataame)
 		move->SetMoveWataame(o_iswataame);
-
+	if (isReset)
+	{
+		IsPlaymakeover = false;
+		SetTexture(muscleTex[ANIM_TEX::WAIT]);
+		mTransform.pos = gridTable->GridToWorld(Grid->gridPos, CGridObject::BlockType::START, static_cast<int>(playerState));
+		this->mTransform.scale.y *= 1.4f;
+		isReset = false;
+		return;
+	}
 	dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(direction));
 	if (IsPlaymakeover)
 	{
@@ -363,7 +370,7 @@ void Player::ChangeState(STATE _set)
 				pos.y += 0.3f * scale.y;
 				XA_Play(SOUND_LABEL::S_CHANGE);
 				this->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_P, false);
-				this->mTransform.scale.y *= 1.5f;
+				this->mTransform.scale.y *= 1.4f;
 				SetTexture(muscleTex[ANIM_TEX::WAIT]);
 				mTransform.pos = gridTable->GridToWorld(Grid->gridPos, CGridObject::BlockType::START, static_cast<int>(playerState));
 				IsPlaymakeover = false;
@@ -631,7 +638,7 @@ void Player::PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _ty
 
 void Player::Reset()
 {
-	SetGameOver(false);
+	isReset = true;
 }
 
 void Player::Stop(float _stopEndTime)
