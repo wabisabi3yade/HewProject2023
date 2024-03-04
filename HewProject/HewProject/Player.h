@@ -112,6 +112,7 @@ private:
 
 	bool isCasetellaPush;
 
+	bool isReset;
 
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 	GridTable* nextGridTable; //次の階層グリッドテーブルのポインタを設定
@@ -190,6 +191,8 @@ public:
 	void SetGameOver(bool _set) { IsgameOver = _set; }
 	void SetGameOverFalse() { IsgameOver = false; }
 	void Reset();
+	bool GetIsReset() { return isReset; }
+	void SetIsReset(bool _set) { isReset = _set; }
 	bool GetIsGameOver() { return  IsgameOver; }
 	bool GetGameOverOnes() { return  gameOverOnes; }
 	int GetNowFloor() { return nowFloor; }

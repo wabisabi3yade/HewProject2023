@@ -990,6 +990,7 @@ void StageScene::StageMove()
 
 		if (player->GetState() != Player::STATE::MUSCLE && nNumProtein <= 0 && !player->GetGameOverOnes())
 		{
+			player->mTransform.pos = nowFloor->GridToWorld(player->GetGridPos(), CGridObject::BlockType::START);
 			player->ChangeState(Player::STATE::MUSCLE);
 			calorieGage->SetCalorie(CAKE_CALORIE);
 			player->SetCalorie(CAKE_CALORIE);
@@ -1389,6 +1390,7 @@ void StageScene::Undo(float _stageScale, bool isPush)
 	floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
 
 	bool o_MakeOver = player->GetPlayMakeover();
+	bool o_isReset = player->GetIsReset();
 
 	// 更新するテーブル
 	GridTable* updateTable = nowFloor;
@@ -1536,8 +1538,11 @@ void StageScene::Undo(float _stageScale, bool isPush)
 	}
 	player->SetNowFloor(floorUndo[nNumUndo].old_Floor);
 
-	if (player->GetPlayMakeover() != o_MakeOver)
+	if (player->GetPlayMakeover() ==false  &&  o_MakeOver)
 		player->SetPlayMakeover(o_MakeOver);
+
+	if (player->GetIsReset() == false && o_isReset)
+		player->SetIsReset(o_isReset);
 
 	// プレイヤーに必要な情報を更新する
 	UndoPlayerSet(floorUndo[nNumUndo].dirUndo, floorUndo[nNumUndo].calorieUndo, floorUndo[nNumUndo].stateUndo);
@@ -2135,6 +2140,7 @@ void StageScene::Init(const wchar_t* filePath)
 
 	gameOver->SetFunc(1, [&]()
 		{
+			player->Reset();
 			Undo(stageScale, true);
 			gameOver->ResetPos();
 			player->SetGameOverFalse();
