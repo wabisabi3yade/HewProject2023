@@ -1384,6 +1384,10 @@ void StageScene::Undo(float _stageScale, bool isPush)
 		nNumUndo = o_nNumUndo;	// 引く前の階数に戻す
 		return;	// 抜ける
 	}
+	
+	// 戻る前のUndo情報を消去する
+	floorUndo[o_nNumUndo].objectTable[0][0][0] = 0;
+
 	bool o_MakeOver = player->GetPlayMakeover();
 
 	// 更新するテーブル
@@ -2689,7 +2693,7 @@ void StageScene::Reset()
 	Menu->SetIsMenu(false);
 
 	// プレイヤーに必要な情報を更新する
-	UndoPlayerSet(floorUndo[nNumUndo].dirUndo, floorUndo[nNumUndo].calorieUndo, floorUndo[nNumUndo].stateUndo);
+	UndoPlayerSet(floorReset.dirUndo, floorReset.calorieUndo, floorReset.stateUndo);
 	player->SetCalorieGage(calorieGage);
 	calorieGage->SetCalorie(player->GetCalorie(), false);
 	isLookMap = player->GetPlayerMove()->GetIsLookCamera();
