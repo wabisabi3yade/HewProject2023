@@ -175,7 +175,7 @@ void Player::Update()
 			}
 			//IsStop = false;
 		}
-		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false && isEat == false)
+		else if (move->GetIsWalk_Old() == true && move->GetIsWalk_Now() == false && isEat == false && gameOverOnes == false)
 		{
 			ChangeTexture(ANIM_TEX::WAIT);
 			dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(this->direction));
@@ -259,45 +259,7 @@ void Player::Update()
 
 	if (calorie <= 0 && !gameOverOnes)
 	{
-		if (playerState != STATE::MUSCLE)
-		{
-			XA_Play(SOUND_LABEL::S_DOWN);
-			ChangeTexture(ANIM_TEX::GAMEOVER);
-			dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction), 1.5f);
-			dotween->DelayedCall(GAMEOVER_TIME, [&]()
-				{
-					XA_Play(SOUND_LABEL::S_GAMEOVER);
-					GameOver();
-				});
-			gameOverOnes = true;
-		}
-		else
-		{
-			Vector3 pos = mTransform.pos;
-			Vector3 scale = mTransform.scale;
 
-			pos.z -= 0.00001f;
-			pos.y += 0.5f * gridTable->GetGridScale().y;
-			scale.x *= SMOKE_SCALE;
-			scale.y *= SMOKE_SCALE;
-			XA_Play(SOUND_LABEL::S_CHANGE);
-			PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
-			gameOverOnes = true;
-			ChangeState(STATE::THIN);
-			mTransform.scale.y /= 1.4f;
-			mTransform.pos = gridTable->GridToWorld(GetGridPos(), CGridObject::BlockType::START);
-			dotween->DelayedCall(1.0f, [&]()
-				{
-					XA_Play(SOUND_LABEL::S_DOWN);
-					ChangeTexture(ANIM_TEX::GAMEOVER);
-					dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction), 1.5f);
-					dotween->DelayedCall(GAMEOVER_TIME, [&]()
-						{
-							XA_Play(SOUND_LABEL::S_GAMEOVER);
-							GameOver();
-						});
-				});
-		}
 	}
 }
 
@@ -375,7 +337,7 @@ void Player::ChangeState(STATE _set)
 		}
 		else
 		{
-			this->mTransform.scale.y *= 1.5f;
+			this->mTransform.scale.y *= 1.4f;
 		}
 		playerState = STATE::MUSCLE;
 		break;
@@ -620,7 +582,46 @@ void Player::SetNowFloor(int _set)
 
 void Player::GameOver()
 {
-	IsgameOver = true;
+	gameOverOnes = true;
+	if (playerState != STATE::MUSCLE)
+	{
+		XA_Play(SOUND_LABEL::S_DOWN);
+		ChangeTexture(ANIM_TEX::GAMEOVER);
+		dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction), 1.5f);
+		move->MoveAfter();
+		dotween->DelayedCall(GAMEOVER_TIME, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_GAMEOVER);
+				IsgameOver = true;
+			});
+	}
+	else
+	{
+		Vector3 pos = mTransform.pos;
+		Vector3 scale = mTransform.scale;
+
+		pos.z -= 0.00001f;
+		pos.y += 0.5f * gridTable->GetGridScale().y;
+		scale.x *= SMOKE_SCALE;
+		scale.y /= 1.4f;
+		scale.y *= SMOKE_SCALE;
+		XA_Play(SOUND_LABEL::S_CHANGE);
+		PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+		ChangeState(STATE::THIN);
+		mTransform.scale.y /= 1.4f;
+		mTransform.pos = gridTable->GridToWorld(GetGridPos(), CGridObject::BlockType::START);
+		dotween->DelayedCall(1.0f, [&]()
+			{
+				XA_Play(SOUND_LABEL::S_DOWN);
+				ChangeTexture(ANIM_TEX::GAMEOVER);
+				dynamic_cast<CPlayerAnim*>(mAnim)->PlayGameOver(static_cast<int>(direction), 1.5f);
+				dotween->DelayedCall(GAMEOVER_TIME, [&]()
+					{
+						XA_Play(SOUND_LABEL::S_GAMEOVER);
+						IsgameOver = true;
+					});
+			});
+	}
 }
 
 void Player::PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _type, bool _isLoop)
