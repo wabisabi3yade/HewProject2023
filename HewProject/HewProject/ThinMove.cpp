@@ -84,6 +84,7 @@ void ThinMove::Move(DIRECTION _dir)
 				if (player->GetCalorie() <= 0)
 				{
 					XA_Play(SOUND_LABEL::S_DOWN);
+					MoveAfter();
 					player->GameOver();
 					return;
 				}
@@ -139,6 +140,7 @@ void ThinMove::Move(DIRECTION _dir)
 				if (player->GetCalorie() <= 0)
 				{
 					XA_Play(SOUND_LABEL::S_DOWN);
+					MoveAfter();
 					player->GameOver();
 					return;
 				}
@@ -177,6 +179,7 @@ void ThinMove::Move(DIRECTION _dir)
 				if (player->GetCalorie() <= 0)
 				{
 					XA_Play(SOUND_LABEL::S_DOWN);
+					MoveAfter();
 					player->GameOver();
 					return;
 				}
@@ -398,6 +401,7 @@ void ThinMove::Move(DIRECTION _dir)
 					if (player->GetCalorie() <= 0)
 					{
 						XA_Play(SOUND_LABEL::S_DOWN);
+						MoveAfter();
 						player->GameOver();
 						return;
 					}
@@ -442,6 +446,7 @@ void ThinMove::Move(DIRECTION _dir)
 					if (player->GetCalorie() <= 0)
 					{
 						XA_Play(SOUND_LABEL::S_DOWN);
+						MoveAfter();
 						player->GameOver();
 						return;
 					}
@@ -460,6 +465,7 @@ void ThinMove::Move(DIRECTION _dir)
 							if (player->GetCalorie() <= 0)
 							{
 								XA_Play(SOUND_LABEL::S_DOWN);
+								MoveAfter();
 								player->GameOver();
 								return;
 							}
@@ -473,6 +479,7 @@ void ThinMove::Move(DIRECTION _dir)
 					if (player->GetCalorie() <= 0)
 					{
 						XA_Play(SOUND_LABEL::S_DOWN);
+						MoveAfter();
 						player->GameOver();
 						return;
 					}
@@ -618,6 +625,7 @@ void ThinMove::Move(DIRECTION _dir)
 				if (player->GetCalorie() <= 0)
 				{
 					XA_Play(SOUND_LABEL::S_DOWN);
+					MoveAfter();
 					player->GameOver();
 					return;
 				}
@@ -639,6 +647,7 @@ void ThinMove::Step()
 		if (player->GetCalorie() <= 0)
 		{
 			XA_Play(SOUND_LABEL::S_DOWN);
+			MoveAfter();
 			player->GameOver();
 			return;
 		}
@@ -683,6 +692,7 @@ void ThinMove::Step()
 		if (player->GetCalorie() <= 0)
 		{
 			XA_Play(SOUND_LABEL::S_DOWN);
+			MoveAfter();
 			player->GameOver();
 			return;
 		}
@@ -710,6 +720,7 @@ void ThinMove::Step()
 		if (player->GetCalorie() <= 0)
 		{
 			XA_Play(SOUND_LABEL::S_DOWN);
+			MoveAfter();
 			player->GameOver();
 			return;
 		}
@@ -794,6 +805,7 @@ void ThinMove::Step()
 		if (player->GetCalorie() <= 0)
 		{
 			XA_Play(SOUND_LABEL::S_DOWN);
+			MoveAfter();
 			player->GameOver();
 			return;
 		}
@@ -865,6 +877,9 @@ void ThinMove::CheckCanMove()
 		CGrid::GRID_XY forwordPos = player->GetGridPos();
 		forwordPos.x += d.x;
 		forwordPos.y += d.y;
+
+		if (player->GetIsGameOver())
+			return;
 
 		// 移動先がマップ外なら移動できないようにする
 		if (forwordPos.x < 0 || forwordPos.y < 0

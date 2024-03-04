@@ -98,6 +98,12 @@ void MuscleMove::Move(DIRECTION _dir)
 				player->dotween->DelayedCall(WALK_TIME, [&]()
 					{
 						WalkAfter();
+						if (player->GetCalorie() <= 0)
+						{
+							MoveAfter();
+							player->GameOver();
+							return;
+						}
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -135,6 +141,12 @@ void MuscleMove::Move(DIRECTION _dir)
 				player->dotween->DelayedCall(WALK_TIME, [&]()
 					{
 						WalkAfter();
+						if (player->GetCalorie() <= 0)
+						{
+							MoveAfter();
+							player->GameOver();
+							return;
+						}
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -172,6 +184,12 @@ void MuscleMove::Move(DIRECTION _dir)
 				player->dotween->DelayedCall(WALK_TIME, [&]()
 					{
 						WalkAfter();
+						if (player->GetCalorie() <= 0)
+						{
+							MoveAfter();
+							player->GameOver();
+							return;
+						}
 						MoveAfter();
 						player->GetPlayerAnim()->StopWalk(player->GetDirection());
 						player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -390,10 +408,15 @@ void MuscleMove::Move(DIRECTION _dir)
 			});
 		player->dotween->DoMoveXY(forwardPosXY, WALK_TIME);
 		player->dotween->Append(forwardPos.z, 0.0f, DoTween::FUNC::MOVE_Z);
-
 		player->dotween->OnComplete([&]()
 			{
 				WalkAfter();
+				if (player->GetCalorie() <= 0)
+				{
+					MoveAfter();
+					player->GameOver();
+					return;
+				}
 				MoveAfter();
 				player->GetPlayerAnim()->StopWalk(player->GetDirection());
 				player->ChangeTexture(Player::ANIM_TEX::WAIT);
@@ -549,6 +572,12 @@ void MuscleMove::Step()
 
 	default:	// °
 
+		//if (player->GetCalorie() <= 0)
+		//{
+		//	MoveAfter();
+		//	player->GameOver();
+		//	return;
+		//}
 		MoveAfter();
 		FallAfter();
 		player->GetPlayerAnim()->StopWalk(player->GetDirection());
