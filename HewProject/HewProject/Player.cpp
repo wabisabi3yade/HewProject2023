@@ -141,6 +141,8 @@ void Player::Init(GridTable* _pTable)
 
 void Player::Update()
 {
+	if (IsgameOver) return;
+
 	// フラグの初期化
 	move->FlagInit();
 	isCasetellaPush = false;
@@ -347,7 +349,7 @@ void Player::ChangeState(STATE _set)
 
 	if (move->GetMoveWataame() != o_iswataame)
 		move->SetMoveWataame(o_iswataame);
-	if (isReset  && o_state == 0)
+	if (isReset && o_state == 0)
 	{
 		IsPlaymakeover = false;
 		SetTexture(muscleTex[ANIM_TEX::WAIT]);
@@ -594,6 +596,13 @@ void Player::SetNowFloor(int _set)
 void Player::GameOver()
 {
 	gameOverOnes = true;
+
+	if (move->GetIsFalling() || move->GetIsCannonMove())
+	{
+		XA_Play(SOUND_LABEL::S_GAMEOVER);
+		IsgameOver = true;
+		return;
+	}
 	if (playerState != STATE::MUSCLE)
 	{
 		XA_Play(SOUND_LABEL::S_DOWN);
@@ -642,8 +651,8 @@ void Player::PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _ty
 void Player::Reset()
 {
 	isReset = true;
-	if(o_state == -1)
-	o_state = static_cast<int>(playerState);
+	if (o_state == -1)
+		o_state = static_cast<int>(playerState);
 }
 
 void Player::Stop(float _stopEndTime)
