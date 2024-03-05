@@ -335,7 +335,7 @@ void Player::ChangeState(STATE _set)
 		}
 		else
 		{
-			this->mTransform.scale.y *= 1.4f;
+			this->mTransform.scale.y = gridTable->GetGridScale().y * 1.4f;
 		}
 		if (IsgameOver)
 		{
@@ -354,7 +354,7 @@ void Player::ChangeState(STATE _set)
 		IsPlaymakeover = false;
 		SetTexture(muscleTex[ANIM_TEX::WAIT]);
 		mTransform.pos = gridTable->GridToWorld(Grid->gridPos, CGridObject::BlockType::START, static_cast<int>(playerState));
-		this->mTransform.scale.y *= 1.4f;
+		this->mTransform.scale.y = gridTable->GetGridScale().y * 1.4f;
 		isReset = false;
 		o_state = -1;
 		// 移動できる方向を更新
@@ -376,7 +376,7 @@ void Player::ChangeState(STATE _set)
 				pos.y += 0.3f * scale.y;
 				XA_Play(SOUND_LABEL::S_CHANGE);
 				this->PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_P, false);
-				this->mTransform.scale.y *= 1.4f;
+				this->mTransform.scale.y = gridTable->GetGridScale().y * 1.4f;
 				SetTexture(muscleTex[ANIM_TEX::WAIT]);
 				mTransform.pos = gridTable->GridToWorld(Grid->gridPos, CGridObject::BlockType::START, static_cast<int>(playerState));
 				IsPlaymakeover = false;
