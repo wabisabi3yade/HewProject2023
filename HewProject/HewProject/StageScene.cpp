@@ -377,13 +377,16 @@ void StageScene::Update()
 					{
 					case 1:
 						RB_Button->mTransform.pos.y = -1.0f;
+						vStageObj = &oneFStgObj;
 						break;
 					case 2:
 						RB_Button->mTransform.pos.y = 0.0f;
 						LB_Button->mTransform.pos.y = -1.0f * 2.0f;
+						vStageObj = &secondFStgObj;
 						break;
 					case 3:
 						LB_Button->mTransform.pos.y = -1.0f;
+						vStageObj = &thirdFStgObj;
 						break;
 					default:
 						break;
@@ -401,6 +404,7 @@ void StageScene::Update()
 
 					XA_Play(SOUND_LABEL::S_TEXT);
 					lockStageMap = nowFloorNum;
+					floorUi->SetHighlight(lockStageMap);
 					switch (lockStageMap)
 					{
 					case 1:
@@ -1391,6 +1395,7 @@ void StageScene::Undo(float _stageScale, bool isPush)
 
 	bool o_MakeOver = player->GetPlayMakeover();
 	bool o_isReset = player->GetIsReset();
+	int o_state = static_cast<int>(player->GetState());
 
 	// 更新するテーブル
 	GridTable* updateTable = nowFloor;
@@ -1444,6 +1449,7 @@ void StageScene::Undo(float _stageScale, bool isPush)
 				MessageBoxA(NULL, "Undo関数でold_Floorが1～3階の範囲でありません", "エラー", MB_ICONERROR | MB_OK);
 				break;
 			}
+			floorUi->SetHighlight(o_floorNum);
 
 			// 階層がこれ以上ないなら終わる
 			if (updateTable == nullptr) break;
@@ -1542,7 +1548,7 @@ void StageScene::Undo(float _stageScale, bool isPush)
 		player->SetPlayMakeover(o_MakeOver);
 
 	if (player->GetIsReset() == false && o_isReset)
-		player->SetIsReset(o_isReset);
+		player->SetIsReset(o_isReset,nNumProtein);
 
 	// プレイヤーに必要な情報を更新する
 	UndoPlayerSet(floorUndo[nNumUndo].dirUndo, floorUndo[nNumUndo].calorieUndo, floorUndo[nNumUndo].stateUndo);

@@ -114,6 +114,9 @@ private:
 
 	bool isReset;
 
+	//リセット時のプレイヤーの状態
+	int o_state;
+
 	GridTable* gridTable;// ステージのグリッドテーブルのポインタを設定
 	GridTable* nextGridTable; //次の階層グリッドテーブルのポインタを設定
 
@@ -192,7 +195,7 @@ public:
 	void SetGameOverFalse() { IsgameOver = false; }
 	void Reset();
 	bool GetIsReset() { return isReset; }
-	void SetIsReset(bool _set) { isReset = _set; }
+	void SetIsReset(bool _set,int nPro) { isReset = _set , o_state = nPro; }
 	bool GetIsGameOver() { return  IsgameOver; }
 	bool GetGameOverOnes() { return  gameOverOnes; }
 	int GetNowFloor() { return nowFloor; }

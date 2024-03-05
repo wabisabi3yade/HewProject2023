@@ -63,6 +63,7 @@ Player::Player(D3DBUFFER vb, D3DTEXTURE tex)
 	gameOverOnes = false;
 	isEatTrigger = false;
 	isReset = false;
+	o_state = -1;
 
 	// プレイヤーが扱うテクスチャをここでロードして、各状態の配列に入れていく
 	TextureInput(L"asset/Player/N_Walk.png", STATE::NORMAL, ANIM_TEX::WALK);
@@ -346,13 +347,16 @@ void Player::ChangeState(STATE _set)
 
 	if (move->GetMoveWataame() != o_iswataame)
 		move->SetMoveWataame(o_iswataame);
-	if (isReset)
+	if (isReset  && o_state == 0)
 	{
 		IsPlaymakeover = false;
 		SetTexture(muscleTex[ANIM_TEX::WAIT]);
 		mTransform.pos = gridTable->GridToWorld(Grid->gridPos, CGridObject::BlockType::START, static_cast<int>(playerState));
 		this->mTransform.scale.y *= 1.4f;
 		isReset = false;
+		o_state = -1;
+		// 移動できる方向を更新
+		move->CheckCanMove();
 		return;
 	}
 	dynamic_cast<CPlayerAnim*>(mAnim)->StopWalk(static_cast<int>(direction));
@@ -604,19 +608,18 @@ void Player::GameOver()
 	}
 	else
 	{
+		mTransform.pos = gridTable->GridToWorld(GetGridPos(), CGridObject::BlockType::START);
 		Vector3 pos = mTransform.pos;
 		Vector3 scale = mTransform.scale;
-
 		pos.z -= 0.00001f;
 		pos.y += 0.5f * gridTable->GetGridScale().y;
 		scale.x *= SMOKE_SCALE;
 		scale.y /= 1.4f;
 		scale.y *= SMOKE_SCALE;
-		XA_Play(SOUND_LABEL::S_CHANGE);
 		PlayEffect(pos, scale, EffectManeger::FX_TYPE::SMOKE_R, false);
+		XA_Play(SOUND_LABEL::S_CHANGE);
 		ChangeState(STATE::THIN);
 		mTransform.scale.y /= 1.4f;
-		mTransform.pos = gridTable->GridToWorld(GetGridPos(), CGridObject::BlockType::START);
 		dotween->DelayedCall(1.0f, [&]()
 			{
 				XA_Play(SOUND_LABEL::S_DOWN);
@@ -639,6 +642,8 @@ void Player::PlayEffect(Vector3 _pos, Vector3 _scale, EffectManeger::FX_TYPE _ty
 void Player::Reset()
 {
 	isReset = true;
+	if(o_state == -1)
+	o_state = static_cast<int>(playerState);
 }
 
 void Player::Stop(float _stopEndTime)
