@@ -357,7 +357,22 @@ void StageScene::Update()
 					LookingTxet->dotween->Stop();
 					Vector3 pos(-13.0f, 2.5f, 0.0);
 					LookingTxet->dotween->DoEaseOutBack(pos, 0.5f);
+					FloorOnlyMap = false;
 					*isLookMap = false;
+					switch (nowFloorNum)
+					{
+					case 1:
+						vStageObj = &oneFStgObj;
+						break;
+					case 2:
+						vStageObj = &secondFStgObj;
+						break;
+					case 3:
+						vStageObj = &thirdFStgObj;
+						break;
+					default:
+						break;
+					}
 					LookingTxet->dotween->OnComplete([&]()
 						{
 							LookingTxet->SetActive(false);
@@ -1673,16 +1688,26 @@ void StageScene::Draw()
 {
 	Z_Sort(*vStageObj);
 
-	if (player->GetPlayerMove()->GetisLoolMap() == false)
-	{
+	//if (player->GetPlayerMove()->GetisLoolMap() == false)
+	//{
+	//}
 		for (auto it : *vStageObj)
 		{
+			if (FloorOnlyMap)
+			{
+				if (it->GetCategory() == CGridObject::Category::FLOOR || it->GetBlookType() == CGridObject::BlockType::START)
+				{
+					it->Draw();
+				}
+			}
+			else
+			{
 			it->Draw();
+			}
 		}
-	}
-	else {
-		MapDraw();
-	}
+	//else {
+	//	MapDraw();
+	//}
 
 
 
